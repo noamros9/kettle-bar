@@ -14,7 +14,7 @@ In dependency order; one ticket = one branch = one PR, each starting from its **
 | # | Ticket | Tier | Blocked by | Branch | Status |
 |---|---|---|---|---|---|
 | 0 | This plan | plan | – | `plan/architecture-review-2` | done (PR #35) |
-| 1 | Program Catalogue: programs on demand | refactor | 0 | `refactor/program-catalogue` | todo |
+| 1 | Program Catalogue: programs on demand | refactor | 0 | `refactor/program-catalogue` | done (PR #36) |
 | 2 | Program Progress: one value, one document codec | refactor | 0 | `refactor/program-progress` | todo |
 | 3 | The Day: a day as you'll do it | refactor | 1, 2 | `refactor/day-module` | todo |
 | 4 | Import plan: one step | refactor | 2 | `refactor/import-plan` | todo |
