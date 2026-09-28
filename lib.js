@@ -152,6 +152,53 @@
     return `<svg class="fig" viewBox="0 ${top} ${w} ${H + 4 - top}" role="img" aria-label="${label || ex.name}">${body}</svg>`;
   }
 
+
+  /* ---------- Muscle map: front + back body, one shape per muscle group (left half, mirrored) ---------- */
+  const SIL = [ // silhouette pieces, left half of a 200-wide figure
+    'M100 68 L80 71 L58 78 L50 90 L53 130 L62 170 L65 204 L60 232 L100 238 Z', // torso
+    'M52 82 L40 90 L33 128 L35 160 L48 161 L54 128 L59 96 Z', // upper arm
+    'M35 158 L29 198 L27 232 L38 234 L45 200 L49 160 Z', // forearm
+    'M60 230 L57 270 L61 320 L68 342 L89 342 L96 300 L100 238 Z', // thigh
+    'M68 340 L63 380 L69 410 L85 410 L89 380 L89 340 Z', // lower leg
+  ];
+  const FRONT = {
+    chest: 'M100 84 L80 80 Q62 84 58 98 Q62 118 80 122 Q94 122 100 116 Z',
+    front_delts: 'M61 80 Q49 83 47 97 Q49 110 58 113 Q65 99 65 84 Z',
+    side_delts: 'M50 84 Q40 90 38 104 L44 108 Q46 94 53 87 Z',
+    biceps: 'M50 108 Q40 112 38 128 Q39 146 45 152 Q52 142 54 124 Q54 112 50 108 Z',
+    forearms: 'M38 164 L32 196 L32 222 L40 222 L45 196 L47 164 Z',
+    abs: 'M88 127 h11 v20 h-11 Z M88 150 h11 v20 h-11 Z M88 173 h11 v24 h-11 Z',
+    obliques: 'M84 126 L68 132 L65 166 L70 196 L84 200 Z',
+    hip_flexors: 'M86 206 L71 212 L75 232 L93 234 Z',
+    quads: 'M64 244 Q59 282 69 330 L84 334 Q93 292 91 246 Z',
+    adductors: 'M95 242 L88 250 L88 300 L97 290 L99 244 Z',
+    calves: 'M68 348 Q64 366 69 392 L74 392 Q76 368 74 348 Z',
+  };
+  const BACK = {
+    upper_back: 'M100 66 L84 73 L63 81 L76 97 L91 130 L100 134 Z',
+    rear_delts: 'M60 81 Q50 84 48 96 Q50 106 58 106 Q62 94 64 85 Z',
+    side_delts: 'M52 83 Q42 88 41 102 L47 106 Q49 94 55 86 Z',
+    triceps: 'M50 108 Q40 112 38 128 Q39 146 45 152 Q52 142 54 124 Q54 112 50 108 Z',
+    lats: 'M60 104 L61 140 L72 178 L90 170 L95 136 L79 110 Z',
+    forearms: 'M38 164 L32 196 L32 222 L40 222 L45 196 L47 164 Z',
+    lower_back: 'M99 140 L91 141 L86 196 L99 202 Z',
+    glutes: 'M100 208 L78 204 Q62 212 62 236 Q70 258 92 256 Q100 252 100 244 Z',
+    hamstrings: 'M64 262 L66 320 L80 334 L94 330 L96 262 Z',
+    calves: 'M68 346 Q62 366 70 392 L84 392 Q90 366 86 346 Z',
+  };
+  function muscleMapSVG(primary, secondary, label) {
+    const cls = (m) => (primary.includes(m) ? 'mm-p' : secondary.includes(m) ? 'mm-s' : 'mm-o');
+    const half = (parts) => parts.map(([m, d]) => `<path d="${d}" class="${cls(m)}"/>`).join('');
+    const view = (map, x, title) => {
+      const parts = Object.entries(map);
+      const left = SIL.map((d) => `<path d="${d}" class="mm-body"/>`).join('') + half(parts);
+      return `<g transform="translate(${x},0)"><circle cx="100" cy="36" r="22" class="mm-body"/><rect x="90" y="54" width="20" height="18" rx="6" class="mm-body"/>
+        <g>${left}</g><g transform="translate(200,0) scale(-1,1)">${left}</g>
+        <text x="100" y="440" text-anchor="middle" class="mm-t">${title}</text></g>`;
+    };
+    return `<svg class="mm" viewBox="0 0 420 452" role="img" aria-label="${label || 'Muscles worked'}">${view(FRONT, 0, 'Front')}${view(BACK, 220, 'Back')}</svg>`;
+  }
+
   /* ---------- Pose building blocks (profile view faces right, hip at 0,0, y down) ---------- */
   const P = (base, over) => Object.assign({}, base, over);
   const STAND = { t: [0, -34], hn: [3, -1], hf: [1, -1], fn: [2, 41], ff: [-2, 41] };
@@ -331,6 +378,91 @@
     lateral_lunge: { name: 'Lateral lunges', cat: 'lower', view: 'front', r: [12, 16, 16], alt: 1, tp: 3, load: 'kb', cue: 'Hold the bell at your chest, step wide to one side and sit back on that leg. Alternate.', poses: [
       { t: [0, -34], hn: [-3, -22], hf: [3, -22], ehn: [-0.3, 1], ehf: [0.3, 1], kb: 'both', kbd: [0, 1], fn: [-8, 41], ff: [8, 41] },
       { t: [-3, -30], hn: [-6, -18], hf: [0, -18], ehn: [-0.3, 1], ehf: [0.3, 1], kb: 'both', kbd: [0, 1], fn: [-9, 26], ff: [36, 26], khn: [-1, -0.2] }] },
+
+    // ---------------- WARM-UP (dynamic, before the workout) ----------------
+    arm_circles: { name: 'Arm circles', cat: 'warmup', view: 'front', u: 'sec', r: [30, 30, 30], mus: 'front_delts side_delts rear_delts | chest upper_back', cue: 'Arms out to the sides, draw circles that grow bigger. Switch direction halfway.', poses: [
+      P(FSTAND, { hn: [-41, -30], hf: [41, -30] }), P(FSTAND, { hn: [-33, -54], hf: [33, -54] })] },
+    inchworm: { name: 'Inchworms', cat: 'warmup', u: 'sec', r: [30, 30, 30], mus: 'hamstrings abs | chest front_delts calves', cue: 'Fold forward, walk your hands out to a plank, then walk them back and stand up. Keep it slow.', poses: [
+      { t: [16, 29], hn: [28, 41], hf: [30, 41], eh: [1, 0], fn: [3, 41], ff: [1, 41] },
+      { t: [28.7, 18.3], hn: [56.5, 36], hf: [58, 36], fn: [-19.6, 36], ff: [-21, 36] }, P(PLANK, { mat: 0 })] },
+    cat_cow: { name: 'Cat-cow', cat: 'warmup', u: 'sec', r: [30, 30, 30], mus: 'lower_back upper_back | abs', cue: 'On all fours, round your back and drop your head, then arch and look up. Move with your breath.', poses: [
+      { t: [32, -12], hd: [0.3, 1], hn: [32, 21], hf: [34, 21], fn: [-20, 21], ff: [-21, 21], kh: [0.5, 1], mat: 1 },
+      { t: [32, -12], hd: [1, -0.8], hn: [32, 21], hf: [34, 21], fn: [-20, 21], ff: [-21, 21], kh: [0.5, 1], mat: 1 }] },
+    leg_swings: { name: 'Leg swings', cat: 'warmup', u: 'sec', r: [15, 15, 15], side: 1, mus: 'hip_flexors hamstrings | glutes adductors', cue: 'Stand tall, one hand on a wall if needed. Swing one leg forward and back, a little higher each time.', poses: [
+      { t: [0, -34], fn: [30, 26], ff: [0, 41], hn: [10, -8], hf: [-6, -4] },
+      { t: [2, -34], fn: [-24, 33], ff: [0, 41], hn: [10, -8], hf: [-6, -4] }] },
+    bw_squat: { name: 'Bodyweight squats', cat: 'warmup', u: 'sec', r: [30, 30, 30], mus: 'quads glutes | adductors', cue: 'Easy squats with your arms forward, going a little deeper each rep.', poses: [
+      STAND, { t: [15, -30], fn: [14, 26], ff: [12, 26], kh: [1, -0.8], hn: [46, -26], hf: [46, -24] }] },
+    worlds_greatest: { name: "World's greatest stretch", cat: 'warmup', u: 'sec', r: [15, 15, 15], side: 1, mus: 'hip_flexors hamstrings glutes | upper_back adductors', cue: 'Step into a deep lunge, both hands down inside the front foot, then open the inside arm up to the ceiling.', poses: [
+      { t: [31, -15], fn: [21, 20], khn: [1, -1], ff: [-27, 17], khf: [0.3, 1], hn: [30, 18], hf: [32, 18] },
+      { t: [31, -15], fn: [21, 20], khn: [1, -1], ff: [-27, 17], khf: [0.3, 1], hf: [32, 18], hn: [31, -48], ehn: [-1, 0] }] },
+    // ---------------- COOL-DOWN (static stretches, after the workout) ----------------
+    chest_opener: { name: 'Chest opener', cat: 'cooldown', u: 'sec', r: [30, 30, 30], mus: 'chest front_delts | biceps', cue: 'Clasp your hands behind your back, straighten your arms and lift your chest.', poses: [
+      { t: [2, -34], hd: [0.4, -1], hn: [-14, -4], hf: [-14, -4], fn: [2, 41], ff: [-2, 41] }] },
+    cross_body_shoulder: { name: 'Cross-body shoulder stretch', cat: 'cooldown', view: 'front', u: 'sec', r: [15, 15, 15], side: 1, mus: 'rear_delts side_delts | upper_back', cue: 'Pull one straight arm across your chest with the other hand. Switch arms.', poses: [
+      P(FSTAND, { hn: [24, -31], hf: [8, -28], ehf: [1, 1] })] },
+    overhead_triceps: { name: 'Overhead triceps stretch', cat: 'cooldown', view: 'front', u: 'sec', r: [15, 15, 15], side: 1, mus: 'triceps lats |', cue: 'Reach one hand down between your shoulder blades and gently press the elbow with the other hand. Switch.', poses: [
+      P(FSTAND, { hn: [2, -52], ehn: [-0.5, -1], hf: [-10, -55], ehf: [1, -0.2] })] },
+    childs_pose: { name: "Child's pose", cat: 'cooldown', u: 'sec', r: [30, 30, 30], mus: 'lats lower_back | upper_back', cue: 'Sit back on your heels, reach your arms forward on the floor and let your chest sink.', poses: [
+      { t: [32, 10], hn: [63, 17], hf: [64, 17], fn: [-5, 17], ff: [-6, 17], kh: [1, 0.5], mat: 1 }] },
+    cobra_stretch: { name: 'Cobra stretch', cat: 'cooldown', u: 'sec', r: [30, 30, 30], mus: 'abs hip_flexors |', cue: 'Lie face down, hands under your shoulders, and press your chest up while your hips stay on the floor.', poses: [
+      { t: [26, -21], hd: [1, -0.8], hn: [30, 3], hf: [32, 3], eh: [-1, 0], fn: [-41, 3], ff: [-41, 4], mat: 1 }] },
+    seated_forward_fold: { name: 'Seated forward fold', cat: 'cooldown', u: 'sec', r: [30, 30, 30], mus: 'hamstrings lower_back | calves', cue: 'Sit with straight legs and fold forward from the hips, reaching toward your toes.', poses: [
+      { t: [28, -19], hn: [41, -1], hf: [42, 0], eh: [0, -1], fn: [41, 1], ff: [41, 2], mat: 1 }] },
+    standing_quad: { name: 'Standing quad stretch', cat: 'cooldown', u: 'sec', r: [15, 15, 15], side: 1, mus: 'quads hip_flexors |', cue: 'Stand on one leg, hold the other ankle and pull the heel to your glute, knees together. Switch.', poses: [
+      { t: [1, -34], fn: [-8, -2], khn: [0.2, 1], ff: [0, 41], hn: [-8, -2], ehn: [-1, 0.2], hf: [14, -14] }] },
+    kneeling_hip_flexor: { name: 'Kneeling hip flexor stretch', cat: 'cooldown', u: 'sec', r: [15, 15, 15], side: 1, mus: 'hip_flexors quads |', cue: 'Half-kneel on the mat, squeeze the back glute and shift your hips forward until the front of the hip stretches. Switch.', poses: [
+      { t: [-2, -34], fn: [-30, 20], khn: [0.3, 1], ff: [22, 20], khf: [1, -1], hn: [3, -4], hf: [2, -4], eh: [-1, -0.2], mat: 1 }] },
+    knee_hug: { name: 'Knee-to-chest stretch', cat: 'cooldown', u: 'sec', r: [15, 15, 15], side: 1, mus: 'glutes lower_back |', cue: 'Lie on your back and hug one knee to your chest, other leg long. Switch.', poses: [
+      { t: [34, 0], fn: [6, -26], khn: [1, -0.6], ff: [-41, -1], hn: [14, -22], hf: [14, -22], mat: 1 }] },
+    butterfly: { name: 'Butterfly stretch', cat: 'cooldown', view: 'front', u: 'sec', r: [30, 30, 30], mus: 'adductors | glutes', cue: 'Sit with the soles of your feet together and let your knees fall open. Sit tall.', poses: [
+      { t: [0, -34], fn: [-4, 16], ff: [4, 16], khn: [-1, 0], khf: [1, 0], hn: [-18, 8], hf: [18, 8], mat: 1 }] },
+    down_dog: { name: 'Downward dog', cat: 'cooldown', u: 'sec', r: [30, 30, 30], mus: 'calves hamstrings | lats front_delts', cue: 'Hips high, press your heels toward the floor and your chest toward your legs.', poses: [
+      { t: [28.7, 18.3], hn: [56.5, 36], hf: [58, 36], fn: [-19.6, 36], ff: [-21, 36], mat: 1 }] },
+    standing_side_stretch: { name: 'Standing side stretch', cat: 'cooldown', view: 'front', u: 'sec', r: [15, 15, 15], side: 1, mus: 'obliques lats |', cue: 'Reach one arm overhead and lean to the opposite side, hips steady. Switch.', poses: [
+      { t: [-7, -33], hn: [-10, -4], ehn: [-1, 0.3], hf: [-22, -60], fn: [-8, 41], ff: [8, 41] }] },
+  };
+
+
+  /* Muscles each exercise works: 'primary | secondary', space-separated group ids (see MUSCLE_NAMES). */
+  const MUSCLE_NAMES = {
+    chest: 'Chest', front_delts: 'Front shoulders', side_delts: 'Side shoulders', rear_delts: 'Rear shoulders',
+    triceps: 'Triceps', biceps: 'Biceps', forearms: 'Forearms', lats: 'Lats', upper_back: 'Upper back',
+    lower_back: 'Lower back', abs: 'Abs', obliques: 'Obliques', hip_flexors: 'Hip flexors', glutes: 'Glutes',
+    quads: 'Quads', hamstrings: 'Hamstrings', adductors: 'Inner thighs', calves: 'Calves',
+  };
+  const MUS = {
+    pushup: 'chest triceps front_delts | abs', diamond_pushup: 'triceps chest | front_delts abs',
+    dive_bomber: 'chest front_delts triceps | lower_back abs', db_floor_press: 'chest triceps | front_delts',
+    db_pullover: 'lats chest | triceps abs', spiderman_pushup: 'chest triceps obliques | front_delts abs hip_flexors',
+    explosive_pushup: 'chest triceps front_delts | abs', plank_to_pushup: 'triceps abs chest | front_delts',
+    pullup: 'lats upper_back | biceps forearms rear_delts', chinup: 'lats biceps | upper_back forearms',
+    negative_pullup: 'lats upper_back biceps | forearms', chin_hold: 'biceps lats forearms | upper_back abs',
+    db_row: 'lats upper_back | biceps rear_delts forearms', one_arm_row: 'lats upper_back | biceps rear_delts obliques',
+    renegade_row: 'lats abs | upper_back triceps obliques', kb_high_pull: 'upper_back rear_delts glutes | hamstrings side_delts biceps',
+    superman: 'lower_back glutes | upper_back hamstrings',
+    crunch: 'abs | obliques', situp: 'abs hip_flexors | obliques', db_situp: 'abs hip_flexors | obliques',
+    leg_raise: 'abs hip_flexors |', weighted_crunch: 'abs | obliques', weighted_dead_bug: 'abs | hip_flexors front_delts',
+    db_side_bend: 'obliques | abs lower_back', weighted_toe_touch: 'abs | front_delts', plank: 'abs | front_delts glutes',
+    side_plank: 'obliques | abs glutes side_delts', bicycle_crunch: 'obliques abs | hip_flexors',
+    russian_twist: 'obliques abs | hip_flexors', flutter_kicks: 'abs hip_flexors | quads', hollow_hold: 'abs | hip_flexors',
+    v_up: 'abs hip_flexors |', dead_bug: 'abs | hip_flexors', mountain_climber: 'abs hip_flexors | front_delts quads',
+    shoulder_taps: 'abs obliques | front_delts triceps', reverse_crunch: 'abs | hip_flexors', toe_touch: 'abs |',
+    bird_dog: 'lower_back abs glutes | rear_delts', knee_tuck: 'abs hip_flexors |',
+    jumping_jacks: 'calves side_delts | quads glutes', high_knees: 'hip_flexors quads | calves abs',
+    burpee: 'quads chest | triceps abs glutes', squat_jump: 'quads glutes | calves', jump_lunge: 'quads glutes | calves hamstrings',
+    butt_kicks: 'hamstrings calves | quads', punches: 'front_delts triceps | obliques', squat_thrust: 'abs quads | hip_flexors front_delts',
+    kb_swing: 'glutes hamstrings | lower_back abs forearms',
+    db_shoulder_press: 'front_delts side_delts triceps | upper_back', lateral_raise: 'side_delts | upper_back',
+    db_curl: 'biceps | forearms', hammer_curl: 'biceps forearms |', db_skullcrusher: 'triceps |',
+    overhead_triceps_ext: 'triceps | abs', db_kickback: 'triceps | rear_delts', pike_pushup: 'front_delts triceps | upper_back chest',
+    kb_press: 'front_delts triceps | side_delts abs', db_front_raise: 'front_delts | side_delts',
+    kb_clean_press: 'front_delts glutes hamstrings | triceps upper_back abs', db_thruster: 'quads glutes front_delts | triceps abs',
+    goblet_squat: 'quads glutes | abs adductors', db_lunge: 'quads glutes | hamstrings adductors', reverse_lunge: 'glutes quads | hamstrings',
+    split_squat: 'quads glutes | hamstrings adductors', db_squat: 'quads glutes | hamstrings forearms',
+    db_rdl: 'hamstrings glutes | lower_back forearms', single_leg_rdl: 'hamstrings glutes | lower_back abs',
+    kb_sumo_deadlift: 'glutes adductors quads | hamstrings lower_back', glute_bridge: 'glutes | hamstrings',
+    single_leg_bridge: 'glutes hamstrings | abs', wall_sit: 'quads | glutes', lateral_lunge: 'adductors glutes quads | hamstrings',
   };
 
   const LOAD = {
@@ -347,13 +479,20 @@
     const e = EX[k];
     e.id = k; e.u = e.u || 'reps'; e.lv = 1;
     if (LEVEL_OVERRIDE[k]) e.r = LEVEL_OVERRIDE[k];
-    else if (['dive_bomber', 'db_kickback', 'split_squat', 'db_squat', 'weighted_crunch', 'weighted_dead_bug', 'db_side_bend', 'weighted_toe_touch'].includes(k)) { /* already set at the new levels */ }
+    else if (e.cat === 'warmup' || e.cat === 'cooldown' || ['dive_bomber', 'db_kickback', 'split_squat', 'db_squat', 'weighted_crunch', 'weighted_dead_bug', 'db_side_bend', 'weighted_toe_touch'].includes(k)) { /* already set at the new levels */ }
     else {
       const top = e.r[2] * 1.1, step = e.alt ? 4 : top >= 20 ? 5 : top >= 12 ? 2 : 1;
       e.r = [e.r[1], e.r[2], e.u === 'sec' ? e.r[2] + 10 : Math.ceil(top / step - 1e-9) * step];
     }
   });
 
-  const api = { EX, LOAD, figureSVG };
+  Object.keys(EX).forEach((k) => {
+    const [pri, sec] = (MUS[k] || EX[k].mus || '|').split('|').map((x) => x.trim().split(/\s+/).filter(Boolean));
+    EX[k].muscles = { primary: pri, secondary: sec || [] };
+  });
+  const missing = Object.keys(EX).filter((k) => !EX[k].muscles.primary.length);
+  if (missing.length) throw new Error('No muscles for: ' + missing.join(', '));
+
+  const api = { EX, LOAD, MUSCLE_NAMES, figureSVG, muscleMapSVG };
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KB = api;
 })(typeof window !== 'undefined' ? window : globalThis);

@@ -30,6 +30,12 @@ days ticked on the device and in the cloud are merged.
 
 - Tap a day to open the workout; tick the circle on a tile or press
   **Mark as done** to record it.
+- Every workout starts with a 1-minute warm-up and ends with 2 minutes of
+  stretches chosen for the muscles that day works. Press **Start warm-up** /
+  **Start cool-down** and the timer runs through them hands-free (not counted
+  in the workout time).
+- Tap any exercise for its page: how to do it, reps per level, equipment, a
+  front/back map of the muscles it works, and the days it appears on.
 - Tap a set number on an exercise when you finish that set: the timer starts
   the right rest (30 s, 1 min or 2 min) and beeps once when it's over. Adjust
   it with ±15s or the presets.

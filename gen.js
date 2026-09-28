@@ -54,6 +54,38 @@ const NAMES = {
 };
 const ni = { cba: 0, up: 0, low: 0, ac: 0 };
 
+
+// Warm-up (~1 min) and cool-down (~2 min) chosen to cover the muscles the day works hardest.
+// Not counted in the day's time estimate.
+const WARMUPS = Object.keys(EX).filter((k) => EX[k].cat === 'warmup');
+const COOLDOWNS = Object.keys(EX).filter((k) => EX[k].cat === 'cooldown');
+const stretchUsed = {};
+function stretchTime(id) { const e = EX[id]; return e.r[0] * (e.side ? 2 : 1); }
+function pickStretches(pool, blocks, seconds, day) {
+  const w = {};
+  blocks.forEach((b) => b.items.forEach((it) => {
+    EX[it.ex].muscles.primary.forEach((m) => { w[m] = (w[m] || 0) + 2 * it.sets; });
+    EX[it.ex].muscles.secondary.forEach((m) => { w[m] = (w[m] || 0) + it.sets; });
+  }));
+  // abs close every day, so they would win every time: count them at half weight, then normalise
+  ['abs', 'obliques', 'hip_flexors'].forEach((m) => { if (w[m]) w[m] *= 0.5; });
+  const max = Math.max(1, ...Object.values(w)); Object.keys(w).forEach((m) => { w[m] /= max; });
+  const chosen = []; let t = 0;
+  while (t < seconds) {
+    const score = (id) => {
+      const m = EX[id].muscles;
+      return m.primary.reduce((a, x) => a + (w[x] || 0), 0) + 0.5 * m.secondary.reduce((a, x) => a + (w[x] || 0), 0)
+        - (day - (stretchUsed[id] || -99) <= 2 ? 0.45 : 0) - (day - (stretchUsed[id] || -99) <= 5 ? 0.15 : 0);
+    };
+    const opts = pool.filter((id) => !chosen.includes(id)).sort((a, b) => score(b) - score(a));
+    const id = opts[0]; if (!id) break;
+    chosen.push(id); t += stretchTime(id); stretchUsed[id] = day;
+    EX[id].muscles.primary.forEach((m) => { if (w[m]) w[m] *= 0.25; });
+    EX[id].muscles.secondary.forEach((m) => { if (w[m]) w[m] *= 0.6; });
+  }
+  return { items: chosen.map((id) => ({ ex: id, n: EX[id].r[0], sets: 1 })), seconds: t };
+}
+
 const SLOTS = {
   cba: ['push', 'pull', 'dbchest', 'row', 'cbaMix', 'push'],
   up: ['uPress', 'uPull', 'uArms1', 'uArms2', 'total', 'uExtra'],
@@ -105,6 +137,10 @@ for (let d = 1; d <= 60; d++) {
   blocks.forEach((b) => b.items.forEach((it) => { used[it.ex] = d; count[it.ex] = (count[it.ex] || 0) + 1; }));
   const w = { day: d, type, title: TITLES[type][0], level, name: NAMES[type][ni[type]++], blocks };
   w.est = Math.round(total(w) / 60);
+  const warm = pickStretches(WARMUPS, blocks, 60, d), cool = pickStretches(COOLDOWNS, blocks, 120, d);
+  w.warmup = { title: 'Warm-up', kind: 'warmup', items: warm.items, seconds: warm.seconds };
+  w.cooldown = { title: 'Cool-down stretches', kind: 'cooldown', items: cool.items, seconds: cool.seconds };
+  w.stretchMin = Math.round((warm.seconds + cool.seconds) / 60);
   days.push(w);
 }
 
@@ -118,12 +154,12 @@ const program = {
 };
 
 if (require.main === module) {
-  const rows = days.map((w) => `${String(w.day).padStart(2)} ${w.type.padEnd(3)} L${w.level} ${String(w.est).padStart(2)}min  ${w.blocks.map((b) => `${b.items.length}x${b.sets}[${b.items.map((i) => i.ex + ':' + i.n).join(',')}]`).join(' | ')}`);
+  const rows = days.map((w) => `${String(w.day).padStart(2)} ${w.type.padEnd(3)} L${w.level} ${String(w.est).padStart(2)}min +${w.stretchMin} W[${w.warmup.items.map((i) => i.ex).join(',')}] C[${w.cooldown.items.map((i) => i.ex).join(',')}] ${w.blocks.map((b) => `${b.items.length}x${b.sets}[${b.items.map((i) => i.ex + ':' + i.n).join(',')}]`).join(' | ')}`);
   console.log(rows.join('\n'));
   const ests = days.map((d) => d.est);
   console.log('min', Math.min(...ests), 'max', Math.max(...ests));
   console.log(Object.entries(count).sort((a, b) => b[1] - a[1]).map(([k, v]) => k + ':' + v).join(' '));
-  console.log('unused:', Object.keys(EX).filter((k) => !count[k]).join(', '));
+  console.log('unused:', Object.keys(EX).filter((k) => !count[k] && !/warmup|cooldown/.test(EX[k].cat)).join(', '));
   require('fs').writeFileSync(__dirname + '/program.json', JSON.stringify(program));
 }
 module.exports = program;
