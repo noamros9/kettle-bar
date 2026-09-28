@@ -92,15 +92,18 @@ function download(name, text) {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 function exportProgress() {
-  download(KBBackup.fileName(new Date()), JSON.stringify(KBBackup.exportProgress(allDone()), null, 2));
+  download(KBBackup.fileName(new Date()), JSON.stringify(KBBackup.exportProgress(allDone(), { swaps: allSwaps() }), null, 2));
 }
 
 const allDone = () => Object.fromEntries(PROGRAMS.map((p) => [p.id, store.days(p.id)]));
+const allSwaps = () => Object.fromEntries(PROGRAMS.map((p) => [p.id, store.swaps(p.id)]));
 const showImport = (st) => { importState = st; render(); };
 async function readImport(file) {
   try {
-    const { programs, unknown } = KBBackup.parseBackup(await file.text(), { known: PROGRAMS.map((p) => p.id), uid: store.remote && store.remote.account && store.remote.account.uid });
-    showImport({ name: file.name, programs, unknown, diff: KBBackup.diffProgress(allDone(), programs) });
+    const { programs, swaps, unknown } = KBBackup.parseBackup(await file.text(), { known: PROGRAMS.map((p) => p.id), uid: store.remote && store.remote.account && store.remote.account.uid });
+    const mine = allSwaps(), swapNotes = Object.entries(swaps).filter(([pid, l]) => JSON.stringify(l) !== JSON.stringify(mine[pid]))
+      .map(([pid, l]) => ({ pid, file: l.length, mine: mine[pid].length }));
+    showImport({ name: file.name, programs, swaps, unknown, swapNotes, diff: KBBackup.diffProgress(allDone(), programs) });
   } catch (e) { showImport({ error: e.message }); }
 }
 function backupAction(what) {
@@ -111,7 +114,7 @@ function backupAction(what) {
   const ids = Object.keys(st.diff);
   const added = ids.reduce((a, pid) => a + st.diff[pid].added.length, 0);
   const removed = ids.reduce((a, pid) => a + st.diff[pid].removed.length, 0);
-  store.replaceAll(KBBackup.applyImport(allDone(), st.programs, what));
+  store.replaceAll(KBBackup.applyImport(allDone(), st.programs, what), KBBackup.importSwaps(allSwaps(), st.swaps, what));
   showImport({ done: what === 'merge' ? `Merged: ${added} day${added === 1 ? '' : 's'} added.` : `Replaced: ${added} day${added === 1 ? '' : 's'} added, ${removed} removed.` });
 }
 document.addEventListener('change', (e) => {

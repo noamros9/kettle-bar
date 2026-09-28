@@ -54,7 +54,7 @@ Cheapest first; one ticket = one branch = one PR.
 | 2 | Voice cues + Settings switch | feature | 0 | `feature/voice-cues` | done (PR #29) |
 | 3 | Swap for today (alternatives, sync, stats) | feature | 0 | `feature/swap-today` | done (PR #30) |
 | 4 | Swap for the rest of the program + undo | feature | 3 | `feature/swap-onward` | done (PR #31) |
-| 5 | Swaps in backups | feature | 3 | `feature/swap-backups` | todo |
+| 5 | Swaps in backups | feature | 3 | `feature/swap-backups` | done (PR #32) |
 
 ### 1. Animated drawings
 Files: `figures.js`, `tests/figures.test.js`, `app/views.js`, `app/main.js`, `tests-ui/exercise.spec.js`.

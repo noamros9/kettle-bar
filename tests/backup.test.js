@@ -7,7 +7,7 @@ test('export lists every program with its done days and when each was first mark
   const file = exportProgress({ a: { 1: '2026-09-01T07:00:00.000Z', 3: '2026-09-03T07:00:00.000Z' }, b: {} }, { now: () => '2026-09-28T12:00:00.000Z' });
   assert.deepEqual(file, {
     format: 'kettle-bar-progress', version: 1, exportedAt: '2026-09-28T12:00:00.000Z',
-    programs: { a: { 1: '2026-09-01T07:00:00.000Z', 3: '2026-09-03T07:00:00.000Z' }, b: {} },
+    programs: { a: { 1: '2026-09-01T07:00:00.000Z', 3: '2026-09-03T07:00:00.000Z' }, b: {} }, swaps: {},
   });
 });
 
@@ -32,7 +32,7 @@ const known = ['a', 'b'];
 
 test('reading a file keeps the programs this app has and names the ones it does not', () => {
   const got = parseBackup(file({ a: { 1: 't1' }, gone: { 2: 't2' } }), { known });
-  assert.deepEqual(got, { programs: { a: { 1: 't1' } }, unknown: ['gone'] });
+  assert.deepEqual(got, { programs: { a: { 1: 't1' } }, swaps: {}, unknown: ['gone'] });
 });
 
 test('reading refuses files that are not a readable backup, saying why', () => {
@@ -107,4 +107,40 @@ test('importing the nightly file restores the signed-in account, or the only acc
   assert.throws(() => parseBackup(text, { known, uid: 'someone-else' }), /more than one account/);
   assert.throws(() => parseBackup(JSON.stringify({ format: 'kettle-bar-backup', version: 1, users: {} }), { known }), /damaged: it has no accounts/);
   assert.throws(() => parseBackup(JSON.stringify({ format: 'kettle-bar-backup', version: 1 }), { known }), /damaged: it has no accounts/);
+});
+
+// ---------- swaps in backups ----------
+const { importSwaps } = require('../app/backup.js');
+const sw = (day, ex, to, onward) => ({ day, ex, to, ...(onward ? { onward: true } : {}) });
+
+test('export carries each program\'s swaps (only programs that have any)', () => {
+  const f = exportProgress({ a: {}, b: {} }, { now: () => 'n', swaps: { a: [sw(3, 'pushup', 'pike_pushup')], b: [] } });
+  assert.deepEqual(f.swaps, { a: [sw(3, 'pushup', 'pike_pushup')] });
+  assert.deepEqual(exportProgress({ a: {} }, { now: () => 'n' }).swaps, {});
+});
+
+test('reading a file takes the swaps of known programs; older files without swaps read as none; bad swaps are refused', () => {
+  const text = file({ a: { 1: 't' } }, { swaps: { a: [sw(2, 'x', 'y', true)], gone: [sw(1, 'x', 'y')] } });
+  assert.deepEqual(parseBackup(text, { known }).swaps, { a: [sw(2, 'x', 'y', true)] });
+  assert.deepEqual(parseBackup(file({ a: {} }), { known }).swaps, {});
+  assert.throws(() => parseBackup(file({ a: {} }, { swaps: { a: {} } }), { known }), /damaged: a swaps/);
+  assert.throws(() => parseBackup(file({ a: {} }, { swaps: { a: [{ day: 0, ex: 'x', to: 'y' }] } }), { known }), /damaged: a swaps/);
+  assert.throws(() => parseBackup(file({ a: {} }, { swaps: { a: [{ day: 1, ex: 'x' }] } }), { known }), /damaged: a swaps/);
+  assert.throws(() => parseBackup(file({ a: {} }, { swaps: [] }), { known }), /damaged: swaps/);
+});
+
+test('import: merge keeps both sides\' swaps with the file\'s last; replace takes the file\'s', () => {
+  const mine = { a: [sw(1, 'p', 'q'), sw(5, 'r', 's')], b: [sw(2, 'u', 'v')] };
+  const theirs = { a: [sw(5, 'r', 's'), sw(9, 'p', 'z', true)] };
+  assert.deepEqual(importSwaps(mine, theirs, 'merge'), { a: [sw(1, 'p', 'q'), sw(5, 'r', 's'), sw(9, 'p', 'z', true)] });
+  assert.deepEqual(importSwaps(mine, theirs, 'replace'), { a: [sw(5, 'r', 's'), sw(9, 'p', 'z', true)] });
+  assert.deepEqual(importSwaps({}, theirs, 'merge'), theirs);
+  assert.throws(() => importSwaps(mine, theirs, 'mix'), /Unknown import mode mix/);
+});
+
+test('the nightly file carries swaps per account, only where there are any, and reads back', () => {
+  const text = nightlyFile([{ uid: 'u', email: 'e', pid: 'a', done: { 1: 't' }, swaps: [sw(1, 'x', 'y')] }, { uid: 'u', email: 'e', pid: 'b', done: {}, swaps: [] }, { uid: 'u', email: 'e', pid: 'c', done: {} }]);
+  assert.deepEqual(JSON.parse(text).users.u.swaps, { a: [sw(1, 'x', 'y')] });
+  assert.deepEqual(parseBackup(text, { known: ['a', 'b'] }).swaps, { a: [sw(1, 'x', 'y')] });
+  assert.equal(JSON.parse(nightlyFile([{ uid: 'u', pid: 'a', done: {} }])).users.u.swaps, undefined, 'no swaps: no field, so old backups stay byte-identical');
 });

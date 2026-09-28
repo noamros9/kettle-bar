@@ -107,3 +107,24 @@ test('an import survives the page redrawing while the file is being chosen (e.g.
   await input.setInputFiles(backupFile(fromFile));
   await expect(app.page.locator('#import-review')).toContainText('Three-Split 60: +2 days (3–4)');
 });
+
+// ---------- swaps travel with backups ----------
+test('Export includes swaps; importing them on a fresh device shows the swapped exercise', async ({ app }) => {
+  test.skip(test.info().project.name !== 'phone-light', 'theme-independent');
+  await app.open('#p-three-split-60-d1');
+  const s = await app.data(() => { const b = PROGRAMS[0].days[0].blocks[0]; return { ex: b.items[0].ex, to: KBSwaps.alternatives(b.items[0].ex, b, PROGRAMS[0], KBEx)[0] }; });
+  await app.data((sw) => store.setSwaps('three-split-60', [{ day: 1, ex: sw.ex, to: sw.to }]), s);
+  await app.go('#settings');
+  const [download] = await Promise.all([app.page.waitForEvent('download'), app.page.getByRole('button', { name: 'Export progress' }).click()]);
+  const text = fs.readFileSync(await download.path(), 'utf8');
+  expect(JSON.parse(text).swaps).toEqual({ 'three-split-60': [{ day: 1, ex: s.ex, to: s.to }] });
+
+  await app.data(() => { store.setSwaps('three-split-60', []); }); // as if on a fresh device
+  await app.page.locator('#import-file').setInputFiles({ name: 'mine.json', mimeType: 'application/json', buffer: Buffer.from(text) });
+  const review = app.page.locator('#import-review');
+  await expect(review).toContainText('Swaps: Three-Split 60 has 1 in the file (you have 0).');
+  await app.page.getByRole('button', { name: /^Replace/ }).click();
+  await app.go('#p-three-split-60-d1');
+  const toName = await app.data((id) => KBEx.EX[id].name, s.to);
+  await expect(app.page.locator('article.ex').filter({ hasText: 'Swapped from' }).locator('.nm')).toHaveText(toName);
+});

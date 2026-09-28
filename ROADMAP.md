@@ -45,7 +45,7 @@ Built together because they share the muscle heat map and the week numbers.
      No per-set logging. Minutes include stretching, shown separately; muscles weighted by sets (main 1,
      secondary ½); timed blocks converted to sets; Stats is a header tab.
 
-## Phase 3: workout helpers
+## Phase 3: workout helpers (done, Sep 2026)
 Plan and tickets: [docs/plans/phase-3-workout-helpers.md](docs/plans/phase-3-workout-helpers.md). Swaps apply from that
 day on ("rest of the program"), with the new exercise's own reps; voice speaks in the workout and the
 stretches, on by default with a Settings switch.
