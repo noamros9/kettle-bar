@@ -9,7 +9,7 @@ module.exports = defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: 0,
-  reporter: process.env.CI ? [['list'], ['html', { open: 'never' }]] : 'list',
+  reporter: process.env.CI ? [['list'], ['github'], ['html', { open: 'never' }]] : 'list', // github: failures show as run annotations
   use: { baseURL: 'http://localhost:4173', trace: 'retain-on-failure' },
   projects: [
     { name: 'phone-light', use: { ...phone, colorScheme: 'light' } },
