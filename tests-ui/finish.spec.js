@@ -17,7 +17,12 @@ test('ticking every set shows the finish card with sets, workout and stretching 
   await expect(card.getByTestId('sets')).toHaveText(String(v.sets));
   await expect(card.getByTestId('workout-min')).toHaveText(`${v.workoutMin} min`);
   await expect(card.getByTestId('stretch-min')).toHaveText(`${v.stretchMin} min`);
-  await card.scrollIntoViewIfNeeded();
+  const map = card.getByRole('img', { name: 'Muscles worked today' });
+  await expect(map).toBeVisible();
+  const busiest = await app.data(() => { const m = KBStats.dayVolume(PROGRAMS[0].days[0], KBEx.EX).muscles; return Object.keys(m).sort((a, b) => m[b] - m[a])[0]; });
+  await expect(map.locator(`[data-m="${busiest}"]`).first()).toHaveClass('mm-l4');
+  await expect(card.getByText('Less')).toBeVisible();
+  await map.scrollIntoViewIfNeeded();
   expect(await app.sidewaysScroll()).toBe(0);
   await app.page.screenshot({ path: `test-results/shots/${testInfo.project.name}/finish-card.png` });
 });

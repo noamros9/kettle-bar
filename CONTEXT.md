@@ -53,6 +53,9 @@ Stats count both and always show them separately.
 blocks are converted to sets (EMOM 1 per minute, Tabata 1 per 20 s round, AMRAP/ladder 1 per exercise per 2
 minutes); one-side reps count both sides; holds add sets, not reps.
 
+**Muscle load**: how much work a muscle got: each set counts 1 for every main muscle and ½ for every secondary
+one. The **heat map** shades each muscle in 4 steps by its share of the day's (or span's) biggest load.
+
 **Finish card**: the card at the end of a day's page once every set is ticked: what the day added up to, and
 Mark as done.
 

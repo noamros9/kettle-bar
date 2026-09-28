@@ -179,9 +179,17 @@
     hamstrings: 'M64 262 L66 320 L80 334 L94 330 L96 262 Z',
     calves: 'M68 346 Q62 366 70 392 L84 392 Q90 366 86 346 Z',
   };
-  function muscleMapSVG(primary, secondary, label) {
-    const cls = (m) => (primary.includes(m) ? 'mm-p' : secondary.includes(m) ? 'mm-s' : 'mm-o');
-    const half = (parts) => parts.map(([m, d]) => `<path d="${d}" class="${cls(m)}"/>`).join('');
+  // muscleMapSVG(primary[], secondary[], label): an exercise's main and secondary muscles.
+  // muscleMapSVG({ muscle: load }, label): a heat map in 4 shades by share of the biggest load.
+  function muscleMapSVG(a, b, c) {
+    let cls, tag = () => '', label = c;
+    if (Array.isArray(a)) cls = (m) => (a.includes(m) ? 'mm-p' : b.includes(m) ? 'mm-s' : 'mm-o');
+    else {
+      const max = Math.max(0, ...Object.values(a));
+      cls = (m) => (a[m] > 0 ? 'mm-l' + Math.ceil((a[m] / max) * 4) : 'mm-o');
+      tag = (m) => ` data-m="${m}"`; label = b;
+    }
+    const half = (parts) => parts.map(([m, d]) => `<path d="${d}"${tag(m)} class="${cls(m)}"/>`).join('');
     const view = (map, x, title) => {
       const parts = Object.entries(map);
       const left = SIL.map((d) => `<path d="${d}" class="mm-body"/>`).join('') + half(parts);
