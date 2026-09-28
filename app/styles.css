@@ -288,3 +288,9 @@ body.has-timer main{padding-bottom:170px}
 .heatkey{display:flex;align-items:center;gap:4px;justify-content:center;font-size:12px;color:var(--muted)}
 .heatkey i{width:18px;height:10px;border-radius:2px;display:inline-block}
 .heatkey span{margin:0 4px}
+.fweek{margin:0;font-weight:600}
+.fnext{display:grid;gap:2px;text-align:left;background:var(--soft);border:0;border-radius:10px;padding:12px 14px;color:var(--ink);font:inherit;margin:0}
+button.fnext::after{content:"›";position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:22px;color:var(--muted)}
+button.fnext{position:relative;padding-right:36px}
+.fnext span{color:var(--muted);font-size:14px}
+.nw{white-space:nowrap}

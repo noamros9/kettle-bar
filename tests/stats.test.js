@@ -50,3 +50,27 @@ test('muscle load: each set counts 1 for every main muscle and ½ for every seco
   const v = dayVolume(day([{ sets: 3, items: [it('push', 10)] }, { format: 'emom', minutes: 4, items: [it('row', 5), it('plank', 20)] }]), EX);
   assert.deepEqual(v.muscles, { chest: 3, triceps: 3, front_delts: 1.5, lats: 2, biceps: 1, abs: 2 });
 });
+
+// ---------- weeks and summaries ----------
+const { weekStart, summarize } = require('../app/stats.js');
+
+test('weeks start on Sunday at midnight, local time', () => {
+  assert.deepEqual(weekStart(new Date(2026, 8, 26, 23, 30)), new Date(2026, 8, 20)); // Saturday night -> previous Sunday
+  assert.deepEqual(weekStart(new Date(2026, 8, 27, 8, 0)), new Date(2026, 8, 27)); // Sunday morning -> that Sunday
+  assert.deepEqual(weekStart(new Date(2026, 8, 20)), new Date(2026, 8, 20));
+});
+
+test('summarize adds up the done days inside a time range', () => {
+  const programs = { p: { days: [day([{ sets: 3, items: [it('push', 10)] }]), { est: 20, blocks: [{ sets: 2, items: [it('row', 8)] }] }] } };
+  const at = (d, h = 9) => new Date(2026, 8, d, h).toISOString();
+  const entries = [
+    { pid: 'p', day: 1, time: at(27) }, // Sunday: in
+    { pid: 'p', day: 2, time: at(30) }, // Wednesday: in
+    { pid: 'p', day: 1, time: at(26, 23) }, // Saturday before: out
+    { pid: 'gone', day: 1, time: at(28) }, // a program this app doesn't have: skipped
+    { pid: 'p', day: 61, time: at(28) }, // a day the program doesn't have: skipped
+  ];
+  const s = summarize(entries, { programs, EX, from: new Date(2026, 8, 27), to: new Date(2026, 9, 4) });
+  assert.deepEqual(s, { workouts: 2, workoutMin: 50, stretchMin: 3, sets: 5, reps: 46, muscles: { chest: 3, triceps: 3, front_delts: 1.5, lats: 2, biceps: 1 } });
+  assert.deepEqual(summarize([], { programs, EX, from: new Date(0), to: new Date() }), { workouts: 0, workoutMin: 0, stretchMin: 0, sets: 0, reps: 0, muscles: {} });
+});

@@ -39,3 +39,22 @@ test('Mark as done on the card marks the day; tapping again un-marks it', async 
   await done.click();
   await expect(app.page.locator('.whead [data-toggle="1"]')).toHaveText('Mark as done');
 });
+
+test('the card shows this week so far (today counts once marked done) and the next workout', async ({ app }) => {
+  test.skip(test.info().project.name !== 'phone-light', 'theme-independent');
+  await app.open('#p-three-split-60');
+  await app.page.getByRole('checkbox', { name: 'Mark day 2 done' }).click(); // done earlier this week
+  await app.go('#p-three-split-60-d1');
+  await tickEverySet(app);
+  const card = app.page.getByRole('region', { name: 'Workout complete' });
+  const [d1, d2] = await app.data(() => [0, 1].map((i) => KBStats.dayVolume(PROGRAMS[0].days[i], KBEx.EX)));
+  const week = card.getByTestId('week');
+  await expect(week).toHaveText(`This week: 1 workout · ${d2.workoutMin} min + ${d2.stretchMin} min stretching`);
+  await card.getByRole('button', { name: 'Mark day 1 as done' }).click();
+  await expect(week).toHaveText(`This week: 2 workouts · ${d1.workoutMin + d2.workoutMin} min + ${d1.stretchMin + d2.stretchMin} min stretching`);
+  const day3 = await app.data(() => PROGRAMS[0].days[2].name);
+  const next = card.getByRole('button', { name: new RegExp(`^Next: Day 3 · ${day3}`) });
+  await expect(next).toBeVisible();
+  await next.click();
+  expect(await app.h1()).toBe(day3);
+});
