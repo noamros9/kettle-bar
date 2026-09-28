@@ -228,7 +228,7 @@
       const dayTypes = dayTypesOf(cfg);
       const formats = [...new Set(days.flatMap((w) => w.blocks.filter((b) => b.kind === 'main').map((b) => b.format)))];
       return {
-        id: cfg.id, name: cfg.name, subject: cfg.subject, blurb: cfg.blurb, split: cfg.split,
+        id: cfg.id, name: cfg.name, subject: cfg.subject, blurb: cfg.blurb, about: cfg.about, split: cfg.split,
         minutes: cfg.minutes, equip: cfg.equip || 'all', gear: cfg.gear || null, formats,
         levels: ['Level I · Intermediate', `Level II · ${LEVER_TEXT[cfg.levers[1]]}`, `Level III · ${LEVER_TEXT[cfg.levers[2]]}`],
         rests: REST, dayTypes, days,
@@ -260,7 +260,7 @@
   const CONFIGS = require('./programs.config.js');
   function buildFrozen(cfg) {
     const saved = JSON.parse(fs.readFileSync(path.join(__dirname, cfg.frozen), 'utf8'));
-    return { ...saved, subject: cfg.subject, split: cfg.split, minutes: cfg.minutes, equip: cfg.equip || 'all', formats: ['straight'], dayTypes: b.dayTypesOf(cfg) };
+    return { ...saved, subject: cfg.subject, about: cfg.about, split: cfg.split, minutes: cfg.minutes, equip: cfg.equip || 'all', formats: ['straight'], dayTypes: b.dayTypesOf(cfg) };
   }
   const buildConfig = (cfg) => (cfg.frozen ? buildFrozen(cfg) : b.build(cfg));
   module.exports = { ...api, buildConfig, buildAll: () => CONFIGS.map(buildConfig), CONFIGS, POOLS: b.POOLS, REST: b.REST, timing: b.timing };

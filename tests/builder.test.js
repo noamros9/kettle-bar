@@ -97,3 +97,13 @@ test('build(config, catalogue) in Node gives the same program; a frozen config i
   assert.equal(JSON.stringify(B.build(CONFIGS.find((c) => c.id === 'engine'), cat)), JSON.stringify(programs.find((p) => p.id === 'engine')));
   assert.throws(() => B.build(CONFIGS.find((c) => c.frozen), cat), /three-split-60 is frozen/);
 });
+
+test('every program has a hand-written paragraph: 3–6 sentences, the first short enough for a card', () => {
+  const sentences = (t) => t.match(/[^.!?]+[.!?]+(\s|$)/g) || [];
+  programs.forEach((p) => {
+    assert.equal(typeof p.about, 'string', p.id);
+    const s = sentences(p.about);
+    assert.ok(s.length >= 3 && s.length <= 6, `${p.id}: ${s.length} sentences`);
+    assert.ok(s[0].trim().length <= 130, `${p.id}: first sentence is ${s[0].trim().length} characters`);
+  });
+});
