@@ -6,7 +6,7 @@ test('the gear in the header opens Settings, which fits the phone', async ({ app
   await app.open('#programs');
   await app.page.getByRole('button', { name: 'Settings' }).click();
   await expect(app.page).toHaveURL(/#settings$/);
-  expect(await app.h1()).toBe('Settings');
+  await expect(app.heading()).toHaveText('Settings');
   await expect(app.page.getByRole('heading', { name: 'Backup' })).toBeVisible();
   expect(await app.sidewaysScroll()).toBe(0);
   await app.page.screenshot({ path: `test-results/shots/${testInfo.project.name}/settings.png` });

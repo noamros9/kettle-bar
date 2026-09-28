@@ -6,7 +6,7 @@ test('Stats shows this week across all programs: workouts, minutes kept apart, s
   for (const n of [1, 2]) await app.page.getByRole('checkbox', { name: `Mark day ${n} done` }).click();
   await app.page.getByRole('navigation', { name: 'Main' }).getByRole('button', { name: 'Stats' }).click();
   await expect(app.page).toHaveURL(/#stats$/);
-  expect(await app.h1()).toBe('Stats');
+  await expect(app.heading()).toHaveText('Stats');
   const [a, b] = await app.data(() => [0, 1].map((i) => KBStats.dayVolume(PROGRAMS[0].days[i], KBEx.EX)));
   const tile = (name) => app.page.getByRole('group', { name });
   await expect(tile('Workouts')).toContainText('2');

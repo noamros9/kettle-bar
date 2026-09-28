@@ -56,5 +56,5 @@ test('the card shows this week so far (today counts once marked done) and the ne
   const next = card.getByRole('button', { name: new RegExp(`^Next: Day 3 · ${day3}`) });
   await expect(next).toBeVisible();
   await next.click();
-  expect(await app.h1()).toBe(day3);
+  await expect(app.heading()).toHaveText(day3);
 });

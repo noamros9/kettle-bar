@@ -21,6 +21,8 @@ const test = base.test.extend({
         }), hash);
       },
       async sidewaysScroll() { return page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth); },
+      // the page heading as a locator, for assertions that wait until a new page has drawn
+      heading: () => page.locator('#app h1').first(),
       async h1() { return (await page.locator('#app h1').first().textContent()).trim(); },
       data: (fn, arg) => page.evaluate(fn, arg),
     };
