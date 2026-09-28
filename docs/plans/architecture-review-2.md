@@ -18,7 +18,7 @@ In dependency order; one ticket = one branch = one PR, each starting from its **
 | 2 | Program Progress: one value, one document codec | refactor | 0 | `refactor/program-progress` | done (PR #37) |
 | 3 | The Day: a day as you'll do it | refactor | 1, 2 | `refactor/day-module` | done (PR #38) |
 | 4 | Import plan: one step | refactor | 2 | `refactor/import-plan` | done (PR #39) |
-| 5 | Stats report: scope and span behind one interface | refactor | 3 | `refactor/stats-report` | todo |
+| 5 | Stats report: scope and span behind one interface | refactor | 3 | `refactor/stats-report` | done (PR #40) |
 | 6 | Program Builder usable in the browser | refactor | 0 | `refactor/pure-builder` | todo |
 
 ### 1. Program Catalogue (`app/programs.js`)
