@@ -132,6 +132,11 @@ function swapButton(it, bi) {
   if (!cardDay || !KBSwaps.alternatives(it.ex, cardDay.blocks[bi], prog(), KBEx).length) return '';
   return `<button class="swapbtn" data-swap="${bi}:${cardDay.blocks[bi].items.indexOf(it)}" aria-label="Swap ${esc(EX[it.ex].name)}">⇄ Swap</button>`;
 }
+// the swap that put this exercise on the open day (the one Undo removes)
+function undoButton(it) {
+  const p = prog(), s = store.swaps(p.id).filter((x) => x.to === it.ex && (x.day === cardDay.day || (x.onward && x.day <= cardDay.day))).pop();
+  return `<button class="undobtn" data-unswap="${it.ex}" aria-label="Undo swap of ${esc(EX[it.ex].name)}">Undo swap${s && s.onward ? ` <span>(from day ${s.day} on)</span>` : ''}</button>`;
+}
 function exCard(it, i, bi, opts = {}) {
   const e = EX[it.ex], b = opts.block, st = opts.state, ses = opts.session;
   const straight = st && st.f === 'straight';
@@ -143,7 +148,7 @@ function exCard(it, i, bi, opts = {}) {
   return `<article class="ex${straight && done >= sets ? ' fin' : ''}"><div class="exhead"><div class="ord">${opts.label || String(i + 1).padStart(2, '0')}${straight ? ` · ${sets} sets` : ''}</div>${swapButton(it, bi)}</div>
     <button class="exlink" data-ex="${it.ex}" aria-label="${esc(e.name)}: how to and muscles worked"><div class="figbox">${fig(it.ex)}</div>
     <div class="cnt">${count}</div><div class="nm">${esc(e.name)}</div></button>
-    ${it.swappedFrom ? `<span class="notechip swapped">Swapped from ${esc(EX[it.swappedFrom].name)}</span>` : ''}${noteChip(it)}${e.load ? `<div class="ld">${esc(LOAD[e.load])}</div>` : ''}
+    ${it.swappedFrom ? `<span class="notechip swapped">Swapped from ${esc(EX[it.swappedFrom].name)}</span>${undoButton(it)}` : ''}${noteChip(it)}${e.load ? `<div class="ld">${esc(LOAD[e.load])}</div>` : ''}
     <p class="cue">${esc(e.cue)}</p>${work}${pips}</article>`;
 }
 function roundPips(id, total, done, what) {
@@ -252,7 +257,9 @@ function swapSheet(p, w) {
   const reps = (id) => { const e = EX[id]; return `${KBEx.scaleReps(e, e.r[w.level - 1], b.format)} ${unitText(e)}`; };
   const body = st.to
     ? `<p><b>${esc(from.name)}</b> → <b>${esc(EX[st.to].name)}</b> · ${esc(reps(st.to))}</p>
-      <div class="actions"><button class="btn" data-swap-apply="day">Today only</button><button class="btn ghost" data-swap-back="1">Back</button></div>`
+      <div class="choices"><button class="btn" data-swap-apply="day">Today only</button>
+        <button class="btn ghost choice" data-swap-apply="onward">Rest of the program<span>Days ${w.day}–${p.days.length}, wherever ${esc(from.name)} appears</span></button>
+        <button class="btn ghost" data-swap-back="1">Back</button></div>`
     : `<p class="muted">Works the same main muscle (${esc(MUSCLE_NAMES[from.muscles.primary[0]])}) with this program's equipment.</p>
       <ul class="altlist">${KBSwaps.alternatives(it.ex, b, p, KBEx).map((id) => `<li><button data-swap-to="${id}"><b>${esc(EX[id].name)}</b><span>${esc(reps(id))}${EX[id].load ? ' · ' + esc(LOAD[EX[id].load]) : ''}</span></button></li>`).join('')}</ul>`;
   return `<div class="sheetwrap"><button class="sheetbg" data-swap-cancel="1" aria-label="Close"></button>

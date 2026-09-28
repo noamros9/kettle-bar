@@ -59,10 +59,11 @@ document.addEventListener('click', (ev) => {
   if (d.swapTo) { swapState.to = d.swapTo; rerender(); return; }
   if (d.swapBack) { delete swapState.to; rerender(); return; }
   if (d.swapCancel) { swapState = null; rerender(); return; }
+  if (d.unswap) { const p = prog(); store.setSwaps(p.id, KBSwaps.undoSwap(store.swaps(p.id), route.day, d.unswap)); return; }
   if (d.swapApply) {
     const p = prog(), w = dayOf(p.id, route.day), ex = w.blocks[swapState.bi].items[swapState.i].ex, to = swapState.to;
     swapState = null;
-    store.setSwaps(p.id, [...store.swaps(p.id), { day: route.day, ex, to }]);
+    store.setSwaps(p.id, [...store.swaps(p.id), { day: route.day, ex, to, ...(d.swapApply === 'onward' ? { onward: true } : {}) }]);
     return;
   }
   if (d.go === 'program') return go('p-' + prog().id);

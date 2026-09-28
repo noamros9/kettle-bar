@@ -58,3 +58,29 @@ test('a swap of a swap follows the chain, in the order they were made', () => {
   assert.equal(out.blocks[0].items[0].ex, 'diamond_pushup');
   assert.equal(out.blocks[0].items[0].swappedFrom, 'pushup');
 });
+
+// ---------- rest of the program, and undo ----------
+const { undoSwap } = require('../app/swaps.js');
+const on = (n) => ({ ...day, day: n });
+
+test('"rest of the program" applies from that day on, not before', () => {
+  const swaps = [{ day: 10, ex: 'pushup', to: 'pike_pushup', onward: true }];
+  assert.equal(applySwaps(on(9), swaps, cat).blocks[0].items[0].ex, 'pushup');
+  assert.equal(applySwaps(on(10), swaps, cat).blocks[0].items[0].ex, 'pike_pushup');
+  assert.equal(applySwaps(on(60), swaps, cat).blocks[0].items[0].ex, 'pike_pushup');
+});
+
+test('a later today-only swap on top of it wins for that day only', () => {
+  const swaps = [{ day: 10, ex: 'pushup', to: 'pike_pushup', onward: true }, { day: 20, ex: 'pike_pushup', to: 'diamond_pushup' }];
+  assert.equal(applySwaps(on(20), swaps, cat).blocks[0].items[0].ex, 'diamond_pushup');
+  assert.equal(applySwaps(on(21), swaps, cat).blocks[0].items[0].ex, 'pike_pushup');
+});
+
+test('undo removes the swap that made the card, one step at a time; others stay', () => {
+  const onward = { day: 10, ex: 'pushup', to: 'pike_pushup', onward: true };
+  const today = { day: 20, ex: 'pike_pushup', to: 'diamond_pushup' };
+  const other = { day: 20, ex: 'db_row', to: 'renegade_row' };
+  assert.deepEqual(undoSwap([onward, today, other], 20, 'diamond_pushup'), [onward, other]);
+  assert.deepEqual(undoSwap([onward, other], 15, 'pike_pushup'), [other], 'an onward swap is removed for every day');
+  assert.deepEqual(undoSwap([onward], 9, 'pike_pushup'), [onward], 'nothing to undo on a day it does not reach');
+});
