@@ -86,7 +86,7 @@ const allDone = () => Object.fromEntries(PROGRAMS.map((p) => [p.id, store.days(p
 const showImport = (st) => { importState = st; render(); };
 async function readImport(file) {
   try {
-    const { programs, unknown } = KBBackup.parseBackup(await file.text(), { known: PROGRAMS.map((p) => p.id) });
+    const { programs, unknown } = KBBackup.parseBackup(await file.text(), { known: PROGRAMS.map((p) => p.id), uid: store.remote && store.remote.account && store.remote.account.uid });
     showImport({ name: file.name, programs, unknown, diff: KBBackup.diffProgress(allDone(), programs) });
   } catch (e) { showImport({ error: e.message }); }
 }

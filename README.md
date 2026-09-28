@@ -66,6 +66,7 @@ days ticked on the device and in the cloud are merged.
 | `scripts/install-hooks.js` | Installed by `npm install`: a pre-commit hook that runs the coverage gate |
 | `tests-ui/`, `playwright.config.js` | `npm run test:ui`: phone UI tests (390 px, light and dark): every program, days 1/31/60, every exercise |
 | `scripts/serve.js` | Static server the UI tests run against |
+| `scripts/backup-progress.js`, `.github/workflows/backup.yml` | Nightly backup of progress (see Backups) |
 | `scripts/program-times.js` | `npm run times`: each program's shortest and longest day against its target |
 | `firebase-sync.js`, `firebase-config.js`, `firestore.rules` | Google sign-in and Firestore sync |
 | `manifest.webmanifest`, `icons/`, `sw.js` | Installable app, icon, offline support |
@@ -94,6 +95,17 @@ the project uses are in [CONTEXT.md](CONTEXT.md) and the decisions behind it in 
 
 The config values are identifiers, not secrets; `firestore.rules` is what
 limits each account to its own progress.
+
+## Backups
+
+- **Nightly:** `.github/workflows/backup.yml` copies every account's progress to the private
+  `noamros9/kettle-bar-backup` repo as `progress.json`, committing only when something changed; its git
+  history keeps every version. The Firebase key it uses can only read ([ADR 5](docs/adr/0005-backups-hold-no-write-credentials.md)).
+  Secrets: `FIREBASE_SERVICE_ACCOUNT` (key JSON, roles Cloud Datastore Viewer + Firebase Authentication
+  Viewer) and `BACKUP_REPO_TOKEN` (fine-grained token, Contents read/write on `kettle-bar-backup` only).
+- **Restore:** open `progress.json` in the backup repo (or an older version from its history), download it,
+  then in the app: sign in → **Settings** → **Import a backup** → check the days it lists → **Replace**
+  (or **Merge**). It syncs to every device.
 
 Adding a program: add a config to `programs.config.js`, run `node build.js` and `npm test`;
 each program keeps its own progress.

@@ -47,7 +47,7 @@ async function start() {
     const ref = (pid) => fs.doc(db, 'users', user.uid, 'progress', pid);
     kb.attach({
       kind: 'firebase',
-      account: { name: (user.displayName || user.email || '').split(' ')[0], email: user.email },
+      account: { uid: user.uid, name: (user.displayName || user.email || '').split(' ')[0], email: user.email },
       subscribe: (pid, onData, onErr) => fs.onSnapshot(ref(pid), (snap) => onData(snap.exists() ? (snap.data().done || {}) : null), onErr),
       write: (pid, body) => fs.setDoc(ref(pid), body),
     });

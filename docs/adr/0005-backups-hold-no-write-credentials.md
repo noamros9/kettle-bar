@@ -1,6 +1,6 @@
 # 5. Backups hold no write credentials
 
-**Status:** proposed (Sep 2026)
+**Status:** accepted (Sep 2026)
 
 ## Context
 The nightly backup reads every progress document from Firestore with a service account stored as a GitHub
@@ -8,7 +8,8 @@ secret. A restore needs to write to Firestore. A write-capable key in a repo sec
 it leaked or a workflow misbehaved.
 
 ## Decision
-The service account only has a read role (Cloud Datastore Viewer). Restoring goes through the app's
+The service account only has read roles (Cloud Datastore Viewer, and Firebase Authentication Viewer so
+the file can show each account's email). Restoring goes through the app's
 **Import** on the Settings page, signed in as yourself: download the nightly file from the backup repo,
 import it, review the diff, choose merge or replace. Firestore rules already let you write your own
 progress, so no extra credentials exist anywhere.

@@ -76,3 +76,35 @@ test('day lists read as ranges', () => {
   assert.equal(dayRanges([4]), '4');
   assert.equal(dayRanges([]), '');
 });
+
+// ---------- the nightly backup file (all accounts), and restoring from it through import ----------
+const { nightlyFile } = require('../app/backup.js');
+const rows = [
+  { uid: 'u2', email: 'b@x', pid: 'b', done: { 3: 't3' } },
+  { uid: 'u1', email: 'a@x', pid: 'b', done: { 2: 't2', 10: 't10' } },
+  { uid: 'u1', email: 'a@x', pid: 'a', done: {} },
+];
+
+test('the nightly file groups progress by account, in a stable order, with no timestamp', () => {
+  const text = nightlyFile(rows);
+  assert.deepEqual(JSON.parse(text), { format: 'kettle-bar-backup', version: 1, users: {
+    u1: { email: 'a@x', programs: { a: {}, b: { 2: 't2', 10: 't10' } } },
+    u2: { email: 'b@x', programs: { b: { 3: 't3' } } } } });
+  assert.equal(nightlyFile([...rows].reverse()), text, 'same data, same bytes: an unchanged night makes no commit');
+  assert.ok(text.indexOf('"u1"') < text.indexOf('"u2"'));
+  assert.doesNotMatch(text, /exportedAt/);
+});
+
+test('an account without an email is still backed up', () => {
+  assert.deepEqual(JSON.parse(nightlyFile([{ uid: 'u', pid: 'a', done: { 1: 't' } }])).users.u, { email: null, programs: { a: { 1: 't' } } });
+});
+
+test('importing the nightly file restores the signed-in account, or the only account in it', () => {
+  const text = nightlyFile(rows);
+  assert.deepEqual(parseBackup(text, { known, uid: 'u2' }).programs, { b: { 3: 't3' } });
+  assert.deepEqual(parseBackup(nightlyFile([rows[0]]), { known }).programs, { b: { 3: 't3' } });
+  assert.throws(() => parseBackup(text, { known }), /more than one account\. Sign in/);
+  assert.throws(() => parseBackup(text, { known, uid: 'someone-else' }), /more than one account/);
+  assert.throws(() => parseBackup(JSON.stringify({ format: 'kettle-bar-backup', version: 1, users: {} }), { known }), /damaged: it has no accounts/);
+  assert.throws(() => parseBackup(JSON.stringify({ format: 'kettle-bar-backup', version: 1 }), { known }), /damaged: it has no accounts/);
+});
