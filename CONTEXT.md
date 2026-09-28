@@ -79,8 +79,12 @@ day or for the rest of the program (from that day on), and is stored with the pr
 
 **Done**: a day marked finished, stored as `{day: time first marked}` per program.
 
-**Progress Store**: the module that owns done days. Always keeps a **device copy**; can attach one
-**remote** (Firebase) to sync.
+**Program Progress**: one program's done days and swaps, as a value. The only module that knows how progress is
+stored (the cloud document `{ done, swaps, updatedAt }` and the device copy) and how two copies combine (first
+sync, import merge / replace).
+
+**Progress Store**: the module that keeps each program's Program Progress and syncs it. Always keeps a **device
+copy**; can attach one **remote** (Firebase) to sync.
 
 **Sync status**: `local` (not signed in), `signin`, `ok`, `saving`, `offline`, `ro` (read-only), `err`.
 

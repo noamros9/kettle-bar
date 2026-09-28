@@ -67,7 +67,7 @@ test('replace makes each program in the file exactly as the file says; programs 
 });
 
 test('an unknown import mode is a programming error', () => {
-  assert.throws(() => applyImport({}, {}, 'mix'), /Unknown import mode mix/);
+  assert.throws(() => applyImport({}, { a: {} }, 'mix'), /Unknown import mode mix/);
 });
 
 test('day lists read as ranges', () => {

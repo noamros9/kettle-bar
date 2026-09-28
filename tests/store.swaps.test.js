@@ -29,14 +29,14 @@ test('signed in, swaps and done days share one cloud document; a tick never wipe
   const remote = createMemoryRemote();
   const store = make(); store.attach(remote); await tick();
   store.setSwaps('p', [swap]); await store.flush();
-  assert.deepEqual(remote.swaps.p, [swap]);
+  assert.deepEqual(remote.docs.p.swaps, [swap]);
   store.toggle('p', 1); await store.flush();
-  assert.deepEqual(remote.swaps.p, [swap], 'still there after a tick');
-  assert.deepEqual(remote.docs.p, { 1: 't' });
+  assert.deepEqual(remote.docs.p.swaps, [swap], 'still there after a tick');
+  assert.deepEqual(remote.docs.p.done, { 1: 't' });
 });
 
 test('swaps made on another device arrive with the cloud document', async () => {
-  const remote = createMemoryRemote({ p: { 1: 'a' } }, { swaps: { p: [swap] } });
+  const remote = createMemoryRemote({ p: { done: { 1: 'a' }, swaps: [swap] } });
   const store = make(); store.attach(remote); await tick();
   assert.deepEqual(store.swaps('p'), [swap]);
   await remote.write('p', { done: { 1: 'a' }, swaps: [] });
@@ -45,11 +45,11 @@ test('swaps made on another device arrive with the cloud document', async () => 
 
 test('first sign-in keeps swaps from both sides: the cloud\'s first, then the device\'s new ones', async () => {
   const other = { day: 4, ex: 'squat', to: 'goblet_squat' };
-  const remote = createMemoryRemote({}, { swaps: { p: [swap] } });
+  const remote = createMemoryRemote({ p: { done: {}, swaps: [swap] } });
   const store = make(); store.setSwaps('p', [other, swap]);
   store.attach(remote); await tick(); await store.flush();
   assert.deepEqual(store.swaps('p'), [swap, other]);
-  assert.deepEqual(remote.swaps.p, [swap, other]);
+  assert.deepEqual(remote.docs.p.swaps, [swap, other]);
 });
 
 test('view-only: a swap stays on the device', async () => {
@@ -59,7 +59,7 @@ test('view-only: a swap stays on the device', async () => {
   store.setSwaps('p', [swap]); await store.flush();
   assert.equal(store.status, 'ro');
   assert.deepEqual(store.swaps('p'), [swap]);
-  assert.equal(remote.swaps.p, undefined);
+  assert.equal(remote.docs.p, undefined);
 });
 
 test('a full device storage never stops a swap', () => {
@@ -70,7 +70,7 @@ test('a full device storage never stops a swap', () => {
 
 test('signing in before the device copy is loaded still takes the cloud\'s swaps', async () => {
   const store = createStore({ programIds: ['p'], storage: memStorage(), now: () => 't' });
-  store.attach(createMemoryRemote({}, { swaps: { p: [swap] } })); await tick();
+  store.attach(createMemoryRemote({ p: { done: {}, swaps: [swap] } })); await tick();
   assert.deepEqual(store.swaps('p'), [swap]);
 });
 
@@ -78,7 +78,7 @@ test('ticking a program the store was not loaded with, signed in, writes no swap
   const remote = createMemoryRemote();
   const store = make(); store.attach(remote); await tick();
   store.toggle('new', 1); await store.flush();
-  assert.deepEqual(remote.swaps.new, []);
+  assert.deepEqual(remote.docs.new.swaps, []);
 });
 
 test('an import sets days and swaps together, in one write per program', async () => {
@@ -87,8 +87,16 @@ test('an import sets days and swaps together, in one write per program', async (
   let writes = 0; const w = remote.write; remote.write = (...a) => { writes++; return w(...a); };
   await store.replaceAll({ p: { 2: 'b' } }, { p: [swap] });
   assert.deepEqual(store.swaps('p'), [swap]);
-  assert.deepEqual(remote.swaps.p, [swap]);
+  assert.deepEqual(remote.docs.p.swaps, [swap]);
   assert.equal(writes, 1);
   await store.replaceAll({ p: { 3: 'c' } });
   assert.deepEqual(store.swaps('p'), [swap], 'no swaps given: the program keeps its own');
+});
+
+test('progress(pid) hands out a copy of the whole value', () => {
+  const store = make(); store.toggle('p', 2); store.setSwaps('p', [swap]);
+  const v = store.progress('p');
+  assert.deepEqual(v, { done: { 2: 't' }, swaps: [swap] });
+  v.done[9] = 'x'; v.swaps[0].to = 'zzz';
+  assert.deepEqual(store.progress('p'), { done: { 2: 't' }, swaps: [swap] });
 });
