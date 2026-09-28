@@ -59,7 +59,7 @@ days ticked on the device and in the cloud are merged.
 | `firestore.rules` | Security rules: each user reads and writes only their own progress |
 | `sheet.js` | Writes `sheet.html`, a contact sheet of every illustration |
 
-Rebuild after editing: `node build.js`
+Rebuild after editing: `node build.js`. What's planned next is in [ROADMAP.md](ROADMAP.md).
 
 ## Firebase setup (sync)
 
