@@ -99,6 +99,9 @@ and asks **merge** (keep both) or **replace** (the file wins).
 
 ## Code
 
+**Day (module)**: a program day as you'll do it: swaps applied, its live Workout Session (ticks carry over when a
+swap changes the exercises), its alternatives, and swap / undo. The page renders it; stats read days through it.
+
 **Workout Session**: the pure state machine for a day in progress: what is ticked, what the next rest is.
 Returns **instructions** (`rest`, `clear`, `none`) and **phase plans** (warm-up / cool-down sequences).
 

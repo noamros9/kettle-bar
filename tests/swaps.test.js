@@ -84,3 +84,12 @@ test('undo removes the swap that made the card, one step at a time; others stay'
   assert.deepEqual(undoSwap([onward, other], 15, 'pike_pushup'), [other], 'an onward swap is removed for every day');
   assert.deepEqual(undoSwap([onward], 9, 'pike_pushup'), [onward], 'nothing to undo on a day it does not reach');
 });
+
+test('swapBehind names the swap that put an exercise on a day; undo removes exactly that one', () => {
+  const { swapBehind } = require('../app/swaps.js');
+  const onward = { day: 10, ex: 'pushup', to: 'pike_pushup', onward: true };
+  const today = { day: 20, ex: 'pike_pushup', to: 'diamond_pushup' };
+  assert.deepEqual(swapBehind([onward, today], 20, 'diamond_pushup'), today);
+  assert.deepEqual(swapBehind([onward, today], 15, 'pike_pushup'), onward);
+  assert.equal(swapBehind([onward], 9, 'pike_pushup'), undefined);
+});
