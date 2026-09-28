@@ -46,6 +46,16 @@ muscles that day works. Not counted in the workout time.
 **Workout time**: the day's estimated duration from the time model (work + rests), excluding warm-up and
 cool-down.
 
+**Workout minutes / stretching minutes**: a day's estimated workout time, and its warm-up + cool-down time.
+Stats count both and always show them separately.
+
+**Day volume**: what one done day counts for in stats: workout and stretching minutes, sets and reps. Timed
+blocks are converted to sets (EMOM 1 per minute, Tabata 1 per 20 s round, AMRAP/ladder 1 per exercise per 2
+minutes); one-side reps count both sides; holds add sets, not reps.
+
+**Finish card**: the card at the end of a day's page once every set is ticked: what the day added up to, and
+Mark as done.
+
 **Planned volume**: the sets and reps a day is written with. Stats count a done day's planned volume; the
 app does not log what was actually lifted.
 
