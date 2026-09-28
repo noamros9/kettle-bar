@@ -74,3 +74,22 @@ test('summarize adds up the done days inside a time range', () => {
   assert.deepEqual(s, { workouts: 2, workoutMin: 50, stretchMin: 3, sets: 5, reps: 46, muscles: { chest: 3, triceps: 3, front_delts: 1.5, lats: 2, biceps: 1 } });
   assert.deepEqual(summarize([], { programs, EX, from: new Date(0), to: new Date() }), { workouts: 0, workoutMin: 0, stretchMin: 0, sets: 0, reps: 0, muscles: {} });
 });
+
+// ---------- spans and per-week rows ----------
+const { spanRange, weekly } = require('../app/stats.js');
+const wed = new Date(2026, 8, 30, 12); // Wednesday 30 Sep 2026
+const e = (d, pid = 'p', day = 1) => ({ pid, day, time: new Date(2026, 8, d, 9).toISOString() });
+
+test('spans: this week, the last 4 weeks (this one included) and all time from the first week with a workout', () => {
+  assert.deepEqual(spanRange('week', wed, []), { from: new Date(2026, 8, 27), to: new Date(2026, 9, 4) });
+  assert.deepEqual(spanRange('4weeks', wed, []), { from: new Date(2026, 8, 6), to: new Date(2026, 9, 4) });
+  assert.deepEqual(spanRange('all', wed, [e(29), e(10), e(15)]), { from: new Date(2026, 8, 6), to: new Date(2026, 9, 4) });
+  assert.deepEqual(spanRange('all', wed, []), { from: new Date(2026, 8, 27), to: new Date(2026, 9, 4) }, 'nothing done: just this week');
+  assert.throws(() => spanRange('year', wed, []), /Unknown span year/);
+});
+
+test('weekly rows: one per week in the range, newest first, empty weeks included', () => {
+  const programs = { p: { days: [day([{ sets: 3, items: [it('push', 10)] }])] } };
+  const rows = weekly([e(29), e(28), e(10)], { programs, EX, from: new Date(2026, 8, 6), to: new Date(2026, 9, 4) });
+  assert.deepEqual(rows.map((r) => [r.start.getDate(), r.workouts, r.sets]), [[27, 2, 6], [20, 0, 0], [13, 0, 0], [6, 1, 3]]);
+});

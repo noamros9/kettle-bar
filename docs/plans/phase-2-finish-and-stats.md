@@ -16,7 +16,8 @@ replaces today's "All sets finished" box:
 
 **Stats page.** A **Stats** tab in the header, next to Programs and Exercises.
 - **Scope:** all programs together, or one program.
-- **Time span:** this week, last 4 weeks, this program since you started it, all time.
+- **Time span:** this week, last 4 weeks, all time. With one program picked, all time reads "since you started"
+  (changed in ticket 5: "this program since you started it" was the same as all time for one program).
 - **Numbers:** workouts; workout minutes and stretching minutes, shown separately; sets and reps.
 - **Per week:** the same numbers week by week for the longer spans. Weeks start on **Sunday**.
 - **Muscle balance:** front/back heat map, darker = more work, plus a ranked bar list of muscles.
@@ -83,7 +84,7 @@ Files: `app/shell.html`, `app/views.js`, `app/styles.css`, `tests-ui/stats.spec.
 
 ### 5. Time spans + scope + per-week rows
 Files: `app/stats.js`, `tests/stats.test.js`, `app/views.js`, `tests-ui/stats.spec.js`.
-- **Test first:** `summarize` over entries spread across 6 weeks and 2 programs, for each span and scope, including per-week rows with empty weeks.
+- **Test first:** `spanRange` for each span, and `weekly` rows over several weeks including empty ones (newest first). The UI test loads backdated history through Import with the clock fixed.
 - **Done when:** switching span and program changes the numbers and the per-week rows; checked on the phone in both themes.
 
 ### 6. Muscle balance

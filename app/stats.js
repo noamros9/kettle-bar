@@ -5,6 +5,8 @@
      weekStart(date) -> Sunday 00:00 local time of that date's week
      summarize(entries, { programs, EX, from, to }) -> totals of the done days in [from, to)
        entries: [{ pid, day, time }] (time = when the day was first marked done)
+     spanRange('week' | '4weeks' | 'all', now, entries) -> { from, to }   whole weeks, this one included
+     weekly(entries, { programs, EX, from, to }) -> [{ start, ...totals }] one per week, newest first
    Muscle load: each set counts 1 for every main muscle and 0.5 for every secondary muscle. */
 (function (root) {
   // every set a day asks for, as [{ ex, sets, repsPerSet }]; timed blocks are converted to sets
@@ -72,7 +74,27 @@
     }, empty());
   }
 
-  const api = { dayVolume, weekStart, summarize };
+  const plusDays = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
+  function spanRange(span, now, entries) {
+    const thisWeek = weekStart(now), to = plusDays(thisWeek, 7);
+    if (span === 'week') return { from: thisWeek, to };
+    if (span === '4weeks') return { from: plusDays(thisWeek, -21), to };
+    if (span === 'all') {
+      const first = entries.reduce((m, e) => Math.min(m, new Date(e.time).getTime()), now.getTime());
+      return { from: weekStart(new Date(first)), to };
+    }
+    throw new Error('Unknown span ' + span);
+  }
+
+  function weekly(entries, { programs, EX, from, to }) {
+    const rows = [];
+    for (let start = plusDays(to, -7); start >= from; start = plusDays(start, -7)) {
+      rows.push({ start, ...summarize(entries, { programs, EX, from: start, to: plusDays(start, 7) }) });
+    }
+    return rows;
+  }
+
+  const api = { dayVolume, weekStart, summarize, spanRange, weekly };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBStats = api;
 })(typeof window !== 'undefined' ? window : globalThis);
