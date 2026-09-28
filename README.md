@@ -60,6 +60,7 @@ days ticked on the device and in the cloud are merged.
 | `build.js` | Builds all programs and stitches everything into `index.html` (GitHub Pages) |
 | `tests/` | `npm test`: session rules, store sync, program invariants, catalogue, figures, build |
 | `.github/workflows/deploy.yml` | Tests (100% coverage on the core modules), builds and deploys to Pages |
+| `scripts/install-hooks.js` | Installed by `npm install`: a pre-commit hook that runs the coverage gate |
 | `scripts/program-times.js` | `npm run times`: each program's shortest and longest day against its target |
 | `firebase-sync.js`, `firebase-config.js`, `firestore.rules` | Google sign-in and Firestore sync |
 | `manifest.webmanifest`, `icons/`, `sw.js` | Installable app, icon, offline support |
@@ -67,7 +68,8 @@ days ticked on the device and in the cloud are merged.
 
 Build: `npm run build` (writes `index.html`, not committed) · Test: `npm test` · Coverage gate:
 `npm run test:coverage` (100% lines, branches and functions on Session, Store, Builder, Catalogue and
-Figure engine). What's planned next is in [ROADMAP.md](ROADMAP.md); the words
+Figure engine). Run `npm install` once after cloning to install the pre-commit hook that
+enforces the same gate locally. What's planned next is in [ROADMAP.md](ROADMAP.md); the words
 the project uses are in [CONTEXT.md](CONTEXT.md) and the decisions behind it in [docs/adr/](docs/adr/).
 
 ## Firebase setup (sync)
