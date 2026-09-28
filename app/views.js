@@ -22,7 +22,7 @@ function rerender() {
 }
 
 /* ---------------- routing ----------------
-   #programs · #exercises · #settings · #ex-<id> · #p-<pid> · #p-<pid>-d<n>   (#d<n> = Three-Split 60, kept for old links) */
+   #programs · #exercises · #stats · #settings · #ex-<id> · #p-<pid> · #p-<pid>-d<n>   (#d<n> = Three-Split 60, kept for old links) */
 const PBYID = Object.fromEntries(PROGRAMS.map((p) => [p.id, p]));
 const lastPid = () => { try { const v = localStorage.getItem('kb-last-program'); return PBYID[v] ? v : null; } catch (e) { return null; } };
 const rememberPid = (pid) => { try { localStorage.setItem('kb-last-program', pid); } catch (e) {} };
@@ -32,6 +32,7 @@ function parseHash() {
   if (h === 'programs') return { view: 'programs' };
   if (h === 'exercises') return { view: 'library' };
   if (h === 'settings') return { view: 'settings' };
+  if (h === 'stats') return { view: 'stats' };
   const x = h.match(/^ex-([a-z0-9_]+)$/);
   if (x && EX[x[1]]) return { view: 'exercise', ex: x[1], pid: route.pid };
   const pd = h.match(/^p-([a-z0-9-]+)-d(\d+)$/);
@@ -328,11 +329,26 @@ function viewSettings() {
   </section>`;
 }
 
+/* ---------------- stats ---------------- */
+const fmtNum = (n) => Math.round(n).toLocaleString('en-US');
+function statTiles(s) {
+  const tile = (label, value) => `<div class="tile-stat" role="group" aria-label="${label}"><span class="lbl">${label}</span><b>${fmtNum(value)}</b></div>`;
+  return `<div class="kpis">${tile('Workouts', s.workouts)}${tile('Workout minutes', s.workoutMin)}${tile('Stretching minutes', s.stretchMin)}${tile('Sets', s.sets)}${tile('Reps', s.reps)}</div>`;
+}
+function viewStats() {
+  const from = KBStats.weekStart(new Date()), to = new Date(from); to.setDate(to.getDate() + 7);
+  const s = KBStats.summarize(doneEntries(), { programs: PBYID, EX, from, to });
+  const range = `${from.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })} – ${new Date(to - 864e5).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}`;
+  return `<div class="eyebrow">This week · ${range} · all programs</div><h1>Stats</h1>
+    ${s.workouts ? statTiles(s) : '<p class="lede">No workouts marked done this week yet.</p>'}
+    <p class="note">Counts the planned work of each day you marked done: its sets, reps and minutes. Weeks start on Sunday.</p>`;
+}
+
 function render(scrollTop) {
   const app = $('#app');
   const v = route.view;
-  app.innerHTML = v === 'programs' ? viewPrograms() : v === 'library' ? viewLibrary() : v === 'settings' ? viewSettings() : v === 'exercise' ? viewExercise() : v === 'day' ? viewDay() : viewProgram();
-  const section = v === 'library' || v === 'exercise' ? 'library' : v === 'settings' ? 'settings' : 'programs';
+  app.innerHTML = v === 'programs' ? viewPrograms() : v === 'library' ? viewLibrary() : v === 'settings' ? viewSettings() : v === 'stats' ? viewStats() : v === 'exercise' ? viewExercise() : v === 'day' ? viewDay() : viewProgram();
+  const section = v === 'library' || v === 'exercise' ? 'library' : v === 'settings' || v === 'stats' ? v : 'programs';
   document.querySelectorAll('.top [data-go]').forEach((b) => b.setAttribute('aria-current', b.dataset.go === section ? 'page' : 'false'));
   const showTimer = v === 'day';
   $('#timer').hidden = !showTimer; document.body.classList.toggle('has-timer', showTimer);

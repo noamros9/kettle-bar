@@ -52,6 +52,7 @@ document.addEventListener('click', (ev) => {
   if (d.go === 'programs') return go('programs');
   if (d.go === 'library') return go('exercises');
   if (d.go === 'settings') return go('settings');
+  if (d.go === 'stats') return go('stats');
   if (d.backup) return backupAction(d.backup);
   if (d.go === 'program') return go('p-' + prog().id);
   if (d.openProg) return go('p-' + d.openProg);
