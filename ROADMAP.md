@@ -26,7 +26,7 @@ Planned in the PRD [#7](https://github.com/noamros9/kettle-bar/issues/7); glossa
 
 Dropped: smaller download (Noam: "leave it"); desktop UI tests (phone only).
 
-## Phase 2: finish screen + stats
+## Phase 2: finish screen + stats (done, Sep 2026)
 Plan and tickets: [docs/plans/phase-2-finish-and-stats.md](docs/plans/phase-2-finish-and-stats.md).
 Built together because they share the muscle heat map and the week numbers.
 
