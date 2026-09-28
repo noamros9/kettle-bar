@@ -347,3 +347,5 @@ table.weeks tr.empty{color:var(--muted)}table.weeks tr.empty th{font-weight:400}
 .choice span{font-weight:400;font-size:13px;color:var(--muted)}
 .undobtn{background:none;border:0;padding:2px 0;margin-left:6px;font:600 13px var(--body);color:var(--accent);text-decoration:underline}
 .undobtn span{font-weight:400;color:var(--muted)}
+.daysum{margin:4px 0 8px;display:grid;gap:2px;color:var(--muted);font-size:15px;max-width:62ch}
+.daysum span:first-child{color:var(--ink)}

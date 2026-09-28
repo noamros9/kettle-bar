@@ -9,6 +9,8 @@ test('programs list and exercises list', async ({ app }, testInfo) => {
   await app.open('#programs');
   expect(await app.h1()).toBe('Programs');
   await expect(app.page.locator('.pgroup h2')).toHaveCount(9);
+  const first = CONFIGS[0].about.match(/^[^.!?]+[.!?]/)[0];
+  await expect(app.page.locator(`[data-open-prog="${CONFIGS[0].id}"] .pc-main p`)).toHaveText(first);
   expect(await app.sidewaysScroll()).toBe(0);
   await shot(app, testInfo, 'programs');
   await app.go('#exercises');
@@ -21,6 +23,7 @@ for (const cfg of CONFIGS) {
   test(`${cfg.name}: program page and days 1, 31 and 60`, async ({ app }, testInfo) => {
     await app.open(`#p-${cfg.id}`);
     expect(await app.h1()).toBe(cfg.name);
+    await expect(app.page.locator('.phead .lede')).toHaveText(cfg.about);
     expect(await app.sidewaysScroll(), 'program page').toBe(0);
     if (cfg.id === 'three-split-60' || cfg.id === 'tabata-ten') await shot(app, testInfo, `${cfg.id}`);
     for (const n of [1, 31, 60]) {
@@ -28,6 +31,8 @@ for (const cfg of CONFIGS) {
       const name = await app.data(([pid, d]) => PROGRAMS.find((p) => p.id === pid).days[d - 1].name, [cfg.id, n]);
       expect(await app.h1(), `day ${n}`).toBe(name);
       expect(await app.page.locator('#app svg.fig').count(), `day ${n} figures`).toBeGreaterThan(0);
+      const lines = await app.data(([pid, d]) => KBSummary.daySummary(dayOf(pid, d), programs.get(pid), KBEx), [cfg.id, n]);
+      await expect(app.page.locator('.daysum span'), `day ${n} summary`).toHaveText(lines);
       expect(await app.sidewaysScroll(), `day ${n}`).toBe(0);
       if (n === 1) await shot(app, testInfo, `${cfg.id}-d1`);
     }

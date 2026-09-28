@@ -66,6 +66,8 @@ const SUBJECT_ORDER = ['Signature', 'Strength', 'Pull-ups', 'Legs & glutes', 'Ke
 const LENGTHS = [['all', 'Any length'], ['short', 'Up to 25 min'], ['mid', '26–32 min'], ['long', '33 min +']];
 const filters = { subject: 'all', len: 'all' };
 const lenOf = (p) => { const m = (p.minutes[0] + p.minutes[1]) / 2; return m <= 25.5 ? 'short' : m <= 32.5 ? 'mid' : 'long'; };
+// program cards show the paragraph's first sentence
+const firstSentence = (t) => (t.match(/^[^.!?]+[.!?]/) || [t])[0];
 function viewPrograms() {
   const last = lastPid();
   const all = programs.list();
@@ -74,7 +76,7 @@ function viewPrograms() {
   const card = (p) => {
     const n = store.count(p.id), mins = p.minutes[0] === p.minutes[1] ? p.minutes[0] : `${Math.round(p.minutes[0])}–${Math.round(p.minutes[1])}`;
     return `<button class="pcard${p.id === last ? ' current' : ''}" data-open-prog="${p.id}">
-      <div class="pc-main"><span class="eyebrow">${esc(p.subject)}${p.id === last ? ' · current' : ''}</span><b>${esc(p.name)}</b><p>${esc(p.blurb)}</p>
+      <div class="pc-main"><span class="eyebrow">${esc(p.subject)}${p.id === last ? ' · current' : ''}</span><b>${esc(p.name)}</b><p>${esc(firstSentence(p.about || p.blurb))}</p>
         <div class="pc-tags"><span class="chip">${esc(p.split)}</span><span class="chip">~${mins} min</span>${(p.formats || ['straight']).map((f) => `<span class="chip">${fmtFormat[f]}</span>`).join('')}${p.equip === 'kb' ? '<span class="chip">Kettlebell only</span>' : p.equip === 'bw' ? '<span class="chip">No equipment</span>' : ''}</div></div>
       <div class="pc-prog"><span class="num">${n}/${p.dayCount}</span><div class="bar"><b style="width:${(n / p.dayCount) * 100}%"></b></div></div></button>`;
   };
@@ -108,7 +110,7 @@ function viewProgram() {
   }).join('');
   const mins = p.minutes ? `~${Math.round(p.minutes[0])}–${Math.round(p.minutes[1])} min` : '';
   return `<div class="crumbs"><button class="back" data-go="programs">← All programs</button></div>
-    <div class="phead"><div><div class="eyebrow">${esc(p.subject || 'Program')} · ${esc(p.split || '')} ${mins ? '· ' + mins : ''}</div><h1>${esc(p.name)}</h1><p class="lede">${esc(p.blurb)}</p>
+    <div class="phead"><div><div class="eyebrow">${esc(p.subject || 'Program')} · ${esc(p.split || '')} ${mins ? '· ' + mins : ''}</div><h1>${esc(p.name)}</h1><p class="lede">${esc(p.about || p.blurb)}</p>
       ${p.gear ? `<p class="gear">${esc(p.gear)}</p>` : ''}</div>
     <div class="progress"><div class="big num">${n}<small> / ${p.days.length} days</small></div><div class="bar"><b style="width:${(n / p.days.length) * 100}%"></b></div></div></div>
   <div class="cycle">${Object.entries(TY).map(([k, t]) => `<div><i class="dot" style="--c:${t.c}"></i><b>${esc(t.label)}</b><span class="days">${cycleDays(p, k)}</span></div>`).join('')}</div>
@@ -273,6 +275,7 @@ function viewDay() {
   return `<div class="crumbs"><button class="back" data-go="program">← ${esc(p.name)}</button>
       <div class="step"><button data-day="${w.day - 1}" ${w.day <= 1 ? 'disabled' : ''} aria-label="Previous day">‹</button><button data-day="${w.day + 1}" ${w.day >= p.days.length ? 'disabled' : ''} aria-label="Next day">›</button></div></div>
     <div class="whead"><div><div class="eyebrow">Day ${w.day} · ${esc(p.levels[w.level - 1])}</div><h1>${esc(w.name)}</h1>
+      <p class="daysum">${KBSummary.daySummary(w, p, KBEx).map((l) => `<span>${esc(l)}</span>`).join('')}</p>
       <div class="meta"><span class="ty"><i class="dot" style="--c:${t.c}"></i>${esc(t.label || w.title)}</span><span>About ${w.est} min${w.stretchMin ? ` + ${w.stretchMin} min stretching` : ''}</span><span>${nEx} exercises</span></div></div>
       <button class="btn ${isD ? 'done' : ''}" data-toggle="${w.day}" aria-pressed="${isD}">${isD ? '✓ Done' : 'Mark as done'}</button></div>
     <p class="how">Tap a set, round or pair number when you finish it and the right rest starts on the timer. EMOM, AMRAP, Tabata and ladder blocks have a Start button that runs the clock for you.</p>
