@@ -89,7 +89,7 @@ function viewPrograms() {
   const card = (p) => {
     const n = store.count(p.id), mins = p.minutes[0] === p.minutes[1] ? p.minutes[0] : `${Math.round(p.minutes[0])}–${Math.round(p.minutes[1])}`;
     return `<button class="pcard${p.id === last ? ' current' : ''}" data-open-prog="${p.id}">
-      <div class="pc-main"><span class="eyebrow">${esc(p.subject)}${p.id === last ? ' · current' : ''}</span><b>${esc(p.name)}</b><p>${esc(firstSentence(p.about || p.blurb))}</p>
+      <div class="pc-main"><span class="eyebrow">${esc(p.subject)}${p.id === last ? ' · current' : ''}${store.round(p.id) > 1 ? ` · Round ${store.round(p.id)}` : ''}</span><b>${esc(p.name)}</b><p>${esc(firstSentence(p.about || p.blurb))}</p>
         <div class="pc-tags"><span class="chip">${esc(p.split)}</span><span class="chip">~${mins} min</span>${(p.formats || ['straight']).map((f) => `<span class="chip">${fmtFormat[f]}</span>`).join('')}${p.equip === 'kb' ? '<span class="chip">Kettlebell only</span>' : p.equip === 'bw' ? '<span class="chip">No equipment</span>' : ''}</div></div>
       <div class="pc-prog"><span class="num">${n}/${p.dayCount}</span><div class="bar"><b style="width:${(n / p.dayCount) * 100}%"></b></div></div></button>`;
   };
@@ -102,8 +102,21 @@ function viewPrograms() {
 }
 
 /* ---------------- program page ---------------- */
+// Start a new round: { pid } while the sheet is open. Each rest-of-program swap: keep it, or back to the original.
+let roundState = null;
+function roundSheet(p, r) {
+  if (!roundState || roundState.pid !== p.id) return '';
+  const onward = KBProgress.onwardSwaps(store.progress(p.id));
+  const list = onward.length
+    ? `<p>Your rest-of-program swaps. Untick any to go back to the original exercise.</p><ul class="keeplist">${onward.map((s, i) => `<li><label><input type="checkbox" data-keep="${i}" checked aria-label="Keep ${esc(EX[s.to].name)} instead of ${esc(EX[s.ex].name)}"><span><b>${esc(EX[s.to].name)}</b> instead of ${esc(EX[s.ex].name)}</span></label></li>`).join('')}</ul>`
+    : '';
+  return `<div class="sheetwrap"><button class="sheetbg" data-round-cancel="1" aria-label="Close"></button>
+    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="round-h"><h2 id="round-h">Start Round ${r + 1}</h2>
+    <p class="muted">Days start again from day 1. Round ${r} stays in your stats, as it is.</p>${list}
+    <div class="actions"><button class="btn" data-round-confirm="1">Start Round ${r + 1}</button><button class="btn ghost" data-round-cancel="1">Cancel</button></div></div></div>`;
+}
 function viewProgram() {
-  const p = prog(), n = store.count(p.id), nx = nextDay(p.id), TY = typesOf(p);
+  const p = prog(), n = store.count(p.id), nx = nextDay(p.id), TY = typesOf(p), r = store.round(p.id);
   rememberPid(p.id);
   const nw = nx ? p.days[nx - 1] : null;
   const levels = [0, 1, 2].map((li) => {
@@ -125,11 +138,12 @@ function viewProgram() {
   return `<div class="crumbs"><button class="back" data-go="programs">← All programs</button></div>
     <div class="phead"><div><div class="eyebrow">${esc(p.subject || 'Program')} · ${esc(p.split || '')} ${mins ? '· ' + mins : ''}</div><h1>${esc(p.name)}</h1><p class="lede">${esc(p.about || p.blurb)}</p>
       ${p.gear ? `<p class="gear">${esc(p.gear)}</p>` : ''}</div>
-    <div class="progress"><div class="big num">${n}<small> / ${p.days.length} days</small></div><div class="bar"><b style="width:${(n / p.days.length) * 100}%"></b></div></div></div>
+    <div class="progress">${r > 1 ? `<div class="eyebrow">Round ${r}</div>` : ''}<div class="big num">${n}<small> / ${p.days.length} days</small></div><div class="bar"><b style="width:${(n / p.days.length) * 100}%"></b></div>
+      <button class="btn ghost roundbtn" data-round-start="1">Start Round ${r + 1}</button></div></div>
   <div class="cycle">${Object.entries(TY).map(([k, t]) => `<div><i class="dot" style="--c:${t.c}"></i><b>${esc(t.label)}</b><span class="days">${cycleDays(p, k)}</span></div>`).join('')}</div>
   ${nw ? `<div class="nextup"><div class="t"><span class="eyebrow">Next up · Day ${nw.day}</span><b>${esc(nw.name)}</b><span>${esc((TY[nw.type] || {}).label || nw.title)} · about ${nw.est} min</span></div><button class="btn" data-day="${nw.day}">Open workout</button></div>`
-       : `<div class="nextup"><div class="t"><b>All ${p.days.length} days done</b><span>That's the full program.</span></div></div>`}
-  ${levels}`;
+       : `<div class="nextup"><div class="t"><b>All ${p.days.length} days done</b><span>That's the full program. Start Round ${r + 1} to go again.</span></div></div>`}
+  ${levels}${roundSheet(p, r)}`;
 }
 
 /* ---------------- workout page ---------------- */
@@ -225,11 +239,11 @@ function stretchBlock(b, key, label, n, ses) {
 const heatLegend = () => `<div class="heatkey" aria-hidden="true"><span>Less</span>${[1, 2, 3, 4].map((n) => `<i class="mm-l${n}"></i>`).join('')}<span>More</span></div>`;
 // a day as you'll do it (or did it): the program's day with its swaps applied
 // a day as you'll do it (or did it): swaps applied; the Day module (days, made in main.js) knows how
-const dayOf = (pid, n) => days.resolved(pid, n);
+const dayOf = (pid, n, round) => days.resolved(pid, n, round);
 // every day marked done, in every program: [{ pid, day, time }]
-const doneEntries = () => programs.ids().flatMap((pid) => Object.entries(store.days(pid)).map(([day, time]) => ({ pid, day: +day, time })));
+const doneEntries = () => programs.ids().flatMap((pid) => store.entries(pid)); // every round
 // the stats for a scope ('all' or a program id) and a span, now (app/stats.js report)
-const statsReport = (scope, span) => KBStats.report({ entries: doneEntries(), dayOf, EX, names: MUSCLE_NAMES }, { scope, span, now: new Date() });
+const statsReport = (scope, span, round) => KBStats.report({ entries: doneEntries(), dayOf, EX, names: MUSCLE_NAMES }, { scope, round, span, now: new Date() });
 function weekLine() {
   if (stillLoading(doneEntries().map((x) => x.pid)).length) return 'This week: loading…';
   const s = statsReport('all', 'week').totals;
@@ -288,7 +302,7 @@ function viewDay() {
   const nEx = w.blocks.reduce((n, b) => n + b.items.length, 0);
   return `<div class="crumbs"><button class="back" data-go="program">← ${esc(p.name)}</button>
       <div class="step"><button data-day="${w.day - 1}" ${w.day <= 1 ? 'disabled' : ''} aria-label="Previous day">‹</button><button data-day="${w.day + 1}" ${w.day >= p.days.length ? 'disabled' : ''} aria-label="Next day">›</button></div></div>
-    <div class="whead"><div><div class="eyebrow">Day ${w.day} · ${esc(p.levels[w.level - 1])}</div><h1>${esc(w.name)}</h1>
+    <div class="whead"><div><div class="eyebrow">${store.round(p.id) > 1 ? `Round ${store.round(p.id)} · ` : ''}Day ${w.day} · ${esc(p.levels[w.level - 1])}</div><h1>${esc(w.name)}</h1>
       <p class="daysum">${KBSummary.daySummary(w, p, KBEx).map((l) => `<span>${esc(l)}</span>`).join('')}</p>
       <div class="meta"><span class="ty"><i class="dot" style="--c:${t.c}"></i>${esc(t.label || w.title)}</span><span>About ${w.est} min${w.stretchMin ? ` + ${w.stretchMin} min stretching` : ''}</span><span>${nEx} exercises</span></div></div>
       <button class="btn ${isD ? 'done' : ''}" data-toggle="${w.day}" aria-pressed="${isD}">${isD ? '✓ Done' : 'Mark as done'}</button></div>
@@ -348,11 +362,12 @@ function importReview(st) {
     return `<li>${esc(programs.summary(pid).name)}: ${parts.join(' · ')}</li>`;
   };
   const swapLine = st.swapNotes.length ? `<p class="muted">Swaps: ${st.swapNotes.map((x) => `${esc(programs.summary(x.pid).name)} has ${x.file} in the file (you have ${x.mine})`).join('; ')}. Merge keeps both; Replace uses the file's.</p>` : '';
+  const roundLine = st.roundNotes.length ? `<p class="muted">Rounds: ${st.roundNotes.map((x) => `${esc(programs.summary(x.pid).name)} is on Round ${x.file} in the file (you're on Round ${x.mine})`).join('; ')}. Merge keeps whichever is further along.</p>` : '';
   const skipped = st.unknown.length ? `<p class="muted">Skipped ${plural(st.unknown.length, 'program')} this app doesn't have: ${st.unknown.map(esc).join(', ')}</p>` : '';
   const body = st.hasChanges
-    ? `<ul class="difflist">${ids.map(line).join('')}</ul>${swapLine}${skipped}
+    ? `<ul class="difflist">${ids.map(line).join('')}</ul>${swapLine}${roundLine}${skipped}
       <p class="muted">Merge keeps every day from both. Replace makes each program in the file match it exactly${remove ? ', so the days marked − are removed' : ''}.</p>
-      <div class="actions">${add || st.swapNotes.length ? `<button class="btn" data-backup="merge">Merge${add ? `: add ${plural(add, 'day')}` : ''}</button>` : ''}
+      <div class="actions">${add || st.swapNotes.length || st.roundNotes.length ? `<button class="btn" data-backup="merge">Merge${add ? `: add ${plural(add, 'day')}` : ''}</button>` : ''}
         <button class="btn ghost" data-backup="replace">Replace: add ${add}, remove ${remove}</button>
         <button class="btn ghost" data-backup="cancel">Cancel</button></div>`
     : `<p>This backup matches your progress. Nothing to import.</p>${skipped}<div class="actions"><button class="btn ghost" data-backup="cancel">Close</button></div>`;
@@ -406,15 +421,16 @@ function muscleBalance(r, what) {
 function viewStats() {
   const { span, pid } = statsView;
   if (stillLoading(doneEntries().map((x) => x.pid)).length) return `<h1>Stats</h1><p class="loading lede" role="status">Loading your programs…</p>`;
-  const r = statsReport(pid, span), { from, to } = r, all = doneEntries();
+  const r = statsReport(pid, span, pid === 'all' ? undefined : statsView.round), { from, to } = r, all = doneEntries();
   const used = programs.list().filter((p) => all.some((e) => e.pid === p.id) || p.id === pid);
-  const scopeName = pid === 'all' ? 'all programs' : programs.summary(pid).name;
+  const scopeName = pid === 'all' ? 'all programs' : programs.summary(pid).name + (statsView.round ? ` · Round ${statsView.round}` : '');
   const when = span === 'all' ? (pid === 'all' ? 'all time' : 'since you started') : `${shortDate(from)} – ${shortDate(new Date(to - 864e5))}`;
   const none = { week: 'this week', '4weeks': 'in the last 4 weeks', all: '' }[span];
   return `<div class="eyebrow">${esc(pid === 'all' ? `${when} · ${scopeName}` : `${scopeName} · ${when}`)}</div><h1>Stats</h1>
     <div class="statbar">
       <div class="filters" role="group" aria-label="Time span">${SPANS.map(([k, l]) => `<button class="fchip" data-stat-span="${k}" aria-pressed="${span === k}">${l}</button>`).join('')}</div>
       <div class="scope"><label for="stats-scope">Program</label><select id="stats-scope"><option value="all">All programs</option>${used.map((p) => `<option value="${p.id}"${p.id === pid ? ' selected' : ''}>${esc(p.name)}</option>`).join('')}</select></div>
+      ${pid !== 'all' && store.round(pid) > 1 ? `<div class="scope"><label for="stats-round">Round</label><select id="stats-round"><option value="all">All rounds</option>${Array.from({ length: store.round(pid) }, (_, i) => `<option value="${i + 1}"${statsView.round === i + 1 ? ' selected' : ''}>Round ${i + 1}</option>`).join('')}</select></div>` : ''}
     </div>
     ${r.hasHistory ? statTiles(r.totals) + muscleBalance(r, `${scopeName}, ${when}`) + (r.weeks ? weekRows(r.weeks) : '') : `<p class="lede">No workouts marked done ${none || 'yet'}${none ? ' yet' : ''}.</p>`}
     <p class="note">Counts the planned work of each day you marked done: its sets, reps and minutes. Weeks start on Sunday.</p>`;

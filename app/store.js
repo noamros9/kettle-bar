@@ -12,7 +12,7 @@
     const emit = (ev, x) => listeners[ev].forEach((f) => f(x));
     const progress = {};
     let remote = null, unsubs = [], seen = {}, queue = Promise.resolve(), readonly = false, auth = null, status = 'local';
-    const keys = (pid) => ({ done: 'kb-progress-' + pid, swaps: 'kb-swaps-' + pid });
+    const keys = (pid) => ({ done: 'kb-progress-' + pid, swaps: 'kb-swaps-' + pid, past: 'kb-past-' + pid });
     const setStatus = (s) => { status = s; emit('status', s); };
     const of = (pid) => progress[pid] || P.empty();
 
@@ -20,12 +20,12 @@
       programIds.forEach((pid) => {
         const k = keys(pid);
         const read = (key) => { try { return storage.get(key); } catch (e) { return null; } };
-        progress[pid] = P.fromDevice({ done: read(k.done), swaps: read(k.swaps) });
+        progress[pid] = P.fromDevice({ done: read(k.done), swaps: read(k.swaps), past: read(k.past) });
       });
     }
     function save(pid) {
       const k = keys(pid), text = P.toDevice(progress[pid]);
-      try { storage.set(k.done, text.done); storage.set(k.swaps, text.swaps); } catch (e) { /* storage full or blocked: keep going */ }
+      try { storage.set(k.done, text.done); storage.set(k.swaps, text.swaps); storage.set(k.past, text.past); } catch (e) { /* storage full or blocked: keep going */ }
     }
     // a new value for one program: device copy, cloud (when signed in and allowed), change event
     function set(pid, value) {
@@ -59,9 +59,11 @@
     }
     const toggle = (pid, day) => set(pid, P.toggle(of(pid), day, now()));
     const setSwaps = (pid, list) => set(pid, P.withSwaps(of(pid), list));
+    // a new round: the current one is kept as it was; `keep` = the onward swaps to carry over
+    const startRound = (pid, keep) => set(pid, P.startRound(of(pid), now(), keep));
     // set whole programs at once (an import): { pid: Program Progress }; one write per program
     function replaceAll(values) {
-      Object.entries(values).forEach(([pid, v]) => set(pid, P.withSwaps({ done: { ...v.done }, swaps: [] }, v.swaps)));
+      Object.entries(values).forEach(([pid, v]) => set(pid, P.fromDoc(v))); // fromDoc fills in what a value leaves out
       return queue;
     }
     function write(pid) {
@@ -82,8 +84,10 @@
       return queue;
     }
     return {
-      load, attach, detach, toggle, replaceAll, setSwaps,
-      progress: (pid) => { const v = of(pid); return { done: { ...v.done }, swaps: v.swaps.map((x) => ({ ...x })) }; },
+      load, attach, detach, toggle, replaceAll, setSwaps, startRound,
+      round: (pid) => P.round(of(pid)),
+      entries: (pid) => P.entries(pid, of(pid)),
+      progress: (pid) => P.fromDoc(of(pid)), // a copy
       swaps: (pid) => of(pid).swaps.map((x) => ({ ...x })),
       isDone: (pid, day) => P.isDone(of(pid), day),
       count: (pid) => P.count(of(pid)),

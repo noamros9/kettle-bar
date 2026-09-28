@@ -34,6 +34,8 @@ days ticked on the device and in the cloud are merged.
   **Import a backup** shows which days it would add or remove, then asks **Merge** or **Replace**.
 - Installed on the home screen, long-press the app icon → **Today's workout** opens the next day you haven't
   done in the program you opened last.
+- **Start Round 2** on a program page does the program again from day 1; earlier rounds stay in your stats (Stats can
+  narrow to one round).
 - Tap a day to open the workout; tick the circle on a tile or press
   **Mark as done** to record it.
 - Every workout starts with a 1-minute warm-up and ends with 2 minutes of

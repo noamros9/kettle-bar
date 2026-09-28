@@ -1,7 +1,7 @@
 /* The Day: a program day as you'll do it, with its live Workout Session and the swap actions.
 
      const days = createDays({ programs, store, cat, createSession });
-     days.resolved(pid, n) -> the day with its swaps applied (for stats), or nothing
+     days.resolved(pid, n, round?) -> the day with that round's swaps applied (for stats), or nothing
      days.open(pid, n) -> a Day, or nothing for an unknown program or day:
        D.program, D.day                 the program and the day as you'll do it
        D.session()                      its Workout Session; the same one while the day stays open, and
@@ -11,10 +11,16 @@
        D.undo(bi, i), D.swapBehind(bi, i)   the swap that put this item here, and undoing it
 
    Swaps are stored with the program's progress (Progress Store); the rules are in app/swaps.js. */
-(function (root, S) {
+(function (root, S, P) {
   function createDays({ programs, store, cat, createSession }) {
     const live = { key: null, exs: null, session: null };
-    const resolved = (pid, n) => { const w = programs.day(pid, n); return w && S.applySwaps(w, store.swaps(pid), cat); };
+    // a day with its swaps: the current round's, or a past round's (for stats)
+    const resolved = (pid, n, round) => {
+      const w = programs.day(pid, n);
+      if (!w) return undefined;
+      const swaps = round === undefined ? store.swaps(pid) : P.swapsOfRound(store.progress(pid), round);
+      return S.applySwaps(w, swaps, cat);
+    };
 
     function open(pid, n) {
       const program = programs.get(pid), day = resolved(pid, n);
@@ -40,6 +46,7 @@
   }
 
   const api = { createDays };
-  /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
+  /* node:coverage ignore next 3 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBDay = api;
-})(typeof window !== 'undefined' ? window : globalThis, typeof module !== 'undefined' && module.exports ? require('./swaps.js') : window.KBSwaps);
+})(typeof window !== 'undefined' ? window : globalThis, typeof module !== 'undefined' && module.exports ? require('./swaps.js') : window.KBSwaps,
+  typeof module !== 'undefined' && module.exports ? require('./progress.js') : window.KBProgress);

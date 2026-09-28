@@ -75,6 +75,9 @@ app does not log what was actually lifted.
 kind (reps or seconds) and fits the program's equipment. It gets its own reps for the level. A swap is for one
 day or for the rest of the program (from that day on), and is stored with the program's progress.
 
+**Round**: one time through a program's 60 days. "Start Round 2" (any time) keeps Round 1 as it was, starts again from
+day 1 with the same plan, and asks which rest-of-program swaps to keep. Stats count every round unless narrowed to one.
+
 ## Progress
 
 **Done**: a day marked finished, stored as `{day: time first marked}` per program.

@@ -14,7 +14,7 @@ In Noam's order; one ticket = one branch = one PR, each starting from its **Test
 | 1 | Summaries: a paragraph per program, two lines per day | feature | 0 | `feature/summaries` | done (PR #43) |
 | 2 | Home-screen shortcut to today's workout | feature | 0 | `feature/today-shortcut` | done (PR #44) |
 | 3 | Load programs when opened, fully offline | feature | 0 | `feature/load-on-open` | done (PR #45) |
-| 4 | Do a program again: rounds | feature | 3 | `feature/rounds` | todo |
+| 4 | Do a program again: rounds | feature | 3 | `feature/rounds` | done (PR #46) |
 
 ### 1. Summaries (#18)
 - **Program paragraphs**, written by hand: one `about` per program in `programs.config.js` (all 29). Each says

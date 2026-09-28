@@ -57,6 +57,13 @@ document.addEventListener('click', (ev) => {
   if (d.go === 'settings') return go('settings');
   if (d.go === 'stats') return go('stats');
   if (d.backup) return backupAction(d.backup);
+  if (d.roundStart) { roundState = { pid: prog().id }; rerender(); return; }
+  if (d.roundCancel) { roundState = null; rerender(); return; }
+  if (d.roundConfirm) {
+    const pid = roundState.pid, onward = KBProgress.onwardSwaps(store.progress(pid));
+    const keep = onward.filter((_, i) => { const box = document.querySelector(`[data-keep="${i}"]`); return box && box.checked; });
+    roundState = null; store.startRound(pid, keep); window.scrollTo(0, 0); return;
+  }
   if (d.retry) { delete loadFailures[d.retry]; render(); return; }
   if (d.statSpan) { statsView.span = d.statSpan; render(); return; }
   if (d.swap) { const [bi, i] = d.swap.split(':').map(Number); swapState = { key: prog().id + ':' + route.day, bi, i }; rerender(); return; }
@@ -91,7 +98,8 @@ function download(name, text) {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 function exportProgress() {
-  download(KBBackup.fileName(new Date()), JSON.stringify(KBBackup.exportProgress(allDone(), { swaps: allSwaps() }), null, 2));
+  const rounds = Object.fromEntries(programs.ids().map((pid) => [pid, store.progress(pid).past]));
+  download(KBBackup.fileName(new Date()), JSON.stringify(KBBackup.exportProgress(allDone(), { swaps: allSwaps(), rounds }), null, 2));
 }
 
 const allDone = () => Object.fromEntries(programs.ids().map((pid) => [pid, store.days(pid)]));
@@ -113,7 +121,8 @@ function backupAction(what) {
 }
 document.addEventListener('change', (e) => {
   if (e.target.id === 'import-file' && e.target.files[0]) readImport(e.target.files[0]);
-  if (e.target.id === 'stats-scope') { statsView.pid = e.target.value; render(); }
+  if (e.target.id === 'stats-scope') { statsView.pid = e.target.value; statsView.round = undefined; render(); }
+  if (e.target.id === 'stats-round') { statsView.round = e.target.value === 'all' ? undefined : +e.target.value; render(); }
   if (e.target.id === 'voice-toggle') { try { localStorage.setItem('kb-voice', e.target.checked ? 'on' : 'off'); } catch (err) { /* blocked: stays on */ } }
 });
 
