@@ -44,6 +44,8 @@ days ticked on the device and in the cloud are merged.
 | `build.js` | Runs the generator and writes `index.html` |
 | `firebase-sync.js` | Google sign-in and Firestore sync (GitHub Pages build) |
 | `firebase-config.js` | Your Firebase project config (`null` = device only) |
+| `manifest.webmanifest`, `icons/` | App name and icon for Add to Home screen / Install |
+| `sw.js` | Service worker: newest version when online, still opens offline |
 | `firestore.rules` | Security rules: each user reads and writes only their own progress |
 | `program.json` | The generated program |
 | `sheet.js` | Writes `sheet.html`, a contact sheet of every illustration |
