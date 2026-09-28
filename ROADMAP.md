@@ -8,12 +8,16 @@ future work doesn't re-ask them. Order within a phase is the build order.
 - Architecture review findings 1–5: Workout Session, Progress Store, Program Builder, Exercise Catalogue /
   Figure engine, app split into modules. 23 tests (`npm test`).
 
-## Phase 1: foundations
-1. **Finish the tests** ([#5](https://github.com/noamros9/kettle-bar/issues/5)): Playwright UI smoke tests in the
-   repo, GitHub Actions on every push.
-2. **Backup of progress** ([#6](https://github.com/noamros9/kettle-bar/issues/6)): waiting on Noam's two decisions in
-   the issue.
-3. **Smaller download**: load each program's days when it's opened instead of all 29 up front (~1.6 MB today).
+## Phase 1: a safety net
+Planned in the PRD [#7](https://github.com/noamros9/kettle-bar/issues/7); glossary in [CONTEXT.md](CONTEXT.md), decisions in
+[docs/adr/](docs/adr/). Slices, in build order:
+1. Retire the claude.ai build (#8).
+2. Deploy from GitHub Actions only when unit tests pass, 100% coverage on core modules (#9); pre-commit hook (#10).
+3. Phone UI tests in light and dark: every program and day renders (#11); workout flows with a fast clock (#12).
+4. Settings page with Export (#13); Import showing the diff, then merge or replace, asked each time (#14).
+5. Nightly backup to a private `kettle-bar-backup` repo, history kept forever; restore = import (#15).
+
+Dropped: smaller download (Noam: "leave it"); desktop UI tests (phone only).
 
 ## Phase 2: finish screen + stats
 Built together because they share the muscle heat map and the week numbers.

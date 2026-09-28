@@ -1,0 +1,90 @@
+# Kettle & Bar: context
+
+The words this project uses, so code, issues and conversations mean the same thing by them.
+Decisions with a "why" live in [docs/adr/](docs/adr/). What's planned lives in [ROADMAP.md](ROADMAP.md).
+
+## Training
+
+**Program**: a named plan of 60 numbered **Days** (e.g. *Three-Split 60*, *Iron PPL*). Each program keeps
+its own progress. Identified by an id (`three-split-60`, `iron-ppl`).
+
+**Signature program**: one of the five hand-shaped straight-set splits (Three-, Four-, Two-, Five-Split 60,
+Full-Body Duo 60). The other 24 are **library programs**, three per **Subject**.
+
+**Subject**: a library shelf: strength, pull-ups, conditioning, mobility & core, kettlebell only, busy week,
+bodyweight, legs & glutes.
+
+**Day**: one workout, numbered 1–60. Days are numbers, not dates: rest days are up to the user.
+
+**Day type**: the kind of workout a day is within its program's **Split** (e.g. "Chest, back & abs").
+Each day type has its own time range.
+
+**Split**: the repeating cycle of day types (Three-Split 60 repeats three day types).
+
+**Level**: I (days 1–20), II (21–40), III (41–60). Level I starts at intermediate.
+
+**Lever**: how a program gets harder from one level to the next: *reps*, *weight* (go one weight up),
+*variation* (a harder exercise), or *tempo* (3 s lowering). Each program picks a lever per level.
+
+**Block**: one part of a day's workout in one **Format**, holding one or more exercises. Every day ends with
+an **abs block** (no bar, 3 sets, weights allowed).
+
+**Format**: how a block is performed: *straight sets*, *superset*, *circuit*, *EMOM*, *AMRAP*, *Tabata*,
+*ladder*.
+
+**Set / Pair / Round**: the unit you tick while training. A *set* belongs to one exercise (straight sets);
+a *pair* is one set of each exercise in a superset; a *round* is one pass through a circuit or ladder.
+
+**Hold**: an exercise measured in seconds (plank, dead hang). Runs a timer with a 3 s get-ready.
+
+**Rest**: the pause the timer runs after a tick: 30 s between sets, 60 s between exercises, 120 s before
+abs (plus superset / round / block rests). Ends with one beep.
+
+**Warm-up / Cool-down**: about 1 min of mobility before and 2 min of **Stretches** after, chosen for the
+muscles that day works. Not counted in the workout time.
+
+**Workout time**: the day's estimated duration from the time model (work + rests), excluding warm-up and
+cool-down.
+
+**Planned volume**: the sets and reps a day is written with. Stats count a done day's planned volume; the
+app does not log what was actually lifted.
+
+## Exercises
+
+**Exercise**: an entry in the **Exercise Catalogue** with reps per level, muscles, cue, equipment and
+**Poses** (the stick-figure positions).
+
+**Primary / secondary muscles**: drawn dark and light on the **Muscle map** (front and back body).
+
+**Alternative**: an easier or different exercise shown under the main one.
+
+## Progress
+
+**Done**: a day marked finished, stored as `{day: time first marked}` per program.
+
+**Progress Store**: the module that owns done days. Always keeps a **device copy**; can attach one
+**remote** (Firebase) to sync.
+
+**Sync status**: `local` (not signed in), `signin`, `ok`, `saving`, `offline`, `ro` (read-only), `err`.
+
+**First sync**: the first contact with the cloud after signing in; ticks on either side are kept, earliest
+time wins.
+
+**Backup**: a copy of progress outside the app's normal storage. Two kinds: the **nightly backup** (a file
+in the private `kettle-bar-backup` repo) and an **export** (a file you download from Settings).
+
+**Import**: loading a backup file back in. Always shows the **diff** (days added and removed per program)
+and asks **merge** (keep both) or **replace** (the file wins).
+
+## Code
+
+**Workout Session**: the pure state machine for a day in progress: what is ticked, what the next rest is.
+Returns **instructions** (`rest`, `clear`, `none`) and **phase plans** (warm-up / cool-down sequences).
+
+**Clock**: runs the session's instructions in the page: timer, beeps, wake lock, workout clock.
+
+**Program Builder**: turns a program's config into 60 days fitted to each day type's time range.
+Three-Split 60 is **frozen** (read from JSON, not generated).
+
+**Adapter**: an implementation behind one of the store's seams: storage (localStorage / in-memory) or
+remote (Firebase / in-memory).

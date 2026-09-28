@@ -63,7 +63,8 @@ days ticked on the device and in the cloud are merged.
 | `manifest.webmanifest`, `icons/`, `sw.js` | Installable app, icon, offline support |
 | `sheet.js` | Writes `sheet.html`, a contact sheet of every illustration |
 
-Build: `node build.js` · Test: `npm test`. What's planned next is in [ROADMAP.md](ROADMAP.md).
+Build: `node build.js` · Test: `npm test`. What's planned next is in [ROADMAP.md](ROADMAP.md); the words
+the project uses are in [CONTEXT.md](CONTEXT.md) and the decisions behind it in [docs/adr/](docs/adr/).
 
 ## Firebase setup (sync)
 
