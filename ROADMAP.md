@@ -12,6 +12,8 @@ future work doesn't re-ask them. Order within a phase is the build order.
 - **Test a restore from the nightly backup** on the phone ([#16](https://github.com/noamros9/kettle-bar/issues/16)).
 - **Do a program again, keeping its history** ([#17](https://github.com/noamros9/kettle-bar/issues/17)): back to day 1 of 60 as a
   second (third…) time through; earlier times stay in the stats. Details to decide together; plan with or after Phase 2.
+- **Short summaries** ([#18](https://github.com/noamros9/kettle-bar/issues/18)): a paragraph describing each program and two lines
+  describing each workout. Where they show and how they're written to decide together.
 
 ## Phase 1: a safety net (done, Sep 2026)
 Planned in the PRD [#7](https://github.com/noamros9/kettle-bar/issues/7); glossary in [CONTEXT.md](CONTEXT.md), decisions in
@@ -25,6 +27,7 @@ Planned in the PRD [#7](https://github.com/noamros9/kettle-bar/issues/7); glossa
 Dropped: smaller download (Noam: "leave it"); desktop UI tests (phone only).
 
 ## Phase 2: finish screen + stats
+Plan and tickets: [docs/plans/phase-2-finish-and-stats.md](docs/plans/phase-2-finish-and-stats.md).
 Built together because they share the muscle heat map and the week numbers.
 
 4. **Finish screen**, shown after the cool-down (or after the last set if you skip it), with one-tap "Mark as done":
@@ -39,7 +42,8 @@ Built together because they share the muscle heat map and the week numbers.
    - **Muscle balance:** body heat map (front/back, darker = more work) and a ranked bar chart, for any time span.
    - Weeks start on **Sunday**.
    - **Decision:** volume is the *planned* volume of days marked done (a done day counts its planned sets and reps).
-     No per-set logging.
+     No per-set logging. Minutes include stretching, shown separately; muscles weighted by sets (main 1,
+     secondary ½); timed blocks converted to sets; Stats is a header tab.
 
 ## Phase 3: workout helpers
 6. **Swap an exercise**: offer alternatives that work the same main muscles with the program's equipment. Each
