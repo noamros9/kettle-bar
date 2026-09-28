@@ -213,9 +213,10 @@ const heatLegend = () => `<div class="heatkey" aria-hidden="true"><span>Less</sp
 const dayOf = (pid, n) => days.resolved(pid, n);
 // every day marked done, in every program: [{ pid, day, time }]
 const doneEntries = () => programs.ids().flatMap((pid) => Object.entries(store.days(pid)).map(([day, time]) => ({ pid, day: +day, time })));
+// the stats for a scope ('all' or a program id) and a span, now (app/stats.js report)
+const statsReport = (scope, span) => KBStats.report({ entries: doneEntries(), dayOf, EX, names: MUSCLE_NAMES }, { scope, span, now: new Date() });
 function weekLine() {
-  const from = KBStats.weekStart(new Date()), to = new Date(from); to.setDate(to.getDate() + 7);
-  const s = KBStats.summarize(doneEntries(), { dayOf, EX, from, to });
+  const s = statsReport('all', 'week').totals;
   const nw = (t) => `<span class="nw">${t}</span>`; // keep each phrase on one line when it wraps
   return `${nw(`This week: ${plural(s.workouts, 'workout')}`)} · ${nw(`${Math.round(s.workoutMin)} min`)} + ${nw(`${Math.round(s.stretchMin)} min stretching`)}`;
 }
@@ -376,10 +377,10 @@ function weekRows(rows) {
     <thead><tr><th scope="col">Week of</th><th scope="col">Workouts</th><th scope="col">Min</th><th scope="col">Stretch min</th><th scope="col">Sets</th><th scope="col">Reps</th></tr></thead>
     <tbody>${rows.map((r) => `<tr${r.workouts ? '' : ' class="empty"'}><th scope="row">${shortDate(r.start)}</th>${n(r.workouts)}${n(r.workoutMin)}${n(r.stretchMin)}${n(r.sets)}${n(r.reps)}</tr>`).join('')}</tbody></table></div>`;
 }
-function muscleBalance(s, what) {
-  const ranked = KBStats.rankMuscles(s.muscles, MUSCLE_NAMES);
+function muscleBalance(r, what) {
+  const ranked = r.muscles;
   const body = ranked.length
-    ? `${muscleMapSVG(s.muscles, `Muscle balance: ${what}`)}${heatLegend()}
+    ? `${muscleMapSVG(r.totals.muscles, `Muscle balance: ${what}`)}${heatLegend()}
       <ol class="rank">${ranked.map((m) => `<li><span class="rname">${esc(m.name)}</span><span class="rbar"><i style="width:${(m.share * 100).toFixed(1)}%"></i></span><span class="rval num">${fmtNum(m.load)}</span></li>`).join('')}</ol>
       <p class="note">Weighted sets: each set counts 1 for the main muscles and ½ for the secondary ones.</p>`
     : '<p class="muted">No sets in this span yet.</p>';
@@ -387,10 +388,7 @@ function muscleBalance(s, what) {
 }
 function viewStats() {
   const { span, pid } = statsView;
-  const all = doneEntries(), entries = pid === 'all' ? all : all.filter((e) => e.pid === pid);
-  const { from, to } = KBStats.spanRange(span, new Date(), entries);
-  const opts = { dayOf, EX, from, to };
-  const s = KBStats.summarize(entries, opts);
+  const r = statsReport(pid, span), { from, to } = r, all = doneEntries();
   const used = programs.list().filter((p) => all.some((e) => e.pid === p.id) || p.id === pid);
   const scopeName = pid === 'all' ? 'all programs' : programs.summary(pid).name;
   const when = span === 'all' ? (pid === 'all' ? 'all time' : 'since you started') : `${shortDate(from)} – ${shortDate(new Date(to - 864e5))}`;
@@ -400,7 +398,7 @@ function viewStats() {
       <div class="filters" role="group" aria-label="Time span">${SPANS.map(([k, l]) => `<button class="fchip" data-stat-span="${k}" aria-pressed="${span === k}">${l}</button>`).join('')}</div>
       <div class="scope"><label for="stats-scope">Program</label><select id="stats-scope"><option value="all">All programs</option>${used.map((p) => `<option value="${p.id}"${p.id === pid ? ' selected' : ''}>${esc(p.name)}</option>`).join('')}</select></div>
     </div>
-    ${entries.length ? statTiles(s) + muscleBalance(s, `${scopeName}, ${when}`) + (span === 'week' ? '' : weekRows(KBStats.weekly(entries, opts))) : `<p class="lede">No workouts marked done ${none || 'yet'}${none ? ' yet' : ''}.</p>`}
+    ${r.hasHistory ? statTiles(r.totals) + muscleBalance(r, `${scopeName}, ${when}`) + (r.weeks ? weekRows(r.weeks) : '') : `<p class="lede">No workouts marked done ${none || 'yet'}${none ? ' yet' : ''}.</p>`}
     <p class="note">Counts the planned work of each day you marked done: its sets, reps and minutes. Weeks start on Sunday.</p>`;
 }
 

@@ -105,3 +105,33 @@ test('muscles ranked by load, with names and each one\'s share of the biggest', 
   ]);
   assert.deepEqual(rankMuscles({}, names), []);
 });
+
+// ---------- one report for the Stats page and the finish card ----------
+const { report, rankMuscles: rank } = require('../app/stats.js');
+
+test('report: scope and span in, totals, weeks and ranked muscles out', () => {
+  const programs = { p: { days: [day([{ sets: 3, items: [it('push', 10)] }])] }, q: { days: [day([{ sets: 2, items: [it('row', 8)] }])] } };
+  const dayOf = lookup(programs), names = { chest: 'Chest', triceps: 'Triceps', front_delts: 'Front shoulders', lats: 'Lats', biceps: 'Biceps' };
+  const entries = [e(29), e(28, 'q'), e(10)], input = { entries, dayOf, EX, names };
+
+  const week = report(input, { scope: 'all', span: 'week', now: wed });
+  assert.deepEqual([week.from, week.to], [new Date(2026, 8, 27), new Date(2026, 9, 4)]);
+  assert.equal(week.totals.workouts, 2);
+  assert.equal(week.weeks, null, 'no weekly rows for a single week');
+  assert.deepEqual(week.muscles, rank(week.totals.muscles, names));
+
+  const all = report(input, { scope: 'all', span: 'all', now: wed });
+  assert.equal(all.totals.workouts, 3);
+  assert.equal(all.weeks.length, 4);
+
+  const justP = report(input, { scope: 'p', span: 'all', now: wed });
+  assert.equal(justP.totals.workouts, 2);
+  assert.deepEqual(justP.muscles.map((m) => m.muscle), ['chest', 'triceps', 'front_delts']);
+  assert.equal(justP.hasHistory, true);
+  assert.equal(report({ ...input, entries: [] }, { scope: 'all', span: '4weeks', now: wed }).hasHistory, false);
+});
+
+test('the page asks for stats in one call per view', () => {
+  const src = require('fs').readFileSync(require('path').join(__dirname, '..', 'app/views.js'), 'utf8');
+  assert.doesNotMatch(src, /KBStats\.(summarize|spanRange|weekly|rankMuscles|weekStart)/);
+});
