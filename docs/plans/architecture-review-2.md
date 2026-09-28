@@ -19,7 +19,7 @@ In dependency order; one ticket = one branch = one PR, each starting from its **
 | 3 | The Day: a day as you'll do it | refactor | 1, 2 | `refactor/day-module` | done (PR #38) |
 | 4 | Import plan: one step | refactor | 2 | `refactor/import-plan` | done (PR #39) |
 | 5 | Stats report: scope and span behind one interface | refactor | 3 | `refactor/stats-report` | done (PR #40) |
-| 6 | Program Builder usable in the browser | refactor | 0 | `refactor/pure-builder` | todo |
+| 6 | Program Builder usable in the browser | refactor | 0 | `refactor/pure-builder` | done (PR #41) |
 
 ### 1. Program Catalogue (`app/programs.js`)
 Every page module reads the whole `PROGRAMS` array (41 reads). Loading programs when opened (roadmap item
