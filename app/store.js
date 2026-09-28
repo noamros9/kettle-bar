@@ -49,7 +49,7 @@
       emit('change', pid);
     }
     function toggle(pid, day) {
-      const d = { ...(done[pid] || {}) };
+      const d = { ...done[pid] };
       if (d[day]) delete d[day]; else d[day] = now();
       done[pid] = d; save(pid);
       if (remote && !readonly) write(pid);
@@ -59,7 +59,7 @@
       const r = remote; if (!r) return queue;
       setStatus(isOnline() ? 'saving' : 'offline');
       queue = queue.then(async () => {
-        const body = { done: { ...(done[pid] || {}) }, updatedAt: now() };
+        const body = { done: { ...done[pid] }, updatedAt: now() };
         try { await r.write(pid, body); if (remote === r) setStatus('ok'); }
         catch (e) {
           const code = e && e.code;
@@ -92,7 +92,7 @@
   function createMemoryRemote(initial = {}, { failWith } = {}) {
     const docs = JSON.parse(JSON.stringify(initial));
     const subs = {};
-    const push = (pid) => (subs[pid] || []).forEach((f) => f(docs[pid] ? { ...docs[pid] } : null));
+    const push = (pid) => (subs[pid] || []).forEach((f) => f({ ...docs[pid] }));
     return {
       kind: 'memory', docs,
       subscribe(pid, onData) {
@@ -108,5 +108,6 @@
   }
 
   const api = { createStore, createMemoryRemote, mergeFirstSync };
+  /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBStore = api;
 })(typeof window !== 'undefined' ? window : globalThis);

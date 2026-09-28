@@ -52,3 +52,30 @@ test('every day has a ~1 min warm-up and ~2 min cool-down', () => {
     assert.ok(d.cooldown.seconds >= 120 && d.cooldown.seconds <= 135, `${p.id} d${d.day} cool-down ${d.cooldown.seconds}`);
   }));
 });
+
+// Edges of the builder, on configs derived from real ones.
+const base = () => JSON.parse(JSON.stringify(CONFIGS.find((c) => c.id === 'twenty-flat')));
+const { build } = require('../program-builder.js');
+
+test('a slot with nothing usable for the equipment is a config error', () => {
+  const cfg = { ...base(), equip: 'bw' };
+  cfg.dayTypes.a.blocks[0].slots = ['kb_swing'];
+  assert.throws(() => build(cfg), /twenty-flat: pool kb_swing is empty/);
+});
+
+test('when a pool runs out within a day, an exercise may repeat', () => {
+  const cfg = base();
+  cfg.dayTypes.a.blocks[0].slots = ['pushup', 'pushup', 'squat', 'row'];
+  const d1 = build(cfg).days[0];
+  assert.deepEqual(d1.blocks[0].items.slice(0, 2).map((it) => it.ex), ['pushup', 'pushup']);
+});
+
+test('a frozen program takes its equipment from the config, default all', () => {
+  const frozen = CONFIGS.find((c) => c.frozen);
+  assert.equal(build(frozen).equip, 'all');
+  assert.equal(build({ ...frozen, equip: 'kb' }).equip, 'kb');
+});
+
+test('an unknown format has no time', () => {
+  assert.throws(() => timing.blockTime({ format: 'yoga', items: [] }), /format yoga/);
+});

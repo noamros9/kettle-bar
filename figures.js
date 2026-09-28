@@ -44,9 +44,9 @@
     const c1 = add(h, mul(p, -6)), c2 = add(h, mul(p, 6));
     return {
       shapes: [
-        { k: 'line', a: c1, b: c2, w: 2.6, c: 'w' },
-        { k: 'line', a: add(c1, mul(f, -4)), b: add(c1, mul(f, 4)), w: 5.6, c: 'w' },
-        { k: 'line', a: add(c2, mul(f, -4)), b: add(c2, mul(f, 4)), w: 5.6, c: 'w' },
+        { k: 'line', a: c1, b: c2, w: 2.6 },
+        { k: 'line', a: add(c1, mul(f, -4)), b: add(c1, mul(f, 4)), w: 5.6 },
+        { k: 'line', a: add(c2, mul(f, -4)), b: add(c2, mul(f, 4)), w: 5.6 },
       ],
       pts: [[...add(c1, mul(f, 4)), 2.8], [...add(c1, mul(f, -4)), 2.8], [...add(c2, mul(f, 4)), 2.8], [...add(c2, mul(f, -4)), 2.8]],
     };
@@ -55,8 +55,8 @@
     const d = nrm(dir), ring = add(h, mul(d, 3)), bell = add(h, mul(d, 9.5));
     return {
       shapes: [
-        { k: 'ring', c0: ring, r: 3.4, w: 2.2, c: 'w' },
-        { k: 'dot', c0: bell, r: 6.6, c: 'w' },
+        { k: 'ring', c0: ring, r: 3.4, w: 2.2 },
+        { k: 'dot', c0: bell, r: 6.6 },
       ],
       pts: [[...bell, 6.6], [...ring, 4.5]],
     };
@@ -85,25 +85,23 @@
     // bounds
     let maxY = -1e9, minX = 1e9, maxX = -1e9, minY = 1e9;
     pts.forEach(([x, y, r]) => { maxY = Math.max(maxY, y + r); minY = Math.min(minY, y - r); minX = Math.min(minX, x - r); maxX = Math.max(maxX, x + r); });
-    const ch = ps.chair;
-    if (ch) { maxY = Math.max(maxY, ch.y + ch.h); minX = Math.min(minX, ch.x - 11); maxX = Math.max(maxX, ch.x + 11); }
     if (ps.wall !== undefined) { minX = Math.min(minX, ps.wall - 6); maxX = Math.max(maxX, ps.wall); }
     let dy = ps.bar ? BAR - (s.haN[1] + s.haF[1]) / 2 : G - maxY;
     dy -= ps.lift || 0;
     const dx = W / 2 - (minX + maxX) / 2;
-    if (ch && ch.back) minY = Math.min(minY, ch.y - 22);
     return { s, props, dx, dy, minX, maxX, minY: minY + dy, ps, front };
   }
 
   const f1 = (n) => Math.round(n * 10) / 10;
   const pt = (p, fr) => [f1(p[0] + fr.dx), f1(p[1] + fr.dy)];
 
+  // props (dumbbells, kettlebells) are drawn in the kit colour
   function shapeSVG(sh, fr) {
-    const col = sh.c === 'w' ? 'var(--kit)' : 'var(--fig)';
+    const col = 'var(--kit)';
     if (sh.k === 'line') { const a = pt(sh.a, fr), b = pt(sh.b, fr); return `<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="${col}" stroke-width="${sh.w}" stroke-linecap="round"/>`; }
-    if (sh.k === 'ring') { const c = pt(sh.c0, fr); return `<circle cx="${c[0]}" cy="${c[1]}" r="${sh.r}" fill="none" stroke="${col}" stroke-width="${sh.w}"/>`; }
-    if (sh.k === 'dot') { const c = pt(sh.c0, fr); return `<circle cx="${c[0]}" cy="${c[1]}" r="${sh.r}" fill="${col}"/>`; }
-    return '';
+    const c = pt(sh.c0, fr);
+    if (sh.k === 'ring') return `<circle cx="${c[0]}" cy="${c[1]}" r="${sh.r}" fill="none" stroke="${col}" stroke-width="${sh.w}"/>`;
+    return `<circle cx="${c[0]}" cy="${c[1]}" r="${sh.r}" fill="${col}"/>`; // dot
   }
 
   function frameSVG(fr) {
@@ -123,12 +121,6 @@
     if (ps.wall !== undefined) {
       const x = f1(ps.wall + fr.dx);
       out.push(`<rect x="${f1(x - 6)}" y="6" width="6" height="${G + 2 - 6}" fill="var(--prop)" opacity=".55"/>`);
-    }
-    if (ps.chair) {
-      const c = ps.chair, x = c.x + fr.dx, y = c.y + fr.dy, yb = y + c.h;
-      const L = (x1, y1, x2, y2, w) => out.push(`<line x1="${f1(x1)}" y1="${f1(y1)}" x2="${f1(x2)}" y2="${f1(y2)}" stroke="var(--prop)" stroke-width="${w}" stroke-linecap="round"/>`);
-      L(x - 8, y, x - 8, yb + 2.5, 2.6); L(x + 8, y, x + 8, yb + 2.5, 2.6); L(x - 10.5, y + 1.2, x + 10.5, y + 1.2, 3.4);
-      if (c.back) L(x + c.back * 9.5, y, x + c.back * 9.5, y - 22, 3);
     }
     const farCol = front ? 'var(--fig)' : 'var(--fig-far)';
     out.push(line([s.hF, s.knF, s.ftF], 6.2, farCol));
@@ -201,5 +193,6 @@
   }
 
   const api = { figureSVG, muscleMapSVG };
+  /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBFig = api;
 })(typeof window !== 'undefined' ? window : globalThis);

@@ -23,8 +23,8 @@ and a mat.
 
 ## Use it
 
-Live at **https://noamros9.github.io/kettle-bar/** once GitHub Pages is on
-(Settings → Pages → Deploy from a branch → `main` / root).
+Live at **https://noamros9.github.io/kettle-bar/**. Every push to `main` is built and tested by GitHub
+Actions and deployed only if all tests pass (Settings → Pages → Source: **GitHub Actions**).
 
 Progress is always kept on the device. Press **Sign in to sync** (Google) to
 sync it through Firebase to every device where you sign in. On first sign-in,
@@ -58,12 +58,16 @@ days ticked on the device and in the cloud are merged.
 | `app/main.js` | Wires store, session and clock to the page |
 | `app/shell.html`, `app/styles.css` | Page markup and styles |
 | `build.js` | Builds all programs and stitches everything into `index.html` (GitHub Pages) |
-| `tests/` | `npm test`: session rules, store sync, program invariants, catalogue |
+| `tests/` | `npm test`: session rules, store sync, program invariants, catalogue, figures, build |
+| `.github/workflows/deploy.yml` | Tests (100% coverage on the core modules), builds and deploys to Pages |
+| `scripts/program-times.js` | `npm run times`: each program's shortest and longest day against its target |
 | `firebase-sync.js`, `firebase-config.js`, `firestore.rules` | Google sign-in and Firestore sync |
 | `manifest.webmanifest`, `icons/`, `sw.js` | Installable app, icon, offline support |
 | `sheet.js` | Writes `sheet.html`, a contact sheet of every illustration |
 
-Build: `node build.js` · Test: `npm test`. What's planned next is in [ROADMAP.md](ROADMAP.md); the words
+Build: `npm run build` (writes `index.html`, not committed) · Test: `npm test` · Coverage gate:
+`npm run test:coverage` (100% lines, branches and functions on Session, Store, Builder, Catalogue and
+Figure engine). What's planned next is in [ROADMAP.md](ROADMAP.md); the words
 the project uses are in [CONTEXT.md](CONTEXT.md) and the decisions behind it in [docs/adr/](docs/adr/).
 
 ## Firebase setup (sync)

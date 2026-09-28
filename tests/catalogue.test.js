@@ -19,3 +19,17 @@ test('reps never go down from Level I to Level III', () => {
 test('every exercise draws a figure', () => {
   Object.values(EX).forEach((e) => { const svg = figureSVG(e); assert.match(svg, /^<svg class="fig"/, e.id); assert.ok(!/NaN/.test(svg), `${e.id} has NaN`); });
 });
+
+test('normalize: default unit, level, id, and muscles from the map or the exercise itself', () => {
+  const { normalize } = require('../exercises.js');
+  const ex = normalize({ a: { name: 'A' }, b: { name: 'B', u: 'sec', mus: 'quads' }, c: { name: 'C' } }, { a: 'chest triceps | front_delts', c: 'abs |' });
+  assert.deepEqual(ex.a, { name: 'A', id: 'a', u: 'reps', lv: 1, muscles: { primary: ['chest', 'triceps'], secondary: ['front_delts'] } });
+  assert.deepEqual(ex.b.muscles, { primary: ['quads'], secondary: [] });
+  assert.equal(ex.b.u, 'sec');
+  assert.deepEqual(ex.c.muscles.secondary, []);
+});
+
+test('normalize refuses an exercise with no main muscle', () => {
+  const { normalize } = require('../exercises.js');
+  assert.throws(() => normalize({ x: {}, y: {} }, { y: '| abs' }), /No muscles for: x, y/);
+});

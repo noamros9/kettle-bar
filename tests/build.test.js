@@ -5,8 +5,8 @@ const { render } = require('../build.js');
 
 const out = render();
 
-test('the build produces the GitHub Pages page and the library data, nothing else', () => {
-  assert.deepStrictEqual(Object.keys(out).sort(), ['index.html', 'programs/library.json']);
+test('the build produces the GitHub Pages page, nothing else', () => {
+  assert.deepStrictEqual(Object.keys(out), ['index.html']);
 });
 
 test('the page has no claude.ai sync left in it (ADR 3)', () => {

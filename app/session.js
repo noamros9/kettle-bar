@@ -162,5 +162,6 @@
   }
 
   const api = { createSession, unitText, FORMAT_NAMES, DEFAULT_RESTS };
+  /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBSession = api;
 })(typeof window !== 'undefined' ? window : globalThis);

@@ -310,16 +310,21 @@
     kb: 'Kettlebell',
   };
 
-  // Defaults and derived fields (no authored numbers are changed here).
-  Object.keys(EX).forEach((k) => {
-    const e = EX[k];
-    e.id = k; e.u = e.u || 'reps'; e.lv = 1;
-    const [pri, sec] = (MUS[k] || e.mus || '|').split('|').map((x) => x.trim().split(/\s+/).filter(Boolean));
-    e.muscles = { primary: pri, secondary: sec || [] };
-  });
-  const missing = Object.keys(EX).filter((k) => !EX[k].muscles.primary.length);
-  if (missing.length) throw new Error('No muscles for: ' + missing.join(', '));
-  const exercise = (id) => EX[id];
-  const api = { EX, LOAD, MUSCLE_NAMES, exercise };
+  // Defaults and derived fields (no authored numbers are changed here). Muscles are written
+  // 'primary … | secondary …'; every exercise needs at least one primary muscle.
+  function normalize(ex, mus) {
+    Object.keys(ex).forEach((k) => {
+      const e = ex[k];
+      e.id = k; e.u = e.u || 'reps'; e.lv = 1;
+      const [pri, sec = []] = (mus[k] || e.mus || '|').split('|').map((x) => x.trim().split(/\s+/).filter(Boolean));
+      e.muscles = { primary: pri, secondary: sec };
+    });
+    const missing = Object.keys(ex).filter((k) => !ex[k].muscles.primary.length);
+    if (missing.length) throw new Error('No muscles for: ' + missing.join(', '));
+    return ex;
+  }
+  normalize(EX, MUS);
+  const api = { EX, LOAD, MUSCLE_NAMES, normalize };
+  /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBEx = api;
 })(typeof window !== 'undefined' ? window : globalThis);

@@ -17,10 +17,7 @@ function render(programs = buildAll()) {
   const page = read('app/shell.html')
     .replace('/*__STYLES__*/', () => read('app/styles.css'))
     .replace('<!--__SCRIPTS__-->', () => scripts);
-  return {
-    'index.html': HEAD + page + TAIL,
-    'programs/library.json': JSON.stringify(programs.filter((p) => p.id !== 'three-split-60')),
-  };
+  return { 'index.html': HEAD + page + TAIL };
 }
 
 if (require.main === module) {
