@@ -2,6 +2,9 @@
    Counts the PLANNED work of a day (ADR 2); the rules are in docs/plans/phase-2-finish-and-stats.md.
 
      dayVolume(day, EX) -> { workoutMin, stretchMin, sets, reps, muscles: { muscle: load } }
+     weekStart(date) -> Sunday 00:00 local time of that date's week
+     summarize(entries, { programs, EX, from, to }) -> totals of the done days in [from, to)
+       entries: [{ pid, day, time }] (time = when the day was first marked done)
    Muscle load: each set counts 1 for every main muscle and 0.5 for every secondary muscle. */
 (function (root) {
   // every set a day asks for, as [{ ex, sets, repsPerSet }]; timed blocks are converted to sets
@@ -48,7 +51,28 @@
     };
   }
 
-  const api = { dayVolume };
+  function weekStart(date) {
+    const d = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    d.setDate(d.getDate() - d.getDay());
+    return d;
+  }
+
+  const empty = () => ({ workouts: 0, workoutMin: 0, stretchMin: 0, sets: 0, reps: 0, muscles: {} });
+  function add(total, v) {
+    total.workouts += 1;
+    ['workoutMin', 'stretchMin', 'sets', 'reps'].forEach((k) => { total[k] += v[k]; });
+    Object.entries(v.muscles).forEach(([m, x]) => { total.muscles[m] = (total.muscles[m] || 0) + x; });
+    return total;
+  }
+  function summarize(entries, { programs, EX, from, to }) {
+    return entries.reduce((total, e) => {
+      const t = new Date(e.time), p = programs[e.pid], d = p && p.days[e.day - 1];
+      if (!d || t < from || t >= to) return total;
+      return add(total, dayVolume(d, EX));
+    }, empty());
+  }
+
+  const api = { dayVolume, weekStart, summarize };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBStats = api;
 })(typeof window !== 'undefined' ? window : globalThis);

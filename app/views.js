@@ -201,8 +201,24 @@ function stretchBlock(b, key, label, n, ses) {
   </section>`;
 }
 const heatLegend = () => `<div class="heatkey" aria-hidden="true"><span>Less</span>${[1, 2, 3, 4].map((n) => `<i class="mm-l${n}"></i>`).join('')}<span>More</span></div>`;
+// every day marked done, in every program: [{ pid, day, time }]
+const doneEntries = () => PROGRAMS.flatMap((p) => Object.entries(store.days(p.id)).map(([day, time]) => ({ pid: p.id, day: +day, time })));
+function weekLine() {
+  const from = KBStats.weekStart(new Date()), to = new Date(from); to.setDate(to.getDate() + 7);
+  const s = KBStats.summarize(doneEntries(), { programs: PBYID, EX, from, to });
+  const nw = (t) => `<span class="nw">${t}</span>`; // keep each phrase on one line when it wraps
+  return `${nw(`This week: ${plural(s.workouts, 'workout')}`)} · ${nw(`${Math.round(s.workoutMin)} min`)} + ${nw(`${Math.round(s.stretchMin)} min stretching`)}`;
+}
+// the next day not done yet after this one (or the first one left)
+function nextPreview(p, w) {
+  const left = p.days.filter((d) => !store.isDone(p.id, d.day));
+  const n = left.find((d) => d.day > w.day) || left.find((d) => d.day !== w.day);
+  if (!n) return `<p class="fnext">Every day of ${esc(p.name)} is done.</p>`;
+  const t = typesOf(p)[n.type] || { label: n.title };
+  return `<button class="fnext" data-day="${n.day}"><b>Next: Day ${n.day} · ${esc(n.name)}</b><span>${esc(t.label || n.title)} · About ${n.est} min</span></button>`;
+}
 // shown once every set of the day is ticked (after the cool-down, if you run it)
-function finishCard(w, isD) {
+function finishCard(p, w, isD) {
   const v = KBStats.dayVolume(w, EX);
   const fmtMin = (m) => `${Math.round(m)} min`;
   return `<section class="finish" aria-labelledby="finish-h"><h2 id="finish-h">Workout complete</h2>
@@ -211,8 +227,10 @@ function finishCard(w, isD) {
       <div><dt>Workout</dt><dd class="num" data-testid="workout-min">${fmtMin(v.workoutMin)}</dd></div>
       <div><dt>Stretching</dt><dd class="num" data-testid="stretch-min">${fmtMin(v.stretchMin)}</dd></div>
     </dl>
+    <p class="fweek" data-testid="week">${weekLine()}</p>
     <div class="fmap"><h3>Muscles worked today</h3>${muscleMapSVG(v.muscles, 'Muscles worked today')}${heatLegend()}</div>
     <button class="btn ${isD ? 'done' : ''}" data-toggle="${w.day}" aria-pressed="${isD}">${isD ? `✓ Day ${w.day} done` : `Mark day ${w.day} as done`}</button>
+    ${nextPreview(p, w)}
   </section>`;
 }
 function viewDay() {
@@ -231,7 +249,7 @@ function viewDay() {
     ${w.warmup ? stretchBlock(w.warmup, 'warm', 'W', 'Before you start', ses) : ''}
     ${w.blocks.map((b, bi) => blockHTML(p, w, b, bi, ses)).join('')}
     ${w.cooldown ? `<div class="between">Then stretch</div>${stretchBlock(w.cooldown, 'cool', 'C', 'After the abs', ses)}` : ''}
-    ${ses.allDone() ? finishCard(w, isD) : ''}
+    ${ses.allDone() ? finishCard(p, w, isD) : ''}
     <p class="note">Tap any exercise for how to do it and the muscles it works. Weights are starting points: pick a load where the last two reps are hard but clean. "Go one weight up" means the next dumbbell size or the heavier bell; "3 s lowering" means a slow 3-second lowering on every rep.</p>`;
 }
 
