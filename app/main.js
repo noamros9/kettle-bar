@@ -6,6 +6,8 @@ const localStore = {
   set: (k, v) => { try { localStorage.setItem(k, v); } catch (e) { /* blocked: device copy is best effort */ } },
 };
 const store = KBStore.createStore({ programIds: programs.ids(), storage: localStore, isOnline: () => navigator.onLine !== false });
+// a day as you'll do it: swaps applied, its live Workout Session, swap / undo (app/day.js)
+const days = KBDay.createDays({ programs, store, cat: KBEx, createSession: KBSession.createSession });
 const SYNC_TEXT = { ok: 'Synced', saving: 'Saving…', offline: 'Offline, will sync', local: 'Saved on this device', signin: 'Sign in to sync', ro: 'View only', err: 'Sync problem' };
 function paintSync(s) {
   const el = $('#sync'); el.dataset.s = s;
@@ -30,7 +32,8 @@ document.addEventListener('click', (e) => { const pop = $('#acct'); if (!pop.hid
 $('#signout').addEventListener('click', () => { $('#acct').hidden = true; store.auth && store.auth.signOut(); });
 
 /* ---------------- workout: page -> session -> clock ---------------- */
-const openSession = () => sessionFor(prog(), dayOf(prog().id, route.day));
+const openDay = () => days.open(prog().id, route.day);
+const openSession = () => openDay().session();
 function finish(target) { T.apply(openSession().complete(target)); rerender(); }
 function tick(target) {
   T.unlockAudio(); S.start();
@@ -59,13 +62,8 @@ document.addEventListener('click', (ev) => {
   if (d.swapTo) { swapState.to = d.swapTo; rerender(); return; }
   if (d.swapBack) { delete swapState.to; rerender(); return; }
   if (d.swapCancel) { swapState = null; rerender(); return; }
-  if (d.unswap) { const p = prog(); store.setSwaps(p.id, KBSwaps.undoSwap(store.swaps(p.id), route.day, d.unswap)); return; }
-  if (d.swapApply) {
-    const p = prog(), w = dayOf(p.id, route.day), ex = w.blocks[swapState.bi].items[swapState.i].ex, to = swapState.to;
-    swapState = null;
-    store.setSwaps(p.id, [...store.swaps(p.id), { day: route.day, ex, to, ...(d.swapApply === 'onward' ? { onward: true } : {}) }]);
-    return;
-  }
+  if (d.unswap) { const [bi, i] = d.unswap.split(':').map(Number); openDay().undo(bi, i); return; }
+  if (d.swapApply) { const { bi, i, to } = swapState; swapState = null; openDay().swap(bi, i, to, { onward: d.swapApply === 'onward' }); return; }
   if (d.go === 'program') return go('p-' + prog().id);
   if (d.openProg) return go('p-' + d.openProg);
   if (d.filter) { const [k, v] = d.filter.split(':'); filters[k] = v; render(); return; }
