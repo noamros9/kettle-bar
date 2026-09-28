@@ -37,9 +37,9 @@ Built together because they share the muscle heat map and the week numbers.
    time, ask whether the swap is **for today only or for the rest of the program**. Swaps sync like progress.
 7. **Voice cues** for holds and sides only: "switch sides", "halfway", and the end of a hold. Uses the phone's
    built-in speech; the beeps stay.
-8. **Animated drawings**: the figures move between their positions. **Open question:** which option? See the
-   [demo](https://claude.ai/artifact/NFGzGANtut6b1j5WkULFrj): A exercise pages, B every card,
-   C current exercise only, D tap to play (A + C can combine).
+8. **Animated drawings** on **exercise pages only** (option A): the big drawing on each exercise's page loops
+   smoothly between its positions; workout cards stay still. Respects the phone's reduce-motion setting.
+   ([demo](https://claude.ai/artifact/NFGzGANtut6b1j5WkULFrj))
 
 ## Phase 4: convenience
 9. **Home-screen shortcut to today's workout** (a manifest shortcut that opens the next undone day of the
@@ -54,4 +54,5 @@ Built together because they share the muscle heat map and the week numbers.
   not picked.
 - **Voice countdowns, "what's next" and encouragement**: holds and sides only.
 - **Hebrew version** and **share as image**: not wanted for now.
+- **Animating workout cards** (every card, current exercise only, tap to play): exercise pages only.
 - **Heart-rate / Google Fit**: limited from a web app; revisit only if the app goes native.
