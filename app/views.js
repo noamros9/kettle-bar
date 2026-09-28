@@ -22,7 +22,7 @@ function rerender() {
 }
 
 /* ---------------- routing ----------------
-   #programs · #exercises · #ex-<id> · #p-<pid> · #p-<pid>-d<n>   (#d<n> = Three-Split 60, kept for old links) */
+   #programs · #exercises · #settings · #ex-<id> · #p-<pid> · #p-<pid>-d<n>   (#d<n> = Three-Split 60, kept for old links) */
 const PBYID = Object.fromEntries(PROGRAMS.map((p) => [p.id, p]));
 const lastPid = () => { try { const v = localStorage.getItem('kb-last-program'); return PBYID[v] ? v : null; } catch (e) { return null; } };
 const rememberPid = (pid) => { try { localStorage.setItem('kb-last-program', pid); } catch (e) {} };
@@ -31,6 +31,7 @@ function parseHash() {
   const h = location.hash.replace('#', '');
   if (h === 'programs') return { view: 'programs' };
   if (h === 'exercises') return { view: 'library' };
+  if (h === 'settings') return { view: 'settings' };
   const x = h.match(/^ex-([a-z0-9_]+)$/);
   if (x && EX[x[1]]) return { view: 'exercise', ex: x[1], pid: route.pid };
   const pd = h.match(/^p-([a-z0-9-]+)-d(\d+)$/);
@@ -253,11 +254,24 @@ function viewLibrary() {
   ${cats.map((c) => { const list = Object.values(EX).filter((e) => e.cat === c); return list.length ? `<section class="libcat"><h2>${CAT[c]}</h2><div class="exgrid">${list.map((e) => `<article class="ex"><button class="exlink" data-ex="${e.id}" aria-label="${esc(e.name)}: how to and muscles worked"><div class="figbox">${fig(e.id)}</div><div class="nm">${esc(e.name)}</div></button>${e.load ? `<div class="ld">${esc(LOAD[e.load])}</div>` : ''}<p class="cue">${esc(e.cue)}</p></article>`).join('')}</div></section>` : ''; }).join('')}`;
 }
 
+const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
+function viewSettings() {
+  const counts = PROGRAMS.map((p) => store.count(p.id)).filter((n) => n > 0);
+  const days = counts.reduce((a, n) => a + n, 0);
+  return `<h1>Settings</h1>
+  <section class="card setting"><h2>Backup</h2>
+    <p>Download the days you've marked done in every program as one file. Keep it somewhere safe, or import it on another device.</p>
+    <p class="muted" id="backup-summary">${days ? `${plural(days, 'day')} done across ${plural(counts.length, 'program')}` : 'No days marked done yet'}</p>
+    <div class="actions"><button class="btn" data-backup="export">Export progress</button></div>
+  </section>`;
+}
+
 function render(scrollTop) {
   const app = $('#app');
   const v = route.view;
-  app.innerHTML = v === 'programs' ? viewPrograms() : v === 'library' ? viewLibrary() : v === 'exercise' ? viewExercise() : v === 'day' ? viewDay() : viewProgram();
-  document.querySelectorAll('.nav button').forEach((b) => b.setAttribute('aria-current', (b.dataset.go === 'library' ? (v === 'library' || v === 'exercise') : (v !== 'library' && v !== 'exercise')) ? 'page' : 'false'));
+  app.innerHTML = v === 'programs' ? viewPrograms() : v === 'library' ? viewLibrary() : v === 'settings' ? viewSettings() : v === 'exercise' ? viewExercise() : v === 'day' ? viewDay() : viewProgram();
+  const section = v === 'library' || v === 'exercise' ? 'library' : v === 'settings' ? 'settings' : 'programs';
+  document.querySelectorAll('.top [data-go]').forEach((b) => b.setAttribute('aria-current', b.dataset.go === section ? 'page' : 'false'));
   const showTimer = v === 'day';
   $('#timer').hidden = !showTimer; document.body.classList.toggle('has-timer', showTimer);
   if (scrollTop) window.scrollTo(0, 0);

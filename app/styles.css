@@ -260,3 +260,14 @@ body.has-timer main{padding-bottom:170px}
 }
 @media (max-width:430px){.bname{display:none}}
 @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+/* header settings gear */
+.gear{background:none;border:0;padding:6px;border-radius:6px;color:var(--muted);display:grid;place-items:center}
+.gear svg{width:20px;height:20px}
+.gear[aria-current="page"]{color:var(--ink);background:var(--soft)}
+/* settings page */
+.setting{margin-top:16px;display:grid;gap:10px}
+.setting h2{margin:0}
+.setting p{margin:0}
+.setting .muted{color:var(--muted);font-size:14px}
+.setting .actions{display:flex;flex-wrap:wrap;gap:8px}

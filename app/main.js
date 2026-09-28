@@ -51,6 +51,8 @@ document.addEventListener('click', (ev) => {
   if (el.id === 'brand') return go('programs');
   if (d.go === 'programs') return go('programs');
   if (d.go === 'library') return go('exercises');
+  if (d.go === 'settings') return go('settings');
+  if (d.backup === 'export') return exportProgress();
   if (d.go === 'program') return go('p-' + prog().id);
   if (d.openProg) return go('p-' + d.openProg);
   if (d.filter) { const [k, v] = d.filter.split(':'); filters[k] = v; render(); return; }
@@ -68,6 +70,18 @@ document.addEventListener('click', (ev) => {
   if (d.back) { if (navDepth > 0) { navDepth--; history.back(); } else go('exercises'); return; }
   if (d.stretch) return runPlanned({ type: 'stretch', key: d.stretch }, d.stretch === 'warm');
 });
+
+/* ---------------- settings: backup ---------------- */
+function download(name, text) {
+  const url = URL.createObjectURL(new Blob([text], { type: 'application/json' }));
+  const a = Object.assign(document.createElement('a'), { href: url, download: name });
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+function exportProgress() {
+  const done = Object.fromEntries(PROGRAMS.map((p) => [p.id, store.days(p.id)]));
+  download(KBBackup.fileName(new Date()), JSON.stringify(KBBackup.exportProgress(done), null, 2));
+}
 
 /* ---------------- boot ---------------- */
 route = parseHash();
