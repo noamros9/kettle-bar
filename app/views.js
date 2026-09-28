@@ -322,7 +322,6 @@ function viewSettings() {
     <p class="muted" id="backup-summary">${days ? `${plural(days, 'day')} done across ${plural(counts.length, 'program')}` : 'No days marked done yet'}</p>
     <div class="actions"><button class="btn" data-backup="export">Export progress</button>
       <button class="btn ghost" data-backup="import">Import a backup</button></div>
-    <input type="file" id="import-file" accept=".json,application/json" hidden>
     ${st.error ? `<p class="err" role="alert">${esc(st.error)}</p>` : ''}
     ${st.done ? `<p class="ok" role="status">${esc(st.done)}</p>` : ''}
     ${st.diff ? importReview(st) : ''}

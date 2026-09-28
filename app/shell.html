@@ -23,6 +23,8 @@
   </div>
 </header>
 <main id="app" class="wrap" aria-live="polite"></main>
+<!-- outside #app so a redraw while the picker is open (e.g. a sync update) cannot replace it -->
+<input type="file" id="import-file" accept=".json,application/json" hidden>
 <div class="timer" id="timer" hidden>
   <div class="wrap">
     <button class="tclock num" id="tclock" aria-label="Start or pause rest timer">0:30</button>

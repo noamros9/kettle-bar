@@ -6,7 +6,7 @@ test('the gear in the header opens Settings, which fits the phone', async ({ app
   await app.open('#programs');
   await app.page.getByRole('button', { name: 'Settings' }).click();
   await expect(app.page).toHaveURL(/#settings$/);
-  expect(await app.h1()).toBe('Settings');
+  await expect(app.heading()).toHaveText('Settings');
   await expect(app.page.getByRole('heading', { name: 'Backup' })).toBeVisible();
   expect(await app.sidewaysScroll()).toBe(0);
   await app.page.screenshot({ path: `test-results/shots/${testInfo.project.name}/settings.png` });
@@ -97,4 +97,13 @@ test('a file that is not a backup changes nothing and says why; a matching one h
   await expect(app.page.getByRole('alert')).toHaveCount(0);
   await expect(app.page.locator('#import-review')).toContainText('This backup matches your progress. Nothing to import.');
   await expect(app.page.getByRole('button', { name: /^Merge/ })).toHaveCount(0);
+});
+
+test('an import survives the page redrawing while the file is being chosen (e.g. a sync update)', async ({ app }) => {
+  test.skip(test.info().project.name !== 'phone-light', 'theme-independent');
+  await setup(app);
+  const input = await app.page.locator('#import-file').elementHandle();
+  await app.data(() => new Promise((r) => { rerender(); requestAnimationFrame(() => setTimeout(r)); }));
+  await input.setInputFiles(backupFile(fromFile));
+  await expect(app.page.locator('#import-review')).toContainText('Three-Split 60: +2 days (3–4)');
 });
