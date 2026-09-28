@@ -1,6 +1,7 @@
-// Program library generator: turns the configs in programs.config.js into 60-day programs.
-// Three-Split 60 is not generated here; it is frozen in programs/three-split-60.json.
-const { EX } = require('./lib.js');
+// Program Builder: build(config) -> 60-day program, for every program in programs.config.js.
+// Owns the time model, rest values, exercise pools, progression levers, stretch picking and fitting.
+// A config with `frozen` (Three-Split 60) keeps its already-generated days so saved progress stays valid.
+const { EX } = require('./exercises.js');
 const CONFIGS = require('./programs.config.js');
 
 const REST = { set: 30, exercise: 60, beforeAbs: 120, superset: 45, round: 60, block: 60 };
@@ -131,6 +132,7 @@ function scaledReps(e, n, format) {
 
 // ---------- program builder ----------
 function build(cfg) {
+  if (cfg.frozen) return buildFrozen(cfg);
   const rnd = makeRnd(cfg.id);
   const allow = (id) => EQUIP[cfg.equip || 'all'](EX[id]);
   const used = {}, count = {}, stretchUsed = {};
@@ -231,9 +233,7 @@ function build(cfg) {
       stretchMin: Math.round((warm.seconds + cool.seconds) / 60),
     });
   }
-  const colors = ['var(--t-cba)', 'var(--t-up)', 'var(--t-low)', 'var(--t-ac)'];
-  const dayTypes = {};
-  Object.entries(cfg.dayTypes).forEach(([k, v], i) => { dayTypes[k] = { label: v.label, short: v.short, c: colors[i % 4] }; });
+  const dayTypes = dayTypesOf(cfg);
   const formats = [...new Set(days.flatMap((w) => w.blocks.filter((b) => b.kind === 'main').map((b) => b.format)))];
   return {
     id: cfg.id, name: cfg.name, subject: cfg.subject, blurb: cfg.blurb, split: cfg.split,
@@ -243,14 +243,23 @@ function build(cfg) {
   };
 }
 
-const programs = CONFIGS.map(build);
+const COLORS = ['var(--t-cba)', 'var(--t-up)', 'var(--t-low)', 'var(--t-ac)'];
+function dayTypesOf(cfg) {
+  const out = {};
+  Object.entries(cfg.dayTypes).forEach(([k, v], i) => { out[k] = { label: v.label, short: v.short, c: COLORS[i % 4] }; });
+  return out;
+}
+// frozen programs: generated once, then kept byte-for-byte; only their description comes from the config
+function buildFrozen(cfg) {
+  const saved = JSON.parse(require('fs').readFileSync(require('path').join(__dirname, cfg.frozen), 'utf8'));
+  return { ...saved, subject: cfg.subject, split: cfg.split, minutes: cfg.minutes, equip: cfg.equip || 'all', formats: ['straight'], dayTypes: dayTypesOf(cfg) };
+}
+const buildAll = () => CONFIGS.map(build);
 
 if (require.main === module) {
-  programs.forEach((p) => {
+  buildAll().forEach((p) => {
     const ests = p.days.map((d) => d.est);
-    const out = ests.filter((t) => t < Math.floor(p.minutes[0]) || t > Math.ceil(p.minutes[1])).length;
-    console.log(`${p.id.padEnd(22)} ${p.subject.padEnd(16)} ${String(Math.min(...ests)).padStart(2)}-${String(Math.max(...ests)).padEnd(2)} min (target ${p.minutes.join('-')})${out ? `  !! ${out} days outside` : ''}  formats: ${p.formats.join(',')}`);
+    console.log(`${p.id.padEnd(22)} ${p.subject.padEnd(16)} ${String(Math.min(...ests)).padStart(2)}-${String(Math.max(...ests)).padEnd(2)} min (target ${p.minutes.join('-')})  formats: ${p.formats.join(',')}`);
   });
-  require('fs').writeFileSync(__dirname + '/programs/library.json', JSON.stringify(programs));
 }
-module.exports = programs;
+module.exports = { build, buildAll, CONFIGS, POOLS, REST, timing: { work, blockTime, dayTime } };

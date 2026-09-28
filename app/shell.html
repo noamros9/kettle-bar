@@ -1,0 +1,44 @@
+<title>Kettle &amp; Bar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600;700&display=swap">
+<style>
+/*__STYLES__*/
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <button class="brand" id="brand" aria-label="Kettle and Bar home">
+      <svg viewBox="0 0 512 512" aria-hidden="true"><rect width="512" height="512" rx="112" fill="var(--accent)"/><rect x="86" y="160" width="340" height="22" rx="11" fill="var(--accent-soft)"/><g fill="none" stroke="var(--bg)" stroke-linecap="round" stroke-linejoin="round"><polyline points="184,171 146,246 214,226" stroke-width="30"/><polyline points="328,171 366,246 298,226" stroke-width="30"/><line x1="256" y1="222" x2="256" y2="318" stroke-width="66"/><polyline points="238,322 222,372 238,420" stroke-width="32"/><polyline points="274,322 290,372 274,420" stroke-width="32"/></g><circle cx="256" cy="136" r="40" fill="var(--bg)"/></svg>
+      <span class="bname">Kettle &amp; Bar</span>
+    </button>
+    <nav class="nav" aria-label="Main">
+      <button data-go="programs">Programs</button>
+      <button data-go="library">Exercises</button>
+    </nav>
+    <button class="sync" id="sync" data-s="local" disabled><i></i><span>Saved on this device</span></button>
+    <div class="acct" id="acct" hidden><div id="acctwho"></div><p>Progress syncs to every device where you sign in.</p><button class="btn ghost" id="signout">Sign out</button></div>
+  </div>
+</header>
+<main id="app" class="wrap" aria-live="polite"></main>
+<div class="timer" id="timer" hidden>
+  <div class="wrap">
+    <button class="tclock num" id="tclock" aria-label="Start or pause rest timer">0:30</button>
+    <div class="tinfo"><b id="tlabel">Rest timer</b><span id="tsub">Tap a set number when you finish a set</span></div>
+    <div class="tctl">
+      <button id="tgo" class="go">Start</button>
+      <button id="treset" aria-label="Reset timer">Reset</button>
+    </div>
+    <div class="tadj">
+      <button data-adj="-15" aria-label="Minus 15 seconds">−15s</button>
+      <button data-adj="15" aria-label="Plus 15 seconds">+15s</button>
+      <span id="presets"></span>
+      <span class="sep"></span>
+      <span class="sess num">Workout <b id="sess">0:00</b></span>
+      <button id="sessreset" aria-label="Reset workout clock">↺</button>
+    </div>
+  </div>
+</div>
+
+
+<!--__SCRIPTS__-->

@@ -46,20 +46,24 @@ days ticked on the device and in the cloud are merged.
 
 | File | What it is |
 |---|---|
-| `lib.js` | Stick-figure engine and the exercise library (poses, reps per level, cues) |
-| `gen.js` | Generated Three-Split 60 (now frozen in `programs/three-split-60.json` so progress stays valid) |
-| `programs.config.js` | The 24 library programs: split, day types, blocks, time range, progression, name theme |
-| `gen-programs.js` | Turns the configs into 60-day programs fitted to their time range → `programs/library.json` |
-| `app.template.html` | The app UI |
-| `build.js` | Generates the library, combines it with Three-Split 60 and writes `index.html` |
-| `firebase-sync.js` | Google sign-in and Firestore sync (GitHub Pages build) |
-| `firebase-config.js` | Your Firebase project config (`null` = device only) |
-| `manifest.webmanifest`, `icons/` | App name and icon for Add to Home screen / Install |
-| `sw.js` | Service worker: newest version when online, still opens offline |
-| `firestore.rules` | Security rules: each user reads and writes only their own progress |
+| `exercises.js` | **Exercise Catalogue**: every exercise and stretch with poses, reps per level (as used), muscles, cues, loads |
+| `figures.js` | **Figure engine**: draws the stick figures and the front/back muscle map from poses |
+| `programs.config.js` | Every program: split, day types, blocks, time range, progression, name theme (Three-Split 60 is `frozen`) |
+| `program-builder.js` | **Program Builder**: `build(config)` → 60-day program, fitted to its time range; owns the time model |
+| `programs/three-split-60.json` | Three-Split 60's days, frozen so saved progress stays valid |
+| `app/session.js` | **Workout Session**: progress through a day and every rest/timer rule (pure, no page) |
+| `app/store.js` | **Progress Store**: done days per program, device copy + sync adapters (Firebase, claude.ai, in-memory) |
+| `app/views.js` | Routing and page rendering |
+| `app/clock.js` | Timer, beeps, wake lock and workout clock (runs the session's instructions) |
+| `app/main.js` | Wires store, session and clock to the page |
+| `app/shell.html`, `app/styles.css` | Page markup and styles |
+| `build.js` | Builds all programs and stitches everything into `index.html` (GitHub Pages) and `kettle-and-bar.html` (claude.ai) |
+| `tests/` | `npm test`: session rules, store sync, program invariants, catalogue |
+| `firebase-sync.js`, `firebase-config.js`, `firestore.rules` | Google sign-in and Firestore sync |
+| `manifest.webmanifest`, `icons/`, `sw.js` | Installable app, icon, offline support |
 | `sheet.js` | Writes `sheet.html`, a contact sheet of every illustration |
 
-Rebuild after editing: `node build.js`. What's planned next is in [ROADMAP.md](ROADMAP.md).
+Build: `node build.js` · Test: `npm test`. What's planned next is in [ROADMAP.md](ROADMAP.md).
 
 ## Firebase setup (sync)
 
@@ -79,5 +83,5 @@ Rebuild after editing: `node build.js`. What's planned next is in [ROADMAP.md](R
 The config values are identifiers, not secrets; `firestore.rules` is what
 limits each account to its own progress.
 
-Adding a program: generate another entry into the `PROGRAMS` array (see
-`gen.js`); each program keeps its own progress.
+Adding a program: add a config to `programs.config.js`, run `node build.js` and `npm test`;
+each program keeps its own progress.

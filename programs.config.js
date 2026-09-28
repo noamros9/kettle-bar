@@ -15,6 +15,18 @@ const L = (title, slots, extra) => ({ f: 'ladder', title, slots, ...extra });
 const UPPER = S('Upper body', ['pushLoad', 'row', 'shoulders', 'arms', 'push?']);
 
 module.exports = [
+  // ---------------- SIGNATURE ----------------
+  {
+    id: 'three-split-60', name: 'Three-Split 60', subject: 'Signature', frozen: 'programs/three-split-60.json',
+    split: 'Chest & back / full body / abs & cardio', minutes: [26, 38],
+    dayTypes: {
+      cba: { label: 'Chest, back & abs', short: 'Chest · Back' },
+      up: { label: 'Full body · upper focus', short: 'Upper body' },
+      low: { label: 'Full body · lower focus', short: 'Lower body' },
+      ac: { label: 'Abs & cardio', short: 'Abs · Cardio' },
+    },
+  },
+
   // ---------------- SIGNATURE (like Three-Split 60: straight sets, strength days 35–38 min, abs & cardio days 26–31 min) ----------------
   ...(() => {
     const STR = [34.5, 38.4], AC = [25.5, 31.4];
