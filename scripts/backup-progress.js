@@ -20,7 +20,7 @@ async function main() {
   const snap = await admin.firestore().collectionGroup('progress').get();
   const rows = snap.docs.map((d) => {
     const uid = d.ref.parent.parent.id;
-    return { uid, email: emails[uid], pid: d.id, done: d.get('done') || {} };
+    return { uid, email: emails[uid], pid: d.id, done: d.get('done') || {}, swaps: d.get('swaps') || [] };
   });
   if (!rows.length) throw new Error('No progress found in Firestore: refusing to write an empty backup.');
   process.stdout.write(nightlyFile(rows));

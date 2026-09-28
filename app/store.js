@@ -63,10 +63,12 @@
       if (remote && !readonly) write(pid);
       emit('change', pid);
     }
-    // set whole programs at once (an import): device copy, one write per program, change events
-    function replaceAll(programs) {
+    // set whole programs at once (an import): device copy, one write per program, change events;
+    // swaps given for a program replace its swaps, otherwise it keeps its own
+    function replaceAll(programs, swaps = {}) {
       Object.entries(programs).forEach(([pid, days]) => {
         done[pid] = { ...days }; save(pid);
+        if (swaps[pid]) { swapsOf[pid] = swaps[pid].map((x) => ({ ...x })); saveSwaps(pid); }
         if (remote && !readonly) write(pid);
         emit('change', pid);
       });

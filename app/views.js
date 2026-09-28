@@ -336,11 +336,12 @@ function importReview(st) {
     if (removed.length) parts.push(`−${plural(removed.length, 'day')} (${KBBackup.dayRanges(removed)})`);
     return `<li>${esc(PBYID[pid].name)}: ${parts.join(' · ')}</li>`;
   };
+  const swapLine = st.swapNotes.length ? `<p class="muted">Swaps: ${st.swapNotes.map((x) => `${esc(PBYID[x.pid].name)} has ${x.file} in the file (you have ${x.mine})`).join('; ')}. Merge keeps both; Replace uses the file's.</p>` : '';
   const skipped = st.unknown.length ? `<p class="muted">Skipped ${plural(st.unknown.length, 'program')} this app doesn't have: ${st.unknown.map(esc).join(', ')}</p>` : '';
-  const body = ids.length
-    ? `<ul class="difflist">${ids.map(line).join('')}</ul>${skipped}
+  const body = ids.length || st.swapNotes.length
+    ? `<ul class="difflist">${ids.map(line).join('')}</ul>${swapLine}${skipped}
       <p class="muted">Merge keeps every day from both. Replace makes each program in the file match it exactly${remove ? ', so the days marked − are removed' : ''}.</p>
-      <div class="actions">${add ? `<button class="btn" data-backup="merge">Merge: add ${plural(add, 'day')}</button>` : ''}
+      <div class="actions">${add || st.swapNotes.length ? `<button class="btn" data-backup="merge">Merge${add ? `: add ${plural(add, 'day')}` : ''}</button>` : ''}
         <button class="btn ghost" data-backup="replace">Replace: add ${add}, remove ${remove}</button>
         <button class="btn ghost" data-backup="cancel">Cancel</button></div>`
     : `<p>This backup matches your progress. Nothing to import.</p>${skipped}<div class="actions"><button class="btn ghost" data-backup="cancel">Close</button></div>`;

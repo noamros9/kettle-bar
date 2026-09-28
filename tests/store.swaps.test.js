@@ -80,3 +80,15 @@ test('ticking a program the store was not loaded with, signed in, writes no swap
   store.toggle('new', 1); await store.flush();
   assert.deepEqual(remote.swaps.new, []);
 });
+
+test('an import sets days and swaps together, in one write per program', async () => {
+  const remote = createMemoryRemote();
+  const store = make(); store.attach(remote); await tick();
+  let writes = 0; const w = remote.write; remote.write = (...a) => { writes++; return w(...a); };
+  await store.replaceAll({ p: { 2: 'b' } }, { p: [swap] });
+  assert.deepEqual(store.swaps('p'), [swap]);
+  assert.deepEqual(remote.swaps.p, [swap]);
+  assert.equal(writes, 1);
+  await store.replaceAll({ p: { 3: 'c' } });
+  assert.deepEqual(store.swaps('p'), [swap], 'no swaps given: the program keeps its own');
+});
