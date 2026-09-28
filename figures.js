@@ -146,6 +146,28 @@
   }
 
 
+  /* ---------- Animation (exercise pages): the positions in a loop, there and back ---------- */
+  const isPoint = (v) => Array.isArray(v) && typeof v[0] === 'number';
+  // every point of a moves toward b by t; everything else (props, mat, bar) stays as in a
+  function lerpPose(a, b, t) {
+    const o = { ...a };
+    Object.keys(b).forEach((k) => { if (isPoint(b[k]) && isPoint(a[k])) o[k] = [a[k][0] + (b[k][0] - a[k][0]) * t, a[k][1] + (b[k][1] - a[k][1]) * t]; });
+    return o;
+  }
+  function animationFrames(ex, { steps = 14, label } = {}) {
+    const P = ex.poses;
+    if (P.length < 2) return [figureSVG(ex, label)];
+    const seq = [...P, ...P.slice(1, -1).reverse()], out = [];
+    seq.forEach((a, s) => {
+      const b = seq[(s + 1) % seq.length];
+      for (let i = 0; i < steps; i++) out.push(figureSVG({ ...ex, poses: [lerpPose(a, b, (1 - Math.cos((Math.PI * i) / steps)) / 2)] }, label));
+    });
+    // one viewBox for every frame, so the figure never jumps
+    const boxes = out.map((f) => f.match(/viewBox="0 (-?[\d.]+) ([\d.]+) ([\d.]+)"/).slice(1).map(Number));
+    const top = Math.min(...boxes.map((b) => b[0])), bottom = Math.max(...boxes.map((b) => b[0] + b[2]));
+    return out.map((f, i) => f.replace(/viewBox="[^"]+"/, `viewBox="0 ${top} ${boxes[i][1]} ${bottom - top}"`));
+  }
+
   /* ---------- Muscle map: front + back body, one shape per muscle group (left half, mirrored) ---------- */
   const SIL = [ // silhouette pieces, left half of a 200-wide figure
     'M100 68 L80 71 L58 78 L50 90 L53 130 L62 170 L65 204 L60 232 L100 238 Z', // torso
@@ -200,7 +222,7 @@
     return `<svg class="mm" viewBox="0 0 420 452" role="img" aria-label="${label || 'Muscles worked'}">${view(FRONT, 0, 'Front')}${view(BACK, 220, 'Back')}</svg>`;
   }
 
-  const api = { figureSVG, muscleMapSVG };
+  const api = { figureSVG, muscleMapSVG, animationFrames };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBFig = api;
 })(typeof window !== 'undefined' ? window : globalThis);

@@ -79,3 +79,33 @@ test('the primary / secondary muscle map (exercise pages) is unchanged apart fro
   assert.equal(count(svg, /class="mm-p"/g), 2);
   assert.doesNotMatch(svg, /mm-l\d/);
 });
+
+// ---------- animation (exercise pages) ----------
+const { animationFrames } = require('../figures.js');
+const up = { ...stand, hn: [-10, -60], hf: [10, -60] };
+const squat = { ...stand, t: [0, -30], fn: [-8, 30], ff: [8, 30] };
+
+test('animation goes through every position and back, easing in and out, in one shared frame size', () => {
+  const ex = { name: 'Move', poses: [stand, up, squat] };
+  const frames = animationFrames(ex, { steps: 4 });
+  assert.equal(frames.length, 4 * 4, 'there and back: stand→up→squat→up→(stand)');
+  const boxes = new Set(frames.map((f) => f.match(/viewBox="([^"]+)"/)[1]));
+  assert.equal(boxes.size, 1, 'one viewBox for every frame');
+  const body = (svg) => svg.replace(/viewBox="[^"]+"/, '');
+  assert.equal(body(frames[0]), body(figureSVG({ ...ex, poses: [stand] })), 'starts on the first position');
+  assert.equal(body(frames[4]), body(figureSVG({ ...ex, poses: [up] })), 'reaches the second position');
+  frames.forEach((f) => assert.doesNotMatch(f, /NaN/));
+  assert.match(frames[0], /aria-label="Move"/);
+});
+
+test('a one-position exercise is a single still frame; props and extras come from the first position', () => {
+  assert.equal(animationFrames({ name: 'Hold', poses: [stand] }).length, 1);
+  const frames = animationFrames({ name: 'Swing', poses: [{ ...stand, kb: 'both', mat: 1 }, { ...up, kb: 'both' }] }, { steps: 3 });
+  assert.equal(frames.length, 6);
+  frames.forEach((f) => assert.match(f, /var\(--kit\)/));
+});
+
+test('animation frames can carry the same label as the still drawing', () => {
+  animationFrames({ name: 'Move', poses: [stand, up] }, { label: 'Move illustration', steps: 2 }).forEach((f) => assert.match(f, /aria-label="Move illustration"/));
+  assert.match(animationFrames({ name: 'Hold', poses: [stand] }, { label: 'Hold illustration' })[0], /aria-label="Hold illustration"/);
+});

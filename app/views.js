@@ -372,12 +372,26 @@ function viewStats() {
     <p class="note">Counts the planned work of each day you marked done: its sets, reps and minutes. Weeks start on Sunday.</p>`;
 }
 
+/* ---------------- exercise page animation (still under reduce motion; nowhere else) ---------------- */
+const anim = { iv: null, cache: {} };
+function stopAnimation() { clearInterval(anim.iv); anim.iv = null; }
+function startAnimation(id) {
+  const el = document.querySelector('.bigfig');
+  if (!el || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const frames = anim.cache[id] || (anim.cache[id] = KBFig.animationFrames(EX[id], { label: EX[id].name + ' illustration' }));
+  if (frames.length < 2) return;
+  let i = 0;
+  anim.iv = setInterval(() => { i = (i + 1) % frames.length; el.innerHTML = frames[i]; }, 55);
+}
+
 function render(scrollTop) {
   const app = $('#app');
   const v = route.view;
   app.innerHTML = v === 'programs' ? viewPrograms() : v === 'library' ? viewLibrary() : v === 'settings' ? viewSettings() : v === 'stats' ? viewStats() : v === 'exercise' ? viewExercise() : v === 'day' ? viewDay() : viewProgram();
   const section = v === 'library' || v === 'exercise' ? 'library' : v === 'settings' || v === 'stats' ? v : 'programs';
   document.querySelectorAll('.top [data-go]').forEach((b) => b.setAttribute('aria-current', b.dataset.go === section ? 'page' : 'false'));
+  stopAnimation();
+  if (v === 'exercise') startAnimation(route.ex);
   const showTimer = v === 'day';
   $('#timer').hidden = !showTimer; document.body.classList.toggle('has-timer', showTimer);
   if (scrollTop) window.scrollTo(0, 0);
