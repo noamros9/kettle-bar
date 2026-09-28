@@ -6,12 +6,17 @@ const test = base.test.extend({
   app: async ({ page }, use) => {
     const errors = [];
     page.on('pageerror', (e) => errors.push(e.message));
-    page.on('console', (m) => { if (m.type() === 'error') errors.push(`${m.text()} (${m.location().url})`); });
+    const allowed = [];
+    page.on('console', (m) => { const t = `${m.text()} (${m.location().url})`; if (m.type() === 'error' && !allowed.some((re) => re.test(t))) errors.push(t); });
     await page.route('**/firebase-sync.js', (r) => r.fulfill({ body: '', contentType: 'text/javascript' }));
     await page.route(/fonts\.(googleapis|gstatic)\.com/, (r) => r.fulfill({ body: '', contentType: 'text/css' }));
     const app = {
       page, errors,
-      async open(hash = '') { await page.goto('/index.html' + hash); await page.locator('#app h1').first().waitFor(); },
+      // errors a test causes on purpose (e.g. cutting the network), matched on "message (url)"
+      allowErrors(re) { allowed.push(re); },
+      async open(hash = '') { await page.goto('/index.html' + hash); await page.locator('#app h1').first().waitFor(); await this.loaded(); },
+      // programs load when opened: wait until the page isn't showing "Loading…"
+      async loaded() { await page.waitForFunction(() => !document.querySelector('#app .loading')); },
       // change route in the same page; render is synchronous on hashchange
       async go(hash) {
         await page.evaluate((h) => new Promise((done) => {
@@ -19,6 +24,7 @@ const test = base.test.extend({
           window.addEventListener('hashchange', () => setTimeout(done), { once: true });
           location.hash = h;
         }), hash);
+        await this.loaded();
       },
       async sidewaysScroll() { return page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth); },
       // the page heading as a locator, for assertions that wait until a new page has drawn

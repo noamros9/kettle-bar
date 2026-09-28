@@ -24,7 +24,13 @@ function rerender() {
 /* ---------------- routing ----------------
    #today (home-screen shortcut) · #programs · #exercises · #stats · #settings · #ex-<id> · #p-<pid> · #p-<pid>-d<n>   (#d<n> = Three-Split 60, kept for old links) */
 // every program, through the Program Catalogue (today: all inlined in the page)
-const programs = KBPrograms.createProgramCatalogue(KBPrograms.inlined(PROGRAMS));
+const OFFLINE_CACHE = 'kettle-bar-v2'; // the service worker's cache; the page writes loaded programs into it too
+const offlineCache = {
+  get: (url) => (self.caches ? caches.match(url).then((r) => r && r.json()) : Promise.resolve(undefined)),
+  put: (url, v) => (self.caches ? caches.open(OFFLINE_CACHE).then((c) => c.put(url, new Response(JSON.stringify(v), { headers: { 'Content-Type': 'application/json' } }))) : Promise.resolve()),
+};
+const fetchJson = (url) => fetch(url).then((r) => { if (!r.ok) throw new Error(url + ': ' + r.status); return r.json(); });
+const programs = KBPrograms.createProgramCatalogue(KBPrograms.fetched(PROGRAM_SUMMARIES, { fetchJson, cache: offlineCache }));
 const lastPid = () => { try { const v = localStorage.getItem('kb-last-program'); return programs.has(v) ? v : null; } catch (e) { return null; } };
 const rememberPid = (pid) => { try { localStorage.setItem('kb-last-program', pid); } catch (e) {} };
 let route = { view: 'program', pid: programs.ids()[0], day: null };
@@ -35,7 +41,7 @@ function parseHash() {
   if (h === 'settings') return { view: 'settings' };
   // the home-screen shortcut: the next day not done in the program opened last (else the program page)
   if (h === 'today') {
-    const pid = lastPid() || programs.ids()[0], p = programs.get(pid), n = nextDay(p);
+    const pid = lastPid() || programs.ids()[0], n = nextDay(pid);
     history.replaceState(null, '', '#' + (n ? dayHash(pid, n) : 'p-' + pid));
     return n ? { view: 'day', pid, day: n } : { view: 'program', pid };
   }
@@ -60,7 +66,8 @@ const dayHash = (pid, n) => `p-${pid}-d${n}`;
 const prog = () => programs.get(route.pid) || programs.get(programs.ids()[0]);
 const typesOf = (p) => p.dayTypes || TYPES;
 const itemSets = (b, it) => it.sets || b.sets;
-const nextDay = (p, after) => KBProgress.nextDay(store.progress(p.id), p.days.map((w) => w.day), after);
+// the next day not done (after `after`, else from the start); works from the program list, no days needed
+const nextDay = (pid, after) => KBProgress.nextDay(store.progress(pid), Array.from({ length: programs.summary(pid).dayCount }, (_, i) => i + 1), after);
 const unitText = (e) => KBSession.unitText(e);
 function cycleDays(p, key) {
   const d = p.days.filter((w) => w.type === key).slice(0, 3).map((w) => w.day);
@@ -96,7 +103,7 @@ function viewPrograms() {
 
 /* ---------------- program page ---------------- */
 function viewProgram() {
-  const p = prog(), n = store.count(p.id), nx = nextDay(p), TY = typesOf(p);
+  const p = prog(), n = store.count(p.id), nx = nextDay(p.id), TY = typesOf(p);
   rememberPid(p.id);
   const nw = nx ? p.days[nx - 1] : null;
   const levels = [0, 1, 2].map((li) => {
@@ -224,13 +231,14 @@ const doneEntries = () => programs.ids().flatMap((pid) => Object.entries(store.d
 // the stats for a scope ('all' or a program id) and a span, now (app/stats.js report)
 const statsReport = (scope, span) => KBStats.report({ entries: doneEntries(), dayOf, EX, names: MUSCLE_NAMES }, { scope, span, now: new Date() });
 function weekLine() {
+  if (stillLoading(doneEntries().map((x) => x.pid)).length) return 'This week: loading…';
   const s = statsReport('all', 'week').totals;
   const nw = (t) => `<span class="nw">${t}</span>`; // keep each phrase on one line when it wraps
   return `${nw(`This week: ${plural(s.workouts, 'workout')}`)} · ${nw(`${Math.round(s.workoutMin)} min`)} + ${nw(`${Math.round(s.stretchMin)} min stretching`)}`;
 }
 // the next day not done yet after this one (or the first one left)
 function nextPreview(p, w) {
-  const nd = nextDay(p, w.day), n = nd && p.days[nd - 1];
+  const nd = nextDay(p.id, w.day), n = nd && p.days[nd - 1];
   if (!n) return `<p class="fnext">Every day of ${esc(p.name)} is done.</p>`;
   const t = typesOf(p)[n.type] || { label: n.title };
   return `<button class="fnext" data-day="${n.day}"><b>Next: Day ${n.day} · ${esc(n.name)}</b><span>${esc(t.label || n.title)} · About ${n.est} min</span></button>`;
@@ -397,6 +405,7 @@ function muscleBalance(r, what) {
 }
 function viewStats() {
   const { span, pid } = statsView;
+  if (stillLoading(doneEntries().map((x) => x.pid)).length) return `<h1>Stats</h1><p class="loading lede" role="status">Loading your programs…</p>`;
   const r = statsReport(pid, span), { from, to } = r, all = doneEntries();
   const used = programs.list().filter((p) => all.some((e) => e.pid === p.id) || p.id === pid);
   const scopeName = pid === 'all' ? 'all programs' : programs.summary(pid).name;
@@ -423,10 +432,28 @@ function startAnimation(id) {
   anim.iv = setInterval(() => { i = (i + 1) % frames.length; el.innerHTML = frames[i]; }, 55);
 }
 
+/* ---------------- programs that aren't loaded yet ---------------- */
+// load any of these programs that aren't here yet, redrawing when each arrives; returns the ones still loading
+const loadFailures = {};
+function stillLoading(pids) {
+  const missing = [...new Set(pids)].filter((pid) => programs.has(pid) && !programs.get(pid));
+  // a program that failed stays failed until "Try again" (no retry loop while offline)
+  missing.filter((pid) => !loadFailures[pid]).forEach((pid) => programs.load(pid).then(() => rerender(), (e) => { loadFailures[pid] = e.message; rerender(); }));
+  return missing;
+}
+function loadingView(pid) {
+  const failed = loadFailures[pid];
+  return failed
+    ? `<p class="lede" role="alert">${esc(failed)}</p><button class="btn" data-retry="${pid}">Try again</button>`
+    : `<p class="loading lede" role="status">Loading ${esc(programs.summary(pid).name)}…</p>`;
+}
+
 function render(scrollTop) {
   const app = $('#app');
   const v = route.view;
-  app.innerHTML = v === 'programs' ? viewPrograms() : v === 'library' ? viewLibrary() : v === 'settings' ? viewSettings() : v === 'stats' ? viewStats() : v === 'exercise' ? viewExercise() : v === 'day' ? viewDay() : viewProgram();
+  const needsProgram = v === 'program' || v === 'day' || v === 'exercise';
+  if (needsProgram && stillLoading([route.pid]).length) app.innerHTML = loadingView(route.pid);
+  else app.innerHTML = v === 'programs' ? viewPrograms() : v === 'library' ? viewLibrary() : v === 'settings' ? viewSettings() : v === 'stats' ? viewStats() : v === 'exercise' ? viewExercise() : v === 'day' ? viewDay() : viewProgram();
   const section = v === 'library' || v === 'exercise' ? 'library' : v === 'settings' || v === 'stats' ? v : 'programs';
   document.querySelectorAll('.top [data-go]').forEach((b) => b.setAttribute('aria-current', b.dataset.go === section ? 'page' : 'false'));
   stopAnimation();

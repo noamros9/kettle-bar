@@ -44,7 +44,7 @@ jobs:
       - name: Collect the site
         run: |
           mkdir _site
-          cp -r index.html manifest.webmanifest sw.js icons firebase-config.js firebase-sync.js _site/
+          cp -r index.html data manifest.webmanifest sw.js icons firebase-config.js firebase-sync.js _site/
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site

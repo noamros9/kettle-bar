@@ -112,7 +112,7 @@ test('an import survives the page redrawing while the file is being chosen (e.g.
 test('Export includes swaps; importing them on a fresh device shows the swapped exercise', async ({ app }) => {
   test.skip(test.info().project.name !== 'phone-light', 'theme-independent');
   await app.open('#p-three-split-60-d1');
-  const s = await app.data(() => { const b = PROGRAMS[0].days[0].blocks[0]; return { ex: b.items[0].ex, to: KBSwaps.alternatives(b.items[0].ex, b, PROGRAMS[0], KBEx)[0] }; });
+  const s = await app.data(() => { const b = programs.day('three-split-60', 1).blocks[0]; return { ex: b.items[0].ex, to: KBSwaps.alternatives(b.items[0].ex, b, programs.get('three-split-60'), KBEx)[0] }; });
   await app.data((sw) => store.setSwaps('three-split-60', [{ day: 1, ex: sw.ex, to: sw.to }]), s);
   await app.go('#settings');
   const [download] = await Promise.all([app.page.waitForEvent('download'), app.page.getByRole('button', { name: 'Export progress' }).click()]);

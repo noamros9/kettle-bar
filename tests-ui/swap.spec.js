@@ -3,10 +3,10 @@ const { test, expect } = require('./fixtures.js');
 
 async function firstExercise(app) {
   return app.data(() => {
-    const it = PROGRAMS[0].days[0].blocks[0].items[0];
-    const alts = KBSwaps.alternatives(it.ex, PROGRAMS[0].days[0].blocks[0], PROGRAMS[0], KBEx);
+    const it = programs.day('three-split-60', 1).blocks[0].items[0];
+    const alts = KBSwaps.alternatives(it.ex, programs.day('three-split-60', 1).blocks[0], programs.get('three-split-60'), KBEx);
     const to = KBEx.EX[alts[0]];
-    return { from: KBEx.EX[it.ex].name, to: to.name, toId: alts[0], reps: to.r[PROGRAMS[0].days[0].level - 1] };
+    return { from: KBEx.EX[it.ex].name, to: to.name, toId: alts[0], reps: to.r[programs.day('three-split-60', 1).level - 1] };
   });
 }
 
@@ -42,7 +42,7 @@ test('a swap survives a reload, stays on that day only, and counts in the stats'
   await app.page.reload(); await app.page.locator('#app h1').waitFor();
   await expect(app.page.locator('article.ex').filter({ hasText: `Swapped from ${x.from}` }).locator('.nm')).toHaveText(x.to);
   await app.go('#p-three-split-60-d4'); // same kind of day, not swapped
-  const d4first = await app.data(() => KBEx.EX[PROGRAMS[0].days[3].blocks[0].items[0].ex].name);
+  const d4first = await app.data(() => KBEx.EX[programs.get('three-split-60').days[3].blocks[0].items[0].ex].name);
   await expect(app.page.getByRole('button', { name: `Set 1 of ${d4first} done` })).toBeVisible();
   await expect(app.page.getByText('Swapped from')).toHaveCount(0);
   await app.go('#p-three-split-60-d1');
@@ -55,7 +55,7 @@ test('a swap survives a reload, stays on that day only, and counts in the stats'
 test('"Rest of the program" swaps later days too; Undo on any of them restores every day', async ({ app }, testInfo) => {
   await app.open('#p-three-split-60-d1');
   const x = await firstExercise(app);
-  const later = await app.data((from) => PROGRAMS[0].days.find((d) => d.day > 1 && d.blocks.some((b) => b.items.some((it) => KBEx.EX[it.ex].name === from))).day, x.from);
+  const later = await app.data((from) => programs.get('three-split-60').days.find((d) => d.day > 1 && d.blocks.some((b) => b.items.some((it) => KBEx.EX[it.ex].name === from))).day, x.from);
   await app.page.getByRole('button', { name: `Swap ${x.from}` }).click();
   const sheet = app.page.getByRole('dialog', { name: `Swap ${x.from}` });
   await sheet.getByRole('button', { name: new RegExp(`^${x.to}`) }).click();

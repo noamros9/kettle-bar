@@ -74,7 +74,8 @@ days ticked on the device and in the cloud are merged.
 | `manifest.webmanifest`, `icons/`, `sw.js` | Installable app, icon, offline support |
 | `sheet.js` | Writes `sheet.html`, a contact sheet of every illustration |
 
-Build: `npm run build` (writes `index.html`, not committed) · Test: `npm test` · Coverage gate:
+Build: `npm run build` (writes `index.html` with the program list and `data/<id>.json` per program, loaded when
+opened and cached for offline; not committed) · Test: `npm test` · Coverage gate:
 `npm run test:coverage` (100% lines, branches and functions on Session, Store, Builder, Catalogue,
 Figure engine and Backup). Run `npm install` once after cloning to install the pre-commit hook that
 enforces the same gate locally. What's planned next is in [ROADMAP.md](ROADMAP.md); the words

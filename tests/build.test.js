@@ -5,8 +5,18 @@ const { render } = require('../build.js');
 
 const out = render();
 
-test('the build produces the GitHub Pages page, nothing else', () => {
-  assert.deepStrictEqual(Object.keys(out), ['index.html']);
+test('the build produces the page and one data file per program', () => {
+  const { CONFIGS } = require('../program-builder.js');
+  assert.deepStrictEqual(Object.keys(out).sort(), ['index.html', ...CONFIGS.map((c) => `data/${c.id}.json`)].sort());
+  const iron = JSON.parse(out['data/iron-ppl.json']);
+  assert.equal(iron.days.length, 60);
+});
+
+test('the page carries only the program list: small to download, no days inside', () => {
+  const html = out['index.html'];
+  assert.ok(html.length < 300 * 1024, `index.html is ${Math.round(html.length / 1024)} KB`);
+  assert.doesNotMatch(html, /"days":/);
+  assert.match(html, /const PROGRAM_SUMMARIES = \[/);
 });
 
 test('the page has no claude.ai sync left in it (ADR 3)', () => {
