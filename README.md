@@ -32,6 +32,8 @@ days ticked on the device and in the cloud are merged.
 
 - **Settings** (gear, top right) → **Export progress** downloads every program's done days as one file;
   **Import a backup** shows which days it would add or remove, then asks **Merge** or **Replace**.
+- Installed on the home screen, long-press the app icon → **Today's workout** opens the next day you haven't
+  done in the program you opened last.
 - Tap a day to open the workout; tick the circle on a tile or press
   **Mark as done** to record it.
 - Every workout starts with a 1-minute warm-up and ends with 2 minutes of

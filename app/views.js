@@ -22,7 +22,7 @@ function rerender() {
 }
 
 /* ---------------- routing ----------------
-   #programs · #exercises · #stats · #settings · #ex-<id> · #p-<pid> · #p-<pid>-d<n>   (#d<n> = Three-Split 60, kept for old links) */
+   #today (home-screen shortcut) · #programs · #exercises · #stats · #settings · #ex-<id> · #p-<pid> · #p-<pid>-d<n>   (#d<n> = Three-Split 60, kept for old links) */
 // every program, through the Program Catalogue (today: all inlined in the page)
 const programs = KBPrograms.createProgramCatalogue(KBPrograms.inlined(PROGRAMS));
 const lastPid = () => { try { const v = localStorage.getItem('kb-last-program'); return programs.has(v) ? v : null; } catch (e) { return null; } };
@@ -33,6 +33,12 @@ function parseHash() {
   if (h === 'programs') return { view: 'programs' };
   if (h === 'exercises') return { view: 'library' };
   if (h === 'settings') return { view: 'settings' };
+  // the home-screen shortcut: the next day not done in the program opened last (else the program page)
+  if (h === 'today') {
+    const pid = lastPid() || programs.ids()[0], p = programs.get(pid), n = nextDay(p);
+    history.replaceState(null, '', '#' + (n ? dayHash(pid, n) : 'p-' + pid));
+    return n ? { view: 'day', pid, day: n } : { view: 'program', pid };
+  }
   if (h === 'stats') return { view: 'stats' };
   const x = h.match(/^ex-([a-z0-9_]+)$/);
   if (x && EX[x[1]]) return { view: 'exercise', ex: x[1], pid: route.pid };
