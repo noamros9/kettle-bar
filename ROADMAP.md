@@ -46,6 +46,9 @@ Built together because they share the muscle heat map and the week numbers.
      secondary ½); timed blocks converted to sets; Stats is a header tab.
 
 ## Phase 3: workout helpers
+Plan and tickets: [docs/plans/phase-3-workout-helpers.md](docs/plans/phase-3-workout-helpers.md). Swaps apply from that
+day on ("rest of the program"), with the new exercise's own reps; voice speaks in the workout and the
+stretches, on by default with a Settings switch.
 6. **Swap an exercise**: offer alternatives that work the same main muscles with the program's equipment. Each
    time, ask whether the swap is **for today only or for the rest of the program**. Swaps sync like progress.
 7. **Voice cues** for holds and sides only: "switch sides", "halfway", and the end of a hold. Uses the phone's
