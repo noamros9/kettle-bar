@@ -51,3 +51,26 @@ test('a swap survives a reload, stays on that day only, and counts in the stats'
   await app.go('#stats');
   await expect(app.page.getByRole('group', { name: 'Reps' }).locator('b')).toHaveText(reps.toLocaleString('en-US'));
 });
+
+test('"Rest of the program" swaps later days too; Undo on any of them restores every day', async ({ app }, testInfo) => {
+  await app.open('#p-three-split-60-d1');
+  const x = await firstExercise(app);
+  const later = await app.data((from) => PROGRAMS[0].days.find((d) => d.day > 1 && d.blocks.some((b) => b.items.some((it) => KBEx.EX[it.ex].name === from))).day, x.from);
+  await app.page.getByRole('button', { name: `Swap ${x.from}` }).click();
+  const sheet = app.page.getByRole('dialog', { name: `Swap ${x.from}` });
+  await sheet.getByRole('button', { name: new RegExp(`^${x.to}`) }).click();
+  await expect(sheet.getByRole('button', { name: /^Rest of the program/ })).toContainText('Days 1–60');
+  await sheet.getByRole('button', { name: /^Rest of the program/ }).click();
+  await app.go(`#p-three-split-60-d${later}`);
+  const swapped = app.page.locator('article.ex').filter({ hasText: `Swapped from ${x.from}` });
+  await expect(swapped.first().locator('.nm')).toHaveText(x.to);
+  const undo = swapped.first().getByRole('button', { name: `Undo swap of ${x.to}` });
+  await expect(undo).toContainText('from day 1 on');
+  await swapped.first().scrollIntoViewIfNeeded();
+  await app.page.screenshot({ path: `test-results/shots/${testInfo.project.name}/swap-onward.png` });
+  await undo.click();
+  await expect(app.page.getByText('Swapped from')).toHaveCount(0);
+  await app.go('#p-three-split-60-d1');
+  await expect(app.page.getByText('Swapped from')).toHaveCount(0);
+  await expect(app.page.getByRole('button', { name: `Swap ${x.from}` })).toBeVisible();
+});

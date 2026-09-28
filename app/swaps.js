@@ -3,9 +3,10 @@
 
      alternatives(exId, block, program, cat) -> [exId]   what the exercise can be swapped for
      applySwaps(day, swaps, cat) -> the day as you'll do it (a new object; the program is never changed)
+     undoSwap(swaps, day, exId) -> swaps without the one that put exId on that day (one step of a chain)
    cat is the Exercise Catalogue module ({ EX, allowedIn, scaleReps }).
 
-   A swap: { day, ex, to } (today only). Swaps apply in the order they were made, so a swap of a swap
+   A swap: { day, ex, to, onward? } — today only, or (onward) from that day to the end of the program. Swaps apply in the order they were made, so a swap of a swap
    follows the chain. The new exercise gets its own reps for the day's level. */
 (function (root) {
   const STRETCH = ['warmup', 'cooldown'];
@@ -20,7 +21,7 @@
     });
   }
 
-  const appliesTo = (s, d) => s.day === d;
+  const appliesTo = (s, d) => s.day === d || (!!s.onward && s.day <= d);
   function applySwaps(day, swaps, cat) {
     const mine = (swaps || []).filter((s) => appliesTo(s, day.day));
     if (!mine.length) return day;
@@ -36,7 +37,12 @@
     return { ...day, blocks };
   }
 
-  const api = { alternatives, applySwaps };
+  function undoSwap(swaps, day, exId) {
+    const idx = swaps.map((s, i) => (appliesTo(s, day) && s.to === exId ? i : -1)).filter((i) => i >= 0).pop();
+    return idx === undefined ? swaps : swaps.filter((_, i) => i !== idx);
+  }
+
+  const api = { alternatives, applySwaps, undoSwap };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBSwaps = api;
 })(typeof window !== 'undefined' ? window : globalThis);
