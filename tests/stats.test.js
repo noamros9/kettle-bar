@@ -53,6 +53,7 @@ test('muscle load: each set counts 1 for every main muscle and ½ for every seco
 
 // ---------- weeks and summaries ----------
 const { weekStart, summarize } = require('../app/stats.js');
+const lookup = (programs) => (pid, n) => programs[pid] && programs[pid].days[n - 1];
 
 test('weeks start on Sunday at midnight, local time', () => {
   assert.deepEqual(weekStart(new Date(2026, 8, 26, 23, 30)), new Date(2026, 8, 20)); // Saturday night -> previous Sunday
@@ -70,9 +71,9 @@ test('summarize adds up the done days inside a time range', () => {
     { pid: 'gone', day: 1, time: at(28) }, // a program this app doesn't have: skipped
     { pid: 'p', day: 61, time: at(28) }, // a day the program doesn't have: skipped
   ];
-  const s = summarize(entries, { programs, EX, from: new Date(2026, 8, 27), to: new Date(2026, 9, 4) });
+  const s = summarize(entries, { dayOf: lookup(programs), EX, from: new Date(2026, 8, 27), to: new Date(2026, 9, 4) });
   assert.deepEqual(s, { workouts: 2, workoutMin: 50, stretchMin: 3, sets: 5, reps: 46, muscles: { chest: 3, triceps: 3, front_delts: 1.5, lats: 2, biceps: 1 } });
-  assert.deepEqual(summarize([], { programs, EX, from: new Date(0), to: new Date() }), { workouts: 0, workoutMin: 0, stretchMin: 0, sets: 0, reps: 0, muscles: {} });
+  assert.deepEqual(summarize([], { dayOf: lookup(programs), EX, from: new Date(0), to: new Date() }), { workouts: 0, workoutMin: 0, stretchMin: 0, sets: 0, reps: 0, muscles: {} });
 });
 
 // ---------- spans and per-week rows ----------
@@ -90,7 +91,7 @@ test('spans: this week, the last 4 weeks (this one included) and all time from t
 
 test('weekly rows: one per week in the range, newest first, empty weeks included', () => {
   const programs = { p: { days: [day([{ sets: 3, items: [it('push', 10)] }])] } };
-  const rows = weekly([e(29), e(28), e(10)], { programs, EX, from: new Date(2026, 8, 6), to: new Date(2026, 9, 4) });
+  const rows = weekly([e(29), e(28), e(10)], { dayOf: lookup(programs), EX, from: new Date(2026, 8, 6), to: new Date(2026, 9, 4) });
   assert.deepEqual(rows.map((r) => [r.start.getDate(), r.workouts, r.sets]), [[27, 2, 6], [20, 0, 0], [13, 0, 0], [6, 1, 3]]);
 });
 

@@ -118,13 +118,20 @@ function viewProgram() {
 /* ---------------- workout page ---------------- */
 // one Workout Session per open day (kept while you look at exercise pages and come back)
 const live = { key: null, s: null };
+// one live session per open day; if a swap changes its exercises, the new session keeps the ticks
 function sessionFor(p, w) {
-  const key = p.id + ':' + w.day;
-  if (live.key !== key) { live.key = key; live.s = KBSession.createSession(p, w, { EX }); }
+  const key = p.id + ':' + w.day, exs = JSON.stringify(w.blocks.map((b) => b.items.map((it) => it.ex)));
+  if (live.key !== key) { live.key = key; live.exs = exs; live.s = KBSession.createSession(p, w, { EX }); }
+  else if (live.exs !== exs) { live.exs = exs; live.s = KBSession.createSession(p, w, { EX, from: live.s }); }
   return live.s;
 }
 const fmtFormat = KBSession.FORMAT_NAMES;
 function noteChip(it) { return it.note ? `<span class="notechip">${esc(it.note)}</span>` : ''; }
+let cardDay = null; // the day whose cards are being drawn (for the Swap button)
+function swapButton(it, bi) {
+  if (!cardDay || !KBSwaps.alternatives(it.ex, cardDay.blocks[bi], prog(), KBEx).length) return '';
+  return `<button class="swapbtn" data-swap="${bi}:${cardDay.blocks[bi].items.indexOf(it)}" aria-label="Swap ${esc(EX[it.ex].name)}">⇄ Swap</button>`;
+}
 function exCard(it, i, bi, opts = {}) {
   const e = EX[it.ex], b = opts.block, st = opts.state, ses = opts.session;
   const straight = st && st.f === 'straight';
@@ -133,10 +140,10 @@ function exCard(it, i, bi, opts = {}) {
   const pips = straight ? `<div class="pips" role="group" aria-label="Sets of ${esc(e.name)} done"><span class="lbl">Sets</span>${Array.from({ length: sets }, (_, k) =>
     `<button class="pip num${done > k ? ' on' : ''}" data-pip="${bi}:${i}:${k + 1}" aria-pressed="${done > k}" aria-label="Set ${k + 1} of ${esc(e.name)} done">${k + 1}</button>`).join('')}</div>` : '';
   const work = straight && e.u === 'sec' && done < sets ? `<button class="workbtn" data-work="${bi}:${i}">▶ Start set ${done + 1} · ${it.n} s${e.side ? ' each side' : ''}</button>` : '';
-  return `<article class="ex${straight && done >= sets ? ' fin' : ''}"><div class="ord">${opts.label || String(i + 1).padStart(2, '0')}${straight ? ` · ${sets} sets` : ''}</div>
+  return `<article class="ex${straight && done >= sets ? ' fin' : ''}"><div class="exhead"><div class="ord">${opts.label || String(i + 1).padStart(2, '0')}${straight ? ` · ${sets} sets` : ''}</div>${swapButton(it, bi)}</div>
     <button class="exlink" data-ex="${it.ex}" aria-label="${esc(e.name)}: how to and muscles worked"><div class="figbox">${fig(it.ex)}</div>
     <div class="cnt">${count}</div><div class="nm">${esc(e.name)}</div></button>
-    ${noteChip(it)}${e.load ? `<div class="ld">${esc(LOAD[e.load])}</div>` : ''}
+    ${it.swappedFrom ? `<span class="notechip swapped">Swapped from ${esc(EX[it.swappedFrom].name)}</span>` : ''}${noteChip(it)}${e.load ? `<div class="ld">${esc(LOAD[e.load])}</div>` : ''}
     <p class="cue">${esc(e.cue)}</p>${work}${pips}</article>`;
 }
 function roundPips(id, total, done, what) {
@@ -202,11 +209,13 @@ function stretchBlock(b, key, label, n, ses) {
   </section>`;
 }
 const heatLegend = () => `<div class="heatkey" aria-hidden="true"><span>Less</span>${[1, 2, 3, 4].map((n) => `<i class="mm-l${n}"></i>`).join('')}<span>More</span></div>`;
+// a day as you'll do it (or did it): the program's day with its swaps applied
+const dayOf = (pid, n) => { const p = PBYID[pid], w = p && p.days[n - 1]; return w && KBSwaps.applySwaps(w, store.swaps(pid), KBEx); };
 // every day marked done, in every program: [{ pid, day, time }]
 const doneEntries = () => PROGRAMS.flatMap((p) => Object.entries(store.days(p.id)).map(([day, time]) => ({ pid: p.id, day: +day, time })));
 function weekLine() {
   const from = KBStats.weekStart(new Date()), to = new Date(from); to.setDate(to.getDate() + 7);
-  const s = KBStats.summarize(doneEntries(), { programs: PBYID, EX, from, to });
+  const s = KBStats.summarize(doneEntries(), { dayOf, EX, from, to });
   const nw = (t) => `<span class="nw">${t}</span>`; // keep each phrase on one line when it wraps
   return `${nw(`This week: ${plural(s.workouts, 'workout')}`)} · ${nw(`${Math.round(s.workoutMin)} min`)} + ${nw(`${Math.round(s.stretchMin)} min stretching`)}`;
 }
@@ -234,8 +243,25 @@ function finishCard(p, w, isD) {
     ${nextPreview(p, w)}
   </section>`;
 }
+// Swap sheet: { key: 'pid:day', bi, i, to? } while open
+let swapState = null;
+function swapSheet(p, w) {
+  const st = swapState;
+  if (!st || st.key !== p.id + ':' + w.day) return '';
+  const b = w.blocks[st.bi], it = b.items[st.i], from = EX[it.ex];
+  const reps = (id) => { const e = EX[id]; return `${KBEx.scaleReps(e, e.r[w.level - 1], b.format)} ${unitText(e)}`; };
+  const body = st.to
+    ? `<p><b>${esc(from.name)}</b> → <b>${esc(EX[st.to].name)}</b> · ${esc(reps(st.to))}</p>
+      <div class="actions"><button class="btn" data-swap-apply="day">Today only</button><button class="btn ghost" data-swap-back="1">Back</button></div>`
+    : `<p class="muted">Works the same main muscle (${esc(MUSCLE_NAMES[from.muscles.primary[0]])}) with this program's equipment.</p>
+      <ul class="altlist">${KBSwaps.alternatives(it.ex, b, p, KBEx).map((id) => `<li><button data-swap-to="${id}"><b>${esc(EX[id].name)}</b><span>${esc(reps(id))}${EX[id].load ? ' · ' + esc(LOAD[EX[id].load]) : ''}</span></button></li>`).join('')}</ul>`;
+  return `<div class="sheetwrap"><button class="sheetbg" data-swap-cancel="1" aria-label="Close"></button>
+    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="swap-h"><h2 id="swap-h">Swap ${esc(from.name)}</h2>${body}
+    <button class="btn ghost sheetclose" data-swap-cancel="1">Cancel</button></div></div>`;
+}
 function viewDay() {
-  const p = prog(), w = p.days[route.day - 1];
+  const p = prog(), w = dayOf(p.id, route.day);
+  cardDay = w;
   if (!w) return viewProgram();
   rememberPid(p.id);
   const ses = sessionFor(p, w);
@@ -251,6 +277,7 @@ function viewDay() {
     ${w.blocks.map((b, bi) => blockHTML(p, w, b, bi, ses)).join('')}
     ${w.cooldown ? `<div class="between">Then stretch</div>${stretchBlock(w.cooldown, 'cool', 'C', 'After the abs', ses)}` : ''}
     ${ses.allDone() ? finishCard(p, w, isD) : ''}
+    ${swapSheet(p, w)}
     <p class="note">Tap any exercise for how to do it and the muscles it works. Weights are starting points: pick a load where the last two reps are hard but clean. "Go one weight up" means the next dumbbell size or the heavier bell; "3 s lowering" means a slow 3-second lowering on every rep.</p>`;
 }
 
@@ -361,7 +388,7 @@ function viewStats() {
   const { span, pid } = statsView;
   const all = doneEntries(), entries = pid === 'all' ? all : all.filter((e) => e.pid === pid);
   const { from, to } = KBStats.spanRange(span, new Date(), entries);
-  const opts = { programs: PBYID, EX, from, to };
+  const opts = { dayOf, EX, from, to };
   const s = KBStats.summarize(entries, opts);
   const used = PROGRAMS.filter((p) => all.some((e) => e.pid === p.id) || p.id === pid);
   const scopeName = pid === 'all' ? 'all programs' : PBYID[pid].name;

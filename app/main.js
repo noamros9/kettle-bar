@@ -30,7 +30,7 @@ document.addEventListener('click', (e) => { const pop = $('#acct'); if (!pop.hid
 $('#signout').addEventListener('click', () => { $('#acct').hidden = true; store.auth && store.auth.signOut(); });
 
 /* ---------------- workout: page -> session -> clock ---------------- */
-const openSession = () => sessionFor(prog(), prog().days[route.day - 1]);
+const openSession = () => sessionFor(prog(), dayOf(prog().id, route.day));
 function finish(target) { T.apply(openSession().complete(target)); rerender(); }
 function tick(target) {
   T.unlockAudio(); S.start();
@@ -55,6 +55,16 @@ document.addEventListener('click', (ev) => {
   if (d.go === 'stats') return go('stats');
   if (d.backup) return backupAction(d.backup);
   if (d.statSpan) { statsView.span = d.statSpan; render(); return; }
+  if (d.swap) { const [bi, i] = d.swap.split(':').map(Number); swapState = { key: prog().id + ':' + route.day, bi, i }; rerender(); return; }
+  if (d.swapTo) { swapState.to = d.swapTo; rerender(); return; }
+  if (d.swapBack) { delete swapState.to; rerender(); return; }
+  if (d.swapCancel) { swapState = null; rerender(); return; }
+  if (d.swapApply) {
+    const p = prog(), w = dayOf(p.id, route.day), ex = w.blocks[swapState.bi].items[swapState.i].ex, to = swapState.to;
+    swapState = null;
+    store.setSwaps(p.id, [...store.swaps(p.id), { day: route.day, ex, to }]);
+    return;
+  }
   if (d.go === 'program') return go('p-' + prog().id);
   if (d.openProg) return go('p-' + d.openProg);
   if (d.filter) { const [k, v] = d.filter.split(':'); filters[k] = v; render(); return; }
