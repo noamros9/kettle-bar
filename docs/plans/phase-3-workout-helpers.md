@@ -49,7 +49,7 @@ Cheapest first; one ticket = one branch = one PR.
 
 | # | Ticket | Tier | Blocked by | Branch | Status |
 |---|---|---|---|---|---|
-| 0 | This plan | plan | – | `plan/phase-3` | in review |
+| 0 | This plan | plan | – | `plan/phase-3` | done (PR #27) |
 | 1 | Animated drawings on exercise pages | feature | 0 | `feature/animated-drawings` | todo |
 | 2 | Voice cues + Settings switch | feature | 0 | `feature/voice-cues` | todo |
 | 3 | Swap for today (alternatives, sync, stats) | feature | 0 | `feature/swap-today` | todo |
