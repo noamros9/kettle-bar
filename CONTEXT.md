@@ -100,6 +100,10 @@ Returns **instructions** (`rest`, `clear`, `none`) and **phase plans** (warm-up 
 
 **Clock**: runs the session's instructions in the page: timer, beeps, wake lock, workout clock.
 
+**Program Catalogue**: the module the page asks for programs: the list (summaries with day counts and the exercises
+used), one program's days, and which programs use an exercise. Where programs come from (inlined today;
+fetched with an offline cache, or your own, later) is its adapter's business.
+
 **Program Builder**: turns a program's config into 60 days fitted to each day type's time range.
 Three-Split 60 is **frozen** (read from JSON, not generated).
 

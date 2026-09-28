@@ -23,10 +23,11 @@ function rerender() {
 
 /* ---------------- routing ----------------
    #programs · #exercises · #stats · #settings · #ex-<id> · #p-<pid> · #p-<pid>-d<n>   (#d<n> = Three-Split 60, kept for old links) */
-const PBYID = Object.fromEntries(PROGRAMS.map((p) => [p.id, p]));
-const lastPid = () => { try { const v = localStorage.getItem('kb-last-program'); return PBYID[v] ? v : null; } catch (e) { return null; } };
+// every program, through the Program Catalogue (today: all inlined in the page)
+const programs = KBPrograms.createProgramCatalogue(KBPrograms.inlined(PROGRAMS));
+const lastPid = () => { try { const v = localStorage.getItem('kb-last-program'); return programs.has(v) ? v : null; } catch (e) { return null; } };
 const rememberPid = (pid) => { try { localStorage.setItem('kb-last-program', pid); } catch (e) {} };
-let route = { view: 'program', pid: PROGRAMS[0].id, day: null };
+let route = { view: 'program', pid: programs.ids()[0], day: null };
 function parseHash() {
   const h = location.hash.replace('#', '');
   if (h === 'programs') return { view: 'programs' };
@@ -36,9 +37,9 @@ function parseHash() {
   const x = h.match(/^ex-([a-z0-9_]+)$/);
   if (x && EX[x[1]]) return { view: 'exercise', ex: x[1], pid: route.pid };
   const pd = h.match(/^p-([a-z0-9-]+)-d(\d+)$/);
-  if (pd && PBYID[pd[1]]) return { view: 'day', pid: pd[1], day: +pd[2] };
+  if (pd && programs.has(pd[1])) return { view: 'day', pid: pd[1], day: +pd[2] };
   const pp = h.match(/^p-([a-z0-9-]+)$/);
-  if (pp && PBYID[pp[1]]) return { view: 'program', pid: pp[1] };
+  if (pp && programs.has(pp[1])) return { view: 'program', pid: pp[1] };
   const m = h.match(/^d(\d+)$/);
   if (m) return { view: 'day', pid: 'three-split-60', day: +m[1] };
   const last = lastPid();
@@ -50,7 +51,7 @@ window.addEventListener('hashchange', () => { route = parseHash(); render(true);
 const dayHash = (pid, n) => `p-${pid}-d${n}`;
 
 /* ---------------- helpers ---------------- */
-const prog = () => PBYID[route.pid] || PROGRAMS[0];
+const prog = () => programs.get(route.pid) || programs.get(programs.ids()[0]);
 const typesOf = (p) => p.dayTypes || TYPES;
 const itemSets = (b, it) => it.sets || b.sets;
 function nextDay(p) { const d = p.days.find((w) => !store.isDone(p.id, w.day)); return d ? d.day : null; }
@@ -67,17 +68,18 @@ const filters = { subject: 'all', len: 'all' };
 const lenOf = (p) => { const m = (p.minutes[0] + p.minutes[1]) / 2; return m <= 25.5 ? 'short' : m <= 32.5 ? 'mid' : 'long'; };
 function viewPrograms() {
   const last = lastPid();
-  const subjects = SUBJECT_ORDER.filter((s) => PROGRAMS.some((p) => p.subject === s));
-  const shown = PROGRAMS.filter((p) => (filters.subject === 'all' || p.subject === filters.subject) && (filters.len === 'all' || lenOf(p) === filters.len));
+  const all = programs.list();
+  const subjects = SUBJECT_ORDER.filter((s) => all.some((p) => p.subject === s));
+  const shown = all.filter((p) => (filters.subject === 'all' || p.subject === filters.subject) && (filters.len === 'all' || lenOf(p) === filters.len));
   const card = (p) => {
     const n = store.count(p.id), mins = p.minutes[0] === p.minutes[1] ? p.minutes[0] : `${Math.round(p.minutes[0])}–${Math.round(p.minutes[1])}`;
     return `<button class="pcard${p.id === last ? ' current' : ''}" data-open-prog="${p.id}">
       <div class="pc-main"><span class="eyebrow">${esc(p.subject)}${p.id === last ? ' · current' : ''}</span><b>${esc(p.name)}</b><p>${esc(p.blurb)}</p>
         <div class="pc-tags"><span class="chip">${esc(p.split)}</span><span class="chip">~${mins} min</span>${(p.formats || ['straight']).map((f) => `<span class="chip">${fmtFormat[f]}</span>`).join('')}${p.equip === 'kb' ? '<span class="chip">Kettlebell only</span>' : p.equip === 'bw' ? '<span class="chip">No equipment</span>' : ''}</div></div>
-      <div class="pc-prog"><span class="num">${n}/${p.days.length}</span><div class="bar"><b style="width:${(n / p.days.length) * 100}%"></b></div></div></button>`;
+      <div class="pc-prog"><span class="num">${n}/${p.dayCount}</span><div class="bar"><b style="width:${(n / p.dayCount) * 100}%"></b></div></div></button>`;
   };
   const groups = subjects.map((s) => { const list = shown.filter((p) => p.subject === s); return list.length ? `<section class="pgroup"><h2>${esc(s)}</h2><div class="plist">${list.map(card).join('')}</div></section>` : ''; }).join('');
-  return `<div class="eyebrow">${PROGRAMS.length} programs · 60 days each</div><h1>Programs</h1>
+  return `<div class="eyebrow">${all.length} programs · 60 days each</div><h1>Programs</h1>
     <p class="lede">Every program starts at intermediate and ends each workout with abs, with a matched warm-up and cool-down. Progress is kept per program.</p>
     <div class="filters" role="group" aria-label="Filter by subject"><button class="fchip" data-filter="subject:all" aria-pressed="${filters.subject === 'all'}">All</button>${subjects.map((s) => `<button class="fchip" data-filter="subject:${esc(s)}" aria-pressed="${filters.subject === s}">${esc(s)}</button>`).join('')}</div>
     <div class="filters" role="group" aria-label="Filter by length">${LENGTHS.map(([k, l]) => `<button class="fchip" data-filter="len:${k}" aria-pressed="${filters.len === k}">${l}</button>`).join('')}</div>
@@ -215,9 +217,9 @@ function stretchBlock(b, key, label, n, ses) {
 }
 const heatLegend = () => `<div class="heatkey" aria-hidden="true"><span>Less</span>${[1, 2, 3, 4].map((n) => `<i class="mm-l${n}"></i>`).join('')}<span>More</span></div>`;
 // a day as you'll do it (or did it): the program's day with its swaps applied
-const dayOf = (pid, n) => { const p = PBYID[pid], w = p && p.days[n - 1]; return w && KBSwaps.applySwaps(w, store.swaps(pid), KBEx); };
+const dayOf = (pid, n) => { const w = programs.day(pid, n); return w && KBSwaps.applySwaps(w, store.swaps(pid), KBEx); };
 // every day marked done, in every program: [{ pid, day, time }]
-const doneEntries = () => PROGRAMS.flatMap((p) => Object.entries(store.days(p.id)).map(([day, time]) => ({ pid: p.id, day: +day, time })));
+const doneEntries = () => programs.ids().flatMap((pid) => Object.entries(store.days(pid)).map(([day, time]) => ({ pid, day: +day, time })));
 function weekLine() {
   const from = KBStats.weekStart(new Date()), to = new Date(from); to.setDate(to.getDate() + 7);
   const s = KBStats.summarize(doneEntries(), { dayOf, EX, from, to });
@@ -293,7 +295,7 @@ function usesEx(w, id) { return [...w.blocks.flatMap((b) => b.items), ...(w.warm
 function viewExercise() {
   const e = EX[route.ex], m = e.muscles, p = prog();
   const days = p.days.filter((w) => usesEx(w, e.id)).map((w) => w.day);
-  const others = PROGRAMS.filter((q) => q.id !== p.id && q.days.some((w) => usesEx(w, e.id)));
+  const others = programs.programsUsing(e.id).filter((id) => id !== p.id).map((id) => programs.summary(id));
   const names = (arr) => arr.map((k) => `<span class="chip">${MUSCLE_NAMES[k]}</span>`).join(' ');
   const r = e.r, stretch = e.cat === 'warmup' || e.cat === 'cooldown';
   const dose = stretch ? `${r[0]} s${e.side ? ' each side' : ''}` : e.u === 'sec' ? `${r.join(' / ')} s${e.side ? ' each side' : ''} (Level I / II / III)` : `${r.join(' / ')} ${unitText(e)} (Level I / II / III)`;
@@ -334,9 +336,9 @@ function importReview(st) {
     const parts = [];
     if (added.length) parts.push(`+${plural(added.length, 'day')} (${KBBackup.dayRanges(added)})`);
     if (removed.length) parts.push(`−${plural(removed.length, 'day')} (${KBBackup.dayRanges(removed)})`);
-    return `<li>${esc(PBYID[pid].name)}: ${parts.join(' · ')}</li>`;
+    return `<li>${esc(programs.summary(pid).name)}: ${parts.join(' · ')}</li>`;
   };
-  const swapLine = st.swapNotes.length ? `<p class="muted">Swaps: ${st.swapNotes.map((x) => `${esc(PBYID[x.pid].name)} has ${x.file} in the file (you have ${x.mine})`).join('; ')}. Merge keeps both; Replace uses the file's.</p>` : '';
+  const swapLine = st.swapNotes.length ? `<p class="muted">Swaps: ${st.swapNotes.map((x) => `${esc(programs.summary(x.pid).name)} has ${x.file} in the file (you have ${x.mine})`).join('; ')}. Merge keeps both; Replace uses the file's.</p>` : '';
   const skipped = st.unknown.length ? `<p class="muted">Skipped ${plural(st.unknown.length, 'program')} this app doesn't have: ${st.unknown.map(esc).join(', ')}</p>` : '';
   const body = ids.length || st.swapNotes.length
     ? `<ul class="difflist">${ids.map(line).join('')}</ul>${swapLine}${skipped}
@@ -348,7 +350,7 @@ function importReview(st) {
   return `<div class="review" id="import-review"><p><b>${esc(st.name)}</b></p>${body}</div>`;
 }
 function viewSettings() {
-  const counts = PROGRAMS.map((p) => store.count(p.id)).filter((n) => n > 0);
+  const counts = programs.ids().map((pid) => store.count(pid)).filter((n) => n > 0);
   const days = counts.reduce((a, n) => a + n, 0);
   const st = importState || {};
   return `<h1>Settings</h1>
@@ -398,8 +400,8 @@ function viewStats() {
   const { from, to } = KBStats.spanRange(span, new Date(), entries);
   const opts = { dayOf, EX, from, to };
   const s = KBStats.summarize(entries, opts);
-  const used = PROGRAMS.filter((p) => all.some((e) => e.pid === p.id) || p.id === pid);
-  const scopeName = pid === 'all' ? 'all programs' : PBYID[pid].name;
+  const used = programs.list().filter((p) => all.some((e) => e.pid === p.id) || p.id === pid);
+  const scopeName = pid === 'all' ? 'all programs' : programs.summary(pid).name;
   const when = span === 'all' ? (pid === 'all' ? 'all time' : 'since you started') : `${shortDate(from)} – ${shortDate(new Date(to - 864e5))}`;
   const none = { week: 'this week', '4weeks': 'in the last 4 weeks', all: '' }[span];
   return `<div class="eyebrow">${esc(pid === 'all' ? `${when} · ${scopeName}` : `${scopeName} · ${when}`)}</div><h1>Stats</h1>
