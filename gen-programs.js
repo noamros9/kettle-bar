@@ -147,7 +147,6 @@ function build(cfg) {
     taken.add(list[0]);
     return list[0];
   };
-  const [lo, hi] = cfg.minutes;
   const days = [];
   const nameCount = {};
   for (let d = 1; d <= 60; d++) {
@@ -155,6 +154,7 @@ function build(cfg) {
     const lever = level === 1 ? 'base' : cfg.levers[level - 1];
     const typeKey = cfg.cycle[(d - 1) % cfg.cycle.length];
     const type = cfg.dayTypes[typeKey];
+    const [lo, hi] = type.minutes || cfg.minutes; // a day type can have its own time range
     const taken = new Set();
 
     // make one item at this level, applying the program's lever
