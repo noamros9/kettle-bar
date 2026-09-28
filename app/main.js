@@ -5,7 +5,7 @@ const localStore = {
   get: (k) => { try { return localStorage.getItem(k); } catch (e) { return null; } },
   set: (k, v) => { try { localStorage.setItem(k, v); } catch (e) { /* blocked: device copy is best effort */ } },
 };
-const store = KBStore.createStore({ programIds: PROGRAMS.map((p) => p.id), storage: localStore, isOnline: () => navigator.onLine !== false });
+const store = KBStore.createStore({ programIds: programs.ids(), storage: localStore, isOnline: () => navigator.onLine !== false });
 const SYNC_TEXT = { ok: 'Synced', saving: 'Saving…', offline: 'Offline, will sync', local: 'Saved on this device', signin: 'Sign in to sync', ro: 'View only', err: 'Sync problem' };
 function paintSync(s) {
   const el = $('#sync'); el.dataset.s = s;
@@ -95,15 +95,15 @@ function exportProgress() {
   download(KBBackup.fileName(new Date()), JSON.stringify(KBBackup.exportProgress(allDone(), { swaps: allSwaps() }), null, 2));
 }
 
-const allDone = () => Object.fromEntries(PROGRAMS.map((p) => [p.id, store.days(p.id)]));
-const allSwaps = () => Object.fromEntries(PROGRAMS.map((p) => [p.id, store.swaps(p.id)]));
+const allDone = () => Object.fromEntries(programs.ids().map((pid) => [pid, store.days(pid)]));
+const allSwaps = () => Object.fromEntries(programs.ids().map((pid) => [pid, store.swaps(pid)]));
 const showImport = (st) => { importState = st; render(); };
 async function readImport(file) {
   try {
-    const { programs, swaps, unknown } = KBBackup.parseBackup(await file.text(), { known: PROGRAMS.map((p) => p.id), uid: store.remote && store.remote.account && store.remote.account.uid });
+    const { programs: fileDays, swaps, unknown } = KBBackup.parseBackup(await file.text(), { known: programs.ids(), uid: store.remote && store.remote.account && store.remote.account.uid });
     const mine = allSwaps(), swapNotes = Object.entries(swaps).filter(([pid, l]) => JSON.stringify(l) !== JSON.stringify(mine[pid]))
       .map(([pid, l]) => ({ pid, file: l.length, mine: mine[pid].length }));
-    showImport({ name: file.name, programs, swaps, unknown, swapNotes, diff: KBBackup.diffProgress(allDone(), programs) });
+    showImport({ name: file.name, programs: fileDays, swaps, unknown, swapNotes, diff: KBBackup.diffProgress(allDone(), fileDays) });
   } catch (e) { showImport({ error: e.message }); }
 }
 function backupAction(what) {

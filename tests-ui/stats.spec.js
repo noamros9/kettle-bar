@@ -83,7 +83,7 @@ test('muscle balance: a heat map and ranked bars that follow the span and progra
   await app.page.getByLabel('Program', { exact: true }).selectOption('iron-ppl');
   await app.page.getByRole('button', { name: 'All time' }).click();
   const ironTop = await app.data(() => {
-    const m = KBStats.dayVolume(PBYID['iron-ppl'].days[0], KBEx.EX).muscles; // Iron PPL's only done day
+    const m = KBStats.dayVolume(programs.day('iron-ppl', 1), KBEx.EX).muscles; // Iron PPL's only done day
     return KBStats.rankMuscles(m, KBEx.MUSCLE_NAMES)[0].name;
   });
   await expect(bars.first()).toContainText(ironTop);
