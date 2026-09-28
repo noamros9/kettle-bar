@@ -1,7 +1,8 @@
 /* Stats: what the days marked done add up to. Pure: no page, no storage.
    Counts the PLANNED work of a day (ADR 2); the rules are in docs/plans/phase-2-finish-and-stats.md.
 
-     dayVolume(day, EX) -> { workoutMin, stretchMin, sets, reps } */
+     dayVolume(day, EX) -> { workoutMin, stretchMin, sets, reps, muscles: { muscle: load } }
+   Muscle load: each set counts 1 for every main muscle and 0.5 for every secondary muscle. */
 (function (root) {
   // every set a day asks for, as [{ ex, sets, repsPerSet }]; timed blocks are converted to sets
   function setsOf(day, EX) {
@@ -25,6 +26,16 @@
     return out.filter((s) => s.sets > 0);
   }
 
+  function muscleLoads(sets, EX) {
+    const out = {};
+    const add = (m, x) => { out[m] = (out[m] || 0) + x; };
+    sets.forEach((s) => {
+      EX[s.ex].muscles.primary.forEach((m) => add(m, s.sets));
+      EX[s.ex].muscles.secondary.forEach((m) => add(m, s.sets / 2));
+    });
+    return out;
+  }
+
   function dayVolume(day, EX) {
     const sets = setsOf(day, EX);
     const secs = (day.warmup ? day.warmup.seconds : 0) + (day.cooldown ? day.cooldown.seconds : 0);
@@ -33,6 +44,7 @@
       stretchMin: secs / 60,
       sets: sets.reduce((a, s) => a + s.sets, 0),
       reps: sets.reduce((a, s) => a + s.sets * s.repsPerSet, 0),
+      muscles: muscleLoads(sets, EX),
     };
   }
 

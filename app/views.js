@@ -200,6 +200,7 @@ function stretchBlock(b, key, label, n, ses) {
       <div class="cnt"><b class="num">${it.n}</b><span>${e.side ? 'sec each side' : 'seconds'}</span></div><div class="nm">${esc(e.name)}</div></button><p class="cue">${esc(e.cue)}</p></article>`; }).join('')}</div>
   </section>`;
 }
+const heatLegend = () => `<div class="heatkey" aria-hidden="true"><span>Less</span>${[1, 2, 3, 4].map((n) => `<i class="mm-l${n}"></i>`).join('')}<span>More</span></div>`;
 // shown once every set of the day is ticked (after the cool-down, if you run it)
 function finishCard(w, isD) {
   const v = KBStats.dayVolume(w, EX);
@@ -210,6 +211,7 @@ function finishCard(w, isD) {
       <div><dt>Workout</dt><dd class="num" data-testid="workout-min">${fmtMin(v.workoutMin)}</dd></div>
       <div><dt>Stretching</dt><dd class="num" data-testid="stretch-min">${fmtMin(v.stretchMin)}</dd></div>
     </dl>
+    <div class="fmap"><h3>Muscles worked today</h3>${muscleMapSVG(v.muscles, 'Muscles worked today')}${heatLegend()}</div>
     <button class="btn ${isD ? 'done' : ''}" data-toggle="${w.day}" aria-pressed="${isD}">${isD ? `✓ Day ${w.day} done` : `Mark day ${w.day} as done`}</button>
   </section>`;
 }

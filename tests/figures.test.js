@@ -61,3 +61,21 @@ test('muscle map: primary dark, secondary light, the rest plain, front and back,
   assert.match(svg, />Front<\/text>[\s\S]*>Back<\/text>/);
   assert.match(muscleMapSVG([], [], 'Push-up muscles'), /aria-label="Push-up muscles"/);
 });
+
+test('muscle map with loads: 4 shades by share of the biggest load, zero stays plain', () => {
+  const svg = muscleMapSVG({ chest: 4, triceps: 1, quads: 2.9, abs: 0 }, 'Today');
+  assert.match(svg, /aria-label="Today"/);
+  const shade = (m) => { const found = svg.match(new RegExp(`data-m="${m}" class="(mm-[a-z0-9]+)"`)); return found && found[1]; };
+  assert.equal(shade('chest'), 'mm-l4');
+  assert.equal(shade('triceps'), 'mm-l1');
+  assert.equal(shade('quads'), 'mm-l3');
+  assert.equal(shade('abs'), 'mm-o');
+  assert.equal(shade('calves'), 'mm-o');
+  assert.doesNotMatch(muscleMapSVG({}), /mm-l\d/, 'nothing worked: all plain');
+});
+
+test('the primary / secondary muscle map (exercise pages) is unchanged apart from muscle tags', () => {
+  const svg = muscleMapSVG(['chest'], ['biceps']);
+  assert.equal(count(svg, /class="mm-p"/g), 2);
+  assert.doesNotMatch(svg, /mm-l\d/);
+});

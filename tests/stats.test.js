@@ -45,3 +45,8 @@ test('AMRAP and ladder: one set per exercise per 2 minutes (at least one), no re
 });
 
 function pick(v) { return { sets: v.sets, reps: v.reps }; }
+
+test('muscle load: each set counts 1 for every main muscle and ½ for every secondary one', () => {
+  const v = dayVolume(day([{ sets: 3, items: [it('push', 10)] }, { format: 'emom', minutes: 4, items: [it('row', 5), it('plank', 20)] }]), EX);
+  assert.deepEqual(v.muscles, { chest: 3, triceps: 3, front_delts: 1.5, lats: 2, biceps: 1, abs: 2 });
+});
