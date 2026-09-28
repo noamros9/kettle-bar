@@ -27,6 +27,7 @@ Planned in the PRD [#7](https://github.com/noamros9/kettle-bar/issues/7); glossa
 Dropped: smaller download (Noam: "leave it"); desktop UI tests (phone only).
 
 ## Phase 2: finish screen + stats
+Plan and tickets: [docs/plans/phase-2-finish-and-stats.md](docs/plans/phase-2-finish-and-stats.md).
 Built together because they share the muscle heat map and the week numbers.
 
 4. **Finish screen**, shown after the cool-down (or after the last set if you skip it), with one-tap "Mark as done":
@@ -41,7 +42,8 @@ Built together because they share the muscle heat map and the week numbers.
    - **Muscle balance:** body heat map (front/back, darker = more work) and a ranked bar chart, for any time span.
    - Weeks start on **Sunday**.
    - **Decision:** volume is the *planned* volume of days marked done (a done day counts its planned sets and reps).
-     No per-set logging.
+     No per-set logging. Minutes include stretching, shown separately; muscles weighted by sets (main 1,
+     secondary ½); timed blocks converted to sets; Stats is a header tab.
 
 ## Phase 3: workout helpers
 6. **Swap an exercise**: offer alternatives that work the same main muscles with the program's equipment. Each
