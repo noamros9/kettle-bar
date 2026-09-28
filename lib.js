@@ -224,12 +224,17 @@
     leg_raise: { name: 'Leg raises', cat: 'abs', r: [10, 12, 15], tp: 3, cue: 'On your back, legs straight. Raise them to vertical, lower until heels hover.', poses: [
       { t: [34, 0], hn: [4, 2], hf: [4, 2], eh: [0, -1], fn: [-41, -4], ff: [-41, -3], mat: 1 },
       { t: [34, 0], hn: [4, 2], hf: [4, 2], eh: [0, -1], fn: [1, -41], ff: [2, -41], mat: 1 }] },
-    hanging_knee_raise: { name: 'Hanging knee raises', cat: 'abs', r: [8, 10, 12], tp: 3, equip: ['bar'], cue: 'Hang from the bar, bring knees up past hip height without swinging.', poses: [
-      { t: [0, -34], hn: [3, -67], hf: [1, -67], fn: [1, 41], ff: [-1, 41], bar: 1 },
-      { t: [-3, -34], hn: [3, -67], hf: [1, -67], fn: [21, 20], ff: [20, 21], kh: [1, -1], bar: 1 }] },
-    hanging_leg_raise: { name: 'Hanging leg raises', cat: 'abs', r: [6, 8, 10], tp: 3.5, lv: 2, equip: ['bar'], cue: 'Hang with straight legs and lift them to hip height. Lower slowly, no swinging.', poses: [
-      { t: [0, -34], hn: [3, -67], hf: [1, -67], fn: [1, 41], ff: [-1, 41], bar: 1 },
-      { t: [-5, -34], hn: [3, -67], hf: [1, -67], fn: [40, -4], ff: [40, -3], bar: 1 }] },
+    weighted_crunch: { name: 'Weighted crunches', cat: 'abs', r: [20, 25, 30], tp: 2, load: 'single', cue: 'Hold one dumbbell on your chest, knees bent. Curl your shoulders up, lower slowly.', poses: [
+      P(SUP, { hn: [24, -5], hf: [24, -5], eh: [0, 1], db: 'both' }), P(SUP, { t: [30, -16], hn: [22, -20], hf: [22, -20], eh: [0.3, 1], db: 'both' })] },
+    weighted_dead_bug: { name: 'Weighted dead bugs', cat: 'abs', r: [16, 20, 24], alt: 1, tp: 2.2, load: 'single', cue: 'Hold one dumbbell or the kettlebell over your chest with straight arms. Lower one leg at a time to hover, back flat.', poses: [
+      { t: [34, 0], hn: [35, -33], hf: [35, -33], db: 'both', fn: [-20, -21], khn: [0.3, -1], ff: [-40, -7], mat: 1 },
+      { t: [34, 0], hn: [35, -33], hf: [35, -33], db: 'both', fn: [-40, -7], ff: [-20, -21], khf: [0.3, -1], mat: 1 }] },
+    db_side_bend: { name: 'Dumbbell side bends', cat: 'abs', view: 'front', r: [12, 15, 15], side: 1, tp: 2.5, load: 'single', cue: 'Stand tall with one heavy dumbbell at your side. Bend sideways toward it, then pull yourself upright with your obliques. Switch sides.', poses: [
+      { t: [0, -34], hn: [-12, 0], hf: [10, -4], ehf: [1, 0.3], fn: [-10, 41], ff: [10, 41], db: 'n' },
+      { t: [-9, -33], hn: [-19, 4], hf: [9, -4], ehf: [1, 0.3], fn: [-10, 41], ff: [10, 41], db: 'n' }] },
+    weighted_toe_touch: { name: 'Weighted toe touches', cat: 'abs', r: [12, 15, 20], tp: 2.2, load: 'single', cue: 'Legs straight up, one dumbbell in both hands. Reach it up toward your toes, lifting your shoulders.', poses: [
+      { t: [34, 0], hn: [34, -33], hf: [34, -33], db: 'both', fn: [1, -41], ff: [2, -41], mat: 1 },
+      { t: [29, -18], hn: [8, -41], hf: [8, -41], db: 'both', fn: [1, -41], ff: [2, -41], mat: 1 }] },
     plank: { name: 'Forearm plank', cat: 'abs', u: 'sec', r: [40, 50, 60], cue: 'Elbows under shoulders, squeeze glutes, body straight from head to heels.', poses: [FOREARM] },
     side_plank: { name: 'Side plank', cat: 'abs', u: 'sec', r: [20, 30, 40], side: 1, cue: 'On one forearm, feet stacked, hips high. Top arm reaches up. Switch sides.', poses: [P(FOREARM, { hf: [34, -41], ehf: [0, -1] })] },
     bicycle_crunch: { name: 'Bicycle crunches', cat: 'abs', r: [20, 24, 30], alt: 1, tp: 1.3, cue: 'Shoulders up, bring one knee in while the other leg extends. Rotate elbow toward knee.', poses: [
@@ -342,7 +347,7 @@
     const e = EX[k];
     e.id = k; e.u = e.u || 'reps'; e.lv = 1;
     if (LEVEL_OVERRIDE[k]) e.r = LEVEL_OVERRIDE[k];
-    else if (['dive_bomber', 'db_kickback', 'split_squat', 'db_squat'].includes(k)) { /* already set at the new levels */ }
+    else if (['dive_bomber', 'db_kickback', 'split_squat', 'db_squat', 'weighted_crunch', 'weighted_dead_bug', 'db_side_bend', 'weighted_toe_touch'].includes(k)) { /* already set at the new levels */ }
     else {
       const top = e.r[2] * 1.1, step = e.alt ? 4 : top >= 20 ? 5 : top >= 12 ? 2 : 1;
       e.r = [e.r[1], e.r[2], e.u === 'sec' ? e.r[2] + 10 : Math.ceil(top / step - 1e-9) * step];

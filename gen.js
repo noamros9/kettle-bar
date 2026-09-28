@@ -22,7 +22,8 @@ const POOLS = {
   lGlute: ['glute_bridge', 'single_leg_bridge', 'wall_sit'],
   lTotal: ['db_thruster', 'squat_jump', 'burpee', 'kb_clean_press'],
   cardio: ['jumping_jacks', 'high_knees', 'burpee', 'squat_jump', 'jump_lunge', 'butt_kicks', 'punches', 'squat_thrust', 'kb_swing', 'mountain_climber'],
-  abs: Object.keys(EX).filter((k) => EX[k].cat === 'abs' && k !== 'mountain_climber'),
+  abs: Object.keys(EX).filter((k) => EX[k].cat === 'abs' && k !== 'mountain_climber' && !(EX[k].equip || []).includes('bar')),
+  absWeighted: Object.keys(EX).filter((k) => EX[k].cat === 'abs' && EX[k].load),
 };
 
 // Straight sets: every set of one exercise, then the next exercise. Abs always come last.
@@ -73,16 +74,24 @@ for (let d = 1; d <= 60; d++) {
   const type = r === 0 ? 'cba' : r === 2 ? 'ac' : (Math.floor((d - 1) / 3) % 2 === 0 ? 'up' : 'low');
   const taken = new Set();
   const mainC = SLOTS[type].map((pool) => candidate(POOLS[pool], taken));
-  const absC = [0, 1, 2, 3].map(() => candidate(POOLS.abs, taken));
+  // abs close every workout: no pull-up bar, at least one move with a dumbbell or the kettlebell
+  const absC = [candidate(POOLS.absWeighted, taken), ...[0, 1, 2, 3].map(() => candidate(POOLS.abs, taken))];
   const n = (id) => EX[id].r[level - 1];
   // pick how many exercises and sets fit 30–35 min, closest to 5 main × 4 sets and 3 abs × 3 sets
   let best = null;
-  for (const em of [4, 5, 6]) for (const sm of [3, 4, 5]) for (const ea of [2, 3, 4]) for (const sa of [2, 3, 4]) {
+  // abs subsets always keep the weighted move (index 0); any of the others may be left out
+  const absSets = [];
+  for (let mask = 0; mask < 16; mask++) {
+    const pick = [0, ...[1, 2, 3, 4].filter((k, j) => mask & (1 << j))];
+    if (pick.length >= 2 && pick.length <= 4) absSets.push(pick);
+  }
+  for (const em of [4, 5, 6]) for (const sm of [3, 4, 5]) for (const pick of absSets) for (const sa of [3]) {
+    const ea = pick.length;
     const w = { blocks: [
       { items: mainC.slice(0, em).map((id) => ({ ex: id, n: n(id), sets: sm })) },
-      { items: absC.slice(0, ea).map((id) => ({ ex: id, n: n(id), sets: sa })) }] };
+      { items: pick.map((k) => absC[k]).map((id) => ({ ex: id, n: n(id), sets: sa })) }] };
     const t = total(w) / 60;
-    const pen = (t >= 30.5 && t <= 34.4 ? 0 : 100 + Math.abs(t - 32.5) * 10) + Math.abs(em - 5) * 3 + Math.abs(sm - 4) * 1.5 + Math.abs(ea - 3) * 4 + Math.abs(sa - 3) * 2;
+    const pen = (t >= 30.5 && t <= 35.4 ? 0 : 100 + Math.abs(t - 32.5) * 10) + Math.abs(em - 5) * 3 + Math.abs(sm - 4) * 1.5 + Math.abs(ea - 3) * 9 + Math.abs(sa - 3) * 2 + pick.reduce((a, k) => a + k, 0) * 0.1;
     if (!best || pen < best.pen) best = { pen, w, em, sm, ea, sa };
   }
   const blocks = [
