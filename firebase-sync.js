@@ -48,7 +48,7 @@ async function start() {
     kb.attach({
       kind: 'firebase',
       account: { uid: user.uid, name: (user.displayName || user.email || '').split(' ')[0], email: user.email },
-      subscribe: (pid, onData, onErr) => fs.onSnapshot(ref(pid), (snap) => onData(snap.exists() ? (snap.data().done || {}) : null, (snap.exists() && snap.data().swaps) || []), onErr),
+      subscribe: (pid, onData, onErr) => fs.onSnapshot(ref(pid), (snap) => onData(snap.exists() ? snap.data() : null), onErr), // the whole document; Program Progress reads it
       write: (pid, body) => fs.setDoc(ref(pid), body),
     });
   });

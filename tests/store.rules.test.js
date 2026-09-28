@@ -1,7 +1,7 @@
 // Progress Store, edge by edge: storage failures, sync errors and retries, statuses, events.
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { createStore, createMemoryRemote, mergeFirstSync } = require('../app/store.js');
+const { createStore, createMemoryRemote } = require('../app/store.js');
 
 const memStorage = (m = {}) => ({ m, get: (k) => m[k] ?? null, set: (k, v) => { m[k] = v; } });
 const tick = () => new Promise((r) => setTimeout(r, 5));
@@ -68,7 +68,7 @@ test('detach without an account goes back to device-only; a broken unsubscribe i
 });
 
 test('later cloud snapshots replace the device copy, and an empty one clears it', async () => {
-  const remote = createMemoryRemote({ p: { 1: 'a' } });
+  const remote = createMemoryRemote({ p: { done: { 1: 'a' } } });
   const store = make(); store.attach(remote); await tick();
   await remote.write('p', { done: { 2: 'b' } });
   assert.deepEqual(store.days('p'), { 2: 'b' });
@@ -86,11 +86,11 @@ test('a subscription error shows a sync problem', () => {
 });
 
 test('a snapshot that arrives after signing out is kept on the device but not written anywhere', async () => {
-  const remote = createMemoryRemote({ p: { 5: 'x' } });
+  const remote = createMemoryRemote({ p: { done: { 5: 'x' } } });
   const store = make(); store.toggle('p', 1);
   store.attach(remote); store.detach(); await tick();
   assert.ok(store.isDone('p', 5) && store.isDone('p', 1));
-  assert.deepEqual(remote.docs.p, { 5: 'x' });
+  assert.deepEqual(remote.docs.p.done, { 5: 'x' });
 });
 
 test('offline: the write is marked offline, and coming back online shows saving', async () => {
@@ -154,9 +154,6 @@ test('memory remote: unsubscribe stops pushes; failWith rejects with that code',
   await assert.rejects(createMemoryRemote({}, { failWith: 'unavailable' }).write('p', { done: {} }), { code: 'unavailable' });
 });
 
-test('first-sync merge with nothing on the device keeps the cloud copy', () => {
-  assert.deepEqual(mergeFirstSync(undefined, { 1: 'a' }), { 1: 'a' });
-});
 
 test('ticking a program the store was not loaded with still records it', () => {
   const store = make(); store.toggle('new', 1);
@@ -180,12 +177,12 @@ test('the default retry waits between 0.6 and 1.4 s before the second try', asyn
 });
 
 test('replaceAll sets whole programs at once: device copy, one write each, change events', async () => {
-  const remote = createMemoryRemote({ p: { 1: 'a' } });
+  const remote = createMemoryRemote({ p: { done: { 1: 'a' } } });
   const store = make(); store.attach(remote); await tick();
   const changed = []; store.on('change', (pid) => changed.push(pid));
   await store.replaceAll({ p: { 2: 'b' }, q: { 5: 'c' } });
   assert.deepEqual(store.days('p'), { 2: 'b' });
-  assert.deepEqual(remote.docs, { p: { 2: 'b' }, q: { 5: 'c' } });
+  assert.deepEqual([remote.docs.p.done, remote.docs.q.done], [{ 2: 'b' }, { 5: 'c' }]);
   assert.deepEqual([...new Set(changed)].sort(), ['p', 'q']); // the cloud echo of each write may add more
 });
 

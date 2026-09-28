@@ -16,7 +16,7 @@
    Nightly file: { format: 'kettle-bar-backup', version: 1, users: { uid: { email, programs, swaps? } } }
    swaps only lists programs that have any; files from before swaps simply have none.
    Both can be imported; from a nightly file, import takes the signed-in account (ADR 5). */
-(function (root) {
+(function (root, P) {
   const FORMAT = 'kettle-bar-progress';
   const NIGHTLY = 'kettle-bar-backup';
   const VERSION = 1;
@@ -72,14 +72,7 @@
 
   // merge: both sides' swaps, the file's added last so they win where they overlap; replace: the file's
   function importSwaps(current, incoming, mode) {
-    if (mode !== 'merge' && mode !== 'replace') throw new Error('Unknown import mode ' + mode);
-    const out = {};
-    Object.entries(incoming).forEach(([pid, list]) => {
-      if (mode === 'replace') { out[pid] = list; return; }
-      const theirs = new Set(list.map((x) => JSON.stringify(x)));
-      out[pid] = [...(current[pid] || []).filter((x) => !theirs.has(JSON.stringify(x))), ...list];
-    });
-    return out;
+    return Object.fromEntries(Object.entries(incoming).map(([pid, list]) => [pid, P.importMerge({ done: {}, swaps: current[pid] || [] }, { done: {}, swaps: list }, mode).swaps]));
   }
 
   const daysOf = (m) => Object.keys(m).map(Number).sort((a, b) => a - b);
@@ -94,17 +87,9 @@
     return out;
   }
 
+  // the merge rules belong to Program Progress; these apply them program by program
   function applyImport(current, incoming, mode) {
-    if (mode !== 'merge' && mode !== 'replace') throw new Error('Unknown import mode ' + mode);
-    const out = {};
-    Object.entries(incoming).forEach(([pid, days]) => {
-      if (mode === 'replace') { out[pid] = { ...days }; return; }
-      // merge: every day from both, the earliest time wins (the same rule as the first sync)
-      const merged = { ...current[pid] };
-      Object.entries(days).forEach(([d, t]) => { if (!merged[d] || t < merged[d]) merged[d] = t; });
-      out[pid] = merged;
-    });
-    return out;
+    return Object.fromEntries(Object.entries(incoming).map(([pid, days]) => [pid, P.importMerge({ done: current[pid] || {}, swaps: [] }, { done: days }, mode).done]));
   }
 
   // [1, 2, 3, 5] -> '1–3, 5' (days are sorted)
@@ -135,4 +120,4 @@
   const api = { exportProgress, fileName, parseBackup, diffProgress, applyImport, dayRanges, nightlyFile, importSwaps, FORMAT, VERSION };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBBackup = api;
-})(typeof window !== 'undefined' ? window : globalThis);
+})(typeof window !== 'undefined' ? window : globalThis, typeof module !== 'undefined' && module.exports ? require('./progress.js') : window.KBProgress);

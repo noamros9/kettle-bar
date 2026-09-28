@@ -3,6 +3,7 @@
 // unit-tested; this is only the Firebase glue. Run by .github/workflows/backup.yml:
 //   FIREBASE_SERVICE_ACCOUNT='<key json>' node scripts/backup-progress.js > progress.json
 const { nightlyFile } = require('../app/backup.js');
+const Progress = require('../app/progress.js');
 
 async function emailsOf(auth) {
   const emails = {};
@@ -20,7 +21,7 @@ async function main() {
   const snap = await admin.firestore().collectionGroup('progress').get();
   const rows = snap.docs.map((d) => {
     const uid = d.ref.parent.parent.id;
-    return { uid, email: emails[uid], pid: d.id, done: d.get('done') || {}, swaps: d.get('swaps') || [] };
+    return { uid, email: emails[uid], pid: d.id, ...Progress.fromDoc(d.data()) };
   });
   if (!rows.length) throw new Error('No progress found in Firestore: refusing to write an empty backup.');
   process.stdout.write(nightlyFile(rows));

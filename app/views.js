@@ -54,7 +54,7 @@ const dayHash = (pid, n) => `p-${pid}-d${n}`;
 const prog = () => programs.get(route.pid) || programs.get(programs.ids()[0]);
 const typesOf = (p) => p.dayTypes || TYPES;
 const itemSets = (b, it) => it.sets || b.sets;
-function nextDay(p) { const d = p.days.find((w) => !store.isDone(p.id, w.day)); return d ? d.day : null; }
+const nextDay = (p, after) => KBProgress.nextDay(store.progress(p.id), p.days.map((w) => w.day), after);
 const unitText = (e) => KBSession.unitText(e);
 function cycleDays(p, key) {
   const d = p.days.filter((w) => w.type === key).slice(0, 3).map((w) => w.day);
@@ -228,8 +228,7 @@ function weekLine() {
 }
 // the next day not done yet after this one (or the first one left)
 function nextPreview(p, w) {
-  const left = p.days.filter((d) => !store.isDone(p.id, d.day));
-  const n = left.find((d) => d.day > w.day) || left.find((d) => d.day !== w.day);
+  const nd = nextDay(p, w.day), n = nd && p.days[nd - 1];
   if (!n) return `<p class="fnext">Every day of ${esc(p.name)} is done.</p>`;
   const t = typesOf(p)[n.type] || { label: n.title };
   return `<button class="fnext" data-day="${n.day}"><b>Next: Day ${n.day} · ${esc(n.name)}</b><span>${esc(t.label || n.title)} · About ${n.est} min</span></button>`;
