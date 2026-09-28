@@ -19,8 +19,12 @@ a mat and a sturdy chair.
 
 ## Use it
 
-Open `index.html` in a browser. Progress is kept in the browser's local
-storage. (The claude.ai artifact version syncs progress across devices.)
+Live at **https://noamros9.github.io/kettle-bar/** once GitHub Pages is on
+(Settings → Pages → Deploy from a branch → `main` / root).
+
+Progress is always kept on the device. Press **Sign in to sync** (Google) to
+sync it through Firebase to every device where you sign in. On first sign-in,
+days ticked on the device and in the cloud are merged.
 
 - Tap a day to open the workout; tick the circle on a tile or press
   **Mark as done** to record it.
@@ -36,10 +40,31 @@ storage. (The claude.ai artifact version syncs progress across devices.)
 | `gen.js` | Builds the 60-day program and fits each workout to 30–35 minutes |
 | `app.template.html` | The app UI |
 | `build.js` | Runs the generator and writes `index.html` |
+| `firebase-sync.js` | Google sign-in and Firestore sync (GitHub Pages build) |
+| `firebase-config.js` | Your Firebase project config (`null` = device only) |
+| `firestore.rules` | Security rules: each user reads and writes only their own progress |
 | `program.json` | The generated program |
 | `sheet.js` | Writes `sheet.html`, a contact sheet of every illustration |
 
 Rebuild after editing: `node build.js`
+
+## Firebase setup (sync)
+
+1. [Firebase console](https://console.firebase.google.com) → **Add project**
+   (Google Analytics not needed).
+2. **Build → Authentication → Get started → Sign-in method → Google →
+   Enable**, pick a support email, Save.
+3. **Authentication → Settings → Authorized domains → Add domain**:
+   `noamros9.github.io`.
+4. **Build → Firestore Database → Create database**, pick a location
+   (e.g. `eur3`), start in **production mode**.
+5. **Firestore → Rules**: paste the contents of `firestore.rules`, **Publish**.
+6. **Project settings → General → Your apps → Web (`</>`)**, register an app
+   (no Hosting needed) and copy the `firebaseConfig` object into
+   `firebase-config.js`.
+
+The config values are identifiers, not secrets; `firestore.rules` is what
+limits each account to its own progress.
 
 Adding a program: generate another entry into the `PROGRAMS` array (see
 `gen.js`); each program keeps its own progress.

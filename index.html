@@ -31,6 +31,7 @@
   --done-bg:#ECEEEA; --done-ink:#101214;
 }
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 html,body{background:var(--bg)}
 body{margin:0;color:var(--ink);font:16px/1.45 var(--body);-webkit-font-smoothing:antialiased}
 button{font:inherit;color:inherit;cursor:pointer}
@@ -46,11 +47,20 @@ button{font:inherit;color:inherit;cursor:pointer}
 .nav{display:flex;gap:4px;margin-left:auto}
 .nav button{background:none;border:0;padding:8px 10px;border-radius:6px;font-weight:600;font-size:14px;color:var(--muted)}
 .nav button[aria-current="page"]{color:var(--ink);background:var(--soft)}
-.sync{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px;white-space:nowrap}
+.sync{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px;white-space:nowrap;background:none;border:0;padding:6px 8px;border-radius:999px}
+.sync:not(:disabled):hover{background:var(--soft)}
+.sync:disabled{cursor:default}
+.sync[data-s="signin"]{background:var(--accent);color:var(--accent-ink);font-weight:700;padding:7px 12px}
+.sync[data-s="signin"] i{display:none}
+.sync[data-s="err"] i,.sync[data-s="offline"] i{background:var(--t-low)}
+.top .wrap{position:relative}
+.acct{position:absolute;right:16px;top:52px;z-index:40;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px;width:min(280px,calc(100vw - 32px));box-shadow:0 10px 30px rgba(0,0,0,.15);display:flex;flex-direction:column;gap:8px}
+.acct #acctwho{font-weight:700;overflow-wrap:anywhere}
+.acct p{margin:0;font-size:13px;color:var(--muted)}
 .sync i{width:7px;height:7px;border-radius:50%;background:var(--muted);display:inline-block}
 .sync[data-s="ok"] i{background:var(--t-ac)}
 .sync[data-s="saving"] i{background:var(--t-up)}
-@media (max-width:560px){.sync span{display:none}}
+@media (max-width:560px){.sync:not([data-s="signin"]) span{display:none}}
 
 /* shared type */
 .eyebrow{font:700 13px/1 var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
@@ -167,7 +177,7 @@ main{padding-block:24px 64px}
 .tadj .sess b{color:var(--ink)}
 body.has-timer main{padding-bottom:170px}
 @media (max-width:520px){
-  .brand{font-size:18px}.nav button{padding:8px 6px;font-size:13px}.top .wrap{gap:8px}.sync{display:none}
+  .brand{font-size:18px}.nav button{padding:8px 6px;font-size:13px}.top .wrap{gap:8px}.sync:not([data-s="signin"]) span{display:none}.sync[data-s="signin"]{padding:6px 9px;font-size:11px}
   .ex{padding:10px}.ex .figbox{height:100px}.fig{max-height:100px}.ex .cnt b{font-size:32px}.ex .nm{font-size:18px}
   .timer .wrap{padding-block:8px;gap:6px 10px}
   .tclock{font-size:42px}.tctl .go{min-width:70px}.tctl button{padding:0 10px;height:42px}
@@ -178,6 +188,7 @@ body.has-timer main{padding-bottom:170px}
   #presets{display:flex;gap:6px;flex:none}
   body.has-timer main{padding-bottom:140px}
 }
+@media (max-width:430px){.bname{display:none}}
 @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
 </style>
 
@@ -185,13 +196,14 @@ body.has-timer main{padding-bottom:170px}
   <div class="wrap">
     <button class="brand" id="brand" aria-label="Kettle and Bar home">
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="15" r="7" fill="var(--kit)"/><path d="M7.5 9.5a4.5 4.5 0 0 1 9 0" fill="none" stroke="var(--ink)" stroke-width="2.4"/></svg>
-      Kettle &amp; Bar
+      <span class="bname">Kettle &amp; Bar</span>
     </button>
     <nav class="nav" aria-label="Main">
       <button data-go="programs">Programs</button>
       <button data-go="library">Exercises</button>
     </nav>
-    <div class="sync" id="sync" data-s="local"><i></i><span>Saved on this device</span></div>
+    <button class="sync" id="sync" data-s="local" disabled><i></i><span>Saved on this device</span></button>
+    <div class="acct" id="acct" hidden><div id="acctwho"></div><p>Progress syncs to every device where you sign in.</p><button class="btn ghost" id="signout">Sign out</button></div>
   </div>
 </header>
 <main id="app" class="wrap" aria-live="polite"></main>
@@ -579,27 +591,51 @@ const fig = (id) => figCache[id] || (figCache[id] = figureSVG(EX[id], EX[id].nam
 const LETTERS = 'ABCDEF';
 const CHECK = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3.2 3L13 4.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
-/* ---------------- storage: synced db with device fallback ---------------- */
+/* ---------------- storage: device copy + optional synced remote ----------------
+   A remote is { kind, subscribe(pid, onData, onErr) -> unsubscribe, write(pid, body) -> Promise, account? }.
+   The claude.ai artifact attaches its built-in database; the GitHub Pages build attaches Firebase
+   (firebase-sync.js) after Google sign-in. */
 const store = {
-  db: null, mode: 'local', done: {}, queue: Promise.resolve(), readonly: false,
+  remote: null, unsubs: [], seen: {}, done: {}, queue: Promise.resolve(), readonly: false, auth: null,
   key: (pid) => 'kb-progress-' + pid,
   loadLocal() {
-    PROGRAMS.forEach((p) => { try { const v = JSON.parse(localStorage.getItem(this.key(p.id)) || '{}'); this.done[p.id] = v || {}; } catch (e) { this.done[p.id] = {}; } });
+    PROGRAMS.forEach((p) => { try { this.done[p.id] = JSON.parse(localStorage.getItem(this.key(p.id)) || '{}') || {}; } catch (e) { this.done[p.id] = {}; } });
   },
   saveLocal(pid) { try { localStorage.setItem(this.key(pid), JSON.stringify(this.done[pid])); } catch (e) {} },
   async init() {
-    this.loadLocal();
     let db = null;
     try { db = window.claude && window.claude.use ? await window.claude.use('db') : null; } catch (e) { db = null; }
-    if (!db) { setSync('local'); return; }
-    this.db = db; this.mode = 'db'; setSync('ok');
-    PROGRAMS.forEach((p) => {
-      db.doc('progress/' + p.id).onSnapshot((snap) => {
-        const remote = snap.exists ? (snap.data().done || {}) : null;
-        if (remote) { this.done[p.id] = { ...remote }; this.saveLocal(p.id); render(); }
-        else if (Object.keys(this.done[p.id] || {}).length) { this.write(p.id); }
-      }, () => { this.mode = 'local'; setSync('local'); });
+    if (db) this.attach({
+      kind: 'claude',
+      subscribe: (pid, onData, onErr) => db.doc('progress/' + pid).onSnapshot((snap) => onData(snap.exists ? (snap.data().done || {}) : null), onErr),
+      write: (pid, body) => db.doc('progress/' + pid).set(body),
     });
+    else if (!this.remote) setSync(this.auth ? 'signin' : 'local');
+  },
+  attach(remote) {
+    this.detach(true);
+    this.remote = remote; this.seen = {}; this.readonly = false; setSync('ok');
+    PROGRAMS.forEach((p) => {
+      this.unsubs.push(remote.subscribe(p.id, (r) => this.onRemote(p.id, r), (e) => { console.warn('sync error', e); setSync('err'); }));
+    });
+  },
+  detach(silent) {
+    this.unsubs.forEach((u) => { try { u(); } catch (e) {} });
+    this.unsubs = []; this.remote = null;
+    if (!silent) setSync(this.auth ? 'signin' : 'local');
+  },
+  onRemote(pid, r) {
+    if (!this.seen[pid]) {
+      // first contact: keep every day ticked on either side
+      this.seen[pid] = true;
+      const merged = { ...(r || {}) };
+      Object.entries(this.done[pid] || {}).forEach(([d, t]) => { if (!merged[d] || t < merged[d]) merged[d] = t; });
+      this.done[pid] = merged; this.saveLocal(pid);
+      if (!r || Object.keys(merged).length !== Object.keys(r).length) this.write(pid);
+    } else {
+      this.done[pid] = { ...(r || {}) }; this.saveLocal(pid);
+    }
+    rerender();
   },
   isDone(pid, day) { return !!(this.done[pid] || {})[day]; },
   count(pid) { return Object.keys(this.done[pid] || {}).length; },
@@ -607,24 +643,51 @@ const store = {
     const d = { ...(this.done[pid] || {}) };
     if (d[day]) delete d[day]; else d[day] = new Date().toISOString();
     this.done[pid] = d; this.saveLocal(pid);
-    if (this.mode === 'db' && !this.readonly) this.write(pid);
-    render();
+    if (this.remote && !this.readonly) this.write(pid);
+    rerender();
   },
   write(pid) {
-    setSync('saving');
+    const remote = this.remote; if (!remote) return;
+    setSync(navigator.onLine === false ? 'offline' : 'saving');
     this.queue = this.queue.then(async () => {
       const body = { done: { ...(this.done[pid] || {}) }, updatedAt: new Date().toISOString() };
-      try { await this.db.doc('progress/' + pid).set(body); setSync('ok'); }
+      try { await remote.write(pid, body); if (this.remote === remote) setSync('ok'); }
       catch (e) {
-        if (e && e.code === 'unavailable') { await new Promise((r) => setTimeout(r, 600 + Math.random() * 800)); try { await this.db.doc('progress/' + pid).set(body); setSync('ok'); return; } catch (e2) {} }
-        if (e && e.code === 'invalid_argument') { this.readonly = true; setSync('ro'); } else setSync('err');
+        const code = e && e.code;
+        if (code === 'unavailable') { await new Promise((r) => setTimeout(r, 600 + Math.random() * 800)); try { await remote.write(pid, body); setSync('ok'); return; } catch (e2) {} }
+        if (code === 'invalid_argument' || code === 'permission-denied') { this.readonly = true; setSync('ro'); } else setSync('err');
       }
     });
   },
 };
+const SYNC_TEXT = { ok: 'Synced', saving: 'Saving…', offline: 'Offline, will sync', local: 'Saved on this device', signin: 'Sign in to sync', ro: 'View only', err: 'Sync problem' };
 function setSync(s) {
   const el = $('#sync'); el.dataset.s = s;
-  $('span', el).textContent = { ok: 'Synced', saving: 'Saving…', local: 'Saved on this device', ro: 'View only', err: 'Not saved, retry later' }[s] || '';
+  const who = s === 'ok' && store.remote && store.remote.account ? ' · ' + store.remote.account.name : '';
+  $('span', el).textContent = (SYNC_TEXT[s] || '') + who;
+  el.disabled = !(store.auth);
+  el.title = s === 'signin' ? 'Sign in with Google to sync your progress across devices' : '';
+}
+window.addEventListener('online', () => { if ($('#sync').dataset.s === 'offline') setSync('saving'); });
+/* hooks for the Firebase module (GitHub Pages build) */
+window.kbSync = {
+  attach: (remote) => store.attach(remote),
+  detach: () => store.detach(),
+  setAuth: (auth) => { store.auth = auth; if (!store.remote) setSync('signin'); else setSync($('#sync').dataset.s); },
+};
+$('#sync').addEventListener('click', (e) => {
+  e.stopPropagation();
+  const a = store.auth; if (!a) return;
+  if (!store.remote) { a.signIn(); return; }
+  const pop = $('#acct'); pop.hidden = !pop.hidden;
+  if (!pop.hidden) $('#acctwho').textContent = (store.remote.account && store.remote.account.email) || 'Signed in';
+});
+document.addEventListener('click', (e) => { const pop = $('#acct'); if (!pop.hidden && !e.target.closest('#acct')) pop.hidden = true; });
+$('#signout').addEventListener('click', () => { $('#acct').hidden = true; store.auth && store.auth.signOut(); });
+let rerenderQueued = false;
+function rerender() {
+  if (rerenderQueued) return; rerenderQueued = true;
+  requestAnimationFrame(() => { rerenderQueued = false; const y = window.scrollY; render(); window.scrollTo(0, y); });
 }
 
 /* ---------------- routing ---------------- */
@@ -836,5 +899,6 @@ store.loadLocal();
 render();
 T.paint();
 store.init();
+
 </script>
-</body></html>
+<script type="module" src="firebase-sync.js"></script></body></html>

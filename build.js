@@ -7,5 +7,5 @@ t=t.replace('/*__LIB__*/',()=>lib).replace('/*__PROGRAM__*/',()=>prog);
 fs.writeFileSync(__dirname+'/kettle-and-bar.html',t); // artifact version (no document skeleton)
 // standalone page for the repo (GitHub Pages etc.)
 const head='<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="color-scheme" content="light dark"></head><body>';
-fs.writeFileSync(__dirname+'/index.html',head+t+'</body></html>');
+fs.writeFileSync(__dirname+'/index.html',head+t+'<script type="module" src="firebase-sync.js"></script></body></html>');
 console.log('bytes',t.length);
