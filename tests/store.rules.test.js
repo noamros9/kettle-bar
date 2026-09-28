@@ -180,7 +180,7 @@ test('replaceAll sets whole programs at once: device copy, one write each, chang
   const remote = createMemoryRemote({ p: { done: { 1: 'a' } } });
   const store = make(); store.attach(remote); await tick();
   const changed = []; store.on('change', (pid) => changed.push(pid));
-  await store.replaceAll({ p: { 2: 'b' }, q: { 5: 'c' } });
+  await store.replaceAll({ p: { done: { 2: 'b' }, swaps: [] }, q: { done: { 5: 'c' }, swaps: [] } });
   assert.deepEqual(store.days('p'), { 2: 'b' });
   assert.deepEqual([remote.docs.p.done, remote.docs.q.done], [{ 2: 'b' }, { 5: 'c' }]);
   assert.deepEqual([...new Set(changed)].sort(), ['p', 'q']); // the cloud echo of each write may add more
@@ -189,11 +189,11 @@ test('replaceAll sets whole programs at once: device copy, one write each, chang
 test('replaceAll without an account, or view-only, stays on the device', async () => {
   const storage = memStorage();
   const store = createStore({ programIds: ['p'], storage, now: () => 't' }); store.load();
-  await store.replaceAll({ p: { 3: 'x' } });
+  await store.replaceAll({ p: { done: { 3: 'x' }, swaps: [] } });
   assert.deepEqual(JSON.parse(storage.m['kb-progress-p']), { 3: 'x' });
   const ro = make(); const r = flaky('permission-denied'); ro.attach(r); await tick();
   ro.toggle('p', 1); await ro.flush();
-  await ro.replaceAll({ p: { 9: 'z' } });
+  await ro.replaceAll({ p: { done: { 9: 'z' }, swaps: [] } });
   assert.equal(r.writes.length, 1);
   assert.ok(ro.isDone('p', 9));
 });

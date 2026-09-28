@@ -96,24 +96,19 @@ function exportProgress() {
 const allDone = () => Object.fromEntries(programs.ids().map((pid) => [pid, store.days(pid)]));
 const allSwaps = () => Object.fromEntries(programs.ids().map((pid) => [pid, store.swaps(pid)]));
 const showImport = (st) => { importState = st; render(); };
+const allProgress = () => Object.fromEntries(programs.ids().map((pid) => [pid, store.progress(pid)]));
 async function readImport(file) {
   try {
-    const { programs: fileDays, swaps, unknown } = KBBackup.parseBackup(await file.text(), { known: programs.ids(), uid: store.remote && store.remote.account && store.remote.account.uid });
-    const mine = allSwaps(), swapNotes = Object.entries(swaps).filter(([pid, l]) => JSON.stringify(l) !== JSON.stringify(mine[pid]))
-      .map(([pid, l]) => ({ pid, file: l.length, mine: mine[pid].length }));
-    showImport({ name: file.name, programs: fileDays, swaps, unknown, swapNotes, diff: KBBackup.diffProgress(allDone(), fileDays) });
+    showImport(KBBackup.planImport(allProgress(), await file.text(), { known: programs.ids(), uid: store.remote && store.remote.account && store.remote.account.uid, name: file.name }));
   } catch (e) { showImport({ error: e.message }); }
 }
 function backupAction(what) {
-  const st = importState;
+  const plan = importState;
   if (what === 'export') return exportProgress();
   if (what === 'import') { $('#import-file').value = ''; return $('#import-file').click(); }
   if (what === 'cancel') return showImport(null);
-  const ids = Object.keys(st.diff);
-  const added = ids.reduce((a, pid) => a + st.diff[pid].added.length, 0);
-  const removed = ids.reduce((a, pid) => a + st.diff[pid].removed.length, 0);
-  store.replaceAll(KBBackup.applyImport(allDone(), st.programs, what), KBBackup.importSwaps(allSwaps(), st.swaps, what));
-  showImport({ done: what === 'merge' ? `Merged: ${added} day${added === 1 ? '' : 's'} added.` : `Replaced: ${added} day${added === 1 ? '' : 's'} added, ${removed} removed.` });
+  store.replaceAll(plan.result(what));
+  showImport({ done: plan.message(what) });
 }
 document.addEventListener('change', (e) => {
   if (e.target.id === 'import-file' && e.target.files[0]) readImport(e.target.files[0]);

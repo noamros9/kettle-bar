@@ -85,14 +85,11 @@ test('an import sets days and swaps together, in one write per program', async (
   const remote = createMemoryRemote();
   const store = make(); store.attach(remote); await tick();
   let writes = 0; const w = remote.write; remote.write = (...a) => { writes++; return w(...a); };
-  await store.replaceAll({ p: { 2: 'b' } }, { p: [swap] });
-  assert.deepEqual(store.swaps('p'), [swap]);
+  await store.replaceAll({ p: { done: { 2: 'b' }, swaps: [swap] } });
+  assert.deepEqual(store.progress('p'), { done: { 2: 'b' }, swaps: [swap] });
   assert.deepEqual(remote.docs.p.swaps, [swap]);
   assert.equal(writes, 1);
-  await store.replaceAll({ p: { 3: 'c' } });
-  assert.deepEqual(store.swaps('p'), [swap], 'no swaps given: the program keeps its own');
 });
-
 test('progress(pid) hands out a copy of the whole value', () => {
   const store = make(); store.toggle('p', 2); store.setSwaps('p', [swap]);
   const v = store.progress('p');
