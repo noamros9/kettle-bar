@@ -19,17 +19,6 @@ store.on('change', () => rerender());
 window.addEventListener('online', () => store.online());
 // hooks for the Firebase module (GitHub Pages build)
 window.kbSync = { attach: (r) => store.attach(r), detach: () => store.detach(), setAuth: (a) => store.setAuth(a) };
-// the claude.ai artifact's built-in database, when the page runs there
-async function attachClaudeDb() {
-  let db = null;
-  try { db = window.claude && window.claude.use ? await window.claude.use('db') : null; } catch (e) { db = null; }
-  if (!db) { if (!store.remote) paintSync(store.auth ? 'signin' : 'local'); return; }
-  store.attach({
-    kind: 'claude',
-    subscribe: (pid, onData, onErr) => db.doc('progress/' + pid).onSnapshot((snap) => onData(snap.exists ? (snap.data().done || {}) : null), onErr),
-    write: (pid, body) => db.doc('progress/' + pid).set(body),
-  });
-}
 $('#sync').addEventListener('click', (e) => {
   e.stopPropagation();
   const a = store.auth; if (!a) return;
@@ -85,4 +74,4 @@ route = parseHash();
 store.load();
 render();
 T.paint();
-attachClaudeDb();
+if (!store.remote) paintSync(store.auth ? 'signin' : 'local');

@@ -52,12 +52,12 @@ days ticked on the device and in the cloud are merged.
 | `program-builder.js` | **Program Builder**: `build(config)` → 60-day program, fitted to its time range; owns the time model |
 | `programs/three-split-60.json` | Three-Split 60's days, frozen so saved progress stays valid |
 | `app/session.js` | **Workout Session**: progress through a day and every rest/timer rule (pure, no page) |
-| `app/store.js` | **Progress Store**: done days per program, device copy + sync adapters (Firebase, claude.ai, in-memory) |
+| `app/store.js` | **Progress Store**: done days per program, device copy + sync adapters (Firebase, in-memory) |
 | `app/views.js` | Routing and page rendering |
 | `app/clock.js` | Timer, beeps, wake lock and workout clock (runs the session's instructions) |
 | `app/main.js` | Wires store, session and clock to the page |
 | `app/shell.html`, `app/styles.css` | Page markup and styles |
-| `build.js` | Builds all programs and stitches everything into `index.html` (GitHub Pages) and `kettle-and-bar.html` (claude.ai) |
+| `build.js` | Builds all programs and stitches everything into `index.html` (GitHub Pages) |
 | `tests/` | `npm test`: session rules, store sync, program invariants, catalogue |
 | `firebase-sync.js`, `firebase-config.js`, `firestore.rules` | Google sign-in and Firestore sync |
 | `manifest.webmanifest`, `icons/`, `sw.js` | Installable app, icon, offline support |

@@ -1,7 +1,7 @@
 /* Progress Store: which days are done in each program.
    Always keeps a device copy (storage adapter). A remote adapter can be attached for sync:
      remote = { kind, account?, subscribe(pid, onData, onErr) -> unsubscribe, write(pid, body) -> Promise }
-   Adapters: Firebase (firebase-sync.js), the claude.ai database (main.js), in-memory (tests).
+   Adapters: Firebase (firebase-sync.js), in-memory (tests).
    The store never touches the page: it emits 'change' (pid) and 'status' (ok | saving | offline |
    local | signin | ro | err) events. */
 (function (root) {

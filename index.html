@@ -846,7 +846,7 @@ const PROGRAMS = [{"id":"three-split-60","name":"Three-Split 60","blurb":"Chest 
 /* Progress Store: which days are done in each program.
    Always keeps a device copy (storage adapter). A remote adapter can be attached for sync:
      remote = { kind, account?, subscribe(pid, onData, onErr) -> unsubscribe, write(pid, body) -> Promise }
-   Adapters: Firebase (firebase-sync.js), the claude.ai database (main.js), in-memory (tests).
+   Adapters: Firebase (firebase-sync.js), in-memory (tests).
    The store never touches the page: it emits 'change' (pid) and 'status' (ok | saving | offline |
    local | signin | ro | err) events. */
 (function (root) {
@@ -1526,17 +1526,6 @@ store.on('change', () => rerender());
 window.addEventListener('online', () => store.online());
 // hooks for the Firebase module (GitHub Pages build)
 window.kbSync = { attach: (r) => store.attach(r), detach: () => store.detach(), setAuth: (a) => store.setAuth(a) };
-// the claude.ai artifact's built-in database, when the page runs there
-async function attachClaudeDb() {
-  let db = null;
-  try { db = window.claude && window.claude.use ? await window.claude.use('db') : null; } catch (e) { db = null; }
-  if (!db) { if (!store.remote) paintSync(store.auth ? 'signin' : 'local'); return; }
-  store.attach({
-    kind: 'claude',
-    subscribe: (pid, onData, onErr) => db.doc('progress/' + pid).onSnapshot((snap) => onData(snap.exists ? (snap.data().done || {}) : null), onErr),
-    write: (pid, body) => db.doc('progress/' + pid).set(body),
-  });
-}
 $('#sync').addEventListener('click', (e) => {
   e.stopPropagation();
   const a = store.auth; if (!a) return;
@@ -1592,7 +1581,7 @@ route = parseHash();
 store.load();
 render();
 T.paint();
-attachClaudeDb();
+if (!store.remote) paintSync(store.auth ? 'signin' : 'local');
 
 </script>
 <script type="module" src="firebase-sync.js"></script><script>if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});</script></body></html>
