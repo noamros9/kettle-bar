@@ -135,6 +135,10 @@ main{padding-block:24px 64px}
 .bhead .bt div{color:var(--muted);font-size:14px}
 .pips{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
 .pips .lbl{font-size:12px;color:var(--muted);margin-right:2px}
+.ex .pips{margin-top:auto;padding-top:10px;border-top:1px solid var(--line);gap:5px}
+.ex .pips .lbl{display:none}
+.ex .pip{width:32px;height:32px;font-size:15px}
+.ex.fin{border-color:var(--accent)}
 .pip{width:38px;height:38px;border-radius:50%;border:2px solid var(--line);background:var(--surface);font:700 16px/1 var(--display);display:grid;place-items:center;padding:0}
 .pip.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 .exgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:10px}
@@ -209,7 +213,7 @@ body.has-timer main{padding-bottom:170px}
 <main id="app" class="wrap" aria-live="polite"></main>
 <div class="timer" id="timer" hidden>
   <div class="wrap">
-    <button class="tclock num" id="tclock" aria-label="Start or pause rest timer">1:30</button>
+    <button class="tclock num" id="tclock" aria-label="Start or pause rest timer">0:30</button>
     <div class="tinfo"><b id="tlabel">Rest timer</b><span id="tsub">Tap a set number when you finish a set</span></div>
     <div class="tctl">
       <button id="tgo" class="go">Start</button>
@@ -400,45 +404,46 @@ function viewProgram() {
   ${levels}`;
 }
 
-function exCard(it, i) {
-  const e = EX[it.ex];
-  return `<article class="ex"><div class="ord">${String(i + 1).padStart(2, '0')}</div><div class="figbox">${fig(it.ex)}</div>
+function exCard(it, i, bi) {
+  const e = EX[it.ex], done = (session.sets[bi] || [])[i] || 0;
+  const pips = bi === undefined ? '' : `<div class="pips" role="group" aria-label="Sets of ${esc(e.name)} done"><span class="lbl">Sets</span>${Array.from({ length: it.sets }, (_, k) =>
+    `<button class="pip num${done > k ? ' on' : ''}" data-pip="${bi}:${i}:${k + 1}" aria-pressed="${done > k}" aria-label="Set ${k + 1} of ${esc(e.name)} done">${k + 1}</button>`).join('')}</div>`;
+  return `<article class="ex${bi !== undefined && done >= it.sets ? ' fin' : ''}"><div class="ord">${String(i + 1).padStart(2, '0')}${it.sets ? ` · ${it.sets} sets` : ''}</div><div class="figbox">${fig(it.ex)}</div>
     <div class="cnt"><b class="num">${it.n}</b><span>${unitText(e, it.n)}</span></div>
     <div class="nm">${esc(e.name)}</div>
     ${e.load ? `<div class="ld">${esc(LOAD[e.load])}</div>` : ''}
-    <p class="cue">${esc(e.cue)}</p></article>`;
+    <p class="cue">${esc(e.cue)}</p>${pips}</article>`;
 }
 
 const session = { day: null, sets: [] };
 function viewDay() {
   const p = prog(), w = p.days[route.day - 1];
   if (!w) return viewProgram();
-  if (session.day !== w.day) { session.day = w.day; session.sets = w.blocks.map(() => 0); }
+  const R = p.rests;
+  if (session.day !== w.day) { session.day = w.day; session.sets = w.blocks.map((b) => b.items.map(() => 0)); }
   const t = TYPES[w.type], isD = store.isDone(p.id, w.day);
-  const allSets = w.blocks.every((b, i) => session.sets[i] >= b.sets);
+  const allSets = w.blocks.every((b, bi) => b.items.every((it, i) => session.sets[bi][i] >= it.sets));
   const blocks = w.blocks.map((b, bi) => `
     <section class="block" aria-labelledby="b${bi}">
-      <div class="bhead"><div class="bletter">${LETTERS[bi]}</div>
-        <div class="bt"><h2 id="b${bi}">${esc(b.title)}</h2><div>${b.sets} sets · ${b.rest} s rest between sets</div></div>
-        <div class="pips" role="group" aria-label="Sets done in block ${LETTERS[bi]}"><span class="lbl">Sets</span>${Array.from({ length: b.sets }, (_, i) =>
-          `<button class="pip num${session.sets[bi] > i ? ' on' : ''}" data-pip="${bi}:${i + 1}" aria-pressed="${session.sets[bi] > i}" aria-label="Set ${i + 1} done">${i + 1}</button>`).join('')}</div>
+      <div class="bhead"><div class="bletter">${bi + 1}</div>
+        <div class="bt"><h2 id="b${bi}">${esc(b.title)}</h2><div>${b.items.length} exercises · ${b.sets} sets each · ${R.set} s between sets · ${R.exercise / 60} min between exercises</div></div>
       </div>
-      <div class="exgrid">${b.items.map(exCard).join('')}</div>
-    </section>${bi < w.blocks.length - 1 ? `<div class="between">Rest ${p.between / 60} min, then block ${LETTERS[bi + 1]}</div>` : ''}`).join('');
+      <div class="exgrid">${b.items.map((it, i) => exCard(it, i, bi)).join('')}</div>
+    </section>${bi < w.blocks.length - 1 ? `<div class="between">Rest ${R.beforeAbs / 60} min, then ${esc(w.blocks[bi + 1].title.toLowerCase())}</div>` : ''}`).join('');
   return `<div class="crumbs"><button class="back" data-go="program">← ${esc(p.name)}</button>
       <div class="step"><button data-day="${w.day - 1}" ${w.day <= 1 ? 'disabled' : ''} aria-label="Previous day">‹</button><button data-day="${w.day + 1}" ${w.day >= p.days.length ? 'disabled' : ''} aria-label="Next day">›</button></div></div>
     <div class="whead"><div><div class="eyebrow">Day ${w.day} · ${esc(p.levels[w.level - 1])}</div><h1>${esc(w.name)}</h1>
-      <div class="meta"><span class="ty"><i class="dot" style="--c:${t.c}"></i>${t.label}</span><span>About ${w.est} min</span><span>${w.blocks.length} blocks</span></div></div>
+      <div class="meta"><span class="ty"><i class="dot" style="--c:${t.c}"></i>${t.label}</span><span>About ${w.est} min</span><span>${w.blocks.reduce((n, b) => n + b.items.length, 0)} exercises</span></div></div>
       <button class="btn ${isD ? 'done' : ''}" data-toggle="${w.day}" aria-pressed="${isD}">${isD ? '✓ Done' : 'Mark as done'}</button></div>
-    <p class="how">Do the exercises of a block in order, one after another, with as little pause as you can. That is one set. Tap the set number when you finish it and the rest timer starts.</p>
+    <p class="how">Do every set of an exercise before moving to the next one: ${R.set} s rest between sets, ${R.exercise / 60} min between exercises, ${R.beforeAbs / 60} min before the abs. Tap the set number when you finish a set and the right rest starts on the timer.</p>
     ${blocks}
     ${allSets && !isD ? `<div class="complete"><p>All sets finished. Nice work.</p><button class="btn" data-toggle="${w.day}">Mark day ${w.day} as done</button></div>` : ''}
-    <p class="note">Warm up for 3–5 minutes first (jumping jacks, arm circles, a few slow squats). Weights are starting points: pick a load where the last two reps of a set are hard but clean. If you can't finish the pull-up reps, swap the rest of the set for slow negatives.</p>`;
+    <p class="note">Warm up for 3–5 minutes first (jumping jacks, arm circles, a few slow squats). Weights are starting points: pick a load where the last two reps of a set are hard but clean. If you can't finish the pull-up reps, finish the set with slow negatives.</p>`;
 }
 
 function viewLibrary() {
   const cats = Object.keys(CAT);
-  return `<div class="eyebrow">${Object.keys(EX).length} exercises</div><h1>Exercises</h1><p class="lede">Every movement used in the programs, with the equipment you have: dumbbells, one kettlebell, a pull-up bar, a mat and a sturdy chair.</p>
+  return `<div class="eyebrow">${Object.keys(EX).length} exercises</div><h1>Exercises</h1><p class="lede">Every movement used in the programs, with the equipment you have: dumbbells, one kettlebell, a pull-up bar and a mat.</p>
   ${cats.map((c) => { const list = Object.values(EX).filter((e) => e.cat === c); return list.length ? `<section class="libcat"><h2>${CAT[c]}</h2><div class="exgrid">${list.map((e) => `<article class="ex"><div class="figbox">${fig(e.id)}</div><div class="nm">${esc(e.name)}</div>${e.load ? `<div class="ld">${esc(LOAD[e.load])}</div>` : ''}<p class="cue">${esc(e.cue)}</p></article>`).join('')}</div></section>` : ''; }).join('')}`;
 }
 
@@ -467,24 +472,25 @@ document.addEventListener('click', (ev) => {
 
 /* ---------------- sets + rest timer ---------------- */
 function onPip(v) {
-  const [bi, k] = v.split(':').map(Number);
-  const w = prog().days[session.day - 1];
-  const cur = session.sets[bi];
-  session.sets[bi] = cur === k ? k - 1 : k;
-  if (session.sets[bi] >= k) {
+  const [bi, i, k] = v.split(':').map(Number);
+  const p = prog(), R = p.rests, w = p.days[session.day - 1];
+  const b = w.blocks[bi], it = b.items[i];
+  const cur = session.sets[bi][i];
+  session.sets[bi][i] = cur === k ? k - 1 : k;
+  if (session.sets[bi][i] >= k) {
     // a set was just completed: start the right rest
-    for (let i = 0; i < bi; i++) session.sets[i] = Math.max(session.sets[i], w.blocks[i].sets);
     T.unlockAudio(); S.start();
-    const b = w.blocks[bi];
-    if (k < b.sets) T.start(b.rest, `Rest · set ${k + 1} of ${b.sets} next`, `Block ${LETTERS[bi]} · ${b.title}`);
-    else if (bi < w.blocks.length - 1) T.start(prog().between, `Rest · block ${LETTERS[bi + 1]} next`, w.blocks[bi + 1].title);
+    const name = EX[it.ex].name;
+    if (k < it.sets) T.start(R.set, `Rest · set ${k + 1} of ${it.sets} next`, name);
+    else if (i < b.items.length - 1) T.start(R.exercise, `Rest · next: ${EX[b.items[i + 1].ex].name}`, `${b.items[i + 1].n} ${unitText(EX[b.items[i + 1].ex])} × ${b.items[i + 1].sets} sets`);
+    else if (bi < w.blocks.length - 1) T.start(R.beforeAbs, `Rest · ${w.blocks[bi + 1].title.toLowerCase()} next`, `First: ${EX[w.blocks[bi + 1].items[0].ex].name}`);
     else { T.stop(); T.setLabel('Workout finished', 'Every set is done'); }
   }
   const y = window.scrollY; render(); window.scrollTo(0, y);
 }
 
 const T = {
-  dur: 90, left: 90, running: false, endAt: 0, iv: null, ctx: null, lock: null,
+  dur: 30, left: 30, running: false, endAt: 0, iv: null, ctx: null, lock: null,
   fmt(s) { s = Math.max(0, Math.ceil(s)); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); },
   setLabel(a, b) { $('#tlabel').textContent = a; $('#tsub').textContent = b; },
   paint() {

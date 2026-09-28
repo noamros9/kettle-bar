@@ -5,48 +5,45 @@ let seed = 20260928;
 const rnd = () => { seed = (seed * 1664525 + 1013904223) % 4294967296; return seed / 4294967296; };
 
 const POOLS = {
-  push: ['pushup', 'diamond_pushup', 'decline_pushup', 'spiderman_pushup', 'explosive_pushup', 'plank_to_pushup'],
+  push: ['pushup', 'diamond_pushup', 'dive_bomber', 'spiderman_pushup', 'explosive_pushup', 'plank_to_pushup'],
   pull: ['pullup', 'chinup', 'negative_pullup', 'pullup', 'chinup', 'chin_hold'],
   dbchest: ['db_floor_press', 'db_pullover'],
   row: ['db_row', 'one_arm_row', 'renegade_row', 'kb_high_pull'],
-  cbaMix: ['superman', 'plank_to_pushup', 'diamond_pushup', 'kb_high_pull', 'renegade_row', 'chin_hold', 'decline_pushup'],
+  cbaMix: ['superman', 'plank_to_pushup', 'diamond_pushup', 'kb_high_pull', 'renegade_row', 'chin_hold', 'dive_bomber'],
   uPress: ['db_shoulder_press', 'kb_press', 'pike_pushup'],
   uPull: ['db_row', 'one_arm_row', 'kb_high_pull'],
   uArms1: ['db_curl', 'hammer_curl', 'lateral_raise', 'db_front_raise'],
-  uArms2: ['db_skullcrusher', 'overhead_triceps_ext', 'chair_dips', 'diamond_pushup'],
+  uArms2: ['db_skullcrusher', 'overhead_triceps_ext', 'db_kickback', 'diamond_pushup'],
+  uExtra: ['pushup', 'dive_bomber', 'lateral_raise', 'renegade_row'],
   total: ['db_thruster', 'kb_clean_press', 'burpee', 'kb_swing'],
-  lSquat: ['goblet_squat', 'kb_sumo_deadlift', 'bulgarian_split_squat'],
+  lSquat: ['goblet_squat', 'kb_sumo_deadlift', 'db_squat', 'split_squat'],
   lHinge: ['db_rdl', 'single_leg_rdl', 'kb_swing'],
-  lLunge: ['db_lunge', 'reverse_lunge', 'lateral_lunge', 'step_up'],
+  lLunge: ['db_lunge', 'reverse_lunge', 'lateral_lunge', 'split_squat'],
   lGlute: ['glute_bridge', 'single_leg_bridge', 'wall_sit'],
   lTotal: ['db_thruster', 'squat_jump', 'burpee', 'kb_clean_press'],
   cardio: ['jumping_jacks', 'high_knees', 'burpee', 'squat_jump', 'jump_lunge', 'butt_kicks', 'punches', 'squat_thrust', 'kb_swing', 'mountain_climber'],
   abs: Object.keys(EX).filter((k) => EX[k].cat === 'abs' && k !== 'mountain_climber'),
 };
 
+// Straight sets: every set of one exercise, then the next exercise. Abs always come last.
+const REST = { set: 30, exercise: 60, beforeAbs: 120 };
+const SETUP = 5; // seconds to get into position for each set
+
 const used = {}; // id -> last day used
 const count = {};
-function pick(pool, level, taken, day) {
-  const opts = [...new Set(pool)].filter((id) => EX[id].lv <= level && !taken.has(id));
+function candidate(pool, taken) {
+  const opts = [...new Set(pool)].filter((id) => !taken.has(id));
   opts.sort((a, b) => ((used[a] || -99) - (used[b] || -99)) || ((count[a] || 0) - (count[b] || 0)) || (rnd() - 0.5));
-  const id = opts[0];
-  used[id] = day; count[id] = (count[id] || 0) + 1; taken.add(id);
-  return id;
+  taken.add(opts[0]);
+  return opts[0];
 }
-
-const TRANS = 10; // seconds to move between exercises
-function itemTime(it) {
-  const e = EX[it.ex];
-  const mult = e.side ? 2 : 1;
-  const work = e.u === 'sec' ? it.n * mult : it.n * e.tp * mult;
-  return work + TRANS + (e.side ? 5 : 0);
+function setWork(ex, n) {
+  const e = EX[ex], mult = e.side ? 2 : 1;
+  return (e.u === 'sec' ? n * mult : n * e.tp * mult) + (e.side ? 5 : 0) + SETUP;
 }
-function blockTime(b) {
-  const round = b.items.reduce((s, it) => s + itemTime(it), 0);
-  return b.sets * round + (b.sets - 1) * b.rest;
-}
-const BETWEEN = 120;
-function total(w) { return w.blocks.reduce((s, b) => s + blockTime(b), 0) + (w.blocks.length - 1) * BETWEEN; }
+function itemTime(it) { return it.sets * setWork(it.ex, it.n) + (it.sets - 1) * REST.set; }
+function blockTime(b) { return b.items.reduce((s, it) => s + itemTime(it), 0) + (b.items.length - 1) * REST.exercise; }
+function total(w) { return blockTime(w.blocks[0]) + REST.beforeAbs + blockTime(w.blocks[1]); }
 
 const NAMES = {
   cba: ['Iron Frame', 'Anvil', 'Bulwark', 'Keel', 'Rampart', 'Ridgeline', 'Breakwater', 'Lintel', 'Crossbeam', 'Bastion', 'Hull', 'Buttress', 'Girder', 'Foundry', 'Pillar', 'Harbor Wall', 'Stonework', 'Headland', 'Trestle', 'Citadel'],
@@ -56,49 +53,44 @@ const NAMES = {
 };
 const ni = { cba: 0, up: 0, low: 0, ac: 0 };
 
+const SLOTS = {
+  cba: ['push', 'pull', 'dbchest', 'row', 'cbaMix', 'push'],
+  up: ['uPress', 'uPull', 'uArms1', 'uArms2', 'total', 'uExtra'],
+  low: ['lSquat', 'lHinge', 'lLunge', 'lGlute', 'lTotal', 'lSquat'],
+  ac: ['cardio', 'abs', 'cardio', 'abs', 'cardio', 'cardio'],
+};
+const TITLES = {
+  cba: ['Chest, back & abs', 'Chest & back'],
+  up: ['Full body · upper focus', 'Upper body + total body'],
+  low: ['Full body · lower focus', 'Lower body + total body'],
+  ac: ['Abs & cardio', 'Cardio & core'],
+};
+
 const days = [];
 for (let d = 1; d <= 60; d++) {
   const level = d <= 20 ? 1 : d <= 40 ? 2 : 3;
   const r = (d - 1) % 3;
+  const type = r === 0 ? 'cba' : r === 2 ? 'ac' : (Math.floor((d - 1) / 3) % 2 === 0 ? 'up' : 'low');
   const taken = new Set();
-  const it = (id) => ({ ex: id, n: EX[id].r[level - 1] });
-  const P = (pool) => it(pick(POOLS[pool], level, taken, d));
-  let type, title, blocks, key;
-  if (r === 0) {
-    type = 'cba'; key = 'cba'; title = 'Chest, back & abs';
-    blocks = [
-      { title: 'Chest & back', sets: 4, rest: 90, items: [P('push'), P('pull'), P('dbchest'), P('row'), P('cbaMix')] },
-      { title: 'Abs', sets: 3, rest: 45, items: [P('abs'), P('abs'), P('abs'), P('abs')] },
-    ];
-  } else if (r === 1) {
-    const upper = Math.floor((d - 1) / 3) % 2 === 0;
-    type = upper ? 'up' : 'low'; key = type;
-    title = upper ? 'Full body · upper focus' : 'Full body · lower focus';
-    blocks = upper
-      ? [{ title: 'Upper body + total body', sets: 4, rest: 90, items: [P('uPress'), P('uPull'), P('uArms1'), P('uArms2'), P('total')] }]
-      : [{ title: 'Lower body + total body', sets: 4, rest: 90, items: [P('lSquat'), P('lHinge'), P('lLunge'), P('lGlute'), P('lTotal')] }];
-    blocks.push({ title: 'Abs', sets: 3, rest: 45, items: [P('abs'), P('abs'), P('abs'), P('abs')] });
-  } else {
-    type = 'ac'; key = 'ac'; title = 'Abs & cardio';
-    blocks = [
-      { title: 'Cardio + core', sets: 4, rest: 60, items: [P('cardio'), P('abs'), P('cardio'), P('abs'), P('cardio')] },
-      { title: 'Core finisher', sets: 3, rest: 45, items: [P('abs'), P('abs'), P('abs'), P('abs')] },
-    ];
-  }
-  const w = { day: d, type, title, level, name: NAMES[key][ni[key]++], blocks };
-  // tune to 30–35 min: search sets/rest combos closest to the preferred shape
-  const A = blocks[0], B = blocks[1];
-  const prefA = type === 'ac' ? 60 : 90;
+  const mainC = SLOTS[type].map((pool) => candidate(POOLS[pool], taken));
+  const absC = [0, 1, 2, 3].map(() => candidate(POOLS.abs, taken));
+  const n = (id) => EX[id].r[level - 1];
+  // pick how many exercises and sets fit 30–35 min, closest to 5 main × 4 sets and 3 abs × 3 sets
   let best = null;
-  for (const as of [3, 4, 5]) for (const ar of [60, 75, 90, 120]) for (const bs of [2, 3, 4]) for (const br of [30, 45, 60]) {
-    if (type === 'ac' && ar > 75) continue;
-    A.sets = as; A.rest = ar; B.sets = bs; B.rest = br;
+  for (const em of [4, 5, 6]) for (const sm of [3, 4, 5]) for (const ea of [2, 3, 4]) for (const sa of [2, 3, 4]) {
+    const w = { blocks: [
+      { items: mainC.slice(0, em).map((id) => ({ ex: id, n: n(id), sets: sm })) },
+      { items: absC.slice(0, ea).map((id) => ({ ex: id, n: n(id), sets: sa })) }] };
     const t = total(w) / 60;
-    const inRange = t >= 30.5 && t <= 34.4;
-    const pen = (inRange ? 0 : 100 + Math.abs(t - 32.5) * 10) + Math.abs(as - 4) * 3 + Math.abs(ar - prefA) / 15 * 2 + Math.abs(bs - 3) * 2.5 + Math.abs(br - 45) / 15 * 1.5;
-    if (!best || pen < best.pen) best = { pen, as, ar, bs, br };
+    const pen = (t >= 30.5 && t <= 34.4 ? 0 : 100 + Math.abs(t - 32.5) * 10) + Math.abs(em - 5) * 3 + Math.abs(sm - 4) * 1.5 + Math.abs(ea - 3) * 4 + Math.abs(sa - 3) * 2;
+    if (!best || pen < best.pen) best = { pen, w, em, sm, ea, sa };
   }
-  A.sets = best.as; A.rest = best.ar; B.sets = best.bs; B.rest = best.br;
+  const blocks = [
+    { title: TITLES[type][1], kind: 'main', sets: best.sm, items: best.w.blocks[0].items },
+    { title: 'Abs', kind: 'abs', sets: best.sa, items: best.w.blocks[1].items },
+  ];
+  blocks.forEach((b) => b.items.forEach((it) => { used[it.ex] = d; count[it.ex] = (count[it.ex] || 0) + 1; }));
+  const w = { day: d, type, title: TITLES[type][0], level, name: NAMES[type][ni[type]++], blocks };
   w.est = Math.round(total(w) / 60);
   days.push(w);
 }
@@ -107,13 +99,13 @@ const program = {
   id: 'three-split-60',
   name: 'Three-Split 60',
   blurb: 'Chest & back, full body, abs & cardio on a repeating three-day cycle. Dumbbells, one kettlebell, a pull-up bar and a mat.',
-  levels: ['Level I · Base', 'Level II · Build', 'Level III · Peak'],
-  between: BETWEEN,
+  levels: ['Level I · Intermediate', 'Level II · Strong', 'Level III · Peak'],
+  rests: REST,
   days,
 };
 
 if (require.main === module) {
-  const rows = days.map((w) => `${String(w.day).padStart(2)} ${w.type.padEnd(3)} L${w.level} ${String(w.est).padStart(2)}min  ${w.blocks.map((b) => `${b.sets}x${b.rest}s[${b.items.map((i) => i.ex + ':' + i.n).join(',')}]`).join(' | ')}`);
+  const rows = days.map((w) => `${String(w.day).padStart(2)} ${w.type.padEnd(3)} L${w.level} ${String(w.est).padStart(2)}min  ${w.blocks.map((b) => `${b.items.length}x${b.sets}[${b.items.map((i) => i.ex + ':' + i.n).join(',')}]`).join(' | ')}`);
   console.log(rows.join('\n'));
   const ests = days.map((d) => d.est);
   console.log('min', Math.min(...ests), 'max', Math.max(...ests));

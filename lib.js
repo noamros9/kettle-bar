@@ -189,9 +189,10 @@
     // ---------------- CHEST ----------------
     pushup: { name: 'Push-ups', cat: 'chest', r: [12, 15, 18], tp: 2.5, cue: 'Hands under shoulders, body in one straight line, chest to a fist above the floor.', poses: [PLANK, PUSHB] },
     diamond_pushup: { name: 'Diamond push-ups', cat: 'chest', r: [8, 10, 12], tp: 2.6, cue: 'Hands together under your chest, elbows brush your ribs on the way down.', poses: [P(PLANK, { hn: [24, 18], hf: [25, 18] }), P(PUSHB, { hn: [24, 5], hf: [25, 5], eh: [-1, -0.4] })] },
-    decline_pushup: { name: 'Decline push-ups', cat: 'chest', r: [8, 10, 12], tp: 2.8, equip: ['chair'], cue: 'Feet on a sturdy chair, hands on the floor. Lower your chest between your hands.', poses: [
-      { t: [34, -1], hn: [34, 32], hf: [36, 32], fn: [-41, 2], ff: [-42, 1], chair: { x: -45, y: 5.5, h: 30, back: -1 } },
-      { t: [33, 9], hn: [29, 19], hf: [31, 19], eh: [-0.4, -1], fn: [-39.5, -11], ff: [-40.5, -12], chair: { x: -44, y: -7.5, h: 30, back: -1 } }] },
+    dive_bomber: { name: 'Dive-bomber push-ups', cat: 'chest', r: [8, 10, 12], tp: 3.5, cue: 'From a pike, swoop your chest forward just above the floor and up into a cobra. Push back to the pike.', poses: [
+      { t: [28.7, 18.3], hn: [56.5, 36], hf: [58, 36], fn: [-19.6, 36], ff: [-21, 36], mat: 1 },
+      { t: [34, 6], hn: [44, 14], hf: [46, 14], eh: [-1, -0.2], fn: [-38, 14], ff: [-39, 14], mat: 1 },
+      { t: [21.3, -26.5], hd: [1, -0.6], hn: [22, 6.5], hf: [24, 6.5], fn: [-40.5, 6.5], ff: [-41, 6.5], mat: 1 }] },
     db_floor_press: { name: 'Dumbbell floor press', cat: 'chest', r: [12, 12, 15], tp: 3, load: 'heavy', cue: 'Lie on your back, knees bent. Press both dumbbells up, lower until elbows touch the floor.', poses: [
       P(SUP, { hn: [26, -14], hf: [27, -14], eh: [0, 1], db: 'nf' }), P(SUP, { hn: [34, -33], hf: [35, -33], db: 'nf' })] },
     db_pullover: { name: 'Dumbbell pullover', cat: 'chest', r: [12, 12, 15], tp: 3.5, load: 'single', cue: 'Lie on your back holding one dumbbell over your chest. Lower it behind your head with long arms, pull back.', poses: [
@@ -290,9 +291,8 @@
       P(SUP, { hn: [34, -33], hf: [35, -33], db: 'nf' }), P(SUP, { hn: [45, -8], hf: [46, -8], eh: [0, -1], db: 'nf' })] },
     overhead_triceps_ext: { name: 'Overhead triceps extension', cat: 'upper', r: [10, 12, 15], tp: 3, load: 'single', cue: 'Hold one dumbbell overhead with both hands, lower it behind your head, extend.', poses: [
       P(STAND, { hn: [2, -67], hf: [2, -67], db: 'both' }), P(STAND, { hn: [-9, -42], hf: [-9, -42], eh: [0.4, -1], db: 'both' })] },
-    chair_dips: { name: 'Chair dips', cat: 'upper', r: [12, 15, 18], tp: 2.5, equip: ['chair'], cue: 'Hands on a sturdy chair behind you, legs out. Bend elbows to 90°, press back up.', poses: [
-      { t: [2, -34], hn: [-6, -1], hf: [-7, -1], fn: [34, 22], ff: [35, 22], chair: { x: -13, y: 2.5, h: 23, back: -1 } },
-      { t: [1, -34], hn: [-7, -15], hf: [-8, -15], eh: [-1, -0.3], fn: [34, 8], ff: [35, 8], kh: [0, -1], chair: { x: -14, y: -11.5, h: 23, back: -1 } }] },
+    db_kickback: { name: 'Dumbbell kickbacks', cat: 'upper', r: [12, 12, 15], tp: 2.8, load: 'light', cue: 'Hinge forward, upper arms pinned to your sides. Straighten your elbows to push the dumbbells back.', poses: [
+      P(HINGE, { hn: [13, 6], hf: [12, 6], eh: [-1, -1], db: 'nf' }), P(HINGE, { hn: [-2, -8], hf: [-3, -8], eh: [-1, -1], db: 'nf' })] },
     pike_pushup: { name: 'Pike push-ups', cat: 'upper', r: [8, 10, 12], tp: 3, cue: 'Hips high in an upside-down V. Bend your elbows to bring your head toward the floor.', poses: [
       { t: [28.7, 18.3], hn: [56.5, 36], hf: [58, 36], fn: [-19.6, 36], ff: [-21, 36], mat: 1 },
       { t: [25, 23], hn: [44, 36], hf: [45, 36], eh: [-1, -1], fn: [-19.6, 36], ff: [-21, 36], mat: 1 }] },
@@ -309,9 +309,10 @@
       { t: [12, -32], fn: [18, 20], ff: [16, 20], kh: [1, -1], hn: [20, -22], hf: [20, -22], eh: [0.3, 1], kb: 'both', kbd: [0, 1] }] },
     db_lunge: { name: 'Dumbbell lunges', cat: 'lower', r: [16, 20, 20], alt: 1, tp: 2.8, load: 'medium', cue: 'Step forward and lower until both knees are at 90°, push back. Alternate legs.', poses: [P(STAND, { db: 'nf' }), P(LUNGE_N, { hn: [1, -1], hf: [-1, -1], db: 'nf' })] },
     reverse_lunge: { name: 'Reverse lunges', cat: 'lower', r: [16, 20, 24], alt: 1, tp: 2.5, cue: 'Step back and lower the back knee toward the floor, drive through the front heel.', poses: [P(STAND, HANDS_HIPS), P(LUNGE_F, HANDS_HIPS)] },
-    bulgarian_split_squat: { name: 'Bulgarian split squats', cat: 'lower', r: [8, 10, 12], side: 1, tp: 3.5, lv: 2, load: 'medium', equip: ['chair'], cue: 'Back foot on a chair, lower straight down on the front leg. Switch sides.', poses: [
-      { t: [2, -34], ff: [10, 40], fn: [-30, 16], khn: [0.3, 1], hn: [1, -1], hf: [-1, -1], db: 'nf', chair: { x: -34, y: 19.5, h: 24, back: -1 } },
-      { t: [3, -34], ff: [18, 24], khf: [1, -0.5], fn: [-30, 0], khn: [0.3, 1], hn: [1, -1], hf: [-1, -1], db: 'nf', chair: { x: -34, y: 3.5, h: 24, back: -1 } }] },
+    split_squat: { name: 'Dumbbell split squats', cat: 'lower', r: [10, 12, 12], side: 1, tp: 3, load: 'medium', cue: 'Long split stance, dumbbells at your sides. Lower the back knee toward the floor, stand up. Switch legs.', poses: [
+      { t: [0, -34], fn: [14, 39], ff: [-24, 34], khf: [0.3, 1], hn: [1, -1], hf: [-1, -1], db: 'nf' }, P(LUNGE_N, { hn: [1, -1], hf: [-1, -1], db: 'nf' })] },
+    db_squat: { name: 'Dumbbell squats', cat: 'lower', r: [15, 15, 18], tp: 3, load: 'heavy', cue: 'Dumbbells hanging at your sides, feet shoulder-width. Sit down until thighs are parallel, drive up.', poses: [
+      P(STAND, { db: 'nf' }), { t: [15, -30], fn: [14, 26], ff: [12, 26], kh: [1, -0.8], hn: [17, 2], hf: [16, 2], db: 'nf' }] },
     db_rdl: { name: 'Romanian deadlifts', cat: 'lower', r: [12, 12, 15], tp: 3, load: 'heavy', cue: 'Soft knees, push your hips back and slide the dumbbells down your thighs, stand tall.', poses: [
       P(STAND, { hn: [5, -1], hf: [4, -1], db: 'nf' }), { t: [30, -16], fn: [4, 40], ff: [2, 40], hn: [31, 17], hf: [30, 17], db: 'nf' }] },
     single_leg_rdl: { name: 'Single-leg deadlifts', cat: 'lower', r: [8, 10, 10], side: 1, tp: 3.5, lv: 2, load: 'medium', cue: 'Balance on one leg, hinge forward as the other leg lifts behind you, stand up. Switch.', poses: [
@@ -322,9 +323,6 @@
     glute_bridge: { name: 'Glute bridges', cat: 'lower', r: [15, 20, 20], tp: 2, cue: 'Feet flat, knees bent. Drive your hips up until knees, hips and shoulders line up.', poses: [GB_DOWN, GB_UP] },
     single_leg_bridge: { name: 'Single-leg glute bridges', cat: 'lower', r: [10, 12, 12], side: 1, tp: 2.5, cue: 'One foot planted, other leg straight. Lift your hips high, lower. Switch sides.', poses: [P(GB_DOWN, { fn: [-29, -29] }), P(GB_UP, { fn: [-38, -14] })] },
     wall_sit: { name: 'Wall sit', cat: 'lower', u: 'sec', r: [40, 50, 60], cue: 'Back flat against a wall, thighs parallel to the floor. Hold.', poses: [{ t: [0, -34], fn: [21, 20], ff: [19, 20], kh: [1, -1], hn: [14, -3], hf: [12, -3], wall: -6 }] },
-    step_up: { name: 'Step-ups', cat: 'lower', r: [16, 20, 20], alt: 1, tp: 2.8, load: 'medium', equip: ['chair'], cue: 'Step onto a sturdy chair or step, stand tall, step down. Alternate the lead leg.', poses: [
-      { t: [4, -34], fn: [14, 16], khn: [1, -0.5], ff: [-4, 41], hn: [3, -1], hf: [1, -1], db: 'nf', chair: { x: 16, y: 19.5, h: 25, back: 0 } },
-      { t: [1, -34], fn: [1, 41], ff: [16, 18], khf: [1, -0.8], hn: [1, -1], hf: [-1, -1], db: 'nf', chair: { x: 2, y: 44.5, h: 25, back: 0 } }] },
     lateral_lunge: { name: 'Lateral lunges', cat: 'lower', view: 'front', r: [12, 16, 16], alt: 1, tp: 3, load: 'kb', cue: 'Hold the bell at your chest, step wide to one side and sit back on that leg. Alternate.', poses: [
       { t: [0, -34], hn: [-3, -22], hf: [3, -22], ehn: [-0.3, 1], ehf: [0.3, 1], kb: 'both', kbd: [0, 1], fn: [-8, 41], ff: [8, 41] },
       { t: [-3, -30], hn: [-6, -18], hf: [0, -18], ehn: [-0.3, 1], ehf: [0.3, 1], kb: 'both', kbd: [0, 1], fn: [-9, 26], ff: [36, 26], khn: [-1, -0.2] }] },
@@ -338,7 +336,18 @@
     kb: 'Kettlebell',
   };
 
-  Object.keys(EX).forEach((k) => { EX[k].id = k; EX[k].u = EX[k].u || 'reps'; EX[k].lv = EX[k].lv || 1; });
+  // Level I starts at intermediate: shift each rep scheme up one level and extend the top.
+  const LEVEL_OVERRIDE = { pullup: [4, 5, 6], chinup: [4, 5, 6], negative_pullup: [4, 5, 6], chin_hold: [20, 25, 30], kb_press: [8, 8, 10], kb_clean_press: [6, 8, 8], one_arm_row: [12, 12, 14], db_floor_press: [12, 15, 15], db_pullover: [12, 15, 15], db_row: [12, 15, 15], db_rdl: [12, 15, 15] };
+  Object.keys(EX).forEach((k) => {
+    const e = EX[k];
+    e.id = k; e.u = e.u || 'reps'; e.lv = 1;
+    if (LEVEL_OVERRIDE[k]) e.r = LEVEL_OVERRIDE[k];
+    else if (['dive_bomber', 'db_kickback', 'split_squat', 'db_squat'].includes(k)) { /* already set at the new levels */ }
+    else {
+      const top = e.r[2] * 1.1, step = e.alt ? 4 : top >= 20 ? 5 : top >= 12 ? 2 : 1;
+      e.r = [e.r[1], e.r[2], e.u === 'sec' ? e.r[2] + 10 : Math.ceil(top / step - 1e-9) * step];
+    }
+  });
 
   const api = { EX, LOAD, figureSVG };
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KB = api;
