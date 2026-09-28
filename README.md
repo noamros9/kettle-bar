@@ -3,7 +3,9 @@
 A home workout app in the style of a printable program: a 60-day plan with
 illustrated exercises, checkmarks for finished days and a rest timer.
 
-**Program: Three-Split 60** — a repeating three-day cycle:
+**25 programs, 60 days each.** Three-Split 60 plus three programs for each of: strength, pull-ups, legs & glutes, kettlebell only, conditioning, mobility & core, bodyweight/travel and busy weeks. Formats include straight sets, supersets, circuits, EMOMs, AMRAPs, Tabatas and ladders, and each program gets harder in its own way (reps, heavier weights, harder variations or slow tempo).
+
+**Three-Split 60** — a repeating three-day cycle:
 
 | Days | Workout |
 |---|---|
@@ -45,15 +47,16 @@ days ticked on the device and in the cloud are merged.
 | File | What it is |
 |---|---|
 | `lib.js` | Stick-figure engine and the exercise library (poses, reps per level, cues) |
-| `gen.js` | Builds the 60-day program and fits each workout to 30–35 minutes with the set rests |
+| `gen.js` | Generated Three-Split 60 (now frozen in `programs/three-split-60.json` so progress stays valid) |
+| `programs.config.js` | The 24 library programs: split, day types, blocks, time range, progression, name theme |
+| `gen-programs.js` | Turns the configs into 60-day programs fitted to their time range → `programs/library.json` |
 | `app.template.html` | The app UI |
-| `build.js` | Runs the generator and writes `index.html` |
+| `build.js` | Generates the library, combines it with Three-Split 60 and writes `index.html` |
 | `firebase-sync.js` | Google sign-in and Firestore sync (GitHub Pages build) |
 | `firebase-config.js` | Your Firebase project config (`null` = device only) |
 | `manifest.webmanifest`, `icons/` | App name and icon for Add to Home screen / Install |
 | `sw.js` | Service worker: newest version when online, still opens offline |
 | `firestore.rules` | Security rules: each user reads and writes only their own progress |
-| `program.json` | The generated program |
 | `sheet.js` | Writes `sheet.html`, a contact sheet of every illustration |
 
 Rebuild after editing: `node build.js`

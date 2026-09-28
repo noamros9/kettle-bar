@@ -379,6 +379,41 @@
       { t: [0, -34], hn: [-3, -22], hf: [3, -22], ehn: [-0.3, 1], ehf: [0.3, 1], kb: 'both', kbd: [0, 1], fn: [-8, 41], ff: [8, 41] },
       { t: [-3, -30], hn: [-6, -18], hf: [0, -18], ehn: [-0.3, 1], ehf: [0.3, 1], kb: 'both', kbd: [0, 1], fn: [-9, 26], ff: [36, 26], khn: [-1, -0.2] }] },
 
+    // ---------------- ADDED FOR THE PROGRAM LIBRARY ----------------
+    archer_pushup: { name: 'Archer push-ups', cat: 'chest', r: [6, 8, 10], alt: 1, tp: 3.5, mus: 'chest triceps | front_delts abs', cue: 'Hands wide. Lower toward one hand while the other arm slides out straight, push back up. Alternate sides.', poses: [
+      PLANK, { t: [34, -4], hn: [29, 5], eh: [-0.4, -1], hf: [58, 6], fn: [-40, 5], ff: [-42, 5], mat: 1 }] },
+    shrimp_squat: { name: 'Shrimp squats', cat: 'lower', r: [5, 6, 8], side: 1, tp: 4, mus: 'quads glutes | hamstrings', cue: 'Stand on one leg holding the other foot behind you. Lower until the back knee touches the floor, stand up. Switch.', poses: [
+      { t: [4, -34], fn: [2, 41], ff: [-8, -2], khf: [0.2, 1], hf: [-8, -2], ehf: [-1, 0.2], hn: [16, -16] },
+      { t: [16, -30], fn: [14, 26], khn: [1, -0.8], ff: [-16, 10], khf: [0.2, 1], hf: [-6, 4], hn: [44, -22] }] },
+    cossack_squat: { name: 'Cossack squats', cat: 'lower', view: 'front', r: [10, 12, 14], alt: 1, tp: 3.5, mus: 'adductors quads glutes | hamstrings', cue: 'Very wide stance. Sit down over one foot while the other leg stays straight, toes up. Shift to the other side.', poses: [
+      { t: [0, -34], hn: [-6, -20], hf: [6, -20], ehn: [-0.3, 1], ehf: [0.3, 1], fn: [-22, 37], ff: [22, 37] },
+      { t: [-6, -30], hn: [2, -16], hf: [10, -16], ehn: [-0.3, 1], ehf: [0.3, 1], fn: [-10, 20], khn: [-1, -0.2], ff: [38, 20] }] },
+    turkish_getup: { name: 'Turkish get-ups', cat: 'full', r: [2, 3, 3], side: 1, tp: 22, load: 'kb', mus: 'front_delts abs obliques | glutes triceps', cue: 'Lying down, press the bell up and keep your eyes on it. Roll to your elbow, then hand, sweep to a half-kneel and stand. Reverse it slowly. Switch sides.', poses: [
+      { t: [34, 0], hn: [34, -33], kb: 'n', kbd: [0, -1], fn: [-24, 0], khn: [0.2, -1], ff: [-41, 1], hf: [8, 2], ehf: [0, -1], mat: 1 },
+      { t: [-12, -32], hn: [-10, -65], kb: 'n', kbd: [0, -1], hf: [-28, 3], fn: [24, 0], khn: [0.2, -1], ff: [40, 3], mat: 1 },
+      { t: [-2, -34], hn: [0, -67], kb: 'n', kbd: [0, -1], hf: [4, -2], fn: [-30, 20], khn: [0.3, 1], ff: [22, 20], khf: [1, -1], mat: 1 }] },
+    suitcase_march: { name: 'Suitcase march', cat: 'abs', u: 'sec', r: [30, 40, 45], side: 1, load: 'kb', mus: 'obliques abs forearms | hip_flexors upper_back', cue: 'Hold the kettlebell at one side, stand tall without leaning and march slowly on the spot, knees to hip height. Switch hands.', poses: [
+      { t: [0, -34], hn: [2, -1], kb: 'n', kbd: [0, 1], hf: [8, -18], ehf: [0, 1], fn: [0, 41], ff: [21, 20], khf: [1, -1] },
+      { t: [0, -34], hn: [2, -1], kb: 'n', kbd: [0, 1], hf: [8, -18], ehf: [0, 1], ff: [0, 41], fn: [21, 20], khn: [1, -1] }] },
+    kb_snatch: { name: 'Kettlebell snatches', cat: 'full', r: [8, 10, 12], side: 1, tp: 2.6, load: 'kb', mus: 'glutes hamstrings front_delts | upper_back forearms abs', cue: 'Swing the bell back, drive your hips and let it float straight up to a locked-out arm overhead, punching through at the top. Switch hands.', poses: [
+      { t: [26, -21], fn: [6, 39], ff: [4, 39], kh: [1, -0.3], hn: [6, 8], hf: [18, -2], kb: 'n' },
+      { t: [-1, -34], fn: [1, 41], ff: [-1, 41], hn: [10, -30], ehn: [-1, -1], hf: [4, -2], kb: 'n', kbd: [0, 1] },
+      P(STAND, { hn: [2, -67], kb: 'n', kbd: [-0.5, 0.35] })] },
+    kb_front_squat: { name: 'Kettlebell front squats', cat: 'lower', r: [8, 10, 12], side: 1, tp: 3, load: 'kb', mus: 'quads glutes | abs front_delts', cue: 'Hold the bell racked at one shoulder, elbow tucked. Squat deep with your chest up, stand. Switch sides.', poses: [
+      RACK, { t: [12, -32], fn: [18, 20], ff: [16, 20], kh: [1, -1], hn: [18, -36], ehn: [0.2, 1], kb: 'n', kbd: [-0.6, 0.5], hf: [30, -20] }] },
+    kb_deadlift: { name: 'Kettlebell deadlifts', cat: 'lower', r: [15, 18, 20], tp: 2.5, load: 'kb', mus: 'hamstrings glutes | lower_back forearms', cue: 'Bell between your feet. Hips back, flat back, grip the handle and stand up tall, then lower it under control.', poses: [
+      { t: [24, -24], fn: [7, 37], ff: [5, 37], kh: [1, -0.3], hn: [16, 9], hf: [16, 9], kb: 'both', kbd: [0, 1] },
+      P(STAND, { hn: [6, -1], hf: [6, -1], kb: 'both', kbd: [0, 1] })] },
+    dead_hang: { name: 'Dead hang', cat: 'back', u: 'sec', r: [30, 40, 50], equip: ['bar'], mus: 'forearms lats | upper_back', cue: 'Hang from the bar with straight arms and a strong grip, shoulders slightly engaged. Breathe.', poses: [HANG] },
+    scap_pullup: { name: 'Scapular pull-ups', cat: 'back', r: [8, 10, 12], tp: 2.5, equip: ['bar'], mus: 'upper_back lats | forearms', cue: 'From a dead hang with straight arms, pull your shoulder blades down and together to lift a few centimetres, then relax.', poses: [HANG, P(HANG, { hn: [3, -63], hf: [1, -63] })] },
+    kb_halo: { name: 'Kettlebell halos', cat: 'abs', view: 'front', r: [10, 12, 14], alt: 1, tp: 2.5, load: 'kb', mus: 'front_delts side_delts | triceps abs obliques', cue: 'Hold the bell upside down by the horns and circle it around your head, close to your neck. Alternate directions.', poses: [
+      P(FSTAND, { hn: [-16, -46], hf: [-4, -46], kb: 'both', kbd: [0, -1] }), P(FSTAND, { hn: [4, -46], hf: [16, -46], kb: 'both', kbd: [0, -1] })] },
+    bear_crawl: { name: 'Bear crawl', cat: 'abs', u: 'sec', r: [30, 40, 45], mus: 'abs front_delts quads | triceps hip_flexors', cue: 'On hands and toes with knees hovering just off the floor, crawl forward and back in small steps, back flat.', poses: [
+      { t: [32, -12], hn: [32, 21], hf: [34, 21], fn: [-16, 21], ff: [-17, 21], kh: [1, 1], mat: 1 },
+      { t: [32, -12], hn: [42, 21], hf: [30, 21], fn: [-20, 21], ff: [-10, 21], kh: [1, 1], mat: 1 }] },
+    hollow_rock: { name: 'Hollow rocks', cat: 'abs', r: [15, 20, 25], tp: 1.2, mus: 'abs | hip_flexors', cue: 'Hold the hollow position, arms and legs long, and rock gently from shoulders to hips without breaking the shape.', poses: [
+      { t: [33, -8], hn: [64, -17], hf: [64, -16], fn: [-40, -9], ff: [-40, -8], mat: 1 },
+      { t: [32, -13], hn: [62, -24], hf: [62, -23], fn: [-41, -3], ff: [-41, -2], mat: 1 }] },
     // ---------------- WARM-UP (dynamic, before the workout) ----------------
     arm_circles: { name: 'Arm circles', cat: 'warmup', view: 'front', u: 'sec', r: [30, 30, 30], mus: 'front_delts side_delts rear_delts | chest upper_back', cue: 'Arms out to the sides, draw circles that grow bigger. Switch direction halfway.', poses: [
       P(FSTAND, { hn: [-41, -30], hf: [41, -30] }), P(FSTAND, { hn: [-33, -54], hf: [33, -54] })] },
@@ -479,7 +514,7 @@
     const e = EX[k];
     e.id = k; e.u = e.u || 'reps'; e.lv = 1;
     if (LEVEL_OVERRIDE[k]) e.r = LEVEL_OVERRIDE[k];
-    else if (e.cat === 'warmup' || e.cat === 'cooldown' || ['dive_bomber', 'db_kickback', 'split_squat', 'db_squat', 'weighted_crunch', 'weighted_dead_bug', 'db_side_bend', 'weighted_toe_touch'].includes(k)) { /* already set at the new levels */ }
+    else if (e.cat === 'warmup' || e.cat === 'cooldown' || ['dive_bomber', 'db_kickback', 'split_squat', 'db_squat', 'weighted_crunch', 'weighted_dead_bug', 'db_side_bend', 'weighted_toe_touch', 'archer_pushup', 'shrimp_squat', 'cossack_squat', 'turkish_getup', 'suitcase_march', 'kb_snatch', 'kb_front_squat', 'kb_deadlift', 'dead_hang', 'scap_pullup', 'kb_halo', 'bear_crawl', 'hollow_rock'].includes(k)) { /* already set at the new levels */ }
     else {
       const top = e.r[2] * 1.1, step = e.alt ? 4 : top >= 20 ? 5 : top >= 12 ? 2 : 1;
       e.r = [e.r[1], e.r[2], e.u === 'sec' ? e.r[2] + 10 : Math.ceil(top / step - 1e-9) * step];

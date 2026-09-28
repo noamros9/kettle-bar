@@ -153,13 +153,13 @@ const program = {
   days,
 };
 
-if (require.main === module) {
+if (require.main === module && process.argv.includes('--write')) {
   const rows = days.map((w) => `${String(w.day).padStart(2)} ${w.type.padEnd(3)} L${w.level} ${String(w.est).padStart(2)}min +${w.stretchMin} W[${w.warmup.items.map((i) => i.ex).join(',')}] C[${w.cooldown.items.map((i) => i.ex).join(',')}] ${w.blocks.map((b) => `${b.items.length}x${b.sets}[${b.items.map((i) => i.ex + ':' + i.n).join(',')}]`).join(' | ')}`);
   console.log(rows.join('\n'));
   const ests = days.map((d) => d.est);
   console.log('min', Math.min(...ests), 'max', Math.max(...ests));
   console.log(Object.entries(count).sort((a, b) => b[1] - a[1]).map(([k, v]) => k + ':' + v).join(' '));
   console.log('unused:', Object.keys(EX).filter((k) => !count[k] && !/warmup|cooldown/.test(EX[k].cat)).join(', '));
-  require('fs').writeFileSync(__dirname + '/program.json', JSON.stringify(program));
+  require('fs').writeFileSync(__dirname + '/programs/three-split-60.json', JSON.stringify(program)); // only if you really mean to regenerate it
 }
 module.exports = program;
