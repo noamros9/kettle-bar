@@ -325,6 +325,10 @@ function viewSettings() {
     ${st.error ? `<p class="err" role="alert">${esc(st.error)}</p>` : ''}
     ${st.done ? `<p class="ok" role="status">${esc(st.done)}</p>` : ''}
     ${st.diff ? importReview(st) : ''}
+  </section>
+  <section class="card setting"><h2>Voice</h2>
+    <label class="switch"><input type="checkbox" role="switch" id="voice-toggle"${T.voiceOn() ? ' checked' : ''}><span>Voice cues</span></label>
+    <p class="muted">During holds and one-side moves, the phone says "Halfway", "Switch sides" and "Done". The beeps stay either way. Remembered on this device.</p>
   </section>`;
 }
 

@@ -10,7 +10,9 @@
 
    Targets: { type: 'set', bi, i, k } · { type: 'pair', bi, pi, k } · { type: 'round', bi, k }
             { type: 'hold', bi, i } · { type: 'block', bi } · { type: 'stretch', key: 'warm' | 'cool' }
-   Instruction: { rest: { sec, label, sub } } · { clear: { label, sub } } · { none: true } */
+   Instruction: { rest: { sec, label, sub } } · { clear: { label, sub } } · { none: true }
+   Plan phases: { sec, label, sub, end: 'short'|'long', work?, say?, halfway?, sayEnd? }. Voice cues, for holds and
+   sides only: say when the phase starts, "Halfway" in the middle, sayEnd when it ends. */
 (function (root) {
   const DEFAULT_RESTS = { set: 30, exercise: 60, beforeAbs: 120, superset: 45, round: 60, block: 60 };
   const LETTERS = 'ABCDEF';
@@ -105,10 +107,10 @@
         const sub = `Set ${k} of ${sets}`;
         const phases = [{ sec: 3, label: `Get ready · ${e.name}`, sub, end: 'short' }];
         if (e.side) phases.push(
-          { sec: it.n, label: `${e.name} · first side`, sub, end: 'long', work: 1 },
-          { sec: 5, label: 'Switch sides', sub, end: 'short' },
-          { sec: it.n, label: `${e.name} · second side`, sub, end: 'long', work: 1 });
-        else phases.push({ sec: it.n, label: e.name, sub, end: 'long', work: 1 });
+          { sec: it.n, label: `${e.name} · first side`, sub, end: 'long', work: 1, halfway: true },
+          { sec: 5, label: 'Switch sides', sub, end: 'short', say: 'Switch sides' },
+          { sec: it.n, label: `${e.name} · second side`, sub, end: 'long', work: 1, halfway: true, sayEnd: 'Done' });
+        else phases.push({ sec: it.n, label: e.name, sub, end: 'long', work: 1, halfway: true, sayEnd: 'Done' });
         return { phases, then: { type: 'hold', bi: t.bi, i: t.i, k } };
       }
       if (t.type === 'stretch') {
@@ -117,11 +119,12 @@
         sb.items.forEach((it, i) => {
           const e = EX[it.ex], sub = `${sb.title} · ${i + 1} of ${sb.items.length}`, last = i === sb.items.length - 1;
           phases.push({ sec: 3, label: `${i ? 'Next' : 'Get ready'} · ${e.name}`, sub, end: 'short' });
+          const half = it.n >= 20 ? { halfway: true } : {}, done = last ? { sayEnd: 'Done' } : {};
           if (e.side) phases.push(
-            { sec: it.n, label: `${e.name} · first side`, sub, end: 'short', work: 1 },
-            { sec: 3, label: 'Switch sides', sub, end: 'short' },
-            { sec: it.n, label: `${e.name} · second side`, sub, end: last ? 'long' : 'short', work: 1 });
-          else phases.push({ sec: it.n, label: e.name, sub, end: last ? 'long' : 'short', work: 1 });
+            { sec: it.n, label: `${e.name} · first side`, sub, end: 'short', work: 1, ...half },
+            { sec: 3, label: 'Switch sides', sub, end: 'short', say: 'Switch sides' },
+            { sec: it.n, label: `${e.name} · second side`, sub, end: last ? 'long' : 'short', work: 1, ...half, ...done });
+          else phases.push({ sec: it.n, label: e.name, sub, end: last ? 'long' : 'short', work: 1, ...half, ...done });
         });
         return { phases, then: { type: 'stretch', key: t.key } };
       }

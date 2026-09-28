@@ -27,7 +27,7 @@ Glossary: [CONTEXT.md](../../CONTEXT.md).
 | Overlapping swaps | The latest swap wins for a given day and exercise. |
 | Warm-up / cool-down | Not swappable. |
 | Where swaps live | In the same Firestore document as the program's done days (`swaps` field). The rules already allow it; nothing to set up. |
-| Voice | `speechSynthesis`, English. Speaks "Switch sides" when the switch phase starts, "Halfway" in the middle of each hold (and each side), and "Done" when a hold ends. Warm-up and cool-down included. No countdowns or encouragement (decided against). |
+| Voice | `speechSynthesis`, English. Speaks "Switch sides" when the switch phase starts, "Halfway" in the middle of each workout hold (and each side), and "Done" when a hold ends. Warm-up and cool-down included, but "Halfway" only in stretches of 20 s or more and "Done" once at the end, since stretches are short and back to back (settled in ticket 2). No countdowns or encouragement (decided against). |
 | Animation | Ease in and out between positions, going back and forth; one shared frame size so the figure never jumps; ~55 ms per frame; exercise pages only; still under reduce motion. |
 
 ## Modules

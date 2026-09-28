@@ -27,6 +27,17 @@ const T = {
     } catch (e) {}
     try { navigator.vibrate && navigator.vibrate(long ? 300 : 80); } catch (e) {}
   },
+  // voice cues (holds and sides): the phone's speech, on unless switched off in Settings
+  voiceOn() { try { return localStorage.getItem('kb-voice') !== 'off'; } catch (e) { return true; } },
+  speak(text) {
+    if (!this.voiceOn()) return;
+    try {
+      const s = window.speechSynthesis; if (!s) return;
+      s.cancel();
+      const u = new SpeechSynthesisUtterance(text); u.lang = 'en-US';
+      s.speak(u);
+    } catch (e) { /* no speech on this device: the beeps still work */ }
+  },
   async wake(on) {
     try { if (on && !this.lock && navigator.wakeLock) this.lock = await navigator.wakeLock.request('screen'); if (!on && this.lock) { await this.lock.release(); this.lock = null; } } catch (e) { this.lock = null; }
   },
@@ -34,10 +45,13 @@ const T = {
   tick() {
     if (!this.running) return;
     this.left = (this.endAt - Date.now()) / 1000;
+    const cur = this.phase;
+    if (cur && cur.halfway && !this.halfSaid && this.left > 0 && this.left <= cur.sec / 2) { this.halfSaid = true; this.speak('Halfway'); }
     if (this.left <= 0) {
       this.left = 0; this.running = false; clearInterval(this.iv);
       const ph = this.phase || { end: 'long' };
       this.beep(ph.end);
+      if (ph.sayEnd) this.speak(ph.sayEnd);
       const next = this.queue.shift();
       if (next) { this.begin(next); return; }
       this.phase = null;
@@ -48,8 +62,9 @@ const T = {
     this.paint();
   },
   begin(ph) {
-    this.phase = ph; this.dur = ph.sec; this.left = ph.sec;
+    this.phase = ph; this.dur = ph.sec; this.left = ph.sec; this.halfSaid = false;
     this.setLabel(ph.label, ph.sub || '');
+    if (ph.say) this.speak(ph.say);
     $('#timer').classList.toggle('work', !!ph.work);
     this.go();
   },
