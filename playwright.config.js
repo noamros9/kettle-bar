@@ -10,7 +10,8 @@ module.exports = defineConfig({
   forbidOnly: !!process.env.CI,
   retries: 0,
   reporter: process.env.CI ? [['list'], ['github'], ['html', { open: 'never' }]] : 'list', // github: failures show as run annotations
-  use: { baseURL: 'http://localhost:4173', trace: 'retain-on-failure' },
+  // service workers blocked: requests through one would skip the Firebase/font stubs in tests-ui/fixtures.js
+  use: { baseURL: 'http://localhost:4173', trace: 'retain-on-failure', serviceWorkers: 'block' },
   projects: [
     { name: 'phone-light', use: { ...phone, colorScheme: 'light' } },
     { name: 'phone-dark', use: { ...phone, colorScheme: 'dark' } },
