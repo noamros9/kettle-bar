@@ -55,6 +55,15 @@
       if (remote && !readonly) write(pid);
       emit('change', pid);
     }
+    // set whole programs at once (an import): device copy, one write per program, change events
+    function replaceAll(programs) {
+      Object.entries(programs).forEach(([pid, days]) => {
+        done[pid] = { ...days }; save(pid);
+        if (remote && !readonly) write(pid);
+        emit('change', pid);
+      });
+      return queue;
+    }
     function write(pid) {
       const r = remote; if (!r) return queue;
       setStatus(isOnline() ? 'saving' : 'offline');
@@ -73,7 +82,7 @@
       return queue;
     }
     return {
-      load, attach, detach, toggle,
+      load, attach, detach, toggle, replaceAll,
       isDone: (pid, day) => !!(done[pid] || {})[day],
       count: (pid) => Object.keys(done[pid] || {}).length,
       days: (pid) => ({ ...(done[pid] || {}) }),

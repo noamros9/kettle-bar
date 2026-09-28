@@ -52,7 +52,7 @@ document.addEventListener('click', (ev) => {
   if (d.go === 'programs') return go('programs');
   if (d.go === 'library') return go('exercises');
   if (d.go === 'settings') return go('settings');
-  if (d.backup === 'export') return exportProgress();
+  if (d.backup) return backupAction(d.backup);
   if (d.go === 'program') return go('p-' + prog().id);
   if (d.openProg) return go('p-' + d.openProg);
   if (d.filter) { const [k, v] = d.filter.split(':'); filters[k] = v; render(); return; }
@@ -79,9 +79,29 @@ function download(name, text) {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 function exportProgress() {
-  const done = Object.fromEntries(PROGRAMS.map((p) => [p.id, store.days(p.id)]));
-  download(KBBackup.fileName(new Date()), JSON.stringify(KBBackup.exportProgress(done), null, 2));
+  download(KBBackup.fileName(new Date()), JSON.stringify(KBBackup.exportProgress(allDone()), null, 2));
 }
+
+const allDone = () => Object.fromEntries(PROGRAMS.map((p) => [p.id, store.days(p.id)]));
+const showImport = (st) => { importState = st; render(); };
+async function readImport(file) {
+  try {
+    const { programs, unknown } = KBBackup.parseBackup(await file.text(), { known: PROGRAMS.map((p) => p.id) });
+    showImport({ name: file.name, programs, unknown, diff: KBBackup.diffProgress(allDone(), programs) });
+  } catch (e) { showImport({ error: e.message }); }
+}
+function backupAction(what) {
+  const st = importState;
+  if (what === 'export') return exportProgress();
+  if (what === 'import') { $('#import-file').value = ''; return $('#import-file').click(); }
+  if (what === 'cancel') return showImport(null);
+  const ids = Object.keys(st.diff);
+  const added = ids.reduce((a, pid) => a + st.diff[pid].added.length, 0);
+  const removed = ids.reduce((a, pid) => a + st.diff[pid].removed.length, 0);
+  store.replaceAll(KBBackup.applyImport(allDone(), st.programs, what));
+  showImport({ done: what === 'merge' ? `Merged: ${added} day${added === 1 ? '' : 's'} added.` : `Replaced: ${added} day${added === 1 ? '' : 's'} added, ${removed} removed.` });
+}
+document.addEventListener('change', (e) => { if (e.target.id === 'import-file' && e.target.files[0]) readImport(e.target.files[0]); });
 
 /* ---------------- boot ---------------- */
 route = parseHash();

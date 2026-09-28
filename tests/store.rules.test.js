@@ -178,3 +178,25 @@ test('the default retry waits between 0.6 and 1.4 s before the second try', asyn
   assert.equal(r.writes.length, 2);
   assert.equal(store.status, 'ok');
 });
+
+test('replaceAll sets whole programs at once: device copy, one write each, change events', async () => {
+  const remote = createMemoryRemote({ p: { 1: 'a' } });
+  const store = make(); store.attach(remote); await tick();
+  const changed = []; store.on('change', (pid) => changed.push(pid));
+  await store.replaceAll({ p: { 2: 'b' }, q: { 5: 'c' } });
+  assert.deepEqual(store.days('p'), { 2: 'b' });
+  assert.deepEqual(remote.docs, { p: { 2: 'b' }, q: { 5: 'c' } });
+  assert.deepEqual([...new Set(changed)].sort(), ['p', 'q']); // the cloud echo of each write may add more
+});
+
+test('replaceAll without an account, or view-only, stays on the device', async () => {
+  const storage = memStorage();
+  const store = createStore({ programIds: ['p'], storage, now: () => 't' }); store.load();
+  await store.replaceAll({ p: { 3: 'x' } });
+  assert.deepEqual(JSON.parse(storage.m['kb-progress-p']), { 3: 'x' });
+  const ro = make(); const r = flaky('permission-denied'); ro.attach(r); await tick();
+  ro.toggle('p', 1); await ro.flush();
+  await ro.replaceAll({ p: { 9: 'z' } });
+  assert.equal(r.writes.length, 1);
+  assert.ok(ro.isDone('p', 9));
+});

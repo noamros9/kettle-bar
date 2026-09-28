@@ -255,14 +255,43 @@ function viewLibrary() {
 }
 
 const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
+// Import in progress: null · { error } · { done } · { name, programs, unknown, diff }
+let importState = null;
+function importReview(st) {
+  const ids = Object.keys(st.diff);
+  const add = ids.reduce((a, pid) => a + st.diff[pid].added.length, 0);
+  const remove = ids.reduce((a, pid) => a + st.diff[pid].removed.length, 0);
+  const line = (pid) => {
+    const { added, removed } = st.diff[pid];
+    const parts = [];
+    if (added.length) parts.push(`+${plural(added.length, 'day')} (${KBBackup.dayRanges(added)})`);
+    if (removed.length) parts.push(`−${plural(removed.length, 'day')} (${KBBackup.dayRanges(removed)})`);
+    return `<li>${esc(PBYID[pid].name)}: ${parts.join(' · ')}</li>`;
+  };
+  const skipped = st.unknown.length ? `<p class="muted">Skipped ${plural(st.unknown.length, 'program')} this app doesn't have: ${st.unknown.map(esc).join(', ')}</p>` : '';
+  const body = ids.length
+    ? `<ul class="difflist">${ids.map(line).join('')}</ul>${skipped}
+      <p class="muted">Merge keeps every day from both. Replace makes each program in the file match it exactly${remove ? ', so the days marked − are removed' : ''}.</p>
+      <div class="actions">${add ? `<button class="btn" data-backup="merge">Merge: add ${plural(add, 'day')}</button>` : ''}
+        <button class="btn ghost" data-backup="replace">Replace: add ${add}, remove ${remove}</button>
+        <button class="btn ghost" data-backup="cancel">Cancel</button></div>`
+    : `<p>This backup matches your progress. Nothing to import.</p>${skipped}<div class="actions"><button class="btn ghost" data-backup="cancel">Close</button></div>`;
+  return `<div class="review" id="import-review"><p><b>${esc(st.name)}</b></p>${body}</div>`;
+}
 function viewSettings() {
   const counts = PROGRAMS.map((p) => store.count(p.id)).filter((n) => n > 0);
   const days = counts.reduce((a, n) => a + n, 0);
+  const st = importState || {};
   return `<h1>Settings</h1>
   <section class="card setting"><h2>Backup</h2>
     <p>Download the days you've marked done in every program as one file. Keep it somewhere safe, or import it on another device.</p>
     <p class="muted" id="backup-summary">${days ? `${plural(days, 'day')} done across ${plural(counts.length, 'program')}` : 'No days marked done yet'}</p>
-    <div class="actions"><button class="btn" data-backup="export">Export progress</button></div>
+    <div class="actions"><button class="btn" data-backup="export">Export progress</button>
+      <button class="btn ghost" data-backup="import">Import a backup</button></div>
+    <input type="file" id="import-file" accept=".json,application/json" hidden>
+    ${st.error ? `<p class="err" role="alert">${esc(st.error)}</p>` : ''}
+    ${st.done ? `<p class="ok" role="status">${esc(st.done)}</p>` : ''}
+    ${st.diff ? importReview(st) : ''}
   </section>`;
 }
 

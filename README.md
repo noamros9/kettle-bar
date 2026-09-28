@@ -30,7 +30,8 @@ Progress is always kept on the device. Press **Sign in to sync** (Google) to
 sync it through Firebase to every device where you sign in. On first sign-in,
 days ticked on the device and in the cloud are merged.
 
-- **Settings** (gear, top right) → **Export progress** downloads every program's done days as one file.
+- **Settings** (gear, top right) → **Export progress** downloads every program's done days as one file;
+  **Import a backup** shows which days it would add or remove, then asks **Merge** or **Replace**.
 - Tap a day to open the workout; tick the circle on a tile or press
   **Mark as done** to record it.
 - Every workout starts with a 1-minute warm-up and ends with 2 minutes of
@@ -54,7 +55,7 @@ days ticked on the device and in the cloud are merged.
 | `programs/three-split-60.json` | Three-Split 60's days, frozen so saved progress stays valid |
 | `app/session.js` | **Workout Session**: progress through a day and every rest/timer rule (pure, no page) |
 | `app/store.js` | **Progress Store**: done days per program, device copy + sync adapters (Firebase, in-memory) |
-| `app/backup.js` | **Backup**: the progress file format (export; import and diff in #14) |
+| `app/backup.js` | **Backup**: the progress file: export, read, diff, merge or replace |
 | `app/views.js` | Routing and page rendering |
 | `app/clock.js` | Timer, beeps, wake lock and workout clock (runs the session's instructions) |
 | `app/main.js` | Wires store, session and clock to the page |
