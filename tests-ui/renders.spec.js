@@ -28,7 +28,7 @@ for (const cfg of CONFIGS) {
     if (cfg.id === 'three-split-60' || cfg.id === 'tabata-ten') await shot(app, testInfo, `${cfg.id}`);
     for (const n of [1, 31, 60]) {
       await app.go(`#p-${cfg.id}-d${n}`);
-      const name = await app.data(([pid, d]) => PROGRAMS.find((p) => p.id === pid).days[d - 1].name, [cfg.id, n]);
+      const name = await app.data(([pid, d]) => programs.get(pid).days[d - 1].name, [cfg.id, n]);
       expect(await app.h1(), `day ${n}`).toBe(name);
       expect(await app.page.locator('#app svg.fig').count(), `day ${n} figures`).toBeGreaterThan(0);
       const lines = await app.data(([pid, d]) => KBSummary.daySummary(dayOf(pid, d), programs.get(pid), KBEx), [cfg.id, n]);

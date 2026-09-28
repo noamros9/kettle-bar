@@ -57,6 +57,7 @@ document.addEventListener('click', (ev) => {
   if (d.go === 'settings') return go('settings');
   if (d.go === 'stats') return go('stats');
   if (d.backup) return backupAction(d.backup);
+  if (d.retry) { delete loadFailures[d.retry]; render(); return; }
   if (d.statSpan) { statsView.span = d.statSpan; render(); return; }
   if (d.swap) { const [bi, i] = d.swap.split(':').map(Number); swapState = { key: prog().id + ':' + route.day, bi, i }; rerender(); return; }
   if (d.swapTo) { swapState.to = d.swapTo; rerender(); return; }
@@ -117,8 +118,10 @@ document.addEventListener('change', (e) => {
 });
 
 /* ---------------- boot ---------------- */
+store.load(); // before the route: #today needs your progress
 route = parseHash();
-store.load();
 render();
+// then every program, quietly, for offline use: the open one and the ones with progress first
+programs.loadEverything([route.pid, ...programs.ids().filter((pid) => store.count(pid) > 0)], () => {});
 T.paint();
 if (!store.remote) paintSync(store.auth ? 'signin' : 'local');

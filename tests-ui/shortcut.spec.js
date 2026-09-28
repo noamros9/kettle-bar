@@ -19,3 +19,11 @@ test('with no program opened yet, #today opens day 1 of the first program; with 
   await expect(app.page).toHaveURL(/#p-three-split-60$/);
   await expect(app.heading()).toHaveText('Three-Split 60');
 });
+
+test('opening the app cold from the shortcut uses your saved progress', async ({ app }) => {
+  await app.open('#p-iron-ppl');
+  for (const n of [1, 2, 3]) await app.page.getByRole('checkbox', { name: `Mark day ${n} done` }).click();
+  await app.page.goto('about:blank'); // leave the app
+  await app.open('#today'); // a fresh page load, like tapping the shortcut
+  await expect(app.page).toHaveURL(/#p-iron-ppl-d4$/);
+});

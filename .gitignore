@@ -4,3 +4,4 @@ _site/
 test-results/
 playwright-report/
 index.html
+data/

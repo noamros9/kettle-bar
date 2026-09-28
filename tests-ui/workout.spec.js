@@ -5,7 +5,7 @@ const timer = (app) => ({ clock: app.page.locator('#tclock'), label: app.page.lo
 const seconds = (app, n) => app.page.clock.runFor(n * 1000);
 // find something in the app's own data: [day number, block index, item index] for the first match
 const find = (app, pid, what) => app.data(([pid, what]) => {
-  const p = PROGRAMS.find((x) => x.id === pid), EX = KBEx.EX;
+  const p = programs.get(pid), EX = KBEx.EX;
   for (const d of p.days) {
     for (const [bi, b] of d.blocks.entries()) {
       const f = b.format || 'straight';
@@ -23,7 +23,7 @@ test.beforeEach(async ({ app }, testInfo) => {
 
 test('ticking a set starts the 30 s rest, which counts down and ends; tapping it again un-ticks', async ({ app }) => {
   await app.open('#p-three-split-60-d1');
-  const first = await app.data(() => { const b = PROGRAMS[0].days[0].blocks[0]; return { name: KBEx.EX[b.items[0].ex].name, sets: b.items[0].sets || b.sets }; });
+  const first = await app.data(() => { const b = programs.day('three-split-60', 1).blocks[0]; return { name: KBEx.EX[b.items[0].ex].name, sets: b.items[0].sets || b.sets }; });
   const pip = app.page.getByRole('button', { name: `Set 1 of ${first.name} done` });
   const t = timer(app);
   await pip.click();
@@ -57,7 +57,7 @@ test('a hold runs a 3 s get-ready, then the hold, then ticks the set and starts 
 
 test('the warm-up runs hands-free through every stretch and starts the workout clock', async ({ app }) => {
   await app.open('#p-three-split-60-d1');
-  const total = await app.data(() => KBSession.createSession(PROGRAMS[0], PROGRAMS[0].days[0], { EX: KBEx.EX })
+  const total = await app.data(() => KBSession.createSession(programs.get('three-split-60'), programs.day('three-split-60', 1), { EX: KBEx.EX })
     .plan({ type: 'stretch', key: 'warm' }).phases.reduce((a, p) => a + p.sec, 0));
   const t = timer(app);
   await app.page.getByRole('button', { name: '▶ Start warm-up' }).click();

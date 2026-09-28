@@ -1,9 +1,11 @@
-// Builds the app: runs the Program Builder and stitches the modules into one self-contained page,
-// index.html, served by GitHub Pages (manifest, service worker, Firebase sync).
+// Builds the app: runs the Program Builder and stitches the modules into one page, index.html, served by GitHub Pages
+// (manifest, service worker, Firebase sync). The page carries only the program list (summaries); each program's
+// days go to data/<id>.json, loaded when first opened and cached for offline (Program Catalogue, fetched adapter).
 // `render()` returns the files without writing them (used by the tests); `node build.js` writes them.
 const fs = require('fs');
 const path = require('path');
 const { buildAll } = require('./program-builder.js');
+const { summarize } = require('./app/programs.js');
 
 const read = (f) => fs.readFileSync(path.join(__dirname, f), 'utf8');
 
@@ -13,15 +15,17 @@ const HEAD = '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta n
 const TAIL = '<script type="module" src="firebase-sync.js"></script><script>if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});</script></body></html>';
 
 function render(programs = buildAll()) {
-  const scripts = SCRIPTS.map((f) => `<script>\n${f ? read(f) : `const PROGRAMS = ${JSON.stringify(programs)};`}\n</script>`).join('\n');
+  const scripts = SCRIPTS.map((f) => `<script>\n${f ? read(f) : `const PROGRAM_SUMMARIES = ${JSON.stringify(programs.map(summarize))};`}\n</script>`).join('\n');
   const page = read('app/shell.html')
     .replace('/*__STYLES__*/', () => read('app/styles.css'))
     .replace('<!--__SCRIPTS__-->', () => scripts);
-  return { 'index.html': HEAD + page + TAIL };
+  const data = Object.fromEntries(programs.map((p) => [`data/${p.id}.json`, JSON.stringify(p)]));
+  return { 'index.html': HEAD + page + TAIL, ...data };
 }
 
 if (require.main === module) {
   const out = render();
+  fs.mkdirSync(path.join(__dirname, 'data'), { recursive: true });
   Object.entries(out).forEach(([f, body]) => fs.writeFileSync(path.join(__dirname, f), body));
   console.log('bytes', out['index.html'].length);
 }
