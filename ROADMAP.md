@@ -8,7 +8,10 @@ future work doesn't re-ask them. Order within a phase is the build order.
 - Architecture review findings 1–5: Workout Session, Progress Store, Program Builder, Exercise Catalogue /
   Figure engine, app split into modules. 23 tests (`npm test`).
 
-## Phase 1: a safety net
+## Backlog
+- **Test a restore from the nightly backup** on the phone ([#16](https://github.com/noamros9/kettle-bar/issues/16)).
+
+## Phase 1: a safety net (done, Sep 2026)
 Planned in the PRD [#7](https://github.com/noamros9/kettle-bar/issues/7); glossary in [CONTEXT.md](CONTEXT.md), decisions in
 [docs/adr/](docs/adr/). Slices, in build order:
 1. Retire the claude.ai build (#8).
