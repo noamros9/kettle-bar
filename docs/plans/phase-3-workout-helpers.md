@@ -52,7 +52,7 @@ Cheapest first; one ticket = one branch = one PR.
 | 0 | This plan | plan | – | `plan/phase-3` | done (PR #27) |
 | 1 | Animated drawings on exercise pages | feature | 0 | `feature/animated-drawings` | done (PR #28) |
 | 2 | Voice cues + Settings switch | feature | 0 | `feature/voice-cues` | done (PR #29) |
-| 3 | Swap for today (alternatives, sync, stats) | feature | 0 | `feature/swap-today` | todo |
+| 3 | Swap for today (alternatives, sync, stats) | feature | 0 | `feature/swap-today` | done (PR #30) |
 | 4 | Swap for the rest of the program + undo | feature | 3 | `feature/swap-onward` | todo |
 | 5 | Swaps in backups | feature | 3 | `feature/swap-backups` | todo |
 
