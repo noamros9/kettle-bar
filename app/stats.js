@@ -3,10 +3,11 @@
 
      dayVolume(day, EX) -> { workoutMin, stretchMin, sets, reps, muscles: { muscle: load } }
      weekStart(date) -> Sunday 00:00 local time of that date's week
-     summarize(entries, { programs, EX, from, to }) -> totals of the done days in [from, to)
+     summarize(entries, { dayOf, EX, from, to }) -> totals of the done days in [from, to)
+       dayOf(pid, n): the day as done (swaps applied), or nothing for a program or day the app doesn't have
        entries: [{ pid, day, time }] (time = when the day was first marked done)
      spanRange('week' | '4weeks' | 'all', now, entries) -> { from, to }   whole weeks, this one included
-     weekly(entries, { programs, EX, from, to }) -> [{ start, ...totals }] one per week, newest first
+     weekly(entries, { dayOf, EX, from, to }) -> [{ start, ...totals }] one per week, newest first
      rankMuscles(muscles, names) -> [{ muscle, name, load, share }] worked muscles, biggest load first
    Muscle load: each set counts 1 for every main muscle and 0.5 for every secondary muscle. */
 (function (root) {
@@ -67,9 +68,9 @@
     Object.entries(v.muscles).forEach(([m, x]) => { total.muscles[m] = (total.muscles[m] || 0) + x; });
     return total;
   }
-  function summarize(entries, { programs, EX, from, to }) {
+  function summarize(entries, { dayOf, EX, from, to }) {
     return entries.reduce((total, e) => {
-      const t = new Date(e.time), p = programs[e.pid], d = p && p.days[e.day - 1];
+      const t = new Date(e.time), d = dayOf(e.pid, e.day);
       if (!d || t < from || t >= to) return total;
       return add(total, dayVolume(d, EX));
     }, empty());
@@ -87,10 +88,10 @@
     throw new Error('Unknown span ' + span);
   }
 
-  function weekly(entries, { programs, EX, from, to }) {
+  function weekly(entries, { dayOf, EX, from, to }) {
     const rows = [];
     for (let start = plusDays(to, -7); start >= from; start = plusDays(start, -7)) {
-      rows.push({ start, ...summarize(entries, { programs, EX, from: start, to: plusDays(start, 7) }) });
+      rows.push({ start, ...summarize(entries, { dayOf, EX, from: start, to: plusDays(start, 7) }) });
     }
     return rows;
   }

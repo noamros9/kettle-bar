@@ -1,6 +1,8 @@
-/* Progress Store: which days are done in each program.
+/* Progress Store: which days are done in each program, and each program's exercise swaps.
    Always keeps a device copy (storage adapter). A remote adapter can be attached for sync:
-     remote = { kind, account?, subscribe(pid, onData, onErr) -> unsubscribe, write(pid, body) -> Promise }
+     remote = { kind, account?, subscribe(pid, onData(done | null, swaps), onErr) -> unsubscribe, write(pid, body) -> Promise }
+   One cloud document per program holds both: body = { done, swaps, updatedAt }. Every write sends both, so a
+   tick never wipes a swap.
    Adapters: Firebase (firebase-sync.js), in-memory (tests).
    The store never touches the page: it emits 'change' (pid) and 'status' (ok | saving | offline |
    local | signin | ro | err) events. */
@@ -15,21 +17,25 @@
   function createStore({ programIds, storage, now = () => new Date().toISOString(), isOnline = () => true, retryDelay = () => 600 + Math.random() * 800 }) {
     const listeners = { change: [], status: [] };
     const emit = (ev, x) => listeners[ev].forEach((f) => f(x));
-    const done = {};
+    const done = {}, swapsOf = {};
     let remote = null, unsubs = [], seen = {}, queue = Promise.resolve(), readonly = false, auth = null, status = 'local';
-    const key = (pid) => 'kb-progress-' + pid;
+    const key = (pid) => 'kb-progress-' + pid, swapKey = (pid) => 'kb-swaps-' + pid;
     const setStatus = (s) => { status = s; emit('status', s); };
 
     function load() {
-      programIds.forEach((pid) => { try { done[pid] = JSON.parse(storage.get(key(pid)) || '{}') || {}; } catch (e) { done[pid] = {}; } });
+      programIds.forEach((pid) => {
+        try { done[pid] = JSON.parse(storage.get(key(pid)) || '{}') || {}; } catch (e) { done[pid] = {}; }
+        try { swapsOf[pid] = JSON.parse(storage.get(swapKey(pid)) || '[]'); } catch (e) { swapsOf[pid] = []; }
+      });
     }
     function save(pid) { try { storage.set(key(pid), JSON.stringify(done[pid])); } catch (e) { /* storage full or blocked: keep going */ } }
+    function saveSwaps(pid) { try { storage.set(swapKey(pid), JSON.stringify(swapsOf[pid])); } catch (e) { /* as above */ } }
 
     function attach(r) {
       detach(true);
       remote = r; seen = {}; readonly = false; setStatus('ok');
       programIds.forEach((pid) => {
-        unsubs.push(r.subscribe(pid, (data) => onRemote(pid, data), (e) => { if (typeof console !== 'undefined') console.warn('sync error', e); setStatus('err'); }));
+        unsubs.push(r.subscribe(pid, (data, swaps) => onRemote(pid, data, swaps), (e) => { if (typeof console !== 'undefined') console.warn('sync error', e); setStatus('err'); }));
       });
     }
     function detach(silent) {
@@ -37,14 +43,16 @@
       unsubs = []; remote = null;
       if (!silent) setStatus(auth ? 'signin' : 'local');
     }
-    function onRemote(pid, r) {
+    function onRemote(pid, r, rs = []) {
       if (!seen[pid]) {
         seen[pid] = true;
         const merged = mergeFirstSync(done[pid], r);
-        done[pid] = merged; save(pid);
-        if (!r || Object.keys(merged).length !== Object.keys(r).length) write(pid);
+        const known = new Set(rs.map((x) => JSON.stringify(x)));
+        const swaps = [...rs, ...(swapsOf[pid] || []).filter((x) => !known.has(JSON.stringify(x)))];
+        done[pid] = merged; swapsOf[pid] = swaps; save(pid); saveSwaps(pid);
+        if (!r || Object.keys(merged).length !== Object.keys(r).length || swaps.length !== rs.length) write(pid);
       } else {
-        done[pid] = { ...(r || {}) }; save(pid);
+        done[pid] = { ...(r || {}) }; swapsOf[pid] = rs; save(pid); saveSwaps(pid);
       }
       emit('change', pid);
     }
@@ -64,11 +72,16 @@
       });
       return queue;
     }
+    function setSwaps(pid, list) {
+      swapsOf[pid] = list.map((x) => ({ ...x })); saveSwaps(pid);
+      if (remote && !readonly) write(pid);
+      emit('change', pid);
+    }
     function write(pid) {
       const r = remote; if (!r) return queue;
       setStatus(isOnline() ? 'saving' : 'offline');
       queue = queue.then(async () => {
-        const body = { done: { ...done[pid] }, updatedAt: now() };
+        const body = { done: { ...done[pid] }, swaps: swapsOf[pid] || [], updatedAt: now() };
         try { await r.write(pid, body); if (remote === r) setStatus('ok'); }
         catch (e) {
           const code = e && e.code;
@@ -82,7 +95,8 @@
       return queue;
     }
     return {
-      load, attach, detach, toggle, replaceAll,
+      load, attach, detach, toggle, replaceAll, setSwaps,
+      swaps: (pid) => (swapsOf[pid] || []).map((x) => ({ ...x })),
       isDone: (pid, day) => !!(done[pid] || {})[day],
       count: (pid) => Object.keys(done[pid] || {}).length,
       days: (pid) => ({ ...(done[pid] || {}) }),
@@ -98,20 +112,20 @@
   }
 
   // In-memory remote adapter: behaves like Firestore for one account (tests, local debugging).
-  function createMemoryRemote(initial = {}, { failWith } = {}) {
-    const docs = JSON.parse(JSON.stringify(initial));
+  function createMemoryRemote(initial = {}, { failWith, swaps: initialSwaps = {} } = {}) {
+    const docs = JSON.parse(JSON.stringify(initial)), swaps = JSON.parse(JSON.stringify(initialSwaps));
     const subs = {};
-    const push = (pid) => (subs[pid] || []).forEach((f) => f({ ...docs[pid] }));
+    const push = (pid) => (subs[pid] || []).forEach((f) => f({ ...docs[pid] }, swaps[pid] || []));
     return {
-      kind: 'memory', docs,
+      kind: 'memory', docs, swaps,
       subscribe(pid, onData) {
         (subs[pid] = subs[pid] || []).push(onData);
-        Promise.resolve().then(() => onData(docs[pid] ? { ...docs[pid] } : null));
+        Promise.resolve().then(() => onData(docs[pid] ? { ...docs[pid] } : null, swaps[pid] || []));
         return () => { subs[pid] = subs[pid].filter((f) => f !== onData); };
       },
       async write(pid, body) {
         if (failWith) { const e = new Error(failWith); e.code = failWith; throw e; }
-        docs[pid] = { ...body.done }; push(pid);
+        docs[pid] = { ...body.done }; swaps[pid] = body.swaps; push(pid);
       },
     };
   }

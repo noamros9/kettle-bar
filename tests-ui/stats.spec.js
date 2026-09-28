@@ -74,7 +74,7 @@ test('muscle balance: a heat map and ranked bars that follow the span and progra
   const bars = section.getByRole('listitem');
   const expected = await app.data(() => {
     const from = KBStats.weekStart(new Date()), to = new Date(from); to.setDate(to.getDate() + 7);
-    const s = KBStats.summarize(doneEntries(), { programs: PBYID, EX: KBEx.EX, from, to });
+    const s = KBStats.summarize(doneEntries(), { dayOf, EX: KBEx.EX, from, to });
     return KBStats.rankMuscles(s.muscles, KBEx.MUSCLE_NAMES).map((m) => m.name);
   });
   await expect(bars).toHaveCount(expected.length);

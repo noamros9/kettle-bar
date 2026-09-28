@@ -1,7 +1,7 @@
 // Program Builder: build(config) -> 60-day program, for every program in programs.config.js.
 // Owns the time model, rest values, exercise pools, progression levers, stretch picking and fitting.
 // A config with `frozen` (Three-Split 60) keeps its already-generated days so saved progress stays valid.
-const { EX } = require('./exercises.js');
+const { EX, allowedIn, scaleReps } = require('./exercises.js');
 const CONFIGS = require('./programs.config.js');
 
 const REST = { set: 30, exercise: 60, beforeAbs: 120, superset: 45, round: 60, block: 60 };
@@ -45,11 +45,6 @@ const POOLS = {
   absW: ids((e) => e.cat === 'abs' && e.load && !(e.equip || []).includes('bar')),
 };
 
-const EQUIP = {
-  all: () => true,
-  kb: (e) => (!e.load || e.load === 'kb') && !(e.equip || []).includes('bar'),
-  bw: (e) => !e.load && !(e.equip || []).includes('bar'),
-};
 
 // easier -> harder, used by the "variation" lever
 const HARDER = {
@@ -123,17 +118,12 @@ const OPTS = {
   tabata: { key: 'tabatas', values: [1, 2, 3, 4], pref: 2 },
 };
 
-// reps inside a timed format are a fraction of the straight-set number
-function scaledReps(e, n, format) {
-  if (format === 'emom' || format === 'amrap') return e.u === 'sec' ? Math.min(n, 30) : Math.max(3, Math.round(n * 0.5));
-  return n;
-}
 
 // ---------- program builder ----------
 function build(cfg) {
   if (cfg.frozen) return buildFrozen(cfg);
   const rnd = makeRnd(cfg.id);
-  const allow = (id) => EQUIP[cfg.equip || 'all'](EX[id]);
+  const allow = (id) => allowedIn(cfg.equip, EX[id]);
   const used = {}, count = {}, stretchUsed = {};
   const pool = (name) => {
     const p = POOLS[name] || [name];
@@ -166,7 +156,7 @@ function build(cfg) {
       else if (lever === 'weight' && EX[id].load) { idx = level - 2; note = 'Go one weight up'; }
       else if (lever === 'tempo' && EX[id].u !== 'sec' && format !== 'emom' && format !== 'amrap' && format !== 'ladder') { idx = level - 2; tempo = 1; note = '3 s lowering'; }
       const e = EX[ex];
-      const it = { ex, n: scaledReps(e, e.r[Math.max(0, idx)], format) };
+      const it = { ex, n: scaleReps(e, e.r[Math.max(0, idx)], format) };
       if (note) it.note = note;
       if (tempo) it.tempo = 1;
       return it;

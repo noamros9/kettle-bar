@@ -71,6 +71,10 @@ app does not log what was actually lifted.
 
 **Alternative**: an easier or different exercise shown under the main one.
 
+**Swap**: trading an exercise in a workout for an **alternative** that works the same first main muscle, is the same
+kind (reps or seconds) and fits the program's equipment. It gets its own reps for the level. A swap is for one
+day or for the rest of the program (from that day on), and is stored with the program's progress.
+
 ## Progress
 
 **Done**: a day marked finished, stored as `{day: time first marked}` per program.

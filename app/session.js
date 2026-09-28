@@ -1,7 +1,8 @@
 /* Workout Session: progress through one day's workout, and every rule about what comes next.
    Pure: no page, no timer. The page and the clock are adapters.
 
-     const s = createSession(program, day, { EX });
+     const s = createSession(program, day, { EX, from? });   from: an earlier session of the same day whose ticks
+                                                             carry over (the day was swapped mid-workout)
      s.complete(target) -> Instruction      a set/pair/round/block/hold/stretch was finished (or un-ticked)
      s.plan(target)     -> { phases, then }  the timer script for a hold, a timed block or the stretches;
                                              when it ends, call s.complete(then)
@@ -25,7 +26,7 @@
     return 'reps';
   }
 
-  function createSession(program, day, { EX }) {
+  function createSession(program, day, { EX, from }) {
     const R = Object.assign({}, DEFAULT_RESTS, program.rests || {});
     const blocks = day.blocks;
     const fmt = (b) => b.format || 'straight';
@@ -33,14 +34,14 @@
     const nm = (it) => EX[it.ex].name;
     const pairsOf = (b) => Math.ceil(b.items.length / 2);
     const pairNames = (b, pi) => b.items.slice(pi * 2, pi * 2 + 2).map(nm).join(' + ');
-    const state = blocks.map((b) => {
+    const state = from ? from.snapshot().state : blocks.map((b) => {
       const f = fmt(b);
       if (f === 'straight') return { f, sets: b.items.map(() => 0) };
       if (f === 'superset') return { f, sets: Array.from({ length: pairsOf(b) }, () => 0) };
       if (f === 'circuit') return { f, rounds: 0 };
       return { f, done: false, count: 0 };
     });
-    const stretched = { warm: false, cool: false };
+    const stretched = from ? from.snapshot().stretched : { warm: false, cool: false };
 
     function blockDone(bi) {
       const b = blocks[bi], s = state[bi];
@@ -160,6 +161,7 @@
       blockDone,
       allDone: () => blocks.every((_, bi) => blockDone(bi)),
       stretchDone: (key) => stretched[key],
+      snapshot: () => JSON.parse(JSON.stringify({ state, stretched })),
       count(bi, delta) { const s = state[bi]; s.count = Math.max(0, s.count + delta); return s.count; },
     };
   }

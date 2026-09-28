@@ -177,3 +177,17 @@ test('timed blocks have no voice cues (holds and sides only)', () => {
   const emom = { title: 'E', format: 'emom', minutes: 2, items: [it('sidePlank', 20)] };
   session([emom]).plan({ type: 'block', bi: 0 }).phases.forEach((p) => assert.ok(!p.say && !p.halfway && !p.sayEnd));
 });
+
+test('a session can take over the ticks of an earlier one for the same day (after a swap)', () => {
+  const before = session([straight, circuit]);
+  before.complete({ type: 'set', bi: 0, i: 0, k: 1 });
+  before.complete({ type: 'round', bi: 1, k: 1 });
+  before.complete({ type: 'stretch', key: 'warm' });
+  const swapped = { ...straight, items: [{ ex: 'lunge', n: 6, sets: 2 }, straight.items[1]] };
+  const after = createSession({}, dayOf([swapped, circuit]), { EX, from: before });
+  assert.deepEqual(after.state(0).sets, [1, 0]);
+  assert.equal(after.state(1).rounds, 1);
+  assert.ok(after.stretchDone('warm'));
+  assert.equal(after.complete({ type: 'set', bi: 0, i: 0, k: 2 }).rest.label, 'Rest · next: Row');
+  assert.deepEqual(before.state(0).sets, [1, 0], 'the old session is not changed by the new one');
+});

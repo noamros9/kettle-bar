@@ -324,7 +324,20 @@
     return ex;
   }
   normalize(EX, MUS);
-  const api = { EX, LOAD, MUSCLE_NAMES, normalize };
+
+  // Equipment a program allows: everything, kettlebell only (no dumbbells, no bar), or bodyweight.
+  const EQUIP = {
+    all: () => true,
+    kb: (e) => (!e.load || e.load === 'kb') && !(e.equip || []).includes('bar'),
+    bw: (e) => !e.load && !(e.equip || []).includes('bar'),
+  };
+  const allowedIn = (equip, e) => EQUIP[equip || 'all'](e);
+  // reps inside a timed format are a fraction of the straight-set number
+  function scaleReps(e, n, format) {
+    if (format === 'emom' || format === 'amrap') return e.u === 'sec' ? Math.min(n, 30) : Math.max(3, Math.round(n * 0.5));
+    return n;
+  }
+  const api = { EX, LOAD, MUSCLE_NAMES, normalize, allowedIn, scaleReps };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBEx = api;
 })(typeof window !== 'undefined' ? window : globalThis);
