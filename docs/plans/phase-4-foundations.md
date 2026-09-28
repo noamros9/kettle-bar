@@ -13,7 +13,7 @@ In Noam's order; one ticket = one branch = one PR, each starting from its **Test
 | 0 | This plan | plan | – | `plan/phase-4` | done (PR #42) |
 | 1 | Summaries: a paragraph per program, two lines per day | feature | 0 | `feature/summaries` | done (PR #43) |
 | 2 | Home-screen shortcut to today's workout | feature | 0 | `feature/today-shortcut` | done (PR #44) |
-| 3 | Load programs when opened, fully offline | feature | 0 | `feature/load-on-open` | todo |
+| 3 | Load programs when opened, fully offline | feature | 0 | `feature/load-on-open` | done (PR #45) |
 | 4 | Do a program again: rounds | feature | 3 | `feature/rounds` | todo |
 
 ### 1. Summaries (#18)
