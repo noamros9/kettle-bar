@@ -1,3 +1,5 @@
 node_modules/
 sheet.html
 _site/
+test-results/
+playwright-report/

@@ -61,6 +61,8 @@ days ticked on the device and in the cloud are merged.
 | `tests/` | `npm test`: session rules, store sync, program invariants, catalogue, figures, build |
 | `.github/workflows/deploy.yml` | Tests (100% coverage on the core modules), builds and deploys to Pages |
 | `scripts/install-hooks.js` | Installed by `npm install`: a pre-commit hook that runs the coverage gate |
+| `tests-ui/`, `playwright.config.js` | `npm run test:ui`: phone UI tests (390 px, light and dark): every program, days 1/31/60, every exercise |
+| `scripts/serve.js` | Static server the UI tests run against |
 | `scripts/program-times.js` | `npm run times`: each program's shortest and longest day against its target |
 | `firebase-sync.js`, `firebase-config.js`, `firestore.rules` | Google sign-in and Firestore sync |
 | `manifest.webmanifest`, `icons/`, `sw.js` | Installable app, icon, offline support |

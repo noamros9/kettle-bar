@@ -23,10 +23,24 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - run: npm ci
       - name: Unit tests, 100% coverage on the core modules
         run: npm run test:coverage
       - name: Build
         run: npm run build
+      - name: Install the phone browser
+        run: npx playwright install --with-deps chromium
+      - name: Phone UI tests, light and dark
+        run: npm run test:ui
+      - name: Keep the screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phone-screenshots
+          path: |
+            test-results/
+            playwright-report/
+          retention-days: 14
       - name: Collect the site
         run: |
           mkdir _site
