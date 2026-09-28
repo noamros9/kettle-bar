@@ -1,39 +1,57 @@
 # Kettle & Bar roadmap
 
-A draft for Noam to reorder, cut or add to. Items link to issues once they exist.
+Built from a grilling session with Noam on 28 Sep 2026. Decisions are recorded under each item so
+future work doesn't re-ask them. Order within a phase is the build order.
 
-## Now: foundations
-Make the app safe to keep changing.
+## Done
+- 29 programs (5 signature + 24 across 8 subjects), formats, stretches, exercise pages with muscle maps.
+- Architecture review findings 1–5: Workout Session, Progress Store, Program Builder, Exercise Catalogue /
+  Figure engine, app split into modules. 23 tests (`npm test`).
 
-- **Automated tests** ([#5](https://github.com/noamros9/kettle-bar/issues/5)): session and rest rules, program invariants, catalogue checks, sync merge, UI smoke tests in CI.
-- **Backup of progress** ([#6](https://github.com/noamros9/kettle-bar/issues/6)): nightly export to a private backup repo, and in-app export/import.
-- **Architecture: deepen the Workout Session module** (review candidate 1): rest rules and timer plans in one testable module.
-- **Architecture: one Program Builder** (review candidate 2): one generator, with Three-Split 60 as a config.
-- **Smaller download**: load each program's data when it's opened instead of all 29 up front (the page is ~1.6 MB today).
+## Phase 1: foundations
+1. **Finish the tests** ([#5](https://github.com/noamros9/kettle-bar/issues/5)): Playwright UI smoke tests in the
+   repo, GitHub Actions on every push.
+2. **Backup of progress** ([#6](https://github.com/noamros9/kettle-bar/issues/6)): waiting on Noam's two decisions in
+   the issue.
+3. **Smaller download**: load each program's days when it's opened instead of all 29 up front (~1.6 MB today).
 
-## Next: training log
-Record what actually happened, not just "done".
+## Phase 2: finish screen + stats
+Built together because they share the muscle heat map and the week numbers.
 
-- **Log weights and reps** per set (prefilled with the plan), and show "last time" next to each exercise.
-- **History & streaks**: calendar of finished workouts, sessions per week, total minutes, current streak.
-- **Swap an exercise** for an alternative that works the same muscles with your equipment (for a sore joint or a missing weight).
-- **Skip / repeat a day** and a "resume where you left off" button.
-- **Finish screen**: a summary after the cool-down (time, sets, rounds, PRs) with a one-tap "Mark as done".
+4. **Finish screen**, shown after the cool-down (or after the last set if you skip it), with one-tap "Mark as done":
+   - total time and sets/rounds done,
+   - heat map of the muscles worked today,
+   - this week so far (workouts, minutes),
+   - preview of the next workout.
+5. **Stats page**
+   - **Scope switch:** all programs together, or one program.
+   - **Time spans:** this week, last 4 weeks, per program (since you started it), all time.
+   - **Weekly numbers:** workouts and minutes; sets and reps.
+   - **Muscle balance:** body heat map (front/back, darker = more work) and a ranked bar chart, for any time span.
+   - Weeks start on **Sunday**.
+   - **Decision:** volume is the *planned* volume of days marked done (a done day counts its planned sets and reps).
+     No per-set logging.
 
-## Later: smarter progression
-- **Test days** every 20 days (max push-ups, pull-ups, plank). Results adjust the next level's reps automatically.
-- **Personal records** per exercise (heaviest weight, most reps, longest hold) with a small chart.
-- **Deload weeks** and rest-day suggestions when a streak gets long.
-- **"What next?"** recommendations when a program ends, based on what you enjoyed and your test results.
-- **Build your own program in the app**: pick subject, length, equipment and split, and the builder generates it.
+## Phase 3: workout helpers
+6. **Swap an exercise**: offer alternatives that work the same main muscles with the program's equipment. Each
+   time, ask whether the swap is **for today only or for the rest of the program**. Swaps sync like progress.
+7. **Voice cues** for holds and sides only: "switch sides", "halfway", and the end of a hold. Uses the phone's
+   built-in speech; the beeps stay.
+8. **Animated drawings**: the figures move between their positions. **Open question:** which option? See the
+   [demo](https://claude.ai/artifact/NFGzGANtut6b1j5WkULFrj): A exercise pages, B every card,
+   C current exercise only, D tap to play (A + C can combine).
 
-## Polish
-- **Voice cues** for the timer ("10 seconds", "switch sides", "next: goblet squats") using the phone's speech.
-- **Animated exercise drawings**: move between the two poses instead of showing them side by side.
-- **Hebrew version** (right to left), like the other apps.
-- **Share a workout** as an image.
-- **Home-screen shortcut** straight to today's workout.
+## Phase 4: convenience
+9. **Home-screen shortcut to today's workout** (a manifest shortcut that opens the next undone day of the
+   current program).
+10. **Build your own program in the app**: pick subject, length, equipment and split; the Program Builder
+    generates a 60-day program, saved to your account.
 
-## Ideas parked
-- Heart-rate or Google Fit integration: limited from a web app, revisit if the app moves to a native wrapper.
-- New equipment programs (bands, heavier kettlebell, bench): when Noam buys the gear.
+## Decided against (don't re-suggest)
+- **Logging weights/reps per set**: Noam wants done / not done only.
+- **Adaptive plans**: no test days, no too-easy/too-hard nudging, no deload suggestions. Plans stay as written.
+- **Calendar/streaks, consistency targets, program-progress stats, push/pull ratios, neglected-muscle alerts**:
+  not picked.
+- **Voice countdowns, "what's next" and encouragement**: holds and sides only.
+- **Hebrew version** and **share as image**: not wanted for now.
+- **Heart-rate / Google Fit**: limited from a web app; revisit only if the app goes native.
