@@ -59,9 +59,9 @@
     }
     const toggle = (pid, day) => set(pid, P.toggle(of(pid), day, now()));
     const setSwaps = (pid, list) => set(pid, P.withSwaps(of(pid), list));
-    // set whole programs at once (an import): done days, and swaps where given (otherwise it keeps its own)
-    function replaceAll(programs, swaps = {}) {
-      Object.entries(programs).forEach(([pid, days]) => set(pid, { done: { ...days }, swaps: (swaps[pid] || of(pid).swaps).map((x) => ({ ...x })) }));
+    // set whole programs at once (an import): { pid: Program Progress }; one write per program
+    function replaceAll(values) {
+      Object.entries(values).forEach(([pid, v]) => set(pid, P.withSwaps({ done: { ...v.done }, swaps: [] }, v.swaps)));
       return queue;
     }
     function write(pid) {

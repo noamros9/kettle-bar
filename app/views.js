@@ -318,12 +318,10 @@ function viewLibrary() {
 }
 
 const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
-// Import in progress: null · { error } · { done } · { name, programs, unknown, diff }
+// Import in progress: null · { error } · { done: message } · an import plan (KBBackup.planImport)
 let importState = null;
 function importReview(st) {
-  const ids = Object.keys(st.diff);
-  const add = ids.reduce((a, pid) => a + st.diff[pid].added.length, 0);
-  const remove = ids.reduce((a, pid) => a + st.diff[pid].removed.length, 0);
+  const ids = Object.keys(st.diff), add = st.added, remove = st.removed;
   const line = (pid) => {
     const { added, removed } = st.diff[pid];
     const parts = [];
@@ -333,7 +331,7 @@ function importReview(st) {
   };
   const swapLine = st.swapNotes.length ? `<p class="muted">Swaps: ${st.swapNotes.map((x) => `${esc(programs.summary(x.pid).name)} has ${x.file} in the file (you have ${x.mine})`).join('; ')}. Merge keeps both; Replace uses the file's.</p>` : '';
   const skipped = st.unknown.length ? `<p class="muted">Skipped ${plural(st.unknown.length, 'program')} this app doesn't have: ${st.unknown.map(esc).join(', ')}</p>` : '';
-  const body = ids.length || st.swapNotes.length
+  const body = st.hasChanges
     ? `<ul class="difflist">${ids.map(line).join('')}</ul>${swapLine}${skipped}
       <p class="muted">Merge keeps every day from both. Replace makes each program in the file match it exactly${remove ? ', so the days marked − are removed' : ''}.</p>
       <div class="actions">${add || st.swapNotes.length ? `<button class="btn" data-backup="merge">Merge${add ? `: add ${plural(add, 'day')}` : ''}</button>` : ''}

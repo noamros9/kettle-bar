@@ -26,7 +26,7 @@ test('the file is named after the local date it was made', () => {
   assert.equal(fileName(new Date(2026, 8, 5, 23, 30)), 'kettle-bar-progress-2026-09-05.json');
 });
 
-const { parseBackup, diffProgress, applyImport } = require('../app/backup.js');
+const { parseBackup, diffProgress } = require('../app/backup.js');
 const file = (programs, extra) => JSON.stringify({ format: 'kettle-bar-progress', version: 1, exportedAt: 'x', programs, ...extra });
 const known = ['a', 'b'];
 
@@ -55,20 +55,8 @@ test('the diff shows, per program, the days an import would add and the days rep
   assert.deepEqual(diffProgress({}, { a: { 10: 'x', 9: 'x' } }), { a: { added: [9, 10], removed: [] } });
 });
 
-test('merge keeps days from both, earliest time wins (same rule as the first sync)', () => {
-  const merged = applyImport({ a: { 1: '2026-01-05', 2: 'b' }, b: { 7: 'c' } }, { a: { 1: '2026-01-01', 3: 'd' } }, 'merge');
-  assert.deepEqual(merged, { a: { 1: '2026-01-01', 2: 'b', 3: 'd' } });
-  assert.deepEqual(applyImport({ a: { 1: '2026-01-01' } }, { a: { 1: '2026-02-01' } }, 'merge'), { a: { 1: '2026-01-01' } });
-  assert.deepEqual(applyImport({}, { a: { 1: 't' } }, 'merge'), { a: { 1: 't' } });
-});
 
-test('replace makes each program in the file exactly as the file says; programs not in it are untouched', () => {
-  assert.deepEqual(applyImport({ a: { 1: 't', 2: 't' }, b: { 7: 'c' } }, { a: { 3: 'd' } }, 'replace'), { a: { 3: 'd' } });
-});
 
-test('an unknown import mode is a programming error', () => {
-  assert.throws(() => applyImport({}, { a: {} }, 'mix'), /Unknown import mode mix/);
-});
 
 test('day lists read as ranges', () => {
   const { dayRanges } = require('../app/backup.js');
@@ -110,7 +98,6 @@ test('importing the nightly file restores the signed-in account, or the only acc
 });
 
 // ---------- swaps in backups ----------
-const { importSwaps } = require('../app/backup.js');
 const sw = (day, ex, to, onward) => ({ day, ex, to, ...(onward ? { onward: true } : {}) });
 
 test('export carries each program\'s swaps (only programs that have any)', () => {
@@ -129,18 +116,46 @@ test('reading a file takes the swaps of known programs; older files without swap
   assert.throws(() => parseBackup(file({ a: {} }, { swaps: [] }), { known }), /damaged: swaps/);
 });
 
-test('import: merge keeps both sides\' swaps with the file\'s last; replace takes the file\'s', () => {
-  const mine = { a: [sw(1, 'p', 'q'), sw(5, 'r', 's')], b: [sw(2, 'u', 'v')] };
-  const theirs = { a: [sw(5, 'r', 's'), sw(9, 'p', 'z', true)] };
-  assert.deepEqual(importSwaps(mine, theirs, 'merge'), { a: [sw(1, 'p', 'q'), sw(5, 'r', 's'), sw(9, 'p', 'z', true)] });
-  assert.deepEqual(importSwaps(mine, theirs, 'replace'), { a: [sw(5, 'r', 's'), sw(9, 'p', 'z', true)] });
-  assert.deepEqual(importSwaps({}, theirs, 'merge'), theirs);
-  assert.throws(() => importSwaps(mine, theirs, 'mix'), /Unknown import mode mix/);
-});
 
 test('the nightly file carries swaps per account, only where there are any, and reads back', () => {
   const text = nightlyFile([{ uid: 'u', email: 'e', pid: 'a', done: { 1: 't' }, swaps: [sw(1, 'x', 'y')] }, { uid: 'u', email: 'e', pid: 'b', done: {}, swaps: [] }, { uid: 'u', email: 'e', pid: 'c', done: {} }]);
   assert.deepEqual(JSON.parse(text).users.u.swaps, { a: [sw(1, 'x', 'y')] });
   assert.deepEqual(parseBackup(text, { known: ['a', 'b'] }).swaps, { a: [sw(1, 'x', 'y')] });
   assert.equal(JSON.parse(nightlyFile([{ uid: 'u', pid: 'a', done: {} }])).users.u.swaps, undefined, 'no swaps: no field, so old backups stay byte-identical');
+});
+
+// ---------- the import plan: one step from a file to a review and the result ----------
+const { planImport } = require('../app/backup.js');
+
+test('planImport: a review of what would change, then the result and message for Merge and for Replace', () => {
+  const current = { a: { done: { 1: '2026-01-05', 2: 'b', 12: 'l' }, swaps: [sw(1, 'p', 'q')] }, b: { done: { 7: 'c' }, swaps: [] } };
+  const text = file({ a: { 1: '2026-01-01', 4: 'x', 5: 'y' }, retired: { 1: 'z' } }, { swaps: { a: [sw(9, 'p', 'z', true)] } });
+  const plan = planImport(current, text, { known: ['a', 'b'], name: 'mine.json' });
+  assert.equal(plan.name, 'mine.json');
+  assert.deepEqual(plan.diff, { a: { added: [4, 5], removed: [2, 12] } });
+  assert.deepEqual(plan.swapNotes, [{ pid: 'a', file: 1, mine: 1 }]);
+  assert.deepEqual(plan.unknown, ['retired']);
+  assert.equal(plan.added, 2);
+  assert.equal(plan.removed, 2);
+  assert.equal(plan.hasChanges, true);
+  assert.deepEqual(plan.result('merge'), { a: { done: { 1: '2026-01-01', 2: 'b', 4: 'x', 5: 'y', 12: 'l' }, swaps: [sw(1, 'p', 'q'), sw(9, 'p', 'z', true)] } });
+  assert.deepEqual(plan.result('replace'), { a: { done: { 1: '2026-01-01', 4: 'x', 5: 'y' }, swaps: [sw(9, 'p', 'z', true)] } });
+  assert.equal(plan.message('merge'), 'Merged: 2 days added.');
+  assert.equal(plan.message('replace'), 'Replaced: 2 days added, 2 removed.');
+});
+
+test('planImport: a file that matches has no changes; one day reads "1 day"; a program new to this device starts empty', () => {
+  const same = planImport({ a: { done: { 1: 't' }, swaps: [] } }, file({ a: { 1: 't' } }), { known: ['a'] });
+  assert.equal(same.hasChanges, false);
+  assert.deepEqual(same.swapNotes, []);
+  const one = planImport({}, file({ a: { 3: 't' } }), { known: ['a'] });
+  assert.equal(one.message('merge'), 'Merged: 1 day added.');
+  assert.deepEqual(one.result('merge'), { a: { done: { 3: 't' }, swaps: [] } });
+  assert.throws(() => planImport({}, 'nope', { known: ['a'] }), /isn't a Kettle & Bar backup/);
+});
+
+test('the page modules leave counting and merging an import to planImport', () => {
+  const fs = require('fs'), path = require('path');
+  const src = ['app/views.js', 'app/main.js'].map((f) => fs.readFileSync(path.join(__dirname, '..', f), 'utf8')).join('\n');
+  assert.doesNotMatch(src, /reduce\(\(a, pid\)|diffProgress|importMerge|parseBackup/);
 });

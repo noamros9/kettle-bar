@@ -6,8 +6,9 @@
      parseBackup(text, { known, uid }) -> { programs, swaps, unknown }   throws an Error with a message for people
      diffProgress(current, incoming) -> { programId: { added: [days], removed: [days] } }
          added: days the file has and this device doesn't; removed: days only Replace would take away
-     applyImport(current, incoming, 'merge' | 'replace') -> the new done days of each program in the file
-     importSwaps(current, incoming, 'merge' | 'replace') -> swaps of each program in the file
+     planImport(current, text, { known, uid, name }) -> the review and the result, in one step:
+       { name, diff, swapNotes, unknown, added, removed, hasChanges, result(mode), message(mode) }
+       current and result(mode): { programId: Program Progress }
      dayRanges([1, 2, 3, 5]) -> '1–3, 5'
      nightlyFile([{ uid, email, pid, done }]) -> text of the nightly backup (every account), stable byte for byte
 
@@ -70,10 +71,6 @@
     return out;
   }
 
-  // merge: both sides' swaps, the file's added last so they win where they overlap; replace: the file's
-  function importSwaps(current, incoming, mode) {
-    return Object.fromEntries(Object.entries(incoming).map(([pid, list]) => [pid, P.importMerge({ done: {}, swaps: current[pid] || [] }, { done: {}, swaps: list }, mode).swaps]));
-  }
 
   const daysOf = (m) => Object.keys(m).map(Number).sort((a, b) => a - b);
   function diffProgress(current, incoming) {
@@ -87,10 +84,6 @@
     return out;
   }
 
-  // the merge rules belong to Program Progress; these apply them program by program
-  function applyImport(current, incoming, mode) {
-    return Object.fromEntries(Object.entries(incoming).map(([pid, days]) => [pid, P.importMerge({ done: current[pid] || {}, swaps: [] }, { done: days }, mode).done]));
-  }
 
   // [1, 2, 3, 5] -> '1–3, 5' (days are sorted)
   function dayRanges(days) {
@@ -114,10 +107,26 @@
     return JSON.stringify({ format: NIGHTLY, version: VERSION, users: sorted(users) }, null, 2) + '\n';
   }
 
+  const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
+  function planImport(current, text, { known, uid, name }) {
+    const { programs, swaps, unknown } = parseBackup(text, { known, uid });
+    const have = Object.fromEntries(Object.keys(programs).map((pid) => [pid, current[pid] || P.empty()]));
+    const diff = diffProgress(Object.fromEntries(Object.entries(have).map(([pid, v]) => [pid, v.done])), programs);
+    const swapNotes = Object.entries(swaps).filter(([pid, l]) => JSON.stringify(l) !== JSON.stringify(have[pid].swaps))
+      .map(([pid, l]) => ({ pid, file: l.length, mine: have[pid].swaps.length }));
+    const sum = (k) => Object.values(diff).reduce((a, d) => a + d[k].length, 0);
+    const added = sum('added'), removed = sum('removed');
+    return {
+      name, diff, swapNotes, unknown, added, removed, hasChanges: added + removed > 0 || swapNotes.length > 0,
+      result: (mode) => Object.fromEntries(Object.entries(programs).map(([pid, done]) => [pid, P.importMerge(have[pid], { done, swaps: swaps[pid] }, mode)])),
+      message: (mode) => (mode === 'merge' ? `Merged: ${plural(added, 'day')} added.` : `Replaced: ${plural(added, 'day')} added, ${removed} removed.`),
+    };
+  }
+
   const pad = (n) => String(n).padStart(2, '0');
   const fileName = (d) => `${FORMAT}-${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}.json`;
 
-  const api = { exportProgress, fileName, parseBackup, diffProgress, applyImport, dayRanges, nightlyFile, importSwaps, FORMAT, VERSION };
+  const api = { exportProgress, fileName, parseBackup, diffProgress, planImport, dayRanges, nightlyFile, FORMAT, VERSION };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBBackup = api;
 })(typeof window !== 'undefined' ? window : globalThis, typeof module !== 'undefined' && module.exports ? require('./progress.js') : window.KBProgress);
