@@ -200,6 +200,19 @@ function stretchBlock(b, key, label, n, ses) {
       <div class="cnt"><b class="num">${it.n}</b><span>${e.side ? 'sec each side' : 'seconds'}</span></div><div class="nm">${esc(e.name)}</div></button><p class="cue">${esc(e.cue)}</p></article>`; }).join('')}</div>
   </section>`;
 }
+// shown once every set of the day is ticked (after the cool-down, if you run it)
+function finishCard(w, isD) {
+  const v = KBStats.dayVolume(w, EX);
+  const fmtMin = (m) => `${Math.round(m)} min`;
+  return `<section class="finish" aria-labelledby="finish-h"><h2 id="finish-h">Workout complete</h2>
+    <dl class="fstats">
+      <div><dt>Sets</dt><dd class="num" data-testid="sets">${v.sets}</dd></div>
+      <div><dt>Workout</dt><dd class="num" data-testid="workout-min">${fmtMin(v.workoutMin)}</dd></div>
+      <div><dt>Stretching</dt><dd class="num" data-testid="stretch-min">${fmtMin(v.stretchMin)}</dd></div>
+    </dl>
+    <button class="btn ${isD ? 'done' : ''}" data-toggle="${w.day}" aria-pressed="${isD}">${isD ? `✓ Day ${w.day} done` : `Mark day ${w.day} as done`}</button>
+  </section>`;
+}
 function viewDay() {
   const p = prog(), w = p.days[route.day - 1];
   if (!w) return viewProgram();
@@ -216,7 +229,7 @@ function viewDay() {
     ${w.warmup ? stretchBlock(w.warmup, 'warm', 'W', 'Before you start', ses) : ''}
     ${w.blocks.map((b, bi) => blockHTML(p, w, b, bi, ses)).join('')}
     ${w.cooldown ? `<div class="between">Then stretch</div>${stretchBlock(w.cooldown, 'cool', 'C', 'After the abs', ses)}` : ''}
-    ${ses.allDone() && !isD ? `<div class="complete"><p>All sets finished. Nice work.</p><button class="btn" data-toggle="${w.day}">Mark day ${w.day} as done</button></div>` : ''}
+    ${ses.allDone() ? finishCard(w, isD) : ''}
     <p class="note">Tap any exercise for how to do it and the muscles it works. Weights are starting points: pick a load where the last two reps are hard but clean. "Go one weight up" means the next dumbbell size or the heavier bell; "3 s lowering" means a slow 3-second lowering on every rep.</p>`;
 }
 

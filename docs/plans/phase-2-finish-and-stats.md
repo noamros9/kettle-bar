@@ -53,7 +53,7 @@ One ticket = one branch = one PR, taken in order. Each starts with its **Test fi
 
 | # | Ticket | Tier | Blocked by | Branch | Status |
 |---|---|---|---|---|---|
-| 0 | This plan | plan | – | `plan/phase-2-stats` | in review |
+| 0 | This plan | plan | – | `plan/phase-2-stats` | done (PR #19) |
 | 1 | Day volume + finish card (numbers, Mark as done) | feature | 0 | `feature/finish-card` | todo |
 | 2 | Shaded muscle map + today's heat map on the finish card | feature | 1 | `feature/muscle-heat-map` | todo |
 | 3 | Finish card: this week so far + next workout | feature | 1 | `feature/finish-week-next` | todo |
