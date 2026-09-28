@@ -78,6 +78,8 @@ for (let d = 1; d <= 60; d++) {
   const absC = [candidate(POOLS.absWeighted, taken), ...[0, 1, 2, 3].map(() => candidate(POOLS.abs, taken))];
   const n = (id) => EX[id].r[level - 1];
   // pick how many exercises and sets fit 30–35 min, closest to 5 main × 4 sets and 3 abs × 3 sets
+  // strength days (1, 2) run longer to keep 5 main exercises; abs & cardio days (3) are the short ones
+  const [lo, hi] = type === 'ac' ? [24.5, 30.4] : [34.5, 38.4];
   let best = null;
   // abs subsets always keep the weighted move (index 0); any of the others may be left out
   const absSets = [];
@@ -85,13 +87,15 @@ for (let d = 1; d <= 60; d++) {
     const pick = [0, ...[1, 2, 3, 4].filter((k, j) => mask & (1 << j))];
     if (pick.length >= 2 && pick.length <= 4) absSets.push(pick);
   }
-  for (const em of [4, 5, 6]) for (const sm of [3, 4, 5]) for (const pick of absSets) for (const sa of [3]) {
-    const ea = pick.length;
+  // main: the first four slots always, then either or both of the last two
+  const mainSets = [[0, 1, 2, 3], [0, 1, 2, 3, 4], [0, 1, 2, 3, 5], [0, 1, 2, 3, 4, 5]];
+  for (const mp of mainSets) for (const sm of [3, 4, 5]) for (const pick of absSets) for (const sa of [3]) {
+    const ea = pick.length, em = mp.length;
     const w = { blocks: [
-      { items: mainC.slice(0, em).map((id) => ({ ex: id, n: n(id), sets: sm })) },
+      { items: mp.map((k) => mainC[k]).map((id) => ({ ex: id, n: n(id), sets: sm })) },
       { items: pick.map((k) => absC[k]).map((id) => ({ ex: id, n: n(id), sets: sa })) }] };
     const t = total(w) / 60;
-    const pen = (t >= 30.5 && t <= 35.4 ? 0 : 100 + Math.abs(t - 32.5) * 10) + Math.abs(em - 5) * 3 + Math.abs(sm - 4) * 1.5 + Math.abs(ea - 3) * 9 + Math.abs(sa - 3) * 2 + pick.reduce((a, k) => a + k, 0) * 0.1;
+    const pen = (t >= lo && t <= hi ? 0 : 100 + Math.abs(t - (lo + hi) / 2) * 10) + Math.abs(em - 5) * 6 + Math.abs(sm - 4) * 1.5 + Math.abs(ea - 3) * 9 + Math.abs(sa - 3) * 2 + pick.reduce((a, k) => a + k, 0) * 0.1 + (mp.includes(5) && !mp.includes(4) ? 0.5 : 0);
     if (!best || pen < best.pen) best = { pen, w, em, sm, ea, sa };
   }
   const blocks = [

@@ -11,7 +11,7 @@ illustrated exercises, checkmarks for finished days and a rest timer.
 | 2, 5, 8 … | Full body + abs, alternating upper focus (2, 8, 14 …) and lower focus (5, 11, 17 …) |
 | 3, 6, 9 … | Abs & cardio |
 
-Each workout runs about 30–35 minutes as straight sets: every set of one
+Chest & back and full-body days run about 35–38 minutes (5 main exercises), abs & cardio days about 26–31 minutes, all as straight sets: every set of one
 exercise before the next, 30 s rest between sets, 1 min between exercises and
 2 min before the abs that close every workout. Level I (days 1–20) starts at
 an intermediate level; Levels II (21–40) and III (41–60) add reps.
