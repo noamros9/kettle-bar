@@ -53,7 +53,7 @@ stretches, on by default with a Settings switch.
    smoothly between its positions; workout cards stay still. Respects the phone's reduce-motion setting.
    ([demo](https://claude.ai/artifact/NFGzGANtut6b1j5WkULFrj))
 
-## Phase 4: foundations and convenience
+## Phase 4: foundations and convenience (done, Sep 2026)
 Grilled with Noam on 28 Sep 2026 (second round). Build order as listed.
 Plan and tickets: [docs/plans/phase-4-foundations.md](docs/plans/phase-4-foundations.md).
 
