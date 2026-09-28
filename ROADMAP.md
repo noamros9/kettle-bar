@@ -10,10 +10,6 @@ future work doesn't re-ask them. Order within a phase is the build order.
 
 ## Backlog
 - **Test a restore from the nightly backup** on the phone ([#16](https://github.com/noamros9/kettle-bar/issues/16)).
-- **Do a program again, keeping its history** ([#17](https://github.com/noamros9/kettle-bar/issues/17)): back to day 1 of 60 as a
-  second (third…) time through; earlier times stay in the stats. Details to decide together; plan with or after Phase 2.
-- **Short summaries** ([#18](https://github.com/noamros9/kettle-bar/issues/18)): a paragraph describing each program and two lines
-  describing each workout. Where they show and how they're written to decide together.
 
 ## Phase 1: a safety net (done, Sep 2026)
 Planned in the PRD [#7](https://github.com/noamros9/kettle-bar/issues/7); glossary in [CONTEXT.md](CONTEXT.md), decisions in
@@ -57,11 +53,52 @@ stretches, on by default with a Settings switch.
    smoothly between its positions; workout cards stay still. Respects the phone's reduce-motion setting.
    ([demo](https://claude.ai/artifact/NFGzGANtut6b1j5WkULFrj))
 
-## Phase 4: convenience
-9. **Home-screen shortcut to today's workout** (a manifest shortcut that opens the next undone day of the
-   current program).
-10. **Build your own program in the app**: pick subject, length, equipment and split; the Program Builder
-    generates a 60-day program, saved to your account.
+## Phase 4: foundations and convenience
+Grilled with Noam on 28 Sep 2026 (second round). Build order as listed.
+
+9. **Summaries** ([#18](https://github.com/noamros9/kettle-bar/issues/18)):
+   - **Program:** a paragraph per program, **written by hand**: what it trains, how it's built, how it gets
+     harder, who it suits. It replaces the one-line blurb on the **program page**; **program cards** show
+     its first sentence.
+   - **Day:** two lines per day, **generated** from its focus, formats, level and changes, shown on the
+     **day page** under the workout's name. Not on the day tiles.
+10. **Home-screen shortcut to today's workout:** a manifest shortcut that opens the next undone day of the
+    **program you opened last**. Nothing to set.
+11. **Load programs when opened, fully offline:** the app starts with the program list, and each program's
+    days load the first time you open it. **All programs then download quietly in the background, on any
+    network**, so every program works offline. Needed before the library grows to ~98 programs (~5 MB in
+    one file).
+12. **Do a program again: rounds** ([#17](https://github.com/noamros9/kettle-bar/issues/17)):
+    - **Starting over:** you can start again **any time**, back to day 1 of 60. The unfinished round is kept
+      as it was. Rounds are called **"Round 2", "Round 3"…**, e.g. "Iron PPL · Round 2 · Day 1 of 60".
+    - **The plan:** the **same** 60 days every round (plans stay as written; not harder).
+    - **Swaps:** starting a round **shows each rest-of-program swap, and you keep it or go back to the
+      original**, one by one.
+    - **Stats:** count all rounds by default. The program switch can **narrow to one round**.
+
+## Phase 5: a bigger catalogue and library ([#33](https://github.com/noamros9/kettle-bar/issues/33))
+13. **New subjects, 5 programs each** (45 programs): **boxing** and **kickboxing** (no equipment),
+    **Pilates** (mat), **yoga**, **HIIT**, **plyometrics**, **flexibility**, **mobility & posture**,
+    **balance & stability**.
+    - **Yoga and Pilates** keep the usual shape: 60 numbered days, ~25–35 min, held poses and flows on the
+      clock with holds, sides and voice cues. No abs finisher, since the session is core work already.
+    - **Boxing and kickboxing** get a new **rounds** format: 3-minute rounds, 1-minute rests, and the voice
+      calls the combos ("jab, cross, hook").
+14. **More variety in every existing subject:** strength, core & abs, pull-ups / upper body, legs,
+    conditioning. **Up to 6 programs each** (+24 programs), so the library goes from 29 to about 98 programs.
+15. **Exercise catalogue: a big push, 100+ new exercises.** Each gets drawings, muscles, cues and reps per
+    level: punch and kick combos, footwork, Pilates series, yoga poses, plyo jumps, mobility drills,
+    balance work, and more strength and core variety (which also means more swap choices).
+
+## Phase 6: build your own program
+16. **Build your own:** you pick the subject(s), split (days per cycle), minutes, equipment, formats and how
+    it gets harder. The Program Builder makes 60 days, and you can regenerate until you like it. Comes after
+    Phase 5, so it can use the bigger catalogue.
+    - **Afterwards:** rename and delete (deleting asks first; its progress goes too). Edit the choices: days
+      not done yet are rebuilt, done days keep what you did. Synced to your account and included in
+      export/import and the nightly backup.
+    - **Share a copy by link:** the link carries the choices, and whoever opens it gets "Add this
+      program". No server needed.
 
 ## Decided against (don't re-suggest)
 - **Logging weights/reps per set**: Noam wants done / not done only.
