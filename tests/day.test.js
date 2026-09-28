@@ -71,3 +71,13 @@ test('the page modules leave days, sessions and swap rules to the Day module', (
   const src = ['app/views.js', 'app/main.js'].map((f) => fs.readFileSync(path.join(__dirname, '..', f), 'utf8')).join('\n');
   assert.doesNotMatch(src, /\bsessionFor\b|\bcardDay\b|createSession\(p|x\.onward|KBSwaps\.(applySwaps|undoSwap|alternatives)/);
 });
+
+test('a day of a past round is resolved with the swaps that round had', () => {
+  const { days, store } = setup();
+  const D = days.open(P, 1), ex = first(D), to = D.alternatives(0, 0)[0];
+  D.swap(0, 0, to); // today only, in round 1
+  store.startRound(P, []);
+  assert.equal(days.resolved(P, 1, 1).blocks[0].items[0].ex, to, 'round 1 had the swap');
+  assert.equal(days.resolved(P, 1, 2).blocks[0].items[0].ex, ex, 'round 2 does not');
+  assert.equal(days.resolved(P, 1).blocks[0].items[0].ex, ex, 'no round: the current one');
+});

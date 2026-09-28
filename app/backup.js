@@ -7,14 +7,14 @@
      diffProgress(current, incoming) -> { programId: { added: [days], removed: [days] } }
          added: days the file has and this device doesn't; removed: days only Replace would take away
      planImport(current, text, { known, uid, name }) -> the review and the result, in one step:
-       { name, diff, swapNotes, unknown, added, removed, hasChanges, result(mode), message(mode) }
+       { name, diff, swapNotes, roundNotes, unknown, added, removed, hasChanges, result(mode), message(mode) }
        current and result(mode): { programId: Program Progress }
      dayRanges([1, 2, 3, 5]) -> '1–3, 5'
      nightlyFile([{ uid, email, pid, done }]) -> text of the nightly backup (every account), stable byte for byte
 
    Export file:  { format: 'kettle-bar-progress', version: 1, exportedAt, programs: { programId: { day: time } },
-                   swaps?: { programId: [swap] } }
-   Nightly file: { format: 'kettle-bar-backup', version: 1, users: { uid: { email, programs, swaps? } } }
+                   swaps?: { programId: [swap] }, rounds?: { programId: [past round] } }
+   Nightly file: { format: 'kettle-bar-backup', version: 1, users: { uid: { email, programs, swaps?, rounds? } } }
    swaps only lists programs that have any; files from before swaps simply have none.
    Both can be imported; from a nightly file, import takes the signed-in account (ADR 5). */
 (function (root, P) {
@@ -23,10 +23,10 @@
   const VERSION = 1;
 
   const nonEmpty = (swaps = {}) => Object.fromEntries(Object.entries(swaps).filter(([, l]) => l && l.length).map(([pid, l]) => [pid, l.map((x) => ({ ...x }))]));
-  function exportProgress(done, { now = () => new Date().toISOString(), swaps } = {}) {
+  function exportProgress(done, { now = () => new Date().toISOString(), swaps, rounds } = {}) {
     const programs = {};
     Object.entries(done).forEach(([pid, days]) => { programs[pid] = { ...days }; });
-    return { format: FORMAT, version: VERSION, exportedAt: now(), programs, swaps: nonEmpty(swaps) };
+    return { format: FORMAT, version: VERSION, exportedAt: now(), programs, swaps: nonEmpty(swaps), rounds: nonEmpty(rounds) };
   }
 
   const isObject = (x) => !!x && typeof x === 'object' && !Array.isArray(x);
@@ -57,7 +57,7 @@
       });
       if (known.includes(pid)) programs[pid] = { ...days }; else unknown.push(pid);
     });
-    return { programs, swaps: readSwaps(data.swaps, known), unknown };
+    return { programs, swaps: readSwaps(data.swaps, known), rounds: readRounds(data.rounds, known), unknown };
   }
 
   const isSwap = (x) => isObject(x) && Number.isInteger(x.day) && x.day >= 1 && typeof x.ex === 'string' && typeof x.to === 'string';
@@ -71,6 +71,17 @@
     return out;
   }
 
+
+  const isRound = (r) => isObject(r) && Number.isInteger(r.round) && r.round >= 1 && isObject(r.done) && Array.isArray(r.swaps) && r.swaps.every(isSwap);
+  function readRounds(rounds = {}, known) {
+    if (!isObject(rounds)) throw new Error('The backup file is damaged: rounds.');
+    const out = {};
+    Object.entries(rounds).forEach(([pid, list]) => {
+      if (!Array.isArray(list) || !list.every(isRound)) throw new Error(`The backup file is damaged: ${pid} rounds.`);
+      if (known.includes(pid)) out[pid] = JSON.parse(JSON.stringify(list));
+    });
+    return out;
+  }
 
   const daysOf = (m) => Object.keys(m).map(Number).sort((a, b) => a - b);
   function diffProgress(current, incoming) {
@@ -98,27 +109,29 @@
   const sorted = (o, byNumber) => Object.fromEntries(Object.keys(o).sort(byNumber ? (a, b) => a - b : undefined).map((k) => [k, o[k]]));
   function nightlyFile(rows) {
     const users = {};
-    rows.forEach(({ uid, email, pid, done, swaps }) => {
+    rows.forEach(({ uid, email, pid, done, swaps, past }) => {
       const u = users[uid] = users[uid] || { email: email || null, programs: {} };
       u.programs[pid] = sorted(done, true);
       if (swaps && swaps.length) (u.swaps = u.swaps || {})[pid] = swaps;
+      if (past && past.length) (u.rounds = u.rounds || {})[pid] = past;
     });
-    Object.values(users).forEach((u) => { u.programs = sorted(u.programs); if (u.swaps) u.swaps = sorted(u.swaps); });
+    Object.values(users).forEach((u) => { u.programs = sorted(u.programs); if (u.swaps) u.swaps = sorted(u.swaps); if (u.rounds) u.rounds = sorted(u.rounds); });
     return JSON.stringify({ format: NIGHTLY, version: VERSION, users: sorted(users) }, null, 2) + '\n';
   }
 
   const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
   function planImport(current, text, { known, uid, name }) {
-    const { programs, swaps, unknown } = parseBackup(text, { known, uid });
-    const have = Object.fromEntries(Object.keys(programs).map((pid) => [pid, current[pid] || P.empty()]));
+    const { programs, swaps, rounds, unknown } = parseBackup(text, { known, uid });
+    const have = Object.fromEntries(Object.keys(programs).map((pid) => [pid, P.fromDoc(current[pid]) || P.empty()]));
     const diff = diffProgress(Object.fromEntries(Object.entries(have).map(([pid, v]) => [pid, v.done])), programs);
     const swapNotes = Object.entries(swaps).filter(([pid, l]) => JSON.stringify(l) !== JSON.stringify(have[pid].swaps))
       .map(([pid, l]) => ({ pid, file: l.length, mine: have[pid].swaps.length }));
+    const roundNotes = Object.entries(rounds).map(([pid, past]) => ({ pid, file: past.length + 1, mine: P.round(have[pid]) })).filter((x) => x.file !== x.mine);
     const sum = (k) => Object.values(diff).reduce((a, d) => a + d[k].length, 0);
     const added = sum('added'), removed = sum('removed');
     return {
-      name, diff, swapNotes, unknown, added, removed, hasChanges: added + removed > 0 || swapNotes.length > 0,
-      result: (mode) => Object.fromEntries(Object.entries(programs).map(([pid, done]) => [pid, P.importMerge(have[pid], { done, swaps: swaps[pid] }, mode)])),
+      name, diff, swapNotes, roundNotes, unknown, added, removed, hasChanges: added + removed > 0 || swapNotes.length > 0 || roundNotes.length > 0,
+      result: (mode) => Object.fromEntries(Object.entries(programs).map(([pid, done]) => [pid, P.importMerge(have[pid], { done, swaps: swaps[pid], past: rounds[pid] }, mode)])),
       message: (mode) => (mode === 'merge' ? `Merged: ${plural(added, 'day')} added.` : `Replaced: ${plural(added, 'day')} added, ${removed} removed.`),
     };
   }

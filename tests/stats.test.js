@@ -135,3 +135,13 @@ test('the page asks for stats in one call per view', () => {
   const src = require('fs').readFileSync(require('path').join(__dirname, '..', 'app/views.js'), 'utf8');
   assert.doesNotMatch(src, /KBStats\.(summarize|spanRange|weekly|rankMuscles|weekStart)/);
 });
+
+test('rounds: summarize resolves each entry in its own round; report can narrow to one round', () => {
+  const seen = [];
+  const dayOf = (pid, n, round) => { seen.push(round); return day([{ sets: 1, items: [it('push', 10)] }]); };
+  const entries = [{ ...e(29), round: 1 }, { ...e(30), round: 2 }, { ...e(28, 'q'), round: 1 }];
+  const r = report({ entries, dayOf, EX, names: {} }, { scope: 'p', round: 2, span: 'all', now: wed });
+  assert.equal(r.totals.workouts, 1);
+  assert.deepEqual(seen, [2, 2], 'weekly rows and totals both ask for round 2');
+  assert.equal(report({ entries, dayOf, EX, names: {} }, { scope: 'p', span: 'all', now: wed }).totals.workouts, 2, 'all rounds by default');
+});

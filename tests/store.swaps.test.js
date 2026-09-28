@@ -86,14 +86,14 @@ test('an import sets days and swaps together, in one write per program', async (
   const store = make(); store.attach(remote); await tick();
   let writes = 0; const w = remote.write; remote.write = (...a) => { writes++; return w(...a); };
   await store.replaceAll({ p: { done: { 2: 'b' }, swaps: [swap] } });
-  assert.deepEqual(store.progress('p'), { done: { 2: 'b' }, swaps: [swap] });
+  assert.deepEqual(store.progress('p'), { done: { 2: 'b' }, swaps: [swap], past: [] });
   assert.deepEqual(remote.docs.p.swaps, [swap]);
   assert.equal(writes, 1);
 });
 test('progress(pid) hands out a copy of the whole value', () => {
   const store = make(); store.toggle('p', 2); store.setSwaps('p', [swap]);
   const v = store.progress('p');
-  assert.deepEqual(v, { done: { 2: 't' }, swaps: [swap] });
+  assert.deepEqual(v, { done: { 2: 't' }, swaps: [swap], past: [] });
   v.done[9] = 'x'; v.swaps[0].to = 'zzz';
-  assert.deepEqual(store.progress('p'), { done: { 2: 't' }, swaps: [swap] });
+  assert.deepEqual(store.progress('p'), { done: { 2: 't' }, swaps: [swap], past: [] });
 });

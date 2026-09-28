@@ -4,12 +4,12 @@
      dayVolume(day, EX) -> { workoutMin, stretchMin, sets, reps, muscles: { muscle: load } }
      weekStart(date) -> Sunday 00:00 local time of that date's week
      summarize(entries, { dayOf, EX, from, to }) -> totals of the done days in [from, to)
-       dayOf(pid, n): the day as done (swaps applied), or nothing for a program or day the app doesn't have
+       dayOf(pid, n, round): the day as done in that round (its swaps applied), or nothing if the app doesn't have it
        entries: [{ pid, day, time }] (time = when the day was first marked done)
      spanRange('week' | '4weeks' | 'all', now, entries) -> { from, to }   whole weeks, this one included
      weekly(entries, { dayOf, EX, from, to }) -> [{ start, ...totals }] one per week, newest first
      rankMuscles(muscles, names) -> [{ muscle, name, load, share }] worked muscles, biggest load first
-     report({ entries, dayOf, EX, names }, { scope: 'all' | pid, span, now })
+     report({ entries, dayOf, EX, names }, { scope: 'all' | pid, round?, span, now })   round: one round only
        -> { from, to, totals, weeks (null for one week), muscles (ranked), hasHistory (any done day in scope) }
    Muscle load: each set counts 1 for every main muscle and 0.5 for every secondary muscle. */
 (function (root) {
@@ -72,7 +72,7 @@
   }
   function summarize(entries, { dayOf, EX, from, to }) {
     return entries.reduce((total, e) => {
-      const t = new Date(e.time), d = dayOf(e.pid, e.day);
+      const t = new Date(e.time), d = dayOf(e.pid, e.day, e.round);
       if (!d || t < from || t >= to) return total;
       return add(total, dayVolume(d, EX));
     }, empty());
@@ -104,8 +104,8 @@
     return worked.map(([muscle, load]) => ({ muscle, name: names[muscle], load, share: load / max }));
   }
 
-  function report({ entries, dayOf, EX, names }, { scope, span, now }) {
-    const mine = scope === 'all' ? entries : entries.filter((x) => x.pid === scope);
+  function report({ entries, dayOf, EX, names }, { scope, round, span, now }) {
+    const mine = entries.filter((x) => (scope === 'all' || x.pid === scope) && (round === undefined || x.round === round));
     const { from, to } = spanRange(span, now, mine);
     const opts = { dayOf, EX, from, to };
     const totals = summarize(mine, opts);

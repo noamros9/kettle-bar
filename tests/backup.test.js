@@ -7,7 +7,7 @@ test('export lists every program with its done days and when each was first mark
   const file = exportProgress({ a: { 1: '2026-09-01T07:00:00.000Z', 3: '2026-09-03T07:00:00.000Z' }, b: {} }, { now: () => '2026-09-28T12:00:00.000Z' });
   assert.deepEqual(file, {
     format: 'kettle-bar-progress', version: 1, exportedAt: '2026-09-28T12:00:00.000Z',
-    programs: { a: { 1: '2026-09-01T07:00:00.000Z', 3: '2026-09-03T07:00:00.000Z' }, b: {} }, swaps: {},
+    programs: { a: { 1: '2026-09-01T07:00:00.000Z', 3: '2026-09-03T07:00:00.000Z' }, b: {} }, swaps: {}, rounds: {},
   });
 });
 
@@ -32,7 +32,7 @@ const known = ['a', 'b'];
 
 test('reading a file keeps the programs this app has and names the ones it does not', () => {
   const got = parseBackup(file({ a: { 1: 't1' }, gone: { 2: 't2' } }), { known });
-  assert.deepEqual(got, { programs: { a: { 1: 't1' } }, swaps: {}, unknown: ['gone'] });
+  assert.deepEqual(got, { programs: { a: { 1: 't1' } }, swaps: {}, rounds: {}, unknown: ['gone'] });
 });
 
 test('reading refuses files that are not a readable backup, saying why', () => {
@@ -138,8 +138,8 @@ test('planImport: a review of what would change, then the result and message for
   assert.equal(plan.added, 2);
   assert.equal(plan.removed, 2);
   assert.equal(plan.hasChanges, true);
-  assert.deepEqual(plan.result('merge'), { a: { done: { 1: '2026-01-01', 2: 'b', 4: 'x', 5: 'y', 12: 'l' }, swaps: [sw(1, 'p', 'q'), sw(9, 'p', 'z', true)] } });
-  assert.deepEqual(plan.result('replace'), { a: { done: { 1: '2026-01-01', 4: 'x', 5: 'y' }, swaps: [sw(9, 'p', 'z', true)] } });
+  assert.deepEqual(plan.result('merge'), { a: { done: { 1: '2026-01-01', 2: 'b', 4: 'x', 5: 'y', 12: 'l' }, swaps: [sw(1, 'p', 'q'), sw(9, 'p', 'z', true)], past: [] } });
+  assert.deepEqual(plan.result('replace'), { a: { done: { 1: '2026-01-01', 4: 'x', 5: 'y' }, swaps: [sw(9, 'p', 'z', true)], past: [] } });
   assert.equal(plan.message('merge'), 'Merged: 2 days added.');
   assert.equal(plan.message('replace'), 'Replaced: 2 days added, 2 removed.');
 });
@@ -150,7 +150,7 @@ test('planImport: a file that matches has no changes; one day reads "1 day"; a p
   assert.deepEqual(same.swapNotes, []);
   const one = planImport({}, file({ a: { 3: 't' } }), { known: ['a'] });
   assert.equal(one.message('merge'), 'Merged: 1 day added.');
-  assert.deepEqual(one.result('merge'), { a: { done: { 3: 't' }, swaps: [] } });
+  assert.deepEqual(one.result('merge'), { a: { done: { 3: 't' }, swaps: [], past: [] } });
   assert.throws(() => planImport({}, 'nope', { known: ['a'] }), /isn't a Kettle & Bar backup/);
 });
 
@@ -158,4 +158,34 @@ test('the page modules leave counting and merging an import to planImport', () =
   const fs = require('fs'), path = require('path');
   const src = ['app/views.js', 'app/main.js'].map((f) => fs.readFileSync(path.join(__dirname, '..', f), 'utf8')).join('\n');
   assert.doesNotMatch(src, /reduce\(\(a, pid\)|diffProgress|importMerge|parseBackup/);
+});
+
+// ---------- rounds in backups ----------
+const past1 = [{ round: 1, done: { 1: 'a', 2: 'b' }, swaps: [sw(1, 'p', 'q')], endedAt: 'e' }];
+
+test('export and the nightly file carry past rounds, only where there are any', () => {
+  assert.deepEqual(exportProgress({ a: {}, b: {} }, { now: () => 'n', rounds: { a: past1, b: [] } }).rounds, { a: past1 });
+  assert.deepEqual(exportProgress({ a: {} }, { now: () => 'n' }).rounds, {});
+  const text = nightlyFile([{ uid: 'u', pid: 'a', done: {}, swaps: [], past: past1 }, { uid: 'u', pid: 'b', done: {}, past: [] }]);
+  assert.deepEqual(JSON.parse(text).users.u.rounds, { a: past1 });
+  assert.equal(JSON.parse(nightlyFile([{ uid: 'u', pid: 'a', done: {} }])).users.u.rounds, undefined);
+  assert.deepEqual(parseBackup(text, { known: ['a'] }).rounds, { a: past1 });
+});
+
+test('reading rounds: known programs only, older files have none, broken rounds are refused', () => {
+  assert.deepEqual(parseBackup(file({ a: {} }, { rounds: { a: past1, gone: past1 } }), { known }).rounds, { a: past1 });
+  assert.deepEqual(parseBackup(file({ a: {} }), { known }).rounds, {});
+  assert.throws(() => parseBackup(file({ a: {} }, { rounds: [] }), { known }), /damaged: rounds/);
+  assert.throws(() => parseBackup(file({ a: {} }, { rounds: { a: [{ round: 0, done: {}, swaps: [], endedAt: 'e' }] } }), { known }), /damaged: a rounds/);
+  assert.throws(() => parseBackup(file({ a: {} }, { rounds: { a: [{ round: 1, done: [], swaps: [], endedAt: 'e' }] } }), { known }), /damaged: a rounds/);
+  assert.throws(() => parseBackup(file({ a: {} }, { rounds: { a: {} } }), { known }), /damaged: a rounds/);
+});
+
+test('planImport: a file on another round says so, and Merge takes whichever is further along', () => {
+  const current = { a: { done: { 1: 'x' }, swaps: [], past: [] } };
+  const plan = planImport(current, file({ a: { 3: 'c' } }, { rounds: { a: past1 } }), { known: ['a'] });
+  assert.deepEqual(plan.roundNotes, [{ pid: 'a', file: 2, mine: 1 }]);
+  assert.equal(plan.hasChanges, true);
+  assert.deepEqual(plan.result('merge').a, { done: { 3: 'c' }, swaps: [], past: past1 });
+  assert.deepEqual(planImport(current, file({ a: { 1: 'x' } }), { known: ['a'] }).roundNotes, []);
 });
