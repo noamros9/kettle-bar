@@ -334,12 +334,32 @@ function statTiles(s) {
   const tile = (label, value) => `<div class="tile-stat" role="group" aria-label="${label}"><span class="lbl">${label}</span><b>${fmtNum(value)}</b></div>`;
   return `<div class="kpis">${tile('Workouts', s.workouts)}${tile('Workout minutes', s.workoutMin)}${tile('Stretching minutes', s.stretchMin)}${tile('Sets', s.sets)}${tile('Reps', s.reps)}</div>`;
 }
+// the Stats page's switches: time span and program ('all' or a program id)
+const statsView = { span: 'week', pid: 'all' };
+const SPANS = [['week', 'This week'], ['4weeks', 'Last 4 weeks'], ['all', 'All time']];
+const shortDate = (d) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+function weekRows(rows) {
+  const n = (x) => `<td class="num">${fmtNum(x)}</td>`;
+  return `<div class="table-scroll"><table class="weeks"><caption>Week by week</caption>
+    <thead><tr><th scope="col">Week of</th><th scope="col">Workouts</th><th scope="col">Min</th><th scope="col">Stretch min</th><th scope="col">Sets</th><th scope="col">Reps</th></tr></thead>
+    <tbody>${rows.map((r) => `<tr${r.workouts ? '' : ' class="empty"'}><th scope="row">${shortDate(r.start)}</th>${n(r.workouts)}${n(r.workoutMin)}${n(r.stretchMin)}${n(r.sets)}${n(r.reps)}</tr>`).join('')}</tbody></table></div>`;
+}
 function viewStats() {
-  const from = KBStats.weekStart(new Date()), to = new Date(from); to.setDate(to.getDate() + 7);
-  const s = KBStats.summarize(doneEntries(), { programs: PBYID, EX, from, to });
-  const range = `${from.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })} – ${new Date(to - 864e5).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}`;
-  return `<div class="eyebrow">This week · ${range} · all programs</div><h1>Stats</h1>
-    ${s.workouts ? statTiles(s) : '<p class="lede">No workouts marked done this week yet.</p>'}
+  const { span, pid } = statsView;
+  const all = doneEntries(), entries = pid === 'all' ? all : all.filter((e) => e.pid === pid);
+  const { from, to } = KBStats.spanRange(span, new Date(), entries);
+  const opts = { programs: PBYID, EX, from, to };
+  const s = KBStats.summarize(entries, opts);
+  const used = PROGRAMS.filter((p) => all.some((e) => e.pid === p.id) || p.id === pid);
+  const scopeName = pid === 'all' ? 'all programs' : PBYID[pid].name;
+  const when = span === 'all' ? (pid === 'all' ? 'all time' : 'since you started') : `${shortDate(from)} – ${shortDate(new Date(to - 864e5))}`;
+  const none = { week: 'this week', '4weeks': 'in the last 4 weeks', all: '' }[span];
+  return `<div class="eyebrow">${esc(pid === 'all' ? `${when} · ${scopeName}` : `${scopeName} · ${when}`)}</div><h1>Stats</h1>
+    <div class="statbar">
+      <div class="filters" role="group" aria-label="Time span">${SPANS.map(([k, l]) => `<button class="fchip" data-stat-span="${k}" aria-pressed="${span === k}">${l}</button>`).join('')}</div>
+      <label class="scope">Program <select id="stats-scope"><option value="all">All programs</option>${used.map((p) => `<option value="${p.id}"${p.id === pid ? ' selected' : ''}>${esc(p.name)}</option>`).join('')}</select></label>
+    </div>
+    ${entries.length ? statTiles(s) + (span === 'week' ? '' : weekRows(KBStats.weekly(entries, opts))) : `<p class="lede">No workouts marked done ${none || 'yet'}${none ? ' yet' : ''}.</p>`}
     <p class="note">Counts the planned work of each day you marked done: its sets, reps and minutes. Weeks start on Sunday.</p>`;
 }
 

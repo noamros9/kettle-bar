@@ -54,6 +54,7 @@ document.addEventListener('click', (ev) => {
   if (d.go === 'settings') return go('settings');
   if (d.go === 'stats') return go('stats');
   if (d.backup) return backupAction(d.backup);
+  if (d.statSpan) { statsView.span = d.statSpan; render(); return; }
   if (d.go === 'program') return go('p-' + prog().id);
   if (d.openProg) return go('p-' + d.openProg);
   if (d.filter) { const [k, v] = d.filter.split(':'); filters[k] = v; render(); return; }
@@ -102,7 +103,10 @@ function backupAction(what) {
   store.replaceAll(KBBackup.applyImport(allDone(), st.programs, what));
   showImport({ done: what === 'merge' ? `Merged: ${added} day${added === 1 ? '' : 's'} added.` : `Replaced: ${added} day${added === 1 ? '' : 's'} added, ${removed} removed.` });
 }
-document.addEventListener('change', (e) => { if (e.target.id === 'import-file' && e.target.files[0]) readImport(e.target.files[0]); });
+document.addEventListener('change', (e) => {
+  if (e.target.id === 'import-file' && e.target.files[0]) readImport(e.target.files[0]);
+  if (e.target.id === 'stats-scope') { statsView.pid = e.target.value; render(); }
+});
 
 /* ---------------- boot ---------------- */
 route = parseHash();

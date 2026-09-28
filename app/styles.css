@@ -300,3 +300,15 @@ button.fnext{position:relative;padding-right:36px}
 .tile-stat{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px;display:grid;gap:4px}
 .tile-stat .lbl{font-size:12px;font-weight:600;color:var(--muted)}
 .tile-stat b{font-family:var(--display);font-size:32px;line-height:1}
+.statbar{display:grid;gap:10px;margin-top:12px}
+.statbar .filters{margin:0}
+.scope{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:var(--muted)}
+.scope select{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 10px;min-width:0;flex:1;max-width:280px}
+.table-scroll{overflow-x:auto;margin-top:16px}
+.table-scroll > table{min-width:340px}
+table.weeks{width:100%;border-collapse:collapse;font-size:14px;font-variant-numeric:tabular-nums}
+table.weeks caption{text-align:left;font-weight:700;font-size:14px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-bottom:6px}
+table.weeks th,table.weeks td{padding:8px 6px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+table.weeks thead th{font-size:12px;color:var(--muted);font-weight:600}
+table.weeks th[scope="row"],table.weeks thead th:first-child{text-align:left;font-weight:600}
+table.weeks tr.empty{color:var(--muted)}table.weeks tr.empty th{font-weight:400}
