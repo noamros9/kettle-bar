@@ -27,7 +27,7 @@ Glossary: [CONTEXT.md](../../CONTEXT.md).
 | Overlapping swaps | The latest swap wins for a given day and exercise. |
 | Warm-up / cool-down | Not swappable. |
 | Where swaps live | In the same Firestore document as the program's done days (`swaps` field). The rules already allow it; nothing to set up. |
-| Voice | `speechSynthesis`, English. Speaks "Switch sides" when the switch phase starts, "Halfway" in the middle of each hold (and each side), and "Done" when a hold ends. Warm-up and cool-down included. No countdowns or encouragement (decided against). |
+| Voice | `speechSynthesis`, English. Speaks "Switch sides" when the switch phase starts, "Halfway" in the middle of each workout hold (and each side), and "Done" when a hold ends. Warm-up and cool-down included, but "Halfway" only in stretches of 20 s or more and "Done" once at the end, since stretches are short and back to back (settled in ticket 2). No countdowns or encouragement (decided against). |
 | Animation | Ease in and out between positions, going back and forth; one shared frame size so the figure never jumps; ~55 ms per frame; exercise pages only; still under reduce motion. |
 
 ## Modules
@@ -51,7 +51,7 @@ Cheapest first; one ticket = one branch = one PR.
 |---|---|---|---|---|---|
 | 0 | This plan | plan | – | `plan/phase-3` | done (PR #27) |
 | 1 | Animated drawings on exercise pages | feature | 0 | `feature/animated-drawings` | done (PR #28) |
-| 2 | Voice cues + Settings switch | feature | 0 | `feature/voice-cues` | todo |
+| 2 | Voice cues + Settings switch | feature | 0 | `feature/voice-cues` | done (PR #29) |
 | 3 | Swap for today (alternatives, sync, stats) | feature | 0 | `feature/swap-today` | todo |
 | 4 | Swap for the rest of the program + undo | feature | 3 | `feature/swap-onward` | todo |
 | 5 | Swaps in backups | feature | 3 | `feature/swap-backups` | todo |

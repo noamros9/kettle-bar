@@ -106,6 +106,7 @@ function backupAction(what) {
 document.addEventListener('change', (e) => {
   if (e.target.id === 'import-file' && e.target.files[0]) readImport(e.target.files[0]);
   if (e.target.id === 'stats-scope') { statsView.pid = e.target.value; render(); }
+  if (e.target.id === 'voice-toggle') { try { localStorage.setItem('kb-voice', e.target.checked ? 'on' : 'off'); } catch (err) { /* blocked: stays on */ } }
 });
 
 /* ---------------- boot ---------------- */

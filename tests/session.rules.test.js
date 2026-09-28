@@ -125,7 +125,7 @@ test('cool-down plan: get ready, then next; sides split; only the very end beeps
     ['Get ready · Plank', 'short'], ['Plank', 'short'], ['Next · Side plank', 'short'],
     ['Side plank · first side', 'short'], ['Switch sides', 'short'], ['Side plank · second side', 'long']]);
   const warm = session([circuit]).plan({ type: 'stretch', key: 'warm' });
-  assert.deepEqual(warm.phases.at(-1), { sec: 5, label: 'Push-up', sub: 'Warm-up · 2 of 2', end: 'long', work: 1 });
+  assert.deepEqual(warm.phases.at(-1), { sec: 5, label: 'Push-up', sub: 'Warm-up · 2 of 2', end: 'long', work: 1, sayEnd: 'Done' });
 });
 
 test('EMOM labels show seconds and sides; only the last minute beeps long', () => {
@@ -149,4 +149,31 @@ test('AMRAP and ladder run one long phase; formats without a plan return none', 
   assert.equal(s.plan({ type: 'block', bi: 1 }).phases[1].label, 'Ladder · Push-up + Row');
   assert.equal(s.plan({ type: 'block', bi: 2 }), null);
   assert.equal(s.plan({ type: 'set', bi: 2, i: 0, k: 1 }), null);
+});
+
+// ---------- voice cues in phase plans (say at the start, halfway mid-phase, sayEnd at the end) ----------
+const cues = (phases) => phases.map((p) => [p.label, p.say || '', p.halfway ? 'half' : '', p.sayEnd || '']);
+
+test('a hold: halfway in the middle, "Done" at the end', () => {
+  assert.deepEqual(cues(session([abs]).plan({ type: 'hold', bi: 0, i: 0 }).phases), [
+    ['Get ready · Plank', '', '', ''], ['Plank', '', 'half', 'Done']]);
+});
+
+test('a one-side hold: halfway on each side, "Switch sides" between, "Done" at the end', () => {
+  assert.deepEqual(cues(session([abs]).plan({ type: 'hold', bi: 0, i: 1 }).phases), [
+    ['Get ready · Side plank', '', '', ''], ['Side plank · first side', '', 'half', ''], ['Switch sides', 'Switch sides', '', ''],
+    ['Side plank · second side', '', 'half', 'Done']]);
+});
+
+test('stretches: "Switch sides", halfway only in stretches of 20 s or more, "Done" once at the very end', () => {
+  const long = { title: 'Cool-down', items: [it('plank', 30), it('sidePlank', 15)] };
+  const s = createSession({}, { day: 1, blocks: [circuit], cooldown: long }, { EX });
+  assert.deepEqual(cues(s.plan({ type: 'stretch', key: 'cool' }).phases), [
+    ['Get ready · Plank', '', '', ''], ['Plank', '', 'half', ''], ['Next · Side plank', '', '', ''],
+    ['Side plank · first side', '', '', ''], ['Switch sides', 'Switch sides', '', ''], ['Side plank · second side', '', '', 'Done']]);
+});
+
+test('timed blocks have no voice cues (holds and sides only)', () => {
+  const emom = { title: 'E', format: 'emom', minutes: 2, items: [it('sidePlank', 20)] };
+  session([emom]).plan({ type: 'block', bi: 0 }).phases.forEach((p) => assert.ok(!p.say && !p.halfway && !p.sayEnd));
 });
