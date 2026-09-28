@@ -93,3 +93,14 @@ test('weekly rows: one per week in the range, newest first, empty weeks included
   const rows = weekly([e(29), e(28), e(10)], { programs, EX, from: new Date(2026, 8, 6), to: new Date(2026, 9, 4) });
   assert.deepEqual(rows.map((r) => [r.start.getDate(), r.workouts, r.sets]), [[27, 2, 6], [20, 0, 0], [13, 0, 0], [6, 1, 3]]);
 });
+
+test('muscles ranked by load, with names and each one\'s share of the biggest', () => {
+  const { rankMuscles } = require('../app/stats.js');
+  const names = { chest: 'Chest', abs: 'Abs', biceps: 'Biceps', calves: 'Calves' };
+  assert.deepEqual(rankMuscles({ abs: 10, chest: 40, biceps: 5, calves: 0 }, names), [
+    { muscle: 'chest', name: 'Chest', load: 40, share: 1 },
+    { muscle: 'abs', name: 'Abs', load: 10, share: 0.25 },
+    { muscle: 'biceps', name: 'Biceps', load: 5, share: 0.125 },
+  ]);
+  assert.deepEqual(rankMuscles({}, names), []);
+});

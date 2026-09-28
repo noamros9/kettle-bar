@@ -7,6 +7,7 @@
        entries: [{ pid, day, time }] (time = when the day was first marked done)
      spanRange('week' | '4weeks' | 'all', now, entries) -> { from, to }   whole weeks, this one included
      weekly(entries, { programs, EX, from, to }) -> [{ start, ...totals }] one per week, newest first
+     rankMuscles(muscles, names) -> [{ muscle, name, load, share }] worked muscles, biggest load first
    Muscle load: each set counts 1 for every main muscle and 0.5 for every secondary muscle. */
 (function (root) {
   // every set a day asks for, as [{ ex, sets, repsPerSet }]; timed blocks are converted to sets
@@ -94,7 +95,13 @@
     return rows;
   }
 
-  const api = { dayVolume, weekStart, summarize, spanRange, weekly };
+  function rankMuscles(muscles, names) {
+    const worked = Object.entries(muscles).filter(([, x]) => x > 0).sort((a, b) => b[1] - a[1]);
+    const max = worked.length ? worked[0][1] : 1;
+    return worked.map(([muscle, load]) => ({ muscle, name: names[muscle], load, share: load / max }));
+  }
+
+  const api = { dayVolume, weekStart, summarize, spanRange, weekly, rankMuscles };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBStats = api;
 })(typeof window !== 'undefined' ? window : globalThis);

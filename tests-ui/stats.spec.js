@@ -58,11 +58,37 @@ test('time spans: this week, last 4 weeks, all time, with a row per week', async
 test('the program switch narrows every number to one program; all time reads "since you started"', async ({ app }) => {
   test.skip(test.info().project.name !== 'phone-light', 'theme-independent');
   await withHistory(app);
-  await app.page.getByLabel('Program').selectOption('iron-ppl');
+  await app.page.getByLabel('Program', { exact: true }).selectOption('iron-ppl');
   await expect(workouts(app)).toHaveText('0');
   await app.page.getByRole('button', { name: 'All time' }).click();
   await expect(workouts(app)).toHaveText('1');
   await expect(app.page.locator('.eyebrow')).toContainText('Iron PPL · since you started');
-  await app.page.getByLabel('Program').selectOption('all');
+  await app.page.getByLabel('Program', { exact: true }).selectOption('all');
   await expect(workouts(app)).toHaveText('4');
+});
+
+test('muscle balance: a heat map and ranked bars that follow the span and program', async ({ app }, testInfo) => {
+  await withHistory(app);
+  const section = app.page.getByRole('region', { name: 'Muscle balance' });
+  await expect(section.getByRole('img', { name: /^Muscle balance/ })).toBeVisible();
+  const bars = section.getByRole('listitem');
+  const expected = await app.data(() => {
+    const from = KBStats.weekStart(new Date()), to = new Date(from); to.setDate(to.getDate() + 7);
+    const s = KBStats.summarize(doneEntries(), { programs: PBYID, EX: KBEx.EX, from, to });
+    return KBStats.rankMuscles(s.muscles, KBEx.MUSCLE_NAMES).map((m) => m.name);
+  });
+  await expect(bars).toHaveCount(expected.length);
+  await expect(bars.first()).toContainText(expected[0]);
+  const before = await bars.count();
+  await app.page.getByLabel('Program', { exact: true }).selectOption('iron-ppl');
+  await app.page.getByRole('button', { name: 'All time' }).click();
+  const ironTop = await app.data(() => {
+    const m = KBStats.dayVolume(PBYID['iron-ppl'].days[0], KBEx.EX).muscles; // Iron PPL's only done day
+    return KBStats.rankMuscles(m, KBEx.MUSCLE_NAMES)[0].name;
+  });
+  await expect(bars.first()).toContainText(ironTop);
+  await section.scrollIntoViewIfNeeded();
+  expect(await app.sidewaysScroll()).toBe(0);
+  await app.page.screenshot({ path: `test-results/shots/${testInfo.project.name}/stats-muscles.png` });
+  expect(before).toBeGreaterThan(3);
 });
