@@ -10,6 +10,8 @@ future work doesn't re-ask them. Order within a phase is the build order.
 
 ## Backlog
 - **Test a restore from the nightly backup** on the phone ([#16](https://github.com/noamros9/kettle-bar/issues/16)).
+- **Do a program again, keeping its history** ([#17](https://github.com/noamros9/kettle-bar/issues/17)): back to day 1 of 60 as a
+  second (third…) time through; earlier times stay in the stats. Details to decide together; plan with or after Phase 2.
 
 ## Phase 1: a safety net (done, Sep 2026)
 Planned in the PRD [#7](https://github.com/noamros9/kettle-bar/issues/7); glossary in [CONTEXT.md](CONTEXT.md), decisions in
