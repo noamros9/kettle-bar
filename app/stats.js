@@ -9,6 +9,8 @@
      spanRange('week' | '4weeks' | 'all', now, entries) -> { from, to }   whole weeks, this one included
      weekly(entries, { dayOf, EX, from, to }) -> [{ start, ...totals }] one per week, newest first
      rankMuscles(muscles, names) -> [{ muscle, name, load, share }] worked muscles, biggest load first
+     report({ entries, dayOf, EX, names }, { scope: 'all' | pid, span, now })
+       -> { from, to, totals, weeks (null for one week), muscles (ranked), hasHistory (any done day in scope) }
    Muscle load: each set counts 1 for every main muscle and 0.5 for every secondary muscle. */
 (function (root) {
   // every set a day asks for, as [{ ex, sets, repsPerSet }]; timed blocks are converted to sets
@@ -102,7 +104,15 @@
     return worked.map(([muscle, load]) => ({ muscle, name: names[muscle], load, share: load / max }));
   }
 
-  const api = { dayVolume, weekStart, summarize, spanRange, weekly, rankMuscles };
+  function report({ entries, dayOf, EX, names }, { scope, span, now }) {
+    const mine = scope === 'all' ? entries : entries.filter((x) => x.pid === scope);
+    const { from, to } = spanRange(span, now, mine);
+    const opts = { dayOf, EX, from, to };
+    const totals = summarize(mine, opts);
+    return { from, to, totals, weeks: span === 'week' ? null : weekly(mine, opts), muscles: rankMuscles(totals.muscles, names), hasHistory: mine.length > 0 };
+  }
+
+  const api = { dayVolume, weekStart, summarize, spanRange, weekly, rankMuscles, report };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBStats = api;
 })(typeof window !== 'undefined' ? window : globalThis);
