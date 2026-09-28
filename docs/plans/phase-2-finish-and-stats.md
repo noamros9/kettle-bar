@@ -57,7 +57,7 @@ One ticket = one branch = one PR, taken in order. Each starts with its **Test fi
 | 1 | Day volume + finish card (numbers, Mark as done) | feature | 0 | `feature/finish-card` | done (PR #20) |
 | 2 | Shaded muscle map + today's heat map on the finish card | feature | 1 | `feature/muscle-heat-map` | done (PR #21) |
 | 3 | Finish card: this week so far + next workout | feature | 1 | `feature/finish-week-next` | done (PR #22) |
-| 4 | Stats tab: this week, all programs | feature | 1 | `feature/stats-page` | todo |
+| 4 | Stats tab: this week, all programs | feature | 1 | `feature/stats-page` | done (PR #23) |
 | 5 | Stats: time spans + scope switch + per-week rows | feature | 4 | `feature/stats-spans` | todo |
 | 6 | Stats: muscle balance (heat map + ranked bars) | feature | 2, 5 | `feature/stats-muscles` | todo |
 
