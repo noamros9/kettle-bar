@@ -55,7 +55,7 @@ test('every day has a ~1 min warm-up and ~2 min cool-down', () => {
 
 // Edges of the builder, on configs derived from real ones.
 const base = () => JSON.parse(JSON.stringify(CONFIGS.find((c) => c.id === 'twenty-flat')));
-const { build } = require('../program-builder.js');
+const { buildConfig: build } = require('../program-builder.js'); // Node: frozen-aware
 
 test('a slot with nothing usable for the equipment is a config error', () => {
   const cfg = { ...base(), equip: 'bw' };
@@ -78,4 +78,22 @@ test('a frozen program takes its equipment from the config, default all', () => 
 
 test('an unknown format has no time', () => {
   assert.throws(() => timing.blockTime({ format: 'yoga', items: [] }), /format yoga/);
+});
+
+test('the builder runs without Node: build(config, catalogue) in a sandbox with no require or fs', () => {
+  const vm = require('vm');
+  const src = fs.readFileSync(path.join(__dirname, '../program-builder.js'), 'utf8');
+  const sandbox = { window: {} };
+  vm.runInNewContext(src, sandbox);
+  const cat = require('../exercises.js');
+  const cfg = CONFIGS.find((c) => c.id === 'iron-ppl');
+  const inPage = sandbox.window.KBBuilder.build(cfg, cat);
+  assert.equal(JSON.stringify(inPage), JSON.stringify(programs.find((p) => p.id === 'iron-ppl')));
+  assert.throws(() => sandbox.window.KBBuilder.build(CONFIGS.find((c) => c.frozen), cat), /frozen/);
+});
+
+test('build(config, catalogue) in Node gives the same program; a frozen config is refused', () => {
+  const B = require('../program-builder.js'), cat = require('../exercises.js');
+  assert.equal(JSON.stringify(B.build(CONFIGS.find((c) => c.id === 'engine'), cat)), JSON.stringify(programs.find((p) => p.id === 'engine')));
+  assert.throws(() => B.build(CONFIGS.find((c) => c.frozen), cat), /three-split-60 is frozen/);
 });

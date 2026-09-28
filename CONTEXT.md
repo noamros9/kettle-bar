@@ -111,8 +111,9 @@ Returns **instructions** (`rest`, `clear`, `none`) and **phase plans** (warm-up 
 used), one program's days, and which programs use an exercise. Where programs come from (inlined today;
 fetched with an offline cache, or your own, later) is its adapter's business.
 
-**Program Builder**: turns a program's config into 60 days fitted to each day type's time range.
-Three-Split 60 is **frozen** (read from JSON, not generated).
+**Program Builder**: turns a program's config into 60 days fitted to each day type's time range. Pure over the
+Exercise Catalogue it's given, so it runs in the Node build and (for your own programs) in the page.
+Three-Split 60 is **frozen** (read from JSON by the Node build, not generated).
 
 **Adapter**: an implementation behind one of the store's seams: storage (localStorage / in-memory) or
 remote (Firebase / in-memory).

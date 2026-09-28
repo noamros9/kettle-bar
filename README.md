@@ -51,7 +51,7 @@ days ticked on the device and in the cloud are merged.
 | `exercises.js` | **Exercise Catalogue**: every exercise and stretch with poses, reps per level (as used), muscles, cues, loads |
 | `figures.js` | **Figure engine**: draws the stick figures and the front/back muscle map from poses |
 | `programs.config.js` | Every program: split, day types, blocks, time range, progression, name theme (Three-Split 60 is `frozen`) |
-| `program-builder.js` | **Program Builder**: `build(config)` → 60-day program, fitted to its time range; owns the time model |
+| `program-builder.js` | **Program Builder**: `build(config, catalogue)` → 60-day program, fitted to its time range; owns the time model. Pure, so it also runs in the page |
 | `programs/three-split-60.json` | Three-Split 60's days, frozen so saved progress stays valid |
 | `app/session.js` | **Workout Session**: progress through a day and every rest/timer rule (pure, no page) |
 | `app/store.js` | **Progress Store**: done days per program, device copy + sync adapters (Firebase, in-memory) |
