@@ -55,6 +55,7 @@ stretches, on by default with a Settings switch.
 
 ## Phase 4: foundations and convenience
 Grilled with Noam on 28 Sep 2026 (second round). Build order as listed.
+Plan and tickets: [docs/plans/phase-4-foundations.md](docs/plans/phase-4-foundations.md).
 
 9. **Summaries** ([#18](https://github.com/noamros9/kettle-bar/issues/18)):
    - **Program:** a paragraph per program, **written by hand**: what it trains, how it's built, how it gets
