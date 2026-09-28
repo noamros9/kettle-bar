@@ -1,5 +1,5 @@
 // Network first, cache as fallback: always the newest version when online, still opens offline.
-const CACHE = 'kettle-bar-v1';
+const CACHE = 'kettle-bar-v2';
 self.addEventListener('install', () => self.skipWaiting());
 self.addEventListener('activate', (e) => e.waitUntil(self.clients.claim()));
 self.addEventListener('fetch', (e) => {

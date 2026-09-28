@@ -43,7 +43,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 .top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
 .top .wrap{display:flex;align-items:center;gap:16px;min-height:54px}
 .brand{white-space:nowrap;font:800 22px/1 var(--display);letter-spacing:.04em;text-transform:uppercase;display:flex;align-items:center;gap:8px;background:none;border:0;padding:0}
-.brand svg{width:22px;height:22px}
+.brand svg{width:26px;height:26px}
 .nav{display:flex;gap:4px;margin-left:auto}
 .nav button{background:none;border:0;padding:8px 10px;border-radius:6px;font-weight:600;font-size:14px;color:var(--muted)}
 .nav button[aria-current="page"]{color:var(--ink);background:var(--soft)}
@@ -203,7 +203,7 @@ body.has-timer main{padding-bottom:170px}
 <header class="top">
   <div class="wrap">
     <button class="brand" id="brand" aria-label="Kettle and Bar home">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="15" r="7" fill="var(--kit)"/><path d="M7.5 9.5a4.5 4.5 0 0 1 9 0" fill="none" stroke="var(--ink)" stroke-width="2.4"/></svg>
+      <svg viewBox="0 0 512 512" aria-hidden="true"><rect width="512" height="512" rx="112" fill="var(--accent)"/><rect x="86" y="160" width="340" height="22" rx="11" fill="var(--accent-soft)"/><g fill="none" stroke="var(--bg)" stroke-linecap="round" stroke-linejoin="round"><polyline points="184,171 146,246 214,226" stroke-width="30"/><polyline points="328,171 366,246 298,226" stroke-width="30"/><line x1="256" y1="222" x2="256" y2="318" stroke-width="66"/><polyline points="238,322 222,372 238,420" stroke-width="32"/><polyline points="274,322 290,372 274,420" stroke-width="32"/></g><circle cx="256" cy="136" r="40" fill="var(--bg)"/></svg>
       <span class="bname">Kettle &amp; Bar</span>
     </button>
     <nav class="nav" aria-label="Main">
