@@ -22,7 +22,7 @@ Decided on 29 Sep:
 | 5 | Travel mode | feature | review III 5 | `feature/travel-mode` | |
 | 6 | Warm-up that matches the format | feature | review III 3 | `feature/warmup-by-format` | |
 | 7 | Big timer | feature | – | `feature/big-timer` | done (PR #90) |
-| 8 | What next, when a program ends | feature | – | `feature/what-next` | |
+| 8 | What next, when a program ends | feature | – | `feature/what-next` | done (PR #92) |
 
 ### 1. Resume a workout
 - The open day's Workout Session is saved on the device on every tick (`kb-session-<pid>-<round>-<day>`: ticks, counters,
