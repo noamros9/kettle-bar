@@ -981,6 +981,151 @@ const CONFIGS = [
       emom: { label: 'EMOM', short: 'EMOM', blocks: [E('Bell EMOM', ['kbBallistic', 'kbUpper2', 'kbLower2', 'kbCore2'], { values: [12, 14, 16] }), S('Strength', ['kbUpper2', 'kbLower2?'])] },
     },
   },
+  // ---------------- MORE EVERYDAY (Phase 5: Core & abs, Conditioning, Bodyweight, Busy week) ----------------
+  // catalogue: 5 on the core programs: their abs finishers draw on the new core moves too
+  {
+    id: 'core-circuits', added: 5, catalogue: 5, name: 'Core Circuits', subject: 'Core & abs', minutes: [23, 27], equip: 'bw', levers: [null, 'reps', 'variation'],
+    split: 'Circuit A / circuit B', blurb: 'Core circuits with no rest between moves: planks, twists, climbers and hollow work.',
+    about: 'Core circuits with no rest between moves: plank variations, rotations, climbers and hollow work, round after round. Two circuits alternate, each followed by the usual abs finisher. No equipment needed. Level II adds reps and Level III brings harder variations. Quick, sweaty core training.',
+    names: ['Six Pack', 'Washboard', 'Midsection', 'Belt Line', 'Waistband', 'Center Mass', 'Hub', 'Pivot Core', 'Axle Core', 'Nucleus', 'Epicenter', 'Bullseye', 'Heart of It', 'Kernel', 'Pith', 'Marrow', 'Crux', 'Focal Point', 'Middle Ground', 'Core Temperature'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Circuit A', short: 'A', blocks: [C('Core circuit', ['coreAnti', 'coreRot', 'coreHollow', 'core2', 'coreRot?'], { values: [2, 3, 4] })] },
+      b: { label: 'Circuit B', short: 'B', blocks: [C('Core circuit', ['coreHollow', 'coreAnti', 'coreRot', 'core2', 'coreAnti?'], { values: [2, 3, 4] })] },
+    },
+  },
+  {
+    id: 'hollow-body', added: 5, catalogue: 5, name: 'Hollow Body', subject: 'Core & abs', minutes: [25, 30], equip: 'bw', levers: [null, 'reps', 'variation'],
+    split: 'Hollow / anti-extension', blurb: 'Gymnastics-style core: hollow holds and rocks, V-ups, dragon flag negatives and body saws.',
+    about: 'Gymnastics-style core strength: hollow holds and rocks, V-ups, dragon flag negatives and body saws. Slow straight sets build the shape that gymnasts and climbers rely on, with an abs finisher to close. Two days alternate hollow work with anti-extension planks. Level II adds reps and Level III brings harder variations. For a core that stays rigid when it counts.',
+    names: ['Banana', 'Arch', 'Hollow Man', 'Tuck', 'Pike Position', 'Straddle Core', 'Tension', 'Rigid', 'Plank of Steel', 'Iron Board', 'Rafter', 'Joist', 'Truss', 'Cantilever', 'Suspension Core', 'Tightrope Core', 'Handstand Base', 'Rings Core', 'Parallel Bars', 'Floor Routine'],
+    cycle: ['hollow', 'anti'],
+    dayTypes: {
+      hollow: { label: 'Hollow', short: 'Hollow', blocks: [S('Hollow body', ['hollow_hold', 'coreHollow', 'dragon_flag_negative', 'coreHollow', 'coreAnti?'])] },
+      anti: { label: 'Anti-extension', short: 'Anti', blocks: [S('Anti-extension', ['body_saw', 'coreAnti', 'plank_walkout', 'coreAnti', 'coreHollow?'])] },
+    },
+  },
+  {
+    id: 'twist-and-brace', added: 5, catalogue: 5, name: 'Twist & Brace', subject: 'Core & abs', minutes: [25, 30], levers: [null, 'reps', 'weight'],
+    split: 'Rotate / resist', blurb: 'Obliques and anti-rotation: windshield wipers, side plank dips, halos and carries.',
+    about: 'The sides of the core: obliques that rotate, and deep muscles that resist rotation. One day twists with windshield wipers, heel taps and side plank dips, the other resists with carries, halos and plank reaches. Straight sets with an abs finisher. Level II adds reps and Level III moves you one weight up where there is a weight. Good for any sport that swings or throws.',
+    names: ['Corkscrew', 'Spiral Staircase', 'Helix', 'Twister', 'Wringer', 'Torque Core', 'Crank Core', 'Turnstile', 'Revolving Door', 'Spin Cycle', 'Rotor Core', 'Pinwheel', 'Swivel Chair', 'Lazy Susan', 'Merry-Go-Round', 'Whirligig', 'Spinning Wheel', 'Yo-Yo Core', 'Drill Bit', 'Screwdriver'],
+    cycle: ['rotate', 'resist'],
+    dayTypes: {
+      rotate: { label: 'Rotate', short: 'Rotate', blocks: [S('Rotate', ['windshield_wipers', 'coreRot', 'side_plank_dip', 'coreRot', 'russian_twist?'])] },
+      resist: { label: 'Resist', short: 'Resist', blocks: [S('Resist', ['suitcase_march', 'kb_halo', 'plank_reach', 'coreAnti', 'carry?'])] },
+    },
+  },
+  {
+    id: 'abs-15', added: 5, catalogue: 5, name: 'Abs 15', subject: 'Core & abs', minutes: [13, 17], equip: 'bw', levers: [null, 'reps', 'reps'],
+    split: 'Abs A / abs B', blurb: 'Fifteen minutes of abs, most days: a short circuit and the finisher, no equipment.',
+    about: 'Fifteen minutes of abs you can fit into most days. A short core circuit is followed by the abs finisher, with no equipment and no setup. Two versions alternate so it never feels like the same session. Levels II and III add reps. Good on top of a walk, a run or another program.',
+    names: ['Quarter Hour', 'Coffee Abs', 'Quick Core', 'Brief', 'Snapshot', 'Short Order', 'Espresso', 'Flash', 'Micro', 'Pocket', 'Mini', 'Bite Size', 'Express Abs', 'Quickie', 'Five Three', 'Rapid Core', 'Short Stack', 'Pit Stop', 'Commercial Break', 'Halftime'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Abs A', short: 'A', blocks: [C('Core circuit', ['coreHollow', 'coreRot', 'coreAnti'], { values: [1, 2, 3] })] },
+      b: { label: 'Abs B', short: 'B', blocks: [C('Core circuit', ['coreAnti', 'coreHollow', 'coreRot'], { values: [1, 2, 3] })] },
+    },
+  },
+  {
+    id: 'sweat-circuit', added: 5, name: 'Sweat Circuit', subject: 'Conditioning', minutes: [23, 27], levers: [null, 'reps', 'variation'],
+    split: 'Circuit A / circuit B', blurb: 'Big full-body circuits with dumbbells, kettlebell and bodyweight, then abs.',
+    about: 'Big full-body circuits that mix dumbbells, the kettlebell and bodyweight, round after round. Each has a total-body lift, a jump, a push, a pull and a squat. Two circuits alternate, each around 25 minutes with abs to finish. Level II adds reps and Level III brings harder variations. For fitness that still builds some strength.',
+    names: ['Drench', 'Soak', 'Downpour Circuit', 'Deluge', 'Torrent', 'Flood', 'Tsunami Circuit', 'Monsoon Circuit', 'Rainmaker', 'Storm Drain', 'Puddle', 'Splash', 'Drizzle', 'Shower', 'Steam Room', 'Humid', 'Muggy', 'Tropics', 'Jungle', 'Rainforest'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Circuit A', short: 'A', blocks: [C('Circuit', ['total', 'hiit', 'push', 'row2', 'squat2'], { values: [2, 3, 4] })] },
+      b: { label: 'Circuit B', short: 'B', blocks: [C('Circuit', ['kbBallistic', 'hiit', 'lunge2', 'pushLoad2', 'cardio'], { values: [2, 3, 4] })] },
+    },
+  },
+  {
+    id: 'chipper', added: 5, name: 'Chipper', subject: 'Conditioning', minutes: [23, 27], levers: [null, 'reps', 'variation'],
+    split: 'Long AMRAP / ladder', blurb: 'Long AMRAPs and ladders you chip away at: one long block, then abs.',
+    about: 'Long blocks you chip away at: one day a long AMRAP of five moves, the other a rep ladder against the clock. Pace yourself and keep moving; the counter tracks rounds and rungs. Abs finish each session. Level II adds reps and Level III brings harder variations. Good for learning to hold a steady effort.',
+    names: ['Chisel Away', 'Grindstone Circuit', 'Whittle', 'Sandpaper', 'File Down', 'Erode', 'Drip', 'Slow Burn', 'Steady State', 'Long Haul Circuit', 'Marathon Block', 'Endurance Block', 'Distance Block', 'Tortoise', 'Plodder', 'Diesel', 'Freight Train', 'Tractor', 'Mule', 'Workhorse'],
+    cycle: ['amrap', 'ladder'],
+    dayTypes: {
+      amrap: { label: 'Long AMRAP', short: 'AMRAP', blocks: [A('Long AMRAP', ['total', 'push', 'hiit', 'row2', 'squat2'], { values: [12, 15, 18] })] },
+      ladder: { label: 'Ladder', short: 'Ladder', blocks: [L('Ladder', ['kbBallistic', 'push', 'squat2'], { values: [8, 10, 12] }), A('Short AMRAP', ['hiit', 'core2'], { values: [5, 6, 7, 8] })] },
+    },
+  },
+  {
+    id: 'dumbbell-complex', added: 5, name: 'Dumbbell Complex', subject: 'Conditioning', minutes: [23, 27], levers: [null, 'reps', 'weight'],
+    split: 'Complex EMOM / complex circuit', blurb: 'Dumbbell complexes: several moves in a row without putting the weights down, as EMOMs and circuits.',
+    about: 'Dumbbell complexes: several moves in a row without putting the weights down. One day runs them as an EMOM, the other as a circuit, with thrusters, rows, presses, lunges and deadlifts. Abs finish each session. Level II adds reps and Level III moves you one weight up. Use lighter dumbbells than you would for straight sets.',
+    names: ['Chain Gang', 'Linkage', 'Daisy Chain', 'Conveyor', 'Assembly Line', 'Production Line', 'Relay Iron', 'Sequence Iron', 'Combo Platter', 'Set Menu', 'Tasting Menu', 'Seven Courses', 'Buffet', 'Full English', 'Brunch', 'Picnic', 'Potluck', 'Smorgasbord', 'Mezze', 'Tapas'],
+    cycle: ['emom', 'circuit'],
+    dayTypes: {
+      emom: { label: 'Complex EMOM', short: 'EMOM', blocks: [E('Complex EMOM', ['db_thruster', 'row2', 'shoulders2', 'lunge2', 'hinge2'], { values: [12, 15, 18, 20] })] },
+      circuit: { label: 'Complex circuit', short: 'Circuit', blocks: [C('Complex circuit', ['hinge2', 'row2', 'squat2', 'pushLoad2', 'lunge2'], { values: [2, 3, 4] })] },
+    },
+  },
+  {
+    id: 'kitchen-table', added: 5, name: 'Kitchen Table', subject: 'Bodyweight', minutes: [23, 27], equip: 'bw', levers: [null, 'reps', 'variation'],
+    split: 'Push & pull / legs & core', blurb: 'Bodyweight strength with a pull: table rows and push-ups, then legs and core.',
+    about: 'Bodyweight strength that finally includes pulling: rows under a sturdy table, paired with push-ups. The other day works legs and core. Supersets keep it moving, with abs to finish. Level II adds reps and Level III brings harder variations. Check the table can take your weight before the first row.',
+    names: ['Breakfast Nook', 'Dining Room', 'Place Setting', 'Tablecloth Pull', 'Chair Back', 'Sideboard', 'Pantry', 'Countertop', 'Butcher Block', 'Cutting Board', 'Teapot', 'Saucepan', 'Skillet', 'Colander', 'Whisk', 'Ladle', 'Spatula', 'Rolling Pin', 'Oven Mitt', 'Dish Rack'],
+    cycle: ['pushpull', 'legs'],
+    dayTypes: {
+      pushpull: { label: 'Push & pull', short: 'Push · Pull', blocks: [SS('Push & pull', ['pushBw2', 'table_row', 'pushBw2', 'pullBw', 'pike_pushup', 'table_row'])] },
+      legs: { label: 'Legs & core', short: 'Legs', blocks: [SS('Legs & core', ['legsBw2', 'core2', 'legsBw2', 'coreAnti', 'legsBw2', 'table_row'])] },
+    },
+  },
+  {
+    id: 'calisthenics-base', added: 5, name: 'Calisthenics Base', subject: 'Bodyweight', minutes: [23, 27], equip: 'bw', levers: [null, 'variation', 'tempo'],
+    split: 'Push / pull & legs', blurb: 'The calisthenics basics in straight sets: push-up and squat progressions, table rows and hollow work.',
+    about: 'The calisthenics basics in straight sets: push-up progressions, squat and lunge progressions, table rows and hollow-body work. Push and pull-and-legs days alternate, with abs to finish. Level II moves to harder progressions and Level III slows every lowering to three seconds. A foundation for the harder bodyweight skills.',
+    names: ['Groundwork Cali', 'First Steps', 'Base Camp', 'Scaffold', 'Framework', 'Blueprint', 'Building Blocks', 'Lego', 'Bricklayer', 'Mortar Cali', 'Keystone Cali', 'Cornerstone Cali', 'Capstone', 'Lintel Cali', 'Sill', 'Beam Cali', 'Truss Cali', 'Post', 'Pillar Cali', 'Arch Cali'],
+    cycle: ['push', 'pull'],
+    dayTypes: {
+      push: { label: 'Push', short: 'Push', blocks: [S('Push', ['pushBw2', 'pike_pushup', 'pushBw2', 'coreHollow', 'pushBw2?'])] },
+      pull: { label: 'Pull & legs', short: 'Pull', blocks: [S('Pull & legs', ['table_row', 'legsBw2', 'pullBw', 'legsBw2', 'coreHollow?'])] },
+    },
+  },
+  {
+    id: 'floor-only', added: 5, name: 'Floor Only', subject: 'Bodyweight', minutes: [23, 27], equip: 'bw', levers: [null, 'reps', 'reps'],
+    split: 'Floor A / floor B', blurb: 'Quiet bodyweight training on the floor: no jumping, nothing to wake the neighbours.',
+    about: 'Quiet bodyweight training that never leaves the floor: no jumps, nothing to wake the neighbours or the baby. Push-ups, bridges, lunges, planks and slow core work in circuits, then abs. Two days alternate. Levels II and III add reps. Good for late evenings and flats with thin floors.',
+    names: ['Hush Hush', 'Tiptoe', 'Whisper', 'Library', 'Night Owl', 'Midnight', 'Lights Out', 'Sleeping House', 'Soft Socks', 'Carpet', 'Rug', 'Floorboards', 'Downstairs', 'Upstairs Neighbour', 'Quiet Hours', 'Mute', 'Silent Mode', 'Stealth', 'Ninja', 'Mouse'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Floor A', short: 'A', blocks: [C('Floor circuit', ['pushBw2', 'glute_bridge_march', 'reverse_lunge', 'coreAnti', 'table_row?'], { values: [2, 3, 4] })] },
+      b: { label: 'Floor B', short: 'B', blocks: [C('Floor circuit', ['legsBw2', 'pushBw2', 'coreRot', 'single_leg_bridge', 'coreHollow?'], { values: [2, 3, 4] })] },
+    },
+  },
+  {
+    id: 'express-circuit', added: 5, name: 'Express Circuit', subject: 'Busy week', minutes: [18.5, 21.4], levers: [null, 'reps', 'variation'], absSlots: ['absW', 'abs?'],
+    split: 'Express A / express B', blurb: 'Twenty minutes, one full-body circuit, then two quick abs sets.',
+    about: 'Twenty minutes that cover everything: one full-body circuit with a squat, a push, a pull, a hinge and cardio. Two quick abs sets finish it. Two circuits alternate. Level II adds reps and Level III brings harder variations. For the weeks when getting it done is the win.',
+    names: ['Rush Hour', 'Express Lane', 'Fast Track', 'Shortcut', 'Commuter', 'Carpool', 'Drive-Through', 'Takeaway', 'Microwave', 'Instant', 'On the Go', 'Grab and Go', 'In and Out', 'Pit Crew', 'Quick Change', 'Speed Round', 'Lightning Round', 'Sprint Finish', 'Buzzer Beater', 'Photo Finish'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Express A', short: 'A', blocks: [C('Express circuit', ['squat2', 'push', 'row2', 'hinge2', 'hiit'], { values: [2, 3, 4] })] },
+      b: { label: 'Express B', short: 'B', blocks: [C('Express circuit', ['lunge2', 'pushLoad2', 'pullBar2', 'kbSwing', 'hiit'], { values: [2, 3, 4] })] },
+    },
+  },
+  {
+    id: 'two-block-20', added: 5, name: 'Two-Block 20', subject: 'Busy week', minutes: [19, 23], levers: [null, 'weight', 'reps'], absSlots: ['absW', 'abs?'],
+    split: 'Upper + AMRAP / lower + AMRAP', blurb: 'Strength supersets, then a short conditioning finisher, in about twenty minutes.',
+    about: 'Two blocks in twenty minutes: strength supersets first, then a short conditioning finisher. The supersets pair a push with a pull or a squat with a hinge, and the finisher is a quick AMRAP. Abs close it. Level II moves you one weight up and Level III adds reps. Strength and sweat when time is short.',
+    names: ['Double Shift', 'Two-Step Iron', 'Duo Block', 'Pair Up', 'Twofer', 'Double Duty', 'Two Birds', 'Split Shift', 'Doubleheader', 'Two Halves', 'First Half', 'Second Half', 'Extra Time', 'Injury Time', 'Overtime', 'Added Time', 'Final Whistle', 'Full Time', 'Stoppage', 'Last Minute'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Upper + AMRAP', short: 'A', blocks: [SS('Supersets', ['pushLoad2', 'row2', 'shoulders2', 'pullBar2']), A('Finisher', ['hiit', 'squat2'], { values: [3, 4, 5] })] },
+      b: { label: 'Lower + AMRAP', short: 'B', blocks: [SS('Supersets', ['squat2', 'hinge2', 'kbSwing', 'glute2']), A('Finisher', ['hiit', 'core2'], { values: [3, 4, 5] })] },
+    },
+  },
+  {
+    id: 'lunch-break', added: 5, name: 'Lunch Break', subject: 'Busy week', minutes: [18.5, 21.4], levers: [null, 'reps', 'reps'], absSlots: ['absW', 'abs?'],
+    split: 'EMOM A / EMOM B', blurb: 'A fifteen-minute EMOM and a couple of abs sets: done before lunch is over.',
+    about: 'Done before lunch is over: a fifteen-minute EMOM, then two quick abs sets. Each minute is one move, rotating through a lift, bodyweight strength and cardio, so the clock runs the whole thing. Two versions alternate. Levels II and III add reps. Change your shirt after.',
+    names: ['Sandwich', 'Soup of the Day', 'Salad Bar', 'Bento', 'Lunchbox', 'Brown Bag', 'Canteen', 'Food Truck', 'Deli', 'Diner', 'Café', 'Bistro', 'Picnic Bench', 'Park Bench', 'Noon', 'Twelve Sharp', 'High Noon', 'Midday Break', 'One O’Clock', 'Back to Work'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'EMOM A', short: 'A', blocks: [E('EMOM', ['total', 'push', 'squat2', 'hiit', 'row2'], { values: [12, 14, 15] })] },
+      b: { label: 'EMOM B', short: 'B', blocks: [E('EMOM', ['kbBallistic', 'lunge2', 'pushLoad2', 'hiit', 'core2'], { values: [12, 14, 15] })] },
+    },
+  },
 ];
 
 // ---------- program paragraphs (hand-written): what it trains, how it's built, how it gets harder, who it suits ----------
