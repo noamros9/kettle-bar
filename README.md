@@ -3,11 +3,13 @@
 A home workout app in the style of a printable program: a 60-day plan with
 illustrated exercises, checkmarks for finished days and a rest timer.
 
-**98 programs, 60 days each**, in 18 subjects and three families (pick one at the top of the Programs page):
+**104 programs, 60 days each**, in 19 subjects and four families (pick one at the top of the Programs page):
 - **Strength:** five signature splits (Three-Split 60 and friends), and six programs each for strength, pull-ups,
   legs & glutes, kettlebell only, bodyweight/travel and busy weeks.
 - **Cardio & combat:** conditioning (6), HIIT, plyometrics, boxing and kickboxing (5 each).
 - **Mind & body:** core & abs (6), mobility & posture, yoga, Pilates, flexibility, and balance & stability (5 each).
+- **Mixed:** days that hold blocks from more than one family. Strength & stretch (6) so far: a lift, then a yoga or
+  flexibility flow, each getting harder in its own way. More Mixed subjects follow.
 
 Formats include straight sets, supersets, circuits, EMOMs, AMRAPs, Tabatas and ladders, **guided flows** (yoga,
 Pilates, stretching: one Start runs every pose, and the voice names each one) and **bouts** (boxing and
@@ -66,8 +68,8 @@ days ticked on the device and in the cloud are merged.
 | `formats.js` | **Formats**: one table for the nine formats (straight sets … bouts): time, options, sets, summary words, name, and the flags the builder and session read (`timed`, `tempo`, …). Pure, inlined in the page before `exercises.js` |
 | `exercises.js` | **Exercise Catalogue**: every exercise and stretch with poses, reps per level (as used), muscles, cues, loads |
 | `figures.js` | **Figure engine**: draws the stick figures and the front/back muscle map from poses |
-| `programs.config.js` | The program list: joins the family files in `configs/` in the order of its `ORDER` id list (Phase 6 adds `configs/mixed.js`) |
-| `configs/*.js` | Every program, one file per family (`strength.js`, `cardio-combat.js`, `mind-body.js`): split, day types, blocks, time range, progression, name theme (Three-Split 60 is `frozen`). `shared.js` holds the block constructors |
+| `programs.config.js` | The program list: joins the family files in `configs/` in the order of its `ORDER` id list |
+| `configs/*.js` | Every program, one file per family (`strength.js`, `cardio-combat.js`, `mind-body.js`, `mixed.js`): split, day types, blocks, time range, progression, name theme (Three-Split 60 is `frozen`). `shared.js` holds the block constructors |
 | `program-builder.js` | **Program Builder**: `build(config, catalogue)` → 60-day program and `buildDay(recipe, …)` → one day (`recipesOf(config)` gives the recipes), fitted to its time range; owns the time model. Pure, so it also runs in the page |
 | `programs/three-split-60.json` | Three-Split 60's days, frozen so saved progress stays valid |
 | `app/session.js` | **Workout Session**: progress through a day and every rest/timer rule (pure, no page) |
@@ -134,5 +136,5 @@ limits each account to its own data.
   and preferences alone). Merge unions own programs and random workouts by id (the newer `updatedAt` wins) and
   keeps your preferences; Replace makes them match the file.
 
-Adding a program: add a config to its family's file in `configs/` and its id to `ORDER` in `programs.config.js`, run `node build.js` and `npm test`;
-each program keeps its own progress.
+Adding a program: add a config to its family's file in `configs/` and its id to `ORDER` in `programs.config.js`, add it to `IDS` in `tests/configs.test.js`, run `node build.js` and `npm test`, then `npm run pin` (pins the new
+program's days; existing pins never change); each program keeps its own progress.

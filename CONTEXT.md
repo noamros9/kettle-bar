@@ -9,17 +9,20 @@ Decisions with a "why" live in [docs/adr/](docs/adr/). What's planned lives in [
 its own progress. Identified by an id (`three-split-60`, `iron-ppl`).
 
 **Signature program**: one of the five hand-shaped straight-set splits (Three-, Four-, Two-, Five-Split 60,
-Full-Body Duo 60). The other 93 are **library programs**, five or six per **Subject**.
+Full-Body Duo 60). The other 99 are **library programs**, five or six per **Subject**.
 
 **Subject**: a library shelf: signature, strength, pull-ups, legs & glutes, kettlebell only, bodyweight, busy week
 (Strength family); conditioning, HIIT, plyometrics, boxing, kickboxing (Cardio & combat); core & abs, mobility &
-posture, yoga, Pilates, flexibility, balance & stability (Mind & body). Each belongs to one **Family**.
+posture, yoga, Pilates, flexibility, balance & stability (Mind & body); and, in the Mixed family, strength & stretch
+(six programs), with Fighter, Athlete, Balanced week and Calm strength to come. Each belongs to one **Family**.
 
-**Family**: a group of subjects on the programs page: *Strength*, *Cardio & combat*, *Mind & body*. Picking one shows
+**Family**: a group of subjects on the programs page: *Strength*, *Cardio & combat*, *Mind & body*, *Mixed*. Picking one shows
 only its subjects' chips and shelves. Listed in `FAMILIES` in `app/library.js`; a subject missing there is an error.
 
 **Mixed program**: a program whose days hold blocks from more than one family (a **mixed day**: a strength block,
-then a short flow). They sit in the **Mixed** family (Phase 6). Each block can get harder in its own way.
+then a short flow). They sit in the **Mixed** family (Phase 6). Each block can get harder in its own way, and each
+main block of a mixed day carries a `family` tag (`'Strength'`, `'Cardio & combat'` or `'Mind & body'`, from its config)
+for Phase 8's stats; single-family programs' blocks have none.
 
 **Your program** (own program): one you built in the page from choices (subjects, split, minutes, equipment,
 formats, levers) and a seed. Stored as its choices, not its days; id `own-<id>`; shown on the Your programs shelf.
@@ -51,7 +54,8 @@ picks a lever per level. A day type can set its own `levers` (and `absSlots`), a
 
 **Block**: one part of a day's workout in one **Format**, holding one or more exercises. Days end with an **abs
 block** (no bar, 3 sets, weights allowed), except in programs whose session is core work already (`absSlots: []`:
-yoga, Pilates, flexibility, mobility & posture).
+yoga, Pilates, flexibility, mobility & posture), and per day type in mixed programs: a day that ends in a flow has no
+abs, a day that ends with a strength block keeps them.
 
 **Format**: how a block is performed: *straight sets*, *superset*, *circuit*, *EMOM*, *AMRAP*, *Tabata*,
 *ladder*, *guided flow*, *bouts*. Every rule that depends on the format (its time, the choices the builder has,

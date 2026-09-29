@@ -1,7 +1,7 @@
 // The program library: one file per family in configs/ (see configs/shared.js for how a config is written).
-// Phase 6 adds configs/mixed.js to FAMILY_FILES.
+// configs/mixed.js (Phase 6): Mixed days, blocks from more than one family in a day.
 // The program list order is ORDER below, not the family files' order, because families interleave in the list.
-const FAMILY_FILES = [require('./configs/strength.js'), require('./configs/cardio-combat.js'), require('./configs/mind-body.js')];
+const FAMILY_FILES = [require('./configs/strength.js'), require('./configs/cardio-combat.js'), require('./configs/mind-body.js'), require('./configs/mixed.js')];
 const ORDER = [
   'three-split-60', 'four-split-60', 'two-split-60', 'five-split-60', 'full-body-duo-60', 'iron-ppl',
   'upper-lower-power', 'full-body-strength', 'pullup-ladder', 'bar-master', 'grip-and-hang', 'engine',
@@ -19,6 +19,8 @@ const ORDER = [
   'kettlebell-strength', 'kettlebell-flow', 'core-circuits', 'hollow-body', 'twist-and-brace', 'abs-15',
   'sweat-circuit', 'chipper', 'dumbbell-complex', 'kitchen-table', 'calisthenics-base', 'floor-only',
     'express-circuit', 'two-block-20', 'lunch-break',
+  // Phase 6: Mixed
+  'lift-and-lengthen', 'iron-yoga', 'strong-hips', 'upper-and-open', 'kettlebell-and-yoga', 'posture-strength',
 ];
 
 const byId = new Map(FAMILY_FILES.flat().map((c) => [c.id, c]));

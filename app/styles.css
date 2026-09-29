@@ -201,7 +201,7 @@ main{padding-block:24px 64px}
 .fchip.acc[aria-pressed="true"]{background:var(--accent-soft);color:var(--ink);border-color:var(--accent)}
 .fchip.acc[aria-pressed="true"] .fcount{color:var(--ink)}
 .ftabs{display:flex;margin-top:14px;border-bottom:1px solid var(--line)}
-.ftab{flex:1 1 auto;min-width:0;border:0;background:transparent;color:var(--muted);padding:12px 4px 10px;font-size:14px;font-weight:600;white-space:nowrap;border-bottom:2px solid transparent;margin-bottom:-1px}
+.ftab{flex:1 1 auto;min-width:0;border:0;background:transparent;color:var(--muted);padding:12px 2px 10px;font-size:13px;font-weight:600;white-space:nowrap;border-bottom:2px solid transparent;margin-bottom:-1px}
 .ftab[aria-pressed="true"]{color:var(--ink);font-weight:800;border-bottom-color:var(--ink)}
 .lenline{display:block;margin-top:12px;padding:4px 0;border:0;background:transparent;color:var(--muted);font-size:14px;font-weight:500}
 .lenline b{color:var(--ink);font-weight:600}

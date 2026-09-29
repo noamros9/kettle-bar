@@ -1,4 +1,4 @@
-// The programs page: family tabs (Strength · Cardio & combat · Mind & body) above the subject chips, with counts.
+// The programs page: family tabs (Strength · Cardio & combat · Mind & body · Mixed) above the subject chips, with counts.
 const { test, expect } = require('./fixtures.js');
 const { CONFIGS } = require('../program-builder.js');
 
@@ -9,7 +9,7 @@ const chipTexts = async (group) => (await group.locator('.ftab, .fchip').allText
 test('every program shows under All, and the families are in their order', async ({ app }) => {
   await app.open('#programs');
   await expect(app.page.locator('.pcard')).toHaveCount(CONFIGS.length);
-  expect(await chipTexts(family(app))).toEqual(['All', 'Strength', 'Cardio & combat', 'Mind & body']);
+  expect(await chipTexts(family(app))).toEqual(['All', 'Strength', 'Cardio & combat', 'Mind & body', 'Mixed']);
   await expect(family(app).getByRole('button', { name: 'All' })).toHaveAttribute('aria-pressed', 'true');
 });
 
@@ -51,5 +51,37 @@ test('the eyebrow counts what the taps select: Mind & body, then Yoga, then a le
   await app.page.getByRole('group', { name: 'Filter by length' }).getByRole('button', { name: 'Up to 25 min' }).click();
   await expect(eyebrow).toHaveText(new RegExp(`^Yoga · \\d+ of ${yoga} programs$`));
   await expect(app.page.getByRole('button', { name: /Length:/ })).toContainText('Up to 25 min');
+  expect(await app.sidewaysScroll()).toBe(0);
+});
+
+test('tap Mixed: one subject chip, Strength & stretch, and "Mixed · 6 programs"', async ({ app }) => {
+  await app.open('#programs');
+  await family(app).getByRole('button', { name: 'Mixed' }).click();
+  await expect(family(app).getByRole('button', { name: 'Mixed' })).toHaveAttribute('aria-pressed', 'true');
+  expect(await chipTexts(subjects(app))).toEqual(['All', 'Strength & stretch']);
+  await expect(app.page.locator('.pgroup h2')).toHaveText(['Strength & stretch']);
+  await expect(app.page.locator('.pcard')).toHaveCount(6);
+  await expect(app.page.locator('.eyebrow').first()).toHaveText('Mixed · 6 programs');
+  await expect(app.page.locator('.pgroup', { hasText: 'Strength & stretch' }).locator('[data-open-prog="iron-yoga"]')).toHaveCount(1);
+  expect(await app.sidewaysScroll()).toBe(0);
+});
+
+test('a Strength & stretch day opens: a lift to tick, then a flow to start', async ({ app }) => {
+  await app.page.clock.install();
+  await app.open('#programs');
+  await family(app).getByRole('button', { name: 'Mixed' }).click();
+  await app.page.locator('[data-open-prog="iron-yoga"]').click();
+  await app.go('#p-iron-yoga-d1');
+  const first = await app.data(() => { const d = programs.day('iron-yoga', 1); return { name: KBEx.EX[d.blocks[0].items[0].ex].name, formats: d.blocks.map((b) => b.format), abs: d.blocks.some((b) => b.kind === 'abs') }; });
+  expect(first.formats).toEqual(['straight', 'flow']);
+  expect(first.abs).toBe(false);
+  await expect(app.page.locator('.block .fmt')).toHaveText(['Guided flow']); // only timed blocks carry a format tag
+  const pip = app.page.getByRole('button', { name: `Set 1 of ${first.name} done` });
+  await pip.click();
+  await expect(pip).toHaveAttribute('aria-pressed', 'true');
+  await app.page.locator('[data-run="1"]').click();
+  await expect(app.page.locator('#tlabel')).not.toHaveText('');
+  await app.page.clock.runFor(5000);
+  await expect(app.page.locator('#tfig svg.fig')).toBeVisible();
   expect(await app.sidewaysScroll()).toBe(0);
 });

@@ -7,7 +7,10 @@
 // levers[1], levers[2] = how Level II and Level III get harder: reps | holds | weight | variation | tempo.
 // about: the hand-written paragraph (3–6 sentences); older programs keep theirs in an ABOUT table in their family file.
 
-// Block constructors, one per format, shared by every family file (and by configs/mixed.js in Phase 6).
+// Block constructors, one per format, shared by every family file (and by configs/mixed.js).
+// A block's family: 'Strength' | 'Cardio & combat' | 'Mind & body' marks a main block of a mixed day (the builder copies it
+// onto the built block); a block's lever: [null, 'holds', 'holds'] is its own way of getting harder, and a day type's
+// absSlots: [] drops the abs finisher for that day type only.
 
 const S = (title, slots, extra) => ({ f: 'straight', title, slots, ...extra });
 const SS = (title, slots, extra) => ({ f: 'superset', title, slots, ...extra });

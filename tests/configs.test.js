@@ -21,6 +21,8 @@ const IDS = [
     'kettlebell-strength', 'kettlebell-flow', 'core-circuits', 'hollow-body', 'twist-and-brace', 'abs-15',
     'sweat-circuit', 'chipper', 'dumbbell-complex', 'kitchen-table', 'calisthenics-base', 'floor-only',
     'express-circuit', 'two-block-20', 'lunch-break',
+    // Phase 6: Mixed
+    'lift-and-lengthen', 'iron-yoga', 'strong-hips', 'upper-and-open', 'kettlebell-and-yoga', 'posture-strength',
 ];
 
 test('the config ids, in order, are today\'s list', () => {
@@ -29,7 +31,7 @@ test('the config ids, in order, are today\'s list', () => {
 
 test('each family file holds only its own family\'s subjects', () => {
   const { FAMILIES } = require('../app/library.js');
-  const files = { Strength: 'strength', 'Cardio & combat': 'cardio-combat', 'Mind & body': 'mind-body' };
+  const files = { Strength: 'strength', 'Cardio & combat': 'cardio-combat', 'Mind & body': 'mind-body', Mixed: 'mixed' };
   for (const [family, subjects] of FAMILIES) {
     const own = require(`../configs/${files[family]}.js`);
     assert.ok(own.length > 0);
