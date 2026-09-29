@@ -35,6 +35,8 @@ abs finisher. `recipesOf(config)` gives one per day type of a program; `buildDay
 memory })` builds one day from it. `build` is the loop over days 1–60 with one shared memory (what was used, how
 often, which stretches) and one random stream. Build your own and the random workout call `buildDay` directly.
 
+**Recipe book**: every day type of every library config as a recipe, tagged with subject, family (a Mixed day also lists its blocks' families), formats, equipment (`bw` fits every choice, `kb` fits `kb` and `all`, `all` fits only `all`) and the time targets it really builds to. Made at build time from the configs (`recipe-book.js`), inlined in the page, read by `recipes.js`: `pick` filters it, `make(choice, seed)` turns a choice into a config, `options(subject)` says which equipment and minutes a subject allows. A combination nothing can build is refused with a message, never faked. Three-Split 60 (frozen) is left out.
+
 **Random workout**: a one-off day built fresh, outside any program: counts in stats, not in program progress. Its
 level is the level of the last day marked done.
 

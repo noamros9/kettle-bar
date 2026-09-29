@@ -28,7 +28,7 @@ Tracer bullets, one branch = one PR, each from its **Test first**.
 | 2 | Mixed: Fighter, Athlete (12 programs) | feature | 1 | `feature/mixed-fighter-athlete` | done (PR #79) |
 | 3 | Mixed: Balanced week, Calm strength (12 programs) | feature | 1 | `feature/mixed-balanced-calm` | done (PR #80) |
 | 3b | Signature variations (10 programs) | feature | – | `feature/signature-variations` | done (PR #82) |
-| 4 | Recipes by subject | feature | review III 4 | `feature/recipes` | |
+| 4 | Recipes by subject | feature | review III 4 | `feature/recipes` | done (PR #83) |
 | 5 | Build your own: pick, preview, regenerate, save | feature | 4, review III 5, 6 | `feature/build-your-own` | |
 | 6 | Your programs: rename, delete, edit | feature | 5 | `feature/own-edit` | |
 | 7 | Mix in build your own (2–3 subjects) | feature | 1, 5 | `feature/own-mix` | |
