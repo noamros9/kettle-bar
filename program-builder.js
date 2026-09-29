@@ -63,6 +63,11 @@
       bxPower: ['jab_cross_uppercut', 'rear_upper_hook_cross', 'four_punch', 'jab_body_hook', 'cross_hook_cross'],
       bxDefense: ['slip_counter', 'roll_hook', 'bob_and_weave'],
       bxMove: ['shadow_footwork', 'speed_bag', 'bob_and_weave'],
+      // Phase 5: kickboxing
+      kkKick: ['teep', 'front_kick', 'roundhouse', 'side_thrust_kick', 'switch_kick'],
+      kkCombo: ['jab_cross_kick', 'jab_teep', 'hook_low_kick', 'kick_four'],
+      kkKnee: ['knee_strike', 'clinch_knees'],
+      kkSpin: ['back_kick', 'side_thrust_kick'],
       core: ['plank', 'side_plank', 'hollow_hold', 'hollow_rock', 'dead_bug', 'weighted_dead_bug', 'bird_dog', 'bear_crawl', 'suitcase_march', 'kb_halo', 'db_side_bend', 'shoulder_taps', 'superman', 'russian_twist'],
     };
     // Pools computed from the catalogue. An exercise marked `added: N` (the phase that added it) joins them only
@@ -96,6 +101,7 @@
       roll_up: 'teaser', single_leg_stretch: 'double_leg_stretch', rolling_like_a_ball: 'seal',
       jab_cross: 'jab_cross_hook', double_jab_cross: 'four_punch', jab_cross_hook: 'four_punch', body_head: 'jab_body_hook',
       jab_cross_uppercut: 'rear_upper_hook_cross', slip_counter: 'roll_hook',
+      teep: 'jab_teep', roundhouse: 'switch_kick', jab_cross_kick: 'kick_four', knee_strike: 'clinch_knees', front_kick: 'side_thrust_kick',
     };
     // holds: like reps (the level's number from the catalogue), said the way it feels in a flow
     const LEVER_TEXT = { base: 'Base', reps: 'More reps', holds: 'Longer holds', weight: 'Heavier weights', variation: 'Harder variations', tempo: 'Slow tempo' };

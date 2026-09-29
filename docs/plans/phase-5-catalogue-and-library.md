@@ -41,8 +41,8 @@ subject that needs it. One ticket = one branch = one PR, each starting from its 
 | 1 | Families, Core & abs rename, existing programs pinned | feature | 0 | `feature/library-families` | done (PR #49) |
 | 2 | Guided flow format + Yoga | feature | 1 | `feature/yoga` | done (PR #50) |
 | 3 | Pilates | feature | 2 | `feature/pilates` | done (PR #51) |
-| 4 | Bouts format + Boxing | feature | 1 | `feature/boxing` | in review |
-| 5 | Kickboxing | feature | 4 | `feature/kickboxing` | todo |
+| 4 | Bouts format + Boxing | feature | 1 | `feature/boxing` | done (PR #53) |
+| 5 | Kickboxing | feature | 4 | `feature/kickboxing` | in review |
 | 6 | Flexibility | feature | 2 | `feature/flexibility` | todo |
 | 7 | Mobility & posture | feature | 2 | `feature/mobility-posture` | todo |
 | 8 | Balance & stability | feature | 1 | `feature/balance` | todo |
