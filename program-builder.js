@@ -76,6 +76,11 @@
       fxUpper: ['thread_the_needle', 'reverse_prayer', 'cow_face_arms', 'puppy_pose', 'chest_opener', 'cross_body_shoulder', 'overhead_triceps'],
       fxQuad: ['kneeling_quad', 'side_lying_quad', 'low_lunge', 'camel_pose'],
       fxSpine: ['supine_twist', 'seated_twist', 'sphinx_pose', 'childs_pose', 'cat_cow'],
+      // Phase 5: mobility & posture
+      mbSpine: ['open_book', 'quadruped_rotation', 'cat_cow', 'jefferson_curl'],
+      mbShoulder: ['shoulder_cars', 'wall_slides', 'prone_ytw', 'chin_tucks', 'thread_the_needle'],
+      mbHip: ['hip_cars', 'ninety_ninety', 'hip_airplane', 'deep_squat_hold', 'ankle_rocks'],
+      mbPosture: ['chin_tucks', 'wall_slides', 'prone_ytw', 'reverse_prayer', 'open_book'],
       core: ['plank', 'side_plank', 'hollow_hold', 'hollow_rock', 'dead_bug', 'weighted_dead_bug', 'bird_dog', 'bear_crawl', 'suitcase_march', 'kb_halo', 'db_side_bend', 'shoulder_taps', 'superman', 'russian_twist'],
     };
     // Pools computed from the catalogue. An exercise marked `added: N` (the phase that added it) joins them only

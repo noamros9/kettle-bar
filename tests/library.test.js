@@ -16,6 +16,7 @@ const SUBJECTS = {
   Boxing: { count: 5, abs: true, formats: ['bouts', 'circuit', 'tabata'] },
   Kickboxing: { count: 5, abs: true, formats: ['bouts', 'circuit', 'tabata'] },
   Flexibility: { count: 5, abs: false, formats: ['flow'] },
+  'Mobility & posture': { count: 5, abs: false, formats: ['flow', 'circuit'] },
 };
 
 for (const [subject, want] of Object.entries(SUBJECTS)) {
@@ -40,8 +41,9 @@ for (const [subject, want] of Object.entries(SUBJECTS)) {
     })));
   });
 
-  test(`${subject}: ${want.abs ? 'an abs block last' : 'no abs finisher'}; main blocks are ${want.formats.join(' / ')}`, () => {
-    programs.filter((p) => p.subject === subject).forEach((p) => p.days.forEach((d) => {
+  // (programs from before Phase 5 in the subject, like Flow State, keep their pinned days)
+  test(`${subject}: new programs have ${want.abs ? 'an abs block last' : 'no abs finisher'}; main blocks are ${want.formats.join(' / ')}`, () => {
+    programs.filter((p) => p.subject === subject && cfgOf[p.id].added).forEach((p) => p.days.forEach((d) => {
       const main = d.blocks.filter((b) => b.kind !== 'abs');
       assert.equal(d.blocks.at(-1).kind === 'abs', want.abs, `${p.id} d${d.day}`);
       main.forEach((b) => assert.ok(want.formats.includes(b.format), `${p.id} d${d.day}: ${b.format}`));

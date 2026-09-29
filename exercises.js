@@ -462,6 +462,32 @@
       { t: [0, -34], fn: [22, 20], khn: [1, -1], ff: [-6, -2], khf: [0, 1], hn: [4, -4], hf: [-5, -2], ehf: [-1, 0], mat: 1 }] },
     side_lying_quad: { name: 'Side-lying quad stretch', cat: 'flex', added: 5, u: 'sec', r: [45, 60, 75], side: 1, mus: 'quads | hip_flexors', cue: 'Lie on your side, head on your arm, and pull the top heel toward your glute, knees together. Switch sides.', poses: [
       { t: [34, -4], hd: [1, -0.3], hn: [44, -2], ff: [-41, 2], fn: [-4, 4], khn: [-0.2, 1], hf: [-4, 4], ehf: [0, 1], mat: 1 }] },
+
+    // ---------------- MOBILITY & POSTURE (Phase 5: controlled drills for joints and posture) ----------------
+    hip_cars: { name: 'Hip circles (CARs)', cat: 'mobility', added: 5, r: [5, 6, 8], side: 1, tp: 8, mus: 'hip_flexors glutes | adductors abs', cue: 'Stand tall on one leg, hand on a wall. Lift the other knee and draw the biggest slow circle you can with it, hips square. Switch.', poses: [
+      P(STAND, { ...HANDS_HIPS, fn: [16, 6], khn: [1, -1] }), P(STAND, { ...HANDS_HIPS, fn: [4, 14], khn: [0.2, -1] }), P(STAND, { ...HANDS_HIPS, fn: [-18, 34], khn: [0.3, 1] })] },
+    shoulder_cars: { name: 'Shoulder circles (CARs)', cat: 'mobility', added: 5, r: [5, 6, 8], side: 1, tp: 6, mus: 'front_delts side_delts rear_delts | upper_back chest', cue: 'Brace your middle and move one straight arm through the biggest slow circle it can make: forward, up, back and down. Switch.', poses: [
+      P(STAND, { hn: [30, -48] }), P(STAND, { hn: [2, -67] }), P(STAND, { hn: [-24, -52], ehn: [-1, 0] })] },
+    wall_slides: { name: 'Wall slides', cat: 'mobility', added: 5, r: [10, 12, 15], tp: 3, mus: 'upper_back rear_delts | side_delts lower_back', cue: 'Back, head and arms against a wall in a W. Slide the arms up to a Y without the wrists or lower back leaving the wall.', poses: [
+      P(STAND, { wall: -7, t: [-2, -34], hd: [0, -1], hn: [-4, -46], hf: [-5, -46], eh: [-0.3, 1] }), P(STAND, { wall: -7, t: [-2, -34], hd: [0, -1], hn: [-4, -66], hf: [-5, -66] })] },
+    open_book: { name: 'Open book', cat: 'mobility', added: 5, r: [8, 10, 12], side: 1, tp: 4, mus: 'upper_back obliques | chest', cue: 'Lie on your side, knees bent in front. Open the top arm up and over, following it with your eyes, then close. Switch sides.', poses: [
+      { t: [34, -4], hd: [1, -0.3], fn: [12, 14], ff: [11, 15], kh: [1, 0], hn: [60, 0], hf: [60, 1], mat: 1 }, { t: [34, -4], hd: [0.2, -1], fn: [12, 14], ff: [11, 15], kh: [1, 0], hn: [60, 1], hf: [34, -37], mat: 1 }] },
+    chin_tucks: { name: 'Chin tucks', cat: 'mobility', added: 5, r: [10, 12, 15], tp: 3, mus: 'upper_back | front_delts', cue: 'Sit or stand tall and glide your head straight back, making a double chin, as if someone pulled the back of your head. Hold, release.', poses: [
+      P(STAND, { t: [2, -34], hd: [0.5, -1] }), P(STAND, { t: [0, -34], hd: [-0.1, -1] })] },
+    ninety_ninety: { name: '90/90 switches', cat: 'mobility', added: 5, r: [8, 10, 12], alt: 1, tp: 4, mus: 'glutes hip_flexors | adductors abs', cue: 'Sit with both knees bent to 90 degrees to one side. Keeping your chest up, lift the knees and rotate them over to the other side.', poses: [
+      { t: [0, -34], fn: [14, 4], khn: [1, 0.3], ff: [-12, 4], khf: [-1, 0.3], hn: [-12, 3], hf: [-10, 3], eh: [0.3, 1], mat: 1 }, { t: [0, -34], fn: [18, 4], ff: [16, 4], kh: [1, -1], hn: [-12, 3], hf: [-10, 3], eh: [0.3, 1], mat: 1 }] },
+    deep_squat_hold: { name: 'Deep squat hold', cat: 'mobility', added: 5, u: 'sec', r: [45, 60, 75], mus: 'adductors glutes | calves lower_back quads', cue: 'Sink into your deepest squat with heels down and chest up, arms reaching forward. Shift gently side to side.', poses: [
+      { t: [10, -32], fn: [7, 19], ff: [6, 19], kh: [1, -0.6], hn: [38, -18], hf: [37, -17] }] },
+    hip_airplane: { name: 'Hip airplanes', cat: 'mobility', added: 5, r: [5, 6, 8], side: 1, tp: 6, mus: 'glutes | hamstrings abs adductors', cue: 'Balance on one leg, hinged forward with the other leg back. Slowly rotate your pelvis open to the side, then closed. Switch legs.', poses: [
+      { t: [32, -12], hd: [1, 0], fn: [2, 41], ff: [-38, -8], hn: [4, -4], hf: [3, -4], eh: [-1, -0.2] }, { t: [30, -16], hd: [1, -0.3], fn: [2, 41], ff: [-38, -14], hn: [4, -4], hf: [3, -4], eh: [-1, -0.2] }] },
+    prone_ytw: { name: 'Prone Y-T-W', cat: 'mobility', added: 5, r: [6, 8, 10], tp: 6, mus: 'upper_back rear_delts | lower_back side_delts', cue: 'Face down, forehead just off the floor. Lift your arms into a Y, then a T, then pull the elbows down into a W, squeezing the shoulder blades.', poses: [
+      { t: [33, -6], hd: [1, 0], fn: [-41, 0], ff: [-41, 1], hn: [62, -16], hf: [62, -15], mat: 1 }, { t: [33, -6], hd: [1, 0], fn: [-41, 0], ff: [-41, 1], hn: [22, -14], hf: [22, -13], eh: [-1, -1], mat: 1 }] },
+    jefferson_curl: { name: 'Jefferson curl (bodyweight)', cat: 'mobility', added: 5, r: [5, 6, 8], tp: 8, mus: 'hamstrings lower_back | upper_back', cue: 'Stand tall, tuck your chin and roll down one vertebra at a time with straight legs, then roll back up. Slow and light.', poses: [
+      STAND, { t: [22, -26], hd: [0.3, 1], hn: [28, 0], hf: [26, 0], fn: [-2, 41], ff: [-4, 41] }, FOLD] },
+    ankle_rocks: { name: 'Ankle rocks', cat: 'mobility', added: 5, r: [10, 12, 15], side: 1, tp: 2, mus: 'calves | quads', cue: 'Half-kneel and rock the front knee forward past your toes, heel staying down, then back. Switch legs.', poses: [
+      { t: [0, -34], fn: [21, 20], khn: [1, -1], ff: [-20, 21], khf: [1, 0.6], hn: [18, -6], hf: [17, -6], mat: 1 }, { t: [6, -33], fn: [14, 20], khn: [1, -1], ff: [-20, 21], khf: [1, 0.6], hn: [24, -6], hf: [23, -6], mat: 1 }] },
+    quadruped_rotation: { name: 'Quadruped T-spine rotation', cat: 'mobility', added: 5, r: [8, 10, 12], side: 1, tp: 3, mus: 'upper_back obliques | rear_delts', cue: 'On hands and knees, one hand behind your head. Point the elbow down under your chest, then rotate it up toward the ceiling. Switch.', poses: [
+      P(TABLE, { hn: [34, -6], ehn: [0.2, 1], hd: [0.8, 0.6] }), P(TABLE, { hn: [34, -8], ehn: [-0.4, -1], hd: [0.6, -0.8] })] },
   };
 
 
