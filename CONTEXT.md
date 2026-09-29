@@ -18,6 +18,21 @@ posture, yoga, Pilates, flexibility, balance & stability (Mind & body). Each bel
 **Family**: a group of subjects on the programs page: *Strength*, *Cardio & combat*, *Mind & body*. Picking one shows
 only its subjects' chips and shelves. Listed in `FAMILIES` in `app/views.js`; a subject missing there is an error.
 
+**Mixed program**: a program whose days hold blocks from more than one family (a **mixed day**: a strength block,
+then a short flow). They sit in the **Mixed** family (Phase 6). Each block can get harder in its own way.
+
+**Your program** (own program): one you built in the page from choices (subjects, split, minutes, equipment,
+formats, levers) and a seed. Stored as its choices, not its days; id `own-<id>`; shown on the Your programs shelf.
+
+**Recipe**: what one day needs to be built: a day type's blocks, time range, equipment, levers and abs finisher.
+Every day type of every library program is a recipe (`recipes.js`); build your own and the random workout use them.
+
+**Random workout**: a one-off day built fresh, outside any program: counts in stats, not in program progress. Its
+level is the level of the last day marked done.
+
+**Travel mode**: a setting (no bar / kettlebell only / bodyweight only) that swaps exercises needing missing gear
+for today, on every day, until turned off.
+
 **Day**: one workout, numbered 1–60. Days are numbers, not dates: rest days are up to the user.
 
 **Day type**: the kind of workout a day is within its program's **Split** (e.g. "Chest, back & abs").
@@ -138,6 +153,9 @@ Three-Split 60 is **frozen** (read from JSON by the Node build, not generated).
 **Pinned programs**: the days of every program are hashed in `tests/fixtures/program-days.json`, and a test fails if
 any of them change, so a program you are halfway through never reshuffles. A new program is pinned with
 `npm run pin`, which never touches an existing pin.
+
+**Pools**: named lists of exercises in the builder. A pool never changes once a pinned program uses it; new
+variety gets a new pool name (`squat2`), so pinned days stay as they are.
 
 **Catalogue generation**: an exercise marked `added: 5` came in Phase 5. The pools the builder computes from the
 catalogue (mobility, abs, weighted abs, warm-ups, cool-downs) leave it out unless the config says `catalogue: 5`,
