@@ -38,5 +38,8 @@ How Noam wants work done in this repo. Words: [CONTEXT.md](CONTEXT.md). Decision
 - `gh` isn't installed; use the GitHub REST API with curl (auth comes from the proxy). Send
   `-H "Content-Type: application/json"` on every POST/PUT.
 - `npm install` rewrites `package-lock.json`; don't commit that.
+- Committed tests never write outside the repo (screenshots go to `test-results/`); review screenshots for Noam go to
+  `/home/claude/kettle-bar-shots/` from a throwaway script or spec that isn't committed. CI (the deploy) must stay green:
+  after merging, check the Test and deploy run and fix a red one before starting new tickets.
 - Firestore rules changes need Noam to publish them in the Firebase console: say so at the top of the PR and
   message him after merging.
