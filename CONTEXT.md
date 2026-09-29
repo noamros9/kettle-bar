@@ -9,10 +9,11 @@ Decisions with a "why" live in [docs/adr/](docs/adr/). What's planned lives in [
 its own progress. Identified by an id (`three-split-60`, `iron-ppl`).
 
 **Signature program**: one of the five hand-shaped straight-set splits (Three-, Four-, Two-, Five-Split 60,
-Full-Body Duo 60). The other 24 are **library programs**, three per **Subject**.
+Full-Body Duo 60). The other 93 are **library programs**, five or six per **Subject**.
 
-**Subject**: a library shelf: signature, strength, pull-ups, legs & glutes, kettlebell only, bodyweight, busy week,
-conditioning, core & abs, mobility & posture, yoga, Pilates, boxing, kickboxing, flexibility, balance & stability, HIIT, plyometrics (more come in Phase 5). Each belongs to one **Family**.
+**Subject**: a library shelf: signature, strength, pull-ups, legs & glutes, kettlebell only, bodyweight, busy week
+(Strength family); conditioning, HIIT, plyometrics, boxing, kickboxing (Cardio & combat); core & abs, mobility &
+posture, yoga, Pilates, flexibility, balance & stability (Mind & body). Each belongs to one **Family**.
 
 **Family**: a group of subjects on the programs page: *Strength*, *Cardio & combat*, *Mind & body*. Picking one shows
 only its subjects' chips and shelves. Listed in `FAMILIES` in `app/views.js`; a subject missing there is an error.

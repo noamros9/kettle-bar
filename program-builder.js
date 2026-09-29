@@ -108,6 +108,14 @@
       kbUpper2: ['kb_press', 'bottoms_up_press', 'kb_row', 'kb_clean_press', 'kb_high_pull', 'kb_halo'],
       kbLower2: ['goblet_squat', 'kb_front_squat', 'zercher_squat', 'kb_sumo_deadlift', 'kb_deadlift', 'lateral_lunge'],
       kbCore2: ['kb_windmill', 'turkish_getup', 'kb_halo', 'suitcase_march'],
+      // Phase 5: more everyday
+      core2: ['plank', 'side_plank', 'hollow_hold', 'dead_bug', 'bird_dog', 'shoulder_taps', 'russian_twist', 'body_saw', 'windshield_wipers', 'cross_climber', 'plank_walkout', 'reverse_plank', 'side_plank_dip', 'heel_taps', 'plank_reach', 'bear_hold'],
+      coreRot: ['windshield_wipers', 'side_plank_dip', 'heel_taps', 'russian_twist', 'cross_climber', 'side_plank', 'bicycle_crunch'],
+      coreAnti: ['plank', 'body_saw', 'plank_reach', 'bear_hold', 'dead_bug', 'bird_dog', 'reverse_plank'],
+      coreHollow: ['hollow_hold', 'hollow_rock', 'v_up', 'dragon_flag_negative', 'leg_raise', 'plank_walkout'],
+      pullBw: ['table_row', 'superman'],
+      pushBw2: ['pushup', 'diamond_pushup', 'spiderman_pushup', 'pike_pushup', 'plank_to_pushup', 'clap_pushup', 'archer_pushup'],
+      legsBw2: ['reverse_lunge', 'cossack_squat', 'shrimp_squat', 'squat_jump', 'glute_bridge_march', 'single_leg_bridge', 'wall_sit', 'lateral_lunge'],
       core: ['plank', 'side_plank', 'hollow_hold', 'hollow_rock', 'dead_bug', 'weighted_dead_bug', 'bird_dog', 'bear_crawl', 'suitcase_march', 'kb_halo', 'db_side_bend', 'shoulder_taps', 'superman', 'russian_twist'],
     };
     // Pools computed from the catalogue. An exercise marked `added: N` (the phase that added it) joins them only
@@ -145,6 +153,7 @@
       tuck_jumps: 'burpee_broad_jump', sprawl: 'burpee_broad_jump', seal_jacks: 'skater_jumps', fast_step_ups: 'tuck_jumps',
       pause_squat_jump: 'tuck_jumps', pogo_hops: 'single_leg_hops', drop_squat: 'broad_jump', power_skips: 'bounding',
       hang_knee_raise: 'l_sit_hang', floor_fly: 'db_pullover', bulgarian_split_squat: 'shrimp_squat', db_step_up: 'bulgarian_split_squat', kb_row: 'kb_high_pull',
+      heel_taps: 'windshield_wipers', plank_reach: 'body_saw', bear_hold: 'plank_walkout', glute_bridge_march: 'single_leg_bridge',
       teep: 'jab_teep', roundhouse: 'switch_kick', jab_cross_kick: 'kick_four', knee_strike: 'clinch_knees', front_kick: 'side_thrust_kick',
     };
     // holds: like reps (the level's number from the catalogue), said the way it feels in a flow

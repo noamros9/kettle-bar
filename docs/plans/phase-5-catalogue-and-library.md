@@ -48,8 +48,8 @@ subject that needs it. One ticket = one branch = one PR, each starting from its 
 | 8 | Balance & stability | feature | 1 | `feature/balance` | done (PR #58) |
 | 9 | HIIT | feature | 1 | `feature/hiit` | done (PR #59) |
 | 10 | Plyometrics | feature | 1 | `feature/plyometrics` | done (PR #60) |
-| 11 | More strength: Strength, Pull-ups, Legs & glutes, Kettlebell only | feature | 1 | `feature/more-strength` | in review |
-| 12 | More everyday: Core & abs, Conditioning, Bodyweight, Busy week | feature | 1 | `feature/more-everyday` | todo |
+| 11 | More strength: Strength, Pull-ups, Legs & glutes, Kettlebell only | feature | 1 | `feature/more-strength` | done (PR #61) |
+| 12 | More everyday: Core & abs, Conditioning, Bodyweight, Busy week | feature | 1 | `feature/more-everyday` | done (PR #62) |
 
 ### What every subject ticket (2–12) includes
 - **Exercises in `exercises.js`:** poses (2–3 positions, drawn in profile like today), muscles, a one-line

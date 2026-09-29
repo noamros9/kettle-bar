@@ -116,7 +116,7 @@ test('every program has a hand-written paragraph: 3–6 sentences, the first sho
 const crypto = require('crypto');
 const PINS = require('./fixtures/program-days.json');
 const hashDays = (p) => crypto.createHash('sha256').update(JSON.stringify(p.days)).digest('hex');
-const unpinned = (list) => Object.entries(PINS).filter(([id]) => hashDays(list.find((p) => p.id === id)) !== PINS[id]).map(([id]) => id);
+const unpinned = (list) => Object.entries(PINS).filter(([id]) => list.some((p) => p.id === id) && hashDays(list.find((p) => p.id === id)) !== PINS[id]).map(([id]) => id);
 
 test('every program is pinned (npm run pin), and its days match the saved hash', () => {
   assert.deepEqual(programs.filter((p) => !PINS[p.id]).map((p) => p.id), [], 'run npm run pin for new programs');
@@ -132,7 +132,8 @@ function withNew(added) {
   Object.entries(extra).forEach(([id, from]) => { ex[id] = { ...EX[from], id, ...(added ? { added } : {}) }; });
   return { ...cat, EX: ex };
 }
-const buildWith = (c) => CONFIGS.filter((cfg) => !cfg.frozen).map((cfg) => require('../program-builder.js').build(cfg, c));
+// programs that opt in with catalogue: 5 take new exercises by design, so they're left out here
+const buildWith = (c) => CONFIGS.filter((cfg) => !cfg.frozen && !cfg.catalogue).map((cfg) => require('../program-builder.js').build(cfg, c));
 
 test('new exercises marked added: 5 stay out of the computed pools: every program keeps its days', () => {
   assert.deepEqual(unpinned([...buildWith(withNew(5)), programs.find((p) => p.id === 'three-split-60')]), []);

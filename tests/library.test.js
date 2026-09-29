@@ -24,6 +24,10 @@ const SUBJECTS = {
   'Pull-ups': { count: 6, abs: true, formats: ['straight', 'superset', 'emom'] },
   'Legs & glutes': { count: 6, abs: true, formats: ['straight'] },
   'Kettlebell only': { count: 6, abs: true, formats: ['straight', 'circuit', 'emom'] },
+  'Core & abs': { count: 6, abs: true, formats: ['circuit', 'straight'] },
+  Conditioning: { count: 6, abs: true, formats: ['circuit', 'amrap', 'ladder', 'emom'] },
+  Bodyweight: { count: 6, abs: true, formats: ['superset', 'straight', 'circuit'] },
+  'Busy week': { count: 6, abs: true, formats: ['circuit', 'superset', 'amrap', 'emom'] },
 };
 
 for (const [subject, want] of Object.entries(SUBJECTS)) {
@@ -99,4 +103,16 @@ test('plyometrics rest longer: 60 s between sets and 90 s between exercises, use
   const { createSession } = require('../app/session.js');
   const s = createSession(p, p.days[0], { EX });
   assert.equal(s.complete({ type: 'set', bi: 0, i: 0, k: 1 }).rest.sec, 60);
+});
+
+test('the core programs opt in to the new catalogue (catalogue: 5): their abs finishers can use the new core moves', () => {
+  const fresh = new Set(Object.keys(EX).filter((id) => EX[id].added));
+  const optIn = programs.filter((p) => cfgOf[p.id].catalogue === 5);
+  assert.ok(optIn.length >= 4);
+  assert.ok(optIn.some((p) => p.days.some((d) => d.blocks.at(-1).items.some((it) => fresh.has(it.ex)))));
+});
+
+test('the library: 98 programs in 18 subjects', () => {
+  assert.equal(programs.length, 98);
+  assert.equal(new Set(programs.map((p) => p.subject)).size, 18);
 });

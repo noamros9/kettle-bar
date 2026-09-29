@@ -584,6 +584,32 @@
       P(STAND, { hn: [10, -22], hf: [9, -22], eh: [0, 1], kb: 'both', kbd: [0, 1] }), P(SQUAT, { hn: [24, -22], hf: [23, -22], eh: [0, 1], kb: 'both', kbd: [0, 1] })] },
     kb_row: { name: 'Kettlebell row', cat: 'back', added: 5, r: [10, 12, 12], side: 1, tp: 3, load: 'kb', mus: 'lats upper_back | biceps rear_delts', cue: 'Split stance, free hand on your front knee. Row the bell to your hip, elbow brushing your side, and lower with control. Switch.', poses: [
       P(STAG, { hn: [30, 15], kb: 'n', kbd: [0, 1] }), P(STAG, { hn: [14, -3], ehn: [-1, -1], kb: 'n', kbd: [0, 1] })] },
+
+    // ---------------- MORE EVERYDAY (Phase 5: core and bodyweight variety) ----------------
+    dragon_flag_negative: { name: 'Dragon flag negatives', cat: 'abs', added: 5, r: [3, 4, 5], tp: 6, mus: 'abs | hip_flexors lats obliques', cue: 'Lie on your back holding something sturdy behind your head. Lift your body straight up onto your shoulders, then lower it as one rigid line, as slowly as you can.', poses: [
+      { t: [14, 31], hd: [1, 0.4], fn: [-6, -41], ff: [-5, -40], hn: [34, 36], hf: [35, 36], eh: [0, -1], mat: 1 }, { t: [30, 16], hd: [1, 0], fn: [-39, -12], ff: [-38, -11], hn: [48, 18], hf: [49, 18], eh: [0, -1], mat: 1 }] },
+    body_saw: { name: 'Body saw', cat: 'abs', added: 5, r: [10, 12, 15], tp: 3, mus: 'abs | front_delts lats', cue: 'In a forearm plank with feet on a towel or socks, rock your whole body back past your elbows and forward again, hips level.', poses: [
+      FOREARM, { t: [33, -8], hn: [42, 9], hf: [44, 9], fn: [-48, 9], ff: [-49, 9], eh: [-0.2, 1], mat: 1 }] },
+    windshield_wipers: { name: 'Windshield wipers', cat: 'abs', added: 5, r: [8, 10, 12], alt: 1, tp: 4, mus: 'obliques abs | hip_flexors', cue: 'On your back, arms wide, legs up together. Lower both legs to one side without letting your shoulders lift, then sweep them over to the other. Bend the knees to make it easier.', poses: [
+      P(LIE, { fn: [0, -41], ff: [1, -40], hn: [20, 3], hf: [21, 3] }), P(LIE, { fn: [-28, -30], ff: [-27, -29], hn: [20, 3], hf: [21, 3] })] },
+    cross_climber: { name: 'Cross-body climbers', cat: 'abs', added: 5, r: [20, 24, 30], alt: 1, tp: 1.2, mus: 'obliques abs | hip_flexors front_delts', cue: 'In a straight-arm plank, drive one knee across toward the opposite elbow, then switch, fast and controlled.', poses: [
+      P(PLANK, { fn: [8, 12], khn: [1, 0.5] }), P(PLANK, { ff: [8, 12], khf: [1, 0.5] })] },
+    plank_walkout: { name: 'Plank walk-outs', cat: 'abs', added: 5, r: [6, 8, 10], tp: 6, mus: 'abs front_delts | hamstrings chest triceps', cue: 'From standing, fold down and walk your hands out to a long plank, even past your shoulders, then walk them back and stand.', poses: [
+      FOLD, PLANK, P(PLANK, { t: [30, -12], hn: [46, 18], hf: [48, 18] })] },
+    table_row: { name: 'Table rows', cat: 'back', added: 5, r: [8, 10, 12], tp: 3, mus: 'lats upper_back | biceps rear_delts abs', cue: 'Lie under a sturdy table, grip the edge and pull your chest to it with your body straight from heels to shoulders. Bend the knees to make it easier.', poses: [
+      { t: [33, -6], hd: [0.6, -1], fn: [-40, 4], ff: [-41, 5], hn: [36, -38], hf: [37, -38], mat: 1 }, { t: [31, -14], hd: [0.6, -1], fn: [-40, 4], ff: [-41, 5], hn: [34, -30], hf: [35, -30], eh: [-1, 1], mat: 1 }] },
+    reverse_plank: { name: 'Reverse plank', cat: 'abs', added: 5, u: 'sec', r: [20, 30, 40], mus: 'glutes lower_back | hamstrings rear_delts triceps', cue: 'Sit with legs long, hands behind your hips, then lift the hips until your body is straight from heels to shoulders, chest proud.', poses: [
+      { t: [32, -10], hd: [0.8, -1], hn: [34, 20], hf: [35, 20], fn: [-40, 18], ff: [-41, 18], mat: 1 }] },
+    side_plank_dip: { name: 'Side plank hip dips', cat: 'abs', added: 5, r: [10, 12, 15], side: 1, tp: 2.5, mus: 'obliques | abs glutes', cue: 'In a side plank on your forearm, lower the hip toward the floor and lift it back up high. Switch sides.', poses: [
+      P(FOREARM, { hf: [34, -41], ehf: [0, -1] }), P(FOREARM, { t: [34, -3], fn: [-40, 9], ff: [-41, 9], hf: [36, -36], ehf: [0, -1] })] },
+    heel_taps: { name: 'Heel taps', cat: 'abs', added: 5, r: [20, 24, 30], alt: 1, tp: 1.2, mus: 'obliques | abs', cue: 'On your back, knees bent and head and shoulders curled up. Reach side to side to tap each heel with the hand on that side.', poses: [
+      { ...CURL, fn: [-22, 1], ff: [-21, 2], kh: [0, -1], hn: [2, -3], hf: [4, -2], mat: 1 }, { ...CURL, t: [33, -9], fn: [-22, 1], ff: [-21, 2], kh: [0, -1], hn: [4, -2], hf: [2, -3], mat: 1 }] },
+    plank_reach: { name: 'Plank reaches', cat: 'abs', added: 5, r: [12, 16, 20], alt: 1, tp: 2.5, mus: 'abs obliques | front_delts glutes', cue: 'In a straight-arm plank, feet wide, reach one arm straight ahead without twisting your hips. Put it down and switch.', poses: [
+      PLANK, P(PLANK, { hn: [62, -14], ehn: [0, -1] })] },
+    bear_hold: { name: 'Bear plank hold', cat: 'abs', added: 5, u: 'sec', r: [30, 40, 50], mus: 'abs | front_delts quads', cue: 'On hands and toes with knees bent under your hips, lift the knees an inch off the floor and hold, back flat.', poses: [
+      { t: [34, 0], hn: [34, 30], hf: [36, 30], fn: [-16, 30], ff: [-17, 30], kh: [1, 0.2], mat: 1 }] },
+    glute_bridge_march: { name: 'Glute bridge march', cat: 'lower', added: 5, r: [12, 16, 20], alt: 1, tp: 2.5, mus: 'glutes | hamstrings abs', cue: 'Hold a high glute bridge and lift one knee toward your chest, then the other, without your hips dropping or twisting.', poses: [
+      GB_UP, P(GB_UP, { fn: [10, -12], khn: [1, -1] })] },
   };
 
 
