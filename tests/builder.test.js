@@ -151,3 +151,110 @@ test('a config with catalogue: 5 opts in to the new exercises', () => {
   assert.ok(!uses(B.build(cfg, c), 'zz_crunch'));
   assert.ok(uses(B.build({ ...cfg, catalogue: 5 }, c), 'zz_crunch'));
 });
+
+// ---------- one day from a recipe (review III ticket 4) ----------
+const B4 = require('../program-builder.js');
+const { S, SS } = require('../configs/shared.js');
+const levelOf = (d) => (d <= 20 ? 1 : d <= 40 ? 2 : 3);
+
+test('buildDay over the 60-day loop, with one memory and one rnd stream, gives every day of build()', () => {
+  ['iron-ppl', 'engine', 'sun-and-strength', 'fight-camp', 'twenty-flat'].forEach((id) => {
+    const cfg = CONFIGS.find((c) => c.id === id), rec = B4.recipesOf(cfg);
+    const memory = B4.newMemory(), rnd = B4.makeRnd(cfg.id);
+    programs.find((p) => p.id === id).days.forEach((want) => {
+      const got = B4.buildDay(rec[cfg.cycle[(want.day - 1) % cfg.cycle.length]], { day: want.day, level: levelOf(want.day), rnd, memory }, cat);
+      const { name, ...rest } = want;
+      assert.equal(JSON.stringify(got), JSON.stringify(rest), `${id} d${want.day}`);
+    });
+  });
+});
+
+test('recipesOf: one recipe per day type, with what one day needs', () => {
+  const cfg = CONFIGS.find((c) => c.id === 'fight-camp'), rec = B4.recipesOf(cfg);
+  assert.deepEqual(Object.keys(rec), Object.keys(cfg.dayTypes));
+  const [k, type] = Object.entries(cfg.dayTypes)[0], r = rec[k];
+  assert.deepEqual([r.program, r.key, r.label, r.equip, r.catalogue], [cfg.id, k, type.label, 'bw', cfg.catalogue || 0]);
+  assert.equal(r.blocks, type.blocks);
+  assert.deepEqual([r.minutes, r.levers, r.absSlots], [cfg.minutes, cfg.levers, ['absW', 'abs', 'abs?']]);
+  assert.deepEqual(r.rests, { ...B4.REST, ...cfg.rests });
+  const own = { ...base(), dayTypes: { a: { ...base().dayTypes.a, minutes: [9, 12], levers: [null, 'weight', 'weight'], absSlots: [] } }, cycle: ['a'] };
+  assert.deepEqual([B4.recipesOf(own).a.minutes, B4.recipesOf(own).a.levers, B4.recipesOf(own).a.absSlots], [[9, 12], [null, 'weight', 'weight'], []]);
+  assert.equal(B4.recipesOf(base()).a.equip, undefined, 'no equip in the config: all gear');
+});
+
+test('buildDay lands in the day type\'s time range at every level, for several subjects, memories and seeds', () => {
+  ['iron-ppl', 'engine', 'tabata-ten', 'fight-camp', 'sun-and-strength', 'twenty-flat', 'spring-loaded', 'core-foundations'].forEach((id) => {
+    const cfg = CONFIGS.find((c) => c.id === id);
+    Object.entries(B4.recipesOf(cfg)).forEach(([k, r]) => [1, 2, 3].forEach((level) => ['a', 'b', 'c'].forEach((seed) => {
+      const day = B4.buildDay(r, { day: 5, level, rnd: B4.makeRnd(seed), memory: B4.newMemory() }, cat);
+      const t = timing.dayTime(day.blocks, r.rests) / 60;
+      assert.ok(t >= r.minutes[0] - 1 && t <= r.minutes[1] + 1.1, `${id}/${k} L${level} ${seed}: ${t.toFixed(1)} min, want ${r.minutes}`);
+      assert.deepEqual([day.day, day.type, day.title, day.level], [5, k, r.label, level]);
+    })));
+  });
+});
+
+test('buildDay fills the memory it is given: used, count and stretchUsed', () => {
+  const r = Object.values(B4.recipesOf(CONFIGS.find((c) => c.id === 'iron-ppl')))[0];
+  const memory = B4.newMemory();
+  assert.deepEqual(memory, { used: {}, count: {}, stretchUsed: {} });
+  const day = B4.buildDay(r, { day: 3, level: 1, rnd: B4.makeRnd('x'), memory }, cat);
+  const first = day.blocks[0].items[0].ex;
+  assert.equal(memory.used[first], 3);
+  assert.ok(memory.count[first] >= 1);
+  assert.ok(Object.values(memory.stretchUsed).every((d) => d === 3) && Object.keys(memory.stretchUsed).length > 0);
+});
+
+// a small test-only config: a program with one lever, and day types that override it
+const mixed = () => ({
+  id: 'test-mixed', name: 'Test', subject: 'Test', minutes: [20, 30], levers: [null, 'reps', 'reps'], absSlots: ['absW', 'abs'],
+  split: 'x', blurb: 'x', names: ['One'], cycle: ['own', 'plain', 'blk'],
+  dayTypes: {
+    own: { label: 'Own', short: 'O', levers: [null, 'weight', 'weight'], absSlots: [], blocks: [S('Press', ['pushLoad', 'pushLoad', 'pushLoad'])] },
+    plain: { label: 'Plain', short: 'P', blocks: [S('Press', ['pushLoad', 'pushLoad', 'pushLoad'])] },
+    blk: { label: 'Blk', short: 'B', blocks: [S('Press', ['pushLoad', 'pushLoad', 'pushLoad'], { lever: ['base', 'weight', 'weight'] }), S('Squat', ['squat', 'squat', 'squat'])] },
+  },
+});
+const notes = (day, i = 0) => day.blocks[i].items.map((it) => it.note);
+const dayOf = (rec, key, level) => B4.buildDay(rec[key], { day: 1, level, rnd: B4.makeRnd('t'), memory: B4.newMemory() }, cat);
+
+test('a day type with its own levers and absSlots: [] uses them; the program\'s other day types do not', () => {
+  const rec = B4.recipesOf(mixed());
+  const own = dayOf(rec, 'own', 2), plain = dayOf(rec, 'plain', 2);
+  assert.ok(notes(own).every((n) => n === 'Go one weight up'), notes(own).join());
+  assert.ok(own.blocks.every((b) => b.kind !== 'abs'));
+  assert.ok(notes(plain).every((n) => n === undefined));
+  assert.equal(plain.blocks.at(-1).kind, 'abs');
+  assert.ok(notes(dayOf(rec, 'own', 1)).every((n) => n === undefined), 'level I is always the base');
+});
+
+test('a block lever wins over the day type\'s and the program\'s, and only for its own block', () => {
+  const rec = B4.recipesOf(mixed());
+  const day = dayOf(rec, 'blk', 3);
+  assert.ok(notes(day, 0).every((n) => n === 'Go one weight up'));
+  assert.ok(notes(day, 1).every((n) => n === undefined), 'the squat block follows the program\'s reps lever');
+  assert.ok(notes(dayOf(rec, 'blk', 1)).every((n) => n === undefined));
+  // and a day type's lever wins over the program's when the block says nothing
+  const rec2 = B4.recipesOf({ ...mixed(), dayTypes: { blk: { ...mixed().dayTypes.own, absSlots: undefined } }, cycle: ['blk'] });
+  assert.ok(notes(dayOf(rec2, 'blk', 2)).every((n) => n === 'Go one weight up'));
+});
+
+test('an explicit lever for the day replaces the day type\'s and the program\'s (a block still wins)', () => {
+  const rec = B4.recipesOf(mixed());
+  const run = (key, lever) => B4.buildDay(rec[key], { day: 1, level: 2, lever, rnd: B4.makeRnd('t'), memory: B4.newMemory() }, cat);
+  assert.ok(notes(run('plain', 'weight')).every((n) => n === 'Go one weight up'));
+  assert.ok(notes(run('own', 'reps')).every((n) => n === undefined));
+  assert.ok(notes(run('blk', 'reps'), 0).every((n) => n === 'Go one weight up'));
+});
+
+test('KBBuilder in the page has buildDay, recipesOf, newMemory and makeRnd', () => {
+  const vm = require('vm');
+  const sandbox = { window: {} };
+  vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../formats.js'), 'utf8'), sandbox);
+  vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../program-builder.js'), 'utf8'), sandbox);
+  const K = sandbox.window.KBBuilder;
+  assert.deepEqual(Object.keys(K).sort(), ['build', 'buildDay', 'makeRnd', 'newMemory', 'recipesOf']);
+  const r = K.recipesOf(CONFIGS.find((c) => c.id === 'iron-ppl'));
+  const day = K.buildDay(Object.values(r)[0], { day: 1, level: 1, rnd: K.makeRnd('page'), memory: K.newMemory() }, cat);
+  assert.equal(day.day, 1);
+});
