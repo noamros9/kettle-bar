@@ -10,7 +10,7 @@ const { summarize } = require('./app/programs.js');
 const read = (f) => fs.readFileSync(path.join(__dirname, f), 'utf8');
 
 // order matters: data and pure modules first, then the page modules that use them
-const SCRIPTS = ['figures.js', 'exercises.js', null, 'app/progress.js', 'app/store.js', 'app/session.js', 'app/backup.js', 'app/stats.js', 'app/swaps.js', 'app/programs.js', 'app/day.js', 'app/summary.js', 'app/views.js', 'app/clock.js', 'app/main.js'];
+const SCRIPTS = ['figures.js', 'exercises.js', null, 'app/progress.js', 'app/store.js', 'app/session.js', 'app/backup.js', 'app/stats.js', 'app/swaps.js', 'app/programs.js', 'app/library.js', 'app/day.js', 'app/summary.js', 'app/views.js', 'app/clock.js', 'app/main.js'];
 const HEAD = '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="color-scheme" content="light dark"><meta name="theme-color" content="#2346D5"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" href="icons/icon-32.png"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"></head><body>';
 const TAIL = '<script type="module" src="firebase-sync.js"></script><script>if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});</script></body></html>';
 

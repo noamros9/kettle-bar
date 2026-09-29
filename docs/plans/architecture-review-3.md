@@ -47,8 +47,8 @@ In dependency order; one ticket = one branch = one PR, each starting from its **
 
 | # | Ticket | Tier | Blocked by | Branch | Status |
 |---|---|---|---|---|---|
-| 0 | This plan (and Phases 6–8) | plan | – | `plan/phases-6-8` | in review |
-| 1 | Library filters as one module + programs page option A (#68) | feature | 0 | `feature/library-filters` | |
+| 0 | This plan (and Phases 6–8) | plan | – | `plan/phases-6-8` | done (PR #69) |
+| 1 | Library filters as one module + programs page option A (#68) | feature | 0 | `feature/library-filters` | done (PR #70) |
 | 2 | Program configs: one file per family | refactor | 0 | `refactor/config-files` | |
 | 3 | Formats in one place | refactor | 0 | `refactor/formats` | |
 | 4 | Builder: one day from a recipe, levers and abs per day type | refactor | 2, 3 | `refactor/build-day` | |

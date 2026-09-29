@@ -16,7 +16,7 @@ Full-Body Duo 60). The other 93 are **library programs**, five or six per **Subj
 posture, yoga, Pilates, flexibility, balance & stability (Mind & body). Each belongs to one **Family**.
 
 **Family**: a group of subjects on the programs page: *Strength*, *Cardio & combat*, *Mind & body*. Picking one shows
-only its subjects' chips and shelves. Listed in `FAMILIES` in `app/views.js`; a subject missing there is an error.
+only its subjects' chips and shelves. Listed in `FAMILIES` in `app/library.js`; a subject missing there is an error.
 
 **Mixed program**: a program whose days hold blocks from more than one family (a **mixed day**: a strength block,
 then a short flow). They sit in the **Mixed** family (Phase 6). Each block can get harder in its own way.

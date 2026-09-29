@@ -4,7 +4,7 @@
   "scripts": {
     "build": "node build.js",
     "test": "node --test tests/*.test.js",
-    "test:coverage": "node --test --experimental-test-coverage --test-coverage-lines=100 --test-coverage-branches=100 --test-coverage-functions=100 --test-coverage-include=app/session.js --test-coverage-include=app/store.js --test-coverage-include=program-builder.js --test-coverage-include=exercises.js --test-coverage-include=figures.js --test-coverage-include=app/backup.js --test-coverage-include=app/stats.js --test-coverage-include=app/swaps.js --test-coverage-include=app/programs.js --test-coverage-include=app/progress.js --test-coverage-include=app/day.js --test-coverage-include=app/summary.js tests/*.test.js",
+    "test:coverage": "node --test --experimental-test-coverage --test-coverage-lines=100 --test-coverage-branches=100 --test-coverage-functions=100 --test-coverage-include=app/session.js --test-coverage-include=app/store.js --test-coverage-include=program-builder.js --test-coverage-include=exercises.js --test-coverage-include=figures.js --test-coverage-include=app/backup.js --test-coverage-include=app/stats.js --test-coverage-include=app/swaps.js --test-coverage-include=app/programs.js --test-coverage-include=app/progress.js --test-coverage-include=app/day.js --test-coverage-include=app/summary.js --test-coverage-include=app/library.js tests/*.test.js",
     "times": "node scripts/program-times.js",
     "prepare": "node scripts/install-hooks.js",
     "test:ui": "playwright test",

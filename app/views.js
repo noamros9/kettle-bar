@@ -82,31 +82,21 @@ function cycleDays(p, key) {
 }
 
 /* ---------------- programs page ---------------- */
-// Families group the subjects; chips and shelves follow this order. Subjects listed before they have programs
-// just don't show. A program whose subject is missing here is an error (the UI tests fail on it), never dropped quietly.
-const FAMILIES = [
-  ['Strength', ['Signature', 'Strength', 'Pull-ups', 'Legs & glutes', 'Kettlebell only', 'Bodyweight', 'Busy week']],
-  ['Cardio & combat', ['Conditioning', 'HIIT', 'Plyometrics', 'Boxing', 'Kickboxing']],
-  ['Mind & body', ['Core & abs', 'Mobility & posture', 'Yoga', 'Pilates', 'Flexibility', 'Balance & stability']],
-];
-const LENGTHS = [['all', 'Any length'], ['short', 'Up to 25 min'], ['mid', '26–32 min'], ['long', '33 min +']];
-const filters = { family: 'all', subject: 'all', len: 'all' };
-function setFilter(k, v) {
-  filters[k] = v;
-  if (k === 'family') filters.subject = 'all'; // a subject belongs to one family
+const { libraryView, FAMILIES, LENGTHS, lengthOf } = KBLibrary;
+let filters = { family: 'all', subject: 'all', len: 'all' };
+let lengthMenu = false; // the "Length: Any" line is open, showing the four choices
+function setFilter(k, val) {
+  filters = KBLibrary.setFilter(filters, k, val);
+  if (k === 'len') lengthMenu = false;
 }
-const lenOf = (p) => { const m = (p.minutes[0] + p.minutes[1]) / 2; return m <= 25.5 ? 'short' : m <= 32.5 ? 'mid' : 'long'; };
+const toggleLengthMenu = () => { lengthMenu = !lengthMenu; };
 // program cards show the paragraph's first sentence
 const firstSentence = (t) => (t.match(/^[^.!?]+[.!?]/) || [t])[0];
 function viewPrograms() {
   const last = lastPid();
   const all = programs.list();
-  const known = new Set(FAMILIES.flatMap(([, list]) => list));
-  [...new Set(all.map((p) => p.subject))].filter((s) => !known.has(s)).forEach((s) => console.error(`Subject "${s}" has no family in FAMILIES`));
-  const has = (s) => all.some((p) => p.subject === s);
-  const families = FAMILIES.filter(([, list]) => list.some(has));
-  const subjects = families.filter(([f]) => filters.family === 'all' || f === filters.family).flatMap(([, list]) => list.filter(has));
-  const shown = all.filter((p) => subjects.includes(p.subject) && (filters.subject === 'all' || p.subject === filters.subject) && (filters.len === 'all' || lenOf(p) === filters.len));
+  const lib = libraryView(all, filters, { families: FAMILIES, lengthOf });
+  lib.unknown.forEach((s) => console.error(`Subject "${s}" has no family in FAMILIES`));
   const card = (p) => {
     const n = store.count(p.id), mins = p.minutes[0] === p.minutes[1] ? p.minutes[0] : `${Math.round(p.minutes[0])}–${Math.round(p.minutes[1])}`;
     return `<button class="pcard${p.id === last ? ' current' : ''}" data-open-prog="${p.id}">
@@ -114,12 +104,15 @@ function viewPrograms() {
         <div class="pc-tags"><span class="chip">${esc(p.split)}</span><span class="chip">~${mins} min</span>${(p.formats || ['straight']).map((f) => `<span class="chip">${fmtFormat[f]}</span>`).join('')}${p.equip === 'kb' ? '<span class="chip">Kettlebell only</span>' : p.equip === 'bw' ? '<span class="chip">No equipment</span>' : ''}</div></div>
       <div class="pc-prog"><span class="num">${n}/${p.dayCount}</span><div class="bar"><b style="width:${(n / p.dayCount) * 100}%"></b></div></div></button>`;
   };
-  const groups = subjects.map((s) => { const list = shown.filter((p) => p.subject === s); return list.length ? `<section class="pgroup"><h2>${esc(s)}</h2><div class="plist">${list.map(card).join('')}</div></section>` : ''; }).join('');
-  return `<div class="eyebrow">${all.length} programs · 60 days each</div><h1>Programs</h1>
+  const groups = lib.shelves.map((s) => `<section class="pgroup"><h2>${esc(s.subject)}</h2><div class="plist">${s.programs.map(card).join('')}</div></section>`).join('');
+  const tab = (k, x) => `<button class="ftab" data-filter="${k}:${esc(x.key)}" aria-pressed="${x.pressed}">${esc(x.name)}</button>`;
+  const chip = (x) => `<button class="fchip acc" data-filter="subject:${esc(x.key)}" aria-pressed="${x.pressed}">${esc(x.name)} <span class="fcount">${x.count}</span></button>`;
+  return `<div class="eyebrow">${esc(lib.counter)}</div><h1>Programs</h1>
     <p class="lede">Every program starts at intermediate, with a matched warm-up and cool-down, and most end each workout with abs. Progress is kept per program.</p>
-    <div class="filters fam" role="group" aria-label="Filter by family"><button class="fchip" data-filter="family:all" aria-pressed="${filters.family === 'all'}">All</button>${families.map(([f]) => `<button class="fchip" data-filter="family:${esc(f)}" aria-pressed="${filters.family === f}">${esc(f)}</button>`).join('')}</div>
-    <div class="filters" role="group" aria-label="Filter by subject"><button class="fchip" data-filter="subject:all" aria-pressed="${filters.subject === 'all'}">All</button>${subjects.map((s) => `<button class="fchip" data-filter="subject:${esc(s)}" aria-pressed="${filters.subject === s}">${esc(s)}</button>`).join('')}</div>
-    <div class="filters" role="group" aria-label="Filter by length">${LENGTHS.map(([k, l]) => `<button class="fchip" data-filter="len:${k}" aria-pressed="${filters.len === k}">${l}</button>`).join('')}</div>
+    <div class="ftabs" role="group" aria-label="Filter by family">${lib.families.map((f) => tab('family', f)).join('')}</div>
+    <div class="filters" role="group" aria-label="Filter by subject">${lib.subjects.map(chip).join('')}</div>
+    <button class="lenline" data-len-menu="1" aria-expanded="${lengthMenu}">Length: <b>${esc(lib.lengthLabel)}</b> <span aria-hidden="true">${lengthMenu ? '▴' : '▾'}</span></button>
+    ${lengthMenu ? `<div class="filters" role="group" aria-label="Filter by length">${lib.lengths.map((l) => `<button class="fchip acc" data-filter="len:${l.key}" aria-pressed="${l.pressed}">${esc(l.label)}</button>`).join('')}</div>` : ''}
     ${groups || '<p class="lede" style="margin-top:24px">No programs match these filters.</p>'}`;
 }
 

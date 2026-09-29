@@ -74,6 +74,7 @@ document.addEventListener('click', (ev) => {
   if (d.swapApply) { const { bi, i, to } = swapState; swapState = null; openDay().swap(bi, i, to, { onward: d.swapApply === 'onward' }); return; }
   if (d.go === 'program') return go('p-' + prog().id);
   if (d.openProg) return go('p-' + d.openProg);
+  if (d.lenMenu) { toggleLengthMenu(); render(); return; }
   if (d.filter) { const [k, v] = d.filter.split(':'); setFilter(k, v); render(); return; }
   if (d.toggle) { store.toggle(prog().id, +d.toggle); return; }
   if (d.day) { const n = +d.day; if (n >= 1 && n <= prog().days.length) go(dayHash(prog().id, n)); return; }
