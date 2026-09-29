@@ -190,11 +190,24 @@
     return [split, `${p.days.length} days`, mins, SUMMARY_GEAR[p.equip]].join(' · ');
   }
 
+  // cache (optional): Map of the programs already built, by what their days come from (config, seed, frozen days), so a
+  // rename or a change to another program doesn't rebuild 60 days of every program
+  function cachedProgramOf(deps, e) {
+    if (!deps.cache) return programOf(deps, e);
+    const key = JSON.stringify([e.pid, e.config, e.frozenDays || null]);
+    const hit = deps.cache.get(key);
+    if (hit) return { ...hit, name: e.name };
+    const p = programOf(deps, e);
+    deps.cache.set(key, p);
+    return p;
+  }
+
   function source(docs, deps) {
     const built = [], skipped = [];
     Object.keys(docs).forEach((id) => {
-      try { const e = fromRecord(id, docs[id]); built.push({ e, p: programOf(deps, e) }); } catch (error) { skipped.push({ id, error: error.message }); }
+      try { const e = fromRecord(id, docs[id]); built.push({ e, p: cachedProgramOf(deps, e) }); } catch (error) { skipped.push({ id, error: error.message }); }
     });
+    if (deps.cache && deps.cache.size > 2 * (built.length + 1)) deps.cache.clear(); // edited and deleted programs don't pile up
     const made = (x) => x.e.createdAt || ''; // newest first; the same time (or none): by id, so the order never flickers
     built.sort((a, b) => made(b).localeCompare(made(a)) || a.e.id.localeCompare(b.e.id));
     const programs = built.map((x) => x.p);
@@ -203,6 +216,7 @@
 
   function link({ store, programs, load, build, ex }) {
     let pending = null;
+    const cache = new Map(); // built programs, reused while their config and frozen days stay the same
     const mine = new Set(); // the own ids the store has been told about
     programs.onChange(() => {
       const now = new Set(programs.list().filter((s) => s.source === 'own').map((s) => s.id));
@@ -211,7 +225,7 @@
     });
     function refresh() {
       const docs = store.docs('programs');
-      programs.setSource('own', source(docs, { build, ex }));
+      programs.setSource('own', source(docs, { build, ex, cache }));
       const legacy = Object.keys(docs).filter((id) => isObject(docs[id]) && !docs[id].config);
       if (!legacy.length) return Promise.resolve();
       if (pending) return pending; // the book is on its way

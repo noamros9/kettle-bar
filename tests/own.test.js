@@ -148,6 +148,22 @@ test('ids: own-safe, lower case, different each time; the default name follows t
 // ---- the catalogue source ----
 const record = (name, seed, extra = {}) => saved({ name, choices: choices(), seed, catalogue: 5, ...extra }, extra.createdAt || 'T');
 
+test('source with a cache: a rename (or another program changing) reuses the built days; a new config rebuilds', () => {
+  let builds = 0;
+  const cache = new Map(), counted = { build: (c, x) => { builds += 1; return Builder.build(c, x); }, ex: cat, cache };
+  const a = record('Mine', 's1'), b = record('Other', 's2');
+  const first = Own.source({ a, b }, counted);
+  assert.equal(builds, 2);
+  const renamed = Own.source({ a: { ...a, name: 'Pull it' }, b }, counted);
+  assert.equal(builds, 2);
+  assert.equal(renamed.summaries.find((x) => x.id === 'own-a').name, 'Pull it');
+  assert.equal(JSON.stringify(renamed.preloaded.find((p) => p.id === 'own-a').days), JSON.stringify(first.preloaded.find((p) => p.id === 'own-a').days));
+  Own.source({ a: record('Mine', 's3'), b }, counted); // a new seed makes a new config
+  assert.equal(builds, 3);
+  for (let i = 0; i < 4; i += 1) Own.source({ a: record('Mine', 'n' + i) }, counted); // old entries don't pile up
+  assert.ok(cache.size <= 4);
+});
+
 test('source: newest first, days built from the records, summaries for the list, skips what is damaged', async () => {
   const src = Own.source({ a: record('Old', 's1', { createdAt: '2026-09-01T00:00:00Z' }), b: record('New', 's2', { createdAt: '2026-09-02T00:00:00Z' }), c: { name: 'Broken' } }, deps);
   assert.equal(src.name, 'own');
