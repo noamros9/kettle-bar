@@ -30,7 +30,7 @@ const offlineCache = {
   put: (url, v) => (self.caches ? caches.open(OFFLINE_CACHE).then((c) => c.put(url, new Response(JSON.stringify(v), { headers: { 'Content-Type': 'application/json' } }))) : Promise.resolve()),
 };
 const fetchJson = (url) => fetch(url).then((r) => { if (!r.ok) throw new Error(url + ': ' + r.status); return r.json(); });
-const programs = KBPrograms.createProgramCatalogue(KBPrograms.fetched(PROGRAM_SUMMARIES, { fetchJson, cache: offlineCache }));
+const programs = KBPrograms.createProgramCatalogue(KBPrograms.fetched(PROGRAM_SUMMARIES, { fetchJson, cache: offlineCache, name: 'library' }));
 const lastPid = () => { try { const v = localStorage.getItem('kb-last-program'); return programs.has(v) ? v : null; } catch (e) { return null; } };
 // the program of the workout marked done most recently (any round), or nothing before the first one
 const lastDonePid = () => {

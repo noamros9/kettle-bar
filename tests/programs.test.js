@@ -3,7 +3,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('fs');
 const path = require('path');
-const { createProgramCatalogue, inlined } = require('../app/programs.js');
+const { createProgramCatalogue, inlined, summarize } = require('../app/programs.js');
 const { buildAll } = require('../program-builder.js');
 
 const day = (n, exs, warm = []) => ({ day: n, blocks: [{ items: exs.map((ex) => ({ ex, n: 5 })) }], warmup: { items: warm.map((ex) => ({ ex, n: 30 })) } });
@@ -15,7 +15,7 @@ const cat = createProgramCatalogue(inlined(programs));
 
 test('lists every program without its days, with how many days and which exercises it uses', () => {
   assert.deepEqual(cat.ids(), ['a', 'b']);
-  assert.deepEqual(cat.list()[0], { id: 'a', name: 'Alpha', subject: 'Strength', dayCount: 2, exercises: ['arm_circle', 'pushup', 'row', 'squat'] });
+  assert.deepEqual(cat.list()[0], { id: 'a', name: 'Alpha', subject: 'Strength', source: 'library', dayCount: 2, exercises: ['arm_circle', 'pushup', 'row', 'squat'] });
   assert.equal(cat.summary('b').name, 'Bravo');
   assert.equal(cat.summary('zzz'), undefined);
   assert.ok(cat.has('a'));
@@ -34,7 +34,7 @@ test('a loaded program and its days; unknown programs and days give nothing', as
 
 test('a program not loaded yet: get says nothing until load resolves', async () => {
   let resolveLoad;
-  const lazy = createProgramCatalogue({ summaries: [{ id: 'c', name: 'Charlie', dayCount: 1, exercises: ['row'] }], load: () => new Promise((r) => { resolveLoad = r; }) });
+  const lazy = createProgramCatalogue({ name: 'library', summaries: [{ id: 'c', name: 'Charlie', dayCount: 1, exercises: ['row'] }], load: () => new Promise((r) => { resolveLoad = r; }) });
   assert.equal(lazy.get('c'), undefined);
   const loading = lazy.load('c');
   assert.equal(lazy.load('c'), loading, 'one load at a time');
@@ -113,4 +113,83 @@ test('a cache that can\'t be written still opens the program; programs already l
   assert.equal((await c.load('a')).name, 'Alpha');
   await c.loadEverything([], () => {});
   assert.deepEqual(net.calls, ['data/a.json', 'data/b.json']);
+});
+
+// ---------- several sources: the library plus your own programs ----------
+const own = (id, name, ex = 'row') => ({ id: `own-${id}`, name, subject: 'Strength', days: [day(1, [ex])] });
+const ownSource = (list, extra = {}) => ({ ...inlined(list, 'own'), first: true, ...extra });
+
+test('two sources: ids from both, own programs listed first, library order kept, each summary names its source', () => {
+  const c = createProgramCatalogue(inlined(programs), ownSource([own('x', 'Mine'), own('y', 'Mine 2')]));
+  assert.deepEqual(c.ids(), ['own-x', 'own-y', 'a', 'b']);
+  assert.deepEqual(c.list().map((s) => s.source), ['own', 'own', 'library', 'library']);
+  assert.equal(c.summary('own-x').name, 'Mine');
+  assert.equal(c.summary('b').source, 'library');
+  assert.ok(c.has('own-y') && c.has('a'));
+  assert.equal(c.get('own-x').name, 'Mine');
+  assert.equal(c.day('a', 1).blocks[0].items[0].ex, 'pushup');
+  assert.deepEqual(c.programsUsing('row'), ['own-x', 'own-y', 'a']);
+});
+
+test('sources without "first" are listed in the order given', () => {
+  const c = createProgramCatalogue(inlined([own('x', 'Mine')], 'own'), inlined(programs));
+  assert.deepEqual(c.ids(), ['own-x', 'a', 'b']);
+  const d = createProgramCatalogue(inlined(programs), inlined([own('x', 'Mine')], 'own'));
+  assert.deepEqual(d.ids(), ['a', 'b', 'own-x']);
+});
+
+test('load asks the source the program belongs to', async () => {
+  const asked = [];
+  const mk = (name, list) => ({ name, summaries: list.map(summarize), load: (pid) => { asked.push(`${name}:${pid}`); return Promise.resolve(list.find((p) => p.id === pid)); } });
+  const c = createProgramCatalogue(mk('library', programs), { ...mk('own', [own('x', 'Mine')]), first: true });
+  assert.equal(c.get('own-x'), undefined);
+  assert.equal((await c.load('own-x')).name, 'Mine');
+  assert.equal((await c.load('b')).name, 'Bravo');
+  assert.deepEqual(asked, ['own:own-x', 'library:b']);
+  await c.loadEverything([], () => {});
+  assert.deepEqual(asked, ['own:own-x', 'library:b', 'library:a'], 'only what is not loaded yet, across sources');
+});
+
+test('an id in two sources throws, at creation and when a source is replaced', () => {
+  assert.throws(() => createProgramCatalogue(inlined(programs), inlined([{ ...programs[0] }], 'own')), /"a" is in both library and own/);
+  const c = createProgramCatalogue(inlined(programs), ownSource([]));
+  assert.throws(() => c.setSource('own', inlined([{ ...programs[1] }], 'own')), /"b" is in both/);
+  assert.deepEqual(c.ids(), ['a', 'b'], 'unchanged after the refusal');
+  assert.throws(() => createProgramCatalogue({ summaries: [], load() {} }), /needs a name/);
+  assert.throws(() => createProgramCatalogue(inlined(programs), inlined([], 'library')), /two sources named library/);
+});
+
+test('setSource replaces a source at runtime: list, has, summary, get and change listeners follow', async () => {
+  const c = createProgramCatalogue(inlined(programs), ownSource([own('x', 'Mine')]));
+  const heard = [];
+  const off = c.onChange(() => heard.push(c.ids().join()));
+  assert.equal(c.get('own-x').name, 'Mine');
+  c.setSource('own', ownSource([own('x', 'Mine renamed', 'plank'), own('z', 'New')]));
+  assert.deepEqual(c.ids(), ['own-x', 'own-z', 'a', 'b']);
+  assert.equal(c.summary('own-x').name, 'Mine renamed');
+  assert.equal(c.get('own-x').name, 'Mine renamed', 'the new source\'s programs, not the old ones');
+  assert.deepEqual(c.programsUsing('plank'), ['own-x', 'b']);
+  c.setSource('own', ownSource([]));
+  assert.equal(c.has('own-x'), false);
+  assert.equal(c.get('own-x'), undefined);
+  assert.deepEqual(c.ids(), ['a', 'b']);
+  assert.equal(await c.load('own-x'), undefined);
+  off();
+  c.setSource('own', ownSource([own('q', 'Later')]));
+  assert.deepEqual(heard, ['own-x,own-z,a,b', 'a,b'], 'no call after unsubscribing');
+  assert.ok(c.has('own-q'));
+});
+
+test('setSource adds a source that was not there, and drops what the replaced source was loading', async () => {
+  const c = createProgramCatalogue(inlined(programs));
+  c.setSource('own', ownSource([own('x', 'Mine')]));
+  assert.deepEqual(c.ids(), ['own-x', 'a', 'b']);
+  let finish;
+  const slow = { name: 'own', summaries: [summarize(own('s', 'Slow'))], load: () => new Promise((r) => { finish = r; }) };
+  c.setSource('own', slow);
+  const pending = c.load('own-s');
+  c.setSource('own', ownSource([own('s', 'Fast')]));
+  finish(own('s', 'Slow'));
+  await pending;
+  assert.equal(c.get('own-s').name, 'Fast', 'a load that finishes after its source was replaced is not kept');
 });

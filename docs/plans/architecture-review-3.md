@@ -53,7 +53,7 @@ In dependency order; one ticket = one branch = one PR, each starting from its **
 | 3 | Formats in one place | refactor | 0 | `refactor/formats` | done (PR #72) |
 | 4 | Builder: one day from a recipe, levers and abs per day type | refactor | 2, 3 | `refactor/build-day` | |
 | 5 | Account data: sync and back up more than progress | refactor | 0 | `refactor/account-data` | done (PR #73) |
-| 6 | Program Catalogue: several sources | refactor | 0 | `refactor/catalogue-sources` | |
+| 6 | Program Catalogue: several sources | refactor | 0 | `refactor/catalogue-sources` | done (PR #PR) |
 | 7 | UI suite: renderability as a unit check, a sample on the phone | refactor | 3 | `refactor/ui-suite` | |
 | 8 | Noam: program cache size and first download on the phone | manual | 0 | – | |
 
