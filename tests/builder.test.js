@@ -107,3 +107,43 @@ test('every program has a hand-written paragraph: 3–6 sentences, the first sho
     assert.ok(s[0].trim().length <= 130, `${p.id}: first sentence is ${s[0].trim().length} characters`);
   });
 });
+
+// The pin: days people are halfway through never change. Each existing program's days are hashed in
+// tests/fixtures/program-days.json; new exercises (added: 5) stay out of the computed pools unless a config
+// opts in with catalogue: 5.
+const crypto = require('crypto');
+const PINS = require('./fixtures/program-days.json');
+const hashDays = (p) => crypto.createHash('sha256').update(JSON.stringify(p.days)).digest('hex');
+const unpinned = (list) => Object.entries(PINS).filter(([id]) => hashDays(list.find((p) => p.id === id)) !== PINS[id]).map(([id]) => id);
+
+test('the existing programs are pinned: their days match the saved hashes', () => {
+  assert.ok(Object.keys(PINS).length >= 29);
+  Object.keys(PINS).forEach((id) => assert.ok(programs.find((p) => p.id === id), `${id} is missing`));
+  assert.deepEqual(unpinned(programs), []);
+});
+
+// a catalogue with one more abs exercise, warm-up and cool-down (copies of real ones under new ids)
+const cat = require('../exercises.js');
+function withNew(added) {
+  const extra = { zz_crunch: 'crunch', zz_warm: Object.keys(EX).find((k) => EX[k].cat === 'warmup'), zz_cool: Object.keys(EX).find((k) => EX[k].cat === 'cooldown') };
+  const ex = { ...EX };
+  Object.entries(extra).forEach(([id, from]) => { ex[id] = { ...EX[from], id, ...(added ? { added } : {}) }; });
+  return { ...cat, EX: ex };
+}
+const buildWith = (c) => CONFIGS.filter((cfg) => !cfg.frozen).map((cfg) => require('../program-builder.js').build(cfg, c));
+
+test('new exercises marked added: 5 stay out of the computed pools: every program keeps its days', () => {
+  assert.deepEqual(unpinned([...buildWith(withNew(5)), programs.find((p) => p.id === 'three-split-60')]), []);
+});
+
+test('the pin catches a new exercise that leaks into a pool', () => {
+  assert.ok(unpinned([...buildWith(withNew(0)), programs.find((p) => p.id === 'three-split-60')]).length > 0);
+});
+
+test('a config with catalogue: 5 opts in to the new exercises', () => {
+  const B = require('../program-builder.js'), c = withNew(5);
+  const uses = (p, id) => p.days.some((d) => [...d.blocks, d.warmup, d.cooldown].some((b) => b.items.some((it) => it.ex === id)));
+  const cfg = CONFIGS.find((x) => x.id === 'engine');
+  assert.ok(!uses(B.build(cfg, c), 'zz_crunch'));
+  assert.ok(uses(B.build({ ...cfg, catalogue: 5 }, c), 'zz_crunch'));
+});

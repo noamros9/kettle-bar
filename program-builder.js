@@ -43,10 +43,22 @@
       kbSwing: ['kb_swing'],
       carry: ['suitcase_march', 'bear_crawl', 'kb_halo'],
       core: ['plank', 'side_plank', 'hollow_hold', 'hollow_rock', 'dead_bug', 'weighted_dead_bug', 'bird_dog', 'bear_crawl', 'suitcase_march', 'kb_halo', 'db_side_bend', 'shoulder_taps', 'superman', 'russian_twist'],
-      mobility: ids((e) => e.cat === 'warmup' || e.cat === 'cooldown'),
-      abs: ids((e) => e.cat === 'abs' && e.id !== 'mountain_climber' && !(e.equip || []).includes('bar')),
-      absW: ids((e) => e.cat === 'abs' && e.load && !(e.equip || []).includes('bar')),
     };
+    // Pools computed from the catalogue. An exercise marked `added: N` (the phase that added it) joins them only
+    // for configs with `catalogue: N` or later, so new exercises can't reshuffle the days of existing programs.
+    const computedPools = (upTo) => {
+      const has = (fn) => ids((e) => (e.added || 0) <= upTo && fn(e));
+      return {
+        mobility: has((e) => e.cat === 'warmup' || e.cat === 'cooldown'),
+        abs: has((e) => e.cat === 'abs' && e.id !== 'mountain_climber' && !(e.equip || []).includes('bar')),
+        absW: has((e) => e.cat === 'abs' && e.load && !(e.equip || []).includes('bar')),
+        warmups: has((e) => e.cat === 'warmup'),
+        cooldowns: has((e) => e.cat === 'cooldown'),
+      };
+    };
+    const COMPUTED = new Map();
+    const computed = (upTo) => COMPUTED.get(upTo) || COMPUTED.set(upTo, computedPools(upTo)).get(upTo);
+    Object.assign(POOLS, computed(0)); // the pools as existing programs see them
 
 
     // easier -> harder, used by the "variation" lever
@@ -85,8 +97,6 @@
     }
 
     // ---------- stretches (same approach as Three-Split 60) ----------
-    const WARMUPS = ids((e) => e.cat === 'warmup');
-    const COOLDOWNS = ids((e) => e.cat === 'cooldown');
     function pickStretches(pool, blocks, seconds, day, used) {
       const w = {};
       blocks.forEach((b) => b.items.forEach((it) => {
@@ -126,10 +136,11 @@
     function build(cfg) {
       if (cfg.frozen) throw new Error(cfg.id + ' is frozen: its days are read from ' + cfg.frozen + ' by the Node build');
       const rnd = makeRnd(cfg.id);
+      const cp = computed(cfg.catalogue || 0);
       const allow = (id) => allowedIn(cfg.equip, EX[id]);
       const used = {}, count = {}, stretchUsed = {};
       const pool = (name) => {
-        const p = POOLS[name] || [name];
+        const p = cp[name] || POOLS[name] || [name];
         const list = p.filter((id) => EX[id] && allow(id));
         if (!list.length) throw new Error(`${cfg.id}: pool ${name} is empty`);
         return list;
@@ -171,7 +182,7 @@
           // long main blocks may drop their last one or two exercises to fit the time
           const autoOpt = sp.kind !== 'abs' && sp.f !== 'emom' && sp.f !== 'ladder' && sp.f !== 'tabata' && si >= Math.max(3, sp.slots.length - (sp.slots.length >= 5 ? 2 : 1));
           const opt = slot.endsWith('?') || autoOpt, name = slot.replace('?', '');
-          const poolName = name === 'absW' && !POOLS.absW.some(allow) ? 'abs' : name;
+          const poolName = name === 'absW' && !cp.absW.some(allow) ? 'abs' : name;
           return { opt, id: candidate(poolName, taken) };
         }));
         // apply the level (and its lever) once per exercise, before searching
@@ -215,8 +226,8 @@
         nameCount[base] = (nameCount[base] || 0) + 1;
         const name = nameCount[base] > 1 ? `${base} ${['', 'I', 'II', 'III', 'IV', 'V'][nameCount[base]]}` : base;
 
-        const warm = pickStretches(WARMUPS, blocks, 60, d, stretchUsed);
-        const cool = pickStretches(COOLDOWNS, blocks, 120, d, stretchUsed);
+        const warm = pickStretches(cp.warmups, blocks, 60, d, stretchUsed);
+        const cool = pickStretches(cp.cooldowns, blocks, 120, d, stretchUsed);
         days.push({
           day: d, type: typeKey, title: type.label, level, name, blocks,
           est: Math.round(best.t),

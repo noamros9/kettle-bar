@@ -8,7 +8,7 @@ const shot = (app, testInfo, name) => app.page.screenshot({ path: `test-results/
 test('programs list and exercises list', async ({ app }, testInfo) => {
   await app.open('#programs');
   expect(await app.h1()).toBe('Programs');
-  await expect(app.page.locator('.pgroup h2')).toHaveCount(9);
+  await expect(app.page.locator('.pgroup h2')).toHaveCount(10);
   const first = CONFIGS[0].about.match(/^[^.!?]+[.!?]/)[0];
   await expect(app.page.locator(`[data-open-prog="${CONFIGS[0].id}"] .pc-main p`)).toHaveText(first);
   expect(await app.sidewaysScroll()).toBe(0);

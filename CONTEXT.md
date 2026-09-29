@@ -11,8 +11,11 @@ its own progress. Identified by an id (`three-split-60`, `iron-ppl`).
 **Signature program**: one of the five hand-shaped straight-set splits (Three-, Four-, Two-, Five-Split 60,
 Full-Body Duo 60). The other 24 are **library programs**, three per **Subject**.
 
-**Subject**: a library shelf: strength, pull-ups, conditioning, mobility & core, kettlebell only, busy week,
-bodyweight, legs & glutes.
+**Subject**: a library shelf: signature, strength, pull-ups, legs & glutes, kettlebell only, bodyweight, busy week,
+conditioning, core & abs, mobility & posture (more come in Phase 5). Each belongs to one **Family**.
+
+**Family**: a group of subjects on the programs page: *Strength*, *Cardio & combat*, *Mind & body*. Picking one shows
+only its subjects' chips and shelves. Listed in `FAMILIES` in `app/views.js`; a subject missing there is an error.
 
 **Day**: one workout, numbered 1–60. Days are numbers, not dates: rest days are up to the user.
 
@@ -117,6 +120,13 @@ fetched with an offline cache, or your own, later) is its adapter's business.
 **Program Builder**: turns a program's config into 60 days fitted to each day type's time range. Pure over the
 Exercise Catalogue it's given, so it runs in the Node build and (for your own programs) in the page.
 Three-Split 60 is **frozen** (read from JSON by the Node build, not generated).
+
+**Pinned programs**: the days of every existing program are hashed in `tests/fixtures/program-days.json`, and a test
+fails if any of them change, so a program you are halfway through never reshuffles.
+
+**Catalogue generation**: an exercise marked `added: 5` came in Phase 5. The pools the builder computes from the
+catalogue (mobility, abs, weighted abs, warm-ups, cool-downs) leave it out unless the config says `catalogue: 5`,
+which is what keeps older programs pinned while the catalogue grows.
 
 **Adapter**: an implementation behind one of the store's seams: storage (localStorage / in-memory) or
 remote (Firebase / in-memory).

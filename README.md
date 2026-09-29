@@ -3,7 +3,7 @@
 A home workout app in the style of a printable program: a 60-day plan with
 illustrated exercises, checkmarks for finished days and a rest timer.
 
-**25 programs, 60 days each.** Three-Split 60 plus three programs for each of: strength, pull-ups, legs & glutes, kettlebell only, conditioning, mobility & core, bodyweight/travel and busy weeks. Formats include straight sets, supersets, circuits, EMOMs, AMRAPs, Tabatas and ladders, and each program gets harder in its own way (reps, heavier weights, harder variations or slow tempo).
+**29 programs, 60 days each**, in three families. **Strength:** five signature splits (Three-Split 60 and friends) and three programs each for strength, pull-ups, legs & glutes, kettlebell only, bodyweight/travel and busy weeks. **Cardio & combat:** conditioning. **Mind & body:** core & abs, and mobility & posture. Formats include straight sets, supersets, circuits, EMOMs, AMRAPs, Tabatas and ladders, and each program gets harder in its own way (reps, heavier weights, harder variations or slow tempo).
 
 **Three-Split 60** — a repeating three-day cycle:
 
