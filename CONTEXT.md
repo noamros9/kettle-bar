@@ -12,7 +12,7 @@ its own progress. Identified by an id (`three-split-60`, `iron-ppl`).
 Full-Body Duo 60). The other 24 are **library programs**, three per **Subject**.
 
 **Subject**: a library shelf: signature, strength, pull-ups, legs & glutes, kettlebell only, bodyweight, busy week,
-conditioning, core & abs, mobility & posture, yoga, Pilates, boxing, kickboxing, flexibility (more come in Phase 5). Each belongs to one **Family**.
+conditioning, core & abs, mobility & posture, yoga, Pilates, boxing, kickboxing, flexibility, balance & stability (more come in Phase 5). Each belongs to one **Family**.
 
 **Family**: a group of subjects on the programs page: *Strength*, *Cardio & combat*, *Mind & body*. Picking one shows
 only its subjects' chips and shelves. Listed in `FAMILIES` in `app/views.js`; a subject missing there is an error.

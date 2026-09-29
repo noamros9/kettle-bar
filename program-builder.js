@@ -81,6 +81,11 @@
       mbShoulder: ['shoulder_cars', 'wall_slides', 'prone_ytw', 'chin_tucks', 'thread_the_needle'],
       mbHip: ['hip_cars', 'ninety_ninety', 'hip_airplane', 'deep_squat_hold', 'ankle_rocks'],
       mbPosture: ['chin_tucks', 'wall_slides', 'prone_ytw', 'reverse_prayer', 'open_book'],
+      // Phase 5: balance & stability
+      blStatic: ['single_leg_stand', 'heel_to_toe_walk', 'tree_pose', 'warrior_three'],
+      blDynamic: ['single_leg_reach', 'star_excursion', 'tree_to_airplane', 'lunge_to_balance', 'single_leg_rdl_bw'],
+      blStrength: ['pistol_box_squat', 'single_leg_calf_raise', 'single_leg_rdl_bw', 'copenhagen_plank', 'lunge_to_balance'],
+      blPower: ['single_leg_hop_stick', 'lateral_bound_hold', 'star_excursion'],
       core: ['plank', 'side_plank', 'hollow_hold', 'hollow_rock', 'dead_bug', 'weighted_dead_bug', 'bird_dog', 'bear_crawl', 'suitcase_march', 'kb_halo', 'db_side_bend', 'shoulder_taps', 'superman', 'russian_twist'],
     };
     // Pools computed from the catalogue. An exercise marked `added: N` (the phase that added it) joins them only
@@ -114,6 +119,7 @@
       roll_up: 'teaser', single_leg_stretch: 'double_leg_stretch', rolling_like_a_ball: 'seal',
       jab_cross: 'jab_cross_hook', double_jab_cross: 'four_punch', jab_cross_hook: 'four_punch', body_head: 'jab_body_hook',
       jab_cross_uppercut: 'rear_upper_hook_cross', slip_counter: 'roll_hook',
+      single_leg_reach: 'star_excursion', lunge_to_balance: 'pistol_box_squat', single_leg_stand: 'heel_to_toe_walk',
       teep: 'jab_teep', roundhouse: 'switch_kick', jab_cross_kick: 'kick_four', knee_strike: 'clinch_knees', front_kick: 'side_thrust_kick',
     };
     // holds: like reps (the level's number from the catalogue), said the way it feels in a flow

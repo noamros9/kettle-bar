@@ -17,6 +17,7 @@ const SUBJECTS = {
   Kickboxing: { count: 5, abs: true, formats: ['bouts', 'circuit', 'tabata'] },
   Flexibility: { count: 5, abs: false, formats: ['flow'] },
   'Mobility & posture': { count: 5, abs: false, formats: ['flow', 'circuit'] },
+  'Balance & stability': { count: 5, abs: true, formats: ['circuit', 'straight'] },
 };
 
 for (const [subject, want] of Object.entries(SUBJECTS)) {

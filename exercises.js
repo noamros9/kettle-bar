@@ -488,6 +488,32 @@
       { t: [0, -34], fn: [21, 20], khn: [1, -1], ff: [-20, 21], khf: [1, 0.6], hn: [18, -6], hf: [17, -6], mat: 1 }, { t: [6, -33], fn: [14, 20], khn: [1, -1], ff: [-20, 21], khf: [1, 0.6], hn: [24, -6], hf: [23, -6], mat: 1 }] },
     quadruped_rotation: { name: 'Quadruped T-spine rotation', cat: 'mobility', added: 5, r: [8, 10, 12], side: 1, tp: 3, mus: 'upper_back obliques | rear_delts', cue: 'On hands and knees, one hand behind your head. Point the elbow down under your chest, then rotate it up toward the ceiling. Switch.', poses: [
       P(TABLE, { hn: [34, -6], ehn: [0.2, 1], hd: [0.8, 0.6] }), P(TABLE, { hn: [34, -8], ehn: [-0.4, -1], hd: [0.6, -0.8] })] },
+
+    // ---------------- BALANCE & STABILITY (Phase 5) ----------------
+    single_leg_stand: { name: 'Single-leg stand', cat: 'balance', added: 5, u: 'sec', r: [30, 40, 45], side: 1, mus: 'calves glutes | abs', cue: 'Stand on one leg, knee soft, the other foot just off the floor. Keep your hips level and eyes on one point; try it with eyes closed later. Switch.', poses: [
+      P(STAND, { ...HANDS_HIPS, fn: [8, 26], khn: [1, -0.4] })] },
+    single_leg_reach: { name: 'Single-leg reach', cat: 'balance', added: 5, r: [8, 10, 12], side: 1, tp: 3, mus: 'glutes hamstrings | calves abs lower_back', cue: 'Balance on one leg and hinge forward to touch the floor ahead of you, the free leg reaching back. Stand tall again without touching down. Switch.', poses: [
+      P(STAND, { fn: [8, 26], khn: [1, -0.4] }), { t: [26, -22], fn: [-32, -10], ff: [2, 40], khf: [1, -0.3], hn: [36, 10], hf: [35, 10] }] },
+    tree_to_airplane: { name: 'Knee lift to airplane', cat: 'balance', added: 5, r: [6, 8, 10], side: 1, tp: 5, mus: 'glutes hamstrings | abs lower_back calves', cue: 'Stand on one leg with the other knee lifted, then tip forward into an airplane: torso and back leg level, arms out behind. Return. Switch.', poses: [
+      P(STAND, { fn: [16, 6], khn: [1, -1], hn: [3, -4], hf: [2, -4], eh: [-1, -0.2] }), { t: [34, -2], hd: [1, 0], ff: [0, 41], fn: [-41, -2], hn: [8, -8], hf: [7, -8] }] },
+    star_excursion: { name: 'Star reach', cat: 'balance', added: 5, r: [6, 8, 10], side: 1, tp: 4, mus: 'glutes quads | adductors calves abs', cue: 'Squat a little on one leg and tap the other foot out in front, to the side and behind, like the points of a star, without putting weight on it. Switch.', poses: [
+      { t: [8, -33], ff: [2, 37], khf: [1, -0.4], fn: [36, 30], ...HANDS_HIPS }, { t: [14, -31], ff: [2, 37], khf: [1, -0.4], fn: [-34, 32], ...HANDS_HIPS }] },
+    heel_to_toe_walk: { name: 'Heel-to-toe walk', cat: 'balance', added: 5, u: 'sec', r: [30, 40, 45], mus: 'calves | glutes abs adductors', cue: 'Walk in a straight line placing each heel right against the other toes, arms out if you need them. Turn and come back, slowly.', poses: [
+      P(STAND, { fn: [7, 41], ff: [-7, 41], hn: [22, -14], hf: [-18, -14] }), P(STAND, { fn: [-7, 41], ff: [7, 41], hn: [-18, -14], hf: [22, -14] })] },
+    pistol_box_squat: { name: 'Pistol box squat', cat: 'balance', added: 5, r: [5, 6, 8], side: 1, tp: 4, mus: 'quads glutes | abs adductors calves', cue: 'Stand on one leg in front of a chair, the other leg straight out. Sit back to the chair under control, then stand up on the one leg. Switch.', poses: [
+      P(STAND, { ff: [0, 41], fn: [36, 18], hn: [34, -30], hf: [34, -29] }), { t: [16, -30], ff: [10, 26], khf: [1, -0.6], fn: [41, 12], hn: [48, -24], hf: [48, -23] }] },
+    single_leg_hop_stick: { name: 'Single-leg hop and stick', cat: 'balance', added: 5, r: [6, 8, 10], side: 1, tp: 3, mus: 'calves quads glutes | abs', cue: 'Hop forward on one leg and land softly, knee over toes, and hold still for two seconds before the next hop. Switch.', poses: [
+      P(STAND, { lift: 8, fn: [-10, 30], khn: [0.3, 1] }), { t: [12, -32], ff: [4, 36], khf: [1, -0.4], fn: [-18, 28], khn: [0.3, 1], hn: [18, -12], hf: [-10, -12] }] },
+    lateral_bound_hold: { name: 'Lateral bound and hold', cat: 'balance', added: 5, view: 'front', r: [8, 10, 12], alt: 1, tp: 3, mus: 'glutes quads | adductors calves abs', cue: 'Leap sideways from one foot and land on the other, knee soft, and hold the landing for two seconds. Bound back.', poses: [
+      { t: [-6, -33], fn: [-10, 37], khn: [-1, -0.2], ff: [24, 18], khf: [1, 0.3], hn: [-24, -14], hf: [18, -20] }, { t: [6, -33], ff: [10, 37], khf: [1, -0.2], fn: [-24, 18], khn: [-1, 0.3], hn: [-18, -20], hf: [24, -14] }] },
+    copenhagen_plank: { name: 'Copenhagen plank', cat: 'balance', added: 5, u: 'sec', r: [15, 20, 25], side: 1, mus: 'adductors obliques | abs glutes', cue: 'Side plank on your forearm with the top leg resting on a chair seat and the bottom leg under it or lifted. Hips high. Switch.', poses: [
+      { ...FOREARM, t: [33, -12], fn: [-40, -12], ff: [-40, -10], hf: [34, -44], ehf: [0, -1] }] },
+    single_leg_calf_raise: { name: 'Single-leg calf raise', cat: 'balance', added: 5, r: [12, 15, 18], side: 1, tp: 2, mus: 'calves | abs', cue: 'Stand on one leg, a fingertip on a wall, and rise onto the ball of the foot as high as you can. Lower slowly. Switch.', poses: [
+      P(STAND, { fn: [-10, 30], khn: [0.3, 1] }), P(STAND, { lift: 5, fn: [-10, 30], khn: [0.3, 1] })] },
+    single_leg_rdl_bw: { name: 'Single-leg deadlift (bodyweight)', cat: 'balance', added: 5, r: [8, 10, 12], side: 1, tp: 3.5, mus: 'hamstrings glutes | lower_back abs', cue: 'Balance on one leg and hinge forward with a flat back as the other leg lifts behind you, then squeeze your glute to stand. Switch.', poses: [
+      STAND, { t: [30, -16], fn: [2, 41], ff: [-38, -12], hn: [30, 14], hf: [29, 14] }] },
+    lunge_to_balance: { name: 'Reverse lunge to knee drive', cat: 'balance', added: 5, r: [8, 10, 12], side: 1, tp: 4, mus: 'glutes quads | hip_flexors abs calves', cue: 'Step back into a lunge, then drive the back knee up to hip height and balance there for a moment before the next rep. Switch.', poses: [
+      P(LUNGE_F, {}), P(STAND, { ff: [0, 41], fn: [16, 6], khn: [1, -1], hn: [-12, -20], hf: [16, -40] })] },
   };
 
 

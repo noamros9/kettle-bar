@@ -44,8 +44,8 @@ subject that needs it. One ticket = one branch = one PR, each starting from its 
 | 4 | Bouts format + Boxing | feature | 1 | `feature/boxing` | done (PR #53) |
 | 5 | Kickboxing | feature | 4 | `feature/kickboxing` | done (PR #55) |
 | 6 | Flexibility | feature | 2 | `feature/flexibility` | done (PR #56) |
-| 7 | Mobility & posture | feature | 2 | `feature/mobility-posture` | in review |
-| 8 | Balance & stability | feature | 1 | `feature/balance` | todo |
+| 7 | Mobility & posture | feature | 2 | `feature/mobility-posture` | done (PR #57) |
+| 8 | Balance & stability | feature | 1 | `feature/balance` | in review |
 | 9 | HIIT | feature | 1 | `feature/hiit` | todo |
 | 10 | Plyometrics | feature | 1 | `feature/plyometrics` | todo |
 | 11 | More strength: Strength, Pull-ups, Legs & glutes, Kettlebell only | feature | 1 | `feature/more-strength` | todo |
