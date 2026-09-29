@@ -20,6 +20,10 @@ const SUBJECTS = {
   'Balance & stability': { count: 5, abs: true, formats: ['circuit', 'straight'] },
   HIIT: { count: 5, abs: true, formats: ['circuit', 'amrap', 'emom', 'tabata', 'ladder'] },
   Plyometrics: { count: 5, abs: true, formats: ['straight'] },
+  Strength: { count: 6, abs: true, formats: ['straight', 'superset'] },
+  'Pull-ups': { count: 6, abs: true, formats: ['straight', 'superset', 'emom'] },
+  'Legs & glutes': { count: 6, abs: true, formats: ['straight'] },
+  'Kettlebell only': { count: 6, abs: true, formats: ['straight', 'circuit', 'emom'] },
 };
 
 for (const [subject, want] of Object.entries(SUBJECTS)) {

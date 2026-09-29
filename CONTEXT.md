@@ -53,7 +53,8 @@ a *pair* is one set of each exercise in a superset; a *round* is one pass throug
 **Hold**: an exercise measured in seconds (plank, dead hang). Runs a timer with a 3 s get-ready.
 
 **Rest**: the pause the timer runs after a tick: 30 s between sets, 60 s between exercises, 120 s before
-abs (plus superset / round / block rests). Ends with one beep.
+abs (plus superset / round / block rests). Ends with one beep. A program can set longer rests (`rests` in its
+config): plyometrics rest 60 s between sets and 90 s between exercises.
 
 **Warm-up / Cool-down**: about 1 min of mobility before and 2 min of **Stretches** after, chosen for the
 muscles that day works. Not counted in the workout time.
