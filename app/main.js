@@ -8,7 +8,7 @@ const localStore = {
 };
 const store = KBStore.createStore({ programIds: programs.ids(), storage: localStore, isOnline: () => navigator.onLine !== false });
 // a day as you'll do it: swaps applied, its live Workout Session, swap / undo (app/day.js)
-// your own programs: the store's programs docs -> the catalogue's 'own' source (built once the recipe book is here),
+// your own programs: the store's programs docs -> the catalogue's 'own' source (built from their stored configs),
 // and the catalogue's own ids -> the store (app/own.js)
 const ownLink = KBOwn.link({ store, programs, load: loadBook, build: KBBuilder.build, ex: KBEx });
 const days = KBDay.createDays({ programs, store, cat: KBEx, createSession: KBSession.createSession });
@@ -153,7 +153,7 @@ function start() {
   // then every program, quietly, for offline use: the open one and the ones with progress first
   programs.loadEverything([route.pid, ...programs.ids().filter((pid) => store.count(pid) > 0)], () => {}).then(() => recipes.load()).catch(() => {});
 }
-// with own programs stored, wait for the recipe book (cached for offline) so their pages can open; without any, no wait
-if (Object.keys(store.docs('programs')).length) ownLink.refresh().then(start); else start();
+ownLink.refresh(); // your own programs are built from their stored configs: no recipe book, no wait
+start();
 T.paint();
 if (!store.remote) paintSync(store.auth ? 'signin' : 'local');

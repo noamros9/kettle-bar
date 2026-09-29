@@ -10,7 +10,9 @@ const { createProgramCatalogue, inlined } = require('../app/programs.js');
 const { createStore, createMemoryRemote } = require('../app/store.js');
 
 const recipes = R.of(R.book());
-const deps = { recipes, build: Builder.build, ex: cat };
+const deps = { build: Builder.build, ex: cat };
+// a record as the page saves it: the choices, the seed and the config they made
+const saved = (entry, now) => Own.toRecord({ ...entry, config: Own.configOf(recipes, entry) }, now);
 const choices = (extra = {}) => ({ subjects: ['Strength'], split: 3, minutes: 30, equipment: 'kb', formats: ['straight', 'superset'], levers: ['weight', 'reps'], ...extra });
 const days = (p) => JSON.stringify(p.days);
 const memStorage = () => { const m = {}; return { m, get: (k) => m[k] ?? null, set: (k, v) => { m[k] = v; }, remove: (k) => { delete m[k]; } }; };
@@ -37,8 +39,8 @@ test('toConfig: id own-<id>, the user\'s name, and the catalogue it was made wit
 
 test('a saved record read back builds identical days, whatever the catalogue asks for later', () => {
   const entry = { id: 'x1', name: 'Mine', choices: choices(), seed: 'abc', catalogue: 4 };
-  const first = Own.programOf(deps, Own.fromRecord('x1', Own.toRecord(entry, '2026-09-29T10:00:00Z')));
-  const viaJson = Own.fromRecord('x1', JSON.parse(JSON.stringify(Own.toRecord(entry, '2026-09-29T10:00:00Z'))));
+  const first = Own.programOf(deps, Own.fromRecord('x1', saved(entry, '2026-09-29T10:00:00Z')));
+  const viaJson = Own.fromRecord('x1', JSON.parse(JSON.stringify(saved(entry, '2026-09-29T10:00:00Z'))));
   const second = Own.programOf(deps, viaJson);
   assert.equal(days(first), days(second));
   assert.equal(first.id, 'own-x1');
@@ -47,17 +49,17 @@ test('a saved record read back builds identical days, whatever the catalogue ask
   assert.equal(days(first), days(Builder.build(Own.toConfig(recipes, entry), cat)));
 });
 
-test('the record is { name, choices, seed, catalogue, createdAt, updatedAt } and nothing else; the days are not stored', () => {
-  const r = Own.toRecord({ name: 'Mine', choices: choices(), seed: 's', catalogue: 5 }, 'T1');
-  assert.deepEqual(Object.keys(r).sort(), ['catalogue', 'choices', 'createdAt', 'name', 'seed', 'updatedAt']);
+test('the record is { name, choices, seed, catalogue, config, createdAt, updatedAt }; the days are not stored, and the config is compact', () => {
+  const r = saved({ name: 'Mine', choices: choices(), seed: 's', catalogue: 5 }, 'T1');
+  assert.deepEqual(Object.keys(r).sort(), ['catalogue', 'choices', 'config', 'createdAt', 'name', 'seed', 'updatedAt']);
   assert.deepEqual([r.createdAt, r.updatedAt], ['T1', 'T1']);
-  assert.equal(Own.toRecord({ name: 'M', choices: choices(), seed: 's', catalogue: 5, createdAt: 'T0' }, 'T2').createdAt, 'T0', 'a later save keeps when it was made');
-  const copy = choices(); const rec = Own.toRecord({ name: 'M', choices: copy, seed: 's', catalogue: 5 }, 'T'); copy.split = 1;
+  assert.equal(saved({ name: 'M', choices: choices(), seed: 's', catalogue: 5, createdAt: 'T0' }, 'T2').createdAt, 'T0', 'a later save keeps when it was made');
+  const copy = choices(); const rec = saved({ name: 'M', choices: copy, seed: 's', catalogue: 5 }, 'T'); copy.split = 1;
   assert.equal(rec.choices.split, 3, 'a copy');
 });
 
 test('fromRecord refuses damaged records with a message', () => {
-  const ok = Own.toRecord({ name: 'M', choices: choices(), seed: 's', catalogue: 5 }, 'T');
+  const ok = saved({ name: 'M', choices: choices(), seed: 's', catalogue: 5 }, 'T');
   assert.throws(() => Own.fromRecord('a', null), /damaged/);
   assert.throws(() => Own.fromRecord('a', { ...ok, name: '' }), /name/);
   assert.throws(() => Own.fromRecord('a', { ...ok, choices: null }), /choices/);
@@ -123,11 +125,11 @@ test('fit: what a change of subject, equipment or minutes leaves is a combinatio
 });
 
 test('summaryLine says the cycle, the time and the gear', () => {
-  const p = Own.programOf(deps, Own.fromRecord('a', Own.toRecord({ name: 'M', choices: choices(), seed: 'q', catalogue: 5 }, 'T')));
+  const p = Own.programOf(deps, Own.fromRecord('a', saved({ name: 'M', choices: choices(), seed: 'q', catalogue: 5 }, 'T')));
   assert.equal(Own.summaryLine(p), `${p.split} · 60 days · ~28–32 min · kettlebell only`);
-  const all = Own.programOf(deps, Own.fromRecord('a', Own.toRecord({ name: 'M', choices: choices({ equipment: 'all' }), seed: 'q', catalogue: 5 }, 'T')));
+  const all = Own.programOf(deps, Own.fromRecord('a', saved({ name: 'M', choices: choices({ equipment: 'all' }), seed: 'q', catalogue: 5 }, 'T')));
   assert.match(Own.summaryLine(all), /all equipment$/);
-  const bw = Own.programOf(deps, Own.fromRecord('a', Own.toRecord({ name: 'M', choices: Own.defaults(recipes, 'Bodyweight'), seed: 'q', catalogue: 5 }, 'T')));
+  const bw = Own.programOf(deps, Own.fromRecord('a', saved({ name: 'M', choices: Own.defaults(recipes, 'Bodyweight'), seed: 'q', catalogue: 5 }, 'T')));
   assert.match(Own.summaryLine(bw), /~\d+–\d+ min · (no equipment|kettlebell only|all equipment)$/);
   assert.equal(Own.summaryLine({ ...p, equip: 'bw' }).split(' · ').at(-1), 'no equipment');
 });
@@ -144,7 +146,7 @@ test('ids: own-safe, lower case, different each time; the default name follows t
 });
 
 // ---- the catalogue source ----
-const record = (name, seed, extra = {}) => Own.toRecord({ name, choices: choices(), seed, catalogue: 5, ...extra }, extra.createdAt || 'T');
+const record = (name, seed, extra = {}) => saved({ name, choices: choices(), seed, catalogue: 5, ...extra }, extra.createdAt || 'T');
 
 test('source: newest first, days built from the records, summaries for the list, skips what is damaged', async () => {
   const src = Own.source({ a: record('Old', 's1', { createdAt: '2026-09-01T00:00:00Z' }), b: record('New', 's2', { createdAt: '2026-09-02T00:00:00Z' }), c: { name: 'Broken' } }, deps);
@@ -166,10 +168,12 @@ test('source: newest first, days built from the records, summaries for the list,
 });
 
 test('source: a record the recipes cannot build any more is skipped with the reason, the others stay', () => {
-  const bad = record('Gone', 's', { choices: choices({ subjects: ['Nothing here'] }) });
-  const src = Own.source({ a: record('Fine', 's'), z: bad }, deps);
+  const { config, ...legacy } = record('Old', 's');
+  const src = Own.source({ a: record('Fine', 's'), z: { ...record('Bad', 's'), config: 'nope' }, y: legacy }, deps);
   assert.deepEqual(src.summaries.map((s) => s.id), ['own-a']);
-  assert.match(src.skipped[0].error, /Unknown subject/);
+  assert.deepEqual(src.skipped.map((x) => x.id).sort(), ['y', 'z']);
+  assert.match(src.skipped.find((x) => x.id === 'z').error, /damaged config/);
+  assert.match(src.skipped.find((x) => x.id === 'y').error, /no config yet/);
 });
 
 test('the own source sits first in the catalogue, with source "own", next to the library', () => {
@@ -190,23 +194,23 @@ function page(opts = {}) {
   const catalogue = createProgramCatalogue(lib);
   let loads = 0;
   const load = opts.load || (() => { loads++; return Promise.resolve(recipes); });
-  const link = Own.link({ store, programs: catalogue, load, ...deps, recipes: undefined });
+  const link = Own.link({ store, programs: catalogue, load, ...deps });
   return { store, catalogue, link, storage, get loads() { return loads; } };
 }
 
 test('link: a saved program joins the catalogue, and the store learns its id', async () => {
   const p = page();
   const changes = []; p.catalogue.onChange(() => changes.push(p.catalogue.ids().join()));
-  p.store.setDoc('programs', 'x1', Own.toRecord({ name: 'Mine', choices: choices(), seed: 's', catalogue: 5 }, 'T'));
+  p.store.setDoc('programs', 'x1', saved({ name: 'Mine', choices: choices(), seed: 's', catalogue: 5 }, 'T'));
   await tick();
   assert.deepEqual(p.catalogue.ids(), ['own-x1', 'lib-1']);
   assert.deepEqual(p.store.programIds(), ['lib-1', 'own-x1']);
   p.store.toggle('own-x1', 1);
   assert.equal(p.store.isDone('own-x1', 1), true);
   assert.ok(p.storage.m['kb-progress-own-x1'], 'ticks are kept on the device like any program');
-  // the second doc change does not load the book again
-  p.store.setDoc('programs', 'x2', Own.toRecord({ name: 'Two', choices: choices(), seed: 't', catalogue: 5 }, 'T'));
-  assert.equal(p.loads, 1);
+  // built from the stored config: the recipe book is never asked for
+  p.store.setDoc('programs', 'x2', saved({ name: 'Two', choices: choices(), seed: 't', catalogue: 5 }, 'T'));
+  assert.equal(p.loads, 0);
   assert.deepEqual(p.catalogue.ids().sort(), ['lib-1', 'own-x1', 'own-x2']);
   assert.ok(changes.length >= 2);
 });
@@ -216,7 +220,7 @@ test('link: other collections are ignored; a deleted program leaves the catalogu
   p.store.setDoc('prefs', 'main', { a: 1 }); p.store.setDoc('random', 'r', { a: 1 });
   await tick();
   assert.equal(p.loads, 0);
-  p.store.setDoc('programs', 'x1', Own.toRecord({ name: 'Mine', choices: choices(), seed: 's', catalogue: 5 }, 'T'));
+  p.store.setDoc('programs', 'x1', saved({ name: 'Mine', choices: choices(), seed: 's', catalogue: 5 }, 'T'));
   await tick();
   p.store.deleteDoc('programs', 'x1');
   assert.deepEqual(p.catalogue.ids(), ['lib-1']);
@@ -224,31 +228,81 @@ test('link: other collections are ignored; a deleted program leaves the catalogu
   assert.equal(p.store.isDone('own-x1', 1), false);
 });
 
-test('link: docs already on the device are built when the page asks (refresh), loading the book once', async () => {
-  const p = page();
-  p.link.refresh(); // nothing stored: no book needed
-  assert.equal(p.loads, 0);
-  p.store.setDoc('programs', 'x1', Own.toRecord({ name: 'Mine', choices: choices(), seed: 's', catalogue: 5 }, 'T'));
-  await Promise.all([p.link.refresh(), p.link.refresh()]);
+test('link: docs already on the device are built when the page asks (refresh), with no recipe book', () => {
+  const p = page({ load: () => { throw new Error('the book must not be needed'); } });
+  p.link.refresh(); // nothing stored
+  p.store.replaceDocs('programs', { x1: saved({ name: 'Mine', choices: choices(), seed: 's', catalogue: 5 }, 'T') });
+  p.link.refresh();
   assert.deepEqual(p.catalogue.ids(), ['own-x1', 'lib-1']);
 });
 
-test('link: no recipe book (offline, never opened build): own programs wait, nothing breaks, and come when it can load', async () => {
+test('boot with own programs stored and the recipe book unavailable (offline, never fetched): they are all there', () => {
+  const first = page(); // a device that saved two programs
+  first.store.setDoc('programs', 'x1', saved({ name: 'Mine', choices: choices(), seed: 's', catalogue: 5 }, 'T'));
+  first.store.setDoc('programs', 'x2', saved({ name: 'Two', choices: choices({ split: 5 }), seed: 't', catalogue: 5 }, 'T'));
+  first.store.toggle('own-x1', 4);
+  // a fresh page on the same device storage, whose book can never load
+  const store = createStore({ programIds: ['lib-1'], storage: first.storage, now: () => 'T' });
+  store.load();
+  const catalogue = createProgramCatalogue(inlined([Builder.build({ ...R.make(choices(), 'x'), id: 'lib-1', name: 'Lib' }, cat)]));
+  let asked = 0;
+  Own.link({ store, programs: catalogue, load: () => { asked++; return Promise.reject(new Error('offline')); }, ...deps }).refresh();
+  assert.equal(asked, 0);
+  assert.deepEqual(catalogue.ids().sort(), ['lib-1', 'own-x1', 'own-x2']);
+  assert.equal(catalogue.day('own-x2', 1).day, 1);
+  assert.equal(store.isDone('own-x1', 4), true);
+});
+
+// ---- the core rule: a program you are halfway through never changes when the recipe book does ----
+test('a saved program builds byte-identical days after the recipe book changes: a day type dropped, one added', () => {
+  const entry = { name: 'Mine', choices: choices({ split: 4 }), seed: 'keep-me', catalogue: 5 };
+  const record = JSON.parse(JSON.stringify(saved(entry, 'T'))); // as it comes back from the device or the cloud
+  const before = days(Own.programOf(deps, Own.fromRecord('x', record)));
+  const book = JSON.parse(JSON.stringify(R.book()));
+  // drop every Strength day type but one, and add a copy of one under a new label: make() from this book gives other days
+  const strength = book.subjects.findIndex(([n]) => n === 'Strength');
+  const of = book.types.filter((t) => t.subject === strength);
+  const changed = { ...book, types: [...book.types.filter((t) => t.subject !== strength || t === of[0]), { ...of[1], id: 'new:x', label: 'Brand new' }] };
+  const other = R.of(changed);
+  assert.notEqual(days(Builder.build(Own.toConfig(other, { id: 'x', name: 'Mine', ...entry }), cat)), before, 'the changed book would reshuffle it');
+  assert.equal(days(Own.programOf(deps, Own.fromRecord('x', record))), before);
+  // and the stored config is the whole story: the days do not read the choices or the seed
+  const noChoices = { ...record, choices: { ...record.choices, split: 1 }, seed: 'something else' };
+  assert.equal(days(Own.programOf(deps, Own.fromRecord('x', noChoices))), before);
+});
+
+test('the stored config is what make() produced, without what is worked out again; its names match make()', () => {
+  const made = recipes.make({ ...choices({ split: 5 }), catalogue: 5 }, 'abc');
+  const config = Own.configOf(recipes, { choices: choices({ split: 5 }), seed: 'abc', catalogue: 5 });
+  assert.deepEqual(Object.keys(config).filter((k) => !(k in made)), []);
+  assert.deepEqual(['id', 'name', 'names'].filter((k) => k in config), []);
+  const built = Own.programOf(deps, { pid: 'own-x', name: 'N', config });
+  assert.equal(days(built), days(Builder.build({ ...made, id: 'own-x', name: 'N' }, cat)), 'the same days, names included');
+  const size = JSON.stringify(saved({ name: 'My Strength 60', choices: choices({ split: 5 }), seed: 'abc', catalogue: 5 }, '2026-09-29T10:00:00.000Z')).length;
+  assert.ok(size < 12000, `a 5-day record is ${size} bytes`);
+});
+
+test('link: a doc without a config (none exist) is made once through the book and saved back; it stays out while the book is away', async () => {
+  const { config, ...legacy } = saved({ name: 'Old', choices: choices(), seed: 's', catalogue: 5 }, 'T');
   let up = false;
   const p = page({ load: () => (up ? Promise.resolve(recipes) : Promise.reject(new Error('offline'))) });
-  p.store.setDoc('programs', 'x1', Own.toRecord({ name: 'Mine', choices: choices(), seed: 's', catalogue: 5 }, 'T'));
+  p.store.replaceDocs('programs', { x1: legacy, bad: { ...legacy, choices: choices({ subjects: ['Nothing here'] }) } });
   await tick();
   assert.deepEqual(p.catalogue.ids(), ['lib-1']);
   up = true;
-  await p.link.refresh();
+  await Promise.all([p.link.refresh(), p.link.refresh()]);
   assert.deepEqual(p.catalogue.ids(), ['own-x1', 'lib-1']);
+  assert.deepEqual(p.store.doc('programs', 'x1').config, config, 'saved back');
+  assert.equal(p.store.doc('programs', 'bad').config, undefined, 'unbuildable: left as it was');
+  const stored = p.store.doc('programs', 'x1');
+  assert.equal(days(p.catalogue.get('own-x1')), days(Own.programOf(deps, Own.fromRecord('x1', stored))));
 });
 
 test('link: a program that arrives from the account on another device is built and its progress is subscribed', async () => {
   const one = createMemoryRemote();
   const a = page(), b = page();
   a.store.attach(one); b.store.attach(one); await tick();
-  a.store.setDoc('programs', 'x1', Own.toRecord({ name: 'Mine', choices: choices(), seed: 's', catalogue: 5 }, 'T'));
+  a.store.setDoc('programs', 'x1', saved({ name: 'Mine', choices: choices(), seed: 's', catalogue: 5 }, 'T'));
   a.store.toggle('lib-1', 1); await a.store.flush(); await tick();
   await tick();
   assert.deepEqual(b.catalogue.ids(), ['own-x1', 'lib-1']);

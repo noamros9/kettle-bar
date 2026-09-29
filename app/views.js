@@ -137,7 +137,7 @@ let bookError = null, bookLoading = false;
 let previewCache = { key: '', program: null };
 function buildPreview(b) {
   const key = JSON.stringify([b.c, b.seed]);
-  if (previewCache.key !== key) previewCache = { key, program: KBOwn.programOf({ recipes: recipeBook, build: KBBuilder.build, ex: KBEx }, { id: 'preview', name: 'Preview', choices: b.c, seed: b.seed }) };
+  if (previewCache.key !== key) previewCache = { key, program: KBOwn.programOf({ build: KBBuilder.build, ex: KBEx }, { pid: 'own-preview', name: 'Preview', config: KBOwn.configOf(recipeBook, { choices: b.c, seed: b.seed }) }) };
   return previewCache.program;
 }
 function buildSet(k, v) {
@@ -153,11 +153,12 @@ function buildSet(k, v) {
   render();
 }
 function buildRegenerate() { buildState.seed = KBOwn.newSeed(); render(); }
-async function buildSave() {
+function buildSave() {
   const b = buildState, id = KBOwn.newId(), subject = b.c.subjects[0];
   const name = (b.name || '').trim() || KBOwn.defaultName(subject);
-  store.setDoc('programs', id, KBOwn.toRecord({ name, choices: b.c, seed: b.seed, catalogue: recipeBook.book().catalogue }, new Date().toISOString()));
-  await ownLink.refresh(); // the program is in the catalogue before its page opens
+  const made = { choices: b.c, seed: b.seed, catalogue: recipeBook.book().catalogue };
+  // the config the recipes made is what is kept: the days never depend on the recipe book again
+  store.setDoc('programs', id, KBOwn.toRecord({ name, ...made, config: KBOwn.configOf(recipeBook, made) }, new Date().toISOString())); // the catalogue follows at once
   buildState = null;
   go('p-' + KBOwn.pidOf(id));
 }

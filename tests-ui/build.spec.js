@@ -90,18 +90,34 @@ test('the subject you pick changes what is offered: its formats, its levers, its
   await expect(app.heading()).toHaveText('Evening flow');
 });
 
-test('an own program opens offline, built from its stored choices and the cached recipe book', async ({ app }, testInfo) => {
+test('an own program opens offline, built from its stored config', async ({ app }, testInfo) => {
   base.test.skip(testInfo.project.name !== 'phone-light', 'theme-independent');
   await buildKettlebell(app);
   await app.page.getByRole('button', { name: 'Save program' }).click();
   await expect(app.heading()).toHaveText('My Strength 60');
   const pid = await app.data(() => route.pid);
   const day1 = await app.data(() => programs.day(route.pid, 1).name);
-  await app.page.waitForFunction(async () => !!(await caches.match('data/recipes.json')), null, { timeout: 20000 });
   app.allowErrors(/\/data\//);
   await app.page.route('**/data/**', (r) => r.abort('internetdisconnected'));
   await app.page.goto('/index.html#p-' + pid + '-d1'); await app.page.locator('#app h1').first().waitFor(); await app.loaded();
   await expect(app.heading()).toHaveText(day1);
+});
+
+test('own programs are there at boot with the recipe book unavailable: they never read it', async ({ app }, testInfo) => {
+  base.test.skip(testInfo.project.name !== 'phone-light', 'theme-independent');
+  await buildKettlebell(app);
+  await app.page.getByRole('button', { name: 'Save program' }).click();
+  await expect(app.heading()).toHaveText('My Strength 60');
+  await app.page.locator('[data-toggle="1"]').click();
+  await app.data(async () => { await (await caches.open('kettle-bar-v2')).delete('data/recipes.json'); });
+  app.allowErrors(/recipes\.json/);
+  await app.page.route('**/data/recipes.json', (r) => r.abort('internetdisconnected'));
+  await app.page.goto('/index.html#programs'); await app.page.reload(); await app.page.locator('#app h1').first().waitFor();
+  await expect(app.page.locator('.yours .pcard .num')).toHaveText('1/60');
+  const record = await app.data(() => store.doc('programs', Object.keys(store.docs('programs'))[0]));
+  expect(Object.keys(record).sort()).toEqual(['catalogue', 'choices', 'config', 'createdAt', 'name', 'seed', 'updatedAt']);
+  await app.page.locator('.yours .pcard').click();
+  await expect(app.heading()).toHaveText('My Strength 60');
 });
 
 base.test('a saved program and its progress reach a second browser through the account', async ({ browser }, testInfo) => {
@@ -122,7 +138,7 @@ base.test('a saved program and its progress reach a second browser through the a
   expect(Object.keys(remote.collections.programs)).toHaveLength(1);
   const [id] = Object.keys(remote.collections.programs);
   const rec = remote.collections.programs[id];
-  expect(Object.keys(rec).sort()).toEqual(['catalogue', 'choices', 'createdAt', 'name', 'seed', 'updatedAt']);
+  expect(Object.keys(rec).sort()).toEqual(['catalogue', 'choices', 'config', 'createdAt', 'name', 'seed', 'updatedAt']);
   expect(rec.choices).toMatchObject({ subjects: ['Strength'], split: 3, equipment: 'kb' });
 
   // the second browser: the program appears on its shelf, with day 1 done
