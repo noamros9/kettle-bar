@@ -24,6 +24,9 @@ const ORDER = [
   // Phase 6 ticket 2: Fighter, Athlete
   'fight-ready', 'strike-and-lift', 'southpaw-strength', 'muay-thai-conditioning', 'boxers-body', 'knockout-circuit',
   'jump-lift-stick', 'court-ready', 'field-day', 'explosive-legs', 'power-and-poise', 'all-round-athlete',
+  // Phase 6 ticket 3: Balanced week, Calm strength
+  'three-in-one', 'everyday-athlete', 'balanced-30', 'whole-body-week', 'lift-sweat-stretch', 'the-generalist',
+  'slow-burn', 'steady-strength', 'pilates-and-iron', 'yin-and-yang', 'quiet-power', 'control',
 ];
 
 const byId = new Map(FAMILY_FILES.flat().map((c) => [c.id, c]));
