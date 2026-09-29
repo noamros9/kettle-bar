@@ -80,10 +80,10 @@ days ticked on the device and in the cloud are merged.
 | `app/main.js` | Wires store, session and clock to the page |
 | `app/shell.html`, `app/styles.css` | Page markup and styles |
 | `build.js` | Builds all programs and stitches everything into `index.html` (GitHub Pages) |
-| `tests/` | `npm test`: session rules, store sync, program invariants, catalogue, figures, build |
+| `tests/` | `npm test`: the renderable walk (every program), session rules, store sync, program invariants, catalogue, figures, build |
 | `.github/workflows/deploy.yml` | Tests (100% coverage on the core modules), builds and deploys to Pages |
 | `scripts/install-hooks.js` | Installed by `npm install`: a pre-commit hook that runs the coverage gate |
-| `tests-ui/`, `playwright.config.js` | `npm run test:ui`: phone UI tests (390 px, light and dark): every program, days 1/31/60, every exercise |
+| `tests-ui/`, `playwright.config.js` | `npm run test:ui`: phone UI tests (390 px, light and dark): one program per subject, days 1/31/60, every exercise. `tests/renderable.test.js` walks every program's days 1/31/60 as a unit check |
 | `scripts/serve.js` | Static server the UI tests run against |
 | `scripts/backup-progress.js`, `.github/workflows/backup.yml` | Nightly backup of progress (see Backups) |
 | `scripts/program-times.js` | `npm run times`: each program's shortest and longest day against its target |

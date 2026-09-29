@@ -1,4 +1,6 @@
-// Every page renders on a phone, light and dark: the right heading, no errors, no sideways scroll.
+// Pages render on a phone, light and dark: the right heading, no errors, no sideways scroll.
+// One program per subject is drawn here (the first of each, so new subjects join by themselves); that every
+// program's days can be drawn is a unit check (tests/renderable.test.js).
 const { test, expect } = require('./fixtures.js');
 const { CONFIGS } = require('../program-builder.js');
 const { EX } = require('../exercises.js');
@@ -19,7 +21,9 @@ test('programs list and exercises list', async ({ app }, testInfo) => {
   await shot(app, testInfo, 'exercises');
 });
 
-for (const cfg of CONFIGS) {
+const sample = [...new Map(CONFIGS.map((c) => [c.subject, c])).values()];
+
+for (const cfg of sample) {
   test(`${cfg.name}: program page and days 1, 31 and 60`, async ({ app }, testInfo) => {
     await app.open(`#p-${cfg.id}`);
     expect(await app.h1()).toBe(cfg.name);
