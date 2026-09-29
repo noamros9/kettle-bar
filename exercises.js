@@ -41,6 +41,10 @@
   const WIDE = { t: [0, -34], fn: [-28, 33], ff: [28, 33], khn: [-1, 0], khf: [1, 0] }; // front view, feet wide
   const WAR2 = { t: [0, -34], fn: [-30, 26], khn: [-1, -0.4], ff: [34, 30], khf: [1, 0], hn: [-42, -33], hf: [42, -33], ehn: [0, -1], ehf: [0, -1] };
 
+  const CURL = { t: [33, -8], hd: [0.6, -1] }; // lying on the back, head and shoulders curled up (head right, legs left)
+  const TUCK = { t: [-14, -31], fn: [12, -6], ff: [11, -5], kh: [0.3, -1], hn: [13, -13], hf: [12, -12], mat: 1 };
+  const TUCK_BACK = { t: [-30, 16], hd: [-0.4, -1], fn: [-6, -18], ff: [-7, -17], kh: [0, -1], hn: [-4, -10], hf: [-5, -10], mat: 1 };
+
   /*
    * Exercise library.
    * r: reps (or seconds) for Level I / II / III, exactly as used (Level I = intermediate).  u: 'reps' | 'sec'.  side: done on each side.
@@ -329,6 +333,51 @@
       P(TABLE, { t: [30, 16], hd: [1, 0.5], hn: [62, 21], hf: [63, 21] })] },
     sphinx_pose: { name: 'Sphinx pose', cat: 'yoga', added: 5, u: 'sec', r: [60, 75, 90], mus: 'lower_back | abs hip_flexors', cue: 'Face down on your forearms, elbows under shoulders. Let your lower back soften as your chest lifts.', poses: [
       { t: [31, -14], hd: [1, -0.4], hn: [52, 5], hf: [53, 5], eh: [0, 1], fn: [-41, 4], ff: [-41, 5], mat: 1 }] },
+
+    // ---------------- PILATES (Phase 5: mat work in reps, run as guided flows) ----------------
+    hundred: { name: 'The hundred', cat: 'pilates', added: 5, r: [50, 80, 100], tp: 1, mus: 'abs | hip_flexors front_delts', cue: 'Curl your head and shoulders up, legs lifted, and pump long arms up and down: breathe in for five pumps, out for five.', poses: [
+      { ...CURL, fn: [-29, -29], ff: [-28, -28], hn: [2, -10], hf: [2, -9], mat: 1 }, { ...CURL, fn: [-29, -29], ff: [-28, -28], hn: [2, -3], hf: [2, -2], mat: 1 }] },
+    roll_up: { name: 'Roll-up', cat: 'pilates', added: 5, r: [6, 8, 10], tp: 7, mus: 'abs | hip_flexors hamstrings', cue: 'Lie with arms overhead. Peel up one vertebra at a time to reach over your legs, then roll back down just as slowly.', poses: [
+      P(LIE, { hn: [66, 1], hf: [67, 1] }), P(LIE, { t: [0, -34], hn: [-30, -30], hf: [-30, -29] }), P(LIE, { t: [-28, -19], hd: [-0.6, 1], hn: [-41, -1], hf: [-42, 0], eh: [0, -1] })] },
+    single_leg_circles: { name: 'Single-leg circles', cat: 'pilates', added: 5, r: [8, 10, 12], side: 1, tp: 3, mus: 'hip_flexors abs | quads adductors', cue: 'On your back, one leg long on the mat and the other pointing up. Draw small circles with the raised leg, hips still. Switch legs.', poses: [
+      P(LIE, { fn: [-8, -40], khn: [1, 0] }), P(LIE, { fn: [8, -40], khn: [1, 0] })] },
+    rolling_like_a_ball: { name: 'Rolling like a ball', cat: 'pilates', added: 5, r: [8, 10, 12], tp: 4, mus: 'abs | lower_back', cue: 'Balance in a tight ball, hands on your shins. Roll back to your shoulder blades and back up to balance, never onto your neck.', poses: [TUCK, TUCK_BACK] },
+    single_leg_stretch: { name: 'Single-leg stretch', cat: 'pilates', added: 5, r: [16, 20, 24], alt: 1, tp: 2, mus: 'abs | hip_flexors obliques', cue: 'Head and shoulders curled up, pull one knee in as the other leg reaches long and low. Switch legs with control.', poses: [
+      { ...CURL, fn: [4, -10], khn: [1, -1], ff: [-34, -22], hn: [13, -18], hf: [14, -17], mat: 1 }, { ...CURL, ff: [4, -10], khf: [1, -1], fn: [-34, -22], hn: [13, -18], hf: [14, -17], mat: 1 }] },
+    double_leg_stretch: { name: 'Double-leg stretch', cat: 'pilates', added: 5, r: [8, 10, 12], tp: 5, mus: 'abs | hip_flexors', cue: 'Hug both knees in, then reach arms overhead and legs long at once. Circle the arms back and hug in again.', poses: [
+      { ...CURL, fn: [4, -10], ff: [3, -9], kh: [1, -1], hn: [12, -18], hf: [13, -17], mat: 1 }, { ...CURL, fn: [-33, -24], ff: [-33, -23], hn: [62, -16], hf: [62, -15], mat: 1 }] },
+    scissors: { name: 'Scissors', cat: 'pilates', added: 5, r: [16, 20, 24], alt: 1, tp: 2, mus: 'abs hamstrings | hip_flexors', cue: 'Curled up, one straight leg toward your face and the other long and low. Pulse twice and switch, like scissors.', poses: [
+      { ...CURL, fn: [8, -40], ff: [-38, -12], hn: [10, -30], hf: [11, -29], mat: 1 }, { ...CURL, ff: [8, -40], fn: [-38, -12], hn: [10, -30], hf: [11, -29], mat: 1 }] },
+    criss_cross: { name: 'Criss-cross', cat: 'pilates', added: 5, r: [16, 20, 24], alt: 1, tp: 2.5, mus: 'obliques abs | hip_flexors', cue: 'Hands behind your head, curl up and twist your elbow toward the opposite knee as the other leg reaches long. Switch.', poses: [
+      { ...CURL, fn: [4, -10], khn: [1, -1], ff: [-34, -22], hn: [38, -16], hf: [38, -15], eh: [-1, -1], mat: 1 }, { ...CURL, ff: [4, -10], khf: [1, -1], fn: [-34, -22], hn: [38, -16], hf: [38, -15], eh: [-1, -1], mat: 1 }] },
+    spine_stretch: { name: 'Spine stretch forward', cat: 'pilates', added: 5, r: [6, 8, 10], tp: 7, mus: 'lower_back hamstrings | upper_back', cue: 'Sit tall, legs long and a little apart, arms forward. Round forward from the top of your head as you breathe out, then stack back up.', poses: [
+      P(SEAT, { hn: [30, -30], hf: [30, -29] }), P(SEAT, { t: [18, -29], hd: [0.5, 1], hn: [44, -6], hf: [44, -5] })] },
+    saw: { name: 'Saw', cat: 'pilates', added: 5, view: 'front', r: [8, 10, 12], alt: 1, tp: 6, mus: 'obliques hamstrings | lower_back upper_back', cue: 'Sit tall with legs wide and arms out. Twist, then reach your front hand past the opposite little toe as if sawing it off. Come back and switch.', poses: [
+      { t: [0, -34], fn: [-38, 8], ff: [38, 8], hn: [-40, -34], hf: [40, -34], ehn: [0, -1], ehf: [0, -1], mat: 1 },
+      { t: [-18, -29], hd: [-0.4, 1], fn: [-38, 8], ff: [38, 8], hn: [-38, 4], hf: [10, -48], ehn: [-1, 0], ehf: [1, 0], mat: 1 }] },
+    swan: { name: 'Swan', cat: 'pilates', added: 5, r: [6, 8, 10], tp: 5, mus: 'lower_back | upper_back glutes', cue: 'Face down, hands under your shoulders. Press your chest up, long through the spine, then lower with control.', poses: [
+      P(PRONE, { hn: [36, 2], hf: [37, 2], eh: [-1, -1] }), COBRA] },
+    side_kick: { name: 'Side kick series', cat: 'pilates', added: 5, r: [12, 15, 20], side: 1, tp: 3, mus: 'glutes | hip_flexors abs', cue: 'Lie on your side, head on your lower arm, legs a little forward. Lift and lower the top leg without rocking your hips. Switch sides.', poses: [
+      { t: [34, -4], hd: [1, -0.3], hn: [44, -2], hf: [22, 4], fn: [-41, 1], ff: [-41, 2], mat: 1 }, { t: [34, -4], hd: [1, -0.3], hn: [44, -2], hf: [22, 4], fn: [-38, -16], ff: [-41, 2], mat: 1 }] },
+    teaser: { name: 'Teaser', cat: 'pilates', added: 5, r: [4, 6, 8], tp: 8, mus: 'abs hip_flexors | quads', cue: 'From lying with legs lifted, roll up to balance in a V, arms reaching parallel to your legs. Roll down slowly.', poses: [
+      P(LIE, { fn: [-29, -29], ff: [-28, -28], hn: [66, -2], hf: [67, -2] }), { t: [22, -26], hd: [0, -1], fn: [-29, -29], ff: [-28, -28], hn: [-8, -38], hf: [-8, -37], mat: 1 }] },
+    swimming: { name: 'Swimming', cat: 'pilates', added: 5, r: [30, 40, 50], alt: 1, tp: 1, mus: 'lower_back glutes | upper_back rear_delts', cue: 'Face down, arms and legs long and lifted. Flutter opposite arm and leg in small, quick beats, chest up.', poses: [
+      { t: [33, -8], hd: [1, -0.2], hn: [64, -15], hf: [63, -5], fn: [-40, -3], ff: [-40, -10], mat: 1 }, { t: [33, -8], hd: [1, -0.2], hn: [64, -5], hf: [63, -15], fn: [-40, -10], ff: [-40, -3], mat: 1 }] },
+    leg_pull_front: { name: 'Leg pull front', cat: 'pilates', added: 5, r: [8, 10, 12], alt: 1, tp: 4, mus: 'abs glutes | front_delts triceps', cue: 'In a straight-arm plank, lift one straight leg, lower it, then the other, without letting your hips sway.', poses: [PLANK, P(PLANK, { ff: [-40, 4] })] },
+    seal: { name: 'Seal', cat: 'pilates', added: 5, r: [8, 10, 12], tp: 4, mus: 'abs | lower_back adductors', cue: 'Knees apart, hands threaded through to hold your ankles. Clap your feet three times, roll back, roll up and clap again.', poses: [
+      { ...TUCK, hn: [8, -3], hf: [7, -3] }, { ...TUCK_BACK, hn: [-6, -12], hf: [-7, -12] }] },
+    shoulder_bridge: { name: 'Shoulder bridge', cat: 'pilates', added: 5, r: [6, 8, 10], side: 1, tp: 5, mus: 'glutes hamstrings | lower_back abs', cue: 'In a bridge, lift one leg to the ceiling, lower it to hip height and lift again. Keep the hips level. Switch legs.', poses: [
+      P(GB_UP, { hn: [12, 15.5], hf: [12, 15.5] }), P(GB_UP, { hn: [12, 15.5], hf: [12, 15.5], fn: [-8, -40], khn: [1, 0] })] },
+    standing_roll_down: { name: 'Standing roll-down', cat: 'pilates', added: 5, r: [5, 6, 8], tp: 8, mus: 'lower_back hamstrings | abs', cue: 'Stand tall, drop your chin and roll down one vertebra at a time until your hands hang. Roll back up just as slowly.', poses: [
+      STAND, { t: [21, -27], hd: [0.3, 1], hn: [26, 0], hf: [24, 0], fn: [-2, 41], ff: [-4, 41] }, FOLD] },
+    standing_leg_lift: { name: 'Standing leg lift', cat: 'pilates', added: 5, r: [12, 15, 20], side: 1, tp: 3, mus: 'hip_flexors glutes | abs quads', cue: 'Stand tall on one leg, hands on hips, and lift the other straight leg in front of you, then sweep it back behind. Switch legs.', poses: [
+      P(STAND, { ...HANDS_HIPS, fn: [38, -15] }), P(STAND, { ...HANDS_HIPS, fn: [-20, 36] })] },
+    standing_side_leg_lift: { name: 'Standing side leg lift', cat: 'pilates', added: 5, view: 'front', r: [12, 15, 20], side: 1, tp: 3, mus: 'glutes | adductors abs', cue: 'Stand tall with hands on hips and lift one straight leg out to the side, toes forward. Lower with control. Switch legs.', poses: [
+      P(FSTAND, { hn: [-10, -6], hf: [10, -6], ehn: [-1, 0], ehf: [1, 0] }), P(FSTAND, { hn: [-10, -6], hf: [10, -6], ehn: [-1, 0], ehf: [1, 0], fn: [-30, 30] })] },
+    plie_squat: { name: 'Plié squat', cat: 'pilates', added: 5, view: 'front', r: [15, 20, 25], tp: 3, mus: 'adductors glutes quads | calves', cue: 'Feet wide and turned out, bend your knees out over your toes and lower straight down, then press up tall.', poses: [
+      { t: [0, -34], fn: [-22, 36], ff: [22, 36], hn: [-4, -18], hf: [4, -18], ehn: [-1, 0], ehf: [1, 0] }, { t: [0, -34], fn: [-26, 24], ff: [26, 24], khn: [-1, 0], khf: [1, 0], hn: [-4, -18], hf: [4, -18], ehn: [-1, 0], ehf: [1, 0] }] },
+    heel_raise: { name: 'Pilates heel raises', cat: 'pilates', added: 5, r: [20, 25, 30], tp: 2, mus: 'calves | glutes abs', cue: 'Heels together and toes apart, rise high onto the balls of your feet, pause, and lower slowly.', poses: [
+      STAND, P(STAND, { lift: 5, fn: [4, 41], ff: [0, 41] })] },
   };
 
 
