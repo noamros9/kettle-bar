@@ -529,6 +529,9 @@ function render(scrollTop) {
   else app.innerHTML = v === 'programs' ? viewPrograms() : v === 'library' ? viewLibrary() : v === 'settings' ? viewSettings() : v === 'stats' ? viewStats() : v === 'exercise' ? viewExercise() : v === 'day' ? viewDay() : viewProgram();
   const section = v === 'library' || v === 'exercise' ? 'library' : v === 'settings' || v === 'stats' ? v : 'programs';
   document.querySelectorAll('.top [data-go]').forEach((b) => b.setAttribute('aria-current', b.dataset.go === section ? 'page' : 'false'));
+  // the family tabs are a scrolling row (a re-render resets it): bring the chosen one fully into view
+  const chosen = document.querySelector('.ftab[aria-pressed="true"]');
+  if (chosen) { const row = chosen.parentElement; row.scrollLeft = Math.max(0, chosen.offsetLeft + chosen.offsetWidth + 4 - row.clientWidth); }
   stopAnimation();
   if (v === 'exercise') startAnimation(route.ex);
   const showTimer = v === 'day';

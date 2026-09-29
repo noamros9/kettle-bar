@@ -85,3 +85,17 @@ test('a Strength & stretch day opens: a lift to tick, then a flow to start', asy
   await expect(app.page.locator('#tfig svg.fig')).toBeVisible();
   expect(await app.sidewaysScroll()).toBe(0);
 });
+
+test('at 360px only the family tab row scrolls: the page does not, and the selected Mixed tab is fully visible', async ({ app }) => {
+  await app.page.setViewportSize({ width: 360, height: 800 });
+  await app.open('#programs');
+  expect(await app.sidewaysScroll()).toBe(0);
+  await family(app).getByRole('button', { name: 'Mixed' }).click();
+  expect(await app.sidewaysScroll()).toBe(0);
+  const box = await app.page.evaluate(() => {
+    const t = document.querySelector('.ftab[aria-pressed="true"]').getBoundingClientRect(), r = document.querySelector('.ftabs').getBoundingClientRect();
+    return { tabLeft: t.left, tabRight: t.right, rowLeft: r.left, rowRight: r.right };
+  });
+  expect(box.tabLeft).toBeGreaterThanOrEqual(box.rowLeft);
+  expect(box.tabRight).toBeLessThanOrEqual(box.rowRight + 0.5);
+});
