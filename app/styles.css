@@ -334,6 +334,12 @@ body.bt-open{overflow:hidden}
 .fnext{display:grid;gap:2px;text-align:left;background:var(--soft);border:0;border-radius:10px;padding:12px 14px;color:var(--ink);font:inherit;margin:0}
 button.fnext::after{content:"›";position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:22px;color:var(--muted)}
 button.fnext{position:relative;padding-right:36px}
+.whatnext{display:grid;gap:10px;justify-items:start;margin-top:8px;padding-top:14px;border-top:1px solid var(--line)}
+.whatnext h2,.whatnext p{margin:0}
+.wnlist{display:grid;gap:8px;width:100%}
+.wncard{display:grid;gap:2px;text-align:left;background:var(--soft);border:0;border-radius:10px;padding:10px 14px;color:var(--ink);font:inherit}
+.wncard b{font:800 20px/1.1 var(--display);text-transform:uppercase}
+.wncard span:last-child{color:var(--muted);font-size:13px}
 .fnext span{color:var(--muted);font-size:14px}
 .nw{white-space:nowrap}
 /* stats */

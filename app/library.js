@@ -62,7 +62,22 @@
     };
   }
 
-  const api = { libraryView, setFilter, counterText, lengthOf, FAMILIES, LENGTHS };
+  // What next: up to three library programs of the family of `pid`'s first subject (a mix: its first subject) that train
+  // differently and have no progress (progressOf(id) > 0 means started). A different subject comes first, then more formats
+  // the program doesn't use, then library order. The same subject only counts when it brings a new format.
+  function suggestNext(pid, summaries, progressOf, { families }) {
+    const me = summaries.find((p) => p.id === pid);
+    const fam = me && families.find(([, list]) => list.includes(me.mix ? me.mix[0] : me.subject));
+    if (!fam) return [];
+    const mine = me.formats, fresh = (p) => p.formats.filter((f) => !mine.includes(f)).length;
+    const subj = me.mix ? me.mix[0] : me.subject;
+    return summaries.map((p, i) => ({ p, i, same: p.subject === subj, n: fresh(p) }))
+      .filter(({ p, same, n }) => p.source !== 'own' && p.id !== pid && fam[1].includes(p.subject) && !progressOf(p.id) && (!same || n))
+      .sort((a, b) => a.same - b.same || b.n - a.n || a.i - b.i)
+      .slice(0, 3).map(({ p }) => p.id);
+  }
+
+  const api = { suggestNext, libraryView, setFilter, counterText, lengthOf, FAMILIES, LENGTHS };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBLibrary = api;
 })(typeof window !== 'undefined' ? window : globalThis);
