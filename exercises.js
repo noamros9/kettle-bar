@@ -432,6 +432,36 @@
     jab_teep: { name: 'Jab, teep', call: 'jab, teep', cat: 'kick', added: 5, u: 'sec', r: [180, 180, 180], mus: 'front_delts hip_flexors | quads abs', cue: 'Jab to find the distance, then push kick off the lead leg to keep it. Step back to stance.', poses: [JAB, CHAMBER, TEEP] },
     hook_low_kick: { name: 'Hook, low kick', call: 'hook, low kick', cat: 'kick', added: 5, u: 'sec', r: [180, 180, 180], mus: 'obliques glutes | front_delts quads calves', cue: 'Lead hook, then turn the hips over and chop the rear shin into an imagined thigh. Hands stay up.', poses: [HOOK, { ...ROUNDHOUSE, fn: [36, 8] }] },
     kick_four: { name: 'Jab, cross, hook, kick', call: 'jab, cross, hook, kick', cat: 'kick', added: 5, u: 'sec', r: [180, 180, 180], mus: 'obliques front_delts glutes | triceps hip_flexors calves', cue: 'The full combination: one-two, lead hook, then a rear roundhouse off the turn of the hook.', poses: [JAB, CROSS, HOOK, ROUNDHOUSE] },
+
+    // ---------------- FLEXIBILITY (Phase 5: long stretches, run as guided flows) ----------------
+    half_split: { name: 'Half split', cat: 'flex', added: 5, u: 'sec', r: [60, 75, 90], side: 1, mus: 'hamstrings | calves lower_back', cue: 'Kneel, straighten the front leg with the toes up and hinge forward over it with a long back, hands beside the leg.', poses: [
+      { t: [26, -22], fn: [38, 16], ff: [-19, 21], khf: [1, 0.6], hn: [27, 20], hf: [29, 20], mat: 1 }] },
+    front_split: { name: 'Front split (supported)', cat: 'flex', added: 5, u: 'sec', r: [45, 60, 75], side: 1, mus: 'hamstrings hip_flexors | quads glutes', cue: 'From a low lunge, slide the front heel forward and the back knee back only as far as it stays easy, hands on the floor or on books.', poses: [
+      { t: [0, -34], fn: [40, 8], ff: [-40, 8], hn: [8, 8], hf: [-6, 8], eh: [0, 1], mat: 1 }] },
+    pancake: { name: 'Pancake', cat: 'flex', added: 5, view: 'front', u: 'sec', r: [60, 75, 90], mus: 'adductors hamstrings | lower_back', cue: 'Sit with legs wide, knees and toes up. Walk your hands forward and fold from the hips, chest toward the floor.', poses: [
+      { t: [0, -34], fn: [-38, 8], ff: [38, 8], hn: [-10, 4], hf: [10, 4], mat: 1 }, { t: [0, -20], hd: [0, 1], fn: [-38, 8], ff: [38, 8], hn: [-12, 8], hf: [12, 8], mat: 1 }] },
+    seated_straddle: { name: 'Seated straddle side reach', cat: 'flex', added: 5, view: 'front', u: 'sec', r: [45, 60, 75], side: 1, mus: 'adductors obliques hamstrings | lats', cue: 'Legs wide, sit tall. Reach one hand toward the opposite foot, the top arm arcing overhead. Switch sides.', poses: [
+      { t: [-18, -29], fn: [-38, 8], ff: [38, 8], hn: [-37, 5], ehn: [-1, 0], hf: [-34, -52], ehf: [1, 0], mat: 1 }] },
+    lizard_pose: { name: 'Lizard pose', cat: 'flex', added: 5, u: 'sec', r: [60, 75, 90], side: 1, mus: 'hip_flexors adductors | glutes hamstrings', cue: 'From a lunge with the back knee down, put both hands inside the front foot and sink the hips, forearms down if you can.', poses: [
+      { t: [30, -12], hd: [1, -0.3], fn: [24, 20], khn: [1, -1], ff: [-33, 20], khf: [0.3, 1], hn: [40, 20], hf: [42, 20], eh: [0, 1], mat: 1 }] },
+    frog_pose: { name: 'Frog pose', cat: 'flex', added: 5, view: 'front', u: 'sec', r: [60, 75, 90], mus: 'adductors | hip_flexors glutes', cue: 'On forearms and knees, slide the knees wide with shins parallel and feet flexed, then ease the hips back.', poses: [
+      { t: [0, -18], hd: [0, 1], fn: [-36, 14], ff: [36, 14], khn: [-1, -0.4], khf: [1, -0.4], hn: [-8, 14], hf: [8, 14], mat: 1 }] },
+    wide_leg_fold: { name: 'Wide-leg forward fold', cat: 'flex', added: 5, view: 'front', u: 'sec', r: [60, 75, 90], mus: 'hamstrings adductors | lower_back calves', cue: 'Stand with feet wide and parallel, hinge forward from the hips and let your head hang toward the floor between your feet.', poses: [
+      { t: [0, 26], hd: [0, 1], fn: [26, 38], ff: [-26, 38], hn: [9, 40], hf: [-9, 40], ehn: [1, 0], ehf: [-1, 0] }] }, // torso down: the hips flip
+    thread_the_needle: { name: 'Thread the needle', cat: 'flex', added: 5, u: 'sec', r: [45, 60, 75], side: 1, mus: 'upper_back rear_delts | lats obliques', cue: 'On hands and knees, slide one arm under your chest along the floor until that shoulder and ear rest down. Switch sides.', poses: [
+      P(TABLE, { t: [30, 14], hd: [1, 0.4], hn: [20, 31], ehn: [0, 1], hf: [60, 31] })] },
+    reverse_prayer: { name: 'Reverse prayer', cat: 'flex', added: 5, u: 'sec', r: [30, 45, 60], mus: 'chest front_delts | forearms', cue: 'Press your palms together behind your back, fingers pointing up, and roll your shoulders back and open.', poses: [
+      P(STAND, { hn: [-7, -22], hf: [-8, -22], eh: [0.4, 1] })] },
+    cow_face_arms: { name: 'Cow face arms', cat: 'flex', added: 5, view: 'front', u: 'sec', r: [45, 60, 75], side: 1, mus: 'triceps front_delts | lats chest', cue: 'Reach one hand down behind your neck and the other up behind your back until the fingers meet, or use a towel. Switch.', poses: [
+      P(FSTAND, { hn: [3, -48], ehn: [-0.4, -1], hf: [-1, -26], ehf: [1, 1] })] },
+    lying_hamstring: { name: 'Lying hamstring stretch', cat: 'flex', added: 5, u: 'sec', r: [60, 75, 90], side: 1, mus: 'hamstrings | calves', cue: 'On your back, hold one straight leg behind the thigh or calf and ease it toward you, the other leg long on the floor.', poses: [
+      P(LIE, { fn: [2, -41], khn: [1, 0], hn: [5, -30], hf: [6, -29] })] },
+    figure_four: { name: 'Figure-four stretch', cat: 'flex', added: 5, u: 'sec', r: [60, 75, 90], side: 1, mus: 'glutes | hip_flexors lower_back', cue: 'On your back, cross one ankle over the other knee and pull that leg in behind the thigh. Switch sides.', poses: [
+      { t: [34, 0], ff: [2, -18], khf: [1, -1], fn: [-4, -20], khn: [1, 0.4], hn: [10, -18], hf: [10, -17], mat: 1 }] },
+    kneeling_quad: { name: 'Kneeling quad stretch', cat: 'flex', added: 5, u: 'sec', r: [60, 75, 90], side: 1, mus: 'quads hip_flexors |', cue: 'Half-kneel, reach back for the back foot and draw the heel toward your glute, hips pressing forward. Switch sides.', poses: [
+      { t: [0, -34], fn: [22, 20], khn: [1, -1], ff: [-6, -2], khf: [0, 1], hn: [4, -4], hf: [-5, -2], ehf: [-1, 0], mat: 1 }] },
+    side_lying_quad: { name: 'Side-lying quad stretch', cat: 'flex', added: 5, u: 'sec', r: [45, 60, 75], side: 1, mus: 'quads | hip_flexors', cue: 'Lie on your side, head on your arm, and pull the top heel toward your glute, knees together. Switch sides.', poses: [
+      { t: [34, -4], hd: [1, -0.3], hn: [44, -2], ff: [-41, 2], fn: [-4, 4], khn: [-0.2, 1], hf: [-4, 4], ehf: [0, 1], mat: 1 }] },
   };
 
 

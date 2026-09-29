@@ -42,8 +42,8 @@ subject that needs it. One ticket = one branch = one PR, each starting from its 
 | 2 | Guided flow format + Yoga | feature | 1 | `feature/yoga` | done (PR #50) |
 | 3 | Pilates | feature | 2 | `feature/pilates` | done (PR #51) |
 | 4 | Bouts format + Boxing | feature | 1 | `feature/boxing` | done (PR #53) |
-| 5 | Kickboxing | feature | 4 | `feature/kickboxing` | in review |
-| 6 | Flexibility | feature | 2 | `feature/flexibility` | todo |
+| 5 | Kickboxing | feature | 4 | `feature/kickboxing` | done (PR #55) |
+| 6 | Flexibility | feature | 2 | `feature/flexibility` | in review |
 | 7 | Mobility & posture | feature | 2 | `feature/mobility-posture` | todo |
 | 8 | Balance & stability | feature | 1 | `feature/balance` | todo |
 | 9 | HIIT | feature | 1 | `feature/hiit` | todo |
