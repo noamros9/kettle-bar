@@ -39,7 +39,7 @@ test('swaps made on another device arrive with the cloud document', async () => 
   const remote = createMemoryRemote({ p: { done: { 1: 'a' }, swaps: [swap] } });
   const store = make(); store.attach(remote); await tick();
   assert.deepEqual(store.swaps('p'), [swap]);
-  await remote.write('p', { done: { 1: 'a' }, swaps: [] });
+  await remote.write('progress', 'p', { done: { 1: 'a' }, swaps: [] });
   assert.deepEqual(store.swaps('p'), []);
 });
 

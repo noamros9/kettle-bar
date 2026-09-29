@@ -4,6 +4,7 @@
 const localStore = {
   get: (k) => { try { return localStorage.getItem(k); } catch (e) { return null; } },
   set: (k, v) => { try { localStorage.setItem(k, v); } catch (e) { /* blocked: device copy is best effort */ } },
+  remove: (k) => { try { localStorage.removeItem(k); } catch (e) { /* blocked */ } },
 };
 const store = KBStore.createStore({ programIds: programs.ids(), storage: localStore, isOnline: () => navigator.onLine !== false });
 // a day as you'll do it: swaps applied, its live Workout Session, swap / undo (app/day.js)
@@ -100,16 +101,17 @@ function download(name, text) {
 }
 function exportProgress() {
   const rounds = Object.fromEntries(programs.ids().map((pid) => [pid, store.progress(pid).past]));
-  download(KBBackup.fileName(new Date()), JSON.stringify(KBBackup.exportProgress(allDone(), { swaps: allSwaps(), rounds }), null, 2));
+  download(KBBackup.fileName(new Date()), JSON.stringify(KBBackup.exportProgress(allDone(), { swaps: allSwaps(), rounds, ownPrograms: store.docs('programs'), random: store.docs('random'), prefs: store.docs('prefs') }), null, 2));
 }
 
 const allDone = () => Object.fromEntries(programs.ids().map((pid) => [pid, store.days(pid)]));
 const allSwaps = () => Object.fromEntries(programs.ids().map((pid) => [pid, store.swaps(pid)]));
 const showImport = (st) => { importState = st; render(); };
+const allDocs = () => Object.fromEntries(KBDocs.COLLECTIONS.map((c) => [c, store.docs(c)]));
 const allProgress = () => Object.fromEntries(programs.ids().map((pid) => [pid, store.progress(pid)]));
 async function readImport(file) {
   try {
-    showImport(KBBackup.planImport(allProgress(), await file.text(), { known: programs.ids(), uid: store.remote && store.remote.account && store.remote.account.uid, name: file.name }));
+    showImport(KBBackup.planImport(allProgress(), await file.text(), { known: programs.ids(), uid: store.remote && store.remote.account && store.remote.account.uid, name: file.name, docs: allDocs() }));
   } catch (e) { showImport({ error: e.message }); }
 }
 function backupAction(what) {
@@ -118,6 +120,8 @@ function backupAction(what) {
   if (what === 'import') { $('#import-file').value = ''; return $('#import-file').click(); }
   if (what === 'cancel') return showImport(null);
   store.replaceAll(plan.result(what));
+  const docs = plan.docsResult(what); // own programs, random workouts, preferences: only what the file has
+  KBDocs.COLLECTIONS.forEach((c) => { if (docs[c]) store.replaceDocs(c, docs[c]); });
   showImport({ done: plan.message(what) });
 }
 document.addEventListener('change', (e) => {

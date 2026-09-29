@@ -73,6 +73,7 @@ days ticked on the device and in the cloud are merged.
 | `app/session.js` | **Workout Session**: progress through a day and every rest/timer rule (pure, no page) |
 | `app/store.js` | **Progress Store**: done days per program, device copy + sync adapters (Firebase, in-memory) |
 | `app/backup.js` | **Backup**: the progress file: export, read, diff, merge or replace |
+| `app/docs.js` | **Account data**: own programs, random workouts, preferences: stamping and combining copies |
 | `app/library.js` | **Library filters**: what the programs page shows for the family, subject and length picked (pure; `FAMILIES` lives here) |
 | `app/views.js` | Routing and page rendering |
 | `app/clock.js` | Timer, beeps, wake lock and workout clock (runs the session's instructions) |
@@ -107,17 +108,20 @@ the project uses are in [CONTEXT.md](CONTEXT.md) and the decisions behind it in 
    `noamros9.github.io`.
 4. **Build → Firestore Database → Create database**, pick a location
    (e.g. `eur3`), start in **production mode**.
-5. **Firestore → Rules**: paste the contents of `firestore.rules`, **Publish**.
+5. **Firestore → Rules**: paste the contents of `firestore.rules`, **Publish**. Publish it again whenever
+   `firestore.rules` changes: it now allows four collections (`progress`, `programs`, `random`, `prefs`, all only
+   for the signed-in owner), and until it is published the newer three are rejected (progress keeps working).
 6. **Project settings → General → Your apps → Web (`</>`)**, register an app
    (no Hosting needed) and copy the `firebaseConfig` object into
    `firebase-config.js`.
 
 The config values are identifiers, not secrets; `firestore.rules` is what
-limits each account to its own progress.
+limits each account to its own data.
 
 ## Backups
 
-- **Nightly:** `.github/workflows/backup.yml` copies every account's progress to the private
+- **Nightly:** `.github/workflows/backup.yml` copies every account's progress, own programs, random workouts
+  and preferences to the private
   `noamros9/kettle-bar-backup` repo as `progress.json`, committing only when something changed; its git
   history keeps every version. The Firebase key it uses can only read ([ADR 5](docs/adr/0005-backups-hold-no-write-credentials.md)).
   Secrets: `FIREBASE_SERVICE_ACCOUNT` (key JSON, roles Cloud Datastore Viewer + Firebase Authentication
@@ -125,6 +129,10 @@ limits each account to its own progress.
 - **Restore:** open `progress.json` in the backup repo (or an older version from its history), download it,
   then in the app: sign in → **Settings** → **Import a backup** → check the days it lists → **Replace**
   (or **Merge**). It syncs to every device.
+- **File format:** version 2 files (Export and nightly) add `ownPrograms`, `random` and `prefs` next to
+  `programs`, only when you have any; version 1 files still import (they leave your own programs, random workouts
+  and preferences alone). Merge unions own programs and random workouts by id (the newer `updatedAt` wins) and
+  keeps your preferences; Replace makes them match the file.
 
 Adding a program: add a config to its family's file in `configs/` and its id to `ORDER` in `programs.config.js`, run `node build.js` and `npm test`;
 each program keeps its own progress.

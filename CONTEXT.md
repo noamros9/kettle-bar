@@ -123,16 +123,29 @@ sync, import merge / replace).
 **Progress Store**: the module that keeps each program's Program Progress and syncs it. Always keeps a **device
 copy**; can attach one **remote** (Firebase) to sync.
 
+**Account data**: what an account syncs besides progress: **own programs** (`users/{uid}/programs/{id}`, Phase 6),
+**random workouts** (`users/{uid}/random/{id}`, a done record with its day inside, Phase 7) and **preferences**
+(`users/{uid}/prefs/main`: favourites, hidden subjects, travel mode; Phases 7–8). Each doc is a JSON object with an
+`updatedAt`; `app/docs.js` says how two copies combine (union by id, the newer `updatedAt` wins) and the Progress
+Store holds them (`doc`, `docs`, `setDoc`, `deleteDoc`, `replaceDocs`). The **device copy** of a doc is
+`kb-doc-<collection>-<id>` (one key per doc, e.g. `kb-doc-programs-my-push`, `kb-doc-prefs-main`) with the ids of a
+collection in `kb-docs-<collection>`; progress keeps `kb-progress-`, `kb-swaps-` and `kb-past-`. A refused write to
+these collections (rules not published yet) never changes the Sync status: progress keeps working.
+`firestore.rules` names the four collections (progress, programs, random, prefs) and allows only the signed-in owner.
+
 **Sync status**: `local` (not signed in), `signin`, `ok`, `saving`, `offline`, `ro` (read-only), `err`.
 
 **First sync**: the first contact with the cloud after signing in; ticks on either side are kept, earliest
 time wins.
 
-**Backup**: a copy of progress outside the app's normal storage. Two kinds: the **nightly backup** (a file
+**Backup**: a copy of progress and account data outside the app's normal storage. Two kinds: the **nightly backup** (a file
 in the private `kettle-bar-backup` repo) and an **export** (a file you download from Settings).
 
-**Import**: loading a backup file back in. Always shows the **diff** (days added and removed per program)
-and asks **merge** (keep both) or **replace** (the file wins).
+**Import**: loading a backup file back in. Always shows the **diff** (days added and removed per program, plus own
+programs and random workouts added, removed or changed) and asks **merge** (keep both) or **replace** (the file
+wins). For account data, merge is a union by id where the newer `updatedAt` wins, and keeps your preferences; replace
+takes the file's set and preferences. A file without account data (**version 1**, from before) leaves yours alone.
+Files: version 1 = progress only; version 2 adds `ownPrograms`, `random`, `prefs` (only when not empty).
 
 ## Code
 

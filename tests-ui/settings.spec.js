@@ -128,3 +128,51 @@ test('Export includes swaps; importing them on a fresh device shows the swapped 
   const toName = await app.data((id) => KBEx.EX[id].name, s.to);
   await expect(app.page.locator('article.ex').filter({ hasText: 'Swapped from' }).locator('.nm')).toHaveText(toName);
 });
+
+// ---------- own programs, random workouts and preferences travel with backups (file version 2) ----------
+const v2 = (extra) => ({
+  name: 'kettle-bar-progress-2026-09-29.json', mimeType: 'application/json',
+  buffer: Buffer.from(JSON.stringify({ format: 'kettle-bar-progress', version: 2, exportedAt: T, programs: {}, ...extra })),
+});
+const account = { ownPrograms: { mine: { name: 'My push day', updatedAt: T } }, random: { r1: { name: 'Quick one', updatedAt: T } }, prefs: { travel: true, updatedAt: T } };
+
+test('a version 2 file lists own programs and random workouts in the review; Merge adds them and keeps your preferences', async ({ app }) => {
+  test.skip(test.info().project.name !== 'phone-light', 'theme-independent');
+  await app.open('#settings');
+  await app.data(() => store.setDoc('prefs', 'main', { travel: false }));
+  await chooseFile(app, v2(account));
+  const review = app.page.locator('#import-review');
+  await expect(review).toContainText('Own programs: +1 (My push day)');
+  await expect(review).toContainText('Random workouts: +1 (Quick one)');
+  await expect(review).toContainText('Preferences: the file has different ones from yours. Merge keeps yours; Replace uses the file');
+  await app.page.getByRole('button', { name: 'Merge' }).click();
+  await expect(app.page.getByRole('status')).toHaveText('Merged: 0 days added, 1 own program added, 1 random workout added.');
+  expect(await app.data(() => [store.doc('programs', 'mine').name, store.doc('random', 'r1').name, store.doc('prefs', 'main').travel])).toEqual(['My push day', 'Quick one', false]);
+  await app.page.reload(); await app.page.locator('#app h1').waitFor();
+  expect(await app.data(() => Object.keys(store.docs('programs')))).toEqual(['mine']);
+});
+
+test('Replace makes own programs and preferences match the file; Export writes them back out as version 2', async ({ app }) => {
+  test.skip(test.info().project.name !== 'phone-light', 'theme-independent');
+  await app.open('#settings');
+  await app.data(() => { store.setDoc('programs', 'old', { name: 'Old one' }); store.setDoc('prefs', 'main', { travel: false }); });
+  await chooseFile(app, v2(account));
+  await expect(app.page.locator('#import-review')).toContainText('Own programs: +1 (My push day) · −1 (Old one)');
+  await app.page.getByRole('button', { name: /^Replace/ }).click();
+  await expect(app.page.getByRole('status')).toHaveText('Replaced: 0 days added, 0 removed; own programs: 1 added, 1 removed; random workouts: 1 added; preferences from the file.');
+  expect(await app.data(() => [Object.keys(store.docs('programs')), store.doc('prefs', 'main').travel])).toEqual([['mine'], true]);
+  const [download] = await Promise.all([app.page.waitForEvent('download'), app.page.getByRole('button', { name: 'Export progress' }).click()]);
+  const file = JSON.parse(fs.readFileSync(await download.path(), 'utf8'));
+  expect(file.version).toBe(2);
+  expect(file.ownPrograms).toEqual(account.ownPrograms);
+  expect(file.random).toEqual(account.random);
+  expect(file.prefs).toEqual(account.prefs);
+});
+
+test('an export with no account data is the same as before apart from the version', async ({ app }) => {
+  test.skip(test.info().project.name !== 'phone-light', 'theme-independent');
+  await app.open('#settings');
+  const [download] = await Promise.all([app.page.waitForEvent('download'), app.page.getByRole('button', { name: 'Export progress' }).click()]);
+  const file = JSON.parse(fs.readFileSync(await download.path(), 'utf8'));
+  expect(Object.keys(file)).toEqual(['format', 'version', 'exportedAt', 'programs', 'swaps', 'rounds']);
+});

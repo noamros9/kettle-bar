@@ -1,6 +1,7 @@
 // Firebase sync for the GitHub Pages build: Google sign-in + Firestore.
-// Progress lives at users/{uid}/progress/{programId}, readable and writable only by that user
-// (see firestore.rules). Does nothing until firebase-config.js holds your project's config.
+// Progress lives at users/{uid}/progress/{programId}; your own programs, random workouts and preferences at
+// users/{uid}/programs|random|prefs/{id}. All readable and writable only by that user (see firestore.rules).
+// Does nothing until firebase-config.js holds your project's config.
 import config from './firebase-config.js';
 
 const V = '10.12.2';
@@ -44,12 +45,18 @@ async function start() {
 
   auth.onAuthStateChanged(a, (user) => {
     if (!user) { kb.detach(); return; }
-    const ref = (pid) => fs.doc(db, 'users', user.uid, 'progress', pid);
+    const ref = (collection, id) => fs.doc(db, 'users', user.uid, collection, id);
     kb.attach({
       kind: 'firebase',
       account: { uid: user.uid, name: (user.displayName || user.email || '').split(' ')[0], email: user.email },
-      subscribe: (pid, onData, onErr) => fs.onSnapshot(ref(pid), (snap) => onData(snap.exists() ? snap.data() : null), onErr), // the whole document; Program Progress reads it
-      write: (pid, body) => fs.setDoc(ref(pid), body),
+      subscribe: (collection, id, onData, onErr) => fs.onSnapshot(ref(collection, id), (snap) => onData(snap.exists() ? snap.data() : null), onErr), // the whole document; the store passes it on
+      subscribeAll: (collection, onDocs, onErr) => fs.onSnapshot(fs.collection(db, 'users', user.uid, collection), (snap) => {
+        const docs = {};
+        snap.forEach((d) => { docs[d.id] = d.data(); });
+        onDocs(docs);
+      }, onErr),
+      write: (collection, id, body) => fs.setDoc(ref(collection, id), body),
+      remove: (collection, id) => fs.deleteDoc(ref(collection, id)),
     });
   });
 }
