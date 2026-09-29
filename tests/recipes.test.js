@@ -303,35 +303,94 @@ test('recipeFor: a recipe buildDay accepts, from a day type', () => {
   assert.equal(d.title, t.label);
 });
 
-test('the builder builds the made config in the page too: no Node calls, same days', () => {
+test('the builder builds the made config in the page too: no Node calls, same days, the book from a loader', async () => {
   const load = (f, sb) => vm.runInContext(fs.readFileSync(path.join(__dirname, '..', f), 'utf8'), sb);
   const sandbox = vm.createContext({ window: {} });
-  ['formats.js', 'exercises.js', 'program-builder.js'].forEach((f) => load(f, sandbox));
-  // what build.js inlines: the book as a constant, then recipes.js
-  vm.runInContext(`const RECIPE_BOOK = ${JSON.stringify(R.book())};`, sandbox);
-  load('recipes.js', sandbox);
+  ['formats.js', 'exercises.js', 'program-builder.js', 'recipes.js'].forEach((f) => load(f, sandbox));
   const page = sandbox.window;
   assert.ok(page.KBRecipes && page.KBBuilder);
+  assert.equal(page.KBRecipes.pick, undefined, 'the page has no book until the loader brings it');
+  // the page fetches data/recipes.json (what build.js writes)
+  const { render } = require('../build.js');
+  const file = render()['data/recipes.json'];
+  const loader = page.KBRecipes.recipesLoader({ fetchJson: async (url) => { assert.equal(url, 'data/recipes.json'); return JSON.parse(file); }, cache: { get: async () => undefined, put: async () => {} } });
+  const recipes = page.KBRecipes.of(await loader.load());
   const c = choice('Fighter', 'all', 35, { split: 3 });
-  const inPage = page.KBRecipes.make(c, 'page');
+  const inPage = recipes.make(c, 'page');
   assert.equal(JSON.stringify(inPage), JSON.stringify(R.make(c, 'page')));
   const days = page.KBBuilder.build(inPage, page.KBEx);
   assert.equal(days.days.length, 60);
   assert.equal(JSON.stringify(days), JSON.stringify(Builder.build(R.make(c, 'page'), cat)));
-  assert.deepEqual(JSON.stringify(page.KBRecipes.options('Yoga')), JSON.stringify(R.options('Yoga')));
-  assert.equal(page.KBRecipes.pick({ subjects: ['Yoga'] }).length, R.pick({ subjects: ['Yoga'] }).length);
+  assert.deepEqual(JSON.stringify(recipes.options('Yoga')), JSON.stringify(R.options('Yoga')));
+  assert.equal(recipes.pick({ subjects: ['Yoga'] }).length, R.pick({ subjects: ['Yoga'] }).length);
   assert.equal(sandbox.require, undefined);
 });
 
-test('the inlined recipe book is small: kept compact (under 120 KB raw, 16 KB gzipped), and index.html holds it', () => {
-  const json = JSON.stringify(R.book());
-  const gz = zlib.gzipSync(json).length;
-  console.log(`# recipe book: ${json.length} bytes raw, ${gz} bytes gzipped; ${R.pick({}).length} day types, ${R.book().specs.length} specs`);
-  assert.ok(json.length < 120 * 1024 && gz < 16 * 1024, `${json.length} raw, ${gz} gzipped`);
+test('recipesLoader: fetched once and cached; the offline cache when the fetch fails; a message when neither has it', async () => {
+  const BOOK = { v: 1, marker: 'book' };
+  const memory = (init = {}) => { const m = { ...init }; return { m, get: async (u) => m[u], put: async (u, v) => { m[u] = v; } }; };
+  // fetch ok: the book, put in the cache, and fetched only once however often it is asked for
+  let fetches = 0;
+  const cache = memory();
+  const ok = R.recipesLoader({ fetchJson: async () => { fetches++; return BOOK; }, cache });
+  assert.deepEqual(await Promise.all([ok.load(), ok.load()]), [BOOK, BOOK]);
+  assert.equal(await ok.load(), BOOK);
+  assert.equal(fetches, 1);
+  assert.deepEqual(cache.m['data/recipes.json'], BOOK);
+  // a cache that cannot be written to does not lose the book
+  const readOnly = R.recipesLoader({ fetchJson: async () => BOOK, cache: { get: async () => undefined, put: async () => { throw new Error('full'); } } });
+  assert.equal(await readOnly.load(), BOOK);
+  // fetch fails: the cached copy
+  const offline = R.recipesLoader({ fetchJson: async () => { throw new Error('offline'); }, cache: memory({ 'data/recipes.json': BOOK }) });
+  assert.equal(await offline.load(), BOOK);
+  // neither: a message for people, and asking again later can succeed
+  let up = false;
+  const late = R.recipesLoader({ fetchJson: async () => { if (!up) throw new Error('offline'); return BOOK; }, cache: memory() });
+  await assert.rejects(late.load(), { message: "Build your own isn't available offline yet. Open it once while online." });
+  up = true;
+  assert.equal(await late.load(), BOOK);
+  // another url
+  const other = R.recipesLoader({ fetchJson: async (u) => { assert.equal(u, 'x.json'); return BOOK; }, cache: memory(), url: 'x.json' });
+  assert.equal(await other.load(), BOOK);
+});
+
+test('the recipe book file is small (under 120 KB raw, 16 KB gzipped) and is not in index.html', () => {
   const { render } = require('../build.js');
-  const html = render()['index.html'];
-  assert.ok(html.includes(`const RECIPE_BOOK = ${json};`));
-  assert.ok(html.indexOf('const RECIPE_BOOK') < html.indexOf('KBRecipes'), 'the book comes before recipes.js');
+  const out = render(), json = out['data/recipes.json'];
+  const gz = zlib.gzipSync(json).length;
+  console.log(`# data/recipes.json: ${json.length} bytes raw, ${gz} bytes gzipped; ${R.pick({}).length} day types, ${R.book().specs.length} specs`);
+  assert.ok(json.length < 120 * 1024 && gz < 16 * 1024, `${json.length} raw, ${gz} gzipped`);
+  assert.equal(json, JSON.stringify(R.book()));
+  assert.ok(!out['index.html'].includes('RECIPE_BOOK') && !out['index.html'].includes('"specs"'), 'the page does not carry the book');
+  assert.ok(out['index.html'].includes('KBRecipes'));
+});
+
+test('the committed book is fresh: recipes/book.json holds the hash of the files it comes from', () => {
+  const RB = require('../recipe-book.js');
+  const saved = RB.stored();
+  assert.ok(saved, 'run npm run recipes');
+  assert.equal(saved.hash, RB.hash(), 'the committed recipe book is stale: run npm run recipes');
+  assert.ok(RB.INPUTS().includes('configs/mixed.js') && RB.INPUTS().every((f) => fs.existsSync(path.join(__dirname, '..', f))));
+  assert.match(require('../package.json').scripts.recipes, /recipe-book/);
+});
+
+test('the book file is reused when the hash matches, and made and rewritten when not', () => {
+  const RB = require('../recipe-book.js');
+  const dir = fs.mkdtempSync(path.join(require('os').tmpdir(), 'recipes-'));
+  const file = path.join(dir, 'sub', 'book.json');
+  let made = 0;
+  const make = () => { made++; return { v: 'made' + made }; };
+  assert.deepEqual(RB.refresh({ file, make }), { v: 'made1' }, 'no file: made and written');
+  assert.equal(RB.stored(file).hash, RB.hash());
+  assert.deepEqual(RB.refresh({ file, make }), { v: 'made1' }, 'same hash: reused');
+  assert.equal(made, 1);
+  fs.writeFileSync(file, JSON.stringify({ hash: 'old', book: { v: 'old' } }));
+  assert.deepEqual(RB.refresh({ file, make }), { v: 'made2' }, 'other hash: made again');
+  assert.deepEqual(RB.stored(file).book, { v: 'made2' });
+  fs.writeFileSync(file, 'not json');
+  assert.equal(RB.stored(file), null);
+  assert.deepEqual(RB.refresh({ file, make }), { v: 'made3' });
+  fs.rmSync(dir, { recursive: true });
 });
 
 test('the book is made from the library, so it changes with it: generate() over a small config list', () => {
@@ -349,4 +408,17 @@ test('the book: a day type that fails for a reason other than missing gear is an
   const cfg = { id: 'odd', subject: 'Yoga', minutes: [28, 32], levers: [null, 'holds', 'holds'], equip: 'bw', cycle: ['a'], names: ['x'],
     dayTypes: { a: { label: 'Odd', short: 'Odd', blocks: [{ f: 'nonsense', title: 'x', slots: ['push'] }] } } };
   assert.throws(() => generate({ configs: [cfg] }));
+});
+
+test('the book: generating from real configs covers variation levers, short names and Mixed families', () => {
+  const { generate } = require('../recipe-book.js');
+  const real = CONFIGS.filter((c) => !c.frozen);
+  const variation = real.find((c) => c.subject === 'Boxing' && c.levers.includes('variation'));
+  const shortName = real.find((c) => Object.values(c.dayTypes).some((d) => d.short !== d.label));
+  const mixed = real.find((c) => FAMILIES.find(([f, list]) => f === 'Mixed' && list.includes(c.subject)));
+  const book = generate({ configs: [variation, shortName, mixed] });
+  assert.ok(book.types.length >= 3);
+  assert.ok(book.types.some((t) => t.short), 'a short name that differs from the label is kept');
+  assert.ok(book.types.some((t) => t.mixed && t.mixed.length > 1), 'a mixed day lists its blocks\' families');
+  assert.ok(book.types.every((t) => t.fit.length >= 1));
 });

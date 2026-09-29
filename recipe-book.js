@@ -1,6 +1,10 @@
 /* Recipe book (Node only, made at build time): every day type of every library config, ready for recipes.js.
      generate({ configs, families, catalogue }) -> the book (compact, JSON-safe; recipes.js `of(book)` reads it)
-     book() -> generate() over the library (programs.config.js), made once
+     book() -> the book of the library: read from recipes/book.json when its hash still matches the inputs, else generated
+     hash() -> sha256 of the files the book comes from; refresh() -> book(), rewriting recipes/book.json when stale
+   Making it builds every day type a few thousand times (about 20 s), so it is kept in recipes/book.json (committed)
+   with the hash of its inputs. build.js reuses it when the hash matches and rewrites it when not; a test fails when the
+   committed one is stale: run `npm run recipes`.
    A day type is read from recipesOf(config), so nothing is written by hand. Each one is tagged with its subject, family
    (Mixed for mixed days, whose blocks' families are in `families`), formats, and its equipment: the least gear it builds
    with (bw, then kb, then all), found by really building it. `fit` says at which time targets it really builds inside the
@@ -10,6 +14,9 @@
    types: [{ id: 'program:key', label, short?, subject: index, spec: index, equip, fit: [mask per equipment from `equip` up],
    minutes, levers, mixed?: families of the blocks }] }. Blocks are [format, title, 'slot slot?', rest of the block?].
    Programs with no blocks to read (Three-Split 60 is frozen: its days are saved, not built) are listed in `skipped`. */
+const fs = require('fs');
+const path = require('path');
+const crypto = require('crypto');
 const Recipes = require('./recipes.js');
 const Builder = require('./program-builder.js');
 const cat = require('./exercises.js');
@@ -112,6 +119,34 @@ function generate({ configs = require('./programs.config.js'), families = FAMILI
   return { v: 1, catalogue, skipped, subjects, rests: restTables, specs, types };
 }
 
+// what the book comes from: the configs, the builder and what it reads, the families, and this file
+const INPUTS = () => [
+  ...fs.readdirSync(path.join(__dirname, 'configs')).filter((f) => f.endsWith('.js')).sort().map((f) => `configs/${f}`),
+  'programs.config.js', 'exercises.js', 'formats.js', 'program-builder.js', 'app/library.js', 'recipes.js', 'recipe-book.js',
+];
+const hash = () => {
+  const h = crypto.createHash('sha256');
+  INPUTS().forEach((f) => h.update(`${f}\n`).update(fs.readFileSync(path.join(__dirname, f))));
+  return h.digest('hex');
+};
+const FILE = path.join(__dirname, 'recipes', 'book.json');
+const stored = (file = FILE) => { try { return JSON.parse(fs.readFileSync(file, 'utf8')); } catch (e) { return null; } };
+
+// the stored book when its hash matches the inputs, else a made one (written to the file when `write`)
+function load(file, make, write) {
+  const saved = stored(file), h = hash();
+  if (saved && saved.hash === h) return saved.book;
+  const made = make();
+  if (write) {
+    fs.mkdirSync(path.dirname(file), { recursive: true });
+    fs.writeFileSync(file, JSON.stringify({ hash: h, book: made }) + '\n');
+  }
+  return made;
+}
 let cached;
-const book = () => (cached = cached || generate());
-module.exports = { generate, book };
+const book = () => (cached = cached || load(FILE, generate, false));
+// npm run recipes, and build.js: the committed file is fresh, or made again and rewritten
+const refresh = ({ file = FILE, make = generate } = {}) => load(file, make, true);
+/* node:coverage ignore next 2 */ // npm run recipes
+if (require.main === module) { refresh(); console.log('recipes/book.json is fresh'); }
+module.exports = { generate, book, hash, refresh, stored, FILE, INPUTS };

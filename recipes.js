@@ -1,7 +1,8 @@
 /* Recipes by subject (Phase 6): "a day of subject X" without a hand-made config. The library is the recipe book: every
    day type of every library program, tagged with its subject, family, formats and equipment, and with the times it
-   really builds to. The book is made at build time from the configs (recipe-book.js, Node) and inlined in the page as
-   RECIPE_BOOK; this file only reads it, so it is pure and runs in Node and in the page (KBRecipes).
+   really builds to. The book is made from the configs (recipe-book.js, Node), kept in recipes/book.json and written to
+   data/recipes.json at build time; the page fetches it when build your own first needs it. This file only reads a
+   book it is given, so it is pure and runs in Node and in the page (KBRecipes).
 
      pick({ subjects, families, equipment, formats, minutes }) -> the day types that fit (all keys optional)
      make(choice, seed) -> a config KBBuilder.build turns into 60 days (throws a message for people when nothing fits)
@@ -10,7 +11,10 @@
      options(subject) -> { subject, equipment: { all: [minutes], kb: [minutes], bw: [minutes] }, formats, levers }:
        what make() accepts for the subject (an equipment with no minutes is greyed out), and what the pickers offer
      recipeFor(dayType, { minutes, equipment, levers, catalogue? }) -> a recipe for KBBuilder.buildDay
-     of(book) -> the same functions over a book; book() / skipped: the book itself, and the programs left out of it
+     of(book) -> { pick, make, options, recipeFor, book(), skipped } over a book (in the page: KBRecipes.of(await load()))
+     recipesLoader({ fetchJson, cache }) -> { load() }: Promise of the book from data/recipes.json, fetched once, kept in
+       the offline cache and read from it when the network isn't there (a message for people when neither has it)
+     In Node the same functions (pick, make, ...) work over the book of the library, read from recipes/book.json.
 
    Rules
    - Equipment: a day type's `equip` is the least gear it builds with. A `bw` day type fits every choice, `kb` fits `kb`
@@ -156,10 +160,26 @@
     return { pick, make, options, recipeFor: (t, o) => recipeFor(t, o, book.catalogue), book: () => book, get skipped() { return book.skipped; }, fitsExactly };
   }
 
-  const api = { of, GRID, MINUTES, LEVERS, fitsExactly, recipeOf: recipeFor };
-  /* node:coverage ignore next 5 */ // the page: the inlined book (build.js puts RECIPE_BOOK before this file)
+  // the book is one file, fetched when first needed: kept in the offline cache, which is read when the network isn't there
+  function recipesLoader({ fetchJson, cache, url = 'data/recipes.json' }) {
+    let loaded;
+    return {
+      load() {
+        if (!loaded) {
+          loaded = fetchJson(url)
+            .then((b) => cache.put(url, b).then(() => b, () => b))
+            .catch(() => cache.get(url).then((b) => { if (!b) throw new Error("Build your own isn't available offline yet. Open it once while online."); return b; }))
+            .catch((e) => { loaded = undefined; throw e; });
+        }
+        return loaded;
+      },
+    };
+  }
+
+  const api = { of, GRID, MINUTES, LEVERS, fitsExactly, recipeOf: recipeFor, recipesLoader };
+  /* node:coverage ignore next 4 */ // the page: no book yet, the loader brings it
   if (typeof module === 'undefined' || !module.exports) {
-    root.KBRecipes = { ...api, ...of(RECIPE_BOOK) };
+    root.KBRecipes = api;
     return;
   }
   // Node: the book is made from the configs the first time it is asked for
