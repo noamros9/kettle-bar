@@ -51,7 +51,7 @@ function runPlanned(target, startClock = true) {
 document.addEventListener('click', (ev) => {
   const el = ev.target.closest('button'); if (!el) return;
   const d = el.dataset;
-  if (el.id === 'brand') return go('today'); // home: the next day not done in the program opened last (as the shortcut)
+  if (el.id === 'brand') return go('today'); // home: the next day in the program of your last done workout (as the shortcut)
   if (d.go === 'programs') return go('programs');
   if (d.go === 'library') return go('exercises');
   if (d.go === 'settings') return go('settings');

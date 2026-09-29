@@ -32,9 +32,9 @@ days ticked on the device and in the cloud are merged.
 
 - **Settings** (gear, top right) → **Export progress** downloads every program's done days as one file;
   **Import a backup** shows which days it would add or remove, then asks **Merge** or **Replace**.
-- **Tap the logo** (top left) from any page to open today's workout: the next day you haven't done in the program you opened last.
-- Installed on the home screen, long-press the app icon → **Today's workout** opens the next day you haven't
-  done in the program you opened last.
+- **Tap the logo** (top left) from any page to open today's workout: the next day you haven't done in the program
+  where you last marked a workout done (before your first one, the program you opened last).
+- Installed on the home screen, long-press the app icon → **Today's workout** opens the same place.
 - **Start Round 2** on a program page does the program again from day 1; earlier rounds stay in your stats (Stats can
   narrow to one round).
 - Tap a day to open the workout; tick the circle on a tile or press
