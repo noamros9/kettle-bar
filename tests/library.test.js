@@ -118,9 +118,22 @@ test('the core programs opt in to the new catalogue (catalogue: 5): their abs fi
   assert.ok(optIn.some((p) => p.days.some((d) => d.blocks.at(-1).items.some((it) => fresh.has(it.ex)))));
 });
 
-test('the library: 128 programs in 23 subjects', () => {
-  assert.equal(programs.length, 128);
+test('the library: 138 programs in 23 subjects', () => {
+  assert.equal(programs.length, 138);
   assert.equal(new Set(programs.map((p) => p.subject)).size, 23);
+});
+
+test('the Signature shelf has 15 programs: each original, then its Tempo and Harder moves variations', () => {
+  const { libraryView, FAMILIES, lengthOf } = require('../app/library.js');
+  const { summarize } = require('../app/programs.js');
+  const v = libraryView(programs.map(summarize), { family: 'Strength', subject: 'Signature', len: 'all' }, { families: FAMILIES, lengthOf });
+  assert.deepEqual(v.shelves.map((s) => s.subject), ['Signature']);
+  assert.deepEqual(v.shelves[0].programs.map((p) => p.name), [
+    'Three-Split 60', 'Three-Split 60 Tempo', 'Three-Split 60 Harder Moves', 'Four-Split 60', 'Four-Split 60 Tempo', 'Four-Split 60 Harder Moves',
+    'Two-Split 60', 'Two-Split 60 Tempo', 'Two-Split 60 Harder Moves', 'Five-Split 60', 'Five-Split 60 Tempo', 'Five-Split 60 Harder Moves',
+    'Full-Body Duo 60', 'Full-Body Duo 60 Tempo', 'Full-Body Duo 60 Harder Moves',
+  ]);
+  assert.equal(v.count, 15);
 });
 
 // ---------- Mixed: Strength & stretch (Phase 6 ticket 1) ----------

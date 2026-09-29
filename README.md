@@ -3,8 +3,8 @@
 A home workout app in the style of a printable program: a 60-day plan with
 illustrated exercises, checkmarks for finished days and a rest timer.
 
-**128 programs, 60 days each**, in 23 subjects and four families (pick one at the top of the Programs page):
-- **Strength:** five signature splits (Three-Split 60 and friends), and six programs each for strength, pull-ups,
+**138 programs, 60 days each**, in 23 subjects and four families (pick one at the top of the Programs page):
+- **Strength:** five signature splits (Three-Split 60 and friends), each with a Tempo and a Harder Moves variation (same split, a different way of getting harder), and six programs each for strength, pull-ups,
   legs & glutes, kettlebell only, bodyweight/travel and busy weeks.
 - **Cardio & combat:** conditioning (6), HIIT, plyometrics, boxing and kickboxing (5 each).
 - **Mind & body:** core & abs (6), mobility & posture, yoga, Pilates, flexibility, and balance & stability (5 each).
