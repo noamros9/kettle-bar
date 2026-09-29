@@ -28,6 +28,9 @@ Decided on 29 Sep:
 - The open day's Workout Session is saved on the device on every tick (`kb-session-<pid>-<day>`: ticks, counters,
   stretches, the time started). Opening that day again restores it; **Mark as done** or 12 hours pass clears it.
   Device only: a session is short-lived.
+- **Why (Noam, 29 Sep):** today an unfinished workout lives only in memory. Closing the app loses its ticks, and
+  opening another day replaces it, so going back starts from zero. Saving per day fixes both: several days can
+  each keep their unfinished session.
 - `app/session.js` already has `snapshot()` (ticks carried over a swap read it through `from`). It gains
   `createSession(program, day, { EX, saved })`, taking a stored snapshot instead of a live session.
 - Files: `app/session.js`, `tests/session.test.js`, `app/day.js`, `app/main.js`, `tests-ui/resume.spec.js`.

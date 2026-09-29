@@ -124,7 +124,8 @@ Plan and tickets: [docs/plans/phase-7-day-to-day.md](docs/plans/phase-7-day-to-d
 18. **Random workout ([#64](https://github.com/noamros9/kettle-bar/issues/64)):** counts in stats, not in program
     progress; its level follows the last day marked done. Chosen on a sheet (family or subject, 15/25/35 min,
     equipment) with reshuffle, built fresh, from a button on the Programs page.
-19. **From the ideas list ([#67](https://github.com/noamros9/kettle-bar/issues/67)):** resume a workout after closing
+19. **From the ideas list ([#67](https://github.com/noamros9/kettle-bar/issues/67)):** **resume a workout** (ticks kept on the device per day, so closing the app or opening another day
+    loses nothing; Noam, 29 Sep) after closing
     the app; travel mode (lasts until turned off); shorter today; a warm-up that matches the format; a rest-day
     mobility flow; a big timer; "what next" when a program ends.
 
