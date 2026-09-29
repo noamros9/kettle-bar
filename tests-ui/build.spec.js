@@ -156,3 +156,133 @@ base.test('a saved program and its progress reach a second browser through the a
   expect(two.errors).toEqual([]);
   await one.context.close(); await two.context.close();
 });
+
+// ---- ticket 6: rename, edit, delete ----
+const dayBlocks = (page, pid, n) => page.evaluate(([p, d]) => JSON.stringify(programs.get(p).days[d - 1].blocks), [pid, n]);
+
+test('rename, edit the choices (a done day stays), delete with a question: on your program\'s page', async ({ app }) => {
+  await buildKettlebell(app);
+  await app.page.getByRole('button', { name: 'Save program' }).click();
+  await expect(app.heading()).toHaveText('My Strength 60');
+  const pid = await app.data(() => route.pid), id = pid.replace('own-', '');
+  await app.page.locator('[data-toggle="1"]').click();
+  const day1 = await dayBlocks(app.page, pid, 1), day4 = await dayBlocks(app.page, pid, 4);
+
+  // rename: validated inline, then the heading, the shelf and the stored record follow
+  await app.page.getByRole('button', { name: 'Rename' }).click();
+  await expect(app.page.locator('#own-name')).toBeFocused();
+  await app.page.locator('#own-name').fill('   ');
+  await app.page.getByRole('button', { name: 'Save name' }).click();
+  await expect(app.page.getByRole('alert')).toHaveText('Give it a name.');
+  await expect(app.page.locator('#own-name')).toHaveAttribute('aria-invalid', 'true');
+  await app.page.locator('#own-name').fill('Heavy mornings');
+  await app.page.locator('#own-name').press('Enter');
+  await expect(app.heading()).toHaveText('Heavy mornings');
+  await expect(app.page.locator('#own-name')).toHaveCount(0);
+  await app.page.getByRole('button', { name: 'Rename' }).click(); // Escape leaves it as it was
+  await app.page.locator('#own-name').fill('Nope'); await app.page.locator('#own-name').press('Escape');
+  await expect(app.heading()).toHaveText('Heavy mornings');
+  await app.page.reload(); await app.heading().waitFor(); await app.loaded();
+  await expect(app.heading()).toHaveText('Heavy mornings');
+  expect(await app.data((i) => store.doc('programs', i).name, id)).toBe('Heavy mornings');
+  expect(await app.sidewaysScroll()).toBe(0);
+
+  // edit: the builder opens with this program's choices and name; days not done change, day 1 stays
+  await app.page.getByRole('button', { name: 'Edit', exact: true }).click();
+  await expect(app.heading()).toHaveText('Edit your program');
+  await expect(chip(app, 'Days in a cycle', '3')).toHaveAttribute('aria-pressed', 'true');
+  await expect(chip(app, 'Equipment', 'Kettlebell only')).toHaveAttribute('aria-pressed', 'true');
+  await expect(app.page.getByLabel('Name')).toHaveValue('Heavy mornings');
+  await expect(app.page.locator('.lede').first()).toContainText('stays exactly as you did it');
+  await chip(app, 'Minutes a day', '40').click();
+  await expect(app.page.locator('.pvline')).toContainText('~38–42 min');
+  await app.page.getByRole('button', { name: 'Save changes' }).click();
+  await expect(app.heading()).toHaveText('Heavy mornings');
+  expect(await dayBlocks(app.page, pid, 1)).toBe(day1);
+  expect(await dayBlocks(app.page, pid, 4)).not.toBe(day4);
+  expect(await app.data(([p]) => programs.get(p).days[3].est, [pid])).toBeGreaterThanOrEqual(36);
+  const record = await app.data((i) => store.doc('programs', i), id);
+  expect(Object.keys(record.frozenDays)).toEqual(['1']);
+  expect(record.choices.minutes).toBe(40);
+  await expect(app.page.locator('[data-toggle="1"]')).toHaveAttribute('aria-checked', 'true'); // progress is kept
+  // "Build your own" after that is a fresh build, not an edit
+  await app.go('#programs');
+  await app.page.getByRole('button', { name: 'Build your own' }).click();
+  await expect(app.heading()).toHaveText('Build your own');
+  await expect(app.page.getByLabel('Name')).toHaveValue('My Strength 60');
+  // Cancel in an edit goes back to the program
+  await app.go('#p-' + pid);
+  await app.page.getByRole('button', { name: 'Edit', exact: true }).click();
+  await app.page.getByRole('button', { name: 'Cancel' }).click();
+  await expect(app.heading()).toHaveText('Heavy mornings');
+
+  // delete asks first; Cancel keeps everything; Delete removes the program and its progress
+  await app.page.getByRole('button', { name: 'Delete', exact: true }).click();
+  await expect(app.page.getByRole('alertdialog')).toContainText('Delete Heavy mornings?');
+  await expect(app.page.getByRole('alertdialog')).toContainText('Its progress goes too.');
+  await app.page.getByRole('alertdialog').getByRole('button', { name: 'Cancel' }).click();
+  await expect(app.page.getByRole('alertdialog')).toHaveCount(0);
+  expect(await app.data((i) => !!store.doc('programs', i), id)).toBe(true);
+  await app.page.getByRole('button', { name: 'Delete', exact: true }).click();
+  await app.page.getByRole('alertdialog').getByRole('button', { name: 'Delete', exact: true }).click();
+  await expect(app.heading()).toHaveText('Programs');
+  await expect(app.page.locator('.yours')).toHaveCount(0);
+  expect(await app.data(() => Object.keys(localStorage).filter((k) => k.includes('own-') || k.startsWith('kb-doc-programs') ))).toEqual([]);
+  expect(await app.data((p) => programs.has(p) || store.programIds().includes(p), pid)).toBe(false);
+});
+
+test('the library\'s programs have no rename, edit or delete', async ({ app }) => {
+  await app.open('#programs');
+  await app.page.locator('.pcard').first().click();
+  await expect(app.page.locator('.owntools')).toHaveCount(0);
+});
+
+base.test('rename, edit and delete reach a second browser through the account', async ({ browser }, testInfo) => {
+  base.test.skip(testInfo.project.name !== 'phone-light', 'theme-independent');
+  const remote = createMemoryRemote();
+  const baseURL = testInfo.project.use.baseURL;
+  const one = await device(browser, baseURL, remote, 'one');
+  const two = await device(browser, baseURL, remote, 'two');
+  const ph = (d) => d.page.locator('#app h1').first();
+
+  await one.page.evaluate(() => { location.hash = '#build'; });
+  await one.page.getByRole('group', { name: 'Days in a cycle' }).waitFor();
+  await one.page.getByRole('button', { name: 'Save program' }).click();
+  await expect(ph(one)).toHaveText('My Strength 60');
+  const pid = await one.page.evaluate(() => route.pid), id = pid.replace('own-', '');
+  await one.page.locator('[data-toggle="1"]').click();
+  await two.page.evaluate(() => { location.hash = '#programs'; });
+  await expect(two.page.locator('.yours .pcard .num')).toHaveText('1/60', { timeout: 15000 });
+  const day1 = await dayBlocks(two.page, pid, 1);
+
+  // rename on one: the shelf on two shows the new name
+  await one.page.getByRole('button', { name: 'Rename' }).click();
+  await one.page.locator('#own-name').fill('Pull it');
+  await one.page.locator('#own-name').press('Enter');
+  await expect(ph(one)).toHaveText('Pull it');
+  await expect(two.page.locator('.yours .pcard')).toContainText('Pull it', { timeout: 15000 });
+  expect(remote.collections.programs[id].name).toBe('Pull it');
+
+  // edit on one: two gets the frozen day 1 and the new days
+  await one.page.getByRole('button', { name: 'Edit', exact: true }).click();
+  await one.page.getByRole('group', { name: 'Minutes a day' }).getByRole('button', { name: '40', exact: true }).click();
+  await one.page.getByRole('button', { name: 'Save changes' }).click();
+  await expect(ph(one)).toHaveText('Pull it');
+  await expect.poll(() => two.page.evaluate((p) => programs.get(p) && programs.get(p).days[3].est, pid), { timeout: 15000 }).toBeGreaterThanOrEqual(36);
+  expect(Object.keys(remote.collections.programs[id].frozenDays)).toEqual(['1']);
+  expect(await dayBlocks(two.page, pid, 1)).toBe(day1);
+  expect(await two.page.evaluate((p) => JSON.stringify(programs.get(p).days), pid)).toBe(await one.page.evaluate((p) => JSON.stringify(programs.get(p).days), pid));
+
+  // delete on one: gone from two, and its progress is gone from the account
+  expect(remote.docs[pid]).toBeTruthy();
+  await one.page.getByRole('button', { name: 'Delete', exact: true }).click();
+  await one.page.getByRole('alertdialog').getByRole('button', { name: 'Delete', exact: true }).click();
+  await expect(ph(one)).toHaveText('Programs');
+  await expect(two.page.locator('.yours')).toHaveCount(0, { timeout: 15000 });
+  expect(remote.collections.programs).toEqual({});
+  expect(remote.docs[pid]).toBeUndefined();
+  expect(await two.page.evaluate((p) => store.programIds().includes(p), pid)).toBe(false);
+  expect(one.errors).toEqual([]);
+  expect(two.errors).toEqual([]);
+  await one.context.close(); await two.context.close();
+});

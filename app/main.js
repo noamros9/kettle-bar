@@ -57,7 +57,13 @@ document.addEventListener('click', (ev) => {
   const d = el.dataset;
   if (el.id === 'brand') return go('today'); // home: the next day in the program of your last done workout (as the shortcut)
   if (d.go === 'programs') return go('programs');
-  if (d.go === 'build') return go('build');
+  if (d.go === 'build') { if (buildState && buildState.editId) buildState = null; return go('build'); } // "Build your own" starts fresh, not from an edit
+  if (d.bCancel) { const pid = buildState && buildState.editId ? KBOwn.pidOf(buildState.editId) : null; buildState = null; return go(pid && programs.has(pid) ? 'p-' + pid : 'programs'); }
+  if (d.ownRename) { ownState = { pid: prog().id, mode: 'rename', text: prog().name, error: null }; render(); const i = $('#own-name'); if (i) { i.focus(); i.select(); } return; }
+  if (d.ownCancel) { ownState = null; render(); return; }
+  if (d.ownEdit) return ownEdit(prog().id);
+  if (d.ownDelete) { ownState = { pid: prog().id, mode: 'delete' }; render(); return; }
+  if (d.ownDeleteConfirm) return ownDelete(ownState.pid);
   if (d.b) { const [k, v] = d.b.split(':'); return buildSet(k, v); }
   if (d.bRegen) return buildRegenerate();
   if (d.bSave) return buildSave();
@@ -143,7 +149,34 @@ document.addEventListener('change', (e) => {
   if (e.target.id === 'voice-toggle') { try { localStorage.setItem('kb-voice', e.target.checked ? 'on' : 'off'); } catch (err) { /* blocked: stays on */ } }
 });
 
-document.addEventListener('input', (e) => { if (e.target.id === 'b-name') buildState.name = e.target.value; });
+document.addEventListener('input', (e) => {
+  if (e.target.id === 'b-name') buildState.name = e.target.value;
+  if (e.target.id === 'own-name') ownState.text = e.target.value;
+});
+document.addEventListener('submit', (e) => { if (e.target.dataset.ownForm) { e.preventDefault(); ownRenameSave(); } });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && e.target.id === 'own-name') { ownState = null; render(); } });
+
+/* ---------------- your programs: rename, edit, delete ---------------- */
+function ownRenameSave() {
+  const id = ownIdOf(ownState.pid), record = store.doc('programs', id), text = ownState.text, problem = KBOwn.checkName(text);
+  if (problem) { ownState.error = problem; render(); const i = $('#own-name'); if (i) i.focus(); return; }
+  ownState = null;
+  if (record) store.setDoc('programs', id, KBOwn.renamed(record, text, new Date().toISOString())); // the catalogue follows at once
+  render();
+}
+// the builder opens with the program's own choices, seed and name; Save updates the same record
+function ownEdit(pid) {
+  const id = ownIdOf(pid), e = KBOwn.fromRecord(id, store.doc('programs', id));
+  buildState = { c: e.choices, seed: e.seed, name: e.name, editId: id };
+  go('build');
+}
+// the program and its progress (device and cloud); other devices drop it when its doc disappears
+function ownDelete(pid) {
+  ownState = null;
+  store.deleteProgress(pid);
+  store.deleteDoc('programs', ownIdOf(pid));
+  go('programs');
+}
 
 /* ---------------- boot ---------------- */
 store.load(); // before the route: #today needs your progress

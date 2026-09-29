@@ -132,12 +132,26 @@ function viewPrograms() {
    seed are what is saved (app/own.js); the days are built here from them. */
 const LEVER_TEXT = { reps: 'More reps', holds: 'Longer holds', weight: 'Heavier weights', variation: 'Harder variations', tempo: 'Slower tempo' };
 const GEAR_TEXT = { all: 'All equipment', kb: 'Kettlebell only', bw: 'No equipment' };
-let buildState = null; // { c: choices, seed, name: null (the default) | text }
+let buildState = null; // { c: choices, seed, name: null (the default) | text, editId?: the own program being edited }
+const ownIdOf = (pid) => pid.replace(/^own-/, '');
+const isOwn = (pid) => !!programs.summary(pid) && programs.summary(pid).source === 'own';
+const ownDeps = () => ({ build: KBBuilder.build, ex: KBEx });
+// every day marked done in any round: an edit keeps what you did on them
+const ownDoneDays = (pid) => [...new Set(store.entries(pid).map((e) => e.day))];
 let bookError = null, bookLoading = false;
 let previewCache = { key: '', program: null };
+// the edited record as it would be saved (done days frozen), or a new program's first days
+function editedRecord(b, now) {
+  return KBOwn.edit({ recipes: recipeBook, ...ownDeps() }, b.editId, store.doc('programs', b.editId), { name: b.name || undefined, choices: b.c, seed: b.seed, doneDays: ownDoneDays(KBOwn.pidOf(b.editId)) }, now);
+}
 function buildPreview(b) {
-  const key = JSON.stringify([b.c, b.seed]);
-  if (previewCache.key !== key) previewCache = { key, program: KBOwn.programOf({ build: KBBuilder.build, ex: KBEx }, { pid: 'own-preview', name: 'Preview', config: KBOwn.configOf(recipeBook, { choices: b.c, seed: b.seed }) }) };
+  const key = JSON.stringify([b.c, b.seed, b.editId || null]);
+  if (previewCache.key !== key) {
+    const program = b.editId
+      ? KBOwn.programOf(ownDeps(), KBOwn.fromRecord(b.editId, editedRecord(b, 'preview')))
+      : KBOwn.programOf(ownDeps(), { pid: 'own-preview', name: 'Preview', config: KBOwn.configOf(recipeBook, { choices: b.c, seed: b.seed }) });
+    previewCache = { key, program };
+  }
   return previewCache.program;
 }
 function buildSet(k, v) {
@@ -154,8 +168,16 @@ function buildSet(k, v) {
 }
 function buildRegenerate() { buildState.seed = KBOwn.newSeed(); render(); }
 function buildSave() {
-  const b = buildState, id = KBOwn.newId(), subject = b.c.subjects[0];
+  const b = buildState, subject = b.c.subjects[0];
   const name = (b.name || '').trim() || KBOwn.defaultName(subject);
+  if (b.editId) { // the same program, with new choices: days you did stay as they were
+    const pid = KBOwn.pidOf(b.editId);
+    store.setDoc('programs', b.editId, editedRecord({ ...b, name }, new Date().toISOString()));
+    buildState = null;
+    go('p-' + pid);
+    return;
+  }
+  const id = KBOwn.newId();
   const made = { choices: b.c, seed: b.seed, catalogue: recipeBook.book().catalogue };
   // the config the recipes made is what is kept: the days never depend on the recipe book again
   store.setDoc('programs', id, KBOwn.toRecord({ name, ...made, config: KBOwn.configOf(recipeBook, made) }, new Date().toISOString())); // the catalogue follows at once
@@ -163,7 +185,11 @@ function buildSave() {
   go('p-' + KBOwn.pidOf(id));
 }
 function viewBuild() {
-  const head = `<div class="crumbs"><button class="back" data-go="programs">← All programs</button></div><div class="eyebrow">Programs</div><h1>Build your own</h1>`;
+  if (buildState && buildState.editId && !store.doc('programs', buildState.editId)) buildState = null; // deleted on another device meanwhile
+  const editing = buildState && buildState.editId;
+  const head = editing
+    ? `<div class="crumbs"><button class="back" data-b-cancel="1">← ${esc(store.doc('programs', editing).name)}</button></div><div class="eyebrow">Your programs</div><h1>Edit your program</h1>`
+    : `<div class="crumbs"><button class="back" data-go="programs">← All programs</button></div><div class="eyebrow">Programs</div><h1>Build your own</h1>`;
   if (!recipeBook) {
     if (!bookLoading && !bookError) {
       bookLoading = true;
@@ -187,11 +213,15 @@ function viewBuild() {
   else {
     const p = buildPreview(b), TY = typesOf(p);
     preview = `<p class="pvline num">${esc(KBOwn.summaryLine(p))}</p><div class="grid pv" data-seed="${esc(b.seed)}">${p.days.slice(0, 6).map((w) => {
-      const t = TY[w.type];
+      const t = TY[w.type] || { short: w.title, c: 'var(--muted)' }; // a day you did keeps its own title
       return `<div class="tile"><span class="open"><span class="n num">${w.day}</span><span class="nm">${esc(w.name)}</span><span class="ty"><i class="dot" style="--c:${t.c}"></i>${esc(t.short)} · ${w.est}′</span></span></div>`;
     }).join('')}</div>`;
   }
-  return `${head}<p class="lede">Pick what you want; the first six days show below. Regenerate for a different set of days, with the same choices.</p>
+  const doneCount = editing ? ownDoneDays(KBOwn.pidOf(editing)).length : 0;
+  const lede = editing
+    ? `Change what you want; the first six days show below as they will be. ${doneCount ? `The ${doneCount === 1 ? 'day' : doneCount + ' days'} you have done stay${doneCount === 1 ? 's' : ''} exactly as you did ${doneCount === 1 ? 'it' : 'them'}; the rest are made again.` : 'No day is done yet, so every day is made again.'}`
+    : 'Pick what you want; the first six days show below. Regenerate for a different set of days, with the same choices.';
+  return `${head}<p class="lede">${lede}</p>
     <section class="bsec"><h2>Subject</h2>${subjectSelect}</section>
     <section class="bsec"><h2>Days in a cycle</h2><div class="filters" role="group" aria-label="Days in a cycle">${[1, 2, 3, 4, 5].map((n) => chip('split', n, n, c.split === n)).join('')}</div></section>
     <section class="bsec"><h2>Minutes a day</h2><div class="filters" role="group" aria-label="Minutes a day">${KBOwn.MINUTES.map((m) => chip('minutes', m, m, c.minutes === m, st.minutes[m])).join('')}</div>${why(KBOwn.MINUTES.map((m) => st.minutes[m]))}</section>
@@ -201,7 +231,7 @@ function viewBuild() {
     <section class="bsec"><h2>Preview</h2>${preview}
       <div class="actions"><button class="btn ghost" data-b-regen="1"${problem ? ' disabled' : ''}>Regenerate</button></div></section>
     <section class="bsec"><h2>Save</h2><label class="bfield" for="b-name"><span>Name</span><input id="b-name" type="text" maxlength="60" value="${esc(b.name === null ? KBOwn.defaultName(subject) : b.name)}" autocomplete="off"></label>
-      <div class="actions"><button class="btn" data-b-save="1"${problem ? ' disabled' : ''}>Save program</button></div></section>`;
+      <div class="actions"><button class="btn" data-b-save="1"${problem ? ' disabled' : ''}>${editing ? 'Save changes' : 'Save program'}</button>${editing ? '<button class="btn ghost" data-b-cancel="1">Cancel</button>' : ''}</div></section>`;
 }
 
 /* ---------------- program page ---------------- */
@@ -218,8 +248,23 @@ function roundSheet(p, r) {
     <p class="muted">Days start again from day 1. Round ${r} stays in your stats, as it is.</p>${list}
     <div class="actions"><button class="btn" data-round-confirm="1">Start Round ${r + 1}</button><button class="btn ghost" data-round-cancel="1">Cancel</button></div></div></div>`;
 }
+// rename, delete, edit: only for your own programs
+let ownState = null; // { pid, mode: 'rename' | 'delete', text?, error? }
+function ownTitle(p) {
+  if (!ownState || ownState.pid !== p.id || ownState.mode !== 'rename') return `<h1>${esc(p.name)}</h1>`;
+  return `<form class="renamerow" data-own-form="1"><label class="sr" for="own-name">Program name</label><input id="own-name" type="text" maxlength="60" value="${esc(ownState.text)}" autocomplete="off"${ownState.error ? ' aria-invalid="true" aria-describedby="own-err"' : ''}>
+    <button class="btn" type="submit">Save name</button><button class="btn ghost" type="button" data-own-cancel="1">Cancel</button></form>${ownState.error ? `<p class="notice" id="own-err" role="alert">${esc(ownState.error)}</p>` : ''}`;
+}
+const ownTools = (p) => `<div class="owntools"><button class="btn ghost" data-own-rename="1">Rename</button><button class="btn ghost" data-own-edit="1">Edit</button><button class="btn ghost danger" data-own-delete="1">Delete</button></div>`;
+function deleteSheet(p) {
+  if (!ownState || ownState.pid !== p.id || ownState.mode !== 'delete') return '';
+  return `<div class="sheetwrap"><button class="sheetbg" data-own-cancel="1" aria-label="Close"></button>
+    <div class="sheet" role="alertdialog" aria-modal="true" aria-labelledby="del-h"><h2 id="del-h">Delete ${esc(p.name)}?</h2>
+    <p class="muted">Its progress goes too.</p>
+    <div class="actions"><button class="btn danger" data-own-delete-confirm="1">Delete</button><button class="btn ghost" data-own-cancel="1">Cancel</button></div></div></div>`;
+}
 function viewProgram() {
-  const p = prog(), n = store.count(p.id), nx = nextDay(p.id), TY = typesOf(p), r = store.round(p.id);
+  const p = prog(), n = store.count(p.id), nx = nextDay(p.id), TY = typesOf(p), r = store.round(p.id), own = isOwn(p.id);
   rememberPid(p.id);
   const nw = nx ? p.days[nx - 1] : null;
   const levels = [0, 1, 2].map((li) => {
@@ -239,14 +284,14 @@ function viewProgram() {
   }).join('');
   const mins = p.minutes ? `~${Math.round(p.minutes[0])}–${Math.round(p.minutes[1])} min` : '';
   return `<div class="crumbs"><button class="back" data-go="programs">← All programs</button></div>
-    <div class="phead"><div><div class="eyebrow">${esc(p.subject || 'Program')} · ${esc(p.split || '')} ${mins ? '· ' + mins : ''}</div><h1>${esc(p.name)}</h1><p class="lede">${esc(p.about || p.blurb)}</p>
-      ${p.gear ? `<p class="gear">${esc(p.gear)}</p>` : ''}</div>
+    <div class="phead"><div><div class="eyebrow">${esc(p.subject || 'Program')} · ${esc(p.split || '')} ${mins ? '· ' + mins : ''}</div>${own ? ownTitle(p) : `<h1>${esc(p.name)}</h1>`}<p class="lede">${esc(p.about || p.blurb)}</p>
+      ${p.gear ? `<p class="gear">${esc(p.gear)}</p>` : ''}${own ? ownTools(p) : ''}</div>
     <div class="progress">${r > 1 ? `<div class="eyebrow">Round ${r}</div>` : ''}<div class="big num">${n}<small> / ${p.days.length} days</small></div><div class="bar"><b style="width:${(n / p.days.length) * 100}%"></b></div>
       <button class="btn ghost roundbtn" data-round-start="1">Start Round ${r + 1}</button></div></div>
   <div class="cycle">${Object.entries(TY).map(([k, t]) => `<div><i class="dot" style="--c:${t.c}"></i><b>${esc(t.label)}</b><span class="days">${cycleDays(p, k)}</span></div>`).join('')}</div>
   ${nw ? `<div class="nextup"><div class="t"><span class="eyebrow">Next up · Day ${nw.day}</span><b>${esc(nw.name)}</b><span>${esc((TY[nw.type] || {}).label || nw.title)} · about ${nw.est} min</span></div><button class="btn" data-day="${nw.day}">Open workout</button></div>`
        : `<div class="nextup"><div class="t"><b>All ${p.days.length} days done</b><span>That's the full program. Start Round ${r + 1} to go again.</span></div></div>`}
-  ${levels}${roundSheet(p, r)}`;
+  ${levels}${roundSheet(p, r)}${own ? deleteSheet(p) : ''}`;
 }
 
 /* ---------------- workout page ---------------- */
