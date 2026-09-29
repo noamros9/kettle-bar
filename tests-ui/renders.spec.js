@@ -49,3 +49,10 @@ test('every exercise page', async ({ app }, testInfo) => {
   }
   await shot(app, testInfo, 'exercise-last');
 });
+
+test('the header fits on a phone signed out too (Sign in button showing)', async ({ app }) => {
+  await app.open('#programs');
+  await app.data(() => paintSync('signin'));
+  await expect(app.page.locator('#sync')).toHaveText('Sign in');
+  expect(await app.sidewaysScroll()).toBe(0);
+});

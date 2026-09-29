@@ -8,7 +8,7 @@ const localStore = {
 const store = KBStore.createStore({ programIds: programs.ids(), storage: localStore, isOnline: () => navigator.onLine !== false });
 // a day as you'll do it: swaps applied, its live Workout Session, swap / undo (app/day.js)
 const days = KBDay.createDays({ programs, store, cat: KBEx, createSession: KBSession.createSession });
-const SYNC_TEXT = { ok: 'Synced', saving: 'Saving…', offline: 'Offline, will sync', local: 'Saved on this device', signin: 'Sign in to sync', ro: 'View only', err: 'Sync problem' };
+const SYNC_TEXT = { ok: 'Synced', saving: 'Saving…', offline: 'Offline, will sync', local: 'Saved on this device', signin: 'Sign in', ro: 'View only', err: 'Sync problem' };
 function paintSync(s) {
   const el = $('#sync'); el.dataset.s = s;
   const who = s === 'ok' && store.remote && store.remote.account ? ' · ' + store.remote.account.name : '';
@@ -51,7 +51,7 @@ function runPlanned(target, startClock = true) {
 document.addEventListener('click', (ev) => {
   const el = ev.target.closest('button'); if (!el) return;
   const d = el.dataset;
-  if (el.id === 'brand') return go('programs');
+  if (el.id === 'brand') return go('today'); // home: the next day not done in the program opened last (as the shortcut)
   if (d.go === 'programs') return go('programs');
   if (d.go === 'library') return go('exercises');
   if (d.go === 'settings') return go('settings');

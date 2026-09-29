@@ -22,7 +22,7 @@ function rerender() {
 }
 
 /* ---------------- routing ----------------
-   #today (home-screen shortcut) · #programs · #exercises · #stats · #settings · #ex-<id> · #p-<pid> · #p-<pid>-d<n>   (#d<n> = Three-Split 60, kept for old links) */
+   #today (the logo, home, and the home-screen shortcut) · #programs · #exercises · #stats · #settings · #ex-<id> · #p-<pid> · #p-<pid>-d<n>   (#d<n> = Three-Split 60, kept for old links) */
 // every program, through the Program Catalogue (today: all inlined in the page)
 const OFFLINE_CACHE = 'kettle-bar-v2'; // the service worker's cache; the page writes loaded programs into it too
 const offlineCache = {
