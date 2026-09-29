@@ -76,9 +76,6 @@ test('marking the last day done offers What next: Start Round 2 and same-family 
   expect(ids).not.toContain('three-split-60'); expect(ids).not.toContain('iron-ppl');
   expect(new Set(fam).size).toBe(1);
   expect(await app.sidewaysScroll()).toBe(0);
-  await card.locator('.whatnext').scrollIntoViewIfNeeded();
-  await app.page.evaluate(() => window.scrollBy(0, 200));
-  if (testInfo.project.name === 'phone-light') await app.page.screenshot({ path: '/home/claude/kettle-bar-shots/p7t8-finish.png', fullPage: false });
   const name = await next.first().locator('b').textContent();
   await next.first().click();
   await expect(app.heading()).toHaveText(name);
