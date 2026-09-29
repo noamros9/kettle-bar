@@ -233,6 +233,9 @@ main{padding-block:24px 64px}
 /* timer */
 .timer{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--surface);border-top:1px solid var(--line);box-shadow:0 -6px 24px rgba(0,0,0,.08);padding-bottom:env(safe-area-inset-bottom,0px)}
 .timer .wrap{display:grid;grid-template-columns:auto 1fr auto;gap:6px 14px;align-items:center;padding-block:10px}
+.tfig{grid-column:1/-1;display:flex;justify-content:center;margin-bottom:-2px}
+.tfig[hidden]{display:none}
+.tfig svg{height:84px;width:auto;max-width:100%}
 .tclock{font:800 52px/1 var(--display);letter-spacing:.01em;min-width:3.3ch;background:none;border:0;padding:0;text-align:left}
 .tclock.zero{color:var(--accent)}
 .tinfo{display:flex;flex-direction:column;gap:2px;min-width:0}

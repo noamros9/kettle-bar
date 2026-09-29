@@ -33,3 +33,10 @@ test('normalize refuses an exercise with no main muscle', () => {
   const { normalize } = require('../exercises.js');
   assert.throws(() => normalize({ x: {}, y: {} }, { y: '| abs' }), /No muscles for: x, y/);
 });
+
+test('no exercise id is written twice (a second one would silently replace the first)', () => {
+  const src = require('fs').readFileSync(require('path').join(__dirname, '../exercises.js'), 'utf8');
+  const ids = [...src.matchAll(/^ {4}([a-z0-9_]+): \{ name:/gm)].map((m) => m[1]);
+  assert.equal(ids.length, Object.keys(EX).length);
+  assert.deepEqual(ids.filter((id, i) => ids.indexOf(id) !== i), []);
+});

@@ -9,7 +9,7 @@ const { buildAll, CONFIGS, timing } = require('../program-builder.js');
 const programs = buildAll();
 const hasBar = (id) => (EX[id].equip || []).includes('bar');
 
-test('29 programs of 60 days, unique ids', () => {
+test('every program has 60 days, unique ids', () => {
   assert.equal(programs.length, CONFIGS.length);
   assert.equal(new Set(programs.map((p) => p.id)).size, programs.length);
   programs.forEach((p) => assert.equal(p.days.length, 60, p.id));
@@ -20,9 +20,11 @@ test('Three-Split 60 stays exactly as saved', () => {
   assert.deepEqual(programs.find((p) => p.id === 'three-split-60').days, saved.days);
 });
 
-test('every exercise used exists; abs come last without the pull-up bar', () => {
+test('every exercise used exists; abs come last without the pull-up bar (or not at all with absSlots: [])', () => {
+  const noAbs = new Set(CONFIGS.filter((c) => c.absSlots && !c.absSlots.length).map((c) => c.id));
   programs.forEach((p) => p.days.forEach((d) => {
     d.blocks.forEach((b) => b.items.forEach((it) => assert.ok(EX[it.ex], `${p.id} d${d.day}: ${it.ex}`)));
+    if (noAbs.has(p.id)) { assert.ok(d.blocks.every((b) => b.kind !== 'abs'), `${p.id} d${d.day} has abs`); return; }
     const abs = d.blocks.at(-1);
     assert.equal(abs.kind, 'abs', `${p.id} d${d.day}`);
     abs.items.forEach((it) => assert.ok(!hasBar(it.ex), `${p.id} d${d.day}: ${it.ex} uses the bar`));
@@ -116,8 +118,8 @@ const PINS = require('./fixtures/program-days.json');
 const hashDays = (p) => crypto.createHash('sha256').update(JSON.stringify(p.days)).digest('hex');
 const unpinned = (list) => Object.entries(PINS).filter(([id]) => hashDays(list.find((p) => p.id === id)) !== PINS[id]).map(([id]) => id);
 
-test('the existing programs are pinned: their days match the saved hashes', () => {
-  assert.ok(Object.keys(PINS).length >= 29);
+test('every program is pinned (npm run pin), and its days match the saved hash', () => {
+  assert.deepEqual(programs.filter((p) => !PINS[p.id]).map((p) => p.id), [], 'run npm run pin for new programs');
   Object.keys(PINS).forEach((id) => assert.ok(programs.find((p) => p.id === id), `${id} is missing`));
   assert.deepEqual(unpinned(programs), []);
 });

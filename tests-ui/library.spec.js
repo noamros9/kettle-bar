@@ -17,8 +17,9 @@ test('tap Mind & body: only its subjects\' chips and shelves show; Flow State si
   await app.open('#programs');
   await family(app).getByRole('button', { name: 'Mind & body' }).click();
   await expect(family(app).getByRole('button', { name: 'Mind & body' })).toHaveAttribute('aria-pressed', 'true');
-  expect(await chipTexts(subjects(app))).toEqual(['All', 'Core & abs', 'Mobility & posture']);
-  expect((await app.page.locator('.pgroup h2').allTextContents())).toEqual(['Core & abs', 'Mobility & posture']);
+  const mind = ['Core & abs', 'Mobility & posture', 'Yoga', 'Pilates', 'Flexibility', 'Balance & stability'].filter((x) => CONFIGS.some((c) => c.subject === x));
+  expect(await chipTexts(subjects(app))).toEqual(['All', ...mind]);
+  expect((await app.page.locator('.pgroup h2').allTextContents())).toEqual(mind);
   await expect(app.page.locator('.pgroup', { hasText: 'Mobility & posture' }).locator('[data-open-prog="flow-state"]')).toHaveCount(1);
   await expect(app.page.locator('.pgroup', { hasText: 'Core & abs' }).locator('.pcard')).toHaveCount(2);
   expect(await app.sidewaysScroll()).toBe(0);

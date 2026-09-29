@@ -12,7 +12,7 @@ its own progress. Identified by an id (`three-split-60`, `iron-ppl`).
 Full-Body Duo 60). The other 24 are **library programs**, three per **Subject**.
 
 **Subject**: a library shelf: signature, strength, pull-ups, legs & glutes, kettlebell only, bodyweight, busy week,
-conditioning, core & abs, mobility & posture (more come in Phase 5). Each belongs to one **Family**.
+conditioning, core & abs, mobility & posture, yoga (more come in Phase 5). Each belongs to one **Family**.
 
 **Family**: a group of subjects on the programs page: *Strength*, *Cardio & combat*, *Mind & body*. Picking one shows
 only its subjects' chips and shelves. Listed in `FAMILIES` in `app/views.js`; a subject missing there is an error.
@@ -26,14 +26,21 @@ Each day type has its own time range.
 
 **Level**: I (days 1–20), II (21–40), III (41–60). Level I starts at intermediate.
 
-**Lever**: how a program gets harder from one level to the next: *reps*, *weight* (go one weight up),
-*variation* (a harder exercise), or *tempo* (3 s lowering). Each program picks a lever per level.
+**Lever**: how a program gets harder from one level to the next: *reps*, *holds* (the same, said "longer holds"
+for poses), *weight* (go one weight up), *variation* (a harder exercise), or *tempo* (3 s lowering). Each program
+picks a lever per level.
 
-**Block**: one part of a day's workout in one **Format**, holding one or more exercises. Every day ends with
-an **abs block** (no bar, 3 sets, weights allowed).
+**Block**: one part of a day's workout in one **Format**, holding one or more exercises. Days end with an **abs
+block** (no bar, 3 sets, weights allowed), except in programs whose session is core work already (`absSlots: []`:
+yoga, Pilates, flexibility, mobility & posture).
 
 **Format**: how a block is performed: *straight sets*, *superset*, *circuit*, *EMOM*, *AMRAP*, *Tabata*,
-*ladder*.
+*ladder*, *guided flow*.
+
+**Guided flow** (`flow`): a sequence of **Poses** on the clock, run by one Start. Each pose (and each side) gets 5 s
+to move into it while the voice names it, then its hold; a pose written in reps lasts reps × seconds per rep. A flow
+can go through 1–3 times (`repeat`). Stats count each pose as one set per pass. A block's `scale` lengthens its holds
+(yin, up to `cap` seconds).
 
 **Set / Pair / Round**: the unit you tick while training. A *set* belongs to one exercise (straight sets);
 a *pair* is one set of each exercise in a superset; a *round* is one pass through a circuit or ladder.
@@ -121,12 +128,15 @@ fetched with an offline cache, or your own, later) is its adapter's business.
 Exercise Catalogue it's given, so it runs in the Node build and (for your own programs) in the page.
 Three-Split 60 is **frozen** (read from JSON by the Node build, not generated).
 
-**Pinned programs**: the days of every existing program are hashed in `tests/fixtures/program-days.json`, and a test
-fails if any of them change, so a program you are halfway through never reshuffles.
+**Pinned programs**: the days of every program are hashed in `tests/fixtures/program-days.json`, and a test fails if
+any of them change, so a program you are halfway through never reshuffles. A new program is pinned with
+`npm run pin`, which never touches an existing pin.
 
 **Catalogue generation**: an exercise marked `added: 5` came in Phase 5. The pools the builder computes from the
 catalogue (mobility, abs, weighted abs, warm-ups, cool-downs) leave it out unless the config says `catalogue: 5`,
-which is what keeps older programs pinned while the catalogue grows.
+which is what keeps older programs pinned while the catalogue grows. Programs from Phase 5 are marked `added: 5`
+too; a program never uses an exercise newer than itself. Guided kinds (yoga, Pilates, flexibility, mobility, boxing,
+kickboxing) are swapped only for their own kind and are never offered as swaps for anything else.
 
 **Adapter**: an implementation behind one of the store's seams: storage (localStorage / in-memory) or
 remote (Firebase / in-memory).

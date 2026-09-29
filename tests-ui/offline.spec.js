@@ -1,5 +1,6 @@
 // Programs load when opened, then all of them download quietly and work offline.
 const { test, expect } = require('./fixtures.js');
+const { CONFIGS } = require('../program-builder.js');
 
 test.beforeEach(({}, testInfo) => test.skip(testInfo.project.name !== 'phone-light', 'theme-independent'));
 
@@ -7,7 +8,7 @@ test('after the first visit every program is in the offline cache and opens with
   await app.open('#programs');
   await app.page.waitForFunction(() => programs.ids().every((id) => programs.get(id)), null, { timeout: 20000 });
   const cached = await app.data(async () => (await (await caches.open('kettle-bar-v2')).keys()).map((r) => new URL(r.url).pathname).filter((p) => p.includes('/data/')).length);
-  expect(cached).toBe(29);
+  expect(cached).toBe(CONFIGS.length);
   app.allowErrors(/\/data\//);
   await app.page.route('**/data/**', (r) => r.abort('internetdisconnected')); // the network is gone for programs
   await app.page.reload(); await app.page.locator('#app h1').waitFor();

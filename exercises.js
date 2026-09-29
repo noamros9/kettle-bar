@@ -28,6 +28,19 @@
   const HANDS_HIPS = { hn: [3, -4], hf: [2, -4], eh: [-1, -0.2] };
   const FSTAND = { t: [0, -34], hn: [-12, 0], hf: [12, 0], fn: [-8, 41], ff: [8, 41] };
 
+  // Phase 5: guided poses (yoga, Pilates, flexibility, mobility) and combat stances
+  const ARMS_UP = { hn: [2, -67], hf: [0, -67] };
+  const FOLD = { t: [18, 28], hd: [0.3, 1], hn: [1, 38], hf: [-1, 38], eh: [1, 1], fn: [-4, 41], ff: [-6, 41] };
+  const COBRA = { t: [26, -21], hd: [1, -0.8], hn: [30, 3], hf: [32, 3], eh: [-1, 0], fn: [-41, 3], ff: [-41, 4], mat: 1 };
+  const DOWNDOG = { t: [28.7, 18.3], hn: [56.5, 36], hf: [58, 36], fn: [-19.6, 36], ff: [-21, 36], mat: 1 };
+  const TABLE = { t: [34, 0], hn: [34, 32], hf: [36, 32], fn: [-20, 22], ff: [-21, 22], kh: [1, 0.6], mat: 1 };
+  const KNEEL = { t: [0, -34], fn: [-20, 21], ff: [-21, 21], kh: [1, 0.2], hn: [3, -2], hf: [2, -2], mat: 1 };
+  const LIE = { t: [34, 0], fn: [-41, 0], ff: [-41, 1], hn: [9, 4], hf: [10, 4], mat: 1 };
+  const PRONE = { t: [34, 0], hd: [1, 0], fn: [-41, 0], ff: [-41, 1], hn: [60, 1], hf: [61, 1], mat: 1 };
+  const SEAT = { t: [0, -34], fn: [41, 0], ff: [40, 1], hn: [-6, 2], hf: [-5, 2], eh: [1, 0.3], mat: 1 };
+  const WIDE = { t: [0, -34], fn: [-28, 33], ff: [28, 33], khn: [-1, 0], khf: [1, 0] }; // front view, feet wide
+  const WAR2 = { t: [0, -34], fn: [-30, 26], khn: [-1, -0.4], ff: [34, 30], khf: [1, 0], hn: [-42, -33], hf: [42, -33], ehn: [0, -1], ehf: [0, -1] };
+
   /*
    * Exercise library.
    * r: reps (or seconds) for Level I / II / III, exactly as used (Level I = intermediate).  u: 'reps' | 'sec'.  side: done on each side.
@@ -258,6 +271,64 @@
       { t: [28.7, 18.3], hn: [56.5, 36], hf: [58, 36], fn: [-19.6, 36], ff: [-21, 36], mat: 1 }] },
     standing_side_stretch: { name: 'Standing side stretch', cat: 'cooldown', view: 'front', u: 'sec', r: [15, 15, 15], side: 1, mus: 'obliques lats |', cue: 'Reach one arm overhead and lean to the opposite side, hips steady. Switch.', poses: [
       { t: [-7, -33], hn: [-10, -4], ehn: [-1, 0.3], hf: [-22, -60], fn: [-8, 41], ff: [8, 41] }] },
+
+    // ---------------- YOGA (Phase 5: guided flows; holds in seconds, sides in turn) ----------------
+    mountain_pose: { name: 'Mountain pose', cat: 'yoga', added: 5, u: 'sec', r: [20, 25, 30], mus: 'upper_back abs | glutes calves', cue: 'Stand tall, feet together and grounded, then sweep your arms overhead on a slow breath in.', poses: [
+      P(STAND, { hn: [3, -1], hf: [1, -1] }), P(STAND, ARMS_UP)] },
+    sun_salutation: { name: 'Sun salutation', cat: 'yoga', added: 5, r: [3, 4, 5], tp: 30, mus: 'hamstrings chest front_delts | abs calves lats', cue: 'One breath per move: arms up, fold, step back to plank, lower and lift into cobra, then press back to downward dog and step forward.', poses: [
+      P(STAND, ARMS_UP), FOLD, PLANK, COBRA, DOWNDOG] },
+    forward_fold: { name: 'Standing forward fold', cat: 'yoga', added: 5, u: 'sec', r: [40, 50, 60], mus: 'hamstrings | lower_back calves', cue: 'Hinge from the hips with soft knees and let your head and arms hang heavy toward the floor.', poses: [FOLD] },
+    chair_pose: { name: 'Chair pose', cat: 'yoga', added: 5, u: 'sec', r: [40, 50, 60], mus: 'quads glutes | front_delts upper_back abs', cue: 'Sit back as if into a chair, knees over toes, arms reaching up in line with your torso.', poses: [
+      { t: [15, -31], fn: [15, 28], ff: [13, 28], kh: [1, -0.6], hn: [29, -61], hf: [27, -61] }] },
+    twisting_chair: { name: 'Twisting chair', cat: 'yoga', added: 5, u: 'sec', r: [30, 40, 45], side: 1, mus: 'quads obliques | glutes upper_back', cue: 'From chair pose, twist and hook one elbow outside the opposite knee, then open the top arm to the ceiling. Switch sides.', poses: [
+      { t: [20, -27], fn: [15, 28], ff: [13, 28], kh: [1, -0.6], hn: [28, 4], ehn: [1, 0], hf: [20, -60] }] },
+    warrior_one: { name: 'Warrior one', cat: 'yoga', added: 5, u: 'sec', r: [40, 50, 60], side: 1, mus: 'quads glutes | hip_flexors front_delts abs', cue: 'Long stance, front knee bent over the ankle, back foot angled in. Square your hips and reach both arms up.', poses: [
+      { t: [0, -34], fn: [24, 27], khn: [1, -1], ff: [-34, 27], khf: [0.2, 1], ...ARMS_UP }] },
+    warrior_two: { name: 'Warrior two', cat: 'yoga', added: 5, view: 'front', u: 'sec', r: [40, 50, 60], side: 1, mus: 'quads glutes | adductors side_delts abs', cue: 'Wide stance, front knee bent over the ankle, arms long at shoulder height. Gaze past your front hand.', poses: [WAR2] },
+    reverse_warrior: { name: 'Reverse warrior', cat: 'yoga', added: 5, view: 'front', u: 'sec', r: [30, 40, 50], side: 1, mus: 'obliques quads | lats glutes adductors', cue: 'From warrior two, keep the front knee bent, slide the back hand down the back leg and arc the front arm up and over.', poses: [
+      { ...WAR2, t: [9, -33], hn: [2, -66], ehn: [-1, 0], hf: [26, -2], ehf: [1, 0] }] },
+    triangle_pose: { name: 'Triangle pose', cat: 'yoga', added: 5, view: 'front', u: 'sec', r: [40, 50, 60], side: 1, mus: 'obliques hamstrings | adductors glutes', cue: 'Straight legs in a wide stance. Reach forward over the front leg, then lower that hand to your shin and stack the top arm above it.', poses: [
+      { t: [-26, -22], fn: [-30, 38], ff: [26, 36], hn: [-32, 17], ehn: [-1, 0], hf: [-20, -62], ehf: [1, 0] }] },
+    extended_side_angle: { name: 'Extended side angle', cat: 'yoga', added: 5, view: 'front', u: 'sec', r: [40, 50, 60], side: 1, mus: 'obliques quads | glutes adductors lats', cue: 'From warrior two, lower the front forearm to your thigh and reach the top arm over your ear in one long line.', poses: [
+      { ...WAR2, t: [-28, -19], hn: [-34, 22], ehn: [-1, 0], hf: [-54, -48], ehf: [1, 0] }] },
+    high_lunge: { name: 'High lunge', cat: 'yoga', added: 5, u: 'sec', r: [40, 50, 60], side: 1, mus: 'quads hip_flexors | glutes abs', cue: 'Front knee bent, back heel lifted and back leg long. Lift your chest and reach your arms up.', poses: [
+      { t: [0, -34], fn: [23, 26], khn: [1, -1], ff: [-35, 30], khf: [0.2, 1], ...ARMS_UP }] },
+    tree_pose: { name: 'Tree pose', cat: 'yoga', added: 5, view: 'front', u: 'sec', r: [40, 50, 60], side: 1, mus: 'glutes calves | abs adductors', cue: 'Stand on one leg and press the other foot into your inner thigh or calf, not the knee. Hands together overhead.', poses: [
+      { t: [0, -34], ff: [4, 41], fn: [3, 17], khn: [-1, 0], hn: [-2, -64], hf: [2, -64], ehn: [-1, 0], ehf: [1, 0] }] },
+    warrior_three: { name: 'Warrior three', cat: 'yoga', added: 5, u: 'sec', r: [30, 40, 45], side: 1, mus: 'glutes hamstrings | lower_back abs calves', cue: 'Balance on one leg and tip forward until your torso and back leg are level, arms reaching ahead.', poses: [
+      { t: [34, -2], hd: [1, 0], fn: [0, 41], ff: [-41, -2], hn: [66, -4], hf: [65, -4] }] },
+    half_moon: { name: 'Half moon', cat: 'yoga', added: 5, view: 'front', u: 'sec', r: [30, 40, 45], side: 1, mus: 'glutes obliques | hamstrings abs calves', cue: 'From triangle, bend the front knee, put that hand down ahead of the foot and lift the back leg level. Stack the top arm up.', poses: [
+      { t: [-33, 6], hd: [-1, 0], fn: [-4, 46], ff: [41, -3], hn: [-33, 46], ehn: [-1, 0], hf: [-33, -36], ehf: [1, 0] }] },
+    dancer_pose: { name: "Dancer's pose", cat: 'yoga', added: 5, u: 'sec', r: [30, 40, 45], side: 1, mus: 'quads hip_flexors | glutes chest abs', cue: 'Hold one foot behind you, kick it into your hand and tip forward, the free arm reaching ahead.', poses: [
+      { t: [22, -26], fn: [2, 41], ff: [-30, -22], khf: [0, 1], hf: [-28, -21], ehf: [-1, 0], hn: [52, -44] }] },
+    boat_pose: { name: 'Boat pose', cat: 'yoga', added: 5, u: 'sec', r: [30, 40, 50], mus: 'abs hip_flexors | obliques', cue: 'Balance on your sit bones, chest lifted, legs raised long or with bent knees, arms reaching forward.', poses: [
+      { t: [-20, -27], hd: [0.6, -1], fn: [29, -29], ff: [28, -28], hn: [12, -25], hf: [12, -24], mat: 1 }] },
+    bridge_pose: { name: 'Bridge pose', cat: 'yoga', added: 5, u: 'sec', r: [40, 50, 60], mus: 'glutes | hamstrings lower_back', cue: 'On your back, feet planted hip-width apart. Press into your feet and lift your hips, arms long on the floor.', poses: [
+      P(GB_UP, { hn: [12, 15.5], hf: [12, 15.5] })] },
+    pigeon_pose: { name: 'Pigeon pose', cat: 'yoga', added: 5, u: 'sec', r: [60, 75, 90], side: 1, mus: 'glutes hip_flexors | adductors lower_back', cue: 'Front shin folded across the mat, back leg long behind you. Square your hips and sit tall or fold forward.', poses: [
+      { t: [4, -33], fn: [5, 7], khn: [1, 0.2], ff: [-41, 6], hn: [10, 7], hf: [12, 7], mat: 1 }] },
+    seated_twist: { name: 'Seated twist', cat: 'yoga', added: 5, u: 'sec', r: [40, 50, 60], side: 1, mus: 'obliques lower_back | glutes upper_back', cue: 'Sit tall, one leg long and the other knee bent with its foot flat. Hug the knee and twist toward it, back hand behind you.', poses: [
+      { t: [0, -34], fn: [16, 3], khn: [1, -1], ff: [41, 3], hn: [14, -14], ehn: [1, 0], hf: [-14, 3], mat: 1 }] },
+    low_lunge: { name: 'Low lunge', cat: 'yoga', added: 5, u: 'sec', r: [40, 50, 60], side: 1, mus: 'hip_flexors quads | glutes abs', cue: 'Back knee down, front knee over the ankle. Sink your hips forward and reach your arms up.', poses: [
+      { t: [-2, -34], fn: [22, 20], khn: [1, -1], ff: [-32, 20], khf: [0.3, 1], mat: 1, ...ARMS_UP }] },
+    camel_pose: { name: 'Camel pose', cat: 'yoga', added: 5, u: 'sec', r: [30, 40, 45], mus: 'hip_flexors chest | abs quads front_delts', cue: 'Kneel tall, hands on your lower back. Lift your chest and lean back, reaching for your heels only if it feels easy.', poses: [
+      P(KNEEL, { t: [-16, -30], hd: [-1, -0.2], hn: [-19, 20], hf: [-20, 20], eh: [1, 0] })] },
+    locust_pose: { name: 'Locust pose', cat: 'yoga', added: 5, u: 'sec', r: [30, 40, 45], mus: 'lower_back glutes | upper_back hamstrings', cue: 'Face down, arms by your sides. Lift your chest, arms and legs off the floor and reach back through your toes.', poses: [
+      { t: [33, -8], hd: [1, -0.2], fn: [-40, -5], ff: [-40, -4], hn: [4, -9], hf: [5, -8], mat: 1 }] },
+    happy_baby: { name: 'Happy baby', cat: 'yoga', added: 5, u: 'sec', r: [45, 60, 75], mus: 'adductors glutes | lower_back hamstrings', cue: 'On your back, hold the outsides of your feet with knees wide and draw them toward your armpits.', poses: [
+      { t: [34, 0], fn: [10, -28], ff: [11, -28], kh: [1, 0.4], hn: [10, -28], hf: [11, -28], mat: 1 }] },
+    supine_twist: { name: 'Supine twist', cat: 'yoga', added: 5, u: 'sec', r: [45, 60, 75], side: 1, mus: 'obliques lower_back | glutes chest', cue: 'On your back, draw one knee across your body toward the floor and open the opposite arm wide. Switch sides.', poses: [
+      { t: [34, 0], ff: [-41, 1], fn: [2, 8], khn: [1, -0.5], hn: [9, 4], hf: [10, 4], mat: 1 }] },
+    crow_pose: { name: 'Crow pose', cat: 'yoga', added: 5, u: 'sec', r: [15, 20, 25], mus: 'front_delts triceps abs | forearms chest', cue: 'Squat, plant your hands, rest your knees high on the backs of your arms and lean forward until your feet lift.', poses: [
+      { t: [28, 5], hd: [1, 0.2], hn: [31, 35], hf: [33, 35], eh: [-1, 0], fn: [-4, 14], ff: [-6, 13], kh: [1, 0.7] }] },
+    garland_pose: { name: 'Garland pose', cat: 'yoga', added: 5, u: 'sec', r: [40, 50, 60], mus: 'adductors glutes | calves lower_back', cue: 'Feet wider than your hips, sink into a deep squat, elbows pressing your knees open, palms together.', poses: [
+      { t: [8, -33], fn: [7, 19], ff: [6, 19], kh: [1, -0.6], hn: [17, -18], hf: [16, -18], eh: [1, 0.2] }] },
+    dolphin_pose: { name: 'Dolphin pose', cat: 'yoga', added: 5, u: 'sec', r: [30, 40, 50], mus: 'front_delts abs | hamstrings upper_back', cue: 'Forearms down under your shoulders, hips high like a downward dog, head relaxed between your arms.', poses: [
+      { t: [24, 23], hn: [48, 35], hf: [50, 35], eh: [0, 1], fn: [-21, 35], ff: [-23, 35], mat: 1 }] },
+    puppy_pose: { name: 'Puppy pose', cat: 'yoga', added: 5, u: 'sec', r: [45, 60, 75], mus: 'lats upper_back | front_delts', cue: 'From hands and knees, walk your hands forward and melt your chest toward the floor, hips over your knees.', poses: [
+      P(TABLE, { t: [30, 16], hd: [1, 0.5], hn: [62, 21], hf: [63, 21] })] },
+    sphinx_pose: { name: 'Sphinx pose', cat: 'yoga', added: 5, u: 'sec', r: [60, 75, 90], mus: 'lower_back | abs hip_flexors', cue: 'Face down on your forearms, elbows under shoulders. Let your lower back soften as your chest lifts.', poses: [
+      { t: [31, -14], hd: [1, -0.4], hn: [52, 5], hf: [53, 5], eh: [0, 1], fn: [-41, 4], ff: [-41, 5], mat: 1 }] },
   };
 
 

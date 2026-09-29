@@ -8,7 +8,7 @@ const TYPES = {
   low: { label: 'Full body · lower focus', short: 'Lower body', c: 'var(--t-low)' },
   ac: { label: 'Abs & cardio', short: 'Abs · Cardio', c: 'var(--t-ac)' },
 };
-const CAT = { chest: 'Chest', back: 'Back', abs: 'Abs', cardio: 'Cardio', upper: 'Shoulders & arms', full: 'Total body', lower: 'Legs & glutes', warmup: 'Warm-up', cooldown: 'Cool-down stretches' };
+const CAT = { chest: 'Chest', back: 'Back', abs: 'Abs', cardio: 'Cardio', upper: 'Shoulders & arms', full: 'Total body', lower: 'Legs & glutes', balance: 'Balance', yoga: 'Yoga', pilates: 'Pilates', flex: 'Flexibility', mobility: 'Mobility & posture', boxing: 'Boxing', kick: 'Kickboxing', warmup: 'Warm-up', cooldown: 'Cool-down stretches' };
 const $ = (s, r = document) => r.querySelector(s);
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const figCache = {};
@@ -109,7 +109,7 @@ function viewPrograms() {
   };
   const groups = subjects.map((s) => { const list = shown.filter((p) => p.subject === s); return list.length ? `<section class="pgroup"><h2>${esc(s)}</h2><div class="plist">${list.map(card).join('')}</div></section>` : ''; }).join('');
   return `<div class="eyebrow">${all.length} programs · 60 days each</div><h1>Programs</h1>
-    <p class="lede">Every program starts at intermediate and ends each workout with abs, with a matched warm-up and cool-down. Progress is kept per program.</p>
+    <p class="lede">Every program starts at intermediate, with a matched warm-up and cool-down, and most end each workout with abs. Progress is kept per program.</p>
     <div class="filters fam" role="group" aria-label="Filter by family"><button class="fchip" data-filter="family:all" aria-pressed="${filters.family === 'all'}">All</button>${families.map(([f]) => `<button class="fchip" data-filter="family:${esc(f)}" aria-pressed="${filters.family === f}">${esc(f)}</button>`).join('')}</div>
     <div class="filters" role="group" aria-label="Filter by subject"><button class="fchip" data-filter="subject:all" aria-pressed="${filters.subject === 'all'}">All</button>${subjects.map((s) => `<button class="fchip" data-filter="subject:${esc(s)}" aria-pressed="${filters.subject === s}">${esc(s)}</button>`).join('')}</div>
     <div class="filters" role="group" aria-label="Filter by length">${LENGTHS.map(([k, l]) => `<button class="fchip" data-filter="len:${k}" aria-pressed="${filters.len === k}">${l}</button>`).join('')}</div>
@@ -226,6 +226,12 @@ function blockHTML(p, w, b, bi, ses, D) {
     desc = `${b.tabatas} × 4 min: 20 s as hard as you can, 10 s rest, 8 rounds, exercises rotate. 1 min between Tabatas. The timer runs it all.`;
     side = runButton(bi, st, `Tabata · ${b.tabatas * 4} min`);
     body = `<div class="exgrid">${b.items.map((it, i) => card(it, i, { count: '<b class="num">20</b><span>sec hard, 10 sec rest</span>' })).join('')}</div>`;
+  } else if (f === 'flow') {
+    const secs = b.repeat * b.items.reduce((s, it) => { const e = EX[it.ex]; return s + (e.side ? 2 : 1) * (5 + (e.u === 'sec' ? it.n : it.n * e.tp)); }, 0);
+    const passes = b.repeat > 1 ? `, ${b.repeat === 2 ? 'twice' : 'three times'} through` : '';
+    desc = `A guided sequence of ${b.items.length} poses${passes}. One Start runs it all: the voice names each pose and side, with 5 s to move into it.`;
+    side = runButton(bi, st, `flow · ${Math.floor(secs / 60)}:${String(secs % 60).padStart(2, '0')}`);
+    body = `<div class="exgrid">${b.items.map((it, i) => card(it, i)).join('')}</div>`;
   } else if (f === 'ladder') {
     desc = `${b.minutes} min: 1 rep of each exercise, then 2, then 3… keep climbing until time runs out. Tap + after each rung.`;
     side = runButton(bi, st, `Ladder · ${b.minutes} min`) + counter(bi, st.count, 'Rungs');
@@ -321,10 +327,10 @@ function viewDay() {
       <p class="daysum">${KBSummary.daySummary(w, p, KBEx).map((l) => `<span>${esc(l)}</span>`).join('')}</p>
       <div class="meta"><span class="ty"><i class="dot" style="--c:${t.c}"></i>${esc(t.label || w.title)}</span><span>About ${w.est} min${w.stretchMin ? ` + ${w.stretchMin} min stretching` : ''}</span><span>${nEx} exercises</span></div></div>
       <button class="btn ${isD ? 'done' : ''}" data-toggle="${w.day}" aria-pressed="${isD}">${isD ? '✓ Done' : 'Mark as done'}</button></div>
-    <p class="how">Tap a set, round or pair number when you finish it and the right rest starts on the timer. EMOM, AMRAP, Tabata and ladder blocks have a Start button that runs the clock for you.</p>
+    <p class="how">Tap a set, round or pair number when you finish it and the right rest starts on the timer. EMOM, AMRAP, Tabata, ladder and guided-flow blocks have a Start button that runs the clock for you.</p>
     ${w.warmup ? stretchBlock(w.warmup, 'warm', 'W', 'Before you start', ses) : ''}
     ${w.blocks.map((b, bi) => blockHTML(p, w, b, bi, ses, D)).join('')}
-    ${w.cooldown ? `<div class="between">Then stretch</div>${stretchBlock(w.cooldown, 'cool', 'C', 'After the abs', ses)}` : ''}
+    ${w.cooldown ? `<div class="between">Then stretch</div>${stretchBlock(w.cooldown, 'cool', 'C', w.blocks.at(-1).kind === 'abs' ? 'After the abs' : 'After the workout', ses)}` : ''}
     ${ses.allDone() ? finishCard(p, w, isD) : ''}
     ${swapSheet(D)}
     <p class="note">Tap any exercise for how to do it and the muscles it works. Weights are starting points: pick a load where the last two reps are hard but clean. "Go one weight up" means the next dumbbell size or the heavier bell; "3 s lowering" means a slow 3-second lowering on every rep.</p>`;
@@ -345,7 +351,7 @@ function viewExercise() {
       <div class="card"><div class="bigfig">${fig(e.id)}</div>
         <dl class="facts">
           <div><dt>How to</dt><dd>${esc(e.cue)}</dd></div>
-          <div><dt>${stretch ? 'Hold' : 'Reps'}</dt><dd>${dose}</dd></div>
+          <div><dt>${stretch || e.u === 'sec' ? 'Hold' : 'Reps'}</dt><dd>${dose}</dd></div>
           <div><dt>Equipment</dt><dd>${e.load ? esc(LOAD[e.load]) : (e.equip || []).includes('bar') ? 'Pull-up bar' : 'Bodyweight, mat'}</dd></div>
         </dl></div>
       <div class="card"><h2>Muscles worked</h2>${muscleMapSVG(m.primary, m.secondary, 'Muscles worked by ' + e.name)}
@@ -404,7 +410,7 @@ function viewSettings() {
   </section>
   <section class="card setting"><h2>Voice</h2>
     <label class="switch"><input type="checkbox" role="switch" id="voice-toggle"${T.voiceOn() ? ' checked' : ''}><span>Voice cues</span></label>
-    <p class="muted">During holds and one-side moves, the phone says "Halfway", "Switch sides" and "Done". The beeps stay either way. Remembered on this device.</p>
+    <p class="muted">During holds and one-side moves, the phone says "Halfway", "Switch sides" and "Done". In guided flows it also names each pose and side. The beeps stay either way. Remembered on this device.</p>
   </section>`;
 }
 

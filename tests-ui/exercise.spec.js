@@ -28,3 +28,17 @@ test('with reduce motion on, the drawing stays still', async ({ app }) => {
   expect(await snapshot(app)).toBe(first);
   expect(first).toContain('translate(126,0)'); // the still drawing: every position side by side
 });
+
+test('every exercise added in Phase 5 draws its figure on its page, and moves when it has several positions', async ({ app }) => {
+  test.skip(test.info().project.name !== 'phone-light', 'theme-independent');
+  const { EX } = require('../exercises.js');
+  await app.page.clock.install();
+  await app.open('#exercises');
+  for (const e of Object.values(EX).filter((x) => x.added)) {
+    await app.go(`#ex-${e.id}`);
+    await expect(drawing(app).locator('svg.fig'), e.id).toHaveAttribute('aria-label', `${e.name} illustration`);
+    const first = await snapshot(app);
+    expect(first, e.id).not.toContain('NaN');
+    if (e.poses.length > 1) { await app.page.clock.runFor(300); expect(await snapshot(app), `${e.id} moves`).not.toBe(first); }
+  }
+});
