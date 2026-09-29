@@ -13,10 +13,15 @@
      toConfig(recipes, { id, name, choices, seed, catalogue? }) -> a config for KBBuilder.build, id `own-<id>` (the preview)
      configOf(recipes, { choices, seed, catalogue? }) -> the compact config to store: what make() produced, without
                                                   id, name and the 60 day names (those are worked out again)
-     toRecord({ name, choices, seed, catalogue, config, createdAt? }, now) -> the doc users/{uid}/programs/{id}:
-                                                  { name, choices, seed, catalogue, config, createdAt, updatedAt }
-     fromRecord(id, record) -> { id, pid, name, choices, seed, catalogue, config?, createdAt, updatedAt } (throws when damaged)
-     programOf({ build, ex }, entry) -> the 60-day program of an entry, from its config only (throws without one)
+     toRecord({ name, choices, seed, catalogue, config, frozenDays?, createdAt? }, now) -> the doc users/{uid}/programs/{id}:
+                                                  { name, choices, seed, catalogue, config, frozenDays?, createdAt, updatedAt }
+     fromRecord(id, record) -> { id, pid, name, choices, seed, catalogue, config?, frozenDays?, createdAt, updatedAt } (throws when damaged)
+     programOf({ build, ex }, entry) -> the 60-day program of an entry, from its config only (throws without one);
+                                                  frozen days are taken as they are stored
+     checkName(text) -> null, or the message for people    renamed(record, text, now) -> the record with a new name
+     edit({ recipes, build, ex }, id, record, { name?, choices, seed?, doneDays }, now) -> the record after an edit: the new
+                                                  choices' config, and every day in doneDays (of any round) frozen as it was built
+                                                  from the OLD record: `frozenDays: { n: day }`, without the day number
      summaryLine(program) -> "Push / Legs / Pull · 60 days · ~28–32 min · kettlebell only"
 
      source(docs, { recipes, build, ex }) -> a Program Catalogue source named 'own', `first`, from the store's programs docs
@@ -90,8 +95,31 @@
     });
   }
 
-  function toRecord({ name, choices, seed, catalogue, config, createdAt }, now) {
-    return { name, choices: clone(choices), seed, catalogue, config: clone(config), createdAt: createdAt || now, updatedAt: now };
+  function toRecord({ name, choices, seed, catalogue, config, frozenDays, createdAt }, now) {
+    const record = { name, choices: clone(choices), seed, catalogue, config: clone(config), createdAt: createdAt || now, updatedAt: now };
+    if (frozenDays && Object.keys(frozenDays).length) record.frozenDays = clone(frozenDays);
+    return record;
+  }
+
+  const NAME_MAX = 60; // as the name field's maxlength
+  const checkName = (text) => {
+    const t = String(text).trim();
+    return !t ? 'Give it a name.' : t.length > NAME_MAX ? `Keep the name to ${NAME_MAX} characters.` : null;
+  };
+  function renamed(record, text, now) {
+    const problem = checkName(text);
+    if (problem) throw new Error(problem);
+    return { ...clone(record), name: String(text).trim(), updatedAt: now };
+  }
+
+  // a day you did is kept as it was made: the record holds it without its number (the key is the number)
+  const frozenOk = (n, d) => Number.isInteger(+n) && +n >= 1 && +n <= 60 && isObject(d) && Array.isArray(d.blocks);
+  function edit({ recipes, build, ex }, id, record, { name, choices, seed, doneDays }, now) {
+    const old = fromRecord(id, record), oldProgram = programOf({ build, ex }, old);
+    const frozenDays = { ...(old.frozenDays || {}) };
+    doneDays.filter((n) => Number.isInteger(n) && n >= 1 && n <= 60).forEach((n) => { const { day, ...rest } = oldProgram.days[n - 1]; frozenDays[n] = clone(rest); });
+    const made = { choices, seed: seed === undefined ? old.seed : seed, catalogue: recipes.book().catalogue };
+    return toRecord({ name: name === undefined ? old.name : name, ...made, config: configOf(recipes, made), frozenDays, createdAt: old.createdAt }, now);
   }
 
   function fromRecord(id, r) {
@@ -101,12 +129,22 @@
     if (typeof r.seed !== 'string') throw new Error('This program has no seed.');
     if (!Number.isInteger(r.catalogue)) throw new Error('This program has no catalogue version.');
     if (r.config !== undefined && !isObject(r.config)) throw new Error('This program has a damaged config.');
-    return { id, pid: pidOf(id), name: r.name, choices: clone(r.choices), seed: r.seed, catalogue: r.catalogue, config: r.config, createdAt: r.createdAt, updatedAt: r.updatedAt };
+    if (r.frozenDays !== undefined && !(isObject(r.frozenDays) && Object.entries(r.frozenDays).every(([n, d]) => frozenOk(n, d)))) throw new Error('This program has damaged frozen days.');
+    const entry = { id, pid: pidOf(id), name: r.name, choices: clone(r.choices), seed: r.seed, catalogue: r.catalogue, config: r.config, createdAt: r.createdAt, updatedAt: r.updatedAt };
+    if (r.frozenDays) entry.frozenDays = clone(r.frozenDays);
+    return entry;
   }
 
   function programOf({ build, ex }, entry) {
     if (!entry.config) throw new Error('This program has no config yet.');
-    return build({ ...clone(entry.config), id: entry.pid, name: entry.name, names: namesOf(entry.config) }, ex);
+    const program = build({ ...clone(entry.config), id: entry.pid, name: entry.name, names: namesOf(entry.config) }, ex);
+    Object.entries(entry.frozenDays || {}).forEach(([n, d]) => {
+      const t = program.dayTypes[d.type];
+      // the day keeps its look only while the rebuilt cycle still calls that day type the same; else it shows by its own title
+      const { type, ...rest } = d;
+      program.days[n - 1] = { day: +n, ...(t && t.label === d.title ? { type } : {}), ...clone(rest) };
+    });
+    return program;
   }
 
   function summaryLine(p) {
@@ -152,7 +190,7 @@
     return { refresh };
   }
 
-  const api = { defaults, fit, problem, states, subjects, toConfig, configOf, toRecord, fromRecord, programOf, summaryLine, source, link, pidOf, defaultName, newId, newSeed, MINUTES, EQUIPMENT };
+  const api = { checkName, renamed, edit, defaults, fit, problem, states, subjects, toConfig, configOf, toRecord, fromRecord, programOf, summaryLine, source, link, pidOf, defaultName, newId, newSeed, MINUTES, EQUIPMENT };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBOwn = api;
 })(typeof window !== 'undefined' ? window : globalThis, typeof module !== 'undefined' && module.exports ? require('./programs.js') : window.KBPrograms);

@@ -355,7 +355,7 @@ test('store.dropProgram: forgets it in memory, stops listening to the cloud, kee
   store.dropProgram('own-a');
   assert.deepEqual(store.programIds(), ['p']);
   assert.equal(store.count('own-a'), 0);
-  assert.ok(storage.m['kb-progress-own-a'], 'the device copy stays: what happens to a deleted program\'s progress is ticket 6\'s call');
+  assert.ok(storage.m['kb-progress-own-a'], 'the device copy stays: only deleteProgress (you deleted it) removes it');
   await remote.write('progress', 'own-a', { done: { 9: 'c' } }); await tick();
   assert.equal(store.count('own-a'), 0, 'no longer listening');
   assert.equal(store.count('p'), 1);
@@ -376,4 +376,177 @@ test('store: an update for a program that was just dropped is ignored', async ()
   deliver({ done: { 3: 'c' } }); // already on its way
   assert.equal(store.count('own-a'), 0);
   assert.deepEqual(store.programIds(), ['p']);
+});
+
+// ---- ticket 6: rename, delete, edit ----
+const Backup = require('../app/backup.js');
+const editDeps = { recipes, ...deps };
+const rec = (extra = {}) => saved({ name: 'Mine', choices: choices({ minutes: 40 }), seed: 'ed', catalogue: R.book().catalogue, ...extra }, '2026-09-01T00:00:00Z');
+// what you did on a day: everything but the type key, which only says how the day is coloured in the rebuilt cycle
+const didOf = (d) => { const { type, ...rest } = d; return JSON.stringify(rest); };
+const built = (record, id = 'x1') => Own.programOf(deps, Own.fromRecord(id, record));
+
+test('edit minutes after ticking days 1-3: days 1-3 are unchanged, day 4 is in the new range', () => {
+  const before = rec(), old = built(before);
+  const after = Own.edit(editDeps, 'x1', before, { choices: choices({ minutes: 25 }), doneDays: [1, 2, 3] }, '2026-09-02T00:00:00Z');
+  const now = built(after);
+  [0, 1, 2].forEach((i) => assert.equal(didOf(now.days[i]), didOf(old.days[i]), 'day ' + (i + 1) + ' is what you did'));
+  assert.ok(old.days[3].est > 35, 'day 4 was a 40-minute day');
+  assert.ok(now.days[3].est >= 22 && now.days[3].est <= 28, 'day 4 is a 25-minute day: ' + now.days[3].est);
+  assert.deepEqual(Object.keys(after.frozenDays), ['1', '2', '3']);
+  assert.equal(after.choices.minutes, 25);
+  assert.equal(after.createdAt, before.createdAt, 'the same program');
+  assert.equal(after.updatedAt, '2026-09-02T00:00:00Z');
+  assert.equal(now.id, 'own-x1');
+});
+
+test('edit: days from a past round are frozen too; days frozen by an earlier edit stay frozen', () => {
+  const first = Own.edit(editDeps, 'x1', rec(), { choices: choices({ minutes: 30 }), doneDays: [1, 2] }, 'T1');
+  const p1 = built(first);
+  // round 1 ended with days 5 and 9 done; round 2 has day 1 done: the caller passes every done day of every round
+  const second = Own.edit(editDeps, 'x1', first, { choices: choices({ minutes: 25, split: 4 }), doneDays: [1, 5, 9] }, 'T2');
+  const p2 = built(second);
+  assert.deepEqual(Object.keys(second.frozenDays).sort(), ['1', '2', '5', '9']);
+  [1, 2, 5, 9].forEach((n) => assert.equal(didOf(p2.days[n - 1]), didOf(p1.days[n - 1]), 'day ' + n));
+  assert.notEqual(didOf(p2.days[5]), didOf(p1.days[5]), 'day 6 was not done: rebuilt');
+  assert.equal(p2.days.length, 60);
+});
+
+test('edit: name and seed can change with the choices; a name left out stays; days out of range are ignored', () => {
+  const before = rec();
+  const a = Own.edit(editDeps, 'x1', before, { name: 'New name', choices: choices(), seed: 'other', doneDays: [61, 0] }, 'T');
+  assert.equal(a.name, 'New name'); assert.equal(a.seed, 'other');
+  assert.equal(a.frozenDays, undefined, 'nothing done: nothing frozen, and no key');
+  assert.equal(Own.edit(editDeps, 'x1', before, { choices: choices(), doneDays: [] }, 'T').name, 'Mine');
+  assert.equal(Own.edit(editDeps, 'x1', before, { choices: choices(), doneDays: [] }, 'T').seed, 'ed');
+});
+
+test('a frozen day keeps its type only while the new cycle still calls that type the same; otherwise it shows by its own title', () => {
+  const before = rec({ choices: choices({ split: 3 }) });
+  const old = built(before);
+  const after = Own.edit(editDeps, 'x1', before, { choices: choices({ split: 2 }), doneDays: [1, 2, 3] }, 'T');
+  const now = built(after);
+  [0, 1, 2].forEach((i) => {
+    const d = now.days[i], o = old.days[i], t = now.dayTypes[o.type];
+    assert.equal(d.title, o.title);
+    if (t && t.label === o.title) assert.equal(d.type, o.type); else assert.equal(d.type, undefined);
+  });
+  assert.ok(now.days.slice(0, 3).some((d) => d.type === undefined), 'a three-day cycle became two: the third day type is gone');
+});
+
+test('building from a record never touches the recipe book, frozen days or not', () => {
+  const after = Own.edit(editDeps, 'x1', rec(), { choices: choices({ minutes: 25 }), doneDays: [1, 2] }, 'T');
+  const spy = { book() { throw new Error('the book was asked'); }, options() { throw new Error('the book was asked'); }, make() { throw new Error('the book was asked'); } };
+  const p = Own.programOf({ build: Builder.build, ex: cat, recipes: spy }, Own.fromRecord('x1', JSON.parse(JSON.stringify(after))));
+  assert.equal(p.days.length, 60);
+  // and the stored days are what a book from another catalogue would not change
+  assert.equal(didOf(p.days[0]), didOf(built(rec()).days[0]));
+});
+
+test('fromRecord: frozenDays are checked; a damaged one is refused', () => {
+  const ok = Own.edit(editDeps, 'x1', rec(), { choices: choices(), doneDays: [1] }, 'T');
+  assert.deepEqual(Object.keys(Own.fromRecord('a', ok).frozenDays), ['1']);
+  assert.equal(Own.fromRecord('a', rec()).frozenDays, undefined);
+  assert.throws(() => Own.fromRecord('a', { ...ok, frozenDays: [] }), /frozen/);
+  assert.throws(() => Own.fromRecord('a', { ...ok, frozenDays: { 1: 'x' } }), /frozen/);
+  assert.throws(() => Own.fromRecord('a', { ...ok, frozenDays: { 61: ok.frozenDays[1] } }), /frozen/);
+  assert.throws(() => Own.fromRecord('a', { ...ok, frozenDays: { one: ok.frozenDays[1] } }), /frozen/);
+  assert.throws(() => Own.fromRecord('a', { ...ok, frozenDays: { 1: { ...ok.frozenDays[1], blocks: null } } }), /frozen/);
+});
+
+test('an edited record stays compact: about ten frozen days, and no day number or name repeated', () => {
+  const after = Own.edit(editDeps, 'x1', rec(), { choices: choices({ minutes: 25 }), doneDays: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] }, 'T');
+  const bytes = JSON.stringify(after).length;
+  assert.ok(bytes < 12000, 'record is ' + bytes + ' bytes');
+  assert.equal(after.frozenDays[1].day, undefined);
+  console.log('edited record with 10 frozen days:', bytes, 'bytes; before the edit:', JSON.stringify(rec()).length);
+});
+
+test('an edited record round-trips a backup file and an import, and builds the same days', () => {
+  const after = Own.edit(editDeps, 'x1', rec(), { choices: choices({ minutes: 25 }), doneDays: [1, 2, 3] }, '2026-09-02T00:00:00Z');
+  const file = JSON.stringify(Backup.exportProgress({ 'own-x1': { 1: 't' } }, { now: () => 'n', ownPrograms: { x1: after } }));
+  const parsed = Backup.parseBackup(file, { known: ['own-x1'] });
+  assert.deepEqual(parsed.ownPrograms.x1, JSON.parse(JSON.stringify(after)));
+  assert.deepEqual(built(parsed.ownPrograms.x1).days, built(after).days);
+});
+
+test('rename: trimmed, not empty, at most 60 characters; a new time, everything else as it was', () => {
+  assert.equal(Own.checkName('  '), 'Give it a name.');
+  assert.equal(Own.checkName(''), 'Give it a name.');
+  assert.match(Own.checkName('x'.repeat(61)), /60/);
+  assert.equal(Own.checkName('x'.repeat(60)), null);
+  assert.equal(Own.checkName('Legs day'), null);
+  const before = Own.edit(editDeps, 'x1', rec(), { choices: choices(), doneDays: [1] }, 'T0');
+  const after = Own.renamed(before, '  Legs day  ', 'T1');
+  assert.equal(after.name, 'Legs day');
+  assert.deepEqual({ ...after, name: 0, updatedAt: 0 }, { ...before, name: 0, updatedAt: 0 });
+  assert.equal(after.updatedAt, 'T1');
+  assert.throws(() => Own.renamed(before, ' ', 'T1'), /name/);
+});
+
+test('rename through the store: the catalogue shows the new name and the progress stays', async () => {
+  const p = page();
+  p.store.setDoc('programs', 'x1', rec());
+  await tick(); p.store.toggle('own-x1', 2);
+  p.store.setDoc('programs', 'x1', Own.renamed(p.store.doc('programs', 'x1'), 'Renamed', 'T'));
+  assert.equal(p.catalogue.summary('own-x1').name, 'Renamed');
+  assert.equal(p.store.isDone('own-x1', 2), true);
+});
+
+test('store.deleteProgress: its device keys and its cloud progress document go; the others stay', async () => {
+  const storage = memStorage();
+  const store = createStore({ programIds: ['p'], storage, now: () => 'T', retryDelay: () => 0 });
+  store.load(); store.addProgram('own-a'); store.toggle('own-a', 1); store.toggle('p', 1);
+  store.setSwaps('own-a', [{ day: 1, ex: 'a', to: 'b' }]);
+  store.startRound('own-a', []); // a past round
+  const remote = createMemoryRemote();
+  store.attach(remote); await tick(); await store.flush();
+  assert.ok(remote.docs['own-a'] && remote.docs.p);
+  ['kb-progress-own-a', 'kb-swaps-own-a', 'kb-past-own-a'].forEach((k) => assert.ok(storage.m[k], k));
+  await store.deleteProgress('own-a');
+  assert.deepEqual(Object.keys(storage.m).filter((k) => k.endsWith('own-a')), [], 'no device key is left');
+  assert.equal(remote.docs['own-a'], undefined, 'the cloud document is gone');
+  assert.ok(remote.docs.p, 'other programs are untouched');
+  assert.equal(store.count('own-a'), 0); assert.equal(store.round('own-a'), 1);
+  assert.deepEqual(store.programIds(), ['p']);
+  assert.equal(store.count('p'), 1);
+  // no longer listening: a late write from another device does not bring it back
+  await remote.write('progress', 'own-a', { done: { 9: 'c' } }); await tick();
+  assert.equal(store.count('own-a'), 0);
+  await store.deleteProgress('never-there'); // nothing to delete: fine
+});
+
+test('store.deleteProgress: signed out (no cloud) and on a device that cannot remove keys; a cloud that fails does not throw', async () => {
+  const noRemove = { m: {}, get(k) { return this.m[k] ?? null; }, set(k, v) { this.m[k] = v; } };
+  const local = createStore({ programIds: [], storage: noRemove, now: () => 'T' });
+  local.load(); local.addProgram('own-a'); local.toggle('own-a', 1);
+  await local.deleteProgress('own-a');
+  assert.equal(noRemove.m['kb-progress-own-a'], '', 'cleared when the device has no remove');
+  const store = createStore({ programIds: [], storage: memStorage(), now: () => 'T', retryDelay: () => 0 });
+  store.load(); store.addProgram('own-b'); store.toggle('own-b', 1);
+  const remote = createMemoryRemote({}, {});
+  store.attach(remote); await tick(); await store.flush();
+  const warn = console.warn; console.warn = () => {};
+  remote.remove = async () => { throw new Error('offline'); };
+  try { await store.deleteProgress('own-b'); } finally { console.warn = warn; }
+  assert.equal(store.count('own-b'), 0);
+});
+
+test('delete a program end to end: doc, progress on the device and in the cloud, and the other device drops it', async () => {
+  const remote = createMemoryRemote();
+  const a = page(), b = page();
+  a.store.attach(remote); b.store.attach(remote); await tick();
+  a.store.setDoc('programs', 'x1', rec()); await tick(); await a.store.flush();
+  assert.deepEqual(b.catalogue.ids(), ['own-x1', 'lib-1'], 'the other device has it');
+  a.store.toggle('own-x1', 1); await a.store.flush(); await tick();
+  assert.equal(b.store.isDone('own-x1', 1), true);
+  await a.store.deleteProgress('own-x1');
+  await a.store.deleteDoc('programs', 'x1'); await tick();
+  assert.equal(remote.collections.programs.x1, undefined);
+  assert.equal(remote.docs['own-x1'], undefined);
+  assert.equal(a.store.doc('programs', 'x1'), null);
+  assert.deepEqual(a.catalogue.ids(), ['lib-1']);
+  assert.deepEqual(b.catalogue.ids(), ['lib-1'], 'the other device drops it when the doc disappears');
+  assert.deepEqual(b.store.programIds(), ['lib-1']);
+  assert.deepEqual(Object.keys(a.storage.m).filter((k) => k.includes('own-x1') || k.includes('-programs-x1')), []);
 });

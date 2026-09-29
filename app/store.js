@@ -12,6 +12,9 @@
      doc(collection, id) -> body | null     docs(collection) -> { id: body }
      setDoc(collection, id, body)           stamps the time; device copy, cloud, 'docs' event
      deleteDoc(collection, id)              replaceDocs(collection, { id: body })  (an import: exactly this set)
+   Your own programs come and go: addProgram(pid), dropProgram(pid) (forgets it in memory; the device copy stays, as a doc
+   that vanishes for a moment must not cost you your progress), deleteProgress(pid) (a deleted program: drops it, removes
+   its device keys and its cloud progress document).
    Device copy of a doc: kb-doc-<collection>-<id>, with the ids of a collection in kb-docs-<collection>.
    A refused or failed account-data write never changes the sync status or makes progress view-only: progress must
    keep working when the rules for the new collections are not published yet. The doc stays on the device and goes
@@ -55,7 +58,8 @@
       try { storage.set(k.done, text.done); storage.set(k.swaps, text.swaps); storage.set(k.past, text.past); } catch (e) { /* storage full or blocked: keep going */ }
     }
     function saveDoc(c, id) { try { storage.set(docKey(c, id), JSON.stringify(account[c][id])); } catch (e) { /* device copy is best effort */ } }
-    function forgetDoc(c, id) { try { if (storage.remove) storage.remove(docKey(c, id)); else storage.set(docKey(c, id), ''); } catch (e) { /* as above */ } }
+    function forgetKey(key) { try { if (storage.remove) storage.remove(key); else storage.set(key, ''); } catch (e) { /* device copy is best effort */ } }
+    const forgetDoc = (c, id) => forgetKey(docKey(c, id));
     function saveIndex(c) { try { storage.set(indexKey(c), JSON.stringify(Object.keys(account[c]).sort())); } catch (e) { /* as above */ } }
     // a new value for one program: device copy, cloud (when signed in and allowed), change event
     function set(pid, value) {
@@ -139,7 +143,7 @@
       return docQueue;
     }
     // your own programs come and go while the page is open: learn a program's id (its device copy, its cloud
-    // document), or forget it (the device copy stays; what a deleted program's progress becomes is its owner's call)
+    // document), or forget it (the device copy stays; deleteProgress removes it for a program you deleted yourself)
     function addProgram(pid) {
       if (programIds.includes(pid)) return;
       programIds.push(pid);
@@ -155,6 +159,16 @@
       delete progress[pid]; delete seen[pid];
       if (progressUnsubs[pid]) { progressUnsubs[pid](); delete progressUnsubs[pid]; }
       emit('change', pid);
+    }
+    // delete a program's progress for good: its device copy and its cloud document (the caller deletes the program itself,
+    // deleteDoc); other devices forget the program when its doc disappears. Resolves when the cloud has been asked.
+    function deleteProgress(pid) {
+      const k = keys(pid);
+      dropProgram(pid);
+      [k.done, k.swaps, k.past].forEach(forgetKey);
+      const r = remote; if (!r) return queue;
+      queue = queue.then(async () => { try { await r.remove('progress', pid); } catch (e) { console.warn('progress not deleted from the cloud', e); } });
+      return queue;
     }
     const toggle = (pid, day) => set(pid, P.toggle(of(pid), day, now()));
     const setSwaps = (pid, list) => set(pid, P.withSwaps(of(pid), list));
@@ -183,7 +197,7 @@
       return queue;
     }
     return {
-      load, attach, detach, addProgram, dropProgram, programIds: () => programIds.slice(), toggle, replaceAll, setSwaps, startRound, setDoc, deleteDoc, replaceDocs,
+      load, attach, detach, addProgram, dropProgram, deleteProgress, programIds: () => programIds.slice(), toggle, replaceAll, setSwaps, startRound, setDoc, deleteDoc, replaceDocs,
       doc: (c, id) => (known(c) && account[c][id] ? JSON.parse(JSON.stringify(account[c][id])) : null),
       docs: (c) => JSON.parse(JSON.stringify(account[known(c)])),
       round: (pid) => P.round(of(pid)),

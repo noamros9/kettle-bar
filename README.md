@@ -48,7 +48,9 @@ days ticked on the device and in the cloud are merged.
 - **Build your own** (top of the Programs page): pick a subject, days per cycle (1–5), minutes (20–40), equipment,
   formats and how Levels II and III get harder; the first six days show as a preview, **Regenerate** gives another set,
   **Save** names it and opens it. Saved programs sit on a **Your programs** shelf above the families, keep their own
-  progress, sync with your account and work offline.
+  progress, sync with your account and work offline. On its page: **Rename**, **Edit** (the builder opens with its
+  choices; days you have done stay exactly as you did them, the rest are made again) and **Delete** (asks first; its
+  progress goes too).
 - **Settings** (gear, top right) → **Export progress** downloads every program's done days as one file;
   **Import a backup** shows which days it would add or remove, then asks **Merge** or **Replace**.
 - **Tap the logo** (top left) from any page to open today's workout: the next day you haven't done in the program

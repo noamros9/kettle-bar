@@ -392,3 +392,15 @@ table.weeks tr.empty{color:var(--muted)}table.weeks tr.empty th{font-weight:400}
 .grid.pv .open{cursor:default}
 .bsec .actions{display:flex;gap:8px;margin-top:12px}
 .bsec .btn:disabled{opacity:.4}
+/* your program's page: rename, edit, delete */
+.owntools{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.owntools .btn{font-size:14px;padding:8px 14px}
+.btn.ghost.danger{color:var(--err);border-color:var(--err)}
+.btn.danger:not(.ghost){background:var(--err);color:var(--surface)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.renamerow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:6px 0}
+.renamerow input{flex:1 1 200px;min-width:0;font:inherit;font-size:18px;font-weight:600;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:9px 12px;box-sizing:border-box}
+.renamerow input:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.renamerow input[aria-invalid="true"]{border-color:var(--err)}
+.renamerow .btn{font-size:14px;padding:9px 14px}
+.phead .notice{margin:0 0 8px}
