@@ -22,6 +22,7 @@ function paintSync(s) {
 }
 store.on('status', paintSync);
 store.on('change', () => rerender());
+programs.onChange(() => rerender()); // your programs changed (here or synced from another device): redraw the page
 window.addEventListener('online', () => store.online());
 // hooks for the Firebase module (GitHub Pages build)
 window.kbSync = { attach: (r) => store.attach(r), detach: () => store.detach(), setAuth: (a) => store.setAuth(a) };

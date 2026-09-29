@@ -286,6 +286,8 @@ test('the library\'s programs have no rename, edit or delete', async ({ app }) =
 
 base.test('rename, edit and delete reach a second browser through the account', async ({ browser }, testInfo) => {
   base.test.skip(testInfo.project.name !== 'phone-light', 'theme-independent');
+  // two browsers each sync every program through the test's in-memory remote, redrawing as they go: slow on a busy runner
+  base.test.slow();
   const remote = createMemoryRemote();
   const baseURL = testInfo.project.use.baseURL;
   const one = await device(browser, baseURL, remote, 'one');
@@ -306,7 +308,7 @@ base.test('rename, edit and delete reach a second browser through the account', 
   await one.page.getByRole('button', { name: 'Rename' }).click();
   await one.page.locator('#own-name').fill('Pull it');
   await one.page.locator('#own-name').press('Enter');
-  await expect(ph(one)).toHaveText('Pull it');
+  await expect(ph(one)).toHaveText('Pull it', { timeout: 15000 });
   await expect(two.page.locator('.yours .pcard')).toContainText('Pull it', { timeout: 15000 });
   expect(remote.collections.programs[id].name).toBe('Pull it');
 
@@ -314,7 +316,7 @@ base.test('rename, edit and delete reach a second browser through the account', 
   await one.page.getByRole('button', { name: 'Edit', exact: true }).click();
   await one.page.getByRole('group', { name: 'Minutes a day' }).getByRole('button', { name: '40', exact: true }).click();
   await one.page.getByRole('button', { name: 'Save changes' }).click();
-  await expect(ph(one)).toHaveText('Pull it');
+  await expect(ph(one)).toHaveText('Pull it', { timeout: 15000 });
   await expect.poll(() => two.page.evaluate((p) => programs.get(p) && programs.get(p).days[3].est, pid), { timeout: 15000 }).toBeGreaterThanOrEqual(36);
   expect(Object.keys(remote.collections.programs[id].frozenDays)).toEqual(['1']);
   expect(await dayBlocks(two.page, pid, 1)).toBe(day1);
