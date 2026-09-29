@@ -27,7 +27,7 @@ const T = {
     } catch (e) {}
     try { navigator.vibrate && navigator.vibrate(long ? 300 : 80); } catch (e) {}
   },
-  // voice cues (holds and sides): the phone's speech, on unless switched off in Settings
+  // voice cues (holds, sides and flow poses): the phone's speech, on unless switched off in Settings
   voiceOn() { try { return localStorage.getItem('kb-voice') !== 'off'; } catch (e) { return true; } },
   speak(text) {
     if (!this.voiceOn()) return;
@@ -54,15 +54,18 @@ const T = {
       if (ph.sayEnd) this.speak(ph.sayEnd);
       const next = this.queue.shift();
       if (next) { this.begin(next); return; }
-      this.phase = null;
+      this.phase = null; this.showFig(null);
       $('#timer').classList.remove('work');
       this.setLabel('Go', ph.work ? 'Done' : 'Rest is over, start the next set');
       if (ph.onEnd) ph.onEnd();
     }
     this.paint();
   },
+  // guided flows: the current pose's drawing above the clock
+  showFig(id) { const el = $('#tfig'); el.hidden = !id; el.innerHTML = id ? fig(id) : ''; },
   begin(ph) {
     this.phase = ph; this.dur = ph.sec; this.left = ph.sec; this.halfSaid = false;
+    this.showFig(ph.fig);
     this.setLabel(ph.label, ph.sub || '');
     if (ph.say) this.speak(ph.say);
     $('#timer').classList.toggle('work', !!ph.work);
@@ -82,7 +85,7 @@ const T = {
     if (l === 'Go' || l === 'Rest timer' || l === 'Workout finished') this.setLabel('Rest', 'Counting down');
     this.go();
   },
-  clear() { this.queue = []; this.phase = null; this.running = false; clearInterval(this.iv); $('#timer').classList.remove('work'); this.left = this.dur; this.paint(); },
+  clear() { this.showFig(null); this.queue = []; this.phase = null; this.running = false; clearInterval(this.iv); $('#timer').classList.remove('work'); this.left = this.dur; this.paint(); },
   pause() { this.tick(); this.running = false; clearInterval(this.iv); this.paint(); },
   adjust(d) {
     this.dur = Math.min(600, Math.max(5, this.dur + d));

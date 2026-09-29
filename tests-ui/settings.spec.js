@@ -24,7 +24,7 @@ test('Export downloads a file with the days marked done', async ({ app }) => {
   const file = JSON.parse(fs.readFileSync(await download.path(), 'utf8'));
   expect(file.format).toBe('kettle-bar-progress');
   expect(Object.keys(file.programs['three-split-60'])).toEqual(['1', '2']);
-  expect(Object.keys(file.programs)).toHaveLength(29);
+  expect(Object.keys(file.programs)).toHaveLength(require('../program-builder.js').CONFIGS.length);
 });
 
 // ---------- Import: show the diff, then merge, replace or cancel ----------

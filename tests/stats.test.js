@@ -145,3 +145,10 @@ test('rounds: summarize resolves each entry in its own round; report can narrow 
   assert.deepEqual(seen, [2, 2], 'weekly rows and totals both ask for round 2');
   assert.equal(report({ entries, dayOf, EX, names: {} }, { scope: 'p', span: 'all', now: wed }).totals.workouts, 2, 'all rounds by default');
 });
+
+test('a guided flow: each pose is a set per pass; holds add no reps, poses in reps do (both sides)', () => {
+  const v = dayVolume(day([{ format: 'flow', repeat: 2, items: [it('plank', 40), it('lunge', 6)] }]), EX);
+  assert.equal(v.sets, 4);
+  assert.equal(v.reps, 2 * 6 * 2);
+  assert.equal(v.muscles.abs, 2);
+});

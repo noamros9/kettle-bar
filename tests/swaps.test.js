@@ -93,3 +93,13 @@ test('swapBehind names the swap that put an exercise on a day; undo removes exac
   assert.deepEqual(swapBehind([onward, today], 15, 'pike_pushup'), onward);
   assert.equal(swapBehind([onward], 9, 'pike_pushup'), undefined);
 });
+
+test('guided kinds swap only for their own kind, and are never offered for anything else', () => {
+  const cat = require('../exercises.js'), E = cat.EX, prog = { equip: 'all' };
+  const yoga = alternatives('warrior_two', { items: [{ ex: 'warrior_two' }] }, prog, cat);
+  assert.ok(yoga.length > 0);
+  yoga.forEach((id) => assert.equal(E[id].cat, 'yoga', id));
+  const squat = alternatives('goblet_squat', { items: [{ ex: 'goblet_squat' }] }, prog, cat);
+  assert.ok(squat.length > 0);
+  squat.forEach((id) => assert.notEqual(E[id].cat, 'yoga', id));
+});

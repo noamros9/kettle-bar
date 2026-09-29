@@ -38,8 +38,8 @@ subject that needs it. One ticket = one branch = one PR, each starting from its 
 | # | Ticket | Tier | Blocked by | Branch | Status |
 |---|---|---|---|---|---|
 | 0 | This plan | plan | – | `plan/phase-5` | done (PR #48) |
-| 1 | Families, Core & abs rename, existing programs pinned | feature | 0 | `feature/library-families` | in review |
-| 2 | Guided flow format + Yoga | feature | 1 | `feature/yoga` | todo |
+| 1 | Families, Core & abs rename, existing programs pinned | feature | 0 | `feature/library-families` | done (PR #49) |
+| 2 | Guided flow format + Yoga | feature | 1 | `feature/yoga` | in review |
 | 3 | Pilates | feature | 2 | `feature/pilates` | todo |
 | 4 | Bouts format + Boxing | feature | 1 | `feature/boxing` | todo |
 | 5 | Kickboxing | feature | 4 | `feature/kickboxing` | todo |

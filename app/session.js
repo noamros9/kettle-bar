@@ -12,12 +12,14 @@
    Targets: { type: 'set', bi, i, k } · { type: 'pair', bi, pi, k } · { type: 'round', bi, k }
             { type: 'hold', bi, i } · { type: 'block', bi } · { type: 'stretch', key: 'warm' | 'cool' }
    Instruction: { rest: { sec, label, sub } } · { clear: { label, sub } } · { none: true }
-   Plan phases: { sec, label, sub, end: 'short'|'long', work?, say?, halfway?, sayEnd? }. Voice cues, for holds and
-   sides only: say when the phase starts, "Halfway" in the middle, sayEnd when it ends. */
+   Plan phases: { sec, label, sub, end: 'short'|'long', work?, say?, halfway?, sayEnd?, fig? }. Voice cues, for holds,
+   sides and the poses of a guided flow: say when the phase starts, "Halfway" in the middle, sayEnd when it ends.
+   fig: the exercise whose drawing the clock shows (guided flows). */
 (function (root) {
   const DEFAULT_RESTS = { set: 30, exercise: 60, beforeAbs: 120, superset: 45, round: 60, block: 60 };
   const LETTERS = 'ABCDEF';
-  const FORMAT_NAMES = { straight: 'Straight sets', superset: 'Supersets', circuit: 'Circuits', emom: 'EMOM', amrap: 'AMRAP', tabata: 'Tabata', ladder: 'Ladders' };
+  const FORMAT_NAMES = { straight: 'Straight sets', superset: 'Supersets', circuit: 'Circuits', emom: 'EMOM', amrap: 'AMRAP', tabata: 'Tabata', ladder: 'Ladders', flow: 'Guided flow' };
+  const TRANSITION = 5; // seconds to move into each pose of a flow (the Program Builder counts the same)
 
   function unitText(e) {
     if (e.u === 'sec') return e.side ? 'sec each side' : 'seconds';
@@ -101,6 +103,25 @@
       }
     }
 
+    // a guided flow: each pose (and side) gets 5 s to move into it while the voice names it, then its hold
+    function flowPhases(b) {
+      const phases = [], per = b.items.length, total = per * b.repeat;
+      for (let r = 1; r <= b.repeat; r++) {
+        b.items.forEach((it, i) => {
+          const e = EX[it.ex], sec = e.u === 'sec' ? it.n : it.n * e.tp, k = (r - 1) * per + i + 1;
+          const sub = `${b.title} · ${b.repeat > 1 ? `${i + 1} of ${per} · pass ${r} of ${b.repeat}` : `${k} of ${total}`}`;
+          const name = e.u === 'sec' ? e.name : `${e.name} × ${it.n}`;
+          (e.side ? ['left', 'right'] : [null]).forEach((sd, si) => {
+            const tag = sd ? ` · ${sd}` : '';
+            phases.push({ sec: TRANSITION, label: `${si ? 'Switch sides' : k === 1 ? 'Get ready' : 'Next'} · ${name}${tag}`, sub, end: 'short', say: sd ? `${e.name}, ${sd} side` : e.name, fig: it.ex });
+            phases.push({ sec, label: `${name}${tag}`, sub, end: 'short', work: 1, fig: it.ex, ...(sec >= 30 ? { halfway: true } : {}) });
+          });
+        });
+      }
+      Object.assign(phases[phases.length - 1], { end: 'long', sayEnd: 'Done' });
+      return phases;
+    }
+
     function plan(t) {
       if (t.type === 'hold') {
         const b = blocks[t.bi], it = b.items[t.i], e = EX[it.ex], sets = itemSets(b, it);
@@ -131,6 +152,7 @@
       }
       if (t.type === 'block') {
         const b = blocks[t.bi], f = fmt(b);
+        if (f === 'flow') return { phases: flowPhases(b), then: { type: 'block', bi: t.bi } };
         const phases = [{ sec: 3, label: `Get ready · ${b.title}`, sub: FORMAT_NAMES[f], end: 'short' }];
         if (f === 'emom') {
           for (let m = 1; m <= b.minutes; m++) {

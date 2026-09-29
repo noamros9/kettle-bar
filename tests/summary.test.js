@@ -56,3 +56,12 @@ test('the abs finisher does not count toward "most work": the line describes the
   const day = { type: 'a', level: 1, blocks: [{ sets: 2, items: [it('row', 8)] }, heavyAbs] };
   assert.equal(daySummary(day, program, cat)[1], 'Most work for lats and biceps · Level I: intermediate.');
 });
+
+test('guided flows: "a 6-pose flow", "an 8-pose flow done twice", and no abs to mention', () => {
+  const day = { type: 'a', level: 1, blocks: [
+    { format: 'flow', repeat: 1, items: Array.from({ length: 6 }, () => it('plank', 30)) },
+    { format: 'flow', repeat: 2, items: Array.from({ length: 8 }, () => it('squat', 5)) },
+    { format: 'flow', repeat: 3, title: 'Sun salutations', items: [it('push', 3)] },
+  ] };
+  assert.equal(daySummary(day, program, cat)[0], 'Chest & back: a 6-pose flow, an 8-pose flow done twice and sun salutations done three times.');
+});

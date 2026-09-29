@@ -22,6 +22,7 @@
       if (f === 'straight') b.items.forEach((it) => out.push({ ex: it.ex, sets: it.sets || b.sets, repsPerSet: reps(it) }));
       else if (f === 'superset') b.items.forEach((it) => out.push({ ex: it.ex, sets: b.sets, repsPerSet: reps(it) }));
       else if (f === 'circuit') b.items.forEach((it) => out.push({ ex: it.ex, sets: b.rounds, repsPerSet: reps(it) }));
+      else if (f === 'flow') b.items.forEach((it) => out.push({ ex: it.ex, sets: b.repeat, repsPerSet: reps(it) })); // a pose is a set per pass
       else if (f === 'emom') {
         // minute m does item (m - 1) mod n
         b.items.forEach((it, i) => out.push({ ex: it.ex, sets: Math.ceil((b.minutes - i) / b.items.length), repsPerSet: reps(it) }));

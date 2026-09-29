@@ -8,7 +8,7 @@
     const { EX, allowedIn, scaleReps } = cat;
 
     const REST = { set: 30, exercise: 60, beforeAbs: 120, superset: 45, round: 60, block: 60 };
-    const SETUP = 5;
+    const SETUP = 5, TRANSITION = 5; // TRANSITION: moving into each pose of a guided flow (the session runs the same)
 
     // ---------- deterministic randomness ----------
     function makeRnd(seedText) {
@@ -42,6 +42,16 @@
       kbAll: ['kb_swing', 'kb_clean_press', 'kb_press', 'kb_high_pull', 'goblet_squat', 'kb_sumo_deadlift', 'kb_snatch', 'kb_front_squat', 'kb_deadlift', 'turkish_getup', 'lateral_lunge'],
       kbSwing: ['kb_swing'],
       carry: ['suitcase_march', 'bear_crawl', 'kb_halo'],
+      // Phase 5: yoga
+      ygStand: ['warrior_one', 'warrior_two', 'reverse_warrior', 'triangle_pose', 'extended_side_angle', 'high_lunge', 'chair_pose'],
+      ygBalance: ['tree_pose', 'warrior_three', 'half_moon', 'dancer_pose'],
+      ygFloor: ['pigeon_pose', 'seated_twist', 'low_lunge', 'camel_pose', 'locust_pose', 'bridge_pose', 'garland_pose'],
+      ygHips: ['pigeon_pose', 'seated_twist', 'garland_pose', 'low_lunge'],
+      ygBack: ['bridge_pose', 'locust_pose', 'camel_pose', 'sphinx_pose'],
+      ygCore: ['boat_pose', 'plank', 'side_plank', 'dolphin_pose', 'locust_pose', 'crow_pose', 'bridge_pose'],
+      ygRest: ['childs_pose', 'puppy_pose', 'happy_baby', 'supine_twist', 'seated_forward_fold', 'forward_fold'],
+      ygYinHips: ['pigeon_pose', 'low_lunge', 'butterfly', 'happy_baby', 'garland_pose', 'seated_forward_fold'],
+      ygYinSpine: ['sphinx_pose', 'puppy_pose', 'supine_twist', 'childs_pose', 'seated_twist', 'forward_fold'],
       core: ['plank', 'side_plank', 'hollow_hold', 'hollow_rock', 'dead_bug', 'weighted_dead_bug', 'bird_dog', 'bear_crawl', 'suitcase_march', 'kb_halo', 'db_side_bend', 'shoulder_taps', 'superman', 'russian_twist'],
     };
     // Pools computed from the catalogue. An exercise marked `added: N` (the phase that added it) joins them only
@@ -69,15 +79,22 @@
       scap_pullup: 'negative_pullup', dead_hang: 'chin_hold', crunch: 'v_up', dead_bug: 'weighted_dead_bug', hollow_hold: 'hollow_rock',
       kb_swing: 'kb_snatch', kb_press: 'kb_clean_press', situp: 'db_situp', leg_raise: 'v_up', knee_tuck: 'v_up', squat_jump: 'jump_lunge',
       plank: 'bear_crawl', bird_dog: 'bear_crawl', weighted_crunch: 'weighted_toe_touch',
+      // Phase 5 (new exercises only, so existing programs keep their days)
+      chair_pose: 'twisting_chair', triangle_pose: 'half_moon', high_lunge: 'warrior_three', tree_pose: 'dancer_pose',
+      bridge_pose: 'camel_pose', dolphin_pose: 'crow_pose',
     };
-    const LEVER_TEXT = { base: 'Base', reps: 'More reps', weight: 'Heavier weights', variation: 'Harder variations', tempo: 'Slow tempo' };
+    // holds: like reps (the level's number from the catalogue), said the way it feels in a flow
+    const LEVER_TEXT = { base: 'Base', reps: 'More reps', holds: 'Longer holds', weight: 'Heavier weights', variation: 'Harder variations', tempo: 'Slow tempo' };
 
     // ---------- timing ----------
     function work(it) {
       const e = EX[it.ex], mult = e.side ? 2 : 1, slow = it.tempo ? 1.5 : 1;
       return (e.u === 'sec' ? it.n * mult : it.n * e.tp * mult * slow) + (e.side ? 5 : 0);
     }
+    // one pose of a guided flow: its hold, or its reps at the exercise's pace
+    const poseSec = (it) => (EX[it.ex].u === 'sec' ? it.n : it.n * EX[it.ex].tp);
     function blockTime(b) {
+      if (b.format === 'flow') return b.repeat * b.items.reduce((s, it) => s + (EX[it.ex].side ? 2 : 1) * (TRANSITION + poseSec(it)), 0);
       const W = b.items.map((it) => work(it) + SETUP);
       switch (b.format) {
         case 'straight': return b.items.reduce((s, it, i) => s + b.sets * W[i] + (b.sets - 1) * REST.set, 0) + (b.items.length - 1) * REST.exercise;
@@ -129,6 +146,7 @@
       amrap: { key: 'minutes', values: [3, 4, 5, 6, 7, 8, 10, 12, 15], pref: 8 },
       ladder: { key: 'minutes', values: [5, 6, 7, 8, 10, 12], pref: 8 },
       tabata: { key: 'tabatas', values: [1, 2, 3, 4], pref: 2 },
+      flow: { key: 'repeat', values: [1, 2, 3], pref: 1 },
     };
 
 
@@ -163,30 +181,34 @@
         const taken = new Set();
 
         // make one item at this level, applying the program's lever
-        const makeItem = (id, format) => {
+        // scale: a block's holds are this many times longer (yin), in steps of 5 s, up to cap seconds
+        const makeItem = (id, format, { scale, cap } = {}) => {
           let ex = id, note, tempo;
           let idx = level - 1;
           if (lever === 'variation' && HARDER[id] && allow(HARDER[id]) && !taken.has(HARDER[id]) && rnd() < 0.6) { ex = HARDER[id]; taken.add(ex); idx = level - 2; note = 'Harder variation'; }
           else if (lever === 'weight' && EX[id].load) { idx = level - 2; note = 'Go one weight up'; }
-          else if (lever === 'tempo' && EX[id].u !== 'sec' && format !== 'emom' && format !== 'amrap' && format !== 'ladder') { idx = level - 2; tempo = 1; note = '3 s lowering'; }
+          else if (lever === 'tempo' && EX[id].u !== 'sec' && format !== 'emom' && format !== 'amrap' && format !== 'ladder' && format !== 'flow') { idx = level - 2; tempo = 1; note = '3 s lowering'; }
           const e = EX[ex];
-          const it = { ex, n: scaleReps(e, e.r[Math.max(0, idx)], format) };
+          const n = scaleReps(e, e.r[Math.max(0, idx)], format);
+          const it = { ex, n: scale ? Math.min(cap || Infinity, Math.round((n * scale) / 5) * 5) : n };
           if (note) it.note = note;
           if (tempo) it.tempo = 1;
           return it;
         };
 
         // candidates for each block; optional slots end with '?'
-        const specs = type.blocks.concat([{ f: 'straight', kind: 'abs', title: 'Abs', slots: cfg.absSlots || ['absW', 'abs', 'abs?'] }]);
+        // every day ends with abs, unless the config says absSlots: [] (yoga, Pilates, flexibility, mobility)
+        const absSlots = cfg.absSlots || ['absW', 'abs', 'abs?'];
+        const specs = type.blocks.concat(absSlots.length ? [{ f: 'straight', kind: 'abs', title: 'Abs', slots: absSlots }] : []);
         const cands = specs.map((sp) => sp.slots.map((slot, si) => {
           // long main blocks may drop their last one or two exercises to fit the time
-          const autoOpt = sp.kind !== 'abs' && sp.f !== 'emom' && sp.f !== 'ladder' && sp.f !== 'tabata' && si >= Math.max(3, sp.slots.length - (sp.slots.length >= 5 ? 2 : 1));
+          const autoOpt = sp.kind !== 'abs' && !['emom', 'ladder', 'tabata', 'flow'].includes(sp.f) && si >= Math.max(3, sp.slots.length - (sp.slots.length >= 5 ? 2 : 1));
           const opt = slot.endsWith('?') || autoOpt, name = slot.replace('?', '');
           const poolName = name === 'absW' && !cp.absW.some(allow) ? 'abs' : name;
           return { opt, id: candidate(poolName, taken) };
         }));
         // apply the level (and its lever) once per exercise, before searching
-        cands.forEach((list, bi) => list.forEach((c) => { c.item = makeItem(c.id, specs[bi].kind === 'abs' ? 'straight' : specs[bi].f); }));
+        cands.forEach((list, bi) => list.forEach((c) => { c.item = makeItem(c.id, specs[bi].kind === 'abs' ? 'straight' : specs[bi].f, specs[bi]); }));
 
         // search block parameters (+ which optional slots to keep) to land in the program's time range
         const choices = specs.map((sp, bi) => {

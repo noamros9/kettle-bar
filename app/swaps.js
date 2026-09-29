@@ -11,13 +11,16 @@
    follows the chain. The new exercise gets its own reps for the day's level. */
 (function (root) {
   const STRETCH = ['warmup', 'cooldown'];
+  // guided kinds of exercise (poses, combos): swapped only for their own kind, and never offered elsewhere
+  const GUIDED = ['yoga', 'pilates', 'flex', 'mobility', 'boxing', 'kick'];
 
   function alternatives(exId, block, program, cat) {
     const EX = cat.EX, e = EX[exId], main = e.muscles.primary[0], isHold = e.u === 'sec';
+    const kindOk = (o) => (GUIDED.includes(e.cat) || GUIDED.includes(o.cat) ? o.cat === e.cat : true);
     const inBlock = new Set(block.items.map((it) => it.ex));
     return Object.keys(EX).filter((id) => {
       const o = EX[id];
-      return !inBlock.has(id) && !STRETCH.includes(o.cat) && o.muscles.primary[0] === main && (o.u === 'sec') === isHold
+      return !inBlock.has(id) && !STRETCH.includes(o.cat) && kindOk(o) && o.muscles.primary[0] === main && (o.u === 'sec') === isHold
         && cat.allowedIn(program.equip, o) && !(block.kind === 'abs' && (o.equip || []).includes('bar'));
     });
   }
