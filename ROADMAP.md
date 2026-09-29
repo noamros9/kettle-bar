@@ -78,6 +78,7 @@ Plan and tickets: [docs/plans/phase-4-foundations.md](docs/plans/phase-4-foundat
     - **Stats:** count all rounds by default. The program switch can **narrow to one round**.
 
 ## Phase 5: a bigger catalogue and library ([#33](https://github.com/noamros9/kettle-bar/issues/33))
+Plan and tickets: [docs/plans/phase-5-catalogue-and-library.md](docs/plans/phase-5-catalogue-and-library.md).
 13. **New subjects, 5 programs each** (45 programs): **boxing** and **kickboxing** (no equipment),
     **Pilates** (mat), **yoga**, **HIIT**, **plyometrics**, **flexibility**, **mobility & posture**,
     **balance & stability**.
