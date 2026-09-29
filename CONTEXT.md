@@ -171,6 +171,9 @@ on the device** (never synced, not in backups) on every change, one per round an
 another day doesn't lose it; Mark as done or 12 hours clear it. A running timer isn't saved, only the ticks, counters,
 stretches and when the workout started.
 
+**Big timer**: a full-screen overlay over the Clock's running Phase (time left, label, drawing, the next label); it
+reads `KBSession.glance(phase, next)` and times nothing itself.
+
 **Clock**: runs the session's instructions in the page: timer, beeps, wake lock, workout clock.
 
 **Program Catalogue**: the module the page asks for programs: the list (summaries with day counts and the exercises

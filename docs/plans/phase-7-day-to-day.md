@@ -21,7 +21,7 @@ Decided on 29 Sep:
 | 4 | Shorter today | feature | review III 4 | `feature/shorter-today` | |
 | 5 | Travel mode | feature | review III 5 | `feature/travel-mode` | |
 | 6 | Warm-up that matches the format | feature | review III 3 | `feature/warmup-by-format` | |
-| 7 | Big timer | feature | – | `feature/big-timer` | |
+| 7 | Big timer | feature | – | `feature/big-timer` | done (PR #90) |
 | 8 | What next, when a program ends | feature | – | `feature/what-next` | |
 
 ### 1. Resume a workout

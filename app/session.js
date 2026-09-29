@@ -8,6 +8,7 @@
      s.complete(target) -> Instruction      a set/pair/round/block/hold/stretch was finished (or un-ticked)
      s.plan(target)     -> { phases, then }  the timer script for a hold, a timed block or the stretches;
                                              when it ends, call s.complete(then)
+     glance(phase, next) -> { label, sub, fig, work, next }|null   what the Big timer shows for a running phase
      s.count(bi, delta)                     AMRAP rounds / ladder rungs counter
      s.state(bi), s.blockDone(bi), s.allDone(), s.stretchDone(key)
      s.started() / s.setStarted(ms)         when the workout clock started (nothing until then); kept in the snapshot
@@ -218,7 +219,10 @@
     };
   }
 
-  const api = { createSession, unitText, DEFAULT_RESTS };
+  // Big timer: what the full-screen timer shows for the clock's current phase (and the one queued after it)
+  const glance = (phase, next) => phase ? { label: phase.label, sub: phase.sub || '', fig: phase.fig || null, work: !!phase.work, next: next ? next.label : null } : null;
+
+  const api = { createSession, unitText, DEFAULT_RESTS, glance };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBSession = api;
 })(typeof window !== 'undefined' ? window : globalThis, typeof module !== 'undefined' && module.exports ? require('../formats.js') : window.KBFormats);

@@ -258,6 +258,34 @@ main{padding-block:24px 64px}
 .tadj .sess{font-size:13px;color:var(--muted)}
 .tadj .sess b{color:var(--ink)}
 body.has-timer main{padding-bottom:170px}
+/* big timer: a full-screen overlay, readable from 2 m; the clock underneath keeps running */
+.runrow{display:flex;flex-wrap:wrap;gap:8px}
+.btbtn{border:1px solid var(--ink);border-radius:10px;padding:10px 14px;background:var(--surface);color:var(--ink);font-weight:700;font-size:15px}
+#tbt{font-size:20px}
+.bgt{position:fixed;inset:0;z-index:60;background:var(--bg);color:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2vh;padding:56px 16px max(16px,env(safe-area-inset-bottom));text-align:center;overflow:hidden;cursor:pointer}
+.bgt.work{background:var(--accent-soft)}
+.btx{position:absolute;top:max(10px,env(safe-area-inset-top));right:12px;width:48px;height:48px;border-radius:50%;border:2px solid var(--ink);background:var(--surface);color:var(--ink);font-size:22px;font-weight:700}
+.btfig{display:flex;justify-content:center;min-height:0}
+.btfig{max-width:100%}
+.btfig svg{width:min(92vw,520px);height:auto;max-height:32vh}
+.btmain{display:flex;flex-direction:column;align-items:center;gap:1.5vh;min-width:0;max-width:100%}
+.bttime{font:800 min(36vw,32vh)/1 var(--display);letter-spacing:.01em;font-variant-numeric:tabular-nums}
+.bgt.work .bttime,.bgt.zero .bttime{color:var(--accent)}
+.btlabel{font:800 clamp(26px,8vw,52px)/1.1 var(--display);text-transform:none;overflow-wrap:anywhere}
+.btsub{font-size:clamp(16px,4.4vw,24px);color:var(--muted);font-weight:600}
+.btsub:empty{display:none}
+.btnext{font-size:clamp(18px,5vw,28px);border-top:2px solid var(--line);padding-top:1.5vh;margin-top:1vh;color:var(--muted)}
+.btnext b{color:var(--ink)}
+.bthint{font-size:13px;color:var(--muted);margin-top:1vh}
+body.bt-open{overflow:hidden}
+@media (orientation:landscape) and (max-height:560px){
+  .bgt{flex-direction:row;gap:4vw;padding:12px 64px 12px 16px}
+  .btfig{flex:0 1 38vw;display:block}
+  .btfig svg{width:100%;max-width:38vw;max-height:70vh}
+  .bttime{font-size:min(22vw,40vh)}
+  .btlabel{font-size:clamp(20px,4.5vw,36px)}
+  .btsub,.bthint{display:none}
+}
 @media (max-width:520px){
   .brand{font-size:18px}.nav button{padding:8px 6px;font-size:13px}.top .wrap{gap:8px}.sync:not([data-s="signin"]) span{display:none}.sync[data-s="signin"]{padding:6px 9px;font-size:11px}
   .ex{padding:10px}.ex .figbox{height:100px}.fig{max-height:100px}.ex .cnt b{font-size:32px}.ex .nm{font-size:18px}

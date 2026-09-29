@@ -7,6 +7,8 @@ const T = {
   paint() {
     $('#tclock').textContent = this.fmt(this.left);
     $('#tclock').classList.toggle('zero', this.left <= 0);
+    $('#tbt').hidden = !this.phase;
+    Bt.paint();
     $('#tgo').textContent = this.running ? 'Pause' : (this.left > 0 && this.left < this.dur ? 'Resume' : 'Start');
     document.querySelectorAll('#presets button').forEach((b) => b.setAttribute('aria-pressed', String(+b.dataset.preset === this.dur)));
   },
@@ -42,6 +44,8 @@ const T = {
     try { if (on && !this.lock && navigator.wakeLock) this.lock = await navigator.wakeLock.request('screen'); if (!on && this.lock) { await this.lock.release(); this.lock = null; } } catch (e) { this.lock = null; }
   },
   queue: [], phase: null,
+  // read-only view of the running phase for the Big timer: KBSession.glance(current, next) plus the time left
+  glance() { return { ...(KBSession.glance(this.phase, this.queue[0]) || { label: $('#tlabel').textContent, sub: $('#tsub').textContent, fig: null, work: false, next: null }), left: this.left, running: this.running }; },
   tick() {
     if (!this.running) return;
     this.left = (this.endAt - Date.now()) / 1000;
@@ -107,6 +111,34 @@ const T = {
   },
   preset(s) { this.dur = s; if (this.running) { this.endAt = Date.now() + s * 1000; this.tick(); } else this.left = s; this.paint(); },
 };
+// Big timer: a full-screen overlay over the same phase the clock runs (nothing is timed here). Tap, ✕ or Escape close it.
+const Bt = {
+  open() {
+    const el = $('#bgt'); if (!el.hidden) return;
+    this.from = document.activeElement; el.hidden = false; document.body.classList.add('bt-open');
+    if (T.running) T.wake(true);
+    this.paint(); $('#btx').focus();
+  },
+  close() {
+    const el = $('#bgt'); if (el.hidden) return;
+    el.hidden = true; document.body.classList.remove('bt-open');
+    try { this.from && this.from.isConnected && this.from.focus(); } catch (e) {}
+  },
+  paint() {
+    const el = $('#bgt'); if (el.hidden) return;
+    const g = T.glance(), fg = $('#btfig');
+    $('#bttime').textContent = T.fmt(g.left);
+    el.classList.toggle('work', g.work); el.classList.toggle('zero', g.left <= 0);
+    $('#btlabel').textContent = g.label; $('#btsub').textContent = g.sub;
+    $('#btnext').hidden = !g.next; $('#btnextl').textContent = g.next || '';
+    const f = g.fig ? fig(g.fig) : '';
+    if (fg.dataset.fig !== (g.fig || '')) { fg.dataset.fig = g.fig || ''; fg.innerHTML = f; }
+    fg.hidden = !g.fig;
+  },
+};
+document.addEventListener('click', (e) => { if (e.target.closest('[data-bt]')) Bt.open(); });
+$('#bgt').addEventListener('click', () => Bt.close());
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') Bt.close(); });
 const S = {
   startAt: 0, iv: null,
   start() { if (this.startAt) return; this.startAt = Date.now(); this.iv = setInterval(() => this.paint(), 1000); this.paint(); },

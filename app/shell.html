@@ -25,6 +25,17 @@
 <main id="app" class="wrap" aria-live="polite"></main>
 <!-- outside #app so a redraw while the picker is open (e.g. a sync update) cannot replace it -->
 <input type="file" id="import-file" accept=".json,application/json" hidden>
+<div class="bgt" id="bgt" hidden role="dialog" aria-modal="true" aria-label="Big timer">
+  <button class="btx" id="btx" aria-label="Close big timer">✕</button>
+  <div class="btfig" id="btfig" hidden aria-hidden="true"></div>
+  <div class="btmain">
+    <div class="bttime num" id="bttime" role="timer" aria-live="off">0:30</div>
+    <div class="btlabel" id="btlabel">Rest timer</div>
+    <div class="btsub" id="btsub"></div>
+    <div class="btnext" id="btnext" hidden>Next: <b id="btnextl"></b></div>
+    <div class="bthint">Tap anywhere to close</div>
+  </div>
+</div>
 <div class="timer" id="timer" hidden>
   <div class="wrap">
     <div class="tfig" id="tfig" hidden aria-hidden="true"></div>
@@ -33,6 +44,7 @@
     <div class="tctl">
       <button id="tgo" class="go">Start</button>
       <button id="treset" aria-label="Reset timer">Reset</button>
+      <button id="tbt" aria-label="Open big timer" data-bt hidden>⛶</button>
     </div>
     <div class="tadj">
       <button data-adj="-15" aria-label="Minus 15 seconds">−15s</button>

@@ -59,6 +59,10 @@ days ticked on the device and in the cloud are merged.
 - **Tap the logo** (top left) from any page to open today's workout: the next day you haven't done in the program
   where you last marked a workout done (before your first one, the program you opened last).
 - Installed on the home screen, long-press the app icon → **Today's workout** opens the same place.
+- **Big timer**: every timed block (flow, bouts, EMOM, Tabata, AMRAP, ladder) has a **Big timer** button beside its
+  Start (and a ⛶ button on the timer bar). It fills the screen with the time left, the pose or combo name, its drawing
+  and what comes next, readable from 2 m, in both themes and in landscape. Tap anywhere, ✕ or Escape to leave; the
+  timer keeps running and the screen stays awake.
 - **Start Round 2** on a program page does the program again from day 1; earlier rounds stay in your stats (Stats can
   narrow to one round).
 - Tap a day to open the workout; tick the circle on a tile or press
