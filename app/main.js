@@ -70,6 +70,7 @@ document.addEventListener('click', (ev) => {
   if (d.ownDelete) { ownState = { pid: prog().id, mode: 'delete' }; render(); return; }
   if (d.ownDeleteConfirm) return ownDelete(ownState.pid);
   if (d.b) { const [k, v] = d.b.split(':'); return buildSet(k, v); }
+  if (d.bsub) return buildSet('subject', d.bsub);
   if (d.bRegen) return buildRegenerate();
   if (d.bSave) return buildSave();
   if (d.bookRetry) { bookError = null; render(); return; }
@@ -144,9 +145,7 @@ function backupAction(what) {
   showImport({ done: plan.message(what) });
 }
 document.addEventListener('change', (e) => {
-  if (e.target.id === 'b-subject') buildSet('subject', e.target.value);
-  if (e.target.id === 'b-lever2') buildSet('lever2', e.target.value);
-  if (e.target.id === 'b-lever3') buildSet('lever3', e.target.value);
+  if (e.target.dataset.blever) buildSet('lever', `${e.target.dataset.blever}=${e.target.value}`);
   if (e.target.dataset.bfmt) buildSet('format', e.target.dataset.bfmt);
   if (e.target.id === 'import-file' && e.target.files[0]) readImport(e.target.files[0]);
   if (e.target.id === 'stats-scope') { statsView.pid = e.target.value; statsView.round = undefined; render(); }

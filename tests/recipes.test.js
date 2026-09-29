@@ -279,7 +279,7 @@ test('make: what cannot be made says why, for people', () => {
 test('make: a choice that is not a choice is refused', () => {
   const bad = (o, re) => assert.throws(() => R.make(choice('Yoga', 'bw', 30, o), 's'), re);
   bad({ subjects: [] }, /subject/);
-  bad({ subjects: ['Yoga', 'Pilates'] }, /one subject/);
+  bad({ subjects: ['Yoga', 'Pilates', 'Boxing', 'HIIT'] }, /up to 3 subjects/);
   bad({ subjects: ['Nonsense'] }, /Nonsense/);
   bad({ split: 0 }, /Days per cycle/);
   bad({ split: 6 }, /Days per cycle/);
@@ -322,6 +322,10 @@ test('the builder builds the made config in the page too: no Node calls, same da
   assert.equal(days.days.length, 60);
   assert.equal(JSON.stringify(days), JSON.stringify(Builder.build(R.make(c, 'page'), cat)));
   assert.deepEqual(JSON.stringify(recipes.options('Yoga')), JSON.stringify(R.options('Yoga')));
+  // a mix is checked by building it: in the page with the page's builder, to the same config
+  const m = { subjects: ['Strength', 'Yoga'], split: 2, minutes: 30, equipment: 'kb', levers: ['weight', 'reps', 'holds', 'holds'] };
+  assert.equal(JSON.stringify(recipes.make(m, 'page')), JSON.stringify(R.make(m, 'page')));
+  assert.equal(JSON.stringify(recipes.options(['Yoga', 'Boxing'])), JSON.stringify(R.options(['Yoga', 'Boxing'])));
   assert.equal(recipes.pick({ subjects: ['Yoga'] }).length, R.pick({ subjects: ['Yoga'] }).length);
   assert.equal(sandbox.require, undefined);
 });
@@ -354,12 +358,12 @@ test('recipesLoader: fetched once and cached; the offline cache when the fetch f
   assert.equal(await other.load(), BOOK);
 });
 
-test('the recipe book file is small (under 120 KB raw, 16 KB gzipped) and is not in index.html', () => {
+test('the recipe book file is small (under 140 KB raw, 20 KB gzipped) and is not in index.html', () => {
   const { render } = require('../build.js');
   const out = render(), json = out['data/recipes.json'];
   const gz = zlib.gzipSync(json).length;
   console.log(`# data/recipes.json: ${json.length} bytes raw, ${gz} bytes gzipped; ${R.pick({}).length} day types, ${R.book().specs.length} specs`);
-  assert.ok(json.length < 120 * 1024 && gz < 16 * 1024, `${json.length} raw, ${gz} gzipped`);
+  assert.ok(json.length < 140 * 1024 && gz < 20 * 1024, `${json.length} raw, ${gz} gzipped`); // the mix parts (ticket 7) are about 17 KB raw, 4 KB gzipped
   assert.equal(json, JSON.stringify(R.book()));
   assert.ok(!out['index.html'].includes('RECIPE_BOOK') && !out['index.html'].includes('"specs"'), 'the page does not carry the book');
   assert.ok(out['index.html'].includes('KBRecipes'));

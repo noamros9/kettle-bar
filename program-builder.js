@@ -217,11 +217,12 @@
     // ---------- one day ----------
     // recipe: from recipesOf(cfg). opts: day (1-60), level (1-3), lever (optional: this day's lever, instead of the
     // recipe's for the level), rnd (makeRnd), memory (newMemory(), shared by the days of a run). Fills the memory.
-    function buildDay(recipe, { day, level, lever, rnd, memory }) {
-      const R = recipe.rests;
+    // plan(): the day's exercises at this level (candidates per slot) and each block's choices (its value, and which
+    // optional slots it keeps); buildDay walks the choices to land in the time range, blockTimes() lists what each costs.
+    function plan(recipe, { level, lever, rnd, memory }) {
       const cp = computed(recipe.catalogue);
       const allow = (id) => allowedIn(recipe.equip, EX[id]);
-      const { used, count, stretchUsed } = memory;
+      const { used, count } = memory;
       const pool = (name) => {
         const p = cp[name] || POOLS[name] || [name];
         const list = p.filter((id) => EX[id] && allow(id));
@@ -235,7 +236,6 @@
         taken.add(list[0]);
         return list[0];
       };
-      const [lo, hi] = recipe.minutes;
       // a block's lever wins over the day's (an explicit lever, else the day type's, else the program's)
       const dayLever = lever || (level === 1 ? 'base' : recipe.levers[level - 1]);
       const leverOf = (sp) => (sp.lever ? (level === 1 ? 'base' : sp.lever[level - 1]) : dayLever);
@@ -270,7 +270,7 @@
       // apply the level (and its lever) once per exercise, before searching
       cands.forEach((list, bi) => list.forEach((c) => { c.item = makeItem(c.id, specs[bi].kind === 'abs' ? 'straight' : specs[bi].f, specs[bi]); }));
 
-      // search block parameters (+ which optional slots to keep) to land in the time range
+      // block parameters (+ which optional slots to keep) the search may pick
       const choices = specs.map((sp, bi) => {
         const o = sp.kind === 'abs' ? { key: 'sets', values: [3], pref: 3 } : Formats.FORMATS[sp.f].options;
         const values = sp.values || o.values;
@@ -281,21 +281,48 @@
         values.forEach((v) => masks.forEach((keep) => out.push({ v, keep, pref: sp.pref || o.pref, key: o.key, nOpt: optIdx.length })));
         return out;
       });
+      // one block as a choice makes it
+      const blockOf = (i, c) => {
+        const sp = specs[i];
+        const items = cands[i].filter((x, j) => !x.opt || c.keep.includes(j)).map((x) => ({ ...x.item }));
+        const b = { format: sp.kind === 'abs' ? 'straight' : sp.f, title: sp.title, kind: sp.kind || 'main', items };
+        b[c.key] = c.v;
+        if (sp.switchStance) b.switchStance = 1; // bouts: orthodox and southpaw in turn
+        if (sp.family) b.family = sp.family; // mixed days: which family this block belongs to (Phase 8's stats read it)
+        return b;
+      };
+      return { specs, choices, blockOf };
+    }
+
+    // every block's choices as minutes, at this level with these draws: what a block can be built to (recipe-book.js
+    // tries each block of the library alone, so recipes.js knows what a mix of blocks can add up to)
+    function blockTimes(recipe, opts) {
+      const { specs, choices, blockOf } = plan(recipe, opts);
+      return specs.map((sp, i) => choices[i].map((c) => blockTime(blockOf(i, c), recipe.rests) / 60));
+    }
+
+    function buildDay(recipe, { day, level, lever, rnd, memory }) {
+      const R = recipe.rests;
+      const cp = computed(recipe.catalogue);
+      const { used, count, stretchUsed } = memory;
+      const [lo, hi] = recipe.minutes;
+      const { specs, choices, blockOf } = plan(recipe, { level, lever, rnd, memory });
+
+      // search block parameters (+ which optional slots to keep) to land in the time range; a block with a `target`
+      // [lo, hi] in minutes (a mix from build your own: its share of the day) is kept inside it when it can: the day's
+      // range comes first, then the target (10 a minute outside it), then the preferred values
       let best = null;
       const walk = (bi, pick) => {
         if (bi === specs.length) {
-          const blocks = specs.map((sp, i) => {
-            const c = pick[i];
-            const items = cands[i].filter((x, j) => !x.opt || c.keep.includes(j)).map((x) => ({ ...x.item }));
-            const b = { format: sp.kind === 'abs' ? 'straight' : sp.f, title: sp.title, kind: sp.kind || 'main', items };
-            b[c.key] = c.v;
-            if (sp.switchStance) b.switchStance = 1; // bouts: orthodox and southpaw in turn
-            if (sp.family) b.family = sp.family; // mixed days: which family this block belongs to (Phase 8's stats read it)
-            return b;
-          });
+          const blocks = specs.map((sp, i) => blockOf(i, pick[i]));
           const t = dayTime(blocks, R) / 60;
           let pen = t >= lo && t <= hi ? 0 : 100 + Math.abs(t - (lo + hi) / 2) * 10;
           pick.forEach((c, i) => { pen += Math.abs(c.v - c.pref) / (c.key === 'minutes' ? 4 : 1) + (c.nOpt - c.keep.length) * (specs[i].kind === 'abs' ? 2.5 : 1.2); });
+          specs.forEach((sp, i) => {
+            if (!sp.target) return;
+            const bt = blockTime(blocks[i], R) / 60;
+            pen += 10 * Math.max(0, sp.target[0] - bt, bt - sp.target[1]);
+          });
           if (!best || pen < best.pen) best = { pen, blocks, t };
           return;
         }
@@ -337,11 +364,17 @@
       return {
         id: cfg.id, name: cfg.name, subject: cfg.subject, blurb: cfg.blurb, about: cfg.about, split: cfg.split,
         minutes: cfg.minutes, equip: cfg.equip || 'all', gear: cfg.gear || null, formats,
-        levels: ['Level I · Intermediate', `Level II · ${LEVER_TEXT[cfg.levers[1]]}`, `Level III · ${LEVER_TEXT[cfg.levers[2]]}`],
-        rests: recipes[Object.keys(recipes)[0]].rests, dayTypes, days,
+        levels: ['Level I · Intermediate', `Level II · ${levelText(cfg, 1)}`, `Level III · ${levelText(cfg, 2)}`],
+        rests: recipes[Object.keys(recipes)[0]].rests, dayTypes, days, ...(cfg.mix ? { mix: cfg.mix } : {}),
       };
     }
 
+    // how a level gets harder, in words. A mix (build your own, `mix`: its subjects) says every block's own lever, in order
+    function levelText(cfg, i) {
+      if (!cfg.mix) return LEVER_TEXT[cfg.levers[i]];
+      const own = Object.values(cfg.dayTypes).flatMap((t) => t.blocks.map((b) => b.lever[i])); // every block of a mix has its lever
+      return [...new Set(own)].map((l, k) => (k ? LEVER_TEXT[l].toLowerCase() : LEVER_TEXT[l])).join(', ');
+    }
     const COLORS = ['var(--t-cba)', 'var(--t-up)', 'var(--t-low)', 'var(--t-ac)'];
     function dayTypesOf(cfg) {
       const out = {};
@@ -350,14 +383,15 @@
     }
     // frozen programs: generated once, then kept byte-for-byte; only their description comes from the config
 
-    return { build, buildDay, dayTypesOf, POOLS, REST, timing: { blockTime, dayTime } };
+    return { build, buildDay, blockTimes, dayTypesOf, POOLS, REST, timing: { blockTime, dayTime } };
   }
 
   const builders = new Map(); // one per catalogue (pools are computed from it)
   const forCatalogue = (cat) => builders.get(cat) || builders.set(cat, makeBuilder(cat)).get(cat);
   const build = (cfg, cat) => forCatalogue(cat).build(cfg);
   const buildDay = (recipe, opts, cat) => forCatalogue(cat).buildDay(recipe, opts);
-  const api = { build, buildDay, recipesOf, newMemory, makeRnd };
+  const blockTimes = (recipe, opts, cat) => forCatalogue(cat).blockTimes(recipe, opts);
+  const api = { build, buildDay, blockTimes, recipesOf, newMemory, makeRnd, ABS_SLOTS };
 
   /* node:coverage ignore next */ // the page: the builder with nothing else
   if (typeof module === 'undefined' || !module.exports) { root.KBBuilder = api; return; }

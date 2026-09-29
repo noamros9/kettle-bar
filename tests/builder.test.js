@@ -302,13 +302,13 @@ test('each main block of a mixed day carries its family; the abs block and block
   assert.ok(plain.blocks.every((b) => !('family' in b)), 'existing programs\' blocks have no family key');
 });
 
-test('KBBuilder in the page has buildDay, recipesOf, newMemory and makeRnd', () => {
+test('KBBuilder in the page has build, buildDay, blockTimes, recipesOf, newMemory, makeRnd and ABS_SLOTS', () => {
   const vm = require('vm');
   const sandbox = { window: {} };
   vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../formats.js'), 'utf8'), sandbox);
   vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../program-builder.js'), 'utf8'), sandbox);
   const K = sandbox.window.KBBuilder;
-  assert.deepEqual(Object.keys(K).sort(), ['build', 'buildDay', 'makeRnd', 'newMemory', 'recipesOf']);
+  assert.deepEqual(Object.keys(K).sort(), ['ABS_SLOTS', 'blockTimes', 'build', 'buildDay', 'makeRnd', 'newMemory', 'recipesOf']);
   const r = K.recipesOf(CONFIGS.find((c) => c.id === 'iron-ppl'));
   const day = K.buildDay(Object.values(r)[0], { day: 1, level: 1, rnd: K.makeRnd('page'), memory: K.newMemory() }, cat);
   assert.equal(day.day, 1);

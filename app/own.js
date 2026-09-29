@@ -3,11 +3,16 @@
    built from the stored config alone, with the catalogue version it was made with, so they come out the same every
    time, even when the recipe book grows or changes. The choices stay for showing and for editing (edit = make again).
 
-     choices = { subjects: [one], split: 1-5, minutes: 20..40, equipment: 'all'|'kb'|'bw', formats: [...], levers: [Level II, Level III] }
+     choices = { subjects: [1 to 3, in the order picked], split: 1-5, minutes: 20..40, equipment: 'all'|'kb'|'bw', formats: [...],
+                 levers: [Level II, Level III] of each subject in turn (flat, as Firestore keeps no arrays in arrays) }
      defaults(recipes, subject) -> the choices a subject starts with (its formats ticked, two of its levers)
-     fit(recipes, choices) -> the choices with what the subject cannot do moved to what it can (minutes, equipment, formats, levers)
+     fit(recipes, choices) -> the choices with what the subjects cannot do moved to what they can (minutes, equipment, formats, levers)
+     toggle(recipes, choices, subject) -> the choices after tapping a subject: a new one joins at the end (up to three), a
+                                          picked one leaves (never the last); one that cannot be mixed (a Mixed subject,
+                                          Plyometrics), or any while one of those is picked, starts over alone
      problem(recipes, choices) -> null, or the message for people why nothing can be built from them
      states(recipes, choices) -> { equipment: { all|kb|bw: { ok, reason } }, minutes: { 20..40: { ok, reason } } }
+     subjectStates(recipes, choices) -> [{ name, family, order: 1-3 or 0, ok, reason }]: which subjects a tap can add
      subjects(recipes) -> [{ name, family }]
 
      toConfig(recipes, { id, name, choices, seed, catalogue? }) -> a config for KBBuilder.build, id `own-<id>` (the preview)
@@ -23,6 +28,7 @@
                                                   choices' config, and every day in doneDays (of any round) frozen as it was built
                                                   from the OLD record: `frozenDays: { n: day }`, without the day number
      summaryLine(program) -> "Push / Legs / Pull · 60 days · ~28–32 min · kettlebell only"
+                             (a mix: "Strength + Yoga, 3 days a cycle · 60 days · ~28–32 min · all equipment")
 
      source(docs, { recipes, build, ex }) -> a Program Catalogue source named 'own', `first`, from the store's programs docs
        (newest first; a doc that is damaged or that the recipes can no longer build is left out and listed in `skipped`)
@@ -39,29 +45,60 @@
   const isObject = (x) => x && typeof x === 'object' && !Array.isArray(x);
 
   const pidOf = (id) => 'own-' + id;
-  const defaultName = (subject) => `My ${subject} 60`;
+  const nameOf = (subjects) => (Array.isArray(subjects) ? subjects.join(' + ') : subjects);
+  const defaultName = (subjects) => `My ${nameOf(subjects)} 60`;
   const newId = (now = Date.now(), rnd = Math.random) => now.toString(36) + Math.floor(rnd() * 1296).toString(36).padStart(2, '0');
   const newSeed = (rnd = Math.random) => Math.floor(rnd() * 2 ** 32).toString(36);
   const subjects = (recipes) => recipes.book().subjects.map(([name, family]) => ({ name, family }));
 
-  const leversOf = (o) => [o.levers[0], o.levers[1] === undefined ? o.levers[0] : o.levers[1]];
+  const pairOf = (ls) => [ls[0], ls[1] === undefined ? ls[0] : ls[1]];
+  const leverLists = (o) => (o.subjects ? o.levers : [o.levers]); // the levers each subject offers, in order
   function defaults(recipes, subject) {
     const o = recipes.options(subject);
-    return fit(recipes, { subjects: [subject], split: 3, minutes: 30, equipment: 'all', formats: o.formats, levers: leversOf(o) });
+    return fit(recipes, { subjects: [subject], split: 3, minutes: 30, equipment: 'all', formats: o.formats, levers: pairOf(o.levers) });
   }
 
-  // what the subject cannot do moves to what it can: gear first, then the nearest minutes
+  // what the subjects cannot do moves to what they can: gear first, then the nearest minutes
   function fit(recipes, c) {
-    const o = recipes.options(c.subjects[0]);
-    const equipment = o.equipment[c.equipment].length ? c.equipment : EQUIPMENT.find((eq) => o.equipment[eq].length);
+    const o = recipes.options(c.subjects);
+    const equipment = o.equipment[c.equipment].length ? c.equipment : EQUIPMENT.find((eq) => o.equipment[eq].length) || c.equipment;
     const options = o.equipment[equipment];
-    const minutes = options.includes(c.minutes) ? c.minutes : options.reduce((best, m) => (Math.abs(m - c.minutes) < Math.abs(best - c.minutes) ? m : best));
-    const own = leversOf(o);
+    const minutes = !options.length || options.includes(c.minutes) ? c.minutes : options.reduce((best, m) => (Math.abs(m - c.minutes) < Math.abs(best - c.minutes) ? m : best));
+    const lists = leverLists(o);
     return {
       ...clone(c), split: Math.min(5, Math.max(1, c.split)), minutes, equipment,
       formats: c.formats.filter((f) => o.formats.includes(f)),
-      levers: c.levers.map((l, i) => (o.levers.includes(l) ? l : own[i])),
+      levers: c.levers.map((l, i) => { const own = lists[Math.floor(i / 2)]; return own.includes(l) ? l : pairOf(own)[i % 2]; }),
     };
+  }
+
+  // the same choices for other subjects: each keeps its levers, a new one brings two of its own and its formats ticked
+  function withSubjects(recipes, c, list) {
+    const before = recipes.options(c.subjects), after = recipes.options(list);
+    const levers = list.flatMap((s, j) => {
+      const i = c.subjects.indexOf(s);
+      return i >= 0 ? c.levers.slice(2 * i, 2 * i + 2) : pairOf(leverLists(after)[j]);
+    });
+    const formats = after.formats.filter((f) => c.formats.includes(f) || !before.formats.includes(f));
+    return fit(recipes, { ...clone(c), subjects: list.slice(), levers, formats });
+  }
+  function toggle(recipes, c, subject) {
+    const picked = c.subjects, max = recipes.MAX_SUBJECTS;
+    if (picked.includes(subject)) return picked.length === 1 ? clone(c) : withSubjects(recipes, c, picked.filter((s) => s !== subject));
+    if (recipes.mixReason([subject]) || recipes.mixReason(picked)) return withSubjects(recipes, c, [subject]);
+    return picked.length < max ? withSubjects(recipes, c, picked.concat([subject])) : clone(c);
+  }
+  function subjectStates(recipes, c) {
+    const picked = c.subjects, alone = !!recipes.mixReason(picked);
+    return subjects(recipes).map(({ name, family }) => {
+      const order = picked.indexOf(name) + 1;
+      let reason = '';
+      if (!order && !alone && !recipes.mixReason([name])) {
+        if (picked.length >= recipes.MAX_SUBJECTS) reason = `Up to ${recipes.MAX_SUBJECTS} subjects: tap one to take it out first.`;
+        else reason = recipes.options(picked.concat([name])).reason || '';
+      }
+      return { name, family, order, ok: !reason, reason };
+    });
   }
 
   function problem(recipes, c) {
@@ -70,10 +107,10 @@
   }
 
   function states(recipes, c) {
-    const [subject] = c.subjects, o = recipes.options(subject);
+    const text = nameOf(c.subjects), o = recipes.options(c.subjects);
     const equipment = {}, minutes = {};
-    EQUIPMENT.forEach((eq) => { const ok = o.equipment[eq].length > 0; equipment[eq] = { ok, reason: ok ? '' : `No ${subject} days with ${GEAR[eq]}.` }; });
-    MINUTES.forEach((m) => { const ok = o.equipment[c.equipment].includes(m); minutes[m] = { ok, reason: ok ? '' : `No ${m}-minute ${subject} days with ${GEAR[c.equipment]}.` }; });
+    EQUIPMENT.forEach((eq) => { const ok = o.equipment[eq].length > 0; equipment[eq] = { ok, reason: ok ? '' : `No ${text} days with ${GEAR[eq]}.` }; });
+    MINUTES.forEach((m) => { const ok = o.equipment[c.equipment].includes(m); minutes[m] = { ok, reason: ok ? '' : `No ${m}-minute ${text} days with ${GEAR[c.equipment]}.` }; });
     return { equipment, minutes };
   }
 
@@ -149,7 +186,8 @@
 
   function summaryLine(p) {
     const mins = `~${Math.round(p.minutes[0])}–${Math.round(p.minutes[1])} min`;
-    return [p.split, `${p.days.length} days`, mins, SUMMARY_GEAR[p.equip]].join(' · ');
+    const n = Object.keys(p.dayTypes).length, split = p.mix ? `${p.mix.join(' + ')}, ${n} ${n === 1 ? 'day' : 'days'} a cycle` : p.split;
+    return [split, `${p.days.length} days`, mins, SUMMARY_GEAR[p.equip]].join(' · ');
   }
 
   function source(docs, deps) {
@@ -190,7 +228,7 @@
     return { refresh };
   }
 
-  const api = { checkName, renamed, edit, defaults, fit, problem, states, subjects, toConfig, configOf, toRecord, fromRecord, programOf, summaryLine, source, link, pidOf, defaultName, newId, newSeed, MINUTES, EQUIPMENT };
+  const api = { checkName, renamed, edit, defaults, fit, toggle, subjectStates, problem, states, subjects, toConfig, configOf, toRecord, fromRecord, programOf, summaryLine, source, link, pidOf, defaultName, newId, newSeed, MINUTES, EQUIPMENT };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBOwn = api;
 })(typeof window !== 'undefined' ? window : globalThis, typeof module !== 'undefined' && module.exports ? require('./programs.js') : window.KBPrograms);

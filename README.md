@@ -45,8 +45,9 @@ Progress is always kept on the device. Press **Sign in** (Google) at the top to
 sync it through Firebase to every device where you sign in. On first sign-in,
 days ticked on the device and in the cloud are merged.
 
-- **Build your own** (top of the Programs page): pick a subject, days per cycle (1–5), minutes (20–40), equipment,
-  formats and how Levels II and III get harder; the first six days show as a preview, **Regenerate** gives another set,
+- **Build your own** (top of the Programs page): pick a subject, or tap up to three to mix them (each day then has a
+  block of each, in the order you tapped, each getting harder its own way), days per cycle (1–5), minutes (20–40), equipment,
+  formats and how Levels II and III get harder (for each subject); the first six days show as a preview, **Regenerate** gives another set,
   **Save** names it and opens it. Saved programs sit on a **Your programs** shelf above the families, keep their own
   progress, sync with your account and work offline. On its page: **Rename**, **Edit** (the builder opens with its
   choices; days you have done stay exactly as you did them, the rest are made again) and **Delete** (asks first; its

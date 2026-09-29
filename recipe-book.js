@@ -12,7 +12,17 @@
    kept once in `specs` (identical ones shared), and a day type of the same subject with the same label and spec is one recipe.
    The book: { v, catalogue, skipped, subjects: [[name, family, levers]], rests: [table], specs: [{ b: blocks, a: abs slots, r: rests }],
    types: [{ id: 'program:key', label, short?, subject: index, spec: index, equip, fit: [mask per equipment from `equip` up],
-   minutes, levers, mixed?: families of the blocks }] }. Blocks are [format, title, 'slot slot?', rest of the block?].
+   minutes, levers, mixed?: families of the blocks }], mix: { rests: index, abs: 'slot slot?', absFit: [range per equipment:
+   bw, kb, all], parts: [[subject index, spec index, block index, equip, [range per equipment from `equip` up]]] } }. Blocks are
+   [format, title, 'slot slot?', rest of the block?].
+   Mix (build your own with 2-3 subjects, Phase 6 ticket 7): the parts a mixed day is joined from. A part is a block of three
+   or more slots of a day type whose subject is not Mixed (a mix of mixes is not offered) and that rests like the
+   builder's REST (`rests`: one program has one rests table, so Plyometrics, which rests longer, is not mixed), once per
+   subject. Each part is tried alone, like a day type: at Level I, and at Levels II and III with every lever of its
+   subject, with the draws below, and its range says, per level, how short every trial can build it and how long every
+   trial can build it: [short I, long I, short II, long II, short III, long III] in quarter minutes (short rounded up,
+   long rounded down). The abs finisher of a mixed day is tried the same way with the strength levers. recipes.js adds
+   ranges up to see which mixes can reach a time at all, then builds the program it makes to check every day.
    Programs with no blocks to read (Three-Split 60 is frozen: its days are saved, not built) are listed in `skipped`. */
 const fs = require('fs');
 const path = require('path');
@@ -64,12 +74,32 @@ function builds(type, minutes, equipment, catalogue, levers) {
     return t >= lo - SLACK && t <= hi + SLACK;
   }));
 }
-// a slot with nothing usable for the gear is the builder's own error: that gear cannot build this day type
-function possible(type, equipment, catalogue) {
-  try { builds(type, 30, equipment, catalogue, []); return true; } catch (e) {
+// the least gear something builds with: a slot with nothing usable for the gear is the builder's own error
+const leastGear = (tryWith) => EQUIPS.find((eq) => {
+  try { tryWith(eq); return true; } catch (e) {
     if (/ is empty$/.test(e.message)) return false;
     throw e;
   }
+});
+
+// ---------- parts: blocks tried alone, for mixes ----------
+const q = (m, round) => round(m * 4 - (round === Math.ceil ? 1e-9 : -1e-9)); // minutes -> quarter minutes
+// per level: the longest of the trials' shortest times, and the shortest of their longest times
+function range(rec, levers) {
+  const trials = [{ level: 1 }, ...levers.flatMap((lever) => [{ level: 2, lever }, { level: 3, lever }])];
+  const out = [[0, Infinity], [0, Infinity], [0, Infinity]];
+  trials.forEach((d) => draws(d.level, d.lever).forEach((draw) => {
+    const times = Builder.blockTimes(rec, { ...d, ...draw() }, cat)[0], r = out[d.level - 1];
+    r[0] = Math.max(r[0], Math.min(...times)); r[1] = Math.min(r[1], Math.max(...times));
+  }));
+  return out.flatMap(([lo, hi]) => [q(lo, Math.ceil), q(hi, Math.floor)]);
+}
+// one block (or only the abs finisher) as a recipe of its own
+const partRecipe = (block, absSlots, equipment, catalogue) => ({ program: 'part', key: 'part', label: 'part', blocks: block ? [block] : [], minutes: [0, 0], equip: equipment, rests: Builder.REST, catalogue, levers: [null, null, null], absSlots });
+// a part's least gear, and its range with that gear and every one above it
+function partFit(block, absSlots, levers, catalogue) {
+  const gear = leastGear((eq) => Builder.blockTimes(partRecipe(block, absSlots, eq, catalogue), { level: 1, ...draws(1)[0]() }, cat));
+  return { equip: gear, fit: EQUIPS.slice(EQUIPS.indexOf(gear)).map((eq) => range(partRecipe(block, absSlots, eq, catalogue), levers)) };
 }
 
 const near = ([lo, hi], m) => Math.abs(m - (lo + hi) / 2) <= STRETCH * ((lo + hi) / 2);
@@ -87,6 +117,7 @@ function generate({ configs = require('./programs.config.js'), families = FAMILI
   const levers = {};
   configs.filter((c) => !c.frozen).forEach((c) => Object.values(Builder.recipesOf(c)).forEach((r) => r.levers.slice(1).forEach((l) => { (levers[c.subject] = levers[c.subject] || new Set()).add(l); })));
   const subjects = [], restTables = [], specs = [], types = [], skipped = [], seen = new Set(), trial = new Map();
+  const parts = [], partSeen = new Set(), partTrial = new Map();
   configs.forEach((cfg) => {
     if (cfg.frozen) { skipped.push(cfg.id); return; }
     const family = familyOf.get(cfg.subject);
@@ -107,16 +138,31 @@ function generate({ configs = require('./programs.config.js'), families = FAMILI
       const trialKey = `${index}|${subject}`;
       if (!trial.has(trialKey)) {
         const hydrated = { program: r.program, key, label: r.label, blocks: r.blocks, absSlots: r.absSlots, rests: r.rests, levers: type.levers }, fit = [];
-        const gear = EQUIPS.find((eq) => possible(hydrated, eq, catalogue));
+        const gear = leastGear((eq) => builds(hydrated, 30, eq, catalogue, []));
         EQUIPS.slice(EQUIPS.indexOf(gear)).forEach((eq) => {
           fit.push(Recipes.GRID.reduce((bits, m, i) => bits | (near(r.minutes, m) && builds(hydrated, m, eq, catalogue, subjects[subject][2]) ? 1 << i : 0), 0));
         });
         trial.set(trialKey, { equip: gear, fit });
       }
       types.push({ ...type, ...trial.get(trialKey) });
+      // its blocks as parts of a mix: blocks that stand on their own, of a subject that is one family, resting like REST
+      if (family === 'Mixed' || json(r.rests) !== json(Builder.REST)) return;
+      r.blocks.forEach((block, bi) => {
+        const key = `${subject}|${json(block)}`;
+        if (block.slots.length < 3 || partSeen.has(key)) return;
+        partSeen.add(key);
+        const tried = `${json(block)}|${subjects[subject][2]}`;
+        if (!partTrial.has(tried)) partTrial.set(tried, partFit(block, [], subjects[subject][2], catalogue));
+        const made = partTrial.get(tried);
+        parts.push([subject, index, bi, made.equip, made.fit]);
+      });
     });
   });
-  return { v: 1, catalogue, skipped, subjects, rests: restTables, specs, types };
+  // the abs finisher of a mix whose last block is strength: it levels by that subject's lever, so every strength lever is tried
+  const strengthLevers = Recipes.LEVERS.filter((l) => subjects.some(([, f, ls]) => f === 'Strength' && ls.includes(l)));
+  const abs = Builder.ABS_SLOTS;
+  const mix = { rests: intern(restTables, json, Builder.REST), abs: abs.join(' '), absFit: partFit(null, abs, strengthLevers, catalogue).fit, parts };
+  return { v: 2, catalogue, skipped, subjects, rests: restTables, specs, types, mix };
 }
 
 // what the book comes from: the configs, the builder and what it reads, the families, and this file
