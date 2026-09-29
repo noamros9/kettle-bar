@@ -1,8 +1,9 @@
 /* Recipes by subject (Phase 6): "a day of subject X" without a hand-made config. The library is the recipe book: every
    day type of every library program, tagged with its subject, family, formats and equipment, and with the times it
    really builds to. The book is made from the configs (recipe-book.js, Node), kept in recipes/book.json and written to
-   data/recipes.json at build time; the page fetches it when build your own first needs it. This file only reads a
-   book it is given, so it is pure and runs in Node and in the page (KBRecipes).
+   data/recipes.json at build time; this file itself is written to data/recipes.js. The page fetches both when build
+   your own first needs them (app/lazy.js) and keeps them for offline: neither is in index.html. It only reads a book it
+   is given, so it is pure and runs in Node and in the page (KBRecipes).
 
      pick({ subjects, families, equipment, formats, minutes }) -> the day types that fit (all keys optional)
      make(choice, seed) -> a config KBBuilder.build turns into 60 days (throws a message for people when nothing fits)
@@ -16,8 +17,6 @@
      mixReason([subjects]) -> null, or why these subjects cannot be in a mix at all (a Mixed subject, Plyometrics)
      recipeFor(dayType, { minutes, equipment, levers, catalogue? }) -> a recipe for KBBuilder.buildDay
      of(book) -> { pick, make, options, recipeFor, book(), skipped } over a book (in the page: KBRecipes.of(await load()))
-     recipesLoader({ fetchJson, cache }) -> { load() }: Promise of the book from data/recipes.json, fetched once, kept in
-       the offline cache and read from it when the network isn't there (a message for people when neither has it)
      In Node the same functions (pick, make, ...) work over the book of the library, read from recipes/book.json.
 
    Rules
@@ -351,23 +350,7 @@
     return { pick, make, options, recipeFor: (t, o) => recipeFor(t, o, book.catalogue), book: () => book, get skipped() { return book.skipped; }, fitsExactly, mixReason, MAX_SUBJECTS };
   }
 
-  // the book is one file, fetched when first needed: kept in the offline cache, which is read when the network isn't there
-  function recipesLoader({ fetchJson, cache, url = 'data/recipes.json' }) {
-    let loaded;
-    return {
-      load() {
-        if (!loaded) {
-          loaded = fetchJson(url)
-            .then((b) => cache.put(url, b).then(() => b, () => b))
-            .catch(() => cache.get(url).then((b) => { if (!b) throw new Error("Build your own isn't available offline yet. Open it once while online."); return b; }))
-            .catch((e) => { loaded = undefined; throw e; });
-        }
-        return loaded;
-      },
-    };
-  }
-
-  const api = { of, GRID, MINUTES, LEVERS, MAX_SUBJECTS, fitsExactly, recipeOf: recipeFor, recipesLoader };
+  const api = { of, GRID, MINUTES, LEVERS, MAX_SUBJECTS, fitsExactly, recipeOf: recipeFor };
   /* node:coverage ignore next 4 */ // the page: no book yet, the loader brings it
   if (typeof module === 'undefined' || !module.exports) {
     root.KBRecipes = api;

@@ -313,7 +313,7 @@ test('the builder builds the made config in the page too: no Node calls, same da
   // the page fetches data/recipes.json (what build.js writes)
   const { render } = require('../build.js');
   const file = render()['data/recipes.json'];
-  const loader = page.KBRecipes.recipesLoader({ fetchJson: async (url) => { assert.equal(url, 'data/recipes.json'); return JSON.parse(file); }, cache: { get: async () => undefined, put: async () => {} } });
+  const loader = require('../app/lazy.js').lazyFile({ fetch: async (url) => { assert.equal(url, 'data/recipes.json'); return JSON.parse(file); }, cache: { get: async () => undefined, put: async () => {} }, url: 'data/recipes.json', unavailable: '' });
   const recipes = page.KBRecipes.of(await loader.load());
   const c = choice('Fighter', 'all', 35, { split: 3 });
   const inPage = recipes.make(c, 'page');
@@ -330,34 +330,6 @@ test('the builder builds the made config in the page too: no Node calls, same da
   assert.equal(sandbox.require, undefined);
 });
 
-test('recipesLoader: fetched once and cached; the offline cache when the fetch fails; a message when neither has it', async () => {
-  const BOOK = { v: 1, marker: 'book' };
-  const memory = (init = {}) => { const m = { ...init }; return { m, get: async (u) => m[u], put: async (u, v) => { m[u] = v; } }; };
-  // fetch ok: the book, put in the cache, and fetched only once however often it is asked for
-  let fetches = 0;
-  const cache = memory();
-  const ok = R.recipesLoader({ fetchJson: async () => { fetches++; return BOOK; }, cache });
-  assert.deepEqual(await Promise.all([ok.load(), ok.load()]), [BOOK, BOOK]);
-  assert.equal(await ok.load(), BOOK);
-  assert.equal(fetches, 1);
-  assert.deepEqual(cache.m['data/recipes.json'], BOOK);
-  // a cache that cannot be written to does not lose the book
-  const readOnly = R.recipesLoader({ fetchJson: async () => BOOK, cache: { get: async () => undefined, put: async () => { throw new Error('full'); } } });
-  assert.equal(await readOnly.load(), BOOK);
-  // fetch fails: the cached copy
-  const offline = R.recipesLoader({ fetchJson: async () => { throw new Error('offline'); }, cache: memory({ 'data/recipes.json': BOOK }) });
-  assert.equal(await offline.load(), BOOK);
-  // neither: a message for people, and asking again later can succeed
-  let up = false;
-  const late = R.recipesLoader({ fetchJson: async () => { if (!up) throw new Error('offline'); return BOOK; }, cache: memory() });
-  await assert.rejects(late.load(), { message: "Build your own isn't available offline yet. Open it once while online." });
-  up = true;
-  assert.equal(await late.load(), BOOK);
-  // another url
-  const other = R.recipesLoader({ fetchJson: async (u) => { assert.equal(u, 'x.json'); return BOOK; }, cache: memory(), url: 'x.json' });
-  assert.equal(await other.load(), BOOK);
-});
-
 test('the recipe book file is small (under 140 KB raw, 20 KB gzipped) and is not in index.html', () => {
   const { render } = require('../build.js');
   const out = render(), json = out['data/recipes.json'];
@@ -366,7 +338,7 @@ test('the recipe book file is small (under 140 KB raw, 20 KB gzipped) and is not
   assert.ok(json.length < 140 * 1024 && gz < 20 * 1024, `${json.length} raw, ${gz} gzipped`); // the mix parts (ticket 7) are about 17 KB raw, 4 KB gzipped
   assert.equal(json, JSON.stringify(R.book()));
   assert.ok(!out['index.html'].includes('RECIPE_BOOK') && !out['index.html'].includes('"specs"'), 'the page does not carry the book');
-  assert.ok(out['index.html'].includes('KBRecipes'));
+  assert.ok(!out['index.html'].includes('function recipeFor') && out['data/recipes.js'].includes('KBRecipes'), 'its code is data/recipes.js');
 });
 
 test('the committed book is fresh: recipes/book.json holds the hash of the files it comes from', () => {

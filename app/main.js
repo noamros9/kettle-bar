@@ -188,7 +188,7 @@ function start() {
   route = parseHash();
   render();
   // then every program, quietly, for offline use: the open one and the ones with progress first
-  programs.loadEverything([route.pid, ...programs.ids().filter((pid) => store.count(pid) > 0)], () => {}).then(() => recipes.load()).catch(() => {});
+  programs.loadEverything([route.pid, ...programs.ids().filter((pid) => store.count(pid) > 0)], () => {}).then(() => Promise.all([programs.loadUsage(), fetchBuildFiles()])).catch(() => {});
 }
 ownLink.refresh(); // your own programs are built from their stored configs: no recipe book, no wait
 start();

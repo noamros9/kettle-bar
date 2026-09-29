@@ -193,3 +193,76 @@ test('setSource adds a source that was not there, and drops what the replaced so
   await pending;
   assert.equal(c.get('own-s').name, 'Fast', 'a load that finishes after its source was replaced is not kept');
 });
+
+// ---------- the slim summaries and the exercise index (ticket 7b) ----------
+const { slim, firstSentence, usageIndex } = require('../app/programs.js');
+const slimSummaries = summaries.map(({ exercises, ...s }) => s); // the page's summaries have no exercise lists
+
+test('firstSentence: up to the first full stop, question or exclamation mark; a paragraph without one whole', () => {
+  assert.equal(firstSentence('One. Two.'), 'One.');
+  assert.equal(firstSentence('Really? Yes!'), 'Really?');
+  assert.equal(firstSentence('No end'), 'No end');
+});
+
+test('slim keeps what the cards and filters need, with the first sentence of the paragraph (or the blurb) as `about`', () => {
+  const full = summarize({ id: 'a', name: 'Alpha', subject: 'Strength', split: 'S', minutes: [20, 30], formats: ['straight'], equip: 'kb', about: 'First one. Second one.', blurb: 'Blurb.', levels: ['I'], rests: {}, dayTypes: {}, gear: 'g', days: [day(1, ['row'])] });
+  assert.deepEqual(slim(full), { id: 'a', name: 'Alpha', subject: 'Strength', split: 'S', minutes: [20, 30], formats: ['straight'], equip: 'kb', dayCount: 1, about: 'First one.' });
+  assert.equal(slim({ ...full, about: undefined }).about, 'Blurb.');
+  assert.deepEqual(Object.keys(slim({ id: 'b', name: 'B', about: 'x', dayCount: 2 })), ['id', 'name', 'dayCount', 'about'], 'what a program does not have stays out');
+});
+
+test('usageIndex: exercise -> the programs that use it, in list order', () => {
+  assert.deepEqual(usageIndex(programs), { arm_circle: ['a'], pushup: ['a'], row: ['a'], squat: ['a'], child_pose: ['b'], plank: ['b'] });
+});
+
+test('a source with an exercise index: programsUsing waits for loadUsage, then follows the index; sources with lists need no index', async () => {
+  let asked = 0;
+  const usage = { load: async () => { asked++; return usageIndex(programs); } };
+  const lib = { ...fetched(slimSummaries, { fetchJson: async () => null, cache: { get: async () => null, put: async () => {} }, usage }) };
+  const c = createProgramCatalogue(lib, ownSource([own('x', 'Mine', 'plank')]));
+  assert.equal(c.usageReady(), false);
+  assert.deepEqual(c.programsUsing('plank'), ['own-x'], 'own programs carry their lists');
+  await Promise.all([c.loadUsage(), c.loadUsage()]);
+  await c.loadUsage();
+  assert.equal(c.usageReady(), true);
+  assert.equal(asked, 1);
+  assert.deepEqual(c.programsUsing('plank'), ['own-x', 'b']);
+  assert.deepEqual(c.programsUsing('row'), ['a']);
+  assert.deepEqual(c.programsUsing('nothing'), []);
+  c.setSource('library', lib); // replaced: asked again
+  assert.equal(c.usageReady(), false);
+  await c.loadUsage();
+  assert.equal(asked, 2);
+  await createProgramCatalogue(inlined(programs)).loadUsage(); // nothing to load
+  assert.equal(createProgramCatalogue(inlined(programs)).usageReady(), true);
+});
+
+test('loadUsage fails when the index is not available (the page says so); asking again can work', async () => {
+  let up = false;
+  const usage = { load: async () => { if (!up) throw new Error('not offline yet'); return {}; } };
+  const c = createProgramCatalogue({ ...fetched(slimSummaries, { fetchJson: async () => null, cache: { get: async () => null, put: async () => {} }, usage }) });
+  await assert.rejects(c.loadUsage(), /not offline yet/);
+  assert.equal(c.usageReady(), false);
+  up = true;
+  await c.loadUsage();
+  assert.equal(c.usageReady(), true);
+});
+
+test('an exercise index that arrives after its source was replaced is dropped, not kept for the new source', async () => {
+  let finish;
+  const usage = { load: () => new Promise((r) => { finish = r; }) };
+  const mk = () => fetched(slimSummaries, { fetchJson: async () => null, cache: { get: async () => null, put: async () => {} }, usage });
+  const c = createProgramCatalogue(mk());
+  const first = c.loadUsage();
+  c.setSource('library', mk());
+  finish({ row: ['a'] });
+  await first;
+  assert.equal(c.usageReady(), false);
+  const failing = { load: () => Promise.reject(new Error('late failure')) };
+  const d = createProgramCatalogue({ ...mk(), usage: failing });
+  const late = d.loadUsage();
+  d.setSource('library', { ...mk(), usage: { load: async () => ({}) } });
+  await assert.rejects(late, /late failure/);
+  await d.loadUsage();
+  assert.equal(d.usageReady(), true);
+});

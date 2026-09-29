@@ -7,7 +7,9 @@
        (the name of the source it comes from: 'library', later 'own')
      programs.get(pid), programs.day(pid, n)   synchronous; nothing until the program is loaded
      programs.load(pid) -> Promise<program>    loads it once (later calls share the same load)
-     programs.programsUsing(exId) -> [pid]
+     programs.programsUsing(exId) -> [pid]   library programs are found through their source's exercise index (data/index.json,
+       loaded on demand: programs.loadUsage() -> Promise, programs.usageReady()); sources whose summaries list `exercises`
+       (your own programs) need no index
 
      programs.loadEverything(first, onLoaded)  background download of every program, for offline
 
@@ -17,7 +19,10 @@
    A source is { name, summaries, load(pid), preloaded?, first? }. Sources are listed in the order given, except
    that ones marked `first` come before the rest (your own programs before the library). Ids never clash: a
    duplicate id across sources throws (own programs are `own-<id>`).
-   Sources (adapters): fetched(summaries, { fetchJson, cache }) in the page, named 'library'; inlined(programs, name)
+   A source may have `usage`, a lazy file ({ load() }) of { exerciseId: [pid] } for its programs.
+   The page's summaries are slim (slim(): what cards and filters need, the first sentence of `about`); the rest of a
+   program comes with its data file when it is opened.
+   Sources (adapters): fetched(summaries, { fetchJson, cache, usage }) in the page, named 'library'; inlined(programs, name)
    in tests. Your own programs (app/own.js): built in the page from stored choices, named 'own', `first`. */
 (function (root) {
   const itemsOf = (w) => [...w.blocks.flatMap((b) => b.items), ...(w.warmup ? w.warmup.items : []), ...(w.cooldown ? w.cooldown.items : [])];
@@ -28,6 +33,24 @@
     return { ...rest, dayCount: days.length, exercises };
   }
 
+  // program cards show the paragraph's first sentence
+  const firstSentence = (t) => (t.match(/^[^.!?]+[.!?]/) || [t])[0];
+
+  // what the page carries for the library: enough for the cards, the filters and the progress bars, and no more
+  const SLIM = ['id', 'name', 'subject', 'split', 'minutes', 'formats', 'equip', 'dayCount'];
+  function slim(s) {
+    const out = {};
+    SLIM.forEach((k) => { if (s[k] !== undefined) out[k] = s[k]; });
+    return { ...out, about: firstSentence(s.about || s.blurb) };
+  }
+
+  // exercise -> the programs that use it, in list order (data/index.json)
+  function usageIndex(programs) {
+    const index = {};
+    programs.forEach((p) => summarize(p).exercises.forEach((ex) => { (index[ex] = index[ex] || []).push(p.id); }));
+    return index;
+  }
+
   // every program already in the page (tests, and your own programs once built)
   function inlined(programs, name = 'library') {
     return { name, summaries: programs.map(summarize), preloaded: programs };
@@ -35,11 +58,12 @@
 
   // the page: summaries inlined, each program's days fetched from data/<id>.json when first opened and kept in
   // the offline cache (Cache API), which is read when the network isn't there
-  function fetched(summaries, { fetchJson, cache, name = 'library' }) {
+  function fetched(summaries, { fetchJson, cache, name = 'library', usage }) {
     const title = (pid) => summaries.find((s) => s.id === pid).name;
     return {
       name,
       summaries,
+      usage,
       load(pid) {
         const url = `data/${pid}.json`;
         return fetchJson(url)
@@ -57,6 +81,8 @@
     let loaded = {};
     const loading = {};
     const listeners = [];
+    const usageOf = {}; // source name -> its loaded exercise index
+    const usageLoading = {};
 
     // the order the list uses, and the checks; throws before anything is changed
     const arrange = (all) => {
@@ -102,6 +128,7 @@
         const rest = sources.filter((x) => x.name !== name);
         const arranged = arrange([...rest, next]);
         sources.filter((x) => x.name === name).forEach((old) => old.summaries.forEach((s) => { delete loaded[s.id]; delete loading[s.id]; }));
+        delete usageOf[name]; delete usageLoading[name];
         sources = arranged;
         index();
         (next.preloaded || []).forEach((p) => { loaded[p.id] = p; });
@@ -121,12 +148,20 @@
           try { await api.load(pid); onLoaded(pid); } catch (e) { /* try again next time */ }
         }
       },
-      programsUsing: (exId) => list.filter((s) => s.exercises.includes(exId)).map((s) => s.id),
+      // the exercise index of every source that has one, loaded once (rejects with a message for people when it can't be)
+      usageReady: () => sources.every((src) => !src.usage || usageOf[src.name]),
+      loadUsage() {
+        const pending = sources.filter((src) => src.usage && !usageOf[src.name]).map((src) => usageLoading[src.name] || (usageLoading[src.name] = src.usage.load().then(
+          (idx) => { if (sources.includes(src)) { usageOf[src.name] = idx; delete usageLoading[src.name]; } },
+          (e) => { if (sources.includes(src)) delete usageLoading[src.name]; throw e; })));
+        return Promise.all(pending).then(() => {});
+      },
+      programsUsing: (exId) => list.filter((s) => (s.exercises ? s.exercises.includes(exId) : ((usageOf[s.source] || {})[exId] || []).includes(s.id))).map((s) => s.id),
     };
     return api;
   }
 
-  const api = { createProgramCatalogue, inlined, fetched, summarize };
+  const api = { createProgramCatalogue, inlined, fetched, summarize, slim, firstSentence, usageIndex };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBPrograms = api;
 })(typeof window !== 'undefined' ? window : globalThis);
