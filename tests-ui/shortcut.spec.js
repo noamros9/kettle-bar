@@ -38,3 +38,17 @@ test('the logo (home) goes to the same place as the shortcut, from any page', as
   await app.page.getByRole('button', { name: "Home: today's workout" }).click(); // already there: stays
   await expect(app.page).toHaveURL(/#p-iron-ppl-d3$/);
 });
+
+test('home follows the workout marked done last, not the program opened last', async ({ app }) => {
+  await app.open('#p-iron-ppl');
+  for (const n of [1, 2]) await app.page.getByRole('checkbox', { name: `Mark day ${n} done` }).click();
+  await app.go('#p-hotel-room'); // only looked at
+  await app.go('#p-hotel-room-d1');
+  await app.page.getByRole('button', { name: "Home: today's workout" }).click();
+  await expect(app.page).toHaveURL(/#p-iron-ppl-d3$/);
+  await app.go('#p-one-bell');
+  await app.page.getByRole('checkbox', { name: 'Mark day 1 done' }).click(); // now the latest done workout
+  await app.go('#p-iron-ppl');
+  await app.page.getByRole('button', { name: "Home: today's workout" }).click();
+  await expect(app.page).toHaveURL(/#p-one-bell-d2$/);
+});

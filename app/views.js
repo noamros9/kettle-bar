@@ -32,6 +32,12 @@ const offlineCache = {
 const fetchJson = (url) => fetch(url).then((r) => { if (!r.ok) throw new Error(url + ': ' + r.status); return r.json(); });
 const programs = KBPrograms.createProgramCatalogue(KBPrograms.fetched(PROGRAM_SUMMARIES, { fetchJson, cache: offlineCache }));
 const lastPid = () => { try { const v = localStorage.getItem('kb-last-program'); return programs.has(v) ? v : null; } catch (e) { return null; } };
+// the program of the workout marked done most recently (any round), or nothing before the first one
+const lastDonePid = () => {
+  let last = null;
+  programs.ids().forEach((pid) => store.entries(pid).forEach((e) => { if (!last || e.time > last.time) last = e; }));
+  return last && last.pid;
+};
 const rememberPid = (pid) => { try { localStorage.setItem('kb-last-program', pid); } catch (e) {} };
 let route = { view: 'program', pid: programs.ids()[0], day: null };
 function parseHash() {
@@ -39,9 +45,10 @@ function parseHash() {
   if (h === 'programs') return { view: 'programs' };
   if (h === 'exercises') return { view: 'library' };
   if (h === 'settings') return { view: 'settings' };
-  // the home-screen shortcut: the next day not done in the program opened last (else the program page)
+  // home (the logo) and the home-screen shortcut: the next day not done in the program of the workout marked done last
+  // (before any, the program opened last); the program page once every day is done
   if (h === 'today') {
-    const pid = lastPid() || programs.ids()[0], n = nextDay(pid);
+    const pid = lastDonePid() || lastPid() || programs.ids()[0], n = nextDay(pid);
     history.replaceState(null, '', '#' + (n ? dayHash(pid, n) : 'p-' + pid));
     return n ? { view: 'day', pid, day: n } : { view: 'program', pid };
   }
