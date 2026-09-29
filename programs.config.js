@@ -735,6 +735,62 @@ const CONFIGS = [
       b: { label: 'Balance & core B', short: 'B', blocks: [C('Balance', ['blDynamic', 'blStatic', 'blDynamic?'], { values: [2, 3] }), C('Core stability', ['core', 'copenhagen_plank', 'core', 'core?'], { values: [2, 3] })] },
     },
   },
+  // ---------------- HIIT (Phase 5: the existing timed formats; abs to finish) ----------------
+  {
+    id: 'hiit-20', added: 5, name: 'HIIT 20', subject: 'HIIT', minutes: [18, 22], equip: 'bw', levers: [null, 'reps', 'variation'],
+    split: 'Intervals / EMOM', blurb: 'Twenty minutes of hard intervals with no equipment: a circuit and an AMRAP, or an EMOM.',
+    about: 'Twenty hard minutes with no equipment. One day is a fast circuit of jumps, sprawls and bodyweight strength, finished by a short AMRAP. The other is an EMOM that changes exercise every minute. Abs close each session. Level II adds reps and Level III brings harder variations.',
+    names: ['Red Zone', 'Redline Sprint', 'Max Effort', 'All Out', 'Flat Out', 'Full Throttle', 'Pedal Down', 'Gun It', 'Floor It', 'Top Speed', 'Warp', 'Hyper', 'Nitro', 'Rocket', 'Jet', 'Supersonic', 'Mach', 'Lightspeed', 'Quantum', 'Big Bang'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Intervals', short: 'A', blocks: [C('Intervals', ['hiit', 'legsBw', 'hiit', 'push'], { values: [2, 3, 4] }), A('Finisher', ['hiit', 'core'], { values: [2, 3, 4, 5] })] },
+      b: { label: 'EMOM', short: 'B', blocks: [E('EMOM', ['hiit', 'legsBw', 'hiit', 'core'], { values: [10, 12, 14, 16] })] },
+    },
+  },
+  {
+    id: 'tabata-torch', added: 5, name: 'Tabata Torch', subject: 'HIIT', minutes: [22, 27], equip: 'bw', levers: [null, 'reps', 'variation'],
+    split: 'Tabatas A / B', blurb: 'Tabata after Tabata: 20 seconds as hard as you can, 10 seconds rest, with no equipment.',
+    about: 'Tabata after Tabata: 20 seconds as hard as you can, then 10 seconds of rest, eight times, with a minute between Tabatas. Each Tabata rotates through jumps, legs and core, and the timer runs the whole block. Abs finish each session. Level II adds reps to the moves and Level III brings harder variations. Short, brutal and over quickly.',
+    names: ['Blowtorch', 'Flamethrower', 'Match', 'Lighter', 'Fuse', 'Wick Burn', 'Signal Fire', 'Beacon Fire', 'Campfire', 'Bonfire Night', 'Firework', 'Roman Candle', 'Sparkler', 'Catherine Wheel', 'Rocket Fire', 'Flare Gun', 'Kindler', 'Stoke', 'Ignite', 'Burn Out'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Tabatas A', short: 'A', blocks: [T('Tabatas', ['hiit', 'legsBw', 'hiit', 'core'], { values: [2, 3, 4] })] },
+      b: { label: 'Tabatas B', short: 'B', blocks: [T('Tabatas', ['hiit', 'push', 'hiit', 'legsBw'], { values: [2, 3, 4] })] },
+    },
+  },
+  {
+    id: 'thirty-thirty', added: 5, name: '30/30 Intervals', subject: 'HIIT', minutes: [22, 27], equip: 'bw', levers: [null, 'reps', 'reps'],
+    split: '30/30 A / B', blurb: 'Thirty seconds flat out, thirty seconds easy, every minute on the minute.',
+    about: 'Thirty seconds flat out, then thirty seconds easy, every minute on the minute. The work is sprints in place, fast feet and shuffles, alternating with jump and bodyweight minutes. A short circuit follows on one of the days, and abs close each session. Levels II and III add reps. Simple to follow: the timer tells you when to go.',
+    names: ['Half and Half', 'Split Minute', 'Tick', 'Tock', 'Pendulum Swing', 'Metronome', 'Heartbeat', 'Stop-Go', 'Red Light', 'Green Light', 'Traffic Light', 'Toggle', 'Switchback', 'Seesaw', 'Yo-Yo', 'Tide In', 'Tide Out', 'Breath In', 'Breath Out', 'Round Trip'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: '30/30 A', short: 'A', blocks: [E('30 on, 30 off', ['hiitSec', 'hiit', 'hiitSec', 'hiit'], { values: [14, 16, 18, 20] })] },
+      b: { label: '30/30 B', short: 'B', blocks: [E('30 on, 30 off', ['hiitSec', 'legsBw', 'hiitSec', 'hiit'], { values: [10, 12, 14] }), C('Burnout', ['push', 'core'], { values: [1, 2, 3] })] },
+    },
+  },
+  {
+    id: 'pyramid-hiit', added: 5, name: 'Pyramid HIIT', subject: 'HIIT', minutes: [22, 27], equip: 'bw', levers: [null, 'reps', 'variation'],
+    split: 'Ladder + Tabata / ladder + AMRAP', blurb: 'Rep ladders that climb and climb, with a Tabata or an AMRAP to finish.',
+    about: 'Rep ladders that climb: one rep of each move, then two, then three, for as long as the clock allows. One day pairs the ladder with a Tabata, the other with an AMRAP. Abs close every session. Level II adds reps and Level III brings harder variations. Satisfying if you like seeing a number go up.',
+    names: ['Step Pyramid', 'Ziggurat', 'Giza', 'Summit', 'Staircase', 'Escalator', 'Climb', 'Ascent', 'Stack', 'Tower Climb', 'Rungs', 'Scale', 'Crescendo', 'Build Up', 'Spire', 'Pinnacle', 'Apex', 'Crown', 'Peak', 'Top Step'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Ladder + Tabata', short: 'A', blocks: [L('Pyramid ladder', ['hiit', 'push', 'legsBw']), T('Tabata', ['hiit', 'core', 'hiit', 'core'], { values: [1, 2] })] },
+      b: { label: 'Ladder + AMRAP', short: 'B', blocks: [L('Pyramid ladder', ['hiit', 'legsBw', 'core']), A('AMRAP', ['hiit', 'push', 'hiit'])] },
+    },
+  },
+  {
+    id: 'afterburn', added: 5, name: 'Afterburn', subject: 'HIIT', minutes: [25, 30], equip: 'bw', levers: [null, 'reps', 'variation'],
+    split: 'Circuit + Tabata / EMOM + AMRAP', blurb: 'The longest HIIT session: a circuit and a Tabata, or an EMOM and an AMRAP, then abs.',
+    about: 'The longest and hardest HIIT session here, around half an hour. One day is a jump-heavy circuit followed by a Tabata, the other an EMOM followed by an AMRAP. Abs close both. Level II adds reps and Level III brings harder variations. Take a lighter day after it.',
+    names: ['Ember Glow', 'Smoulder', 'Heat Soak', 'Coal Bed', 'Hot Coals', 'Glowing', 'Residual', 'Aftershock', 'Echo', 'Ripple Effect', 'Long Tail', 'Wake Burn', 'Lingering', 'Still Warm', 'Radiant', 'Thermal', 'Heat Sink', 'Kiln Glow', 'Forge Glow', 'Banked Fire'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Circuit + Tabata', short: 'A', blocks: [C('Circuit', ['hiit', 'legsBw', 'push', 'hiit', 'core'], { values: [2, 3, 4] }), T('Tabata', ['hiit', 'hiitSec', 'hiit', 'core'], { values: [1, 2] })] },
+      b: { label: 'EMOM + AMRAP', short: 'B', blocks: [E('EMOM', ['hiit', 'push', 'hiitSec', 'legsBw'], { values: [10, 12, 14] }), A('AMRAP', ['hiit', 'core', 'legsBw'], { values: [5, 6, 7, 8] })] },
+    },
+  },
 ];
 
 // ---------- program paragraphs (hand-written): what it trains, how it's built, how it gets harder, who it suits ----------

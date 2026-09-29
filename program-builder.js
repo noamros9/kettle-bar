@@ -86,6 +86,9 @@
       blDynamic: ['single_leg_reach', 'star_excursion', 'tree_to_airplane', 'lunge_to_balance', 'single_leg_rdl_bw'],
       blStrength: ['pistol_box_squat', 'single_leg_calf_raise', 'single_leg_rdl_bw', 'copenhagen_plank', 'lunge_to_balance'],
       blPower: ['single_leg_hop_stick', 'lateral_bound_hold', 'star_excursion'],
+      // Phase 5: HIIT (new moves with the existing cardio ones)
+      hiit: ['skater_jumps', 'tuck_jumps', 'sprawl', 'burpee_broad_jump', 'plank_jacks', 'fast_step_ups', 'seal_jacks', 'burpee', 'mountain_climber', 'squat_jump', 'high_knees', 'jump_lunge'],
+      hiitSec: ['fast_feet', 'sprint_in_place', 'lateral_shuffle'],
       core: ['plank', 'side_plank', 'hollow_hold', 'hollow_rock', 'dead_bug', 'weighted_dead_bug', 'bird_dog', 'bear_crawl', 'suitcase_march', 'kb_halo', 'db_side_bend', 'shoulder_taps', 'superman', 'russian_twist'],
     };
     // Pools computed from the catalogue. An exercise marked `added: N` (the phase that added it) joins them only
@@ -120,6 +123,7 @@
       jab_cross: 'jab_cross_hook', double_jab_cross: 'four_punch', jab_cross_hook: 'four_punch', body_head: 'jab_body_hook',
       jab_cross_uppercut: 'rear_upper_hook_cross', slip_counter: 'roll_hook',
       single_leg_reach: 'star_excursion', lunge_to_balance: 'pistol_box_squat', single_leg_stand: 'heel_to_toe_walk',
+      tuck_jumps: 'burpee_broad_jump', sprawl: 'burpee_broad_jump', seal_jacks: 'skater_jumps', fast_step_ups: 'tuck_jumps',
       teep: 'jab_teep', roundhouse: 'switch_kick', jab_cross_kick: 'kick_four', knee_strike: 'clinch_knees', front_kick: 'side_thrust_kick',
     };
     // holds: like reps (the level's number from the catalogue), said the way it feels in a flow

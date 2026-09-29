@@ -514,6 +514,28 @@
       STAND, { t: [30, -16], fn: [2, 41], ff: [-38, -12], hn: [30, 14], hf: [29, 14] }] },
     lunge_to_balance: { name: 'Reverse lunge to knee drive', cat: 'balance', added: 5, r: [8, 10, 12], side: 1, tp: 4, mus: 'glutes quads | hip_flexors abs calves', cue: 'Step back into a lunge, then drive the back knee up to hip height and balance there for a moment before the next rep. Switch.', poses: [
       P(LUNGE_F, {}), P(STAND, { ff: [0, 41], fn: [16, 6], khn: [1, -1], hn: [-12, -20], hf: [16, -40] })] },
+
+    // ---------------- HIIT (Phase 5: fast cardio for timed formats) ----------------
+    skater_jumps: { name: 'Skater jumps', cat: 'cardio', added: 5, r: [20, 24, 30], alt: 1, tp: 1.5, mus: 'glutes quads | calves adductors abs', cue: 'Leap sideways from one foot to the other, landing softly with the trailing leg sweeping behind, like a speed skater.', poses: [
+      { t: [14, -31], fn: [4, 36], khn: [1, -0.4], ff: [-26, 34], khf: [0.3, 1], hn: [-16, -8], hf: [26, -18] }, { t: [14, -31], ff: [4, 36], khf: [1, -0.4], fn: [-26, 34], khn: [0.3, 1], hf: [-16, -8], hn: [26, -18] }] },
+    tuck_jumps: { name: 'Tuck jumps', cat: 'cardio', added: 5, r: [8, 10, 12], tp: 2, mus: 'quads glutes hip_flexors | calves abs', cue: 'Dip and jump straight up, pulling both knees toward your chest at the top. Land softly and go again.', poses: [
+      { t: [16, -30], fn: [10, 30], ff: [8, 30], kh: [1, -0.3], hn: [-12, -6], hf: [-13, -6] }, { t: [2, -34], lift: 22, fn: [10, 6], ff: [9, 7], kh: [1, -1], hn: [18, -12], hf: [17, -12] }] },
+    sprawl: { name: 'Sprawls', cat: 'cardio', added: 5, r: [10, 12, 15], tp: 2.5, mus: 'abs quads chest | hip_flexors front_delts', cue: 'From standing, drop your hands and shoot your legs back so your hips land low near the floor, then snap back up to your feet.', poses: [
+      STAND, P(SQUAT, { hn: [22, 30], hf: [24, 30] }), { t: [30, -14], hd: [1, -0.3], hn: [30, 18], hf: [33, 18], fn: [-38, 16], ff: [-39, 17] }] },
+    burpee_broad_jump: { name: 'Burpee broad jump', cat: 'cardio', added: 5, r: [6, 8, 10], tp: 4, mus: 'quads glutes chest | calves triceps abs', cue: 'Do a burpee, then jump forward as far as you can, land softly, turn around and repeat.', poses: [
+      PLANK, P(SQUAT, { hn: [-12, -6], hf: [-13, -6] }), { t: [14, -31], lift: 12, fn: [-12, 38], ff: [-14, 38], hn: [40, -50], hf: [38, -50] }] },
+    plank_jacks: { name: 'Plank jacks', cat: 'cardio', added: 5, r: [20, 24, 30], tp: 1, mus: 'abs | adductors front_delts calves', cue: 'In a straight-arm plank, jump your feet wide and back together quickly without letting your hips bounce.', poses: [
+      PLANK, P(PLANK, { t: [30, -17], fn: [-36, 18], ff: [-40, 18] })] },
+    fast_step_ups: { name: 'Fast step-ups', cat: 'cardio', added: 5, r: [20, 24, 30], alt: 1, tp: 1.2, mus: 'quads glutes | calves hip_flexors', cue: 'Step quickly up onto a low step or the bottom stair and back down, leading with alternate feet, arms pumping.', poses: [
+      P(STAND, { fn: [16, 22], khn: [1, -1], hn: [-12, -10], hf: [14, -18] }), P(STAND, { ff: [16, 22], khf: [1, -1], fn: [2, 41], hf: [-12, -10], hn: [14, -18] })] },
+    fast_feet: { name: 'Fast feet', cat: 'cardio', added: 5, u: 'sec', r: [30, 30, 30], mus: 'calves quads | glutes abs', cue: 'In a low athletic stance, patter your feet as fast as you can, staying on the balls of the feet, arms ready.', poses: [
+      { t: [12, -32], fn: [10, 34], ff: [-6, 35], kh: [1, -0.4], hn: [24, -14], hf: [20, -12] }, { t: [12, -32], lift: 4, fn: [12, 30], ff: [-6, 35], kh: [1, -0.4], hn: [24, -14], hf: [20, -12] }] },
+    lateral_shuffle: { name: 'Lateral shuffle', cat: 'cardio', added: 5, view: 'front', u: 'sec', r: [30, 30, 30], mus: 'glutes quads adductors | calves', cue: 'Low and wide, shuffle three quick steps to one side without crossing your feet, touch down, and shuffle back.', poses: [
+      { t: [0, -32], fn: [-24, 32], ff: [24, 32], khn: [-1, 0], khf: [1, 0], hn: [-14, -12], hf: [14, -12] }, { t: [0, -32], fn: [-12, 34], ff: [12, 34], khn: [-1, 0], khf: [1, 0], hn: [-14, -12], hf: [14, -12] }] },
+    sprint_in_place: { name: 'Sprint in place', cat: 'cardio', added: 5, u: 'sec', r: [30, 30, 30], mus: 'hip_flexors quads calves | abs glutes', cue: 'Sprint on the spot as fast as you can: knees driving up, on the balls of your feet, arms pumping hard.', poses: [
+      { t: [6, -34], fn: [18, 4], khn: [1, -1], ff: [-4, 41], hn: [-14, -20], hf: [20, -34] }, { t: [6, -34], ff: [18, 4], khf: [1, -1], fn: [-4, 41], hf: [-14, -20], hn: [20, -34] }] },
+    seal_jacks: { name: 'Seal jacks', cat: 'cardio', added: 5, view: 'front', r: [20, 24, 30], tp: 1, mus: 'chest calves | rear_delts quads', cue: 'Like a jumping jack, but your arms open wide at shoulder height as the feet jump out, and clap in front as they jump in.', poses: [
+      P(FSTAND, { hn: [-40, -34], hf: [40, -34] }), P(FSTAND, { fn: [-20, 38], ff: [20, 38], hn: [-3, -34], hf: [3, -34], ehn: [0, 1], ehf: [0, 1] })] },
   };
 
 

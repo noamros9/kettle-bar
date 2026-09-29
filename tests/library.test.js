@@ -18,6 +18,7 @@ const SUBJECTS = {
   Flexibility: { count: 5, abs: false, formats: ['flow'] },
   'Mobility & posture': { count: 5, abs: false, formats: ['flow', 'circuit'] },
   'Balance & stability': { count: 5, abs: true, formats: ['circuit', 'straight'] },
+  HIIT: { count: 5, abs: true, formats: ['circuit', 'amrap', 'emom', 'tabata', 'ladder'] },
 };
 
 for (const [subject, want] of Object.entries(SUBJECTS)) {
