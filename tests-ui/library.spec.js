@@ -54,17 +54,19 @@ test('the eyebrow counts what the taps select: Mind & body, then Yoga, then a le
   expect(await app.sidewaysScroll()).toBe(0);
 });
 
-test('tap Mixed: chips Strength & stretch, Fighter and Athlete, and "Mixed · 18 programs"', async ({ app }) => {
+test('tap Mixed: five chips (Strength & stretch, Fighter, Athlete, Balanced week, Calm strength) and "Mixed · 30 programs"', async ({ app }) => {
   await app.open('#programs');
   await family(app).getByRole('button', { name: 'Mixed' }).click();
   await expect(family(app).getByRole('button', { name: 'Mixed' })).toHaveAttribute('aria-pressed', 'true');
-  expect(await chipTexts(subjects(app))).toEqual(['All', 'Strength & stretch', 'Fighter', 'Athlete']);
-  await expect(app.page.locator('.pgroup h2')).toHaveText(['Strength & stretch', 'Fighter', 'Athlete']);
-  await expect(app.page.locator('.pcard')).toHaveCount(18);
-  await expect(app.page.locator('.eyebrow').first()).toHaveText('Mixed · 18 programs');
+  expect(await chipTexts(subjects(app))).toEqual(['All', 'Strength & stretch', 'Fighter', 'Athlete', 'Balanced week', 'Calm strength']);
+  await expect(app.page.locator('.pgroup h2')).toHaveText(['Strength & stretch', 'Fighter', 'Athlete', 'Balanced week', 'Calm strength']);
+  await expect(app.page.locator('.pcard')).toHaveCount(30);
+  await expect(app.page.locator('.eyebrow').first()).toHaveText('Mixed · 30 programs');
   await expect(app.page.locator('.pgroup', { hasText: 'Strength & stretch' }).locator('[data-open-prog="iron-yoga"]')).toHaveCount(1);
   await expect(app.page.locator('.pgroup', { hasText: 'Fighter' }).locator('.pcard')).toHaveCount(6);
   await expect(app.page.locator('.pgroup', { hasText: 'Athlete' }).locator('[data-open-prog="jump-lift-stick"]')).toHaveCount(1);
+  await expect(app.page.locator('.pgroup', { hasText: 'Balanced week' }).locator('.pcard')).toHaveCount(6);
+  await expect(app.page.locator('.pgroup', { hasText: 'Calm strength' }).locator('[data-open-prog="slow-burn"]')).toHaveCount(1);
   expect(await app.sidewaysScroll()).toBe(0);
 });
 
@@ -101,6 +103,47 @@ test('a Strength & stretch day opens: a lift to tick, then a flow to start', asy
   await pip.click();
   await expect(pip).toHaveAttribute('aria-pressed', 'true');
   await app.page.locator('[data-run="1"]').click();
+  await expect(app.page.locator('#tlabel')).not.toHaveText('');
+  await app.page.clock.runFor(5000);
+  await expect(app.page.locator('#tfig svg.fig')).toBeVisible();
+  expect(await app.sidewaysScroll()).toBe(0);
+});
+
+test('a Balanced week day opens: a superset to tick, then a Tabata with its own Start', async ({ app }) => {
+  await app.page.clock.install();
+  await app.open('#programs');
+  await family(app).getByRole('button', { name: 'Mixed' }).click();
+  await app.page.locator('[data-open-prog="three-in-one"]').click();
+  await app.go('#p-three-in-one-d1');
+  const d = await app.data(() => { const d = programs.day('three-in-one', 1); return { formats: d.blocks.map((b) => b.format), families: d.blocks.map((b) => b.family) }; });
+  expect(d.formats).toEqual(['superset', 'tabata', 'flow']);
+  expect(d.families).toEqual(['Strength', 'Cardio & combat', 'Mind & body']);
+  await expect(app.page.locator('.block .fmt')).toHaveText(['Supersets', 'Tabata', 'Guided flow']);
+  const pair = app.page.locator('[data-rpip="0:0:1"]'); // the first pair's first round
+  await pair.click();
+  await expect(pair).toHaveAttribute('aria-pressed', 'true');
+  await expect(app.page.locator('#tlabel')).toHaveText(/^Rest · pair A, round 2 of \d next$/);
+  await app.page.locator('[data-run="1"]').click(); // the Tabata's own Start
+  await expect(app.page.locator('#tlabel')).toContainText('Get ready');
+  await app.page.clock.runFor(6000);
+  await expect(app.page.locator('#tlabel')).not.toContainText('Get ready'); // the first work interval is running
+  expect(await app.sidewaysScroll()).toBe(0);
+});
+
+test('a Calm strength day opens: a Pilates flow, slow strength to tick, and a yin flow to start', async ({ app }) => {
+  await app.page.clock.install();
+  await app.open('#programs');
+  await family(app).getByRole('button', { name: 'Mixed' }).click();
+  await app.page.locator('[data-open-prog="slow-burn"]').click();
+  await app.go('#p-slow-burn-d1');
+  const d = await app.data(() => { const d = programs.day('slow-burn', 1); return { formats: d.blocks.map((b) => b.format), abs: d.blocks.some((b) => b.kind === 'abs'), first: KBEx.EX[d.blocks[1].items[0].ex].name }; });
+  expect(d.formats).toEqual(['flow', 'straight', 'flow']);
+  expect(d.abs).toBe(false);
+  await expect(app.page.locator('.block .fmt')).toHaveText(['Guided flow', 'Guided flow']);
+  const pip = app.page.getByRole('button', { name: `Set 1 of ${d.first} done` });
+  await pip.click();
+  await expect(pip).toHaveAttribute('aria-pressed', 'true');
+  await app.page.locator('[data-run="2"]').click();
   await expect(app.page.locator('#tlabel')).not.toHaveText('');
   await app.page.clock.runFor(5000);
   await expect(app.page.locator('#tfig svg.fig')).toBeVisible();

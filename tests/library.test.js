@@ -32,6 +32,8 @@ const SUBJECTS = {
   'Strength & stretch': { count: 6, abs: undefined, formats: ['straight', 'superset', 'flow'] },
   Fighter: { count: 6, abs: undefined, formats: ['bouts', 'straight', 'superset', 'circuit', 'emom', 'amrap', 'tabata', 'flow'] },
   Athlete: { count: 6, abs: undefined, formats: ['straight', 'superset', 'circuit'] },
+  'Balanced week': { count: 6, abs: undefined, formats: ['straight', 'superset', 'circuit', 'emom', 'amrap', 'tabata', 'ladder', 'bouts', 'flow'] },
+  'Calm strength': { count: 6, abs: undefined, formats: ['straight', 'superset', 'circuit', 'flow'] },
 };
 
 for (const [subject, want] of Object.entries(SUBJECTS)) {
@@ -116,9 +118,9 @@ test('the core programs opt in to the new catalogue (catalogue: 5): their abs fi
   assert.ok(optIn.some((p) => p.days.some((d) => d.blocks.at(-1).items.some((it) => fresh.has(it.ex)))));
 });
 
-test('the library: 116 programs in 21 subjects', () => {
-  assert.equal(programs.length, 116);
-  assert.equal(new Set(programs.map((p) => p.subject)).size, 21);
+test('the library: 128 programs in 23 subjects', () => {
+  assert.equal(programs.length, 128);
+  assert.equal(new Set(programs.map((p) => p.subject)).size, 23);
 });
 
 // ---------- Mixed: Strength & stretch (Phase 6 ticket 1) ----------
@@ -184,7 +186,14 @@ const athlete = programs.filter((p) => p.subject === 'Athlete');
 const mainOf = (d) => d.blocks.filter((b) => b.kind === 'main');
 const familiesOf = (d) => [...new Set(mainOf(d).map((b) => b.family))];
 
-for (const [subject, list, ids] of [['Fighter', fighter, FIGHTER], ['Athlete', athlete, ATHLETE]]) {
+// ---------- Mixed: Balanced week and Calm strength (Phase 6 ticket 3) ----------
+const BALANCED = ['three-in-one', 'everyday-athlete', 'balanced-30', 'whole-body-week', 'lift-sweat-stretch', 'the-generalist'];
+const CALM = ['slow-burn', 'steady-strength', 'pilates-and-iron', 'yin-and-yang', 'quiet-power', 'control'];
+const balanced = programs.filter((p) => p.subject === 'Balanced week');
+const calm = programs.filter((p) => p.subject === 'Calm strength');
+
+// (which kinds of day a subject has: abs at the end or not)
+for (const [subject, list, ids, kinds] of [['Fighter', fighter, FIGHTER, [false, true]], ['Athlete', athlete, ATHLETE, [false, true]], ['Balanced week', balanced, BALANCED, [false, true]], ['Calm strength', calm, CALM, [false]]]) {
   test(`${subject}: the six programs, in order, are Mixed, added: 6, on the whole catalogue, with 20 distinct day names`, () => {
     assert.deepEqual(list.map((p) => p.id), ids);
     list.forEach((p) => {
@@ -206,7 +215,7 @@ for (const [subject, list, ids] of [['Fighter', fighter, FIGHTER], ['Athlete', a
       if (d.blocks.at(-1).format === 'flow') assert.ok(!absOf(cfg, d.type), `${p.id} d${d.day}: a flow day has no abs`);
       seen.add(absOf(cfg, d.type));
     }));
-    assert.deepEqual([...seen].sort(), [false, true], 'both kinds of day exist in the subject');
+    assert.deepEqual([...seen].sort(), kinds, 'the kinds of day the subject has');
   });
 }
 
@@ -257,4 +266,47 @@ test('Athlete: every day is a plyometrics block first, then strength and balance
   });
   const bw = athlete.filter((p) => p.equip === 'bw').length;
   assert.ok(bw >= 1 && bw < 6, 'some Athlete programs need no gear, some use dumbbells or a bell');
+});
+
+test('Balanced week: every day has a block from each of the three families, and the subject mixes formats and gear', () => {
+  balanced.forEach((p) => p.days.forEach((d) => {
+    assert.deepEqual(familiesOf(d).sort(), ['Cardio & combat', 'Mind & body', 'Strength'], `${p.id} d${d.day}`);
+    const main = mainOf(d);
+    assert.ok(main.length >= 3 && main.length <= 4, `${p.id} d${d.day}: ${main.length} blocks`);
+    assert.ok(main.filter((b) => b.family === 'Mind & body').every((b) => ['flow', 'circuit'].includes(b.format)), `${p.id} d${d.day}`);
+  }));
+  const formats = new Set(balanced.flatMap((p) => p.formats));
+  ['superset', 'tabata', 'flow', 'bouts', 'amrap', 'emom'].forEach((f) => assert.ok(formats.has(f), f));
+  assert.ok(balanced.some((p) => p.equip === 'bw') && balanced.some((p) => p.equip === 'kb') && balanced.some((p) => p.equip === 'all'), 'no gear, one bell and full gear');
+  balanced.forEach((p) => {
+    assert.ok(['weight', 'reps'].includes(cfgOf[p.id].levers[1]) && ['weight', 'reps'].includes(cfgOf[p.id].levers[2]), p.id);
+    Object.values(cfgOf[p.id].dayTypes).forEach((t) => t.blocks.filter((b) => b.f === 'flow').forEach((b) => assert.deepEqual(b.lever, [null, 'holds', 'holds'], p.id)));
+  });
+});
+
+test('Calm strength: a Pilates or core block, slow-tempo strength and a long-hold yin flow to finish, on every day', () => {
+  const YIN = new Set(['ygYinHips', 'ygYinSpine'].flatMap((n) => POOLS[n]));
+  const CALM_MIND = new Set(['plAbs', 'plRoll', 'plBack', 'plSide', 'plGlute', 'core2', 'coreAnti', 'coreRot', 'coreHollow', 'core'].flatMap((n) => POOLS[n] || []).concat(Object.keys(EX).filter((id) => EX[id].cat === 'pilates')));
+  calm.forEach((p) => {
+    const cfg = cfgOf[p.id];
+    assert.ok(cfg.levers.slice(1).includes('tempo'), `${p.id}: the tempo lever`);
+    let slow = 0;
+    p.days.forEach((d) => {
+      const main = mainOf(d), last = main.at(-1);
+      assert.equal(last.format, 'flow', `${p.id} d${d.day}: a yin finish`);
+      assert.ok(last.items.length >= 3 && last.items.every((it) => YIN.has(it.ex) && it.n >= 90), `${p.id} d${d.day}: yin holds ${last.items.map((i) => i.n)}`);
+      const strength = main.filter((b) => b.family === 'Strength');
+      assert.ok(strength.length >= 1 && strength.every((b) => b.format === 'straight' || b.format === 'superset'), `${p.id} d${d.day}`);
+      const calmBlocks = main.filter((b) => b !== last && b.family === 'Mind & body');
+      assert.equal(calmBlocks.length, 1, `${p.id} d${d.day}: one Pilates or core block`);
+      assert.ok(calmBlocks[0].items.every((it) => CALM_MIND.has(it.ex)), `${p.id} d${d.day}: ${calmBlocks[0].items.map((i) => i.ex)}`);
+      const tempoItems = strength.flatMap((b) => b.items).filter((it) => it.tempo);
+      if (d.level === 1) assert.equal(tempoItems.length, 0, `${p.id} d${d.day}: Level I has no slow tempo`);
+      slow += tempoItems.length;
+    });
+    assert.ok(slow > 0, `${p.id}: some slow-tempo reps at Level II or III`);
+    p.days.filter((d) => d.level === 3).forEach((d) => assert.ok(mainOf(d).at(-1).items.every((it) => it.n >= EX[it.ex].r[2]), `${p.id} d${d.day}`));
+  });
+  assert.ok(calm.some((p) => p.days.some((d) => mainOf(d).some((b) => b.items.some((it) => EX[it.ex].cat === 'pilates')))), 'Pilates appears');
+  assert.ok(calm.some((p) => p.equip === 'bw') && calm.some((p) => p.equip === 'kb') && calm.some((p) => p.equip === 'all'), 'no gear, one bell and full gear');
 });

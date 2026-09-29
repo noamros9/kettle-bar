@@ -3,15 +3,16 @@
 A home workout app in the style of a printable program: a 60-day plan with
 illustrated exercises, checkmarks for finished days and a rest timer.
 
-**116 programs, 60 days each**, in 21 subjects and four families (pick one at the top of the Programs page):
+**128 programs, 60 days each**, in 23 subjects and four families (pick one at the top of the Programs page):
 - **Strength:** five signature splits (Three-Split 60 and friends), and six programs each for strength, pull-ups,
   legs & glutes, kettlebell only, bodyweight/travel and busy weeks.
 - **Cardio & combat:** conditioning (6), HIIT, plyometrics, boxing and kickboxing (5 each).
 - **Mind & body:** core & abs (6), mobility & posture, yoga, Pilates, flexibility, and balance & stability (5 each).
 - **Mixed:** days that hold blocks from more than one family. Strength & stretch (6): a lift, then a yoga or
   flexibility flow. Fighter (6): boxing or kickboxing bouts, then strength or conditioning and a short mobility flow.
-  Athlete (6): jump, lift, stick, with plyometrics first on long rests. Each block gets harder in its own way.
-  More Mixed subjects follow.
+  Athlete (6): jump, lift, stick, with plyometrics first on long rests. Balanced week (6): a block from each
+  family every day, such as a superset, a Tabata and a short flow. Calm strength (6): Pilates or core, slow-tempo
+  strength and a yin finish. Each block gets harder in its own way.
 
 Formats include straight sets, supersets, circuits, EMOMs, AMRAPs, Tabatas and ladders, **guided flows** (yoga,
 Pilates, stretching: one Start runs every pose, and the voice names each one) and **bouts** (boxing and
