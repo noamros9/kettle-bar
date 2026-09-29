@@ -163,7 +163,7 @@ function viewProgram() {
 
 /* ---------------- workout page ---------------- */
 // one Workout Session per open day (kept while you look at exercise pages and come back)
-const fmtFormat = KBSession.FORMAT_NAMES;
+const fmtFormat = KBFormats.NAMES;
 function noteChip(it) { return it.note ? `<span class="notechip">${esc(it.note)}</span>` : ''; }
 // Swap and Undo on a workout card; D is the open Day (see app/day.js)
 function swapButton(D, bi, i) {
@@ -196,52 +196,71 @@ function runButton(bi, st, text) { return `<button class="runbtn${st.done ? ' do
 function counter(bi, n, what) {
   return `<div class="counter" role="group" aria-label="${what}"><button data-count="${bi}:-1" aria-label="One fewer">−</button><span class="num"><b>${n}</b> ${what.toLowerCase()}</span><button data-count="${bi}:1" aria-label="One more">+</button></div>`;
 }
+// how each format looks on the workout page: { desc, body, side } (the words, the exercise cards, the Start button / counter)
+const clockText = (secs) => `${Math.floor(secs / 60)}:${String(secs % 60).padStart(2, '0')}`;
+const BLOCK_VIEWS = {
+  straight: ({ b, R, st, ses, card }) => {
+    const sets = [...new Set(b.items.map((it) => ses.itemSets(b, it)))];
+    return {
+      desc: `${b.items.length} exercises · ${sets.join('/')} sets each · ${R.set} s between sets · ${R.exercise / 60} min between exercises`,
+      body: `<div class="exgrid">${b.items.map((it, i) => card(it, i, { block: b, state: st, session: ses })).join('')}</div>`,
+      side: '',
+    };
+  },
+  superset: ({ b, bi, R, st, ses, card }) => ({
+    desc: `Pairs: do the two back to back, then rest ${R.superset} s · ${b.sets} rounds per pair · ${R.exercise / 60} min between pairs`,
+    body: Array.from({ length: ses.pairsOf(b) }, (_, pi) => b.items.slice(pi * 2, pi * 2 + 2)).map((pair, pi) => `<div class="pair"><div class="pairhead"><b>Pair ${LETTERS[pi]}</b>${roundPips(bi + ':' + pi, b.sets, st.sets[pi], 'Rounds')}</div>
+      <div class="exgrid">${pair.map((it, j) => card(it, pi * 2 + j, { label: `${LETTERS[pi]}${j + 1}` })).join('')}</div></div>`).join(''),
+    side: '',
+  }),
+  circuit: ({ b, bi, R, st, card }) => ({
+    desc: `One after another with no rest · ${b.rounds} rounds · ${R.round / 60} min rest between rounds`,
+    body: `<div class="exgrid">${b.items.map((it, i) => card(it, i)).join('')}</div>`,
+    side: roundPips(bi, b.rounds, st.rounds, 'Rounds'),
+  }),
+  emom: ({ b, bi, st, card, perUnit }) => ({
+    desc: `Every minute on the minute for ${b.minutes} min: do the reps, rest until the next minute. The exercise changes each minute.`,
+    body: `<div class="exgrid">${b.items.map((it, i) => card(it, i, { label: `Min ${i + 1}, ${i + 1 + b.items.length}…`, count: perUnit(it, 'per minute') })).join('')}</div>`,
+    side: runButton(bi, st, `EMOM · ${b.minutes} min`),
+  }),
+  amrap: ({ b, bi, st, card, perUnit }) => ({
+    desc: `As many rounds as possible in ${b.minutes} min, moving steadily. Tap + after each round.`,
+    body: `<div class="exgrid">${b.items.map((it, i) => card(it, i, { count: perUnit(it, 'per round') })).join('')}</div>`,
+    side: runButton(bi, st, `AMRAP · ${b.minutes} min`) + counter(bi, st.count, 'Rounds'),
+  }),
+  tabata: ({ b, bi, st, card }) => ({
+    desc: `${b.tabatas} × 4 min: 20 s as hard as you can, 10 s rest, 8 rounds, exercises rotate. 1 min between Tabatas. The timer runs it all.`,
+    body: `<div class="exgrid">${b.items.map((it, i) => card(it, i, { count: '<b class="num">20</b><span>sec hard, 10 sec rest</span>' })).join('')}</div>`,
+    side: runButton(bi, st, `Tabata · ${b.tabatas * 4} min`),
+  }),
+  flow: ({ b, bi, R, st, card }) => {
+    const passes = b.repeat > 1 ? `, ${b.repeat === 2 ? 'twice' : 'three times'} through` : '';
+    return {
+      desc: `A guided sequence of ${b.items.length} poses${passes}. One Start runs it all: the voice names each pose and side, with 5 s to move into it.`,
+      body: `<div class="exgrid">${b.items.map((it, i) => card(it, i)).join('')}</div>`,
+      side: runButton(bi, st, `flow · ${clockText(KBFormats.of(b).time(b, R, EX))}`),
+    };
+  },
+  bouts: ({ b, bi, R, st, card }) => {
+    const mins = Math.round(b.items[0].n / 60);
+    return {
+      desc: `${b.items.length} bouts of ${mins} min, ${(b.rest || 60) / 60} min rest between. One Start runs them all: the voice calls each bout's combo, and you drill it until the bell.`,
+      body: `<div class="exgrid">${b.items.map((it, i) => card(it, i, { label: `Bout ${i + 1}`, count: `<b class="num">${mins}</b><span>min bout</span>` })).join('')}</div>`,
+      side: runButton(bi, st, `bouts · ${clockText(KBFormats.of(b).time(b, R, EX))}`),
+    };
+  },
+  ladder: ({ b, bi, st, card }) => ({
+    desc: `${b.minutes} min: 1 rep of each exercise, then 2, then 3… keep climbing until time runs out. Tap + after each rung.`,
+    body: `<div class="exgrid">${b.items.map((it, i) => card(it, i, { count: `<b class="num">1→</b><span>${EX[it.ex].side ? 'reps each side, ' : 'reps, '}+1 each rung</span>` })).join('')}</div>`,
+    side: runButton(bi, st, `Ladder · ${b.minutes} min`) + counter(bi, st.count, 'Rungs'),
+  }),
+};
 function blockHTML(p, w, b, bi, ses, D) {
   const card = (it, i, o = {}) => exCard(it, i, bi, { ...o, D });
   const R = ses.rests, st = ses.state(bi), f = b.format || 'straight';
   const letter = b.kind === 'abs' ? 'Abs' : String(bi + 1);
   const perUnit = (it, what) => `<b class="num">${it.n}</b><span>${EX[it.ex].u === 'sec' ? 'sec' : 'reps'} ${what}${what === 'per minute' && EX[it.ex].side && EX[it.ex].u !== 'sec' ? ', each side' : ''}</span>`;
-  let desc = '', body = '', side = '';
-  if (f === 'straight') {
-    const sets = [...new Set(b.items.map((it) => ses.itemSets(b, it)))];
-    desc = `${b.items.length} exercises · ${sets.join('/')} sets each · ${R.set} s between sets · ${R.exercise / 60} min between exercises`;
-    body = `<div class="exgrid">${b.items.map((it, i) => card(it, i, { block: b, state: st, session: ses })).join('')}</div>`;
-  } else if (f === 'superset') {
-    desc = `Pairs: do the two back to back, then rest ${R.superset} s · ${b.sets} rounds per pair · ${R.exercise / 60} min between pairs`;
-    body = Array.from({ length: ses.pairsOf(b) }, (_, pi) => b.items.slice(pi * 2, pi * 2 + 2)).map((pair, pi) => `<div class="pair"><div class="pairhead"><b>Pair ${LETTERS[pi]}</b>${roundPips(bi + ':' + pi, b.sets, st.sets[pi], 'Rounds')}</div>
-      <div class="exgrid">${pair.map((it, j) => card(it, pi * 2 + j, { label: `${LETTERS[pi]}${j + 1}` })).join('')}</div></div>`).join('');
-  } else if (f === 'circuit') {
-    desc = `One after another with no rest · ${b.rounds} rounds · ${R.round / 60} min rest between rounds`;
-    side = roundPips(bi, b.rounds, st.rounds, 'Rounds');
-    body = `<div class="exgrid">${b.items.map((it, i) => card(it, i)).join('')}</div>`;
-  } else if (f === 'emom') {
-    desc = `Every minute on the minute for ${b.minutes} min: do the reps, rest until the next minute. The exercise changes each minute.`;
-    side = runButton(bi, st, `EMOM · ${b.minutes} min`);
-    body = `<div class="exgrid">${b.items.map((it, i) => card(it, i, { label: `Min ${i + 1}, ${i + 1 + b.items.length}…`, count: perUnit(it, 'per minute') })).join('')}</div>`;
-  } else if (f === 'amrap') {
-    desc = `As many rounds as possible in ${b.minutes} min, moving steadily. Tap + after each round.`;
-    side = runButton(bi, st, `AMRAP · ${b.minutes} min`) + counter(bi, st.count, 'Rounds');
-    body = `<div class="exgrid">${b.items.map((it, i) => card(it, i, { count: perUnit(it, 'per round') })).join('')}</div>`;
-  } else if (f === 'tabata') {
-    desc = `${b.tabatas} × 4 min: 20 s as hard as you can, 10 s rest, 8 rounds, exercises rotate. 1 min between Tabatas. The timer runs it all.`;
-    side = runButton(bi, st, `Tabata · ${b.tabatas * 4} min`);
-    body = `<div class="exgrid">${b.items.map((it, i) => card(it, i, { count: '<b class="num">20</b><span>sec hard, 10 sec rest</span>' })).join('')}</div>`;
-  } else if (f === 'flow') {
-    const secs = b.repeat * b.items.reduce((s, it) => { const e = EX[it.ex]; return s + (e.side ? 2 : 1) * (5 + (e.u === 'sec' ? it.n : it.n * e.tp)); }, 0);
-    const passes = b.repeat > 1 ? `, ${b.repeat === 2 ? 'twice' : 'three times'} through` : '';
-    desc = `A guided sequence of ${b.items.length} poses${passes}. One Start runs it all: the voice names each pose and side, with 5 s to move into it.`;
-    side = runButton(bi, st, `flow · ${Math.floor(secs / 60)}:${String(secs % 60).padStart(2, '0')}`);
-    body = `<div class="exgrid">${b.items.map((it, i) => card(it, i)).join('')}</div>`;
-  } else if (f === 'bouts') {
-    const secs = b.items.reduce((s, it) => s + it.n, 0) + (b.items.length - 1) * (b.rest || 60), mins = Math.round(b.items[0].n / 60);
-    desc = `${b.items.length} bouts of ${mins} min, ${(b.rest || 60) / 60} min rest between. One Start runs them all: the voice calls each bout's combo, and you drill it until the bell.`;
-    side = runButton(bi, st, `bouts · ${Math.floor(secs / 60)}:${String(secs % 60).padStart(2, '0')}`);
-    body = `<div class="exgrid">${b.items.map((it, i) => card(it, i, { label: `Bout ${i + 1}`, count: `<b class="num">${mins}</b><span>min bout</span>` })).join('')}</div>`;
-  } else if (f === 'ladder') {
-    desc = `${b.minutes} min: 1 rep of each exercise, then 2, then 3… keep climbing until time runs out. Tap + after each rung.`;
-    side = runButton(bi, st, `Ladder · ${b.minutes} min`) + counter(bi, st.count, 'Rungs');
-    body = `<div class="exgrid">${b.items.map((it, i) => card(it, i, { count: `<b class="num">1→</b><span>${EX[it.ex].side ? 'reps each side, ' : 'reps, '}+1 each rung</span>` })).join('')}</div>`;
-  }
+  const { desc, body, side } = BLOCK_VIEWS[f]({ b, bi, R, st, ses, card, perUnit });
   const next = w.blocks[bi + 1];
   const gap = next ? `<div class="between">Rest ${next.kind === 'abs' ? R.beforeAbs / 60 + ' min, then abs' : R.block / 60 + ' min, then ' + esc(next.title.toLowerCase())}</div>` : '';
   return `<section class="block" aria-labelledby="b${bi}">

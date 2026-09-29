@@ -15,11 +15,10 @@
    Plan phases: { sec, label, sub, end: 'short'|'long', work?, say?, halfway?, sayEnd?, fig? }. Voice cues, for holds,
    sides, the poses of a guided flow and the combo of each bout: say when the phase starts, "Halfway" in the middle, sayEnd when it ends.
    fig: the exercise whose drawing the clock shows (guided flows). */
-(function (root) {
+(function (root, Formats) {
   const DEFAULT_RESTS = { set: 30, exercise: 60, beforeAbs: 120, superset: 45, round: 60, block: 60 };
   const LETTERS = 'ABCDEF';
-  const FORMAT_NAMES = { straight: 'Straight sets', superset: 'Supersets', circuit: 'Circuits', emom: 'EMOM', amrap: 'AMRAP', tabata: 'Tabata', ladder: 'Ladders', flow: 'Guided flow', bouts: 'Bouts' };
-  const TRANSITION = 5; // seconds to move into each pose of a flow (the Program Builder counts the same)
+  const { TRANSITION, NAMES } = Formats; // the names of the formats and the seconds to move into each pose of a flow (formats.js)
 
   function unitText(e) {
     if (e.u === 'sec') return e.side ? 'sec each side' : 'seconds';
@@ -170,7 +169,8 @@
         const b = blocks[t.bi], f = fmt(b);
         if (f === 'flow') return { phases: flowPhases(b), then: { type: 'block', bi: t.bi } };
         if (f === 'bouts') return { phases: boutPhases(b), then: { type: 'block', bi: t.bi } };
-        const phases = [{ sec: 3, label: `Get ready · ${b.title}`, sub: FORMAT_NAMES[f], end: 'short' }];
+        if (!Formats.of(b).timed) return null;
+        const phases = [{ sec: 3, label: `Get ready · ${b.title}`, sub: NAMES[f], end: 'short' }];
         if (f === 'emom') {
           for (let m = 1; m <= b.minutes; m++) {
             const it = b.items[(m - 1) % b.items.length], e = EX[it.ex];
@@ -186,9 +186,9 @@
             if (tb < b.tabatas - 1) phases.push({ sec: R.block, label: 'Rest · next Tabata', sub: `${b.tabatas - tb - 1} to go`, end: 'short' });
           }
           phases[phases.length - 1].end = 'long';
-        } else if (f === 'amrap' || f === 'ladder') {
+        } else {
           phases.push({ sec: b.minutes * 60, label: f === 'amrap' ? `AMRAP · ${b.items.map(nm).join(' → ')}` : `Ladder · ${b.items.map(nm).join(' + ')}`, sub: f === 'amrap' ? 'Tap + after each round' : '1 rep, then 2, then 3… tap + after each rung', end: 'long', work: 1 });
-        } else return null;
+        }
         return { phases, then: { type: 'block', bi: t.bi } };
       }
       return null;
@@ -205,7 +205,7 @@
     };
   }
 
-  const api = { createSession, unitText, FORMAT_NAMES, DEFAULT_RESTS };
+  const api = { createSession, unitText, DEFAULT_RESTS };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBSession = api;
-})(typeof window !== 'undefined' ? window : globalThis);
+})(typeof window !== 'undefined' ? window : globalThis, typeof module !== 'undefined' && module.exports ? require('../formats.js') : window.KBFormats);

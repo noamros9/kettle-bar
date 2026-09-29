@@ -82,10 +82,11 @@ test('an unknown format has no time', () => {
   assert.throws(() => timing.blockTime({ format: 'yoga', items: [] }), /format yoga/);
 });
 
-test('the builder runs without Node: build(config, catalogue) in a sandbox with no require or fs', () => {
+test('the builder runs without Node: build(config, catalogue) in a sandbox with no require or fs, after formats.js', () => {
   const vm = require('vm');
   const src = fs.readFileSync(path.join(__dirname, '../program-builder.js'), 'utf8');
   const sandbox = { window: {} };
+  vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../formats.js'), 'utf8'), sandbox); // the page loads formats.js first
   vm.runInNewContext(src, sandbox);
   const cat = require('../exercises.js');
   const cfg = CONFIGS.find((c) => c.id === 'iron-ppl');

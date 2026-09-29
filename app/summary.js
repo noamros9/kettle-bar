@@ -2,26 +2,11 @@
      daySummary(day, program, { EX, MUSCLE_NAMES }) -> [shape, emphasis]
    Line 1, the shape: focus and what the day is made of ("Chest & back: 5 exercises in straight sets, then abs.").
    Line 2, the emphasis: the muscles worked most (weighted as in stats), what this level changes, and swaps. */
-(function (root, Stats) {
-  const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
+(function (root, Stats, Formats) {
+  const { plural } = Formats;
   const listText = (xs) => (xs.length > 1 ? `${xs.slice(0, -1).join(', ')} and ${xs[xs.length - 1]}` : xs[0]);
-  const article = (n) => (/^(8|11|18)\b/.test(String(n)) ? 'an' : 'a');
 
-  function blockText(b) {
-    const n = plural(b.items.length, 'exercise');
-    switch (b.format || 'straight') {
-      case 'superset': return `${n} as supersets`;
-      case 'circuit': return `${article(b.rounds)} ${b.rounds}-round circuit of ${n}`;
-      case 'emom': return `${article(b.minutes)} ${b.minutes}-minute EMOM`;
-      case 'amrap': return `${article(b.minutes)} ${b.minutes}-minute AMRAP`;
-      case 'tabata': return plural(b.tabatas, 'Tabata');
-      case 'ladder': return `${article(b.minutes)} ${b.minutes}-minute ladder`;
-      case 'bouts': return plural(b.items.length, 'bout');
-      case 'flow': // a one-pose flow (sun salutations) is named by its title
-        return `${b.items.length === 1 ? b.title.toLowerCase() : `${article(b.items.length)} ${b.items.length}-pose flow`}${['', '', ' done twice', ' done three times'][b.repeat] || ''}`;
-      default: return `${n} in straight sets`;
-    }
-  }
+  const blockText = (b) => Formats.of(b).summary(b);
 
   function daySummary(day, program, { EX, MUSCLE_NAMES }) {
     const type = program.dayTypes[day.type], focus = type ? type.label : day.title;
@@ -39,4 +24,4 @@
   const api = { daySummary };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBSummary = api;
-})(typeof window !== 'undefined' ? window : globalThis, typeof module !== 'undefined' && module.exports ? require('./stats.js') : window.KBStats);
+})(typeof window !== 'undefined' ? window : globalThis, typeof module !== 'undefined' && module.exports ? require('./stats.js') : window.KBStats, typeof module !== 'undefined' && module.exports ? require('../formats.js') : window.KBFormats);

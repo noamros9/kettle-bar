@@ -51,7 +51,9 @@ block** (no bar, 3 sets, weights allowed), except in programs whose session is c
 yoga, Pilates, flexibility, mobility & posture).
 
 **Format**: how a block is performed: *straight sets*, *superset*, *circuit*, *EMOM*, *AMRAP*, *Tabata*,
-*ladder*, *guided flow*, *bouts*.
+*ladder*, *guided flow*, *bouts*. Every rule that depends on the format (its time, the choices the builder has,
+its sets for stats, its words in a summary, its name, whether it runs from one Start) is one entry in `formats.js`;
+the timer's phases for a format stay in the Workout Session.
 
 **Guided flow** (`flow`): a sequence of **Poses** on the clock, run by one Start. Each pose (and each side) gets 5 s
 to move into it while the voice names it, then its hold; a pose written in reps lasts reps × seconds per rep. A flow

@@ -1,6 +1,6 @@
 /* Kettle & Bar exercise catalogue: every exercise and stretch with its poses, reps per level, muscles,
    cue and suggested load. Data only; drawing lives in figures.js. */
-(function (root) {
+(function (root, Formats) {
   /* ---------- Pose building blocks (profile view faces right, hip at 0,0, y down) ---------- */
   const P = (base, over) => Object.assign({}, base, over);
   const STAND = { t: [0, -34], hn: [3, -1], hf: [1, -1], fn: [2, 41], ff: [-2, 41] };
@@ -686,10 +686,10 @@
   const allowedIn = (equip, e) => EQUIP[equip || 'all'](e);
   // reps inside a timed format are a fraction of the straight-set number
   function scaleReps(e, n, format) {
-    if (format === 'emom' || format === 'amrap') return e.u === 'sec' ? Math.min(n, 30) : Math.max(3, Math.round(n * 0.5));
+    if (Formats.of({ format }).halveReps) return e.u === 'sec' ? Math.min(n, 30) : Math.max(3, Math.round(n * 0.5));
     return n;
   }
   const api = { EX, LOAD, MUSCLE_NAMES, normalize, allowedIn, scaleReps };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBEx = api;
-})(typeof window !== 'undefined' ? window : globalThis);
+})(typeof window !== 'undefined' ? window : globalThis, typeof module !== 'undefined' && module.exports ? require('./formats.js') : window.KBFormats);

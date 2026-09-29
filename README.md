@@ -63,6 +63,7 @@ days ticked on the device and in the cloud are merged.
 
 | File | What it is |
 |---|---|
+| `formats.js` | **Formats**: one table for the nine formats (straight sets … bouts): time, options, sets, summary words, name, and the flags the builder and session read (`timed`, `tempo`, …). Pure, inlined in the page before `exercises.js` |
 | `exercises.js` | **Exercise Catalogue**: every exercise and stretch with poses, reps per level (as used), muscles, cues, loads |
 | `figures.js` | **Figure engine**: draws the stick figures and the front/back muscle map from poses |
 | `programs.config.js` | The program list: joins the family files in `configs/` in the order of its `ORDER` id list (Phase 6 adds `configs/mixed.js`) |
