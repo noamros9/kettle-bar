@@ -406,13 +406,25 @@ function importReview(st) {
     if (removed.length) parts.push(`−${plural(removed.length, 'day')} (${KBBackup.dayRanges(removed)})`);
     return `<li>${esc(programs.summary(pid).name)}: ${parts.join(' · ')}</li>`;
   };
+  // own programs and random workouts: +added · −only Replace would remove · changed
+  const DOC_TITLE = { programs: 'Own programs', random: 'Random workouts' };
+  const docLine = (c) => {
+    const d = st.docDiff[c], names = (l) => l.map((x) => esc(x.name)).join(', ');
+    const parts = [];
+    if (d.added.length) parts.push(`+${d.added.length} (${names(d.added)})`);
+    if (d.removed.length) parts.push(`−${d.removed.length} (${names(d.removed)})`);
+    if (d.changed.length) parts.push(`${d.changed.length} changed (${names(d.changed)})`);
+    return parts.length ? `<li>${DOC_TITLE[c]}: ${parts.join(' · ')}</li>` : '';
+  };
+  const docLines = ['programs', 'random'].map(docLine).join('');
+  const prefsLine = st.prefsNote ? `<p class="muted">Preferences: the file has ${st.prefsNote.mine ? 'different ones from yours. Merge keeps yours; Replace uses the file\'s' : 'some and this device has none. Merge and Replace both use the file\'s'}.</p>` : '';
   const swapLine = st.swapNotes.length ? `<p class="muted">Swaps: ${st.swapNotes.map((x) => `${esc(programs.summary(x.pid).name)} has ${x.file} in the file (you have ${x.mine})`).join('; ')}. Merge keeps both; Replace uses the file's.</p>` : '';
   const roundLine = st.roundNotes.length ? `<p class="muted">Rounds: ${st.roundNotes.map((x) => `${esc(programs.summary(x.pid).name)} is on Round ${x.file} in the file (you're on Round ${x.mine})`).join('; ')}. Merge keeps whichever is further along.</p>` : '';
   const skipped = st.unknown.length ? `<p class="muted">Skipped ${plural(st.unknown.length, 'program')} this app doesn't have: ${st.unknown.map(esc).join(', ')}</p>` : '';
   const body = st.hasChanges
-    ? `<ul class="difflist">${ids.map(line).join('')}</ul>${swapLine}${roundLine}${skipped}
+    ? `<ul class="difflist">${ids.map(line).join('')}${docLines}</ul>${swapLine}${roundLine}${prefsLine}${skipped}
       <p class="muted">Merge keeps every day from both. Replace makes each program in the file match it exactly${remove ? ', so the days marked − are removed' : ''}.</p>
-      <div class="actions">${add || st.swapNotes.length || st.roundNotes.length ? `<button class="btn" data-backup="merge">Merge${add ? `: add ${plural(add, 'day')}` : ''}</button>` : ''}
+      <div class="actions">${st.canMerge ? `<button class="btn" data-backup="merge">Merge${add ? `: add ${plural(add, 'day')}` : ''}</button>` : ''}
         <button class="btn ghost" data-backup="replace">Replace: add ${add}, remove ${remove}</button>
         <button class="btn ghost" data-backup="cancel">Cancel</button></div>`
     : `<p>This backup matches your progress. Nothing to import.</p>${skipped}<div class="actions"><button class="btn ghost" data-backup="cancel">Close</button></div>`;

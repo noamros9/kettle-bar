@@ -9,8 +9,8 @@ const make = (opts = {}) => { const s = createStore({ programIds: ['p', 'q'], st
 // a remote whose writes fail with the given codes, in order, then succeed
 const flaky = (...codes) => {
   const writes = [];
-  return { writes, kind: 'flaky', subscribe: (pid, onData) => { onData({}); return () => {}; },
-    async write(pid, body) { writes.push(body); const c = codes.shift(); if (c !== undefined) { if (c === null) throw null; const e = new Error(c); e.code = c; throw e; } } };
+  return { writes, kind: 'flaky', subscribe: (col, pid, onData) => { onData({}); return () => {}; },
+    async write(col, pid, body) { writes.push(body); const c = codes.shift(); if (c !== undefined) { if (c === null) throw null; const e = new Error(c); e.code = c; throw e; } } };
 };
 
 test('defaults: real clock, online, and a random retry delay', () => {
@@ -70,9 +70,9 @@ test('detach without an account goes back to device-only; a broken unsubscribe i
 test('later cloud snapshots replace the device copy, and an empty one clears it', async () => {
   const remote = createMemoryRemote({ p: { done: { 1: 'a' } } });
   const store = make(); store.attach(remote); await tick();
-  await remote.write('p', { done: { 2: 'b' } });
+  await remote.write('progress', 'p', { done: { 2: 'b' } });
   assert.deepEqual(store.days('p'), { 2: 'b' });
-  let push; const manual = { subscribe: (pid, onData) => { if (pid === 'p') push = onData; return () => {}; }, write: async () => {} };
+  let push; const manual = { subscribe: (col, pid, onData) => { if (pid === 'p') push = onData; return () => {}; }, write: async () => {} };
   store.attach(manual); push({ 3: 'c' }); push(null);
   assert.deepEqual(store.days('p'), {});
 });
@@ -80,7 +80,7 @@ test('later cloud snapshots replace the device copy, and an empty one clears it'
 test('a subscription error shows a sync problem', () => {
   const store = make();
   const warn = console.warn; console.warn = () => {};
-  store.attach({ subscribe: (pid, onData, onErr) => { onErr(new Error('boom')); return () => {}; }, write: async () => {} });
+  store.attach({ subscribe: (col, pid, onData, onErr) => { onErr(new Error('boom')); return () => {}; }, write: async () => {} });
   console.warn = warn;
   assert.equal(store.status, 'err');
 });
@@ -130,7 +130,7 @@ test('an invalid write is view-only; any other failure is a sync problem', async
 });
 
 test('a write that finishes after switching accounts does not claim ok for the new one', async () => {
-  let release; const slow = { subscribe: (pid, onData) => { onData({}); return () => {}; }, write: () => new Promise((r) => { release = r; }) };
+  let release; const slow = { subscribe: (col, pid, onData) => { onData({}); return () => {}; }, write: () => new Promise((r) => { release = r; }) };
   const store = make(); store.attach(slow); await tick();
   store.toggle('p', 1); await tick();
   store.attach(flaky()); store.detach();
@@ -147,11 +147,11 @@ test('listeners can unsubscribe', () => {
 
 test('memory remote: unsubscribe stops pushes; failWith rejects with that code', async () => {
   const remote = createMemoryRemote();
-  const got = []; const off = remote.subscribe('p', (d) => got.push(d)); await tick();
-  off(); await remote.write('p', { done: { 1: 'a' } });
+  const got = []; const off = remote.subscribe('progress', 'p', (d) => got.push(d)); await tick();
+  off(); await remote.write('progress', 'p', { done: { 1: 'a' } });
   assert.deepEqual(got, [null]);
-  await createMemoryRemote().write('p', { done: { 1: 'a' } }); // nobody listening: nothing to push to
-  await assert.rejects(createMemoryRemote({}, { failWith: 'unavailable' }).write('p', { done: {} }), { code: 'unavailable' });
+  await createMemoryRemote().write('progress', 'p', { done: { 1: 'a' } }); // nobody listening: nothing to push to
+  await assert.rejects(createMemoryRemote({}, { failWith: 'unavailable' }).write('progress', 'p', { done: {} }), { code: 'unavailable' });
 });
 
 
