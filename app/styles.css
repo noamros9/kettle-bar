@@ -197,10 +197,15 @@ main{padding-block:24px 64px}
 .filters{display:flex;gap:6px;flex-wrap:wrap;margin-top:14px}
 .fchip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 13px;font-size:14px;font-weight:600}
 .fchip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
-.filters.fam{flex-wrap:nowrap;gap:0;padding:3px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
-.filters.fam .fchip{flex:1 1 auto;min-width:0;border:0;background:transparent;border-radius:11px;padding:9px 5px;font-size:13px;white-space:nowrap}
-.filters.fam .fchip[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
-.filters.fam + .filters{margin-top:12px}
+.fchip .fcount{font-weight:500;color:var(--muted);margin-left:2px}
+.fchip.acc[aria-pressed="true"]{background:var(--accent-soft);color:var(--ink);border-color:var(--accent)}
+.fchip.acc[aria-pressed="true"] .fcount{color:var(--ink)}
+.ftabs{display:flex;margin-top:14px;border-bottom:1px solid var(--line)}
+.ftab{flex:1 1 auto;min-width:0;border:0;background:transparent;color:var(--muted);padding:12px 4px 10px;font-size:14px;font-weight:600;white-space:nowrap;border-bottom:2px solid transparent;margin-bottom:-1px}
+.ftab[aria-pressed="true"]{color:var(--ink);font-weight:800;border-bottom-color:var(--ink)}
+.lenline{display:block;margin-top:12px;padding:4px 0;border:0;background:transparent;color:var(--muted);font-size:14px;font-weight:500}
+.lenline b{color:var(--ink);font-weight:600}
+.lenline + .filters{margin-top:6px}
 .pgroup{margin-top:28px}
 .pgroup h2{margin-bottom:10px}
 .pgroup .plist{margin-top:0;grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}

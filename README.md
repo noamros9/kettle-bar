@@ -71,6 +71,7 @@ days ticked on the device and in the cloud are merged.
 | `app/session.js` | **Workout Session**: progress through a day and every rest/timer rule (pure, no page) |
 | `app/store.js` | **Progress Store**: done days per program, device copy + sync adapters (Firebase, in-memory) |
 | `app/backup.js` | **Backup**: the progress file: export, read, diff, merge or replace |
+| `app/library.js` | **Library filters**: what the programs page shows for the family, subject and length picked (pure; `FAMILIES` lives here) |
 | `app/views.js` | Routing and page rendering |
 | `app/clock.js` | Timer, beeps, wake lock and workout clock (runs the session's instructions) |
 | `app/main.js` | Wires store, session and clock to the page |
