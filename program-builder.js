@@ -89,6 +89,11 @@
       // Phase 5: HIIT (new moves with the existing cardio ones)
       hiit: ['skater_jumps', 'tuck_jumps', 'sprawl', 'burpee_broad_jump', 'plank_jacks', 'fast_step_ups', 'seal_jacks', 'burpee', 'mountain_climber', 'squat_jump', 'high_knees', 'jump_lunge'],
       hiitSec: ['fast_feet', 'sprint_in_place', 'lateral_shuffle'],
+      // Phase 5: plyometrics
+      plyoLow: ['broad_jump', 'drop_squat', 'pogo_hops', 'pause_squat_jump', 'squat_jump', 'tuck_jumps', 'star_jumps'],
+      plyoLat: ['lateral_bounds', 'skater_jumps', 'single_leg_hops', 'bounding', 'power_skips'],
+      plyoUp: ['clap_pushup', 'explosive_pushup', 'sprawl', 'plank_jacks', 'burpee'],
+      plyoVert: ['pogo_hops', 'pause_squat_jump', 'tuck_jumps', 'squat_jump', 'star_jumps', 'single_leg_hops', 'power_skips'],
       core: ['plank', 'side_plank', 'hollow_hold', 'hollow_rock', 'dead_bug', 'weighted_dead_bug', 'bird_dog', 'bear_crawl', 'suitcase_march', 'kb_halo', 'db_side_bend', 'shoulder_taps', 'superman', 'russian_twist'],
     };
     // Pools computed from the catalogue. An exercise marked `added: N` (the phase that added it) joins them only
@@ -124,6 +129,7 @@
       jab_cross_uppercut: 'rear_upper_hook_cross', slip_counter: 'roll_hook',
       single_leg_reach: 'star_excursion', lunge_to_balance: 'pistol_box_squat', single_leg_stand: 'heel_to_toe_walk',
       tuck_jumps: 'burpee_broad_jump', sprawl: 'burpee_broad_jump', seal_jacks: 'skater_jumps', fast_step_ups: 'tuck_jumps',
+      pause_squat_jump: 'tuck_jumps', pogo_hops: 'single_leg_hops', drop_squat: 'broad_jump', power_skips: 'bounding',
       teep: 'jab_teep', roundhouse: 'switch_kick', jab_cross_kick: 'kick_four', knee_strike: 'clinch_knees', front_kick: 'side_thrust_kick',
     };
     // holds: like reps (the level's number from the catalogue), said the way it feels in a flow
@@ -136,25 +142,26 @@
     }
     // one pose of a guided flow: its hold, or its reps at the exercise's pace
     const poseSec = (it) => (EX[it.ex].u === 'sec' ? it.n : it.n * EX[it.ex].tp);
-    function blockTime(b) {
+    // R: the program's rests (REST unless its config overrides some, like plyometrics' longer rests)
+    function blockTime(b, R = REST) {
       if (b.format === 'bouts') return b.items.reduce((s, it) => s + it.n, 0) + (b.items.length - 1) * b.rest;
       if (b.format === 'flow') return b.repeat * b.items.reduce((s, it) => s + (EX[it.ex].side ? 2 : 1) * (TRANSITION + poseSec(it)), 0);
       const W = b.items.map((it) => work(it) + SETUP);
       switch (b.format) {
-        case 'straight': return b.items.reduce((s, it, i) => s + b.sets * W[i] + (b.sets - 1) * REST.set, 0) + (b.items.length - 1) * REST.exercise;
+        case 'straight': return b.items.reduce((s, it, i) => s + b.sets * W[i] + (b.sets - 1) * R.set, 0) + (b.items.length - 1) * R.exercise;
         case 'superset': {
           let t = 0;
-          for (let i = 0; i < b.items.length; i += 2) t += b.sets * (W[i] + (W[i + 1] || 0) + 10) + (b.sets - 1) * REST.superset;
-          return t + (Math.ceil(b.items.length / 2) - 1) * REST.exercise;
+          for (let i = 0; i < b.items.length; i += 2) t += b.sets * (W[i] + (W[i + 1] || 0) + 10) + (b.sets - 1) * R.superset;
+          return t + (Math.ceil(b.items.length / 2) - 1) * R.exercise;
         }
-        case 'circuit': return b.rounds * W.reduce((a, x) => a + x + 10, 0) + (b.rounds - 1) * REST.round;
+        case 'circuit': return b.rounds * W.reduce((a, x) => a + x + 10, 0) + (b.rounds - 1) * R.round;
         case 'emom': case 'amrap': case 'ladder': return b.minutes * 60;
-        case 'tabata': return b.tabatas * 240 + (b.tabatas - 1) * REST.block;
+        case 'tabata': return b.tabatas * 240 + (b.tabatas - 1) * R.block;
         default: throw new Error('format ' + b.format);
       }
     }
-    function dayTime(blocks) {
-      return blocks.reduce((s, b, i) => s + blockTime(b) + (i ? (b.kind === 'abs' ? REST.beforeAbs : REST.block) : 0), 0);
+    function dayTime(blocks, R = REST) {
+      return blocks.reduce((s, b, i) => s + blockTime(b, R) + (i ? (b.kind === 'abs' ? R.beforeAbs : R.block) : 0), 0);
     }
 
     // ---------- stretches (same approach as Three-Split 60) ----------
@@ -199,6 +206,7 @@
     function build(cfg) {
       if (cfg.frozen) throw new Error(cfg.id + ' is frozen: its days are read from ' + cfg.frozen + ' by the Node build');
       const rnd = makeRnd(cfg.id);
+      const R = cfg.rests ? { ...REST, ...cfg.rests } : REST;
       const cp = computed(cfg.catalogue || 0);
       const allow = (id) => allowedIn(cfg.equip, EX[id]);
       const used = {}, count = {}, stretchUsed = {};
@@ -277,7 +285,7 @@
               if (sp.switchStance) b.switchStance = 1; // bouts: orthodox and southpaw in turn
               return b;
             });
-            const t = dayTime(blocks) / 60;
+            const t = dayTime(blocks, R) / 60;
             let pen = t >= lo && t <= hi ? 0 : 100 + Math.abs(t - (lo + hi) / 2) * 10;
             pick.forEach((c, i) => { pen += Math.abs(c.v - c.pref) / (c.key === 'minutes' ? 4 : 1) + (c.nOpt - c.keep.length) * (specs[i].kind === 'abs' ? 2.5 : 1.2); });
             if (!best || pen < best.pen) best = { pen, blocks, t };
@@ -310,7 +318,7 @@
         id: cfg.id, name: cfg.name, subject: cfg.subject, blurb: cfg.blurb, about: cfg.about, split: cfg.split,
         minutes: cfg.minutes, equip: cfg.equip || 'all', gear: cfg.gear || null, formats,
         levels: ['Level I · Intermediate', `Level II · ${LEVER_TEXT[cfg.levers[1]]}`, `Level III · ${LEVER_TEXT[cfg.levers[2]]}`],
-        rests: REST, dayTypes, days,
+        rests: R, dayTypes, days,
       };
     }
 

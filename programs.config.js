@@ -791,6 +791,57 @@ const CONFIGS = [
       b: { label: 'EMOM + AMRAP', short: 'B', blocks: [E('EMOM', ['hiit', 'push', 'hiitSec', 'legsBw'], { values: [10, 12, 14] }), A('AMRAP', ['hiit', 'core', 'legsBw'], { values: [5, 6, 7, 8] })] },
     },
   },
+  // ---------------- PLYOMETRICS (Phase 5: straight sets of few, explosive reps with long rests; abs to finish) ----------------
+  ...(() => {
+    const base = { added: 5, subject: 'Plyometrics', equip: 'bw', rests: { set: 60, exercise: 90 } };
+    return [
+      { ...base, id: 'spring-loaded', name: 'Spring Loaded', minutes: [25, 30], levers: [null, 'reps', 'variation'], split: 'Jumps / bounds',
+        blurb: 'An introduction to jumping: squat jumps, broad jumps and bounds, few reps and full rests.',
+        about: 'An introduction to jumping well: squat jumps, broad jumps, drop squats and bounds. Every rep is done fresh, so sets are short and rests are long: a minute between sets and a minute and a half between exercises. Abs finish each session. Level II adds reps and Level III brings harder jumps. Land softly and stop a set when it stops being springy.',
+        names: ['Coil', 'Spring', 'Recoil', 'Bounce', 'Pop', 'Snap Jump', 'Catapult', 'Slingshot', 'Launch', 'Liftoff', 'Rebound Jump', 'Kangaroo', 'Hare', 'Grasshopper', 'Cricket', 'Springbok', 'Gazelle', 'Impala', 'Jackrabbit', 'Flea'],
+        cycle: ['jumps', 'bounds'],
+        dayTypes: {
+          jumps: { label: 'Jumps', short: 'Jumps', blocks: [S('Jumps', ['plyoLow', 'plyoLow', 'plyoVert', 'plyoLow?'])] },
+          bounds: { label: 'Bounds', short: 'Bounds', blocks: [S('Bounds', ['plyoLat', 'plyoLow', 'plyoLat', 'plyoLow?'])] },
+        } },
+      { ...base, id: 'vertical', name: 'Vertical', minutes: [25, 30], levers: [null, 'reps', 'variation'], split: 'Height A / height B',
+        blurb: 'Jump higher: pogo hops, pause squat jumps, tuck jumps and single-leg hops, then leg strength.',
+        about: 'Everything aimed at jumping higher: springy pogo hops, pause squat jumps, tuck jumps and single-leg hops. Jumps come first while you are fresh, with long rests, then a little single-leg strength to back them up. Abs finish each session. Level II adds reps and Level III brings harder jumps. Test your reach on a wall now and again.',
+        names: ['Rim', 'Hang Time', 'Skyward', 'High Point', 'Ceiling', 'Updraft', 'Thermal Lift', 'Altitude', 'Elevation', 'Rise Up', 'Air Time', 'Float', 'Soar', 'Leap Up', 'Lift', 'Jumpman', 'High Bar', 'Top Shelf', 'Stratosphere', 'Cloud Nine'],
+        cycle: ['a', 'b'],
+        dayTypes: {
+          a: { label: 'Height A', short: 'A', blocks: [S('Jumps', ['pogo_hops', 'pause_squat_jump', 'plyoVert', 'plyoVert?']), S('Strength', ['legsBw', 'legsBw?'])] },
+          b: { label: 'Height B', short: 'B', blocks: [S('Jumps', ['plyoVert', 'single_leg_hops', 'plyoVert', 'plyoVert?']), S('Strength', ['legsBw', 'legsBw?'])] },
+        } },
+      { ...base, id: 'plyo-legs', name: 'Plyo Legs', minutes: [28, 32], levers: [null, 'reps', 'variation'], split: 'Forward / sideways',
+        blurb: 'Explosive legs in every direction: jumps forward and up one day, sideways the next.',
+        about: 'Explosive legs in every direction. One day jumps forward and up with broad jumps, bounds and squat jumps, the other goes sideways with lateral bounds, skaters and single-leg hops. Short sets and long rests keep every rep sharp, then abs finish. Level II adds reps and Level III brings harder jumps. Good for running and field sports.',
+        names: ['Stride', 'Sprinter', 'Hurdle', 'Long Jump', 'Triple Jump', 'Hop Step', 'Takeoff Board', 'Sandpit', 'Track', 'Starting Block', 'Lane Change', 'Cutback', 'Sidestep', 'Crossover Step', 'Shuttle', 'Zigzag', 'Slalom', 'Cone Drill', 'Agility Ladder', 'Fast Break'],
+        cycle: ['forward', 'side'],
+        dayTypes: {
+          forward: { label: 'Forward & up', short: 'Forward', blocks: [S('Forward & up', ['broad_jump', 'bounding', 'plyoLow', 'plyoLow', 'plyoLow?'])] },
+          side: { label: 'Sideways', short: 'Side', blocks: [S('Sideways', ['lateral_bounds', 'skater_jumps', 'plyoLat', 'plyoLat', 'plyoLow?'])] },
+        } },
+      { ...base, id: 'upper-plyo', name: 'Upper Plyo', minutes: [24, 29], levers: [null, 'reps', 'variation'], split: 'Push power A / B',
+        blurb: 'Explosive upper body: clap push-ups, explosive push-ups and sprawls, then push strength.',
+        about: 'Explosive upper-body power: clap push-ups, explosive push-ups and sprawls, with long rests so each rep is fast. Push strength follows, then abs. Two days alternate the moves. Level II adds reps and Level III brings harder variations. Knees down on the clap push-ups is fine while the power builds.',
+        names: ['Shove', 'Thrust Up', 'Push Off', 'Clap Back', 'Rebound Push', 'Pop Up', 'Snap Push', 'Firework Push', 'Burst', 'Bang', 'Kickback Push', 'Recoil Push', 'Ricochet', 'Punchline', 'Strike Force', 'Shockwave', 'Blast', 'Detonate', 'Boom', 'Thunderclap Push'],
+        cycle: ['a', 'b'],
+        dayTypes: {
+          a: { label: 'Push power A', short: 'A', blocks: [S('Power', ['clap_pushup', 'plyoUp', 'plyoUp?']), S('Push strength', ['push', 'push', 'pike_pushup?'])] },
+          b: { label: 'Push power B', short: 'B', blocks: [S('Power', ['explosive_pushup', 'plyoUp', 'plyoUp?']), S('Push strength', ['push', 'pike_pushup', 'push?'])] },
+        } },
+      { ...base, id: 'explosive-full-body', name: 'Explosive Full Body', minutes: [28, 32], levers: [null, 'reps', 'variation'], split: 'Legs & push / bounds & push',
+        blurb: 'Jumps and explosive push-ups together, in straight sets with long rests.',
+        about: 'Jumps and explosive push-ups together, for power from head to toe. Each session alternates a lower-body jump with an upper-body power move, in straight sets with long rests. Abs finish every day. Level II adds reps and Level III brings harder variations. The most demanding plyometrics program here, so come in fresh.',
+        names: ['Dynamite', 'Powder Keg', 'Blast Radius', 'Chain Reaction', 'Nuclear', 'Reactor', 'Megaton', 'Supernova', 'Big Bang Power', 'Eruption', 'Volcano', 'Geyser', 'Tsunami', 'Hurricane', 'Tornado', 'Lightning Strike', 'Thunderbolt', 'Firestorm', 'Meteor', 'Comet'],
+        cycle: ['a', 'b'],
+        dayTypes: {
+          a: { label: 'Legs & push', short: 'A', blocks: [S('Power', ['plyoLow', 'plyoUp', 'plyoLow', 'plyoUp', 'plyoVert?'])] },
+          b: { label: 'Bounds & push', short: 'B', blocks: [S('Power', ['plyoLat', 'plyoUp', 'plyoLat', 'plyoUp', 'plyoLow?'])] },
+        } },
+    ];
+  })(),
 ];
 
 // ---------- program paragraphs (hand-written): what it trains, how it's built, how it gets harder, who it suits ----------

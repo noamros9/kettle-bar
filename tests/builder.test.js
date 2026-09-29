@@ -43,7 +43,7 @@ test('generated days land in their time range (within a minute of rounding)', ()
   const cfg = Object.fromEntries(CONFIGS.map((c) => [c.id, c]));
   programs.filter((p) => !cfg[p.id].frozen).forEach((p) => p.days.forEach((d) => {
     const [lo, hi] = cfg[p.id].dayTypes[d.type].minutes || cfg[p.id].minutes;
-    const t = timing.dayTime(d.blocks) / 60;
+    const t = timing.dayTime(d.blocks, p.rests) / 60;
     assert.ok(t >= lo - 1 && t <= hi + 1.1, `${p.id} d${d.day}: ${t.toFixed(1)} min, want ${lo}-${hi}`);
   }));
 });
