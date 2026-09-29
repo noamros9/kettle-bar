@@ -117,6 +117,8 @@ Plan and tickets: [docs/plans/phase-6-build-your-own.md](docs/plans/phase-6-buil
     **Mixed days**: one day holds blocks from more than one family (a strength block, then a short flow), each
     getting harder in its own way.
 
+    - **Signature variations (29 Sep):** two per signature program, Tempo and Harder moves, same split; on the Signature shelf after the original.
+
 ## Phase 7: day to day
 Plan and tickets: [docs/plans/phase-7-day-to-day.md](docs/plans/phase-7-day-to-day.md). Decided 29 Sep 2026.
 18. **Random workout ([#64](https://github.com/noamros9/kettle-bar/issues/64)):** counts in stats, not in program

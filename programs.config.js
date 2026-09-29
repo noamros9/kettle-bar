@@ -3,7 +3,10 @@
 // The program list order is ORDER below, not the family files' order, because families interleave in the list.
 const FAMILY_FILES = [require('./configs/strength.js'), require('./configs/cardio-combat.js'), require('./configs/mind-body.js'), require('./configs/mixed.js')];
 const ORDER = [
-  'three-split-60', 'four-split-60', 'two-split-60', 'five-split-60', 'full-body-duo-60', 'iron-ppl',
+  // Signature: each original, then its two variations (Tempo, Harder moves; Phase 6 ticket 3b)
+  'three-split-60', 'three-split-60-tempo', 'three-split-60-harder', 'four-split-60', 'four-split-60-tempo', 'four-split-60-harder',
+  'two-split-60', 'two-split-60-tempo', 'two-split-60-harder', 'five-split-60', 'five-split-60-tempo', 'five-split-60-harder',
+  'full-body-duo-60', 'full-body-duo-60-tempo', 'full-body-duo-60-harder', 'iron-ppl',
   'upper-lower-power', 'full-body-strength', 'pullup-ladder', 'bar-master', 'grip-and-hang', 'engine',
   'storm-front', 'tabata-ten', 'core-foundations', 'flow-state', 'deep-core-60', 'one-bell', 'bell-complexes',
   'swing-century', 'twenty-flat', 'minute-man', 'twenty-ladder', 'hotel-room', 'skill-ladder', 'no-gear-burn',

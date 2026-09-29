@@ -27,6 +27,7 @@ Tracer bullets, one branch = one PR, each from its **Test first**.
 | 1 | Mixed days in the builder + Strength & stretch (6 programs) | feature | review III 2–4 | `feature/mixed-strength-stretch` | done (PR #78) |
 | 2 | Mixed: Fighter, Athlete (12 programs) | feature | 1 | `feature/mixed-fighter-athlete` | done (PR #79) |
 | 3 | Mixed: Balanced week, Calm strength (12 programs) | feature | 1 | `feature/mixed-balanced-calm` | done (PR #80) |
+| 3b | Signature variations (10 programs) | feature | – | `feature/signature-variations` | done (PR #82) |
 | 4 | Recipes by subject | feature | review III 4 | `feature/recipes` | |
 | 5 | Build your own: pick, preview, regenerate, save | feature | 4, review III 5, 6 | `feature/build-your-own` | |
 | 6 | Your programs: rename, delete, edit | feature | 5 | `feature/own-edit` | |
@@ -62,6 +63,18 @@ Tracer bullets, one branch = one PR, each from its **Test first**.
 - **Balanced week:** every day has one block from each family (e.g. a superset, a Tabata, a 5-minute flow).
 - **Calm strength:** Pilates or core + slow-tempo strength (tempo lever) + a yin finish.
 - **Last in this group:** the PR that closes ticket 3 updates the README program counts (about 128 programs).
+
+### 3b. Signature variations
+- Ten new programs, two for each signature program: **Tempo** (`[null, 'tempo', 'tempo']`, a 3 s lowering at Levels II and III)
+  and **Harder Moves** (`[null, 'variation', 'variation']`, harder exercise variations at Levels II and III). Ids
+  `<original>-tempo` and `<original>-harder`, names "Four-Split 60 Tempo" and "Four-Split 60 Harder Moves".
+- Same split, cycle, day types, time ranges, abs finisher and equipment as the original; only how it gets harder differs.
+  They sit on the Signature shelf right after the original (15 programs).
+- Three-Split 60 is frozen (ADR 1), so its two variations are new generated programs that reproduce its split as closely as the
+  builder allows (chest & back, full body upper and lower focus, abs & cardio, the same six-day cycle and time ranges).
+- Tests pin the lever: at Level III at least 40% of a Tempo variation's main-block exercises carry the 3 s lowering, and at least 25%
+  of a Harder Moves variation's are a harder variation. Harder moves only bites where the HARDER table has a pair, so the Harder Moves
+  variations of Two-Split, Five-Split and Full-Body Duo swap a few slots for pools with more of them (no new pairs, no existing pair changed).
 
 ### 4. Recipes by subject (`recipes.js`)
 Build your own and the random workout (Phase 7) need "a day of subject X" without a hand-made config.

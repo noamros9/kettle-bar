@@ -126,5 +126,15 @@
   "pilates-and-iron": "c4be3c5f9aa2afe6d0f0253a5e9aad9a22305dd768017d70c150982a11cfdef0",
   "yin-and-yang": "37740349f3904a32063c6f3339fa648d33b5fc18aee569e33f041ccd040bc2f9",
   "quiet-power": "592ab5acde8638ebaaf9330726e2349fe988a8775e482a01574b738c297209e5",
-  "control": "53439a3d83d1d4f5a028db67fe19773a5d1c678534bfbf17f96f3d4104af1ed6"
+  "control": "53439a3d83d1d4f5a028db67fe19773a5d1c678534bfbf17f96f3d4104af1ed6",
+  "three-split-60-tempo": "42206deee926d4ad1574c872c70254a8d7a749e107f0ec7af9a6ca8f9b429fc6",
+  "three-split-60-harder": "a8847259c09d4aa01b060650c0701d25f98f3b22307f1a61cae2a18b0e80334c",
+  "four-split-60-tempo": "e78ac59df34a135cc04c16432e9ace170d60ed465e9feb34fa1ecddc551cfc15",
+  "four-split-60-harder": "41270a3d94e81b18ffd7e4d05f0b089de83173ae01bf23c3ec036547cf38487d",
+  "two-split-60-tempo": "4ea0c2f1ca69b1ef029a2823dab7edd5938934036903296cf47b6cad1d199186",
+  "two-split-60-harder": "f4a0de2100a06e8e6e4383d33014470d0d6ba9966552c0c732ab26119545f9af",
+  "five-split-60-tempo": "07fec23ba62b6fe06151f10b687525afd678596661f8bae1acd1c75ca5aa4296",
+  "five-split-60-harder": "d06a8e419f252ba20dca859827c6ab4cd0a183994967831ce936efd0a3d06ffd",
+  "full-body-duo-60-tempo": "3ec540c6fce623ebfb0e2667a404f60d9fb2d3b55699920a45edb6a69fc0cfca",
+  "full-body-duo-60-harder": "de14f87481d03212abbcd5deba545979dee00e27115c5c82b00d7d1b9c71af0d"
 }

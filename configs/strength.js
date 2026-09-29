@@ -2,25 +2,98 @@ const { S, SS, C, E, A, L } = require('./shared.js');
 
 const UPPER = S('Upper body', ['pushLoad', 'row', 'shoulders', 'arms', 'push?']);
 
+// The frozen original (its days are read from JSON, ADR 1). Its two variations are generated look-alikes of it (below).
+const THREE_SPLIT = {
+  id: 'three-split-60', name: 'Three-Split 60', subject: 'Signature', frozen: 'programs/three-split-60.json',
+  split: 'Chest & back / full body / abs & cardio', minutes: [26, 38],
+  dayTypes: {
+    cba: { label: 'Chest, back & abs', short: 'Chest · Back' },
+    up: { label: 'Full body · upper focus', short: 'Upper body' },
+    low: { label: 'Full body · lower focus', short: 'Lower body' },
+    ac: { label: 'Abs & cardio', short: 'Abs · Cardio' },
+  },
+};
+
 const CONFIGS = [
   // ---------------- SIGNATURE ----------------
-  {
-    id: 'three-split-60', name: 'Three-Split 60', subject: 'Signature', frozen: 'programs/three-split-60.json',
-    split: 'Chest & back / full body / abs & cardio', minutes: [26, 38],
-    dayTypes: {
-      cba: { label: 'Chest, back & abs', short: 'Chest · Back' },
-      up: { label: 'Full body · upper focus', short: 'Upper body' },
-      low: { label: 'Full body · lower focus', short: 'Lower body' },
-      ac: { label: 'Abs & cardio', short: 'Abs · Cardio' },
-    },
-  },
-  // ---------------- SIGNATURE (like Three-Split 60: straight sets, strength days 35–38 min, abs & cardio days 26–31 min) ----------------
+  THREE_SPLIT,
+  // ---------------- SIGNATURE (like Three-Split 60: straight sets, strength days 35–38 min, abs & cardio days 26–31 min;
+  // each original has two variations, Tempo and Harder moves: the same split, only how it gets harder differs) ----------------
   ...(() => {
     const STR = [34.5, 38.4], AC = [25.5, 31.4];
     const ABS3 = ['absW', 'abs', 'abs'];
     const acDay = { label: 'Abs & cardio', short: 'Abs · Cardio', minutes: AC, blocks: [S('Cardio & core', ['cardio', 'abs', 'cardio', 'abs', 'cardio'])] };
     const base = { subject: 'Signature', minutes: [26, 38], absSlots: ABS3 };
-    return [
+    // Three-Split 60 is frozen, so its variations start from this generated look-alike: its four day types, its six-day cycle
+    // (upper focus on days 2, 8, 14…, lower focus on 5, 11, 17…) and its time ranges, built from the same pools as the others.
+    const threeSplitLike = {
+      ...base, split: THREE_SPLIT.split, cycle: ['cba', 'up', 'ac', 'cba', 'low', 'ac'],
+      names: ['Hammer', 'Chisel', 'Lathe', 'Plane', 'Rasp', 'Awl', 'Vise', 'Mallet', 'Level', 'Square', 'Bevel', 'Gauge', 'Clamp', 'Drill', 'Auger', 'Wrench', 'Ratchet', 'Pliers', 'Spanner', 'Jig'],
+      dayTypes: {
+        cba: { ...THREE_SPLIT.dayTypes.cba, minutes: STR, blocks: [S('Chest & back', ['push', 'pullBar', 'pushLoad', 'kb_row', 'pullBar?'])] },
+        up: { ...THREE_SPLIT.dayTypes.up, minutes: STR, blocks: [S('Full body · upper', ['push', 'row', 'kb_press', 'arms', 'total?'])] },
+        low: { ...THREE_SPLIT.dayTypes.low, minutes: STR, blocks: [S('Full body · lower', ['squat', 'hinge', 'lunge', 'glute', 'total?'])] },
+        ac: acDay,
+      },
+    };
+    // Each original gets two variations, Tempo and Harder moves: everything (split, cycle, day types, time ranges, abs,
+    // equipment, pools) is the original's, only the levers, the words and the id are new. Same catalogue as the original, so
+    // the pools match. They are new programs (added: 6), pinned like the rest.
+    const TEXT = {
+      'three-split-60': {
+        tempo: ['Three-Split 60\'s rhythm again, but Levels II and III slow every lowering to three seconds instead of adding reps.',
+          'The Three-Split 60 rhythm as a new program: chest and back, a full-body day, then abs and cardio. The full-body day alternates an upper and a lower focus, and abs finish every workout. The days and times match Three-Split 60, but it is built fresh, so the exercises are not the same ones. Where Three-Split 60 adds reps, this one gets harder by slowing down: at Levels II and III every lowering takes three seconds, on every move that can be slowed. Holds such as planks stay as they are. Suits you if you like the three-day rhythm and want more from each rep.'],
+        harder: ['Three-Split 60\'s rhythm again, but Levels II and III swap moves for harder versions of them.',
+          'The Three-Split 60 rhythm as a new program: chest and back, a full-body day, then abs and cardio. The full-body day alternates an upper and a lower focus, and abs finish every workout. The days and times match Three-Split 60, but it is built fresh, so the exercises are not the same ones. Where Three-Split 60 adds reps, this one gets harder by changing the moves: at Levels II and III many exercises become their harder version, such as archer push-ups for push-ups or kettlebell front squats for goblet squats. Moves without a harder version stay as they are. Suits you if you like the three-day rhythm and want new moves to learn.'],
+      },
+      'four-split-60': {
+        tempo: ['The Four-Split cycle, but Levels II and III slow every lowering to three seconds instead of adding reps and weight.',
+          'The same four-day cycle as Four-Split 60: push, pull-ups and back, legs, then abs and cardio, in straight sets with abs to finish. Four-Split 60 adds reps and then weight; this one keeps the weights and slows down, with a three-second lowering on every move that can take it at Levels II and III. Slower reps take longer, so fewer sets fit in a session and the days stay in their time range. Suits you if the weights you have are heavy enough and you want more out of them.'],
+        harder: ['The Four-Split cycle, but Levels II and III swap moves for harder versions of them.',
+          'The same four-day cycle as Four-Split 60: push, pull-ups and back, legs, then abs and cardio, in straight sets with abs to finish. Four-Split 60 adds reps and then weight; this one changes the moves instead. At Levels II and III many exercises become their harder version, such as archer push-ups for push-ups, kettlebell front squats for goblet squats or single-leg deadlifts for dumbbell ones. Moves without a harder version stay as they are. Suits you if you would rather learn a harder move than lift a heavier weight.'],
+      },
+      'two-split-60': {
+        tempo: ['The Two-Split rhythm, but Levels II and III slow every lowering to three seconds instead of adding weight and reps.',
+          'The same two-day rhythm as Two-Split 60: upper body, then lower body, each finished with abs, in straight sets. Two-Split 60 moves you one weight up and then adds reps; this one keeps the weights and slows down, with a three-second lowering on every move that can take it at Levels II and III. Slower reps take longer, so a session holds fewer sets and stays in its time range. Suits you if you want to feel stronger without changing the weights.'],
+        harder: ['The Two-Split rhythm, but Levels II and III swap moves for harder versions of them.',
+          'The same two-day rhythm as Two-Split 60: upper body, then lower body, each finished with abs, in straight sets. Two-Split 60 moves you one weight up and then adds reps; this one changes the moves instead. At Levels II and III many exercises become their harder version, such as pull-ups for negatives, shrimp squats for split squats or single-leg deadlifts for dumbbell ones. The upper day leans a little more on push-ups and bar pulls, which have harder versions to move to. Moves without a harder version stay as they are. Suits you if you would rather earn a harder move than a heavier weight.'],
+      },
+      'five-split-60': {
+        tempo: ['The Five-Split body-part days, but Levels II and III slow every lowering to three seconds instead of adding reps and weight.',
+          'The same five-day body-part split as Five-Split 60: chest, back, legs, shoulders and arms, then abs and cardio. Everything is straight sets, with abs to close. Five-Split 60 adds reps and then weight; this one keeps the weights and slows down, with a three-second lowering on every move that can take it at Levels II and III. Each muscle gets its own day, so the slow reps go where they count. Suits you if you like focused sessions and want each set to be harder without a heavier weight.'],
+        harder: ['The Five-Split body-part days, but Levels II and III swap moves for harder versions of them.',
+          'The same five-day body-part split as Five-Split 60: chest, back, legs, shoulders and arms, then abs and cardio. Everything is straight sets, with abs to close. Five-Split 60 adds reps and then weight; this one changes the moves instead. At Levels II and III many exercises become their harder version, such as archer push-ups for push-ups, chin-ups for chin holds or shrimp squats for split squats. Chest, back and arms days lean a little more on push-ups, bar pulls and kettlebell presses, which have harder versions to move to. Suits you if you like focused sessions and want new moves to work toward.'],
+      },
+      'full-body-duo-60': {
+        tempo: ['The Full-Body Duo rhythm, but Levels II and III slow every lowering to three seconds instead of adding reps.',
+          'The same two-day rhythm as Full-Body Duo 60: a full-body strength day, then an abs and cardio day. Everything is straight sets, with abs to finish. Full-Body Duo 60 adds reps and then brings harder variations; this one slows down from Level II on, with a three-second lowering on every move that can take it. Slower reps take longer, so fewer sets fit in a session and the days stay in their time range. Suits you when you want to keep the simple rhythm and make each rep count.'],
+        harder: ['The Full-Body Duo rhythm, but harder versions of the moves come in from Level II, not just Level III.',
+          'The same two-day rhythm as Full-Body Duo 60: a full-body strength day, then an abs and cardio day. Everything is straight sets, with abs to finish. Full-Body Duo 60 adds reps at Level II and brings harder variations at Level III; this one brings them at both levels. Many exercises become their harder version, such as kettlebell front squats for goblet squats, archer push-ups for push-ups or single-leg deadlifts for dumbbell ones. The full-body day leans on push-ups and bar pulls, which have harder versions to move to. Suits you if you want the simple rhythm with more to learn.'],
+      },
+    };
+    // Harder moves only bites on exercises that have a harder version (the HARDER table in program-builder.js, which can't
+    // grow without reshuffling pinned programs), and only about 60% of the time. Four-Split 60's pools have enough of them.
+    // For the other three, a few slots of the Harder moves variation are swapped for pools (or one exercise) with more of
+    // them: same day types, same number of exercises, same muscles, so the split stays what it was.
+    const HARDER_SLOTS = {
+      'two-split-60': { upper: ['push', 'pullBar', 'shoulders', 'row', 'arms?'] },
+      'five-split-60': {
+        chest: ['push', 'pushLoad', 'kb_press', 'push', 'triceps?'],
+        back: ['pullBar', 'row', 'kb_row', 'pullBar', 'biceps?'],
+        arms: ['kb_press', 'biceps', 'push', 'shoulders', 'triceps?'],
+      },
+      'full-body-duo-60': { full: ['squat', 'push', 'hinge', 'pullBar', 'total?'] },
+    };
+    const withSlots = (template, swaps = {}) => ({
+      ...template,
+      dayTypes: Object.fromEntries(Object.entries(template.dayTypes).map(([k, t]) => [k, swaps[k] ? { ...t, blocks: [{ ...t.blocks[0], slots: swaps[k] }] } : t])),
+    });
+    const withVariations = (template, original = template) => {
+      const variation = (kind, name, levers, [blurb, about], swaps) => ({ ...withSlots(template, swaps), id: `${original.id}-${kind}`, name: `${original.name} ${name}`, added: 6, levers, blurb, about });
+      const { tempo, harder } = TEXT[original.id];
+      return [variation('tempo', 'Tempo', [null, 'tempo', 'tempo'], tempo), variation('harder', 'Harder Moves', [null, 'variation', 'variation'], harder, HARDER_SLOTS[original.id])];
+    };
+    const originals = [
       { ...base, id: 'four-split-60', name: 'Four-Split 60', levers: [null, 'reps', 'weight'], split: 'Push / pull-ups & back / legs / abs & cardio',
         blurb: 'Your Three-Split rhythm stretched to four days: push, pull-ups & back, legs, then abs & cardio. Straight sets, abs to finish.',
         names: ['Keystone', 'Cornerstone', 'Lintel', 'Plinth', 'Rampart', 'Corbel', 'Parapet', 'Bastion', 'Buttress', 'Portcullis', 'Barbican', 'Gatehouse', 'Turret', 'Merlon', 'Embrasure', 'Postern', 'Donjon', 'Battlement', 'Moat', 'Citadel Wall'],
@@ -59,6 +132,7 @@ const CONFIGS = [
           ac: acDay,
         } },
     ];
+    return [...withVariations(threeSplitLike, THREE_SPLIT), ...originals.flatMap((o) => [o, ...withVariations(o)])];
   })(),
   // ---------------- STRENGTH (40 min) ----------------
   {
