@@ -15,7 +15,7 @@ Decided on 29 Sep:
 
 | # | Ticket | Tier | Blocked by | Branch | Status |
 |---|---|---|---|---|---|
-| 1 | Resume a workout after closing the app | feature | – | `feature/resume` | done (PR #PR) |
+| 1 | Resume a workout after closing the app | feature | – | `feature/resume` | done (PR #89) |
 | 2 | Random workout | feature | review III 4, 5; Phase 6 4 | `feature/random-workout` | |
 | 3 | Rest-day flow | feature | 2 | `feature/rest-day-flow` | |
 | 4 | Shorter today | feature | review III 4 | `feature/shorter-today` | |
