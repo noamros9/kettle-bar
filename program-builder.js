@@ -290,6 +290,7 @@
             const b = { format: sp.kind === 'abs' ? 'straight' : sp.f, title: sp.title, kind: sp.kind || 'main', items };
             b[c.key] = c.v;
             if (sp.switchStance) b.switchStance = 1; // bouts: orthodox and southpaw in turn
+            if (sp.family) b.family = sp.family; // mixed days: which family this block belongs to (Phase 8's stats read it)
             return b;
           });
           const t = dayTime(blocks, R) / 60;

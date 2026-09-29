@@ -21,10 +21,12 @@ test('Three-Split 60 stays exactly as saved', () => {
 });
 
 test('every exercise used exists; abs come last without the pull-up bar (or not at all with absSlots: [])', () => {
-  const noAbs = new Set(CONFIGS.filter((c) => c.absSlots && !c.absSlots.length).map((c) => c.id));
+  const cfgOf = Object.fromEntries(CONFIGS.map((c) => [c.id, c]));
+  // a day type's absSlots win over the program's (mixed days: the ones that end in a flow have none)
+  const noAbs = (p, d) => { const c = cfgOf[p.id], t = c.dayTypes[d.type]; return ((t && t.absSlots) || c.absSlots || ['x']).length === 0; };
   programs.forEach((p) => p.days.forEach((d) => {
     d.blocks.forEach((b) => b.items.forEach((it) => assert.ok(EX[it.ex], `${p.id} d${d.day}: ${it.ex}`)));
-    if (noAbs.has(p.id)) { assert.ok(d.blocks.every((b) => b.kind !== 'abs'), `${p.id} d${d.day} has abs`); return; }
+    if (noAbs(p, d)) { assert.ok(d.blocks.every((b) => b.kind !== 'abs'), `${p.id} d${d.day} has abs`); return; }
     const abs = d.blocks.at(-1);
     assert.equal(abs.kind, 'abs', `${p.id} d${d.day}`);
     abs.items.forEach((it) => assert.ok(!hasBar(it.ex), `${p.id} d${d.day}: ${it.ex} uses the bar`));
@@ -154,7 +156,7 @@ test('a config with catalogue: 5 opts in to the new exercises', () => {
 
 // ---------- one day from a recipe (review III ticket 4) ----------
 const B4 = require('../program-builder.js');
-const { S, SS } = require('../configs/shared.js');
+const { S, SS, F } = require('../configs/shared.js');
 const levelOf = (d) => (d <= 20 ? 1 : d <= 40 ? 2 : 3);
 
 test('buildDay over the 60-day loop, with one memory and one rnd stream, gives every day of build()', () => {
@@ -245,6 +247,59 @@ test('an explicit lever for the day replaces the day type\'s and the program\'s 
   assert.ok(notes(run('plain', 'weight')).every((n) => n === 'Go one weight up'));
   assert.ok(notes(run('own', 'reps')).every((n) => n === undefined));
   assert.ok(notes(run('blk', 'reps'), 0).every((n) => n === 'Go one weight up'));
+});
+
+// Phase 6 ticket 1: a mixed day type. A strength block (weight lever) and a flexibility flow (holds lever) in one day,
+// each main block tagged with its family; the day that ends in a flow has no abs, the one that ends in strength does.
+const mixedDay = () => ({
+  id: 'test-mixed-day', name: 'Test', subject: 'Test', minutes: [25, 35], levers: [null, 'weight', 'weight'], equip: 'all',
+  split: 'x', blurb: 'x', names: ['One'], cycle: ['lift', 'flowFirst', 'plainDay'],
+  dayTypes: {
+    lift: { label: 'Lift then flow', short: 'L', absSlots: [], blocks: [
+      S('Press & row', ['pushLoad', 'row', 'pushLoad'], { family: 'Strength' }),
+      F('Shoulder flow', ['fxUpper', 'fxUpper', 'fxUpper'], { family: 'Mind & body', lever: [null, 'holds', 'holds'] })] },
+    flowFirst: { label: 'Flow then lift', short: 'F', blocks: [
+      F('Hip flow', ['fxHips', 'fxHips', 'fxHips'], { family: 'Mind & body', lever: [null, 'holds', 'holds'] }),
+      S('Squat & hinge', ['squat', 'hinge', 'squat'], { family: 'Strength' })] },
+    plainDay: { label: 'Plain', short: 'P', blocks: [S('Press', ['pushLoad', 'pushLoad', 'pushLoad'])] },
+  },
+});
+
+test('a mixed day at Level III: the strength block levels by weight, the flow by holds, and no abs after a flow', () => {
+  const rec = B4.recipesOf(mixedDay());
+  const at = (key, level) => dayOf(rec, key, level);
+  const day = at('lift', 3), day1 = at('lift', 1);
+  assert.deepEqual(day.blocks.map((b) => b.format), ['straight', 'flow']);
+  assert.ok(day.blocks.every((b) => b.kind === 'main'), 'a day that ends in a flow has no abs block');
+  const strength = day.blocks[0].items.filter((it) => EX[it.ex].load);
+  assert.ok(strength.length > 0 && strength.every((it) => it.note === 'Go one weight up'), 'strength: weight');
+  day.blocks[1].items.forEach((it) => {
+    assert.equal(it.note, undefined, 'a hold has no note: it is longer');
+    assert.equal(it.n, EX[it.ex].r[2], 'flow: the Level III hold');
+  });
+  assert.ok(day1.blocks[1].items.every((it) => it.n === EX[it.ex].r[0]), 'Level I: the base holds');
+  assert.ok(day1.blocks[0].items.every((it) => it.note === undefined), 'Level I: no weight note');
+  const total = (d) => d.blocks[1].items.reduce((a, it) => a + it.n, 0);
+  assert.ok(total(day) > total(day1), 'the holds are longer than at Level I');
+  assert.deepEqual(day.blocks.map((b) => b.family), ['Strength', 'Mind & body']);
+});
+
+test('a day that starts with a flow and ends with strength keeps its abs; a day type without absSlots follows the program', () => {
+  const rec = B4.recipesOf(mixedDay());
+  const day = dayOf(rec, 'flowFirst', 3);
+  assert.deepEqual(day.blocks.map((b) => b.kind), ['main', 'main', 'abs']);
+  assert.deepEqual(day.blocks.slice(0, 2).map((b) => b.format), ['flow', 'straight']);
+  assert.equal(dayOf(rec, 'plainDay', 1).blocks.at(-1).kind, 'abs');
+});
+
+test('each main block of a mixed day carries its family; the abs block and blocks without one carry none', () => {
+  const rec = B4.recipesOf(mixedDay());
+  assert.deepEqual(dayOf(rec, 'lift', 2).blocks.map((b) => b.family), ['Strength', 'Mind & body']);
+  const flowFirst = dayOf(rec, 'flowFirst', 2);
+  assert.deepEqual(flowFirst.blocks.map((b) => b.family), ['Mind & body', 'Strength', undefined]);
+  assert.ok(flowFirst.blocks.every((b) => 'family' in b === (b.kind === 'main')));
+  const plain = dayOf(rec, 'plainDay', 2);
+  assert.ok(plain.blocks.every((b) => !('family' in b)), 'existing programs\' blocks have no family key');
 });
 
 test('KBBuilder in the page has buildDay, recipesOf, newMemory and makeRnd', () => {
