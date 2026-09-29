@@ -133,6 +133,9 @@ Plan and tickets: [docs/plans/phase-7-day-to-day.md](docs/plans/phase-7-day-to-d
 Plan and tickets: [docs/plans/phase-8-finding-and-stats.md](docs/plans/phase-8-finding-and-stats.md). Decided 29 Sep 2026.
 20. **Finding things (#67):** favourite programs and hidden subjects (synced), an equipment filter on the Programs
     page, search and filters on the Exercises page.
+20b. **Body muscle map ([#81](https://github.com/noamros9/kettle-bar/issues/81), Noam, 29 Sep; to explore):** tap
+    muscles on a front/back body map and get the exercises and programs that work them most. To be grilled and
+    designed before it gets tickets; it builds on the muscle map the exercise pages and stats already draw.
 21. **Stats ([#66](https://github.com/noamros9/kettle-bar/issues/66)), in tabs** (Overview · Muscles · Time ·
     Exercises): where time goes (by family, subject and format), kind of work (strength volume, cardio minutes,
     mobility minutes), longer spans with a weekly trend, exercise history, level over time, CSV export.
