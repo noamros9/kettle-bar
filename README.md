@@ -65,7 +65,8 @@ days ticked on the device and in the cloud are merged.
 |---|---|
 | `exercises.js` | **Exercise Catalogue**: every exercise and stretch with poses, reps per level (as used), muscles, cues, loads |
 | `figures.js` | **Figure engine**: draws the stick figures and the front/back muscle map from poses |
-| `programs.config.js` | Every program: split, day types, blocks, time range, progression, name theme (Three-Split 60 is `frozen`) |
+| `programs.config.js` | The program list: joins the family files in `configs/` in the order of its `ORDER` id list (Phase 6 adds `configs/mixed.js`) |
+| `configs/*.js` | Every program, one file per family (`strength.js`, `cardio-combat.js`, `mind-body.js`): split, day types, blocks, time range, progression, name theme (Three-Split 60 is `frozen`). `shared.js` holds the block constructors |
 | `program-builder.js` | **Program Builder**: `build(config, catalogue)` → 60-day program, fitted to its time range; owns the time model. Pure, so it also runs in the page |
 | `programs/three-split-60.json` | Three-Split 60's days, frozen so saved progress stays valid |
 | `app/session.js` | **Workout Session**: progress through a day and every rest/timer rule (pure, no page) |
@@ -124,5 +125,5 @@ limits each account to its own progress.
   then in the app: sign in → **Settings** → **Import a backup** → check the days it lists → **Replace**
   (or **Merge**). It syncs to every device.
 
-Adding a program: add a config to `programs.config.js`, run `node build.js` and `npm test`;
+Adding a program: add a config to its family's file in `configs/` and its id to `ORDER` in `programs.config.js`, run `node build.js` and `npm test`;
 each program keeps its own progress.

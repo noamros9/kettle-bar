@@ -26,3 +26,13 @@ const IDS = [
 test('the config ids, in order, are today\'s list', () => {
   assert.deepEqual(CONFIGS.map((c) => c.id), IDS);
 });
+
+test('each family file holds only its own family\'s subjects', () => {
+  const { FAMILIES } = require('../app/library.js');
+  const files = { Strength: 'strength', 'Cardio & combat': 'cardio-combat', 'Mind & body': 'mind-body' };
+  for (const [family, subjects] of FAMILIES) {
+    const own = require(`../configs/${files[family]}.js`);
+    assert.ok(own.length > 0);
+    assert.deepEqual([...new Set(own.map((c) => c.subject))].filter((s) => !subjects.includes(s)), [], family);
+  }
+});
