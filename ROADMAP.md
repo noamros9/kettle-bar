@@ -92,7 +92,7 @@ Plan and tickets: [docs/plans/phase-5-catalogue-and-library.md](docs/plans/phase
     level: punch and kick combos, footwork, Pilates series, yoga poses, plyo jumps, mobility drills,
     balance work, and more strength and core variety (which also means more swap choices).
 
-## Architecture review III (before Phase 6)
+## Architecture review III (done, Sep 2026)
 Plan and tickets: [docs/plans/architecture-review-3.md](docs/plans/architecture-review-3.md) ([#63](https://github.com/noamros9/kettle-bar/issues/63)).
 Grilled with Noam on 29 Sep 2026: the review comes first, then Phases 6, 7 and 8 in that order.
 - Deepenings: library filters as one module, configs per family, formats in one place, one day from a recipe
