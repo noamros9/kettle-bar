@@ -83,6 +83,9 @@ Build your own and the random workout (Phase 7) need "a day of subject X" withou
     changes the seed; **Save** names it (default "My <subject> 60").
 - **Your programs** shelf at the top of the Programs page (Noam, 29 Sep), above the family tabs, shown only when
   you have one. Their progress works like any program's.
+- **The store learns new ids:** `app/main.js` builds the Progress Store with `programIds: programs.ids()` once at
+  startup. Saving (or deleting) a program must add (or drop) its id in the store too, through the catalogue's
+  `onChange` (review III ticket 6).
 - **Stored:** the choices and the seed, not the days (`users/{uid}/programs/{id}`: `{ name, choices, seed,
   catalogue, createdAt, updatedAt }`, and a device copy). The days are rebuilt from them with the catalogue
   version they were made with, so a later catalogue never reshuffles them.
