@@ -50,7 +50,7 @@ In dependency order; one ticket = one branch = one PR, each starting from its **
 | 0 | This plan (and Phases 6–8) | plan | – | `plan/phases-6-8` | done (PR #69) |
 | 1 | Library filters as one module + programs page option A (#68) | feature | 0 | `feature/library-filters` | done (PR #70) |
 | 2 | Program configs: one file per family | refactor | 0 | `refactor/config-files` | done (PR #71) |
-| 3 | Formats in one place | refactor | 0 | `refactor/formats` | in review |
+| 3 | Formats in one place | refactor | 0 | `refactor/formats` | done (PR #72) |
 | 4 | Builder: one day from a recipe, levers and abs per day type | refactor | 2, 3 | `refactor/build-day` | |
 | 5 | Account data: sync and back up more than progress | refactor | 0 | `refactor/account-data` | |
 | 6 | Program Catalogue: several sources | refactor | 0 | `refactor/catalogue-sources` | |
