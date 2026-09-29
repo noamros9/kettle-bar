@@ -68,6 +68,14 @@
       kkCombo: ['jab_cross_kick', 'jab_teep', 'hook_low_kick', 'kick_four'],
       kkKnee: ['knee_strike', 'clinch_knees'],
       kkSpin: ['back_kick', 'side_thrust_kick'],
+      // Phase 5: flexibility (also uses some yoga poses and the cool-down stretches)
+      fxSplit: ['half_split', 'front_split', 'lizard_pose', 'kneeling_quad', 'low_lunge'],
+      fxStraddle: ['seated_straddle', 'frog_pose', 'wide_leg_fold', 'butterfly', 'garland_pose'],
+      fxHips: ['figure_four', 'pigeon_pose', 'lizard_pose', 'frog_pose', 'happy_baby', 'garland_pose'],
+      fxHam: ['lying_hamstring', 'half_split', 'forward_fold', 'seated_forward_fold', 'wide_leg_fold'],
+      fxUpper: ['thread_the_needle', 'reverse_prayer', 'cow_face_arms', 'puppy_pose', 'chest_opener', 'cross_body_shoulder', 'overhead_triceps'],
+      fxQuad: ['kneeling_quad', 'side_lying_quad', 'low_lunge', 'camel_pose'],
+      fxSpine: ['supine_twist', 'seated_twist', 'sphinx_pose', 'childs_pose', 'cat_cow'],
       core: ['plank', 'side_plank', 'hollow_hold', 'hollow_rock', 'dead_bug', 'weighted_dead_bug', 'bird_dog', 'bear_crawl', 'suitcase_march', 'kb_halo', 'db_side_bend', 'shoulder_taps', 'superman', 'russian_twist'],
     };
     // Pools computed from the catalogue. An exercise marked `added: N` (the phase that added it) joins them only

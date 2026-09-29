@@ -15,6 +15,7 @@ const SUBJECTS = {
   Pilates: { count: 5, abs: false, formats: ['flow'] },
   Boxing: { count: 5, abs: true, formats: ['bouts', 'circuit', 'tabata'] },
   Kickboxing: { count: 5, abs: true, formats: ['bouts', 'circuit', 'tabata'] },
+  Flexibility: { count: 5, abs: false, formats: ['flow'] },
 };
 
 for (const [subject, want] of Object.entries(SUBJECTS)) {
