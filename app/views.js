@@ -476,6 +476,7 @@ function viewDay() {
   if (!w) return viewProgram();
   rememberPid(p.id);
   const ses = D.session();
+  if (ses.started() !== null) S.resume(ses.started());
   const TY = typesOf(p), t = TY[w.type] || { label: w.title, c: 'var(--muted)' }, isD = store.isDone(p.id, w.day);
   const nEx = w.blocks.reduce((n, b) => n + b.items.length, 0);
   return `<div class="crumbs"><button class="back" data-go="program">← ${esc(p.name)}</button>
@@ -484,6 +485,7 @@ function viewDay() {
       <p class="daysum">${KBSummary.daySummary(w, p, KBEx).map((l) => `<span>${esc(l)}</span>`).join('')}</p>
       <div class="meta"><span class="ty"><i class="dot" style="--c:${t.c}"></i>${esc(t.label || w.title)}</span><span>About ${w.est} min${w.stretchMin ? ` + ${w.stretchMin} min stretching` : ''}</span><span>${nEx} exercises</span></div></div>
       <button class="btn ${isD ? 'done' : ''}" data-toggle="${w.day}" aria-pressed="${isD}">${isD ? '✓ Done' : 'Mark as done'}</button></div>
+    ${D.restored() ? '<p class="resumed" role="status">Picked up where you left off</p>' : ''}
     <p class="how">Tap a set, round or pair number when you finish it and the right rest starts on the timer. EMOM, AMRAP, Tabata, ladder, bout and guided-flow blocks have a Start button that runs the clock for you.</p>
     ${w.warmup ? stretchBlock(w.warmup, 'warm', 'W', 'Before you start', ses) : ''}
     ${w.blocks.map((b, bi) => blockHTML(p, w, b, bi, ses, D)).join('')}

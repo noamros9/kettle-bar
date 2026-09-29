@@ -11,7 +11,7 @@ const store = KBStore.createStore({ programIds: programs.ids(), storage: localSt
 // your own programs: the store's programs docs -> the catalogue's 'own' source (built from their stored configs),
 // and the catalogue's own ids -> the store (app/own.js)
 const ownLink = KBOwn.link({ store, programs, load: loadBook, build: KBBuilder.build, ex: KBEx });
-const days = KBDay.createDays({ programs, store, cat: KBEx, createSession: KBSession.createSession });
+const days = KBDay.createDays({ programs, store, cat: KBEx, createSession: KBSession.createSession, storage: localStore });
 const SYNC_TEXT = { ok: 'Synced', saving: 'Saving…', offline: 'Offline, will sync', local: 'Saved on this device', signin: 'Sign in', ro: 'View only', err: 'Sync problem' };
 function paintSync(s) {
   const el = $('#sync'); el.dataset.s = s;
@@ -39,18 +39,23 @@ $('#signout').addEventListener('click', () => { $('#acct').hidden = true; store.
 const openDay = () => days.open(prog().id, route.day);
 const openSession = () => openDay().session();
 function finish(target) { T.apply(openSession().complete(target)); rerender(); }
+// the workout clock starts with the first tick or Start; the day's session keeps that time
+function startClock() { S.start(); const ses = openSession(); if (ses.started() === null) ses.setStarted(S.startAt); }
 function tick(target) {
-  T.unlockAudio(); S.start();
+  T.unlockAudio(); startClock();
   const ins = openSession().complete(target);
   if (!ins.none) { T.clear(); T.apply(ins); }
   rerender();
 }
-function runPlanned(target, startClock = true) {
+function runPlanned(target, withClock = true) {
   const ses = openSession(), plan = ses.plan(target);
   if (!plan) return;
-  T.unlockAudio(); if (startClock) S.start();
+  T.unlockAudio(); if (withClock) startClock();
   T.runPlan(plan, () => finish(plan.then));
 }
+
+// resetting the workout clock forgets when this day's workout started (or the page would bring it back)
+$('#sessreset').addEventListener('click', () => { if (route.view === 'day') openSession().setStarted(null); });
 
 document.addEventListener('click', (ev) => {
   const el = ev.target.closest('button'); if (!el) return;
@@ -91,7 +96,7 @@ document.addEventListener('click', (ev) => {
   if (d.openProg) return go('p-' + d.openProg);
   if (d.lenMenu) { toggleLengthMenu(); render(); return; }
   if (d.filter) { const [k, v] = d.filter.split(':'); setFilter(k, v); render(); return; }
-  if (d.toggle) { store.toggle(prog().id, +d.toggle); return; }
+  if (d.toggle) { days.forget(prog().id, +d.toggle); store.toggle(prog().id, +d.toggle); return; } // marked or un-marked: the saved session is done with
   if (d.day) { const n = +d.day; if (n >= 1 && n <= prog().days.length) go(dayHash(prog().id, n)); return; }
   if (d.pip) { const [bi, i, k] = d.pip.split(':').map(Number); return tick({ type: 'set', bi, i, k }); }
   if (d.rpip) {

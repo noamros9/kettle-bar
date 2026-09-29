@@ -1,13 +1,17 @@
 /* Workout Session: progress through one day's workout, and every rule about what comes next.
    Pure: no page, no timer. The page and the clock are adapters.
 
-     const s = createSession(program, day, { EX, from? });   from: an earlier session of the same day whose ticks
-                                                             carry over (the day was swapped mid-workout)
+     const s = createSession(program, day, { EX, from?, saved? });
+                       from: an earlier session of the same day whose ticks carry over (the day was swapped mid-workout)
+                       saved: a stored snapshot() (the app was closed); one that no longer fits the day's blocks and
+                              items is ignored whole, never half applied
      s.complete(target) -> Instruction      a set/pair/round/block/hold/stretch was finished (or un-ticked)
      s.plan(target)     -> { phases, then }  the timer script for a hold, a timed block or the stretches;
                                              when it ends, call s.complete(then)
      s.count(bi, delta)                     AMRAP rounds / ladder rungs counter
      s.state(bi), s.blockDone(bi), s.allDone(), s.stretchDone(key)
+     s.started() / s.setStarted(ms)         when the workout clock started (nothing until then); kept in the snapshot
+     s.snapshot() -> { state, stretched, startedAt }: plain data that round-trips through JSON
 
    Targets: { type: 'set', bi, i, k } · { type: 'pair', bi, pi, k } · { type: 'round', bi, k }
             { type: 'hold', bi, i } · { type: 'block', bi } · { type: 'stretch', key: 'warm' | 'cool' }
@@ -27,7 +31,7 @@
     return 'reps';
   }
 
-  function createSession(program, day, { EX, from }) {
+  function createSession(program, day, { EX, from, saved }) {
     const R = Object.assign({}, DEFAULT_RESTS, program.rests || {});
     const blocks = day.blocks;
     const fmt = (b) => b.format || 'straight';
@@ -35,14 +39,21 @@
     const nm = (it) => EX[it.ex].name;
     const pairsOf = (b) => Math.ceil(b.items.length / 2);
     const pairNames = (b, pi) => b.items.slice(pi * 2, pi * 2 + 2).map(nm).join(' + ');
-    const state = from ? from.snapshot().state : blocks.map((b) => {
+    const fresh = () => blocks.map((b) => {
       const f = fmt(b);
       if (f === 'straight') return { f, sets: b.items.map(() => 0) };
       if (f === 'superset') return { f, sets: Array.from({ length: pairsOf(b) }, () => 0) };
       if (f === 'circuit') return { f, rounds: 0 };
       return { f, done: false, count: 0 };
     });
-    const stretched = from ? from.snapshot().stretched : { warm: false, cool: false };
+    // the same fields, types, formats and list lengths as a fresh state: a stored one that differs is not this day's
+    const shapeOf = (st) => JSON.stringify(st.map((x) => Object.fromEntries(Object.entries(x).map(([k, v]) => [k, k === 'f' ? v : Array.isArray(v) ? v.map((n) => typeof n) : typeof v]))));
+    const fits = (sv) => {
+      try { return shapeOf(sv.state) === shapeOf(fresh()) && typeof sv.stretched.warm === 'boolean' && typeof sv.stretched.cool === 'boolean'; } catch (e) { return false; }
+    };
+    const init = from ? from.snapshot() : saved && fits(saved) ? JSON.parse(JSON.stringify(saved)) : { state: fresh(), stretched: { warm: false, cool: false } };
+    const state = init.state, stretched = init.stretched;
+    let startedAt = typeof init.startedAt === 'number' ? init.startedAt : null;
 
     function blockDone(bi) {
       const b = blocks[bi], s = state[bi];
@@ -200,7 +211,9 @@
       blockDone,
       allDone: () => blocks.every((_, bi) => blockDone(bi)),
       stretchDone: (key) => stretched[key],
-      snapshot: () => JSON.parse(JSON.stringify({ state, stretched })),
+      snapshot: () => JSON.parse(JSON.stringify({ state, stretched, startedAt })),
+      started: () => startedAt,
+      setStarted(ms) { startedAt = ms; },
       count(bi, delta) { const s = state[bi]; s.count = Math.max(0, s.count + delta); return s.count; },
     };
   }

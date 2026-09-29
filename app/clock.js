@@ -110,6 +110,8 @@ const T = {
 const S = {
   startAt: 0, iv: null,
   start() { if (this.startAt) return; this.startAt = Date.now(); this.iv = setInterval(() => this.paint(), 1000); this.paint(); },
+  // a restored workout: the clock shows the time since it started (nothing changes when it is already running)
+  resume(ms) { if (this.startAt) return; this.startAt = ms; this.iv = setInterval(() => this.paint(), 1000); this.paint(); },
   reset() { this.startAt = 0; clearInterval(this.iv); this.paint(); },
   paint() { const s = this.startAt ? (Date.now() - this.startAt) / 1000 : 0; $('#sess').textContent = Math.floor(s / 60) + ':' + String(Math.floor(s % 60)).padStart(2, '0'); },
 };

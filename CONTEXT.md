@@ -166,7 +166,10 @@ Files: version 1 = progress only; version 2 adds `ownPrograms`, `random`, `prefs
 swap changes the exercises), its alternatives, and swap / undo. The page renders it; stats read days through it.
 
 **Workout Session**: the pure state machine for a day in progress: what is ticked, what the next rest is.
-Returns **instructions** (`rest`, `clear`, `none`) and **phase plans** (warm-up / cool-down sequences).
+Returns **instructions** (`rest`, `clear`, `none`) and **phase plans** (warm-up / cool-down sequences). It is **saved
+on the device** (never synced, not in backups) on every change, one per round and day, so closing the app or opening
+another day doesn't lose it; Mark as done or 12 hours clear it. A running timer isn't saved, only the ticks, counters,
+stretches and when the workout started.
 
 **Clock**: runs the session's instructions in the page: timer, beeps, wake lock, workout clock.
 
