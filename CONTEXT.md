@@ -24,8 +24,10 @@ then a short flow). They sit in the **Mixed** family (Phase 6). Each block can g
 **Your program** (own program): one you built in the page from choices (subjects, split, minutes, equipment,
 formats, levers) and a seed. Stored as its choices, not its days; id `own-<id>`; shown on the Your programs shelf.
 
-**Recipe**: what one day needs to be built: a day type's blocks, time range, equipment, levers and abs finisher.
-Every day type of every library program is a recipe (`recipes.js`); build your own and the random workout use them.
+**Recipe**: what one day needs to be built: a day type's blocks, time range, equipment, rests, catalogue, levers and
+abs finisher. `recipesOf(config)` gives one per day type of a program; `buildDay(recipe, { day, level, lever, rnd,
+memory })` builds one day from it. `build` is the loop over days 1–60 with one shared memory (what was used, how
+often, which stretches) and one random stream. Build your own and the random workout call `buildDay` directly.
 
 **Random workout**: a one-off day built fresh, outside any program: counts in stats, not in program progress. Its
 level is the level of the last day marked done.
@@ -44,7 +46,8 @@ Each day type has its own time range.
 
 **Lever**: how a program gets harder from one level to the next: *reps*, *holds* (the same, said "longer holds"
 for poses), *weight* (go one weight up), *variation* (a harder exercise), or *tempo* (3 s lowering). Each program
-picks a lever per level.
+picks a lever per level. A day type can set its own `levers` (and `absSlots`), and a block its own `lever: ['base',
+'holds', 'holds']`, for mixed days: the block's wins over the day type's, which wins over the program's.
 
 **Block**: one part of a day's workout in one **Format**, holding one or more exercises. Days end with an **abs
 block** (no bar, 3 sets, weights allowed), except in programs whose session is core work already (`absSlots: []`:

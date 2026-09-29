@@ -1,19 +1,44 @@
-/* Program Builder: build(config, catalogue) -> a 60-day program. Pure: runs in Node (the build) and in the page
-   (your own programs, Phase 6); the Exercise Catalogue is passed in.
+/* Program Builder: build(config, catalogue) -> a 60-day program; buildDay(recipe, { day, level, lever, rnd, memory },
+   catalogue) -> one day. Pure: runs in Node (the build) and in the page (your own programs, Phase 6, and the random
+   workout, Phase 7); the Exercise Catalogue is passed in.
+   recipesOf(config) -> { dayTypeKey: recipe }: what one day needs (blocks, time range, equipment, rests, catalogue,
+   levers, absSlots). build() is the loop over days 1-60 with one shared memory (newMemory(): what was used, how
+   often, which stretches) and one rnd (makeRnd(seed)), so its days are what buildDay gives one by one.
    Owns the time model, rest values, exercise pools, progression levers, stretch picking and fitting.
    Node only: CONFIGS (programs.config.js), buildConfig / buildAll, and frozen programs (Three-Split 60),
    whose already-generated days are read from disk so saved progress stays valid (ADR 1). */
 (function (root, Formats) {
+  const REST = { set: 30, exercise: 60, beforeAbs: 120, superset: 45, round: 60, block: 60 };
+  const ABS_SLOTS = ['absW', 'abs', 'abs?'];
+
+  // ---------- deterministic randomness ----------
+  function makeRnd(seedText) {
+    let seed = [...seedText].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7);
+    return () => { seed = (seed * 1664525 + 1013904223) % 4294967296; return seed / 4294967296; };
+  }
+
+  // what a run of days remembers, so an exercise or stretch isn't picked twice in a row
+  const newMemory = () => ({ used: {}, count: {}, stretchUsed: {} });
+
+  // ---------- recipes ----------
+  // One recipe per day type: what one day needs. A day type's levers and absSlots win over the program's.
+  function recipesOf(cfg) {
+    const out = {};
+    Object.entries(cfg.dayTypes).forEach(([key, type]) => {
+      out[key] = {
+        program: cfg.id, key, label: type.label, blocks: type.blocks,
+        minutes: type.minutes || cfg.minutes, // a day type can have its own time range
+        equip: cfg.equip, // undefined = all gear
+        rests: cfg.rests ? { ...REST, ...cfg.rests } : REST, catalogue: cfg.catalogue || 0,
+        levers: type.levers || cfg.levers,
+        absSlots: type.absSlots || cfg.absSlots || ABS_SLOTS, // every day ends with abs, unless absSlots: []
+      };
+    });
+    return out;
+  }
+
   function makeBuilder(cat) {
     const { EX, allowedIn, scaleReps } = cat;
-
-    const REST = { set: 30, exercise: 60, beforeAbs: 120, superset: 45, round: 60, block: 60 };
-
-    // ---------- deterministic randomness ----------
-    function makeRnd(seedText) {
-      let seed = [...seedText].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7);
-      return () => { seed = (seed * 1664525 + 1013904223) % 4294967296; return seed / 4294967296; };
-    }
 
     // ---------- exercise pools ----------
     const ids = (fn) => Object.keys(EX).filter((k) => fn(EX[k]));
@@ -189,18 +214,18 @@
       return { items: chosen.map((id) => ({ ex: id, n: EX[id].r[0] })), seconds: t };
     }
 
-    // ---------- program builder ----------
-    function build(cfg) {
-      if (cfg.frozen) throw new Error(cfg.id + ' is frozen: its days are read from ' + cfg.frozen + ' by the Node build');
-      const rnd = makeRnd(cfg.id);
-      const R = cfg.rests ? { ...REST, ...cfg.rests } : REST;
-      const cp = computed(cfg.catalogue || 0);
-      const allow = (id) => allowedIn(cfg.equip, EX[id]);
-      const used = {}, count = {}, stretchUsed = {};
+    // ---------- one day ----------
+    // recipe: from recipesOf(cfg). opts: day (1-60), level (1-3), lever (optional: this day's lever, instead of the
+    // recipe's for the level), rnd (makeRnd), memory (newMemory(), shared by the days of a run). Fills the memory.
+    function buildDay(recipe, { day, level, lever, rnd, memory }) {
+      const R = recipe.rests;
+      const cp = computed(recipe.catalogue);
+      const allow = (id) => allowedIn(recipe.equip, EX[id]);
+      const { used, count, stretchUsed } = memory;
       const pool = (name) => {
         const p = cp[name] || POOLS[name] || [name];
         const list = p.filter((id) => EX[id] && allow(id));
-        if (!list.length) throw new Error(`${cfg.id}: pool ${name} is empty`);
+        if (!list.length) throw new Error(`${recipe.program}: pool ${name} is empty`);
         return list;
       };
       const candidate = (name, taken) => {
@@ -210,94 +235,101 @@
         taken.add(list[0]);
         return list[0];
       };
+      const [lo, hi] = recipe.minutes;
+      // a block's lever wins over the day's (an explicit lever, else the day type's, else the program's)
+      const dayLever = lever || (level === 1 ? 'base' : recipe.levers[level - 1]);
+      const leverOf = (sp) => (sp.lever ? (level === 1 ? 'base' : sp.lever[level - 1]) : dayLever);
+      const taken = new Set();
+
+      // make one item at this level, applying the block's lever
+      // scale: a block's holds are this many times longer (yin), in steps of 5 s, up to cap seconds
+      const makeItem = (id, format, sp) => {
+        const { scale, cap } = sp, lever = leverOf(sp);
+        let ex = id, note, tempo;
+        let idx = level - 1;
+        if (lever === 'variation' && HARDER[id] && allow(HARDER[id]) && !taken.has(HARDER[id]) && rnd() < 0.6) { ex = HARDER[id]; taken.add(ex); idx = level - 2; note = 'Harder variation'; }
+        else if (lever === 'weight' && EX[id].load) { idx = level - 2; note = 'Go one weight up'; }
+        else if (lever === 'tempo' && EX[id].u !== 'sec' && Formats.FORMATS[format].tempo) { idx = level - 2; tempo = 1; note = '3 s lowering'; }
+        const e = EX[ex];
+        const n = scaleReps(e, e.r[Math.max(0, idx)], format);
+        const it = { ex, n: scale ? Math.min(cap || Infinity, Math.round((n * scale) / 5) * 5) : n };
+        if (note) it.note = note;
+        if (tempo) it.tempo = 1;
+        return it;
+      };
+
+      // candidates for each block; optional slots end with '?'
+      const specs = recipe.blocks.concat(recipe.absSlots.length ? [{ f: 'straight', kind: 'abs', title: 'Abs', slots: recipe.absSlots }] : []);
+      const cands = specs.map((sp) => sp.slots.map((slot, si) => {
+        // long main blocks may drop their last one or two exercises to fit the time
+        const autoOpt = sp.kind !== 'abs' && Formats.FORMATS[sp.f].optionalSlots && si >= Math.max(3, sp.slots.length - (sp.slots.length >= 5 ? 2 : 1));
+        const opt = slot.endsWith('?') || autoOpt, name = slot.replace('?', '');
+        const poolName = name === 'absW' && !cp.absW.some(allow) ? 'abs' : name;
+        return { opt, id: candidate(poolName, taken) };
+      }));
+      // apply the level (and its lever) once per exercise, before searching
+      cands.forEach((list, bi) => list.forEach((c) => { c.item = makeItem(c.id, specs[bi].kind === 'abs' ? 'straight' : specs[bi].f, specs[bi]); }));
+
+      // search block parameters (+ which optional slots to keep) to land in the time range
+      const choices = specs.map((sp, bi) => {
+        const o = sp.kind === 'abs' ? { key: 'sets', values: [3], pref: 3 } : Formats.FORMATS[sp.f].options;
+        const values = sp.values || o.values;
+        const optIdx = cands[bi].map((c, i) => (c.opt ? i : -1)).filter((i) => i >= 0);
+        const masks = [];
+        for (let m = 0; m < 1 << optIdx.length; m++) masks.push(optIdx.filter((_, j) => m & (1 << j)));
+        const out = [];
+        values.forEach((v) => masks.forEach((keep) => out.push({ v, keep, pref: sp.pref || o.pref, key: o.key, nOpt: optIdx.length })));
+        return out;
+      });
+      let best = null;
+      const walk = (bi, pick) => {
+        if (bi === specs.length) {
+          const blocks = specs.map((sp, i) => {
+            const c = pick[i];
+            const items = cands[i].filter((x, j) => !x.opt || c.keep.includes(j)).map((x) => ({ ...x.item }));
+            const b = { format: sp.kind === 'abs' ? 'straight' : sp.f, title: sp.title, kind: sp.kind || 'main', items };
+            b[c.key] = c.v;
+            if (sp.switchStance) b.switchStance = 1; // bouts: orthodox and southpaw in turn
+            return b;
+          });
+          const t = dayTime(blocks, R) / 60;
+          let pen = t >= lo && t <= hi ? 0 : 100 + Math.abs(t - (lo + hi) / 2) * 10;
+          pick.forEach((c, i) => { pen += Math.abs(c.v - c.pref) / (c.key === 'minutes' ? 4 : 1) + (c.nOpt - c.keep.length) * (specs[i].kind === 'abs' ? 2.5 : 1.2); });
+          if (!best || pen < best.pen) best = { pen, blocks, t };
+          return;
+        }
+        for (const c of choices[bi]) walk(bi + 1, pick.concat([c]));
+      };
+      walk(0, []);
+      const blocks = best.blocks;
+      blocks.forEach((b) => b.items.forEach((it) => { used[it.ex] = day; count[it.ex] = (count[it.ex] || 0) + 1; }));
+
+      const warm = pickStretches(cp.warmups, blocks, 60, day, stretchUsed);
+      const cool = pickStretches(cp.cooldowns, blocks, 120, day, stretchUsed);
+      return {
+        day, type: recipe.key, title: recipe.label, level, blocks,
+        est: Math.round(best.t),
+        warmup: { title: 'Warm-up', kind: 'warmup', items: warm.items, seconds: warm.seconds },
+        cooldown: { title: 'Cool-down stretches', kind: 'cooldown', items: cool.items, seconds: cool.seconds },
+        stretchMin: Math.round((warm.seconds + cool.seconds) / 60),
+      };
+    }
+
+    // ---------- program builder: days 1-60, one memory and one rnd through all of them ----------
+    function build(cfg) {
+      if (cfg.frozen) throw new Error(cfg.id + ' is frozen: its days are read from ' + cfg.frozen + ' by the Node build');
+      const rnd = makeRnd(cfg.id), memory = newMemory(), recipes = recipesOf(cfg);
       const days = [];
       const nameCount = {};
       for (let d = 1; d <= 60; d++) {
         const level = d <= 20 ? 1 : d <= 40 ? 2 : 3;
-        const lever = level === 1 ? 'base' : cfg.levers[level - 1];
         const typeKey = cfg.cycle[(d - 1) % cfg.cycle.length];
-        const type = cfg.dayTypes[typeKey];
-        const [lo, hi] = type.minutes || cfg.minutes; // a day type can have its own time range
-        const taken = new Set();
+        const { day, type, title, level: lv, ...rest } = buildDay(recipes[typeKey], { day: d, level, rnd, memory });
 
-        // make one item at this level, applying the program's lever
-        // scale: a block's holds are this many times longer (yin), in steps of 5 s, up to cap seconds
-        const makeItem = (id, format, { scale, cap } = {}) => {
-          let ex = id, note, tempo;
-          let idx = level - 1;
-          if (lever === 'variation' && HARDER[id] && allow(HARDER[id]) && !taken.has(HARDER[id]) && rnd() < 0.6) { ex = HARDER[id]; taken.add(ex); idx = level - 2; note = 'Harder variation'; }
-          else if (lever === 'weight' && EX[id].load) { idx = level - 2; note = 'Go one weight up'; }
-          else if (lever === 'tempo' && EX[id].u !== 'sec' && Formats.FORMATS[format].tempo) { idx = level - 2; tempo = 1; note = '3 s lowering'; }
-          const e = EX[ex];
-          const n = scaleReps(e, e.r[Math.max(0, idx)], format);
-          const it = { ex, n: scale ? Math.min(cap || Infinity, Math.round((n * scale) / 5) * 5) : n };
-          if (note) it.note = note;
-          if (tempo) it.tempo = 1;
-          return it;
-        };
-
-        // candidates for each block; optional slots end with '?'
-        // every day ends with abs, unless the config says absSlots: [] (yoga, Pilates, flexibility, mobility)
-        const absSlots = cfg.absSlots || ['absW', 'abs', 'abs?'];
-        const specs = type.blocks.concat(absSlots.length ? [{ f: 'straight', kind: 'abs', title: 'Abs', slots: absSlots }] : []);
-        const cands = specs.map((sp) => sp.slots.map((slot, si) => {
-          // long main blocks may drop their last one or two exercises to fit the time
-          const autoOpt = sp.kind !== 'abs' && Formats.FORMATS[sp.f].optionalSlots && si >= Math.max(3, sp.slots.length - (sp.slots.length >= 5 ? 2 : 1));
-          const opt = slot.endsWith('?') || autoOpt, name = slot.replace('?', '');
-          const poolName = name === 'absW' && !cp.absW.some(allow) ? 'abs' : name;
-          return { opt, id: candidate(poolName, taken) };
-        }));
-        // apply the level (and its lever) once per exercise, before searching
-        cands.forEach((list, bi) => list.forEach((c) => { c.item = makeItem(c.id, specs[bi].kind === 'abs' ? 'straight' : specs[bi].f, specs[bi]); }));
-
-        // search block parameters (+ which optional slots to keep) to land in the program's time range
-        const choices = specs.map((sp, bi) => {
-          const o = sp.kind === 'abs' ? { key: 'sets', values: [3], pref: 3 } : Formats.FORMATS[sp.f].options;
-          const values = sp.values || o.values;
-          const optIdx = cands[bi].map((c, i) => (c.opt ? i : -1)).filter((i) => i >= 0);
-          const masks = [];
-          for (let m = 0; m < 1 << optIdx.length; m++) masks.push(optIdx.filter((_, j) => m & (1 << j)));
-          const out = [];
-          values.forEach((v) => masks.forEach((keep) => out.push({ v, keep, pref: sp.pref || o.pref, key: o.key, nOpt: optIdx.length })));
-          return out;
-        });
-        let best = null;
-        const walk = (bi, pick) => {
-          if (bi === specs.length) {
-            const blocks = specs.map((sp, i) => {
-              const c = pick[i];
-              const items = cands[i].filter((x, j) => !x.opt || c.keep.includes(j)).map((x) => ({ ...x.item }));
-              const b = { format: sp.kind === 'abs' ? 'straight' : sp.f, title: sp.title, kind: sp.kind || 'main', items };
-              b[c.key] = c.v;
-              if (sp.switchStance) b.switchStance = 1; // bouts: orthodox and southpaw in turn
-              return b;
-            });
-            const t = dayTime(blocks, R) / 60;
-            let pen = t >= lo && t <= hi ? 0 : 100 + Math.abs(t - (lo + hi) / 2) * 10;
-            pick.forEach((c, i) => { pen += Math.abs(c.v - c.pref) / (c.key === 'minutes' ? 4 : 1) + (c.nOpt - c.keep.length) * (specs[i].kind === 'abs' ? 2.5 : 1.2); });
-            if (!best || pen < best.pen) best = { pen, blocks, t };
-            return;
-          }
-          for (const c of choices[bi]) walk(bi + 1, pick.concat([c]));
-        };
-        walk(0, []);
-        const blocks = best.blocks;
-        blocks.forEach((b) => b.items.forEach((it) => { used[it.ex] = d; count[it.ex] = (count[it.ex] || 0) + 1; }));
-
-        const theme = cfg.names;
-        const base = theme[(d - 1) % theme.length];
+        const base = cfg.names[(d - 1) % cfg.names.length];
         nameCount[base] = (nameCount[base] || 0) + 1;
         const name = nameCount[base] > 1 ? `${base} ${['', 'I', 'II', 'III', 'IV', 'V'][nameCount[base]]}` : base;
-
-        const warm = pickStretches(cp.warmups, blocks, 60, d, stretchUsed);
-        const cool = pickStretches(cp.cooldowns, blocks, 120, d, stretchUsed);
-        days.push({
-          day: d, type: typeKey, title: type.label, level, name, blocks,
-          est: Math.round(best.t),
-          warmup: { title: 'Warm-up', kind: 'warmup', items: warm.items, seconds: warm.seconds },
-          cooldown: { title: 'Cool-down stretches', kind: 'cooldown', items: cool.items, seconds: cool.seconds },
-          stretchMin: Math.round((warm.seconds + cool.seconds) / 60),
-        });
+        days.push({ day, type, title, level: lv, name, ...rest });
       }
       const dayTypes = dayTypesOf(cfg);
       const formats = [...new Set(days.flatMap((w) => w.blocks.filter((b) => b.kind === 'main').map((b) => b.format)))];
@@ -305,7 +337,7 @@
         id: cfg.id, name: cfg.name, subject: cfg.subject, blurb: cfg.blurb, about: cfg.about, split: cfg.split,
         minutes: cfg.minutes, equip: cfg.equip || 'all', gear: cfg.gear || null, formats,
         levels: ['Level I · Intermediate', `Level II · ${LEVER_TEXT[cfg.levers[1]]}`, `Level III · ${LEVER_TEXT[cfg.levers[2]]}`],
-        rests: R, dayTypes, days,
+        rests: recipes[Object.keys(recipes)[0]].rests, dayTypes, days,
       };
     }
 
@@ -317,13 +349,14 @@
     }
     // frozen programs: generated once, then kept byte-for-byte; only their description comes from the config
 
-    return { build, dayTypesOf, POOLS, REST, timing: { blockTime, dayTime } };
+    return { build, buildDay, dayTypesOf, POOLS, REST, timing: { blockTime, dayTime } };
   }
 
   const builders = new Map(); // one per catalogue (pools are computed from it)
   const forCatalogue = (cat) => builders.get(cat) || builders.set(cat, makeBuilder(cat)).get(cat);
   const build = (cfg, cat) => forCatalogue(cat).build(cfg);
-  const api = { build };
+  const buildDay = (recipe, opts, cat) => forCatalogue(cat).buildDay(recipe, opts);
+  const api = { build, buildDay, recipesOf, newMemory, makeRnd };
 
   /* node:coverage ignore next */ // the page: the builder with nothing else
   if (typeof module === 'undefined' || !module.exports) { root.KBBuilder = api; return; }

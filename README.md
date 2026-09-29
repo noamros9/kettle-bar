@@ -68,7 +68,7 @@ days ticked on the device and in the cloud are merged.
 | `figures.js` | **Figure engine**: draws the stick figures and the front/back muscle map from poses |
 | `programs.config.js` | The program list: joins the family files in `configs/` in the order of its `ORDER` id list (Phase 6 adds `configs/mixed.js`) |
 | `configs/*.js` | Every program, one file per family (`strength.js`, `cardio-combat.js`, `mind-body.js`): split, day types, blocks, time range, progression, name theme (Three-Split 60 is `frozen`). `shared.js` holds the block constructors |
-| `program-builder.js` | **Program Builder**: `build(config, catalogue)` → 60-day program, fitted to its time range; owns the time model. Pure, so it also runs in the page |
+| `program-builder.js` | **Program Builder**: `build(config, catalogue)` → 60-day program and `buildDay(recipe, …)` → one day (`recipesOf(config)` gives the recipes), fitted to its time range; owns the time model. Pure, so it also runs in the page |
 | `programs/three-split-60.json` | Three-Split 60's days, frozen so saved progress stays valid |
 | `app/session.js` | **Workout Session**: progress through a day and every rest/timer rule (pure, no page) |
 | `app/store.js` | **Progress Store**: done days per program, device copy + sync adapters (Firebase, in-memory) |
