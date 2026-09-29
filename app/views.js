@@ -325,7 +325,8 @@ function roundPips(id, total, done, what) {
   return `<div class="pips blockpips" role="group" aria-label="${what} done"><span class="lbl">${what}</span>${Array.from({ length: total }, (_, k) =>
     `<button class="pip num${done > k ? ' on' : ''}" data-rpip="${id}:${k + 1}" aria-pressed="${done > k}" aria-label="${what.replace(/s$/, '')} ${k + 1} done">${k + 1}</button>`).join('')}</div>`;
 }
-function runButton(bi, st, text) { return `<button class="runbtn${st.done ? ' done' : ''}" data-run="${bi}">${st.done ? '✓ Done · run again' : '▶ Start ' + text}</button>`; }
+// every timed format gets a Big timer button beside its Start (the full-screen clock, clock.js)
+function runButton(bi, st, text) { return `<span class="runrow"><button class="runbtn${st.done ? ' done' : ''}" data-run="${bi}">${st.done ? '✓ Done · run again' : '▶ Start ' + text}</button><button class="btbtn" data-bt>⛶ Big timer</button></span>`; }
 function counter(bi, n, what) {
   return `<div class="counter" role="group" aria-label="${what}"><button data-count="${bi}:-1" aria-label="One fewer">−</button><span class="num"><b>${n}</b> ${what.toLowerCase()}</span><button data-count="${bi}:1" aria-label="One more">+</button></div>`;
 }
