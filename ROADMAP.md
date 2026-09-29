@@ -92,7 +92,17 @@ Plan and tickets: [docs/plans/phase-5-catalogue-and-library.md](docs/plans/phase
     level: punch and kick combos, footwork, Pilates series, yoga poses, plyo jumps, mobility drills,
     balance work, and more strength and core variety (which also means more swap choices).
 
-## Phase 6: build your own program
+## Architecture review III (before Phase 6)
+Plan and tickets: [docs/plans/architecture-review-3.md](docs/plans/architecture-review-3.md) ([#63](https://github.com/noamros9/kettle-bar/issues/63)).
+Grilled with Noam on 29 Sep 2026: the review comes first, then Phases 6, 7 and 8 in that order.
+- Deepenings: library filters as one module, configs per family, formats in one place, one day from a recipe
+  (levers and abs per day type), account data beyond progress, catalogue sources, a leaner phone UI suite.
+- **Programs page ([#68](https://github.com/noamros9/kettle-bar/issues/68)), option A:** families as underline tabs,
+  subjects as chips with counts, length on one quiet line; the counter follows the selection. Built alongside
+  the rest of the review.
+
+## Phase 6: build your own program, and mixed programs
+Plan and tickets: [docs/plans/phase-6-build-your-own.md](docs/plans/phase-6-build-your-own.md).
 16. **Build your own:** you pick the subject(s), split (days per cycle), minutes, equipment, formats and how
     it gets harder. The Program Builder makes 60 days, and you can regenerate until you like it. Comes after
     Phase 5, so it can use the bigger catalogue.
@@ -101,6 +111,29 @@ Plan and tickets: [docs/plans/phase-5-catalogue-and-library.md](docs/plans/phase
       export/import and the nightly backup.
     - **Share a copy by link:** the link carries the choices, and whoever opens it gets "Add this
       program". No server needed.
+    - **Where (29 Sep):** your programs get their own shelf at the top of the Programs page.
+17. **Mixed programs ([#65](https://github.com/noamros9/kettle-bar/issues/65), 29 Sep):** both a "mix" choice in
+    build your own (2–3 subjects) and **about 30 hand-made mixed programs** in a new **Mixed** family (5 subjects × 6).
+    **Mixed days**: one day holds blocks from more than one family (a strength block, then a short flow), each
+    getting harder in its own way.
+
+## Phase 7: day to day
+Plan and tickets: [docs/plans/phase-7-day-to-day.md](docs/plans/phase-7-day-to-day.md). Decided 29 Sep 2026.
+18. **Random workout ([#64](https://github.com/noamros9/kettle-bar/issues/64)):** counts in stats, not in program
+    progress; its level follows the last day marked done. Chosen on a sheet (family or subject, 15/25/35 min,
+    equipment) with reshuffle, built fresh, from a button on the Programs page.
+19. **From the ideas list ([#67](https://github.com/noamros9/kettle-bar/issues/67)):** resume a workout after closing
+    the app; travel mode (lasts until turned off); shorter today; a warm-up that matches the format; a rest-day
+    mobility flow; a big timer; "what next" when a program ends.
+
+## Phase 8: finding things, and stats
+Plan and tickets: [docs/plans/phase-8-finding-and-stats.md](docs/plans/phase-8-finding-and-stats.md). Decided 29 Sep 2026.
+20. **Finding things (#67):** favourite programs and hidden subjects (synced), an equipment filter on the Programs
+    page, search and filters on the Exercises page.
+21. **Stats ([#66](https://github.com/noamros9/kettle-bar/issues/66)), in tabs** (Overview · Muscles · Time ·
+    Exercises): where time goes (by family, subject and format), kind of work (strength volume, cardio minutes,
+    mobility minutes), longer spans with a weekly trend, exercise history, level over time, CSV export.
+    Still planned volume (ADR 2).
 
 ## Decided against (don't re-suggest)
 - **Logging weights/reps per set**: Noam wants done / not done only.
