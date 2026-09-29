@@ -558,6 +558,32 @@
       { t: [6, -33], lift: 10, fn: [22, 12], khn: [1, -1], ff: [-30, 26], khf: [0.2, 1], hn: [-10, -14], hf: [24, -40] }, { t: [6, -33], lift: 10, ff: [22, 12], khf: [1, -1], fn: [-30, 26], khn: [0.2, 1], hf: [-10, -14], hn: [24, -40] }] },
     pause_squat_jump: { name: 'Pause squat jumps', cat: 'lower', added: 5, r: [5, 6, 8], tp: 4, mus: 'quads glutes | calves', cue: 'Squat down and hold still for two seconds, then jump as high as you can from the pause. Land softly and reset.', poses: [
       P(SQUAT, { hn: [30, -18], hf: [29, -18] }), P(STAND, { lift: 14, ...ARMS_UP })] },
+
+    // ---------------- MORE STRENGTH (Phase 5: dumbbell, kettlebell and bar variety) ----------------
+    floor_fly: { name: 'Dumbbell floor fly', cat: 'chest', added: 5, r: [12, 14, 15], tp: 3, load: 'light', mus: 'chest | front_delts biceps', cue: 'On your back, dumbbells over your chest with soft elbows. Open the arms wide until the upper arms touch the floor, then hug them back up.', poses: [
+      P(SUP, { hn: [34, -33], hf: [35, -33], db: 'nf' }), P(SUP, { hn: [30, -8], hf: [40, -8], eh: [0, 1], db: 'nf' })] },
+    arnold_press: { name: 'Arnold press', cat: 'upper', added: 5, r: [10, 12, 12], tp: 3.5, load: 'medium', mus: 'front_delts side_delts triceps | upper_back', cue: 'Start with the dumbbells at your chin, palms facing you. Press up while turning the palms forward, and reverse on the way down.', poses: [
+      P(STAND, { hn: [10, -38], hf: [9, -37], eh: [0, 1], db: 'nf' }), P(STAND, { hn: [3, -67], hf: [1, -67], db: 'nf' })] },
+    hang_knee_raise: { name: 'Hanging knee raises', cat: 'abs', added: 5, equip: ['bar'], r: [10, 12, 15], tp: 3, mus: 'abs hip_flexors | forearms lats', cue: 'Hang from the bar, shoulders active. Curl your knees up toward your chest without swinging, then lower slowly.', poses: [
+      HANG, P(HANG, { fn: [20, 19], ff: [19, 20], kh: [1, -1] })] },
+    l_sit_hang: { name: 'L-sit hang', cat: 'abs', added: 5, equip: ['bar'], u: 'sec', r: [10, 15, 20], mus: 'abs hip_flexors | forearms lats quads', cue: 'Hang from the bar and lift straight legs to hip height, toes pointed. Bent knees are fine while you build up.', poses: [
+      P(HANG, { fn: [40, -3], ff: [39, -2], kh: [1, -0.2] })] },
+    commando_pullup: { name: 'Commando pull-ups', cat: 'back', added: 5, equip: ['bar'], r: [4, 5, 6], alt: 1, tp: 4.5, mus: 'lats biceps | upper_back forearms obliques', cue: 'Grip the bar with hands close, one in front of the other. Pull up so your head passes one side of the bar, lower, then the other side.', poses: [
+      HANG, P(PULLTOP, { t: [-7, -33], hd: [-0.3, -1] })] },
+    kb_windmill: { name: 'Kettlebell windmill', cat: 'full', added: 5, view: 'front', r: [5, 6, 8], side: 1, tp: 5, load: 'kb', mus: 'obliques glutes | side_delts hamstrings', cue: 'Bell locked out overhead, feet turned away from it. Push your hip out and slide the free hand down your leg, eyes on the bell. Stand back up. Switch.', poses: [
+      P(FSTAND, { fn: [-10, 41], ff: [10, 41], hf: [14, -66], kb: 'f', kbd: [0, -1] }), { t: [-20, -27], fn: [-12, 40], ff: [12, 39], hn: [-26, 20], ehn: [-1, 0], hf: [4, -62], ehf: [1, 0], kb: 'f', kbd: [0.3, -1] }] },
+    bottoms_up_press: { name: 'Bottoms-up press', cat: 'upper', added: 5, r: [5, 6, 8], side: 1, tp: 4, load: 'kb', mus: 'front_delts forearms | triceps side_delts abs', cue: 'Hold the bell upside down by the handle, bottom to the ceiling, and press it overhead slowly without letting it tip. Switch.', poses: [
+      P(STAND, { hn: [8, -46], ehn: [0.2, 1], kb: 'n', kbd: [0, -1] }), P(STAND, { hn: [2, -67], kb: 'n', kbd: [0, -1] })] },
+    db_step_up: { name: 'Dumbbell step-ups', cat: 'lower', added: 5, r: [10, 12, 12], side: 1, tp: 3.5, load: 'medium', mus: 'quads glutes | hamstrings calves', cue: 'Dumbbells at your sides, step onto a sturdy chair or step and drive through that heel to stand tall on top. Step down slowly. Switch legs.', poses: [
+      P(STAND, { fn: [16, 20], khn: [1, -1], db: 'nf' }), P(STAND, { lift: 20, ff: [-10, 36], khf: [0.3, 1], db: 'nf' })] },
+    bulgarian_split_squat: { name: 'Bulgarian split squats', cat: 'lower', added: 5, r: [8, 10, 12], side: 1, tp: 3.5, load: 'medium', mus: 'quads glutes | adductors hamstrings', cue: 'Back foot on a chair behind you, dumbbells at your sides. Sink straight down until the front thigh is level, then drive up. Switch legs.', poses: [
+      { t: [2, -34], fn: [18, 40], ff: [-32, 8], khf: [0.2, 1], hn: [4, -1], hf: [2, -1], db: 'nf' }, { t: [4, -34], fn: [20, 26], khn: [1, -1], ff: [-30, -4], khf: [0.2, 1], hn: [6, -1], hf: [4, -1], db: 'nf' }] },
+    hip_thrust: { name: 'Hip thrusts', cat: 'lower', added: 5, r: [10, 12, 15], tp: 3.5, load: 'single', mus: 'glutes | hamstrings quads', cue: 'Upper back against the edge of a couch or chair, a dumbbell on your hips. Drive your hips up until your body is flat from knees to shoulders, squeeze, lower.', poses: [
+      { t: [30, -16], hd: [0.6, -1], fn: [-24, 20], ff: [-26, 20], kh: [0, -1], hn: [2, -4], hf: [2, -3], eh: [0, -1], db: 'both' }, { t: [34, -2], hd: [1, -0.4], fn: [-22, 22], ff: [-24, 22], kh: [0, -1], hn: [4, -6], hf: [4, -5], eh: [0, -1], db: 'both' }] },
+    zercher_squat: { name: 'Kettlebell zercher squat', cat: 'lower', added: 5, r: [8, 10, 12], tp: 3.5, load: 'kb', mus: 'quads glutes upper_back | abs biceps', cue: 'Cradle the bell in the crooks of your elbows against your chest. Squat deep with an upright torso, then stand.', poses: [
+      P(STAND, { hn: [10, -22], hf: [9, -22], eh: [0, 1], kb: 'both', kbd: [0, 1] }), P(SQUAT, { hn: [24, -22], hf: [23, -22], eh: [0, 1], kb: 'both', kbd: [0, 1] })] },
+    kb_row: { name: 'Kettlebell row', cat: 'back', added: 5, r: [10, 12, 12], side: 1, tp: 3, load: 'kb', mus: 'lats upper_back | biceps rear_delts', cue: 'Split stance, free hand on your front knee. Row the bell to your hip, elbow brushing your side, and lower with control. Switch.', poses: [
+      P(STAG, { hn: [30, 15], kb: 'n', kbd: [0, 1] }), P(STAG, { hn: [14, -3], ehn: [-1, -1], kb: 'n', kbd: [0, 1] })] },
   };
 
 

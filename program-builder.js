@@ -94,6 +94,20 @@
       plyoLat: ['lateral_bounds', 'skater_jumps', 'single_leg_hops', 'bounding', 'power_skips'],
       plyoUp: ['clap_pushup', 'explosive_pushup', 'sprawl', 'plank_jacks', 'burpee'],
       plyoVert: ['pogo_hops', 'pause_squat_jump', 'tuck_jumps', 'squat_jump', 'star_jumps', 'single_leg_hops', 'power_skips'],
+      // Phase 5: more strength. New pool names, so the older programs' pools (and days) stay as they are.
+      pushLoad2: ['db_floor_press', 'db_shoulder_press', 'kb_press', 'db_pullover', 'floor_fly', 'arnold_press'],
+      chest2: ['db_floor_press', 'floor_fly', 'db_pullover', 'pushup', 'explosive_pushup', 'clap_pushup'],
+      shoulders2: ['db_shoulder_press', 'arnold_press', 'kb_press', 'bottoms_up_press', 'lateral_raise', 'db_front_raise', 'pike_pushup'],
+      row2: ['db_row', 'one_arm_row', 'renegade_row', 'kb_high_pull', 'kb_row'],
+      pullBar2: ['pullup', 'chinup', 'negative_pullup', 'commando_pullup', 'chin_hold', 'scap_pullup'],
+      barCore: ['hang_knee_raise', 'l_sit_hang', 'dead_hang'],
+      squat2: ['goblet_squat', 'db_squat', 'kb_front_squat', 'zercher_squat', 'kb_sumo_deadlift'],
+      lunge2: ['db_lunge', 'reverse_lunge', 'split_squat', 'bulgarian_split_squat', 'db_step_up', 'lateral_lunge', 'cossack_squat'],
+      glute2: ['hip_thrust', 'glute_bridge', 'single_leg_bridge', 'db_rdl', 'kb_swing', 'kb_deadlift'],
+      hinge2: ['db_rdl', 'kb_deadlift', 'kb_swing', 'single_leg_rdl', 'hip_thrust'],
+      kbUpper2: ['kb_press', 'bottoms_up_press', 'kb_row', 'kb_clean_press', 'kb_high_pull', 'kb_halo'],
+      kbLower2: ['goblet_squat', 'kb_front_squat', 'zercher_squat', 'kb_sumo_deadlift', 'kb_deadlift', 'lateral_lunge'],
+      kbCore2: ['kb_windmill', 'turkish_getup', 'kb_halo', 'suitcase_march'],
       core: ['plank', 'side_plank', 'hollow_hold', 'hollow_rock', 'dead_bug', 'weighted_dead_bug', 'bird_dog', 'bear_crawl', 'suitcase_march', 'kb_halo', 'db_side_bend', 'shoulder_taps', 'superman', 'russian_twist'],
     };
     // Pools computed from the catalogue. An exercise marked `added: N` (the phase that added it) joins them only
@@ -130,6 +144,7 @@
       single_leg_reach: 'star_excursion', lunge_to_balance: 'pistol_box_squat', single_leg_stand: 'heel_to_toe_walk',
       tuck_jumps: 'burpee_broad_jump', sprawl: 'burpee_broad_jump', seal_jacks: 'skater_jumps', fast_step_ups: 'tuck_jumps',
       pause_squat_jump: 'tuck_jumps', pogo_hops: 'single_leg_hops', drop_squat: 'broad_jump', power_skips: 'bounding',
+      hang_knee_raise: 'l_sit_hang', floor_fly: 'db_pullover', bulgarian_split_squat: 'shrimp_squat', db_step_up: 'bulgarian_split_squat', kb_row: 'kb_high_pull',
       teep: 'jab_teep', roundhouse: 'switch_kick', jab_cross_kick: 'kick_four', knee_strike: 'clinch_knees', front_kick: 'side_thrust_kick',
     };
     // holds: like reps (the level's number from the catalogue), said the way it feels in a flow

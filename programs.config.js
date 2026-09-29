@@ -842,6 +842,145 @@ const CONFIGS = [
         } },
     ];
   })(),
+  // ---------------- MORE STRENGTH (Phase 5: three more each in Strength, Pull-ups, Legs & glutes, Kettlebell only) ----------------
+  {
+    id: 'arnold-split', added: 5, name: 'Arnold Split', subject: 'Strength', minutes: [38, 42], levers: [null, 'weight', 'reps'],
+    split: 'Chest & back / shoulders & arms / legs', blurb: 'The classic bodybuilding split at home: chest and back together, shoulders and arms, then legs.',
+    about: 'The classic bodybuilding split, adapted for dumbbells, a kettlebell and a bar. Chest and back share a day, shoulders and arms get the next, and legs the third, all in straight sets with abs to finish. Floor flys, Arnold presses and Bulgarian split squats join the familiar moves. Level II moves you one weight up and Level III adds reps. For building muscle more than chasing numbers.',
+    names: ['Pump', 'Oak', 'Mr Universe', 'Muscle Beach', 'Venice', 'Golden Era', 'Iron Pump', 'Posing Room', 'Stage Ready', 'Physique', 'Sculpt', 'Chisel', 'Marble Statue', 'Bronze', 'Colossus', 'Atlas', 'Hercules', 'Titan', 'Olympia', 'Austrian Oak'],
+    cycle: ['chestback', 'arms', 'legs'],
+    dayTypes: {
+      chestback: { label: 'Chest & back', short: 'Chest · Back', blocks: [S('Chest & back', ['chest2', 'pullBar2', 'chest2', 'row2', 'floor_fly?'])] },
+      arms: { label: 'Shoulders & arms', short: 'Arms', blocks: [S('Shoulders & arms', ['arnold_press', 'biceps', 'triceps', 'shoulders2', 'arms?'])] },
+      legs: { label: 'Legs', short: 'Legs', blocks: [S('Legs', ['squat2', 'hinge2', 'bulgarian_split_squat', 'glute2', 'lunge2?'])] },
+    },
+  },
+  {
+    id: 'strength-supersets', added: 5, name: 'Strength Supersets', subject: 'Strength', minutes: [38, 42], levers: [null, 'weight', 'tempo'],
+    split: 'Upper supersets / lower supersets', blurb: 'Opposing muscles in supersets: push with pull, squat with hinge, so more work fits in 40 minutes.',
+    about: 'Opposing muscles paired in supersets, so one rests while the other works: push with pull, squat with hinge. That fits more strength work into forty minutes without cutting rest. Upper and lower days alternate, with abs to finish. Level II moves you one weight up and Level III slows every lowering to three seconds. Good once straight sets start to feel long.',
+    names: ['Tag Team', 'Double Header', 'Two-Step', 'Push-Pull', 'Yin-Yang Iron', 'Counterweight Set', 'Seesaw Set', 'Balance Beam Set', 'Tug of War', 'Back to Back', 'Twin Set', 'Pairs Skate', 'Duet Iron', 'Handshake', 'Swap Shop', 'Relay Pair', 'Mirror Set', 'Flip Flop', 'Opposites', 'Tandem Iron'],
+    cycle: ['upper', 'lower'],
+    dayTypes: {
+      upper: { label: 'Upper supersets', short: 'Upper', blocks: [SS('Upper supersets', ['pushLoad2', 'row2', 'shoulders2', 'pullBar2', 'biceps', 'triceps'])] },
+      lower: { label: 'Lower supersets', short: 'Lower', blocks: [SS('Lower supersets', ['squat2', 'hinge2', 'lunge2', 'glute2', 'kbSwing', 'barCore'])] },
+    },
+  },
+  {
+    id: 'heavy-duty', added: 5, name: 'Heavy Duty', subject: 'Strength', minutes: [38, 42], levers: [null, 'weight', 'weight'],
+    split: 'Full body A / B / C', blurb: 'Full-body strength three ways, with heavier dumbbells and fewer, harder sets.',
+    about: 'Full-body strength three ways, built on the heaviest moves you can do at home. Each day covers a squat or hinge, a press, a pull and a carry or core move, in straight sets with abs to finish. Days rotate so no pattern repeats back to back. Levels II and III both move you one weight up. For when your dumbbells are starting to feel light.',
+    names: ['Anvil Day', 'Girder', 'I-Beam', 'Rebar', 'Cast Iron', 'Wrought Iron', 'Pig Iron', 'Steel Toe', 'Hard Hat', 'Load Bearing', 'Crane', 'Forklift', 'Freight', 'Cargo', 'Ballast Load', 'Payload', 'Heavy Lifting', 'Deadweight', 'Tonnage', 'Iron Works'],
+    cycle: ['a', 'b', 'c'],
+    dayTypes: {
+      a: { label: 'Squat, press, row', short: 'A', blocks: [S('Full body', ['squat2', 'pushLoad2', 'row2', 'glute2', 'carry?'])] },
+      b: { label: 'Hinge, pull, press', short: 'B', blocks: [S('Full body', ['hinge2', 'pullBar2', 'shoulders2', 'lunge2', 'carry?'])] },
+      c: { label: 'Lunge, push, pull', short: 'C', blocks: [S('Full body', ['lunge2', 'chest2', 'row2', 'hinge2', 'kbCore2?'])] },
+    },
+  },
+  {
+    id: 'bar-flow', added: 5, name: 'Bar Flow', subject: 'Pull-ups', minutes: [33, 37], levers: [null, 'reps', 'variation'],
+    split: 'Pull & core / pull & push', blurb: 'Pull-ups with bar core work: knee raises and L-sit hangs between the pulling sets.',
+    about: 'Pull-ups with core work done on the same bar: hanging knee raises and L-sit hangs between the pulling sets. One day adds rows and core, the other adds pushing to balance the shoulders. Straight sets, with abs to finish. Level II adds reps and Level III brings harder variations, like the L-sit in place of knee raises. For a stronger grip and a flatter midsection together.',
+    names: ['Swing Set', 'Monkey Bars', 'Jungle Gym', 'Trapeze', 'Rings', 'High Bar Flow', 'Kip', 'Hollow Hang', 'Muscle-Up Dream', 'Rail', 'Branch', 'Vine', 'Rope Climb', 'Chalk', 'Calluses', 'Grip Tape', 'Hang Glider', 'Dangle', 'Suspension', 'Aerial'],
+    cycle: ['core', 'push'],
+    dayTypes: {
+      core: { label: 'Pull & bar core', short: 'Core', blocks: [S('Pull & bar core', ['pullBarMain', 'barCore', 'row2', 'barCore', 'pullBar2?'])] },
+      push: { label: 'Pull & push', short: 'Push', blocks: [S('Pull & push', ['pullBar2', 'push', 'pullBarMain', 'shoulders2', 'barCore?'])] },
+    },
+  },
+  {
+    id: 'hang-tough', added: 5, name: 'Hang Tough', subject: 'Pull-ups', minutes: [33, 37], levers: [null, 'reps', 'reps'],
+    split: 'Grip & hang / pull volume', blurb: 'Grip and hanging strength first: dead hangs, holds and slow negatives, then pull-up volume.',
+    about: 'For when the grip gives out before the back does: dead hangs, chin-over-bar holds, L-sit hangs and slow negatives. One day is about holding on, the other about pull-up volume in supersets with rows. Abs finish every session. Levels II and III add reps and seconds. Chalk helps.',
+    names: ['White Knuckle', 'Death Grip', 'Hold Fast', 'Stay Put', 'Clinging', 'Barnacle', 'Limpet', 'Velcro', 'Hook Grip', 'Vice', 'Clamp', 'Pincer', 'Talon', 'Claw', 'Fist', 'Handhold', 'Last Rung', 'Cliffhanger', 'Holdout', 'Never Let Go'],
+    cycle: ['hang', 'volume'],
+    dayTypes: {
+      hang: { label: 'Grip & hang', short: 'Hang', blocks: [S('Grip & hang', ['dead_hang', 'chin_hold', 'l_sit_hang', 'negative_pullup', 'hang_knee_raise?'])] },
+      volume: { label: 'Pull volume', short: 'Volume', blocks: [SS('Pull volume', ['pullBarMain', 'row2', 'pullBar2', 'row2', 'biceps', 'barCore'])] },
+    },
+  },
+  {
+    id: 'commando', added: 5, name: 'Commando', subject: 'Pull-ups', minutes: [33, 37], levers: [null, 'reps', 'variation'],
+    split: 'EMOM + strength / strength + EMOM', blurb: 'Commando pull-ups and pull-up EMOMs, with rows and pushing between.',
+    about: 'Military-style pulling: commando pull-ups, pull-up EMOMs and plenty of rows. One day opens with an EMOM that spreads pull-ups over the minutes, the other puts straight-set strength first. Push-ups keep the shoulders balanced, and abs finish each session. Level II adds reps and Level III brings harder variations. Tough, but the EMOM makes the volume manageable.',
+    names: ['Recon', 'Ranger', 'Sapper', 'Scout', 'Platoon', 'Sergeant', 'Drill', 'Boot Camp', 'Barracks', 'Obstacle Course', 'Rope Wall', 'Night March', 'Dawn Patrol', 'Ruck', 'Field Day', 'Mess Hall', 'Parade Ground', 'Attention', 'At Ease', 'Dismissed'],
+    cycle: ['emom', 'strength'],
+    dayTypes: {
+      emom: { label: 'EMOM + strength', short: 'EMOM', blocks: [E('Pull-up EMOM', ['pullBarMain', 'push', 'commando_pullup', 'row2'], { values: [10, 12, 14] }), S('Strength', ['row2', 'shoulders2', 'barCore?'])] },
+      strength: { label: 'Strength + EMOM', short: 'Strength', blocks: [S('Strength', ['commando_pullup', 'row2', 'pushLoad2', 'barCore?']), E('EMOM', ['pullBar2', 'push', 'row2'], { values: [8, 10, 12] })] },
+    },
+  },
+  {
+    id: 'glute-builder', added: 5, name: 'Glute Builder', subject: 'Legs & glutes', minutes: [33, 37], levers: [null, 'weight', 'tempo'],
+    split: 'Thrust / hinge / single-leg', blurb: 'Hip thrusts, bridges, deadlifts and step-ups: the glutes worked from every angle.',
+    about: 'The glutes worked from every angle: hip thrusts, bridges, deadlifts, step-ups and swings. Three days rotate, built around thrusting, hinging and single-leg work, each in straight sets with abs to finish. Level II moves you one weight up and Level III slows the lowering to three seconds. You need a couch or sturdy chair for the thrusts and step-ups.',
+    names: ['Peach', 'Posterior', 'Shelf', 'Power Hips', 'Hip Drive', 'Backside', 'Engine Room Glutes', 'Round Two', 'Lift Off Glutes', 'Squeeze', 'Lockout', 'Top Position', 'Bridge Builder', 'Thrust Line', 'Hinge Power', 'Stride Power', 'Stair Climber', 'Hill Sprint', 'Glute Day', 'Bum Deal'],
+    gear: 'A couch or sturdy chair for hip thrusts and step-ups.',
+    cycle: ['thrust', 'hinge', 'single'],
+    dayTypes: {
+      thrust: { label: 'Thrust & bridge', short: 'Thrust', blocks: [S('Glutes', ['hip_thrust', 'glute2', 'lunge2', 'glute2', 'hinge2?'])] },
+      hinge: { label: 'Hinge', short: 'Hinge', blocks: [S('Glutes & hamstrings', ['hinge2', 'hip_thrust', 'kbSwing', 'glute2', 'lunge2?'])] },
+      single: { label: 'Single-leg', short: 'Single', blocks: [S('Single-leg', ['db_step_up', 'bulgarian_split_squat', 'single_leg_rdl', 'glute2', 'singleLeg?'])] },
+    },
+  },
+  {
+    id: 'step-up', added: 5, name: 'Step Up', subject: 'Legs & glutes', minutes: [33, 37], levers: [null, 'weight', 'variation'],
+    split: 'Split squat day / step-up day', blurb: 'Single-leg strength built on step-ups and Bulgarian split squats, one leg at a time.',
+    about: 'Leg strength one side at a time, built on step-ups and Bulgarian split squats. One day centres on split squats and lunges, the other on step-ups and single-leg hinges, both with a little squatting and abs to finish. Level II moves you one weight up and Level III brings harder variations. You need a sturdy chair or step.',
+    names: ['Staircase Legs', 'Landing', 'Stoop', 'Porch Step', 'Curb', 'Platform', 'Ledge', 'Terrace', 'Balcony', 'Mezzanine', 'Loft', 'Attic Stairs', 'Spiral Stairs', 'Fire Escape', 'Step Stool', 'Riser', 'Tread', 'Handrail', 'Top Floor', 'Rooftop'],
+    gear: 'A sturdy chair or step.',
+    cycle: ['split', 'step'],
+    dayTypes: {
+      split: { label: 'Split squats', short: 'Split', blocks: [S('Split squats', ['bulgarian_split_squat', 'lunge2', 'squat2', 'glute2', 'lunge2?'])] },
+      step: { label: 'Step-ups', short: 'Step', blocks: [S('Step-ups', ['db_step_up', 'single_leg_rdl', 'squat2', 'lunge2', 'glute2?'])] },
+    },
+  },
+  {
+    id: 'leg-day-classic', added: 5, name: 'Leg Day Classic', subject: 'Legs & glutes', minutes: [33, 37], levers: [null, 'weight', 'reps'],
+    split: 'Squat day / hinge day / upper', blurb: 'Two proper leg days and an upper day: squat, hinge, lunge, heavy and simple.',
+    about: 'Two proper leg days for every upper day, kept heavy and simple. The squat day builds on goblet and zercher squats, the hinge day on deadlifts and hip thrusts, and lunges appear in both. The upper day keeps the rest of you in balance. Straight sets with abs to finish. Level II moves you one weight up and Level III adds reps.',
+    names: ['Quadzilla', 'Tree Trunks', 'Pillars', 'Oak Legs', 'Redwood', 'Sequoia', 'Baobab', 'Stump', 'Root Cellar', 'Foundation Stone', 'Bedrock', 'Groundwork', 'Footings', 'Piles', 'Stilts', 'Timber', 'Lumber', 'Log Cabin', 'Beam Legs', 'Mighty Oak'],
+    cycle: ['squat', 'hinge', 'upper'],
+    dayTypes: {
+      squat: { label: 'Squat day', short: 'Squat', blocks: [S('Squat day', ['squat2', 'lunge2', 'squat2', 'glute2', 'lunge2?'])] },
+      hinge: { label: 'Hinge day', short: 'Hinge', blocks: [S('Hinge day', ['hinge2', 'hip_thrust', 'lunge2', 'hinge2', 'glute2?'])] },
+      upper: { label: 'Upper body', short: 'Upper', blocks: [S('Upper body', ['pushLoad2', 'row2', 'shoulders2', 'pullBar2', 'arms?'])] },
+    },
+  },
+  {
+    id: 'windmill-and-press', added: 5, name: 'Windmill & Press', subject: 'Kettlebell only', minutes: [28, 32], equip: 'kb', levers: [null, 'reps', 'weight'],
+    split: 'Overhead A / overhead B', blurb: 'Kettlebell shoulder strength and stability: windmills, bottoms-up presses, get-ups and presses.',
+    about: 'Strong, stable shoulders with one kettlebell: windmills, bottoms-up presses, Turkish get-ups and strict presses. Each day pairs the overhead work with a squat or hinge so the whole body gets trained. Straight sets, with abs to finish. Level II adds reps and Level III moves you to the heavier bell. Go light on the bottoms-up press: it is harder than it looks.',
+    names: ['Overhead', 'Lockout Bell', 'Windmill', 'Weathervane', 'Lighthouse Bell', 'Beacon Bell', 'Torchbearer', 'Flag Bearer', 'Standard', 'Pennant', 'Mast Bell', 'Crow’s Nest', 'Periscope', 'Antenna', 'Spire Bell', 'Steeple', 'Minaret', 'Campanile', 'Bell Tower', 'Carillon'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Overhead A', short: 'A', blocks: [S('Overhead & legs', ['kb_windmill', 'bottoms_up_press', 'kbLower2', 'kb_row', 'kbCore2?'])] },
+      b: { label: 'Overhead B', short: 'B', blocks: [S('Overhead & legs', ['turkish_getup', 'kb_press', 'kbLower2', 'kbUpper2', 'kb_windmill?'])] },
+    },
+  },
+  {
+    id: 'kettlebell-strength', added: 5, name: 'Kettlebell Strength', subject: 'Kettlebell only', minutes: [28, 32], equip: 'kb', levers: [null, 'weight', 'tempo'],
+    split: 'Squat & press / hinge & row', blurb: 'Grinding kettlebell strength: front and zercher squats, rows, presses and deadlifts.',
+    about: 'Slow, grinding strength with one kettlebell: front squats, zercher squats, rows, presses and deadlifts. Squat-and-press days alternate with hinge-and-row days, in straight sets with abs to finish. Level II moves you to the heavier bell and Level III slows every lowering to three seconds. For strength rather than conditioning.',
+    names: ['Grind', 'Millstone', 'Winch', 'Capstan', 'Windlass', 'Hoist', 'Block and Tackle', 'Pulley Bell', 'Jack', 'Lever Bell', 'Wedge', 'Crowbar', 'Pry Bar', 'Mallet Bell', 'Chisel Bell', 'Grindstone', 'Whetstone', 'Mortar', 'Pestle', 'Quern'],
+    cycle: ['squat', 'hinge'],
+    dayTypes: {
+      squat: { label: 'Squat & press', short: 'Squat', blocks: [S('Squat & press', ['kb_front_squat', 'kb_press', 'zercher_squat', 'kbUpper2', 'kbCore2?'])] },
+      hinge: { label: 'Hinge & row', short: 'Hinge', blocks: [S('Hinge & row', ['kb_deadlift', 'kb_row', 'kb_sumo_deadlift', 'kbUpper2', 'kbCore2?'])] },
+    },
+  },
+  {
+    id: 'kettlebell-flow', added: 5, name: 'Kettlebell Flow', subject: 'Kettlebell only', minutes: [28, 32], equip: 'kb', levers: [null, 'reps', 'variation'],
+    split: 'Circuit / EMOM', blurb: 'Kettlebell circuits and EMOMs that flow from one move to the next without putting the bell down.',
+    about: 'Kettlebell work that flows: circuits and EMOMs moving from swings to squats to presses without putting the bell down. One day is a long circuit, the other a mixed EMOM, each with a short strength block, then abs. Level II adds reps and Level III brings harder variations. Good for fitness and coordination as much as strength.',
+    names: ['River Bell', 'Current Bell', 'Stream Bell', 'Flowing', 'Glide Bell', 'Ribbon', 'Silk', 'Wave Bell', 'Swell Bell', 'Tide Bell', 'Drift', 'Cascade Bell', 'Waterfall', 'Rapids Bell', 'Eddy Bell', 'Whirlpool', 'Delta Bell', 'Estuary Bell', 'Brook Bell', 'Spring Bell'],
+    cycle: ['circuit', 'emom'],
+    dayTypes: {
+      circuit: { label: 'Circuit', short: 'Circuit', blocks: [C('Bell circuit', ['kbBallistic', 'kbLower2', 'kbUpper2', 'kbCore2', 'kbBallistic'], { values: [2, 3, 4] }), S('Strength', ['kbLower2', 'kbUpper2?'])] },
+      emom: { label: 'EMOM', short: 'EMOM', blocks: [E('Bell EMOM', ['kbBallistic', 'kbUpper2', 'kbLower2', 'kbCore2'], { values: [12, 14, 16] }), S('Strength', ['kbUpper2', 'kbLower2?'])] },
+    },
+  },
 ];
 
 // ---------- program paragraphs (hand-written): what it trains, how it's built, how it gets harder, who it suits ----------
