@@ -1,6 +1,7 @@
 // The program library (issue #4). Each program is 60 days, starts at intermediate, ends every
 // workout with abs (unless absSlots: [], as in yoga) and gets a matched warm-up and cool-down on top of its time range.
-// Blocks: f = straight | superset (slots in pairs) | circuit | emom | amrap | tabata | ladder | flow (guided poses).
+// Blocks: f = straight | superset (slots in pairs) | circuit | emom | amrap | tabata | ladder | flow (guided poses)
+// | bouts (boxing: one combo per bout).
 // Slots are pool names from program-builder.js (or exercise ids); a trailing '?' makes the slot optional (dropped if
 // time is short). A block's scale: n makes its holds n times longer (yin), up to cap seconds.
 // levers[1], levers[2] = how Level II and Level III get harder: reps | holds | weight | variation | tempo.
@@ -16,6 +17,7 @@ const T = (title, slots, extra) => ({ f: 'tabata', title, slots, ...extra });
 const L = (title, slots, extra) => ({ f: 'ladder', title, slots, ...extra });
 const F = (title, slots, extra) => ({ f: 'flow', title, slots, ...extra });
 const SUN = F('Sun salutations', ['sun_salutation']);
+const B = (title, slots, extra) => ({ f: 'bouts', title, slots, ...extra }); // one combo per 3-minute bout
 const ONCE = { values: [1] }; // a flow done once through (the hundred opens a Pilates session once)
 
 const UPPER = S('Upper body', ['pushLoad', 'row', 'shoulders', 'arms', 'push?']);
@@ -460,6 +462,62 @@ const CONFIGS = [
     dayTypes: {
       a: { label: 'Power A', short: 'A', blocks: [F('Warm-up', ['hundred', 'roll_up'], ONCE), F('Power series', ['teaser', 'double_leg_stretch', 'criss_cross', 'leg_pull_front', 'plAbs', 'plRoll?']), F('Back & sides', ['swimming', 'side_kick', 'shoulder_bridge', 'plBack', 'plSide?'])] },
       b: { label: 'Power B', short: 'B', blocks: [F('Warm-up', ['hundred', 'spine_stretch'], ONCE), F('Power series', ['teaser', 'scissors', 'seal', 'leg_pull_front', 'plAbs', 'plRoll?']), F('Back & sides', ['swan', 'swimming', 'plSide', 'plSide', 'plBack?'])] },
+    },
+  },
+  // ---------------- BOXING (Phase 5: 3-minute bouts, one combo each, no equipment; abs to finish) ----------------
+  {
+    id: 'fight-camp', added: 5, name: 'Fight Camp', subject: 'Boxing', minutes: [26, 31], equip: 'bw', levers: [null, 'variation', 'variation'],
+    split: 'Bouts A / bouts B', blurb: 'Shadowboxing in 3-minute bouts: one combination per bout, called out as the bell starts, then abs.',
+    about: 'Shadowboxing like a fighter in camp: five or six 3-minute bouts with a minute of rest between. Each bout drills one combination, called out by the voice as it starts, mixing basics, power shots and defence. Every session ends with abs. Levels II and III bring longer combinations. No equipment, just room to move.',
+    names: ['Opening Bell', 'Southside Gym', 'Sparring Day', 'Corner Man', 'Title Shot', 'Weigh-In', 'Main Event', 'Undercard', 'Headliner', 'Contender', 'Road Work', 'Hand Wraps', 'Mouthguard', 'Ring Rope', 'Canvas', 'Split Decision', 'Knockdown', 'Standing Eight', 'Final Round', 'Champion'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Bouts A', short: 'A', blocks: [B('Bouts', ['bxBasic', 'bxPower', 'bxDefense', 'bxBasic', 'bxPower?', 'bxDefense?'])] },
+      b: { label: 'Bouts B', short: 'B', blocks: [B('Bouts', ['bxMove', 'bxBasic', 'bxPower', 'bxDefense', 'bxPower?', 'bxBasic?'])] },
+    },
+  },
+  {
+    id: 'southpaw-switch', added: 5, name: 'Southpaw Switch', subject: 'Boxing', minutes: [26, 31], equip: 'bw', levers: [null, 'variation', 'variation'],
+    split: 'Orthodox & southpaw A / B', blurb: 'Boxing bouts that switch stance each bout, so both hands learn to lead.',
+    about: 'Boxing bouts that switch stance every bout, so both sides learn to lead and to throw the power hand. The odd bouts are orthodox, left foot forward, and the even bouts southpaw, the mirror image; the voice calls the stance with each combo. The combinations stay the same, which makes the weak side easy to hear and to feel. Levels II and III bring longer combinations, and abs finish every session.',
+    names: ['Mirror', 'Lefty', 'Switch Hitter', 'Converted', 'Other Hand', 'Flip Side', 'Reflection', 'Two-Way', 'Ambidextrous', 'Crossroads', 'Swap Foot', 'Turnabout', 'Reverse', 'Opposite Lock', 'Twin Fists', 'Even Split', 'Mirror Match', 'Lead Change', 'Both Barrels', 'Full Circle'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Switch A', short: 'A', blocks: [B('Bouts · switch stance each bout', ['bxBasic', 'bxBasic', 'bxPower', 'bxDefense', 'bxPower?', 'bxBasic?'], { switchStance: 1 })] },
+      b: { label: 'Switch B', short: 'B', blocks: [B('Bouts · switch stance each bout', ['bxMove', 'bxPower', 'bxBasic', 'bxDefense', 'bxBasic?', 'bxPower?'], { switchStance: 1 })] },
+    },
+  },
+  {
+    id: 'speed-and-footwork', added: 5, name: 'Speed & Footwork', subject: 'Boxing', minutes: [22, 27], equip: 'bw', levers: [null, 'variation', 'variation'],
+    split: 'Feet A / feet B', blurb: 'Lighter, quicker boxing: footwork, speed-bag hands and fast one-twos, in 3-minute bouts.',
+    about: 'Lighter, quicker boxing for speed and footwork. Bouts alternate between moving your feet, speed-bag hands and fast basic combinations, with some defence in between. Sessions are a little shorter, around 25 minutes, and end with abs. Levels II and III bring longer combinations. Good as a cardio day that still teaches something.',
+    names: ['Quickstep', 'Light Feet', 'Hummingbird', 'Blur', 'Flicker', 'Skip Rope', 'Shuffle', 'Pitter-Patter', 'Tap Dance', 'Rapid Fire', 'Snap', 'Whip', 'Zip', 'Sprint', 'Dart', 'Swift', 'Jitterbug', 'Drumroll', 'Staccato', 'Allegro'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Feet A', short: 'A', blocks: [B('Bouts', ['bxMove', 'bxBasic', 'bxMove', 'bxBasic?', 'bxDefense?'])] },
+      b: { label: 'Feet B', short: 'B', blocks: [B('Bouts', ['shadow_footwork', 'bxBasic', 'speed_bag', 'bxDefense?', 'bxBasic?'])] },
+    },
+  },
+  {
+    id: 'heavy-hands', added: 5, name: 'Heavy Hands', subject: 'Boxing', minutes: [30, 35], equip: 'bw', levers: [null, 'variation', 'variation'],
+    split: 'Power bouts + conditioning', blurb: 'Power combinations in 3-minute bouts, then a bodyweight conditioning circuit, then abs.',
+    about: 'Power boxing followed by bodyweight conditioning. Four or five bouts drill the heavier combinations, uppercuts, hooks and body shots, with a minute of rest between. A circuit of push-ups, legs, core and cardio follows, then abs. Levels II and III bring longer combinations and harder circuit moves. The longest boxing session here, around 35 minutes.',
+    names: ['Sledgehammer', 'Anvil', 'Iron Fist', 'Wrecking Ball', 'Haymaker', 'Brick Wall', 'Pile Driver', 'Battering Ram', 'Thunderclap', 'Heavy Bag', 'Stone Hands', 'Big Swing', 'Demolition', 'Bulldozer', 'Cannonball', 'Mallet', 'Boulder', 'Earthquake', 'Avalanche', 'Knockout'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Power bouts + circuit', short: 'A', blocks: [B('Power bouts', ['bxPower', 'bxPower', 'bxBasic', 'bxPower?', 'bxDefense?']), C('Conditioning', ['push', 'legsBw', 'core', 'cardio'], { values: [2, 3, 4] })] },
+      b: { label: 'Power bouts + circuit B', short: 'B', blocks: [B('Power bouts', ['bxPower', 'bxBasic', 'bxPower', 'bxDefense?', 'bxPower?']), C('Conditioning', ['legsBw', 'push', 'cardio', 'core'], { values: [2, 3, 4] })] },
+    },
+  },
+  {
+    id: 'boxers-engine', added: 5, name: "Boxer's Engine", subject: 'Boxing', minutes: [28, 33], equip: 'bw', levers: [null, 'variation', 'variation'],
+    split: 'Bouts + Tabata A / B', blurb: 'Boxing bouts for skill, then Tabata intervals for the engine a fighter needs, then abs.',
+    about: 'Boxing bouts for skill, then Tabata intervals for the engine. Three or four 3-minute bouts mix basics, movement and power, and a Tabata of cardio and core follows: 20 seconds hard, 10 seconds rest. Abs finish every session. Levels II and III bring longer combinations and harder cardio moves. For fitness first, with boxing as the way in.',
+    names: ['Gas Tank', 'Second Wind', 'Last Round', 'Stamina', 'Engine Room', 'Pistons', 'Bellows', 'Furnace Round', 'Endurance', 'Long Haul', 'Twelve Rounds', 'Distance', 'Pace Setter', 'Afterburner', 'Overdrive Round', 'Grit', 'Stoker', 'Boiler', 'Marathon Man', 'Iron Lungs'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Bouts + Tabata A', short: 'A', blocks: [B('Bouts', ['bxBasic', 'bxMove', 'bxPower', 'bxDefense?']), T('Tabata', ['cardio', 'core', 'cardio', 'cardio'], { values: [1, 2] })] },
+      b: { label: 'Bouts + Tabata B', short: 'B', blocks: [B('Bouts', ['bxMove', 'bxPower', 'bxBasic', 'bxBasic?']), T('Tabata', ['cardio', 'cardio', 'core', 'cardio'], { values: [1, 2] })] },
     },
   },
 ];

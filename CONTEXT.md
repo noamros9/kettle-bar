@@ -12,7 +12,7 @@ its own progress. Identified by an id (`three-split-60`, `iron-ppl`).
 Full-Body Duo 60). The other 24 are **library programs**, three per **Subject**.
 
 **Subject**: a library shelf: signature, strength, pull-ups, legs & glutes, kettlebell only, bodyweight, busy week,
-conditioning, core & abs, mobility & posture, yoga, Pilates (more come in Phase 5). Each belongs to one **Family**.
+conditioning, core & abs, mobility & posture, yoga, Pilates, boxing (more come in Phase 5). Each belongs to one **Family**.
 
 **Family**: a group of subjects on the programs page: *Strength*, *Cardio & combat*, *Mind & body*. Picking one shows
 only its subjects' chips and shelves. Listed in `FAMILIES` in `app/views.js`; a subject missing there is an error.
@@ -35,12 +35,17 @@ block** (no bar, 3 sets, weights allowed), except in programs whose session is c
 yoga, Pilates, flexibility, mobility & posture).
 
 **Format**: how a block is performed: *straight sets*, *superset*, *circuit*, *EMOM*, *AMRAP*, *Tabata*,
-*ladder*, *guided flow*.
+*ladder*, *guided flow*, *bouts*.
 
 **Guided flow** (`flow`): a sequence of **Poses** on the clock, run by one Start. Each pose (and each side) gets 5 s
 to move into it while the voice names it, then its hold; a pose written in reps lasts reps × seconds per rep. A flow
 can go through 1–3 times (`repeat`). Stats count each pose as one set per pass. A block's `scale` lengthens its holds
 (yin, up to `cap` seconds).
+
+**Bout** (`bouts`): boxing's rounds, called bouts so they aren't confused with circuit rounds or program Rounds.
+Each item is one bout's combo: 3 minutes of work, 1 minute of rest between bouts, one Start for all of them. The
+voice calls the combo as the bout starts ("Bout 2: jab, cross, hook"; with `switchStance`, also orthodox or
+southpaw in turn). Stats count each bout as one set of its combo.
 
 **Set / Pair / Round**: the unit you tick while training. A *set* belongs to one exercise (straight sets);
 a *pair* is one set of each exercise in a superset; a *round* is one pass through a circuit or ladder.
