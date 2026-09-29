@@ -2,7 +2,7 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const cat = require('../exercises.js');
-const { buildAll, CONFIGS, timing, build } = require('../program-builder.js');
+const { buildAll, CONFIGS, timing, build, POOLS } = require('../program-builder.js');
 
 const { EX, allowedIn } = cat;
 const programs = buildAll();
@@ -30,6 +30,8 @@ const SUBJECTS = {
   'Busy week': { count: 6, abs: true, formats: ['circuit', 'superset', 'amrap', 'emom'] },
   // Mixed (Phase 6): abs depends on the day type, so it has its own test below
   'Strength & stretch': { count: 6, abs: undefined, formats: ['straight', 'superset', 'flow'] },
+  Fighter: { count: 6, abs: undefined, formats: ['bouts', 'straight', 'superset', 'circuit', 'emom', 'amrap', 'tabata', 'flow'] },
+  Athlete: { count: 6, abs: undefined, formats: ['straight', 'superset', 'circuit'] },
 };
 
 for (const [subject, want] of Object.entries(SUBJECTS)) {
@@ -114,9 +116,9 @@ test('the core programs opt in to the new catalogue (catalogue: 5): their abs fi
   assert.ok(optIn.some((p) => p.days.some((d) => d.blocks.at(-1).items.some((it) => fresh.has(it.ex)))));
 });
 
-test('the library: 104 programs in 19 subjects', () => {
-  assert.equal(programs.length, 104);
-  assert.equal(new Set(programs.map((p) => p.subject)).size, 19);
+test('the library: 116 programs in 21 subjects', () => {
+  assert.equal(programs.length, 116);
+  assert.equal(new Set(programs.map((p) => p.subject)).size, 21);
 });
 
 // ---------- Mixed: Strength & stretch (Phase 6 ticket 1) ----------
@@ -172,4 +174,87 @@ test('Strength & stretch: the strength blocks level by weight or reps, the flows
 test('Strength & stretch: kettlebell-and-yoga uses one kettlebell and a mat, the others the dumbbells, bar and mat', () => {
   assert.equal(cfgOf['kettlebell-and-yoga'].equip, 'kb');
   assert.ok(stretch.filter((p) => p.id !== 'kettlebell-and-yoga').every((p) => p.equip === 'all'));
+});
+
+// ---------- Mixed: Fighter and Athlete (Phase 6 ticket 2) ----------
+const FIGHTER = ['fight-ready', 'strike-and-lift', 'southpaw-strength', 'muay-thai-conditioning', 'boxers-body', 'knockout-circuit'];
+const ATHLETE = ['jump-lift-stick', 'court-ready', 'field-day', 'explosive-legs', 'power-and-poise', 'all-round-athlete'];
+const fighter = programs.filter((p) => p.subject === 'Fighter');
+const athlete = programs.filter((p) => p.subject === 'Athlete');
+const mainOf = (d) => d.blocks.filter((b) => b.kind === 'main');
+const familiesOf = (d) => [...new Set(mainOf(d).map((b) => b.family))];
+
+for (const [subject, list, ids] of [['Fighter', fighter, FIGHTER], ['Athlete', athlete, ATHLETE]]) {
+  test(`${subject}: the six programs, in order, are Mixed, added: 6, on the whole catalogue, with 20 distinct day names`, () => {
+    assert.deepEqual(list.map((p) => p.id), ids);
+    list.forEach((p) => {
+      const cfg = cfgOf[p.id];
+      assert.equal(cfg.added, 6, p.id);
+      assert.equal(cfg.catalogue, 5, p.id);
+      assert.ok(cfg.blurb && cfg.names.length === 20 && new Set(cfg.names).size === 20, p.id);
+    });
+  });
+
+  test(`${subject}: every main block is tagged with its family, the abs block is not, and abs follow the day type`, () => {
+    const seen = new Set();
+    list.forEach((p) => p.days.forEach((d) => {
+      const cfg = cfgOf[p.id];
+      assert.ok(mainOf(d).every((b) => FAMILY_TAGS.includes(b.family)), `${p.id} d${d.day}`);
+      assert.ok(d.blocks.filter((b) => b.kind === 'abs').every((b) => !('family' in b)), `${p.id} d${d.day}: abs is untagged`);
+      assert.ok(familiesOf(d).length >= 2, `${p.id} d${d.day}: a mixed day`);
+      assert.equal(d.blocks.at(-1).kind === 'abs', absOf(cfg, d.type), `${p.id} d${d.day} (${d.type})`);
+      if (d.blocks.at(-1).format === 'flow') assert.ok(!absOf(cfg, d.type), `${p.id} d${d.day}: a flow day has no abs`);
+      seen.add(absOf(cfg, d.type));
+    }));
+    assert.deepEqual([...seen].sort(), [false, true], 'both kinds of day exist in the subject');
+  });
+}
+
+test('Fighter: every day has 2–5 bouts of boxing or kickboxing, each block levels in its own way, and the flows hold longer', () => {
+  fighter.forEach((p) => {
+    const cfg = cfgOf[p.id];
+    assert.equal(p.equip, cfg.equip || 'all');
+    p.days.forEach((d) => {
+      const bouts = mainOf(d).filter((b) => b.format === 'bouts');
+      assert.equal(bouts.length, 1, `${p.id} d${d.day}`);
+      assert.equal(bouts[0].family, 'Cardio & combat');
+      assert.ok(bouts[0].items.length >= 2 && bouts[0].items.length <= 5, `${p.id} d${d.day}: ${bouts[0].items.length} bouts`);
+      bouts[0].items.forEach((it) => assert.ok(['boxing', 'kick'].includes(EX[it.ex].cat) && it.n === 180, `${p.id} d${d.day}: ${it.ex}`));
+      mainOf(d).filter((b) => b.format === 'flow').forEach((b) => assert.equal(b.family, 'Mind & body'));
+    });
+    Object.values(cfg.dayTypes).forEach((t) => t.blocks.forEach((b) => {
+      if (b.f === 'bouts') assert.deepEqual(b.lever, [null, 'variation', 'variation'], p.id);
+      if (b.f === 'flow') assert.deepEqual(b.lever, [null, 'holds', 'holds'], p.id);
+    }));
+    assert.ok(['weight', 'reps'].includes(cfg.levers[1]) && ['weight', 'reps'].includes(cfg.levers[2]), p.id);
+    p.days.filter((d) => d.level === 3).forEach((d) => mainOf(d).filter((b) => b.format === 'flow').forEach((b) => b.items.forEach((it) => assert.ok(it.n >= EX[it.ex].r[2], `${p.id} d${d.day}: ${it.ex}`))));
+  });
+  assert.ok(fighter.some((p) => p.days.some((d) => d.blocks.some((b) => b.switchStance))), 'a switch-stance program');
+  assert.ok(fighter.some((p) => p.days.some((d) => d.blocks.some((b) => b.items.some((it) => EX[it.ex].cat === 'kick')))), 'kickboxing appears');
+  assert.ok(fighter.some((p) => p.days.some((d) => mainOf(d).some((b) => b.family === 'Strength'))), 'strength appears');
+  assert.ok(fighter.some((p) => p.days.some((d) => mainOf(d).some((b) => b.format === 'circuit' || b.format === 'tabata'))), 'conditioning appears');
+  const bw = fighter.filter((p) => p.equip === 'bw').length;
+  assert.ok(bw >= 4 && bw < 6, `most Fighter programs need no equipment, one or two use a bell or dumbbells (${bw} bw)`);
+});
+
+test('Athlete: every day is a plyometrics block first, then strength and balance, on long plyometric rests', () => {
+  const PLYO = new Set(['plyoLow', 'plyoLat', 'plyoUp', 'plyoVert'].flatMap((n) => POOLS[n]));
+  const VARIATIONS = new Set(['burpee_broad_jump', 'single_leg_hops', 'bounding', 'tuck_jumps', 'jump_lunge', 'skater_jumps']); // where the variation lever leads a jump
+  const BALANCE = new Set(['blStatic', 'blDynamic', 'blStrength', 'blPower'].flatMap((n) => POOLS[n]));
+  athlete.forEach((p) => {
+    assert.ok(p.rests.set >= 60 && p.rests.exercise >= 90, `${p.id}: plyometric rests`);
+    p.days.forEach((d) => {
+      const main = mainOf(d);
+      assert.equal(main[0].family, 'Cardio & combat', `${p.id} d${d.day}: jumps lead`);
+      assert.equal(main[0].format, 'straight');
+      assert.ok(main[0].items.every((it) => PLYO.has(it.ex) || VARIATIONS.has(it.ex)), `${p.id} d${d.day}: ${main[0].items.map((i) => i.ex)}`);
+      assert.deepEqual(familiesOf(d).sort(), ['Cardio & combat', 'Mind & body', 'Strength'], `${p.id} d${d.day}: jump, lift, stick`);
+      assert.ok(main.filter((b) => b.family === 'Mind & body').every((b) => b.items.every((it) => BALANCE.has(it.ex))), `${p.id} d${d.day}: balance block`);
+    });
+    const cfg = cfgOf[p.id];
+    Object.values(cfg.dayTypes).forEach((t) => assert.deepEqual(t.blocks[0].lever, [null, 'reps', 'variation'], p.id));
+    assert.ok(['weight', 'reps'].includes(cfg.levers[1]) && ['weight', 'reps'].includes(cfg.levers[2]), p.id);
+  });
+  const bw = athlete.filter((p) => p.equip === 'bw').length;
+  assert.ok(bw >= 1 && bw < 6, 'some Athlete programs need no gear, some use dumbbells or a bell');
 });

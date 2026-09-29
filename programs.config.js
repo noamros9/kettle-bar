@@ -21,6 +21,9 @@ const ORDER = [
     'express-circuit', 'two-block-20', 'lunch-break',
   // Phase 6: Mixed
   'lift-and-lengthen', 'iron-yoga', 'strong-hips', 'upper-and-open', 'kettlebell-and-yoga', 'posture-strength',
+  // Phase 6 ticket 2: Fighter, Athlete
+  'fight-ready', 'strike-and-lift', 'southpaw-strength', 'muay-thai-conditioning', 'boxers-body', 'knockout-circuit',
+  'jump-lift-stick', 'court-ready', 'field-day', 'explosive-legs', 'power-and-poise', 'all-round-athlete',
 ];
 
 const byId = new Map(FAMILY_FILES.flat().map((c) => [c.id, c]));

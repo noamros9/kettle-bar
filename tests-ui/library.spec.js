@@ -54,15 +54,36 @@ test('the eyebrow counts what the taps select: Mind & body, then Yoga, then a le
   expect(await app.sidewaysScroll()).toBe(0);
 });
 
-test('tap Mixed: one subject chip, Strength & stretch, and "Mixed · 6 programs"', async ({ app }) => {
+test('tap Mixed: chips Strength & stretch, Fighter and Athlete, and "Mixed · 18 programs"', async ({ app }) => {
   await app.open('#programs');
   await family(app).getByRole('button', { name: 'Mixed' }).click();
   await expect(family(app).getByRole('button', { name: 'Mixed' })).toHaveAttribute('aria-pressed', 'true');
-  expect(await chipTexts(subjects(app))).toEqual(['All', 'Strength & stretch']);
-  await expect(app.page.locator('.pgroup h2')).toHaveText(['Strength & stretch']);
-  await expect(app.page.locator('.pcard')).toHaveCount(6);
-  await expect(app.page.locator('.eyebrow').first()).toHaveText('Mixed · 6 programs');
+  expect(await chipTexts(subjects(app))).toEqual(['All', 'Strength & stretch', 'Fighter', 'Athlete']);
+  await expect(app.page.locator('.pgroup h2')).toHaveText(['Strength & stretch', 'Fighter', 'Athlete']);
+  await expect(app.page.locator('.pcard')).toHaveCount(18);
+  await expect(app.page.locator('.eyebrow').first()).toHaveText('Mixed · 18 programs');
   await expect(app.page.locator('.pgroup', { hasText: 'Strength & stretch' }).locator('[data-open-prog="iron-yoga"]')).toHaveCount(1);
+  await expect(app.page.locator('.pgroup', { hasText: 'Fighter' }).locator('.pcard')).toHaveCount(6);
+  await expect(app.page.locator('.pgroup', { hasText: 'Athlete' }).locator('[data-open-prog="jump-lift-stick"]')).toHaveCount(1);
+  expect(await app.sidewaysScroll()).toBe(0);
+});
+
+test('a Fighter day opens: Start runs the bouts, and the flow after them is its own Start', async ({ app }) => {
+  await app.page.clock.install();
+  await app.open('#programs');
+  await family(app).getByRole('button', { name: 'Mixed' }).click();
+  await app.page.locator('[data-open-prog="fight-ready"]').click();
+  await app.go('#p-fight-ready-d1');
+  const d = await app.data(() => { const d = programs.day('fight-ready', 1), b = d.blocks[0]; return { formats: d.blocks.map((x) => x.format), n: b.items.length, first: KBEx.EX[b.items[0].ex].name, abs: d.blocks.some((x) => x.kind === 'abs') }; });
+  expect(d.formats).toEqual(['bouts', 'flow']);
+  expect(d.abs).toBe(false);
+  await expect(app.page.locator('.block .fmt')).toHaveText(['Bouts', 'Guided flow']);
+  await app.page.locator('[data-run="0"]').click();
+  await expect(app.page.locator('#tlabel')).toHaveText(`Get ready · ${d.first}`);
+  await expect(app.page.locator('#tsub')).toHaveText(`Bout 1 of ${d.n}`);
+  await expect(app.page.locator('#tfig svg.fig')).toBeVisible();
+  await app.page.clock.runFor(6000);
+  await expect(app.page.locator('#tlabel')).toHaveText(d.first);
   expect(await app.sidewaysScroll()).toBe(0);
 });
 
