@@ -25,7 +25,7 @@ Tracer bullets, one branch = one PR, each from its **Test first**.
 | # | Ticket | Tier | Blocked by | Branch | Status |
 |---|---|---|---|---|---|
 | 1 | Mixed days in the builder + Strength & stretch (6 programs) | feature | review III 2–4 | `feature/mixed-strength-stretch` | done (PR #78) |
-| 2 | Mixed: Fighter, Athlete (12 programs) | feature | 1 | `feature/mixed-fighter-athlete` | done (PR #<n>) |
+| 2 | Mixed: Fighter, Athlete (12 programs) | feature | 1 | `feature/mixed-fighter-athlete` | done (PR #79) |
 | 3 | Mixed: Balanced week, Calm strength (12 programs) | feature | 1 | `feature/mixed-balanced-calm` | |
 | 4 | Recipes by subject | feature | review III 4 | `feature/recipes` | |
 | 5 | Build your own: pick, preview, regenerate, save | feature | 4, review III 5, 6 | `feature/build-your-own` | |
