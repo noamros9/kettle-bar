@@ -26,12 +26,13 @@ and a mat.
 Live at **https://noamros9.github.io/kettle-bar/**. Every push to `main` is built and tested by GitHub
 Actions and deployed only if all tests pass (Settings → Pages → Source: **GitHub Actions**).
 
-Progress is always kept on the device. Press **Sign in to sync** (Google) to
+Progress is always kept on the device. Press **Sign in** (Google) at the top to
 sync it through Firebase to every device where you sign in. On first sign-in,
 days ticked on the device and in the cloud are merged.
 
 - **Settings** (gear, top right) → **Export progress** downloads every program's done days as one file;
   **Import a backup** shows which days it would add or remove, then asks **Merge** or **Replace**.
+- **Tap the logo** (top left) from any page to open today's workout: the next day you haven't done in the program you opened last.
 - Installed on the home screen, long-press the app icon → **Today's workout** opens the next day you haven't
   done in the program you opened last.
 - **Start Round 2** on a program page does the program again from day 1; earlier rounds stay in your stats (Stats can

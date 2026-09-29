@@ -27,3 +27,14 @@ test('opening the app cold from the shortcut uses your saved progress', async ({
   await app.open('#today'); // a fresh page load, like tapping the shortcut
   await expect(app.page).toHaveURL(/#p-iron-ppl-d4$/);
 });
+
+test('the logo (home) goes to the same place as the shortcut, from any page', async ({ app }) => {
+  await app.open('#p-iron-ppl');
+  for (const n of [1, 2]) await app.page.getByRole('checkbox', { name: `Mark day ${n} done` }).click();
+  await app.go('#stats');
+  await app.page.getByRole('button', { name: "Home: today's workout" }).click();
+  await expect(app.page).toHaveURL(/#p-iron-ppl-d3$/);
+  await expect(app.heading()).toHaveText(await app.data(() => programs.day('iron-ppl', 3).name));
+  await app.page.getByRole('button', { name: "Home: today's workout" }).click(); // already there: stays
+  await expect(app.page).toHaveURL(/#p-iron-ppl-d3$/);
+});
