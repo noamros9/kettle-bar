@@ -33,6 +33,10 @@ const fetchJson = (url) => fetch(url).then((r) => { if (!r.ok) throw new Error(u
 const programs = KBPrograms.createProgramCatalogue(KBPrograms.fetched(PROGRAM_SUMMARIES, { fetchJson, cache: offlineCache, name: 'library' }));
 // the recipe book for build your own and the random workout: fetched when first asked for, kept for offline
 const recipes = KBRecipes.recipesLoader({ fetchJson, cache: offlineCache });
+let recipeBook = null; // KBRecipes.of(book), once the book is here
+const loadBook = () => recipes.load().then((b) => (recipeBook = recipeBook || KBRecipes.of(b)));
+// the first library program: the fallback wherever "some program" is needed (your own programs are listed before it)
+const firstPid = () => programs.list().find((s) => s.source === 'library').id;
 const lastPid = () => { try { const v = localStorage.getItem('kb-last-program'); return programs.has(v) ? v : null; } catch (e) { return null; } };
 // the program of the workout marked done most recently (any round), or nothing before the first one
 const lastDonePid = () => {
@@ -41,16 +45,17 @@ const lastDonePid = () => {
   return last && last.pid;
 };
 const rememberPid = (pid) => { try { localStorage.setItem('kb-last-program', pid); } catch (e) {} };
-let route = { view: 'program', pid: programs.ids()[0], day: null };
+let route = { view: 'program', pid: firstPid(), day: null };
 function parseHash() {
   const h = location.hash.replace('#', '');
   if (h === 'programs') return { view: 'programs' };
+  if (h === 'build') return { view: 'build' };
   if (h === 'exercises') return { view: 'library' };
   if (h === 'settings') return { view: 'settings' };
   // home (the logo) and the home-screen shortcut: the next day not done in the program of the workout marked done last
   // (before any, the program opened last); the program page once every day is done
   if (h === 'today') {
-    const pid = lastDonePid() || lastPid() || programs.ids()[0], n = nextDay(pid);
+    const pid = lastDonePid() || lastPid() || firstPid(), n = nextDay(pid);
     history.replaceState(null, '', '#' + (n ? dayHash(pid, n) : 'p-' + pid));
     return n ? { view: 'day', pid, day: n } : { view: 'program', pid };
   }
@@ -72,7 +77,7 @@ window.addEventListener('hashchange', () => { route = parseHash(); render(true);
 const dayHash = (pid, n) => `p-${pid}-d${n}`;
 
 /* ---------------- helpers ---------------- */
-const prog = () => programs.get(route.pid) || programs.get(programs.ids()[0]);
+const prog = () => programs.get(route.pid) || programs.get(firstPid());
 const typesOf = (p) => p.dayTypes || TYPES;
 const itemSets = (b, it) => it.sets || b.sets;
 // the next day not done (after `after`, else from the start); works from the program list, no days needed
@@ -96,7 +101,8 @@ const toggleLengthMenu = () => { lengthMenu = !lengthMenu; };
 const firstSentence = (t) => (t.match(/^[^.!?]+[.!?]/) || [t])[0];
 function viewPrograms() {
   const last = lastPid();
-  const all = programs.list();
+  const all = programs.list().filter((p) => p.source !== 'own'); // your own programs have their own shelf
+  const mine = programs.list().filter((p) => p.source === 'own');
   const lib = libraryView(all, filters, { families: FAMILIES, lengthOf });
   lib.unknown.forEach((s) => console.error(`Subject "${s}" has no family in FAMILIES`));
   const card = (p) => {
@@ -107,15 +113,95 @@ function viewPrograms() {
       <div class="pc-prog"><span class="num">${n}/${p.dayCount}</span><div class="bar"><b style="width:${(n / p.dayCount) * 100}%"></b></div></div></button>`;
   };
   const groups = lib.shelves.map((s) => `<section class="pgroup"><h2>${esc(s.subject)}</h2><div class="plist">${s.programs.map(card).join('')}</div></section>`).join('');
+  const yours = mine.length ? `<section class="pgroup yours"><h2>Your programs</h2><div class="plist">${mine.map(card).join('')}</div></section>` : '';
   const tab = (k, x) => `<button class="ftab" data-filter="${k}:${esc(x.key)}" aria-pressed="${x.pressed}">${esc(x.name)}</button>`;
   const chip = (x) => `<button class="fchip acc" data-filter="subject:${esc(x.key)}" aria-pressed="${x.pressed}">${esc(x.name)} <span class="fcount">${x.count}</span></button>`;
   return `<div class="eyebrow">${esc(lib.counter)}</div><h1>Programs</h1>
     <p class="lede">Every program starts at intermediate, with a matched warm-up and cool-down, and most end each workout with abs. Progress is kept per program.</p>
+    <button class="btn buildbtn" data-go="build">Build your own</button>
+    ${yours}
     <div class="ftabs" role="group" aria-label="Filter by family">${lib.families.map((f) => tab('family', f)).join('')}</div>
     <div class="filters" role="group" aria-label="Filter by subject">${lib.subjects.map(chip).join('')}</div>
     <button class="lenline" data-len-menu="1" aria-expanded="${lengthMenu}">Length: <b>${esc(lib.lengthLabel)}</b> <span aria-hidden="true">${lengthMenu ? '▴' : '▾'}</span></button>
     ${lengthMenu ? `<div class="filters" role="group" aria-label="Filter by length">${lib.lengths.map((l) => `<button class="fchip acc" data-filter="len:${l.key}" aria-pressed="${l.pressed}">${esc(l.label)}</button>`).join('')}</div>` : ''}
     ${groups || '<p class="lede" style="margin-top:24px">No programs match these filters.</p>'}`;
+}
+
+/* ---------------- build your own ----------------
+   #build: pick a subject and the rest, see the first six days, regenerate (a new seed), save. The choices and the
+   seed are what is saved (app/own.js); the days are built here from them. */
+const LEVER_TEXT = { reps: 'More reps', holds: 'Longer holds', weight: 'Heavier weights', variation: 'Harder variations', tempo: 'Slower tempo' };
+const GEAR_TEXT = { all: 'All equipment', kb: 'Kettlebell only', bw: 'No equipment' };
+let buildState = null; // { c: choices, seed, name: null (the default) | text }
+let bookError = null, bookLoading = false;
+let previewCache = { key: '', program: null };
+function buildPreview(b) {
+  const key = JSON.stringify([b.c, b.seed]);
+  if (previewCache.key !== key) previewCache = { key, program: KBOwn.programOf({ build: KBBuilder.build, ex: KBEx }, { pid: 'own-preview', name: 'Preview', config: KBOwn.configOf(recipeBook, { choices: b.c, seed: b.seed }) }) };
+  return previewCache.program;
+}
+function buildSet(k, v) {
+  const b = buildState, c = b.c;
+  if (k === 'subject') b.c = KBOwn.defaults(recipeBook, v);
+  else if (k === 'split' || k === 'minutes') b.c = KBOwn.fit(recipeBook, { ...c, [k]: +v });
+  else if (k === 'equipment') b.c = KBOwn.fit(recipeBook, { ...c, equipment: v });
+  else if (k === 'lever2' || k === 'lever3') b.c = { ...c, levers: c.levers.map((l, i) => (i === (k === 'lever2' ? 0 : 1) ? v : l)) };
+  else if (k === 'format') { // tick or untick, keeping the subject's order
+    const all = recipeBook.options(c.subjects[0]).formats;
+    b.c = { ...c, formats: all.filter((f) => (f === v ? !c.formats.includes(f) : c.formats.includes(f))) };
+  }
+  render();
+}
+function buildRegenerate() { buildState.seed = KBOwn.newSeed(); render(); }
+function buildSave() {
+  const b = buildState, id = KBOwn.newId(), subject = b.c.subjects[0];
+  const name = (b.name || '').trim() || KBOwn.defaultName(subject);
+  const made = { choices: b.c, seed: b.seed, catalogue: recipeBook.book().catalogue };
+  // the config the recipes made is what is kept: the days never depend on the recipe book again
+  store.setDoc('programs', id, KBOwn.toRecord({ name, ...made, config: KBOwn.configOf(recipeBook, made) }, new Date().toISOString())); // the catalogue follows at once
+  buildState = null;
+  go('p-' + KBOwn.pidOf(id));
+}
+function viewBuild() {
+  const head = `<div class="crumbs"><button class="back" data-go="programs">← All programs</button></div><div class="eyebrow">Programs</div><h1>Build your own</h1>`;
+  if (!recipeBook) {
+    if (!bookLoading && !bookError) {
+      bookLoading = true;
+      loadBook().then(() => { bookLoading = false; rerender(); }, (e) => { bookLoading = false; bookError = e.message; rerender(); });
+    }
+    return head + (bookError
+      ? `<p class="lede" role="alert">${esc(bookError)}</p><button class="btn ghost buildretry" data-book-retry="1">Try again</button>`
+      : '<p class="loading lede" role="status">Loading…</p>');
+  }
+  const rb = recipeBook;
+  const b = buildState || (buildState = { c: KBOwn.defaults(rb, 'Strength'), seed: KBOwn.newSeed(), name: null });
+  const c = b.c, [subject] = c.subjects, o = rb.options(subject), st = KBOwn.states(rb, c);
+  const chip = (key, value, label, on, state) => `<button class="fchip acc" data-b="${key}:${value}" aria-pressed="${on}"${state && !state.ok ? ` disabled title="${esc(state.reason)}"` : ''}>${esc(label)}</button>`;
+  const why = (list) => list.filter((x) => x && x.reason).map((x) => `<p class="hint">${esc(x.reason)}</p>`).join('');
+  const families = [...new Set(KBOwn.subjects(rb).map((x) => x.family))];
+  const subjectSelect = `<select id="b-subject" aria-label="Subject">${families.map((f) => `<optgroup label="${esc(f)}">${KBOwn.subjects(rb).filter((x) => x.family === f).map((x) => `<option value="${esc(x.name)}"${x.name === subject ? ' selected' : ''}>${esc(x.name)}</option>`).join('')}</optgroup>`).join('')}</select>`;
+  const leverSelect = (id, label, i) => `<label class="bfield" for="${id}"><span>${label}</span><select id="${id}">${o.levers.map((l) => `<option value="${l}"${c.levers[i] === l ? ' selected' : ''}>${LEVER_TEXT[l]}</option>`).join('')}</select></label>`;
+  const problem = KBOwn.problem(rb, c);
+  let preview;
+  if (problem) preview = `<p class="notice" role="alert">${esc(problem)}</p>`;
+  else {
+    const p = buildPreview(b), TY = typesOf(p);
+    preview = `<p class="pvline num">${esc(KBOwn.summaryLine(p))}</p><div class="grid pv" data-seed="${esc(b.seed)}">${p.days.slice(0, 6).map((w) => {
+      const t = TY[w.type];
+      return `<div class="tile"><span class="open"><span class="n num">${w.day}</span><span class="nm">${esc(w.name)}</span><span class="ty"><i class="dot" style="--c:${t.c}"></i>${esc(t.short)} · ${w.est}′</span></span></div>`;
+    }).join('')}</div>`;
+  }
+  return `${head}<p class="lede">Pick what you want; the first six days show below. Regenerate for a different set of days, with the same choices.</p>
+    <section class="bsec"><h2>Subject</h2>${subjectSelect}</section>
+    <section class="bsec"><h2>Days in a cycle</h2><div class="filters" role="group" aria-label="Days in a cycle">${[1, 2, 3, 4, 5].map((n) => chip('split', n, n, c.split === n)).join('')}</div></section>
+    <section class="bsec"><h2>Minutes a day</h2><div class="filters" role="group" aria-label="Minutes a day">${KBOwn.MINUTES.map((m) => chip('minutes', m, m, c.minutes === m, st.minutes[m])).join('')}</div>${why(KBOwn.MINUTES.map((m) => st.minutes[m]))}</section>
+    <section class="bsec"><h2>Equipment</h2><div class="filters" role="group" aria-label="Equipment">${KBOwn.EQUIPMENT.map((e) => chip('equipment', e, GEAR_TEXT[e], c.equipment === e, st.equipment[e])).join('')}</div>${why(KBOwn.EQUIPMENT.map((e) => st.equipment[e]))}</section>
+    <section class="bsec"><h2>Formats</h2><div class="filters" role="group" aria-label="Formats">${o.formats.map((f) => `<label class="fchip acc fmt"><input type="checkbox" data-bfmt="${f}"${c.formats.includes(f) ? ' checked' : ''}> ${esc(fmtFormat[f])}</label>`).join('')}</div></section>
+    <section class="bsec"><h2>How it gets harder</h2><div class="bfields">${leverSelect('b-lever2', 'Level II', 0)}${leverSelect('b-lever3', 'Level III', 1)}</div></section>
+    <section class="bsec"><h2>Preview</h2>${preview}
+      <div class="actions"><button class="btn ghost" data-b-regen="1"${problem ? ' disabled' : ''}>Regenerate</button></div></section>
+    <section class="bsec"><h2>Save</h2><label class="bfield" for="b-name"><span>Name</span><input id="b-name" type="text" maxlength="60" value="${esc(b.name === null ? KBOwn.defaultName(subject) : b.name)}" autocomplete="off"></label>
+      <div class="actions"><button class="btn" data-b-save="1"${problem ? ' disabled' : ''}>Save program</button></div></section>`;
 }
 
 /* ---------------- program page ---------------- */
@@ -528,7 +614,7 @@ function render(scrollTop) {
   const v = route.view;
   const needsProgram = v === 'program' || v === 'day' || v === 'exercise';
   if (needsProgram && stillLoading([route.pid]).length) app.innerHTML = loadingView(route.pid);
-  else app.innerHTML = v === 'programs' ? viewPrograms() : v === 'library' ? viewLibrary() : v === 'settings' ? viewSettings() : v === 'stats' ? viewStats() : v === 'exercise' ? viewExercise() : v === 'day' ? viewDay() : viewProgram();
+  else app.innerHTML = v === 'programs' ? viewPrograms() : v === 'build' ? viewBuild() : v === 'library' ? viewLibrary() : v === 'settings' ? viewSettings() : v === 'stats' ? viewStats() : v === 'exercise' ? viewExercise() : v === 'day' ? viewDay() : viewProgram();
   const section = v === 'library' || v === 'exercise' ? 'library' : v === 'settings' || v === 'stats' ? v : 'programs';
   document.querySelectorAll('.top [data-go]').forEach((b) => b.setAttribute('aria-current', b.dataset.go === section ? 'page' : 'false'));
   // the family tabs are a scrolling row (a re-render resets it): bring the chosen one fully into view

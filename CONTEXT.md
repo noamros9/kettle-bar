@@ -28,7 +28,7 @@ main block of a mixed day carries a `family` tag (`'Strength'`, `'Cardio & comba
 for Phase 8's stats; single-family programs' blocks have none.
 
 **Your program** (own program): one you built in the page from choices (subjects, split, minutes, equipment,
-formats, levers) and a seed. Stored as its choices, not its days; id `own-<id>`; shown on the Your programs shelf.
+formats, levers) and a seed. Stored as its choices, its seed and the config those made (never its days: the days are built from the stored config alone, so a program you are halfway through never changes when the recipe book does; the choices stay for showing and for editing, which makes a new config); id `own-<id>`; shown on the Your programs shelf. The record (`users/{uid}/programs/{id}`, device copy `kb-doc-programs-<id>`) is `{ name, choices, seed, catalogue, config, createdAt, updatedAt }` (`config`: what `make()` produced, compact: about 1.7 KB for a 5-day program); the page builds its days from `config` with `app/own.js`, never reading the recipe book, so it works offline with no wait at boot (only the #build page loads the book). Saving or deleting one adds or drops its id in the Progress Store at runtime (`addProgram` / `dropProgram`, through the catalogue's `onChange`).
 
 **Recipe**: what one day needs to be built: a day type's blocks, time range, equipment, rests, catalogue, levers and
 abs finisher. `recipesOf(config)` gives one per day type of a program; `buildDay(recipe, { day, level, lever, rnd,
@@ -171,7 +171,7 @@ Returns **instructions** (`rest`, `clear`, `none`) and **phase plans** (warm-up 
 
 **Program Catalogue**: the module the page asks for programs: the list (summaries with day counts and the exercises
 used), one program's days, and which programs use an exercise. Where programs come from is its sources' business:
-the library (fetched with an offline cache) and, later, your own (built in the page); own programs are listed first, and ids never clash.
+the library (fetched with an offline cache) and your own (source `own`, built in the page from stored choices); own programs are listed first, and ids never clash.
 
 **Program Builder**: turns a program's config into 60 days fitted to each day type's time range. Pure over the
 Exercise Catalogue it's given, so it runs in the Node build and (for your own programs) in the page.

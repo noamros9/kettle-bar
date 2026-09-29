@@ -21,11 +21,12 @@
    offline | local | signin | ro | err) events. storage = { get, set, remove? } (a device without remove clears
    the text instead). */
 (function (root, P, D) {
-  function createStore({ programIds, storage, now = () => new Date().toISOString(), isOnline = () => true, retryDelay = () => 600 + Math.random() * 800 }) {
+  function createStore({ programIds: given, storage, now = () => new Date().toISOString(), isOnline = () => true, retryDelay = () => 600 + Math.random() * 800 }) {
+    const programIds = given.slice(); // grows and shrinks at runtime: your own programs (addProgram, dropProgram)
     const listeners = { change: [], status: [], docs: [] };
     const emit = (ev, x) => listeners[ev].forEach((f) => f(x));
     const progress = {};
-    let remote = null, unsubs = [], seen = {}, docSeen = {}, queue = Promise.resolve(), docQueue = Promise.resolve(), readonly = false, auth = null, status = 'local';
+    let remote = null, unsubs = [], progressUnsubs = {}, seen = {}, docSeen = {}, queue = Promise.resolve(), docQueue = Promise.resolve(), readonly = false, auth = null, status = 'local';
     const keys = (pid) => ({ done: 'kb-progress-' + pid, swaps: 'kb-swaps-' + pid, past: 'kb-past-' + pid });
     const setStatus = (s) => { status = s; emit('status', s); };
     const of = (pid) => progress[pid] || P.empty();
@@ -67,18 +68,22 @@
       detach(true);
       remote = r; seen = {}; readonly = false; setStatus('ok');
       docSeen = {};
-      programIds.forEach((pid) => {
-        unsubs.push(r.subscribe('progress', pid, (doc) => onRemote(pid, P.fromDoc(doc)), (e) => { if (typeof console !== 'undefined') console.warn('sync error', e); setStatus('err'); }));
-      });
+      programIds.forEach(follow);
       // account data: an error here (e.g. the rules for the new collections are not published) is not a sync problem for progress
       if (r.subscribeAll) D.COLLECTIONS.forEach((c) => unsubs.push(r.subscribeAll(c, (docs) => onDocs(c, docs), (e) => console.warn('sync error (' + c + ')', e))));
     }
+    // listen to one program's cloud document
+    function follow(pid) {
+      const r = remote;
+      progressUnsubs[pid] = r.subscribe('progress', pid, (doc) => onRemote(pid, P.fromDoc(doc)), (e) => { if (typeof console !== 'undefined') console.warn('sync error', e); setStatus('err'); });
+    }
     function detach(silent) {
-      unsubs.forEach((u) => { try { u(); } catch (e) { /* already gone */ } });
-      unsubs = []; remote = null;
+      [...unsubs, ...Object.values(progressUnsubs)].forEach((u) => { try { u(); } catch (e) { /* already gone */ } });
+      unsubs = []; progressUnsubs = {}; remote = null;
       if (!silent) setStatus(auth ? 'signin' : 'local');
     }
     function onRemote(pid, cloud) {
+      if (!programIds.includes(pid)) return; // a program dropped while its last update was on its way
       if (!seen[pid]) {
         seen[pid] = true;
         const { merged, changed } = P.mergeFirstSync(of(pid), cloud);
@@ -133,6 +138,24 @@
       emit('docs', c);
       return docQueue;
     }
+    // your own programs come and go while the page is open: learn a program's id (its device copy, its cloud
+    // document), or forget it (the device copy stays; what a deleted program's progress becomes is its owner's call)
+    function addProgram(pid) {
+      if (programIds.includes(pid)) return;
+      programIds.push(pid);
+      const k = keys(pid);
+      progress[pid] = P.fromDevice({ done: read(k.done), swaps: read(k.swaps), past: read(k.past) });
+      if (remote) follow(pid);
+      emit('change', pid);
+    }
+    function dropProgram(pid) {
+      const i = programIds.indexOf(pid);
+      if (i < 0) return;
+      programIds.splice(i, 1);
+      delete progress[pid]; delete seen[pid];
+      if (progressUnsubs[pid]) { progressUnsubs[pid](); delete progressUnsubs[pid]; }
+      emit('change', pid);
+    }
     const toggle = (pid, day) => set(pid, P.toggle(of(pid), day, now()));
     const setSwaps = (pid, list) => set(pid, P.withSwaps(of(pid), list));
     // a new round: the current one is kept as it was; `keep` = the onward swaps to carry over
@@ -160,7 +183,7 @@
       return queue;
     }
     return {
-      load, attach, detach, toggle, replaceAll, setSwaps, startRound, setDoc, deleteDoc, replaceDocs,
+      load, attach, detach, addProgram, dropProgram, programIds: () => programIds.slice(), toggle, replaceAll, setSwaps, startRound, setDoc, deleteDoc, replaceDocs,
       doc: (c, id) => (known(c) && account[c][id] ? JSON.parse(JSON.stringify(account[c][id])) : null),
       docs: (c) => JSON.parse(JSON.stringify(account[known(c)])),
       round: (pid) => P.round(of(pid)),

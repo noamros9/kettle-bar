@@ -8,6 +8,9 @@ const localStore = {
 };
 const store = KBStore.createStore({ programIds: programs.ids(), storage: localStore, isOnline: () => navigator.onLine !== false });
 // a day as you'll do it: swaps applied, its live Workout Session, swap / undo (app/day.js)
+// your own programs: the store's programs docs -> the catalogue's 'own' source (built from their stored configs),
+// and the catalogue's own ids -> the store (app/own.js)
+const ownLink = KBOwn.link({ store, programs, load: loadBook, build: KBBuilder.build, ex: KBEx });
 const days = KBDay.createDays({ programs, store, cat: KBEx, createSession: KBSession.createSession });
 const SYNC_TEXT = { ok: 'Synced', saving: 'Saving…', offline: 'Offline, will sync', local: 'Saved on this device', signin: 'Sign in', ro: 'View only', err: 'Sync problem' };
 function paintSync(s) {
@@ -54,6 +57,11 @@ document.addEventListener('click', (ev) => {
   const d = el.dataset;
   if (el.id === 'brand') return go('today'); // home: the next day in the program of your last done workout (as the shortcut)
   if (d.go === 'programs') return go('programs');
+  if (d.go === 'build') return go('build');
+  if (d.b) { const [k, v] = d.b.split(':'); return buildSet(k, v); }
+  if (d.bRegen) return buildRegenerate();
+  if (d.bSave) return buildSave();
+  if (d.bookRetry) { bookError = null; render(); return; }
   if (d.go === 'library') return go('exercises');
   if (d.go === 'settings') return go('settings');
   if (d.go === 'stats') return go('stats');
@@ -125,17 +133,27 @@ function backupAction(what) {
   showImport({ done: plan.message(what) });
 }
 document.addEventListener('change', (e) => {
+  if (e.target.id === 'b-subject') buildSet('subject', e.target.value);
+  if (e.target.id === 'b-lever2') buildSet('lever2', e.target.value);
+  if (e.target.id === 'b-lever3') buildSet('lever3', e.target.value);
+  if (e.target.dataset.bfmt) buildSet('format', e.target.dataset.bfmt);
   if (e.target.id === 'import-file' && e.target.files[0]) readImport(e.target.files[0]);
   if (e.target.id === 'stats-scope') { statsView.pid = e.target.value; statsView.round = undefined; render(); }
   if (e.target.id === 'stats-round') { statsView.round = e.target.value === 'all' ? undefined : +e.target.value; render(); }
   if (e.target.id === 'voice-toggle') { try { localStorage.setItem('kb-voice', e.target.checked ? 'on' : 'off'); } catch (err) { /* blocked: stays on */ } }
 });
 
+document.addEventListener('input', (e) => { if (e.target.id === 'b-name') buildState.name = e.target.value; });
+
 /* ---------------- boot ---------------- */
 store.load(); // before the route: #today needs your progress
-route = parseHash();
-render();
-// then every program, quietly, for offline use: the open one and the ones with progress first
-programs.loadEverything([route.pid, ...programs.ids().filter((pid) => store.count(pid) > 0)], () => {}).then(() => recipes.load()).catch(() => {});
+function start() {
+  route = parseHash();
+  render();
+  // then every program, quietly, for offline use: the open one and the ones with progress first
+  programs.loadEverything([route.pid, ...programs.ids().filter((pid) => store.count(pid) > 0)], () => {}).then(() => recipes.load()).catch(() => {});
+}
+ownLink.refresh(); // your own programs are built from their stored configs: no recipe book, no wait
+start();
 T.paint();
 if (!store.remote) paintSync(store.auth ? 'signin' : 'local');
