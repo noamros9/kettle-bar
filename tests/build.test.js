@@ -12,9 +12,10 @@ test('the build produces the page and one data file per program', () => {
   assert.equal(iron.days.length, 60);
 });
 
-test('the page carries only the program list: small to download, no days inside', () => {
+test('the page carries only the program list: small to download (gzipped, as Pages serves it), no days inside', () => {
   const html = out['index.html'];
-  assert.ok(html.length < 300 * 1024, `index.html is ${Math.round(html.length / 1024)} KB`);
+  const gz = require('zlib').gzipSync(html).length;
+  assert.ok(gz < 150 * 1024, `index.html is ${Math.round(gz / 1024)} KB gzipped`);
   assert.doesNotMatch(html, /"days":/);
   assert.match(html, /const PROGRAM_SUMMARIES = \[/);
 });

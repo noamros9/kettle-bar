@@ -75,17 +75,31 @@ function cycleDays(p, key) {
 }
 
 /* ---------------- programs page ---------------- */
-const SUBJECT_ORDER = ['Signature', 'Strength', 'Pull-ups', 'Legs & glutes', 'Kettlebell only', 'Conditioning', 'Mobility & core', 'Bodyweight', 'Busy week'];
+// Families group the subjects; chips and shelves follow this order. Subjects listed before they have programs
+// just don't show. A program whose subject is missing here is an error (the UI tests fail on it), never dropped quietly.
+const FAMILIES = [
+  ['Strength', ['Signature', 'Strength', 'Pull-ups', 'Legs & glutes', 'Kettlebell only', 'Bodyweight', 'Busy week']],
+  ['Cardio & combat', ['Conditioning', 'HIIT', 'Plyometrics', 'Boxing', 'Kickboxing']],
+  ['Mind & body', ['Core & abs', 'Mobility & posture', 'Yoga', 'Pilates', 'Flexibility', 'Balance & stability']],
+];
 const LENGTHS = [['all', 'Any length'], ['short', 'Up to 25 min'], ['mid', '26–32 min'], ['long', '33 min +']];
-const filters = { subject: 'all', len: 'all' };
+const filters = { family: 'all', subject: 'all', len: 'all' };
+function setFilter(k, v) {
+  filters[k] = v;
+  if (k === 'family') filters.subject = 'all'; // a subject belongs to one family
+}
 const lenOf = (p) => { const m = (p.minutes[0] + p.minutes[1]) / 2; return m <= 25.5 ? 'short' : m <= 32.5 ? 'mid' : 'long'; };
 // program cards show the paragraph's first sentence
 const firstSentence = (t) => (t.match(/^[^.!?]+[.!?]/) || [t])[0];
 function viewPrograms() {
   const last = lastPid();
   const all = programs.list();
-  const subjects = SUBJECT_ORDER.filter((s) => all.some((p) => p.subject === s));
-  const shown = all.filter((p) => (filters.subject === 'all' || p.subject === filters.subject) && (filters.len === 'all' || lenOf(p) === filters.len));
+  const known = new Set(FAMILIES.flatMap(([, list]) => list));
+  [...new Set(all.map((p) => p.subject))].filter((s) => !known.has(s)).forEach((s) => console.error(`Subject "${s}" has no family in FAMILIES`));
+  const has = (s) => all.some((p) => p.subject === s);
+  const families = FAMILIES.filter(([, list]) => list.some(has));
+  const subjects = families.filter(([f]) => filters.family === 'all' || f === filters.family).flatMap(([, list]) => list.filter(has));
+  const shown = all.filter((p) => subjects.includes(p.subject) && (filters.subject === 'all' || p.subject === filters.subject) && (filters.len === 'all' || lenOf(p) === filters.len));
   const card = (p) => {
     const n = store.count(p.id), mins = p.minutes[0] === p.minutes[1] ? p.minutes[0] : `${Math.round(p.minutes[0])}–${Math.round(p.minutes[1])}`;
     return `<button class="pcard${p.id === last ? ' current' : ''}" data-open-prog="${p.id}">
@@ -96,6 +110,7 @@ function viewPrograms() {
   const groups = subjects.map((s) => { const list = shown.filter((p) => p.subject === s); return list.length ? `<section class="pgroup"><h2>${esc(s)}</h2><div class="plist">${list.map(card).join('')}</div></section>` : ''; }).join('');
   return `<div class="eyebrow">${all.length} programs · 60 days each</div><h1>Programs</h1>
     <p class="lede">Every program starts at intermediate and ends each workout with abs, with a matched warm-up and cool-down. Progress is kept per program.</p>
+    <div class="filters fam" role="group" aria-label="Filter by family"><button class="fchip" data-filter="family:all" aria-pressed="${filters.family === 'all'}">All</button>${families.map(([f]) => `<button class="fchip" data-filter="family:${esc(f)}" aria-pressed="${filters.family === f}">${esc(f)}</button>`).join('')}</div>
     <div class="filters" role="group" aria-label="Filter by subject"><button class="fchip" data-filter="subject:all" aria-pressed="${filters.subject === 'all'}">All</button>${subjects.map((s) => `<button class="fchip" data-filter="subject:${esc(s)}" aria-pressed="${filters.subject === s}">${esc(s)}</button>`).join('')}</div>
     <div class="filters" role="group" aria-label="Filter by length">${LENGTHS.map(([k, l]) => `<button class="fchip" data-filter="len:${k}" aria-pressed="${filters.len === k}">${l}</button>`).join('')}</div>
     ${groups || '<p class="lede" style="margin-top:24px">No programs match these filters.</p>'}`;

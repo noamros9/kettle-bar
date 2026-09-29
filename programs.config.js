@@ -175,9 +175,9 @@ const CONFIGS = [
     },
   },
 
-  // ---------------- MOBILITY & CORE (28–30 min) ----------------
+  // ---------------- CORE & ABS, MOBILITY & POSTURE (28–30 min) ----------------
   {
-    id: 'core-foundations', name: 'Core Foundations', subject: 'Mobility & core', minutes: [27.5, 30.4], levers: [null, 'tempo', 'variation'],
+    id: 'core-foundations', name: 'Core Foundations', subject: 'Core & abs', minutes: [27.5, 30.4], levers: [null, 'tempo', 'variation'],
     split: '3-day cycle', blurb: 'Anti-extension, anti-rotation and carry days, each with a mobility flow and a little strength.',
     names: ['Granite', 'Basalt', 'Quartz', 'Onyx', 'Jasper', 'Marble', 'Flint', 'Obsidian', 'Agate', 'Slate', 'Garnet', 'Topaz', 'Jade', 'Opal', 'Beryl', 'Feldspar', 'Mica', 'Pumice', 'Travertine', 'Eilat Stone'],
     cycle: ['ext', 'rot', 'carry'],
@@ -188,7 +188,7 @@ const CONFIGS = [
     },
   },
   {
-    id: 'flow-state', name: 'Flow State', subject: 'Mobility & core', minutes: [27.5, 30.4], levers: [null, 'tempo', 'reps'],
+    id: 'flow-state', name: 'Flow State', subject: 'Mobility & posture', minutes: [27.5, 30.4], levers: [null, 'tempo', 'reps'],
     split: '3-day cycle', blurb: 'Longer mobility flows, core circuits and light strength. Good between harder weeks.',
     names: ['Current', 'Eddy', 'Riffle', 'Cascade', 'Estuary', 'Tide', 'Delta Flow', 'Rapids', 'Spring', 'Meander', 'Brook', 'Lagoon', 'Wellspring', 'Undertow', 'Ripple', 'Stream', 'Confluence', 'Wake', 'Swell', 'Oasis'],
     cycle: ['a', 'b', 'c'],
@@ -199,7 +199,7 @@ const CONFIGS = [
     },
   },
   {
-    id: 'deep-core-60', name: 'Deep Core 60', subject: 'Mobility & core', minutes: [27.5, 30.4], levers: [null, 'tempo', 'variation'],
+    id: 'deep-core-60', name: 'Deep Core 60', subject: 'Core & abs', minutes: [27.5, 30.4], levers: [null, 'tempo', 'variation'],
     split: 'Core day / mobility & carries day', blurb: 'Alternates slow, long-hold core strength with mobility and loaded carries.',
     names: ['Trench', 'Abyss', 'Reef', 'Kelp', 'Coral', 'Fathom', 'Nautilus', 'Mariana', 'Bathysphere', 'Leviathan', 'Anchorage', 'Sounding', 'Benthic', 'Thermocline', 'Seamount', 'Plankton', 'Current Deep', 'Grotto', 'Atoll', 'Keel'],
     cycle: ['core', 'mob'],
