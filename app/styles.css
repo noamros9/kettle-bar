@@ -239,7 +239,7 @@ main{padding-block:24px 64px}
 .tclock{font:800 52px/1 var(--display);letter-spacing:.01em;min-width:3.3ch;background:none;border:0;padding:0;text-align:left}
 .tclock.zero{color:var(--accent)}
 .tinfo{display:flex;flex-direction:column;gap:2px;min-width:0}
-.tinfo b{font:700 15px/1.2 var(--body);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tinfo b{font:700 15px/1.2 var(--body);overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2}
 .tinfo span{font-size:13px;color:var(--muted)}
 .tctl{display:flex;gap:6px}
 .tctl button{height:46px;min-width:46px;border-radius:10px;border:1px solid var(--line);background:var(--bg);font-weight:700;padding:0 12px}

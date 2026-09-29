@@ -45,6 +45,18 @@
   const TUCK = { t: [-14, -31], fn: [12, -6], ff: [11, -5], kh: [0.3, -1], hn: [13, -13], hf: [12, -12], mat: 1 };
   const TUCK_BACK = { t: [-30, 16], hd: [-0.4, -1], fn: [-6, -18], ff: [-7, -17], kh: [0, -1], hn: [-4, -10], hf: [-5, -10], mat: 1 };
 
+  // boxing, orthodox stance in profile: the near arm and leg lead
+  const GUARD = { t: [4, -34], fn: [14, 40], ff: [-12, 40], khn: [1, -0.2], khf: [1, -0.3], hn: [15, -41], hf: [11, -38], ehn: [-0.2, 1], ehf: [-0.2, 1] };
+  const JAB = { ...GUARD, t: [6, -34], hn: [39, -38], ehn: [0, 1] };
+  const CROSS = { ...GUARD, t: [10, -33], hf: [41, -36], ehf: [0, 1], ff: [-12, 38], hn: [16, -41] };
+  const HOOK = { ...GUARD, t: [7, -34], hn: [24, -37], ehn: [0, -1] };
+  const BODY_HOOK = { ...GUARD, t: [9, -32], fn: [16, 37], ff: [-12, 37], hn: [26, -22], ehn: [0, -1] };
+  const UPPER = { ...GUARD, t: [5, -33], fn: [15, 38], ff: [-12, 38], hn: [20, -47], ehn: [0, 1] };
+  const REAR_UPPER = { ...GUARD, t: [9, -33], fn: [15, 38], ff: [-12, 38], hf: [22, -46], ehf: [0, 1] };
+  const BODY_JAB = { ...GUARD, t: [9, -32], fn: [18, 36], ff: [-12, 37], hn: [38, -20], ehn: [0, 1] };
+  const SLIP = { ...GUARD, t: [12, -32], hd: [0.6, -0.8], hn: [22, -36], hf: [17, -34] };
+  const ROLL = { ...GUARD, t: [11, -30], fn: [17, 33], ff: [-12, 33], hn: [22, -32], hf: [18, -30] };
+
   /*
    * Exercise library.
    * r: reps (or seconds) for Level I / II / III, exactly as used (Level I = intermediate).  u: 'reps' | 'sec'.  side: done on each side.
@@ -378,6 +390,24 @@
       { t: [0, -34], fn: [-22, 36], ff: [22, 36], hn: [-4, -18], hf: [4, -18], ehn: [-1, 0], ehf: [1, 0] }, { t: [0, -34], fn: [-26, 24], ff: [26, 24], khn: [-1, 0], khf: [1, 0], hn: [-4, -18], hf: [4, -18], ehn: [-1, 0], ehf: [1, 0] }] },
     heel_raise: { name: 'Pilates heel raises', cat: 'pilates', added: 5, r: [20, 25, 30], tp: 2, mus: 'calves | glutes abs', cue: 'Heels together and toes apart, rise high onto the balls of your feet, pause, and lower slowly.', poses: [
       STAND, P(STAND, { lift: 5, fn: [4, 41], ff: [0, 41] })] },
+
+    // ---------------- BOXING (Phase 5: one combo per 3-minute bout; call = what the voice says) ----------------
+    jab_cross: { name: 'Jab, cross', call: 'jab, cross', cat: 'boxing', added: 5, u: 'sec', r: [180, 180, 180], mus: 'front_delts triceps | obliques chest calves', cue: 'The one-two: snap the lead hand straight out and back, then turn the rear hip and shoulder through the cross. Hands back to your chin.', poses: [GUARD, JAB, CROSS] },
+    double_jab_cross: { name: 'Double jab, cross', call: 'double jab, cross', cat: 'boxing', added: 5, u: 'sec', r: [180, 180, 180], mus: 'front_delts triceps | obliques calves', cue: 'Two quick jabs, the second a half step deeper, then a straight cross. Keep the rear hand glued to your chin on the jabs.', poses: [GUARD, JAB, GUARD, CROSS] },
+    jab_cross_hook: { name: 'Jab, cross, hook', call: 'jab, cross, hook', cat: 'boxing', added: 5, u: 'sec', r: [180, 180, 180], mus: 'front_delts obliques triceps | chest calves', cue: 'One-two, then pivot on the lead foot and swing a bent-arm lead hook at chin height, elbow level with your fist.', poses: [JAB, CROSS, HOOK] },
+    cross_hook_cross: { name: 'Cross, hook, cross', call: 'cross, hook, cross', cat: 'boxing', added: 5, u: 'sec', r: [180, 180, 180], mus: 'obliques front_delts | triceps chest calves', cue: 'Start with the rear hand, let the turn back load the lead hook, then fire the cross again. Stay balanced over your feet.', poses: [CROSS, HOOK, CROSS] },
+    jab_cross_uppercut: { name: 'Jab, cross, uppercut', call: 'jab, cross, uppercut', cat: 'boxing', added: 5, u: 'sec', r: [180, 180, 180], mus: 'front_delts triceps biceps | obliques quads', cue: 'One-two, then dip the knees slightly and drive a lead uppercut up the middle, palm facing you.', poses: [JAB, CROSS, UPPER] },
+    rear_upper_hook_cross: { name: 'Uppercut, hook, cross', call: 'rear uppercut, hook, cross', cat: 'boxing', added: 5, u: 'sec', r: [180, 180, 180], mus: 'obliques front_delts biceps | triceps quads', cue: 'Rear uppercut from the legs, lead hook as the hips turn back, then a straight cross to finish.', poses: [REAR_UPPER, HOOK, CROSS] },
+    four_punch: { name: 'Jab, cross, hook, cross', call: 'jab, cross, hook, cross', cat: 'boxing', added: 5, u: 'sec', r: [180, 180, 180], mus: 'front_delts obliques triceps | chest calves abs', cue: 'The classic four-punch combination: one-two, lead hook, cross. Keep each punch crisp and reset your guard at the end.', poses: [JAB, CROSS, HOOK, CROSS] },
+    body_head: { name: 'Jab to the body, cross', call: 'jab to the body, cross to the head', cat: 'boxing', added: 5, u: 'sec', r: [180, 180, 180], mus: 'front_delts quads | triceps obliques', cue: 'Bend the knees to drop level and jab to the body, then come up with a cross to the head.', poses: [BODY_JAB, CROSS] },
+    jab_body_hook: { name: 'Jab, cross, body hook', call: 'jab, cross, body hook', cat: 'boxing', added: 5, u: 'sec', r: [180, 180, 180], mus: 'obliques front_delts | quads triceps', cue: 'One-two, then drop the lead elbow and dig a short hook to the body, bending the knees rather than leaning.', poses: [JAB, CROSS, BODY_HOOK] },
+    slip_counter: { name: 'Slip and cross', call: 'slip, cross', cat: 'boxing', added: 5, u: 'sec', r: [180, 180, 180], mus: 'obliques quads | front_delts triceps', cue: 'Slip an imagined jab by dipping your head just outside it, then come back with a cross. Small movements, eyes forward.', poses: [GUARD, SLIP, CROSS] },
+    roll_hook: { name: 'Roll and hook', call: 'roll, hook', cat: 'boxing', added: 5, u: 'sec', r: [180, 180, 180], mus: 'quads obliques | glutes front_delts', cue: 'Bend the knees and roll under an imagined hook in a U shape, then answer with your own lead hook.', poses: [GUARD, ROLL, HOOK] },
+    bob_and_weave: { name: 'Bob and weave', call: 'bob and weave', cat: 'boxing', added: 5, u: 'sec', r: [180, 180, 180], mus: 'quads glutes obliques | calves', cue: 'Drop under imaginary punches by bending the knees, moving your head side to side in a U, hands up the whole time.', poses: [GUARD, ROLL, GUARD] },
+    shadow_footwork: { name: 'Shadowboxing footwork', call: 'footwork', cat: 'boxing', added: 5, u: 'sec', r: [180, 180, 180], mus: 'calves quads | glutes abs', cue: 'Stay on the balls of your feet: step forward, back and to the sides, never crossing your feet, and throw a jab now and then.', poses: [
+      GUARD, { ...GUARD, fn: [20, 40], ff: [-6, 40] }, { ...JAB, fn: [20, 40], ff: [-6, 40] }] },
+    speed_bag: { name: 'Speed bag drill', call: 'speed bag', cat: 'boxing', added: 5, u: 'sec', r: [180, 180, 180], mus: 'front_delts side_delts | forearms upper_back', cue: 'Hands up at eye level, roll your fists in fast small circles in front of your face, as if keeping a speed bag going.', poses: [
+      { ...GUARD, hn: [22, -46], hf: [19, -41], ehn: [0, 1], ehf: [0, 1] }, { ...GUARD, hn: [20, -41], hf: [21, -46], ehn: [0, 1], ehf: [0, 1] }] },
   };
 
 

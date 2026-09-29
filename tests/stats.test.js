@@ -152,3 +152,10 @@ test('a guided flow: each pose is a set per pass; holds add no reps, poses in re
   assert.equal(v.reps, 2 * 6 * 2);
   assert.equal(v.muscles.abs, 2);
 });
+
+test('bouts: each bout is one set of its combo, no reps', () => {
+  const v = dayVolume(day([{ format: 'bouts', rest: 60, items: [it('plank', 180), it('plank', 180), it('push', 180)] }]), EX);
+  assert.equal(v.sets, 3);
+  assert.equal(v.reps, 0);
+  assert.equal(v.muscles.abs, 2);
+});

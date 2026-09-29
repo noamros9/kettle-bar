@@ -58,6 +58,11 @@
       plBack: ['swan', 'swimming', 'leg_pull_front'],
       plSide: ['side_kick', 'single_leg_circles', 'shoulder_bridge'],
       plGlute: ['shoulder_bridge', 'side_kick', 'swimming', 'standing_leg_lift', 'plie_squat'],
+      // Phase 5: boxing (one combo per bout)
+      bxBasic: ['jab_cross', 'double_jab_cross', 'jab_cross_hook', 'cross_hook_cross', 'body_head'],
+      bxPower: ['jab_cross_uppercut', 'rear_upper_hook_cross', 'four_punch', 'jab_body_hook', 'cross_hook_cross'],
+      bxDefense: ['slip_counter', 'roll_hook', 'bob_and_weave'],
+      bxMove: ['shadow_footwork', 'speed_bag', 'bob_and_weave'],
       core: ['plank', 'side_plank', 'hollow_hold', 'hollow_rock', 'dead_bug', 'weighted_dead_bug', 'bird_dog', 'bear_crawl', 'suitcase_march', 'kb_halo', 'db_side_bend', 'shoulder_taps', 'superman', 'russian_twist'],
     };
     // Pools computed from the catalogue. An exercise marked `added: N` (the phase that added it) joins them only
@@ -89,6 +94,8 @@
       chair_pose: 'twisting_chair', triangle_pose: 'half_moon', high_lunge: 'warrior_three', tree_pose: 'dancer_pose',
       bridge_pose: 'camel_pose', dolphin_pose: 'crow_pose',
       roll_up: 'teaser', single_leg_stretch: 'double_leg_stretch', rolling_like_a_ball: 'seal',
+      jab_cross: 'jab_cross_hook', double_jab_cross: 'four_punch', jab_cross_hook: 'four_punch', body_head: 'jab_body_hook',
+      jab_cross_uppercut: 'rear_upper_hook_cross', slip_counter: 'roll_hook',
     };
     // holds: like reps (the level's number from the catalogue), said the way it feels in a flow
     const LEVER_TEXT = { base: 'Base', reps: 'More reps', holds: 'Longer holds', weight: 'Heavier weights', variation: 'Harder variations', tempo: 'Slow tempo' };
@@ -101,6 +108,7 @@
     // one pose of a guided flow: its hold, or its reps at the exercise's pace
     const poseSec = (it) => (EX[it.ex].u === 'sec' ? it.n : it.n * EX[it.ex].tp);
     function blockTime(b) {
+      if (b.format === 'bouts') return b.items.reduce((s, it) => s + it.n, 0) + (b.items.length - 1) * b.rest;
       if (b.format === 'flow') return b.repeat * b.items.reduce((s, it) => s + (EX[it.ex].side ? 2 : 1) * (TRANSITION + poseSec(it)), 0);
       const W = b.items.map((it) => work(it) + SETUP);
       switch (b.format) {
@@ -154,6 +162,7 @@
       ladder: { key: 'minutes', values: [5, 6, 7, 8, 10, 12], pref: 8 },
       tabata: { key: 'tabatas', values: [1, 2, 3, 4], pref: 2 },
       flow: { key: 'repeat', values: [1, 2, 3], pref: 1 },
+      bouts: { key: 'rest', values: [60], pref: 60 }, // one bout per item (3 min each), 1 min rest between
     };
 
 
@@ -209,7 +218,7 @@
         const specs = type.blocks.concat(absSlots.length ? [{ f: 'straight', kind: 'abs', title: 'Abs', slots: absSlots }] : []);
         const cands = specs.map((sp) => sp.slots.map((slot, si) => {
           // long main blocks may drop their last one or two exercises to fit the time
-          const autoOpt = sp.kind !== 'abs' && !['emom', 'ladder', 'tabata', 'flow'].includes(sp.f) && si >= Math.max(3, sp.slots.length - (sp.slots.length >= 5 ? 2 : 1));
+          const autoOpt = sp.kind !== 'abs' && !['emom', 'ladder', 'tabata', 'flow', 'bouts'].includes(sp.f) && si >= Math.max(3, sp.slots.length - (sp.slots.length >= 5 ? 2 : 1));
           const opt = slot.endsWith('?') || autoOpt, name = slot.replace('?', '');
           const poolName = name === 'absW' && !cp.absW.some(allow) ? 'abs' : name;
           return { opt, id: candidate(poolName, taken) };
@@ -236,6 +245,7 @@
               const items = cands[i].filter((x, j) => !x.opt || c.keep.includes(j)).map((x) => ({ ...x.item }));
               const b = { format: sp.kind === 'abs' ? 'straight' : sp.f, title: sp.title, kind: sp.kind || 'main', items };
               b[c.key] = c.v;
+              if (sp.switchStance) b.switchStance = 1; // bouts: orthodox and southpaw in turn
               return b;
             });
             const t = dayTime(blocks) / 60;

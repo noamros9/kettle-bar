@@ -65,3 +65,8 @@ test('guided flows: "a 6-pose flow", "an 8-pose flow done twice", and no abs to 
   ] };
   assert.equal(daySummary(day, program, cat)[0], 'Chest & back: a 6-pose flow, an 8-pose flow done twice and sun salutations done three times.');
 });
+
+test('bouts read as "4 bouts"', () => {
+  const day = { type: 'a', level: 1, blocks: [{ format: 'bouts', items: [it('push', 180), it('row', 180), it('push', 180), it('row', 180)] }, abs] };
+  assert.equal(daySummary(day, program, cat)[0], 'Chest & back: 4 bouts, then abs.');
+});

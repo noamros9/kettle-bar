@@ -232,6 +232,11 @@ function blockHTML(p, w, b, bi, ses, D) {
     desc = `A guided sequence of ${b.items.length} poses${passes}. One Start runs it all: the voice names each pose and side, with 5 s to move into it.`;
     side = runButton(bi, st, `flow · ${Math.floor(secs / 60)}:${String(secs % 60).padStart(2, '0')}`);
     body = `<div class="exgrid">${b.items.map((it, i) => card(it, i)).join('')}</div>`;
+  } else if (f === 'bouts') {
+    const secs = b.items.reduce((s, it) => s + it.n, 0) + (b.items.length - 1) * (b.rest || 60), mins = Math.round(b.items[0].n / 60);
+    desc = `${b.items.length} bouts of ${mins} min, ${(b.rest || 60) / 60} min rest between. One Start runs them all: the voice calls each bout's combo, and you drill it until the bell.`;
+    side = runButton(bi, st, `bouts · ${Math.floor(secs / 60)}:${String(secs % 60).padStart(2, '0')}`);
+    body = `<div class="exgrid">${b.items.map((it, i) => card(it, i, { label: `Bout ${i + 1}`, count: `<b class="num">${mins}</b><span>min bout</span>` })).join('')}</div>`;
   } else if (f === 'ladder') {
     desc = `${b.minutes} min: 1 rep of each exercise, then 2, then 3… keep climbing until time runs out. Tap + after each rung.`;
     side = runButton(bi, st, `Ladder · ${b.minutes} min`) + counter(bi, st.count, 'Rungs');
@@ -327,7 +332,7 @@ function viewDay() {
       <p class="daysum">${KBSummary.daySummary(w, p, KBEx).map((l) => `<span>${esc(l)}</span>`).join('')}</p>
       <div class="meta"><span class="ty"><i class="dot" style="--c:${t.c}"></i>${esc(t.label || w.title)}</span><span>About ${w.est} min${w.stretchMin ? ` + ${w.stretchMin} min stretching` : ''}</span><span>${nEx} exercises</span></div></div>
       <button class="btn ${isD ? 'done' : ''}" data-toggle="${w.day}" aria-pressed="${isD}">${isD ? '✓ Done' : 'Mark as done'}</button></div>
-    <p class="how">Tap a set, round or pair number when you finish it and the right rest starts on the timer. EMOM, AMRAP, Tabata, ladder and guided-flow blocks have a Start button that runs the clock for you.</p>
+    <p class="how">Tap a set, round or pair number when you finish it and the right rest starts on the timer. EMOM, AMRAP, Tabata, ladder, bout and guided-flow blocks have a Start button that runs the clock for you.</p>
     ${w.warmup ? stretchBlock(w.warmup, 'warm', 'W', 'Before you start', ses) : ''}
     ${w.blocks.map((b, bi) => blockHTML(p, w, b, bi, ses, D)).join('')}
     ${w.cooldown ? `<div class="between">Then stretch</div>${stretchBlock(w.cooldown, 'cool', 'C', w.blocks.at(-1).kind === 'abs' ? 'After the abs' : 'After the workout', ses)}` : ''}
@@ -410,7 +415,7 @@ function viewSettings() {
   </section>
   <section class="card setting"><h2>Voice</h2>
     <label class="switch"><input type="checkbox" role="switch" id="voice-toggle"${T.voiceOn() ? ' checked' : ''}><span>Voice cues</span></label>
-    <p class="muted">During holds and one-side moves, the phone says "Halfway", "Switch sides" and "Done". In guided flows it also names each pose and side. The beeps stay either way. Remembered on this device.</p>
+    <p class="muted">During holds and one-side moves, the phone says "Halfway", "Switch sides" and "Done". In guided flows it also names each pose and side, and in boxing bouts it calls each combo. The beeps stay either way. Remembered on this device.</p>
   </section>`;
 }
 

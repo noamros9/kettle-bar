@@ -16,6 +16,7 @@
       case 'amrap': return `${article(b.minutes)} ${b.minutes}-minute AMRAP`;
       case 'tabata': return plural(b.tabatas, 'Tabata');
       case 'ladder': return `${article(b.minutes)} ${b.minutes}-minute ladder`;
+      case 'bouts': return plural(b.items.length, 'bout');
       case 'flow': // a one-pose flow (sun salutations) is named by its title
         return `${b.items.length === 1 ? b.title.toLowerCase() : `${article(b.items.length)} ${b.items.length}-pose flow`}${['', '', ' done twice', ' done three times'][b.repeat] || ''}`;
       default: return `${n} in straight sets`;

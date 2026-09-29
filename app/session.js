@@ -13,12 +13,12 @@
             { type: 'hold', bi, i } · { type: 'block', bi } · { type: 'stretch', key: 'warm' | 'cool' }
    Instruction: { rest: { sec, label, sub } } · { clear: { label, sub } } · { none: true }
    Plan phases: { sec, label, sub, end: 'short'|'long', work?, say?, halfway?, sayEnd?, fig? }. Voice cues, for holds,
-   sides and the poses of a guided flow: say when the phase starts, "Halfway" in the middle, sayEnd when it ends.
+   sides, the poses of a guided flow and the combo of each bout: say when the phase starts, "Halfway" in the middle, sayEnd when it ends.
    fig: the exercise whose drawing the clock shows (guided flows). */
 (function (root) {
   const DEFAULT_RESTS = { set: 30, exercise: 60, beforeAbs: 120, superset: 45, round: 60, block: 60 };
   const LETTERS = 'ABCDEF';
-  const FORMAT_NAMES = { straight: 'Straight sets', superset: 'Supersets', circuit: 'Circuits', emom: 'EMOM', amrap: 'AMRAP', tabata: 'Tabata', ladder: 'Ladders', flow: 'Guided flow' };
+  const FORMAT_NAMES = { straight: 'Straight sets', superset: 'Supersets', circuit: 'Circuits', emom: 'EMOM', amrap: 'AMRAP', tabata: 'Tabata', ladder: 'Ladders', flow: 'Guided flow', bouts: 'Bouts' };
   const TRANSITION = 5; // seconds to move into each pose of a flow (the Program Builder counts the same)
 
   function unitText(e) {
@@ -122,6 +122,22 @@
       return phases;
     }
 
+    // bouts (boxing): each item is one bout's combo, called by the voice when the bout starts; rest between bouts
+    function boutPhases(b) {
+      const n = b.items.length, rest = b.rest || 60, name = (it) => EX[it.ex].name;
+      const phases = [{ sec: 5, label: `Get ready · ${name(b.items[0])}`, sub: `Bout 1 of ${n}`, end: 'short', fig: b.items[0].ex }];
+      b.items.forEach((it, k) => {
+        const e = EX[it.ex];
+        const stance = b.switchStance ? (k % 2 ? ', southpaw' : ', orthodox') : '';
+        const side = stance ? `${stance.slice(2)[0].toUpperCase()}${stance.slice(3)} · ` : ''; // "Southpaw · "
+        phases.push({ sec: it.n, label: `${side}${e.name}`, sub: `Bout ${k + 1} of ${n}`, say: `Bout ${k + 1}${stance}: ${e.call || e.name}`, end: 'long', work: 1, halfway: true, fig: it.ex });
+        const nx = b.items[k + 1];
+        if (nx) phases.push({ sec: rest, label: `Rest · next: ${name(nx)}`, sub: `Bout ${k + 2} of ${n}`, say: 'Rest', end: 'short', fig: nx.ex });
+      });
+      phases[phases.length - 1].sayEnd = 'Done';
+      return phases;
+    }
+
     function plan(t) {
       if (t.type === 'hold') {
         const b = blocks[t.bi], it = b.items[t.i], e = EX[it.ex], sets = itemSets(b, it);
@@ -153,6 +169,7 @@
       if (t.type === 'block') {
         const b = blocks[t.bi], f = fmt(b);
         if (f === 'flow') return { phases: flowPhases(b), then: { type: 'block', bi: t.bi } };
+        if (f === 'bouts') return { phases: boutPhases(b), then: { type: 'block', bi: t.bi } };
         const phases = [{ sec: 3, label: `Get ready · ${b.title}`, sub: FORMAT_NAMES[f], end: 'short' }];
         if (f === 'emom') {
           for (let m = 1; m <= b.minutes; m++) {

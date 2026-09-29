@@ -13,6 +13,7 @@ const itemsOf = (d) => [...d.blocks.flatMap((b) => b.items), ...d.warmup.items, 
 const SUBJECTS = {
   Yoga: { count: 5, abs: false, formats: ['flow'] },
   Pilates: { count: 5, abs: false, formats: ['flow'] },
+  Boxing: { count: 5, abs: true, formats: ['bouts', 'circuit', 'tabata'] },
 };
 
 for (const [subject, want] of Object.entries(SUBJECTS)) {
@@ -66,4 +67,13 @@ test('a block scale lengthens holds in 5 s steps, up to its cap', () => {
   const d = build(cfg, cat).days[0], n = d.blocks[0].items.map((it) => it.n);
   assert.ok(n.every((x) => x % 5 === 0));
   assert.ok(Math.max(...build(cfgOf['yin-deep-stretch'], cat).days.flatMap((w) => w.blocks.flatMap((b) => b.items.map((it) => it.n)))) <= 240);
+});
+
+test('bouts: 3 minutes each with 1 minute of rest between, and every bout is a boxing combo', () => {
+  assert.equal(timing.blockTime({ format: 'bouts', rest: 60, items: [{ ex: 'jab_cross', n: 180 }, { ex: 'four_punch', n: 180 }] }), 180 + 60 + 180);
+  programs.filter((p) => p.subject === 'Boxing').forEach((p) => p.days.forEach((d) => d.blocks.filter((b) => b.format === 'bouts').forEach((b) => {
+    assert.equal(b.rest, 60);
+    b.items.forEach((it) => { assert.equal(EX[it.ex].cat, 'boxing', it.ex); assert.equal(it.n, 180); assert.ok(EX[it.ex].call, it.ex); });
+  })));
+  assert.ok(programs.find((p) => p.id === 'southpaw-switch').days.every((d) => d.blocks[0].switchStance === 1));
 });

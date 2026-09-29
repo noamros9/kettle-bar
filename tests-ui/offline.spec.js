@@ -30,5 +30,5 @@ test('offline with nothing cached, a program says so and can be tried again', as
 
 test('the first download is small: the page carries only the program list', async ({ app }) => {
   const res = await app.page.goto('/index.html#programs');
-  expect((await res.body()).length).toBeLessThan(300 * 1024);
+  expect(require('zlib').gzipSync(await res.body()).length).toBeLessThan(150 * 1024); // gzipped, as Pages serves it
 });
