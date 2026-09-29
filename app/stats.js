@@ -12,28 +12,11 @@
      report({ entries, dayOf, EX, names }, { scope: 'all' | pid, round?, span, now })   round: one round only
        -> { from, to, totals, weeks (null for one week), muscles (ranked), hasHistory (any done day in scope) }
    Muscle load: each set counts 1 for every main muscle and 0.5 for every secondary muscle. */
-(function (root) {
+(function (root, Formats) {
   // every set a day asks for, as [{ ex, sets, repsPerSet }]; timed blocks are converted to sets
   function setsOf(day, EX) {
     const out = [];
-    const reps = (it) => (EX[it.ex].u === 'sec' ? 0 : it.n * (EX[it.ex].side ? 2 : 1));
-    day.blocks.forEach((b) => {
-      const f = b.format || 'straight';
-      if (f === 'straight') b.items.forEach((it) => out.push({ ex: it.ex, sets: it.sets || b.sets, repsPerSet: reps(it) }));
-      else if (f === 'superset') b.items.forEach((it) => out.push({ ex: it.ex, sets: b.sets, repsPerSet: reps(it) }));
-      else if (f === 'circuit') b.items.forEach((it) => out.push({ ex: it.ex, sets: b.rounds, repsPerSet: reps(it) }));
-      else if (f === 'bouts') b.items.forEach((it) => out.push({ ex: it.ex, sets: 1, repsPerSet: 0 })); // a bout is a set of its combo
-      else if (f === 'flow') b.items.forEach((it) => out.push({ ex: it.ex, sets: b.repeat, repsPerSet: reps(it) })); // a pose is a set per pass
-      else if (f === 'emom') {
-        // minute m does item (m - 1) mod n
-        b.items.forEach((it, i) => out.push({ ex: it.ex, sets: Math.ceil((b.minutes - i) / b.items.length), repsPerSet: reps(it) }));
-      } else if (f === 'tabata') {
-        b.items.forEach((it, i) => out.push({ ex: it.ex, sets: Math.ceil((b.tabatas * 8 - i) / b.items.length), repsPerSet: 0 }));
-      } else {
-        // AMRAP and ladder: one set per exercise per 2 minutes, at least one
-        b.items.forEach((it) => out.push({ ex: it.ex, sets: Math.max(1, Math.floor(b.minutes / 2)), repsPerSet: 0 }));
-      }
-    });
+    day.blocks.forEach((b) => out.push(...Formats.of(b).sets(b, EX)));
     return out.filter((s) => s.sets > 0);
   }
 
@@ -117,4 +100,4 @@
   const api = { dayVolume, weekStart, summarize, spanRange, weekly, rankMuscles, report };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBStats = api;
-})(typeof window !== 'undefined' ? window : globalThis);
+})(typeof window !== 'undefined' ? window : globalThis, typeof module !== 'undefined' && module.exports ? require('../formats.js') : window.KBFormats);

@@ -3,12 +3,11 @@
    Owns the time model, rest values, exercise pools, progression levers, stretch picking and fitting.
    Node only: CONFIGS (programs.config.js), buildConfig / buildAll, and frozen programs (Three-Split 60),
    whose already-generated days are read from disk so saved progress stays valid (ADR 1). */
-(function (root) {
+(function (root, Formats) {
   function makeBuilder(cat) {
     const { EX, allowedIn, scaleReps } = cat;
 
     const REST = { set: 30, exercise: 60, beforeAbs: 120, superset: 45, round: 60, block: 60 };
-    const SETUP = 5, TRANSITION = 5; // TRANSITION: moving into each pose of a guided flow (the session runs the same)
 
     // ---------- deterministic randomness ----------
     function makeRnd(seedText) {
@@ -160,30 +159,8 @@
     const LEVER_TEXT = { base: 'Base', reps: 'More reps', holds: 'Longer holds', weight: 'Heavier weights', variation: 'Harder variations', tempo: 'Slow tempo' };
 
     // ---------- timing ----------
-    function work(it) {
-      const e = EX[it.ex], mult = e.side ? 2 : 1, slow = it.tempo ? 1.5 : 1;
-      return (e.u === 'sec' ? it.n * mult : it.n * e.tp * mult * slow) + (e.side ? 5 : 0);
-    }
-    // one pose of a guided flow: its hold, or its reps at the exercise's pace
-    const poseSec = (it) => (EX[it.ex].u === 'sec' ? it.n : it.n * EX[it.ex].tp);
     // R: the program's rests (REST unless its config overrides some, like plyometrics' longer rests)
-    function blockTime(b, R = REST) {
-      if (b.format === 'bouts') return b.items.reduce((s, it) => s + it.n, 0) + (b.items.length - 1) * b.rest;
-      if (b.format === 'flow') return b.repeat * b.items.reduce((s, it) => s + (EX[it.ex].side ? 2 : 1) * (TRANSITION + poseSec(it)), 0);
-      const W = b.items.map((it) => work(it) + SETUP);
-      switch (b.format) {
-        case 'straight': return b.items.reduce((s, it, i) => s + b.sets * W[i] + (b.sets - 1) * R.set, 0) + (b.items.length - 1) * R.exercise;
-        case 'superset': {
-          let t = 0;
-          for (let i = 0; i < b.items.length; i += 2) t += b.sets * (W[i] + (W[i + 1] || 0) + 10) + (b.sets - 1) * R.superset;
-          return t + (Math.ceil(b.items.length / 2) - 1) * R.exercise;
-        }
-        case 'circuit': return b.rounds * W.reduce((a, x) => a + x + 10, 0) + (b.rounds - 1) * R.round;
-        case 'emom': case 'amrap': case 'ladder': return b.minutes * 60;
-        case 'tabata': return b.tabatas * 240 + (b.tabatas - 1) * R.block;
-        default: throw new Error('format ' + b.format);
-      }
-    }
+    const blockTime = (b, R = REST) => Formats.of(b).time(b, R, EX);
     function dayTime(blocks, R = REST) {
       return blocks.reduce((s, b, i) => s + blockTime(b, R) + (i ? (b.kind === 'abs' ? R.beforeAbs : R.block) : 0), 0);
     }
@@ -211,20 +188,6 @@
       }
       return { items: chosen.map((id) => ({ ex: id, n: EX[id].r[0] })), seconds: t };
     }
-
-    // ---------- block options ----------
-    const OPTS = {
-      straight: { key: 'sets', values: [2, 3, 4, 5], pref: 4 },
-      superset: { key: 'sets', values: [2, 3, 4, 5], pref: 4 },
-      circuit: { key: 'rounds', values: [2, 3, 4, 5, 6], pref: 4 },
-      emom: { key: 'minutes', values: [4, 6, 8, 10, 12, 14, 16, 18, 20], pref: 12 },
-      amrap: { key: 'minutes', values: [3, 4, 5, 6, 7, 8, 10, 12, 15], pref: 8 },
-      ladder: { key: 'minutes', values: [5, 6, 7, 8, 10, 12], pref: 8 },
-      tabata: { key: 'tabatas', values: [1, 2, 3, 4], pref: 2 },
-      flow: { key: 'repeat', values: [1, 2, 3], pref: 1 },
-      bouts: { key: 'rest', values: [60], pref: 60 }, // one bout per item (3 min each), 1 min rest between
-    };
-
 
     // ---------- program builder ----------
     function build(cfg) {
@@ -264,7 +227,7 @@
           let idx = level - 1;
           if (lever === 'variation' && HARDER[id] && allow(HARDER[id]) && !taken.has(HARDER[id]) && rnd() < 0.6) { ex = HARDER[id]; taken.add(ex); idx = level - 2; note = 'Harder variation'; }
           else if (lever === 'weight' && EX[id].load) { idx = level - 2; note = 'Go one weight up'; }
-          else if (lever === 'tempo' && EX[id].u !== 'sec' && format !== 'emom' && format !== 'amrap' && format !== 'ladder' && format !== 'flow') { idx = level - 2; tempo = 1; note = '3 s lowering'; }
+          else if (lever === 'tempo' && EX[id].u !== 'sec' && Formats.FORMATS[format].tempo) { idx = level - 2; tempo = 1; note = '3 s lowering'; }
           const e = EX[ex];
           const n = scaleReps(e, e.r[Math.max(0, idx)], format);
           const it = { ex, n: scale ? Math.min(cap || Infinity, Math.round((n * scale) / 5) * 5) : n };
@@ -279,7 +242,7 @@
         const specs = type.blocks.concat(absSlots.length ? [{ f: 'straight', kind: 'abs', title: 'Abs', slots: absSlots }] : []);
         const cands = specs.map((sp) => sp.slots.map((slot, si) => {
           // long main blocks may drop their last one or two exercises to fit the time
-          const autoOpt = sp.kind !== 'abs' && !['emom', 'ladder', 'tabata', 'flow', 'bouts'].includes(sp.f) && si >= Math.max(3, sp.slots.length - (sp.slots.length >= 5 ? 2 : 1));
+          const autoOpt = sp.kind !== 'abs' && Formats.FORMATS[sp.f].optionalSlots && si >= Math.max(3, sp.slots.length - (sp.slots.length >= 5 ? 2 : 1));
           const opt = slot.endsWith('?') || autoOpt, name = slot.replace('?', '');
           const poolName = name === 'absW' && !cp.absW.some(allow) ? 'abs' : name;
           return { opt, id: candidate(poolName, taken) };
@@ -289,7 +252,7 @@
 
         // search block parameters (+ which optional slots to keep) to land in the program's time range
         const choices = specs.map((sp, bi) => {
-          const o = sp.kind === 'abs' ? { key: 'sets', values: [3], pref: 3 } : OPTS[sp.f];
+          const o = sp.kind === 'abs' ? { key: 'sets', values: [3], pref: 3 } : Formats.FORMATS[sp.f].options;
           const values = sp.values || o.values;
           const optIdx = cands[bi].map((c, i) => (c.opt ? i : -1)).filter((i) => i >= 0);
           const masks = [];
@@ -354,7 +317,7 @@
     }
     // frozen programs: generated once, then kept byte-for-byte; only their description comes from the config
 
-    return { build, dayTypesOf, POOLS, REST, timing: { work, blockTime, dayTime } };
+    return { build, dayTypesOf, POOLS, REST, timing: { blockTime, dayTime } };
   }
 
   const builders = new Map(); // one per catalogue (pools are computed from it)
@@ -376,4 +339,4 @@
   const buildConfig = (cfg) => (cfg.frozen ? buildFrozen(cfg) : b.build(cfg));
   module.exports = { ...api, buildConfig, buildAll: () => CONFIGS.map(buildConfig), CONFIGS, POOLS: b.POOLS, REST: b.REST, timing: b.timing };
   /* node:coverage ignore next */
-})(typeof window !== 'undefined' ? window : globalThis);
+})(typeof window !== 'undefined' ? window : globalThis, typeof module !== 'undefined' && module.exports ? require('./formats.js') : window.KBFormats);
