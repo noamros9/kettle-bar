@@ -520,6 +520,62 @@ const CONFIGS = [
       b: { label: 'Bouts + Tabata B', short: 'B', blocks: [B('Bouts', ['bxMove', 'bxPower', 'bxBasic', 'bxBasic?']), T('Tabata', ['cardio', 'cardio', 'core', 'cardio'], { values: [1, 2] })] },
     },
   },
+  // ---------------- KICKBOXING (Phase 5: bouts with kicks and knees, no equipment; abs to finish) ----------------
+  {
+    id: 'muay-thai-basics', added: 5, name: 'Muay Thai Basics', subject: 'Kickboxing', minutes: [26, 31], equip: 'bw', levers: [null, 'variation', 'variation'],
+    split: 'Kicks & knees A / B', blurb: 'The Muay Thai basics in 3-minute bouts: teeps, roundhouses and knees, with simple punches between.',
+    about: 'The Muay Thai basics, one per 3-minute bout: the teep, the roundhouse and knee strikes, with simple punches between. The voice calls each bout as it starts, and a minute of rest follows. Abs finish every session. Levels II and III bring harder versions, like the switch kick and jab-teep. No equipment, just room to kick.',
+    names: ['Wai Kru', 'Mongkol', 'Prajioud', 'Nak Muay', 'Lumpinee', 'Rajadamnern', 'Sak Yant', 'Teep Line', 'Clinch Hold', 'Shin Guard', 'Pad Round', 'Kru', 'Camp Morning', 'Tamarind', 'Coconut Oil', 'Liniment', 'Ring Walk', 'Ram Muay', 'Sarama', 'Golden Belt'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Kicks & knees A', short: 'A', blocks: [B('Bouts', ['teep', 'roundhouse', 'kkKnee', 'bxBasic', 'kkKick?', 'kkCombo?'])] },
+      b: { label: 'Kicks & knees B', short: 'B', blocks: [B('Bouts', ['kkKick', 'bxBasic', 'kkKnee', 'kkCombo', 'kkKick?', 'kkKnee?'])] },
+    },
+  },
+  {
+    id: 'kick-combos', added: 5, name: 'Kick Combos', subject: 'Kickboxing', minutes: [26, 31], equip: 'bw', levers: [null, 'variation', 'variation'],
+    split: 'Combos A / B', blurb: 'Punches that set up kicks: jab-cross-roundhouse, hook-low kick and more, one combo per bout.',
+    about: 'Kickboxing combinations where the hands set up the kicks: jab-cross-roundhouse, hook-low kick and jab-teep. Each 3-minute bout drills one combination, called out as it starts, with single kicks mixed in. Abs finish every session. Levels II and III bring longer combinations. Suits you once the single kicks feel natural.',
+    names: ['Setup', 'Feint', 'Chain', 'Link', 'Sequence', 'Relay', 'Cascade Strike', 'Follow-Up', 'Double Up', 'Combo Breaker', 'Rhythm', 'Tempo', 'Crossfire', 'Counterpunch', 'Overlap', 'Weave', 'Braid', 'Stitch', 'Thread', 'Finisher'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Combos A', short: 'A', blocks: [B('Bouts', ['kkCombo', 'kkCombo', 'kkKick', 'kkCombo', 'kkCombo?', 'kkKick?'])] },
+      b: { label: 'Combos B', short: 'B', blocks: [B('Bouts', ['kkKick', 'kkCombo', 'kkCombo', 'kkSpin', 'kkCombo?', 'kkKick?'])] },
+    },
+  },
+  {
+    id: 'clinch-and-knees', added: 5, name: 'Clinch & Knees', subject: 'Kickboxing', minutes: [26, 31], equip: 'bw', levers: [null, 'variation', 'variation'],
+    split: 'Knees A / B', blurb: 'The close range of Muay Thai: clinch knees, knee strikes and teeps to make space.',
+    about: 'The close range of Muay Thai: clinching, knee strikes, and teeps to make space again. Bouts alternate between knee work and kicks or combinations, so the hips and core work hard all session. Abs finish every day. Levels II and III bring harder versions. Tough on the hip flexors, so warm up properly.',
+    names: ['Plum', 'Collar Tie', 'Underhook', 'Overhook', 'Frame', 'Pummel', 'Lock', 'Grip', 'Tie-Up', 'Break Away', 'Close Quarters', 'Inside Line', 'Elbow Line', 'Head Position', 'Posture Break', 'Sweep', 'Dump', 'Off-Balance', 'Knee Wall', 'Iron Grip'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Knees A', short: 'A', blocks: [B('Bouts', ['clinch_knees', 'teep', 'kkKnee', 'kkCombo', 'kkKnee?', 'kkKick?'])] },
+      b: { label: 'Knees B', short: 'B', blocks: [B('Bouts', ['knee_strike', 'kkKick', 'clinch_knees', 'bxBasic', 'kkCombo?', 'kkKnee?'])] },
+    },
+  },
+  {
+    id: 'kickboxing-cardio', added: 5, name: 'Kickboxing Cardio', subject: 'Kickboxing', minutes: [24, 29], equip: 'bw', levers: [null, 'variation', 'variation'],
+    split: 'Bouts + Tabata A / B', blurb: 'Kickboxing bouts for fun and sweat, then a Tabata of cardio and core, then abs.',
+    about: 'Kickboxing for sweat: three or four bouts of kicks, punches and combinations, then a Tabata of cardio and core. The bouts keep the skill honest and the Tabata makes sure you finish tired. Abs close every session. Levels II and III bring harder kicks and combinations. Around 25 minutes.',
+    names: ['Heatwave', 'Firecracker', 'Sizzle', 'Scorcher', 'Heat Rash', 'Sauna', 'Steam', 'Ember Kick', 'Flashpoint', 'Tinderbox', 'Hotfoot', 'Sweatband', 'Blaze Kick', 'Chili', 'Wildfire', 'Sunburn', 'Boiling Point', 'Magma', 'Heat Lamp', 'Inferno'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Bouts + Tabata A', short: 'A', blocks: [B('Bouts', ['kkKick', 'bxBasic', 'kkCombo', 'bxMove?']), T('Tabata', ['cardio', 'cardio', 'core', 'cardio'], { values: [1, 2] })] },
+      b: { label: 'Bouts + Tabata B', short: 'B', blocks: [B('Bouts', ['kkCombo', 'kkKick', 'bxBasic', 'kkKnee?']), T('Tabata', ['cardio', 'core', 'cardio', 'cardio'], { values: [1, 2] })] },
+    },
+  },
+  {
+    id: 'full-contact', added: 5, name: 'Full Contact', subject: 'Kickboxing', minutes: [31, 36], equip: 'bw', levers: [null, 'variation', 'variation'],
+    split: 'Everything + conditioning', blurb: 'Everything together, with no contact: kicks, punches, knees and spinning kicks, then a hard circuit.',
+    about: 'Everything together, with no actual contact: kick combinations, power punches, knees and spinning kicks, bout after bout. A bodyweight conditioning circuit follows, then abs. The longest kickboxing session, 31 to 36 minutes. Levels II and III bring longer combinations and harder circuit moves. Best once the other kickboxing programs feel comfortable.',
+    names: ['Main Card', 'Title Fight', 'Five Rounds', 'Championship', 'Grand Prix', 'Tournament', 'Showdown', 'Rematch', 'Unification', 'Super Fight', 'Prize Fight', 'Headline', 'Fight Night', 'Walkout', 'Face-Off', 'Stare Down', 'Bell to Bell', 'War', 'Legacy Fight', 'Undisputed'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Everything + circuit A', short: 'A', blocks: [B('Bouts', ['kkCombo', 'bxPower', 'kkKnee', 'kkSpin', 'kkCombo?']), C('Conditioning', ['legsBw', 'push', 'core', 'cardio'], { values: [2, 3] })] },
+      b: { label: 'Everything + circuit B', short: 'B', blocks: [B('Bouts', ['kkKick', 'kkCombo', 'bxPower', 'kkKnee', 'bxDefense?']), C('Conditioning', ['push', 'legsBw', 'cardio', 'core'], { values: [2, 3] })] },
+    },
+  },
 ];
 
 // ---------- program paragraphs (hand-written): what it trains, how it's built, how it gets harder, who it suits ----------

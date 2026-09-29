@@ -57,6 +57,15 @@
   const SLIP = { ...GUARD, t: [12, -32], hd: [0.6, -0.8], hn: [22, -36], hf: [17, -34] };
   const ROLL = { ...GUARD, t: [11, -30], fn: [17, 33], ff: [-12, 33], hn: [22, -32], hf: [18, -30] };
 
+  // kickboxing: kicks and knees from the same guard (near leg leads)
+  const TEEP = { ...GUARD, t: [-5, -34], fn: [37, -12], khn: [1, -0.3], ff: [-4, 41] };
+  const CHAMBER = { ...GUARD, t: [0, -34], fn: [16, 6], khn: [1, -1], ff: [-4, 41] };
+  const ROUNDHOUSE = { ...GUARD, t: [-12, -32], hd: [0.8, -0.6], fn: [39, -16], khn: [1, -0.5], ff: [-2, 41], hf: [-10, -14], ehf: [0, 1] };
+  const SIDE_THRUST = { ...GUARD, t: [-15, -31], hd: [1, 0], fn: [41, -4], khn: [1, -0.2], ff: [-3, 41] };
+  const BACK_KICK = { ...GUARD, t: [17, -30], hd: [-0.3, -1], ff: [-40, -8], khf: [-1, -0.2], fn: [2, 41], hn: [22, -38], hf: [20, -36] };
+  const KNEE_UP = { ...GUARD, t: [2, -34], fn: [4, 12], khn: [1, -1], ff: [-3, 41], hn: [28, -30], hf: [26, -29], ehn: [0, 1], ehf: [0, 1] };
+  const SWITCHED = { ...GUARD, fn: [-12, 40], ff: [14, 40], khf: [1, -0.2], khn: [1, -0.3] };
+
   /*
    * Exercise library.
    * r: reps (or seconds) for Level I / II / III, exactly as used (Level I = intermediate).  u: 'reps' | 'sec'.  side: done on each side.
@@ -408,6 +417,21 @@
       GUARD, { ...GUARD, fn: [20, 40], ff: [-6, 40] }, { ...JAB, fn: [20, 40], ff: [-6, 40] }] },
     speed_bag: { name: 'Speed bag drill', call: 'speed bag', cat: 'boxing', added: 5, u: 'sec', r: [180, 180, 180], mus: 'front_delts side_delts | forearms upper_back', cue: 'Hands up at eye level, roll your fists in fast small circles in front of your face, as if keeping a speed bag going.', poses: [
       { ...GUARD, hn: [22, -46], hf: [19, -41], ehn: [0, 1], ehf: [0, 1] }, { ...GUARD, hn: [20, -41], hf: [21, -46], ehn: [0, 1], ehf: [0, 1] }] },
+
+    // ---------------- KICKBOXING (Phase 5: one kick or combination per 3-minute bout) ----------------
+    teep: { name: 'Teep', call: 'teep', cat: 'kick', added: 5, u: 'sec', r: [180, 180, 180], mus: 'hip_flexors quads | abs glutes calves', cue: 'The push kick: lift the lead knee and drive the ball of the foot straight out as if pushing a door shut, leaning back a little. Hands up.', poses: [GUARD, CHAMBER, TEEP] },
+    front_kick: { name: 'Snap front kick', call: 'front kick', cat: 'kick', added: 5, u: 'sec', r: [180, 180, 180], mus: 'quads hip_flexors | abs calves', cue: 'Chamber the knee high, snap the lower leg out to kick with the ball of the foot, snap it back and step down in stance.', poses: [GUARD, CHAMBER, { ...TEEP, t: [-2, -34], fn: [36, -18] }] },
+    roundhouse: { name: 'Roundhouse kick', call: 'roundhouse', cat: 'kick', added: 5, u: 'sec', r: [180, 180, 180], mus: 'obliques glutes hip_flexors | quads calves', cue: 'Pivot on the standing foot and swing the leg round, hip turning over, to strike with the shin. The rear arm swings back for balance.', poses: [GUARD, CHAMBER, ROUNDHOUSE] },
+    side_thrust_kick: { name: 'Side kick', call: 'side kick', cat: 'kick', added: 5, u: 'sec', r: [180, 180, 180], mus: 'glutes quads | obliques abs calves', cue: 'Turn side-on, chamber the knee to your chest and drive the heel straight out, body leaning away in one line. Recoil and step down.', poses: [GUARD, CHAMBER, SIDE_THRUST] },
+    back_kick: { name: 'Spinning back kick', call: 'back kick', cat: 'kick', added: 5, u: 'sec', r: [180, 180, 180], mus: 'glutes hamstrings | lower_back abs', cue: 'Turn your back, look over your shoulder and drive the heel straight back like a mule, then turn back to guard.', poses: [GUARD, BACK_KICK] },
+    switch_kick: { name: 'Switch kick', call: 'switch kick', cat: 'kick', added: 5, u: 'sec', r: [180, 180, 180], mus: 'obliques hip_flexors glutes | calves quads', cue: 'A quick hop to swap your feet, then fire the new rear leg as a roundhouse. Land back in your normal stance.', poses: [GUARD, SWITCHED, ROUNDHOUSE] },
+    knee_strike: { name: 'Knee strikes', call: 'knees', cat: 'kick', added: 5, u: 'sec', r: [180, 180, 180], mus: 'hip_flexors abs | quads glutes', cue: 'Hands reach out as if holding a head, pull down and drive the knee up through it, hips forward. Alternate knees.', poses: [GUARD, KNEE_UP] },
+    clinch_knees: { name: 'Clinch knees', call: 'clinch and knees', cat: 'kick', added: 5, u: 'sec', r: [180, 180, 180], mus: 'hip_flexors abs upper_back | quads forearms', cue: 'Hands locked behind an imagined neck, elbows tight. Pull down and drive alternating knees, turning your hips into each one.', poses: [
+      { ...KNEE_UP, fn: [0, 41], khn: [1, -0.2], ff: [-3, 41] }, KNEE_UP, { ...KNEE_UP, fn: [0, 41], khn: [1, -0.2], ff: [8, 14], khf: [1, -1] }] },
+    jab_cross_kick: { name: 'Jab, cross, roundhouse', call: 'jab, cross, kick', cat: 'kick', added: 5, u: 'sec', r: [180, 180, 180], mus: 'obliques front_delts glutes | triceps hip_flexors calves', cue: 'One-two, and let the turn of the cross load a lead-leg roundhouse. Reset your guard at the end.', poses: [JAB, CROSS, ROUNDHOUSE] },
+    jab_teep: { name: 'Jab, teep', call: 'jab, teep', cat: 'kick', added: 5, u: 'sec', r: [180, 180, 180], mus: 'front_delts hip_flexors | quads abs', cue: 'Jab to find the distance, then push kick off the lead leg to keep it. Step back to stance.', poses: [JAB, CHAMBER, TEEP] },
+    hook_low_kick: { name: 'Hook, low kick', call: 'hook, low kick', cat: 'kick', added: 5, u: 'sec', r: [180, 180, 180], mus: 'obliques glutes | front_delts quads calves', cue: 'Lead hook, then turn the hips over and chop the rear shin into an imagined thigh. Hands stay up.', poses: [HOOK, { ...ROUNDHOUSE, fn: [36, 8] }] },
+    kick_four: { name: 'Jab, cross, hook, kick', call: 'jab, cross, hook, kick', cat: 'kick', added: 5, u: 'sec', r: [180, 180, 180], mus: 'obliques front_delts glutes | triceps hip_flexors calves', cue: 'The full combination: one-two, lead hook, then a rear roundhouse off the turn of the hook.', poses: [JAB, CROSS, HOOK, ROUNDHOUSE] },
   };
 
 
