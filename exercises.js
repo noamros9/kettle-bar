@@ -536,6 +536,28 @@
       { t: [6, -34], fn: [18, 4], khn: [1, -1], ff: [-4, 41], hn: [-14, -20], hf: [20, -34] }, { t: [6, -34], ff: [18, 4], khf: [1, -1], fn: [-4, 41], hf: [-14, -20], hn: [20, -34] }] },
     seal_jacks: { name: 'Seal jacks', cat: 'cardio', added: 5, view: 'front', r: [20, 24, 30], tp: 1, mus: 'chest calves | rear_delts quads', cue: 'Like a jumping jack, but your arms open wide at shoulder height as the feet jump out, and clap in front as they jump in.', poses: [
       P(FSTAND, { hn: [-40, -34], hf: [40, -34] }), P(FSTAND, { fn: [-20, 38], ff: [20, 38], hn: [-3, -34], hf: [3, -34], ehn: [0, 1], ehf: [0, 1] })] },
+
+    // ---------------- PLYOMETRICS (Phase 5: few, fast, full-effort reps with long rests) ----------------
+    broad_jump: { name: 'Broad jumps', cat: 'lower', added: 5, r: [5, 6, 8], tp: 4, mus: 'glutes quads | hamstrings calves', cue: 'Swing your arms back, then jump forward as far as you can, landing softly in a half squat. Reset fully before the next one.', poses: [
+      P(SQUAT, { hn: [-14, -6], hf: [-15, -6] }), { t: [16, -31], lift: 14, fn: [-14, 36], ff: [-16, 36], hn: [42, -46], hf: [40, -46] }, P(SQUAT, { hn: [30, -14], hf: [29, -14] })] },
+    drop_squat: { name: 'Drop squats', cat: 'lower', added: 5, r: [6, 8, 10], tp: 2.5, mus: 'quads glutes | calves hamstrings', cue: 'Rise onto your toes with arms up, then drop quickly into a half squat and stick the landing, as if landing from a box.', poses: [
+      P(STAND, { lift: 4, ...ARMS_UP }), P(SQUAT, { hn: [-14, -6], hf: [-15, -6] })] },
+    lateral_bounds: { name: 'Lateral bounds', cat: 'lower', added: 5, view: 'front', r: [10, 12, 16], alt: 1, tp: 1.8, mus: 'glutes quads adductors | calves', cue: 'Bound powerfully sideways from one leg to the other, going for distance, and push off again straight away.', poses: [
+      { t: [-6, -33], fn: [-10, 37], khn: [-1, -0.2], ff: [24, 18], khf: [1, 0.3], hn: [-24, -14], hf: [18, -20] }, { t: [0, -34], lift: 12, fn: [-14, 36], ff: [14, 36], hn: [-26, -24], hf: [26, -24] }] },
+    pogo_hops: { name: 'Pogo hops', cat: 'lower', added: 5, r: [20, 25, 30], tp: 0.7, mus: 'calves | quads', cue: 'Small, quick, springy hops on the balls of your feet with nearly straight knees, spending as little time on the ground as you can.', poses: [
+      P(STAND, { lift: 1 }), P(STAND, { lift: 8, fn: [4, 41], ff: [2, 41] })] },
+    single_leg_hops: { name: 'Single-leg hops', cat: 'lower', added: 5, r: [8, 10, 12], side: 1, tp: 1.5, mus: 'calves quads glutes | abs', cue: 'Hop continuously on one foot, springy and quick, staying tall. Switch legs.', poses: [
+      P(STAND, { fn: [-10, 30], khn: [0.3, 1] }), P(STAND, { lift: 8, fn: [-10, 30], khn: [0.3, 1] })] },
+    clap_pushup: { name: 'Clap push-ups', cat: 'chest', added: 5, r: [5, 6, 8], tp: 3, mus: 'chest triceps front_delts | abs', cue: 'Lower, then push up hard enough to clap your hands before landing with soft elbows. Knees down is fine while you build up.', poses: [
+      PUSHB, { ...PLANK, t: [30, -19], hn: [34, 2], hf: [34, 2], eh: [0, 1] }] },
+    power_skips: { name: 'Power skips', cat: 'cardio', added: 5, r: [10, 12, 16], alt: 1, tp: 1.5, mus: 'calves glutes hip_flexors | quads', cue: 'Skip for height, driving one knee up and the opposite arm high each time, landing softly.', poses: [
+      { t: [2, -34], lift: 12, fn: [16, 6], khn: [1, -1], ff: [-4, 41], hn: [-14, -22], hf: [8, -64] }, { t: [2, -34], lift: 12, ff: [16, 6], khf: [1, -1], fn: [-4, 41], hf: [-14, -22], hn: [8, -64] }] },
+    star_jumps: { name: 'Star jumps', cat: 'cardio', added: 5, view: 'front', r: [8, 10, 12], tp: 2, mus: 'quads glutes | calves side_delts', cue: 'Crouch, then explode up into a star, arms and legs wide in the air. Land with feet together and soft knees.', poses: [
+      { t: [0, -30], fn: [-8, 26], ff: [8, 26], khn: [-1, -0.3], khf: [1, -0.3], hn: [-8, -2], hf: [8, -2] }, { t: [0, -34], lift: 14, fn: [-26, 32], ff: [26, 32], hn: [-28, -62], hf: [28, -62] }] },
+    bounding: { name: 'Bounding', cat: 'lower', added: 5, r: [10, 12, 16], alt: 1, tp: 1.5, mus: 'glutes quads | hamstrings calves hip_flexors', cue: 'Exaggerated running strides in place or across the room: drive the knee up, push hard off the back foot and float.', poses: [
+      { t: [6, -33], lift: 10, fn: [22, 12], khn: [1, -1], ff: [-30, 26], khf: [0.2, 1], hn: [-10, -14], hf: [24, -40] }, { t: [6, -33], lift: 10, ff: [22, 12], khf: [1, -1], fn: [-30, 26], khn: [0.2, 1], hf: [-10, -14], hn: [24, -40] }] },
+    pause_squat_jump: { name: 'Pause squat jumps', cat: 'lower', added: 5, r: [5, 6, 8], tp: 4, mus: 'quads glutes | calves', cue: 'Squat down and hold still for two seconds, then jump as high as you can from the pause. Land softly and reset.', poses: [
+      P(SQUAT, { hn: [30, -18], hf: [29, -18] }), P(STAND, { lift: 14, ...ARMS_UP })] },
   };
 
 

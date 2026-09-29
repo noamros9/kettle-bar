@@ -19,6 +19,7 @@ const SUBJECTS = {
   'Mobility & posture': { count: 5, abs: false, formats: ['flow', 'circuit'] },
   'Balance & stability': { count: 5, abs: true, formats: ['circuit', 'straight'] },
   HIIT: { count: 5, abs: true, formats: ['circuit', 'amrap', 'emom', 'tabata', 'ladder'] },
+  Plyometrics: { count: 5, abs: true, formats: ['straight'] },
 };
 
 for (const [subject, want] of Object.entries(SUBJECTS)) {
@@ -29,7 +30,7 @@ for (const [subject, want] of Object.entries(SUBJECTS)) {
       assert.equal(p.days.length, 60, p.id);
       const cfg = cfgOf[p.id];
       p.days.forEach((d) => {
-        const [lo, hi] = cfg.dayTypes[d.type].minutes || cfg.minutes, t = timing.dayTime(d.blocks) / 60;
+        const [lo, hi] = cfg.dayTypes[d.type].minutes || cfg.minutes, t = timing.dayTime(d.blocks, p.rests) / 60;
         assert.ok(t >= lo - 1 && t <= hi + 1.1, `${p.id} d${d.day}: ${t.toFixed(1)} min, want ${lo}-${hi}`);
       });
     });
@@ -82,4 +83,16 @@ test('bouts: 3 minutes each with 1 minute of rest between, and every bout is a b
     b.items.forEach((it) => { assert.equal(EX[it.ex].cat, 'boxing', it.ex); assert.equal(it.n, 180); assert.ok(EX[it.ex].call, it.ex); });
   })));
   assert.ok(programs.find((p) => p.id === 'southpaw-switch').days.every((d) => d.blocks[0].switchStance === 1));
+});
+
+test('plyometrics rest longer: 60 s between sets and 90 s between exercises, used by the timing and the session', () => {
+  const p = programs.find((x) => x.id === 'spring-loaded');
+  assert.equal(p.rests.set, 60);
+  assert.equal(p.rests.exercise, 90);
+  assert.equal(p.rests.beforeAbs, 120);
+  const b = { format: 'straight', sets: 3, items: [{ ex: 'broad_jump', n: 5 }, { ex: 'drop_squat', n: 6 }] };
+  assert.equal(timing.blockTime(b, p.rests) - timing.blockTime(b), 2 * 2 * 30 + 30);
+  const { createSession } = require('../app/session.js');
+  const s = createSession(p, p.days[0], { EX });
+  assert.equal(s.complete({ type: 'set', bi: 0, i: 0, k: 1 }).rest.sec, 60);
 });
