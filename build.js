@@ -1,16 +1,17 @@
 // Builds the app: runs the Program Builder and stitches the modules into one page, index.html, served by GitHub Pages
 // (manifest, service worker, Firebase sync). The page carries only the program list (summaries); each program's
-// days go to data/<id>.json, loaded when first opened and cached for offline (Program Catalogue, fetched adapter).
+// days go to data/<id>.json (and the recipe book to data/recipes.json), loaded when first opened and cached for offline (Program Catalogue, fetched adapter).
 // `render()` returns the files without writing them (used by the tests); `node build.js` writes them.
 const fs = require('fs');
 const path = require('path');
 const { buildAll } = require('./program-builder.js');
 const { summarize } = require('./app/programs.js');
+const { refresh } = require('./recipe-book.js');
 
 const read = (f) => fs.readFileSync(path.join(__dirname, f), 'utf8');
 
 // order matters: data and pure modules first, then the page modules that use them
-const SCRIPTS = ['figures.js', 'formats.js', 'exercises.js', null, 'app/progress.js', 'app/docs.js', 'app/store.js', 'app/session.js', 'app/backup.js', 'app/stats.js', 'app/swaps.js', 'app/programs.js', 'app/library.js', 'app/day.js', 'app/summary.js', 'app/views.js', 'app/clock.js', 'app/main.js'];
+const SCRIPTS = ['figures.js', 'formats.js', 'exercises.js', null, 'recipes.js', 'app/progress.js', 'app/docs.js', 'app/store.js', 'app/session.js', 'app/backup.js', 'app/stats.js', 'app/swaps.js', 'app/programs.js', 'app/library.js', 'app/day.js', 'app/summary.js', 'app/views.js', 'app/clock.js', 'app/main.js'];
 const HEAD = '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="color-scheme" content="light dark"><meta name="theme-color" content="#2346D5"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" href="icons/icon-32.png"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"></head><body>';
 const TAIL = '<script type="module" src="firebase-sync.js"></script><script>if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});</script></body></html>';
 
@@ -20,7 +21,8 @@ function render(programs = buildAll()) {
     .replace('/*__STYLES__*/', () => read('app/styles.css'))
     .replace('<!--__SCRIPTS__-->', () => scripts);
   const data = Object.fromEntries(programs.map((p) => [`data/${p.id}.json`, JSON.stringify(p)]));
-  return { 'index.html': HEAD + page + TAIL, ...data };
+  // the recipe book (build your own, the random workout): one file, fetched when first needed, not in the page
+  return { 'index.html': HEAD + page + TAIL, ...data, 'data/recipes.json': JSON.stringify(refresh()) };
 }
 
 if (require.main === module) {

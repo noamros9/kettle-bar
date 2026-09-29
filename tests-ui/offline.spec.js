@@ -7,11 +7,13 @@ test.beforeEach(({}, testInfo) => test.skip(testInfo.project.name !== 'phone-lig
 test('after the first visit every program is in the offline cache and opens with no network', async ({ app }) => {
   await app.open('#programs');
   await app.page.waitForFunction(() => programs.ids().every((id) => programs.get(id)), null, { timeout: 20000 });
+  await app.page.waitForFunction(async () => !!(await caches.match('data/recipes.json')), null, { timeout: 20000 }); // the recipe book comes after the programs
   const cached = await app.data(async () => (await (await caches.open('kettle-bar-v2')).keys()).map((r) => new URL(r.url).pathname).filter((p) => p.includes('/data/')).length);
-  expect(cached).toBe(CONFIGS.length);
+  expect(cached).toBe(CONFIGS.length + 1); // every program and the recipe book
   app.allowErrors(/\/data\//);
   await app.page.route('**/data/**', (r) => r.abort('internetdisconnected')); // the network is gone for programs
   await app.page.reload(); await app.page.locator('#app h1').waitFor();
+  expect(await app.data(() => recipes.load().then((b) => b.types.length))).toBeGreaterThan(100); // the book, offline
   for (const pid of ['iron-ppl', 'hotel-room', 'three-split-60']) {
     await app.go(`#p-${pid}-d1`);
     await expect(app.heading()).toHaveText(await app.data((id) => programs.day(id, 1).name, pid));

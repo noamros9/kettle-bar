@@ -31,6 +31,8 @@ const offlineCache = {
 };
 const fetchJson = (url) => fetch(url).then((r) => { if (!r.ok) throw new Error(url + ': ' + r.status); return r.json(); });
 const programs = KBPrograms.createProgramCatalogue(KBPrograms.fetched(PROGRAM_SUMMARIES, { fetchJson, cache: offlineCache, name: 'library' }));
+// the recipe book for build your own and the random workout: fetched when first asked for, kept for offline
+const recipes = KBRecipes.recipesLoader({ fetchJson, cache: offlineCache });
 const lastPid = () => { try { const v = localStorage.getItem('kb-last-program'); return programs.has(v) ? v : null; } catch (e) { return null; } };
 // the program of the workout marked done most recently (any round), or nothing before the first one
 const lastDonePid = () => {

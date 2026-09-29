@@ -136,6 +136,6 @@ store.load(); // before the route: #today needs your progress
 route = parseHash();
 render();
 // then every program, quietly, for offline use: the open one and the ones with progress first
-programs.loadEverything([route.pid, ...programs.ids().filter((pid) => store.count(pid) > 0)], () => {});
+programs.loadEverything([route.pid, ...programs.ids().filter((pid) => store.count(pid) > 0)], () => {}).then(() => recipes.load()).catch(() => {});
 T.paint();
 if (!store.remote) paintSync(store.auth ? 'signin' : 'local');
