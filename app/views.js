@@ -102,7 +102,7 @@ function cycleDays(p, key) {
 }
 
 /* ---------------- programs page ---------------- */
-const { libraryView, FAMILIES, LENGTHS, lengthOf } = KBLibrary;
+const { libraryView, suggestNext, FAMILIES, LENGTHS, lengthOf } = KBLibrary;
 let filters = { family: 'all', subject: 'all', len: 'all' };
 let lengthMenu = false; // the "Length: Any" line is open, showing the four choices
 function setFilter(k, val) {
@@ -312,7 +312,7 @@ function viewProgram() {
   <div class="cycle">${Object.entries(TY).map(([k, t]) => `<div><i class="dot" style="--c:${t.c}"></i><b>${esc(t.label)}</b><span class="days">${cycleDays(p, k)}</span></div>`).join('')}</div>
   ${nw ? `<div class="nextup"><div class="t"><span class="eyebrow">Next up · Day ${nw.day}</span><b>${esc(nw.name)}</b><span>${esc((TY[nw.type] || {}).label || nw.title)} · about ${nw.est} min</span></div><button class="btn" data-day="${nw.day}">Open workout</button></div>`
        : `<div class="nextup"><div class="t"><b>All ${p.days.length} days done</b><span>That's the full program. Start Round ${r + 1} to go again.</span></div></div>`}
-  ${levels}${roundSheet(p, r)}${own ? deleteSheet(p) : ''}`;
+  ${levels}${whatNext(p)}${roundSheet(p, r)}${own ? deleteSheet(p) : ''}`;
 }
 
 /* ---------------- workout page ---------------- */
@@ -457,6 +457,15 @@ function nextPreview(p, w) {
   const t = typesOf(p)[n.type] || { label: n.title };
   return `<button class="fnext" data-day="${n.day}"><b>Next: Day ${n.day} · ${esc(n.name)}</b><span>${esc(t.label || n.title)} · About ${n.est} min</span></button>`;
 }
+// When every day of the round is done: Start Round N+1 and up to three programs of the family that train differently
+function whatNext(p) {
+  if (store.count(p.id) < p.days.length) return '';
+  const ids = suggestNext(p.id, programs.list(), (id) => store.entries(id).length, { families: FAMILIES });
+  const card = (q) => `<button class="wncard" data-open-prog="${q.id}"><span class="eyebrow">${esc(q.subject)}</span><b>${esc(q.name)}</b><span>${(q.formats || ['straight']).map((f) => fmtFormat[f]).join(' · ')}</span></button>`;
+  return `<section class="whatnext" aria-labelledby="wn-h"><h2 id="wn-h">What next?</h2>
+    <button class="btn" data-round-start="1">Start Round ${store.round(p.id) + 1}</button>
+    ${ids.length ? `<p class="muted">Or train differently:</p><div class="wnlist">${ids.map((id) => card(programs.summary(id))).join('')}</div>` : ''}</section>`;
+}
 // shown once every set of the day is ticked (after the cool-down, if you run it)
 function finishCard(p, w, isD) {
   const v = KBStats.dayVolume(w, EX);
@@ -471,6 +480,7 @@ function finishCard(p, w, isD) {
     <div class="fmap"><h3>Muscles worked today</h3>${muscleMapSVG(v.muscles, 'Muscles worked today')}${heatLegend()}</div>
     <button class="btn ${isD ? 'done' : ''}" data-toggle="${w.day}" aria-pressed="${isD}">${isD ? `✓ Day ${w.day} done` : `Mark day ${w.day} as done`}</button>
     ${nextPreview(p, w)}
+    ${whatNext(p)}
   </section>`;
 }
 // Swap sheet: { key: 'pid:day', bi, i, to? } while open
@@ -513,7 +523,7 @@ function viewDay() {
     ${w.blocks.map((b, bi) => blockHTML(p, w, b, bi, ses, D)).join('')}
     ${w.cooldown ? `<div class="between">Then stretch</div>${stretchBlock(w.cooldown, 'cool', 'C', w.blocks.at(-1).kind === 'abs' ? 'After the abs' : 'After the workout', ses)}` : ''}
     ${ses.allDone() ? finishCard(p, w, isD) : ''}
-    ${swapSheet(D)}
+    ${swapSheet(D)}${roundSheet(p, store.round(p.id))}
     <p class="note">Tap any exercise for how to do it and the muscles it works. Weights are starting points: pick a load where the last two reps are hard but clean. "Go one weight up" means the next dumbbell size or the heavier bell; "3 s lowering" means a slow 3-second lowering on every rep.</p>`;
 }
 

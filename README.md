@@ -65,7 +65,8 @@ days ticked on the device and in the cloud are merged.
   and what comes next, readable from 2 m, in both themes and in landscape. Tap anywhere, ✕ or Escape to leave; the
   timer keeps running and the screen stays awake.
 - **Start Round 2** on a program page does the program again from day 1; earlier rounds stay in your stats (Stats can
-  narrow to one round).
+  narrow to one round). When the last day is marked done, the finish card (and the program page) shows **What next?**:
+  Start Round 2, and up to three programs from the same family that train differently and that you haven't started.
 - Tap a day to open the workout; tick the circle on a tile or press
   **Mark as done** to record it.
 - Every workout starts with a 1-minute warm-up and ends with 2 minutes of
