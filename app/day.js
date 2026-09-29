@@ -1,19 +1,41 @@
 /* The Day: a program day as you'll do it, with its live Workout Session and the swap actions.
 
-     const days = createDays({ programs, store, cat, createSession });
+     const days = createDays({ programs, store, cat, createSession, storage, now? });
+     days.forget(pid, n)                 drop the saved session of that day (Mark as done, un-marking)
      days.resolved(pid, n, round?) -> the day with that round's swaps applied (for stats), or nothing
      days.open(pid, n) -> a Day, or nothing for an unknown program or day:
        D.program, D.day                 the program and the day as you'll do it
        D.session()                      its Workout Session; the same one while the day stays open, and
-                                        when a swap changes the exercises the ticks carry over
+                                        when a swap changes the exercises the ticks carry over; one saved on the
+                                        device (see below) comes back when the day is opened again
+       D.restored()                     true when the live session was picked up from the device
        D.alternatives(bi, i)            what item i of block bi can be swapped for
        D.swap(bi, i, to, { onward })    today only, or from this day to the end of the program
        D.undo(bi, i), D.swapBehind(bi, i)   the swap that put this item here, and undoing it
 
+   Saved sessions: every change to the open day's session is written to the device, `storage` = { get, set, remove }
+   (never the synced store), under kb-session-<pid>-<round>-<day> as { savedAt, session: snapshot }. The round is in the
+   key so round 2's day 5 never restores round 1's. One saved more than 12 hours ago is ignored and removed. A running
+   timer is not saved, only what is ticked, counted and stretched and when the workout clock started.
+
    Swaps are stored with the program's progress (Progress Store); the rules are in app/swaps.js. */
 (function (root, S, P) {
-  function createDays({ programs, store, cat, createSession }) {
-    const live = { key: null, exs: null, session: null };
+  function createDays({ programs, store, cat, createSession, storage, now = Date.now }) {
+    const live = { key: null, exs: null, session: null, restored: false };
+    const HOURS_12 = 12 * 3600 * 1000;
+    const savedKey = (pid, n) => `kb-session-${pid}-${store.round(pid)}-${n}`;
+    // the stored snapshot of a day, or nothing when there is none, it is unreadable or it is too old (then removed)
+    function saved(key) {
+      let rec; try { rec = JSON.parse(storage.get(key)); } catch (e) { return undefined; }
+      if (!rec) return undefined;
+      if (typeof rec.savedAt !== 'number' || now() - rec.savedAt > HOURS_12) { storage.remove(key); return undefined; }
+      return rec.session;
+    }
+    // the session, saving itself after every change
+    function saving(ses, key) {
+      const keep = (f) => (...a) => { const r = f(...a); storage.set(key, JSON.stringify({ savedAt: now(), session: ses.snapshot() })); return r; };
+      return { ...ses, complete: keep(ses.complete), count: keep(ses.count), setStarted: keep(ses.setStarted) };
+    }
     // a day with its swaps: the current round's, or a past round's (for stats)
     const resolved = (pid, n, round) => {
       const w = programs.day(pid, n);
@@ -29,11 +51,14 @@
       return {
         program, day,
         session() {
-          const key = pid + ':' + n, exs = JSON.stringify(day.blocks.map((b) => b.items.map((it) => it.ex)));
-          if (live.key !== key) Object.assign(live, { key, exs, session: createSession(program, day, { EX: cat.EX }) });
-          else if (live.exs !== exs) Object.assign(live, { exs, session: createSession(program, day, { EX: cat.EX, from: live.session }) });
+          const key = savedKey(pid, n), exs = JSON.stringify(day.blocks.map((b) => b.items.map((it) => it.ex)));
+          if (live.key !== key) {
+            const snap = saved(key);
+            Object.assign(live, { key, exs, restored: !!snap, session: saving(createSession(program, day, { EX: cat.EX, saved: snap }), key) });
+          } else if (live.exs !== exs) Object.assign(live, { exs, session: saving(createSession(program, day, { EX: cat.EX, from: live.session }), key) });
           return live.session;
         },
+        restored() { this.session(); return live.restored; },
         alternatives: (bi, i) => S.alternatives(itemAt(bi, i).ex, day.blocks[bi], program, cat),
         swap(bi, i, to, { onward } = {}) {
           store.setSwaps(pid, [...store.swaps(pid), { day: n, ex: itemAt(bi, i).ex, to, ...(onward ? { onward: true } : {}) }]);
@@ -42,7 +67,7 @@
         undo(bi, i) { store.setSwaps(pid, S.undoSwap(store.swaps(pid), n, itemAt(bi, i).ex)); },
       };
     }
-    return { open, resolved };
+    return { open, resolved, forget: (pid, n) => storage.remove(savedKey(pid, n)) };
   }
 
   const api = { createDays };

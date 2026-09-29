@@ -15,7 +15,7 @@ Decided on 29 Sep:
 
 | # | Ticket | Tier | Blocked by | Branch | Status |
 |---|---|---|---|---|---|
-| 1 | Resume a workout after closing the app | feature | – | `feature/resume` | |
+| 1 | Resume a workout after closing the app | feature | – | `feature/resume` | done (PR #PR) |
 | 2 | Random workout | feature | review III 4, 5; Phase 6 4 | `feature/random-workout` | |
 | 3 | Rest-day flow | feature | 2 | `feature/rest-day-flow` | |
 | 4 | Shorter today | feature | review III 4 | `feature/shorter-today` | |
@@ -25,7 +25,7 @@ Decided on 29 Sep:
 | 8 | What next, when a program ends | feature | – | `feature/what-next` | |
 
 ### 1. Resume a workout
-- The open day's Workout Session is saved on the device on every tick (`kb-session-<pid>-<day>`: ticks, counters,
+- The open day's Workout Session is saved on the device on every tick (`kb-session-<pid>-<round>-<day>`: ticks, counters,
   stretches, the time started). Opening that day again restores it; **Mark as done** or 12 hours pass clears it.
   Device only: a session is short-lived.
 - **Why (Noam, 29 Sep):** today an unfinished workout lives only in memory. Closing the app loses its ticks, and

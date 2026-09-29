@@ -84,3 +84,67 @@ test('stretch plans run the whole warm-up and mark it done', () => {
   s.complete(plan.then);
   assert.ok(s.stretchDone('warm'));
 });
+
+// resume: a stored snapshot brings the session back exactly
+const viaJson = (s) => JSON.parse(JSON.stringify(s.snapshot())); // what the device stores
+const hiit = () => ({ p: programs['hiit-20'], w: day('hiit-20', 1) });
+
+test('a snapshot restores ticks in two blocks and an AMRAP counter: same state, same next instruction', () => {
+  const { p, w } = hiit();
+  const amrap = w.blocks.findIndex((b) => b.format === 'amrap'), circ = w.blocks.findIndex((b) => b.format === 'circuit');
+  const straight = w.blocks.findIndex((b) => (b.format || 'straight') === 'straight');
+  assert.ok(circ >= 0 && straight >= 0 && amrap >= 0);
+  const a = createSession(p, w, { EX });
+  a.complete({ type: 'round', bi: circ, k: 1 });
+  a.complete({ type: 'set', bi: straight, i: 0, k: 1 });
+  a.count(amrap, 1); a.count(amrap, 1);
+  a.complete({ type: 'stretch', key: 'warm' });
+  a.setStarted(1234);
+  const b = createSession(p, w, { EX, saved: viaJson(a) });
+  assert.deepEqual(b.snapshot(), a.snapshot());
+  assert.equal(b.state(circ).rounds, 1);
+  assert.equal(b.state(straight).sets[0], 1);
+  assert.equal(b.state(amrap).count, 2);
+  assert.ok(b.stretchDone('warm') && !b.stretchDone('cool'));
+  assert.equal(b.started(), 1234);
+  const next = { type: 'set', bi: straight, i: 0, k: 2 };
+  assert.deepEqual(b.complete(next), a.complete(next), 'the next instruction is the same');
+  assert.notEqual(b.state(0), a.state(0), 'its own state, not shared with the snapshot');
+});
+
+test('a session that never started has no start time; supersets restore too', () => {
+  const p = programs['no-gear-burn'], w = day('no-gear-burn', 1), bi = w.blocks.findIndex((b) => b.format === 'superset');
+  const a = createSession(p, w, { EX });
+  assert.equal(a.started(), null);
+  a.complete({ type: 'pair', bi, pi: 0, k: 1 });
+  const b = createSession(p, w, { EX, saved: viaJson(a) });
+  assert.equal(b.state(bi).sets[0], 1);
+  assert.equal(b.started(), null);
+});
+
+test('a snapshot that no longer matches the day is ignored whole, not half applied', () => {
+  const { p, w } = hiit(), a = createSession(p, w, { EX });
+  a.complete({ type: 'round', bi: 0, k: 1 });
+  const fresh = createSession(p, w, { EX }).snapshot();
+  const ignored = (saved) => assert.deepEqual(createSession(p, w, { EX, saved }).snapshot(), fresh);
+  const s = viaJson(a);
+  ignored({ ...s, state: s.state.slice(1) }); // a block fewer
+  ignored({ ...s, state: [...s.state, s.state[0]] }); // a block more
+  const items = viaJson(a); items.state[2].sets.pop(); ignored(items); // an item fewer
+  const format = viaJson(a); format.state[0] = { f: 'straight', sets: [0] }; ignored(format); // another format
+  const types = viaJson(a); types.state[0].rounds = 'one'; ignored(types);
+  const stretched = viaJson(a); stretched.stretched = { warm: 1, cool: false }; ignored(stretched);
+  ignored({ state: 'x', stretched: {} });
+  ignored({});
+  ignored(null);
+  const other = programs['no-gear-burn'], sw = day('no-gear-burn', 1);
+  assert.deepEqual(createSession(other, sw, { EX, saved: s }).snapshot(), createSession(other, sw, { EX }).snapshot(), 'another day\'s snapshot');
+});
+
+test('ticks still carry over a swap through from, start time included', () => {
+  const { p, w } = hiit(), a = createSession(p, w, { EX });
+  a.complete({ type: 'round', bi: 0, k: 1 }); a.setStarted(99);
+  const b = createSession(p, w, { EX, from: a });
+  assert.equal(b.state(0).rounds, 1);
+  assert.equal(b.started(), 99);
+});

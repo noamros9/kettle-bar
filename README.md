@@ -51,6 +51,9 @@ days ticked on the device and in the cloud are merged.
   progress, sync with your account and work offline. On its page: **Rename**, **Edit** (the builder opens with its
   choices; days you have done stay exactly as you did them, the rest are made again) and **Delete** (asks first; its
   progress goes too).
+- **Unfinished workouts are kept**: ticks, counters and stretches are saved on the device as you go, so closing the app
+  or opening another day doesn't lose them; opening the day again shows "Picked up where you left off". **Mark as
+  done**, or 12 hours, clears it. A running timer isn't resumed. It stays on the device (not synced, not in backups).
 - **Settings** (gear, top right) → **Export progress** downloads every program's done days as one file;
   **Import a backup** shows which days it would add or remove, then asks **Merge** or **Replace**.
 - **Tap the logo** (top left) from any page to open today's workout: the next day you haven't done in the program
