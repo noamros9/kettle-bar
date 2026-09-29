@@ -30,11 +30,24 @@ const offlineCache = {
   put: (url, v) => (self.caches ? caches.open(OFFLINE_CACHE).then((c) => c.put(url, new Response(JSON.stringify(v), { headers: { 'Content-Type': 'application/json' } }))) : Promise.resolve()),
 };
 const fetchJson = (url) => fetch(url).then((r) => { if (!r.ok) throw new Error(url + ': ' + r.status); return r.json(); });
-const programs = KBPrograms.createProgramCatalogue(KBPrograms.fetched(PROGRAM_SUMMARIES, { fetchJson, cache: offlineCache, name: 'library' }));
-// the recipe book for build your own and the random workout: fetched when first asked for, kept for offline
-const recipes = KBRecipes.recipesLoader({ fetchJson, cache: offlineCache });
-let recipeBook = null; // KBRecipes.of(book), once the book is here
-const loadBook = () => recipes.load().then((b) => (recipeBook = recipeBook || KBRecipes.of(b)));
+const fetchText = (url) => fetch(url).then((r) => { if (!r.ok) throw new Error(url + ': ' + r.status); return r.text(); });
+// the exercise index (data/index.json): which programs use an exercise, fetched when an exercise page first needs it
+const usageFile = KBLazy.lazyFile({ fetch: fetchJson, cache: offlineCache, url: 'data/index.json', unavailable: "Which programs use this exercise isn't available offline yet. Open an exercise once while online." });
+const programs = KBPrograms.createProgramCatalogue(KBPrograms.fetched(PROGRAM_SUMMARIES, { fetchJson, cache: offlineCache, name: 'library', usage: usageFile }));
+// build your own and the random workout: the recipe book (data/recipes.json) and the code that reads it (data/recipes.js),
+// fetched when first asked for, kept for offline; neither is in the page
+const BUILD_OFFLINE = "Build your own isn't available offline yet. Open it once while online.";
+const bookFile = KBLazy.lazyFile({ fetch: fetchJson, cache: offlineCache, url: 'data/recipes.json', unavailable: BUILD_OFFLINE });
+const bookCode = KBLazy.lazyFile({ fetch: fetchText, cache: offlineCache, url: 'data/recipes.js', unavailable: BUILD_OFFLINE });
+const fetchBuildFiles = () => Promise.all([bookCode.load(), bookFile.load()]);
+let recipeBook = null; // KBRecipes.of(book), once the code and the book are here
+const loadBook = () => fetchBuildFiles().then(([code, book]) => {
+  if (!recipeBook) {
+    if (!self.KBRecipes) { const s = document.createElement('script'); s.textContent = code; document.head.appendChild(s); s.remove(); }
+    recipeBook = KBRecipes.of(book);
+  }
+  return recipeBook;
+});
 // the first library program: the fallback wherever "some program" is needed (your own programs are listed before it)
 const firstPid = () => programs.list().find((s) => s.source === 'library').id;
 const lastPid = () => { try { const v = localStorage.getItem('kb-last-program'); return programs.has(v) ? v : null; } catch (e) { return null; } };
@@ -97,8 +110,7 @@ function setFilter(k, val) {
   if (k === 'len') lengthMenu = false;
 }
 const toggleLengthMenu = () => { lengthMenu = !lengthMenu; };
-// program cards show the paragraph's first sentence
-const firstSentence = (t) => (t.match(/^[^.!?]+[.!?]/) || [t])[0];
+const { firstSentence } = KBPrograms; // program cards show the paragraph's first sentence
 function viewPrograms() {
   const last = lastPid();
   const all = programs.list().filter((p) => p.source !== 'own'); // your own programs have their own shelf
@@ -507,10 +519,18 @@ function viewDay() {
 
 /* ---------------- exercise page + library ---------------- */
 function usesEx(w, id) { return [...w.blocks.flatMap((b) => b.items), ...(w.warmup ? w.warmup.items : []), ...(w.cooldown ? w.cooldown.items : [])].some((it) => it.ex === id); }
+// "Also in" needs the exercise index (data/index.json): asked for when the first exercise page opens, the page draws again
+// when it is here; if it can't be had (offline, never cached) the card says so, and the next exercise tries again
+let usageLoading = false, usageError = null;
 function viewExercise() {
   const e = EX[route.ex], m = e.muscles, p = prog();
   const days = p.days.filter((w) => usesEx(w, e.id)).map((w) => w.day);
-  const others = programs.programsUsing(e.id).filter((id) => id !== p.id).map((id) => programs.summary(id));
+  if (usageError && usageError.ex !== e.id) usageError = null;
+  if (!programs.usageReady() && !usageLoading && !usageError) {
+    usageLoading = true;
+    programs.loadUsage().then(() => { usageLoading = false; rerender(); }, (err) => { usageLoading = false; usageError = { ex: e.id, message: err.message }; rerender(); });
+  }
+  const others = programs.usageReady() ? programs.programsUsing(e.id).filter((id) => id !== p.id).map((id) => programs.summary(id)) : [];
   const names = (arr) => arr.map((k) => `<span class="chip">${MUSCLE_NAMES[k]}</span>`).join(' ');
   const r = e.r, stretch = e.cat === 'warmup' || e.cat === 'cooldown';
   const dose = stretch ? `${r[0]} s${e.side ? ' each side' : ''}` : e.u === 'sec' ? `${r.join(' / ')} s${e.side ? ' each side' : ''} (Level I / II / III)` : `${r.join(' / ')} ${unitText(e)} (Level I / II / III)`;
@@ -531,7 +551,7 @@ function viewExercise() {
     </div>
     ${days.length ? `<div class="card" style="margin-top:16px"><h2>In ${esc(p.name)}</h2><div style="color:var(--muted);font-size:14px">Used on ${days.length} day${days.length > 1 ? 's' : ''}</div>
       <div class="daychips">${days.map((d) => `<button class="num" data-day="${d}" aria-label="Open day ${d}">${d}</button>`).join('')}</div></div>` : ''}
-    ${others.length ? `<div class="card" style="margin-top:16px"><h2>Also in</h2><div class="daychips">${others.map((q) => `<button class="progchip" data-open-prog="${q.id}">${esc(q.name)}</button>`).join('')}</div></div>` : ''}`;
+    ${others.length ? `<div class="card" style="margin-top:16px"><h2>Also in</h2><div class="daychips">${others.map((q) => `<button class="progchip" data-open-prog="${q.id}">${esc(q.name)}</button>`).join('')}</div></div>` : usageError ? `<div class="card" style="margin-top:16px"><h2>Also in</h2><p class="muted" role="status">${esc(usageError.message)}</p></div>` : ''}`;
 }
 function viewLibrary() {
   const cats = Object.keys(CAT);

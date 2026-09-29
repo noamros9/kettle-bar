@@ -32,6 +32,7 @@ Tracer bullets, one branch = one PR, each from its **Test first**.
 | 5 | Build your own: pick, preview, regenerate, save | feature | 4, review III 5, 6 | `feature/build-your-own` | done (PR #84) |
 | 6 | Your programs: rename, delete, edit | feature | 5 | `feature/own-edit` | done (PR #88) |
 | 7 | Mix in build your own (2–3 subjects) | feature | 1, 5 | `feature/own-mix` | done (PR #91) |
+| 7b | Slim the first download (≤125 KB gzipped) | refactor | 7 | `refactor/slim-first-download` | done (PR #__PR__) |
 | 8 | Share a copy by link | feature | 5 | `feature/own-share` | |
 
 ### What every mixed-program ticket (1–3) includes
@@ -121,6 +122,21 @@ Build your own and the random workout (Phase 7) need "a day of subject X" withou
 - The subject picker allows **2–3 subjects**. Each day is a **mixed day**: `recipes.make` joins one block per
   subject in the order picked, splitting the minutes, each block with its subject's lever (as ticket 1).
 - **Test first:** strength + yoga, 30 min: every day has a strength block then a flow, inside 30 min ± the range.
+
+### 7b. Slim the first download
+The first download (`index.html`, gzipped) was 147.6 KB against the 150 KB gate, and every ticket adds code. Target ≤ 125 KB
+(the 150 KB gate stays), no behaviour change, offline as before.
+- **Slim summaries:** `PROGRAM_SUMMARIES` carries id, name, subject, split, minutes, formats, equip, dayCount and the
+  first sentence of the paragraph as `about` (`slim()` in `app/programs.js`). The full paragraph, blurb, day types, levels,
+  rests, gear and the per-program exercise lists come with `data/<id>.json` when a program opens.
+- **Exercise index:** `data/index.json` (exercise → programs) is loaded on demand for the exercise page's "Also in"
+  (`programs.loadUsage()`), cached for offline and in the background download; if it can't be had the card says so.
+- **Build your own code:** `recipes.js` is no longer inlined: it is served as `data/recipes.js`, fetched with the recipe
+  book when `#build` first opens, cached for offline. `app/lazy.js` (`lazyFile`) is the one fetch → cache → cache-only →
+  message pattern for these files (it replaces `recipesLoader`).
+- **Test first:** the summaries carry only those fields; `index.html` ≤ 125 KB gzipped; unit tests for `lazyFile` and the
+  exercise index; the offline UI test cuts the network after a full load and opens "Also in" and `#build`.
+- **Done when:** `data/<id>.json` is byte-identical to before (only `data/index.json` and `data/recipes.js` are new).
 
 ### 8. Share a copy by link
 - A **Share** button copies `…/#add=<base64url of { name, choices, seed, catalogue }>`. Opening the link shows the

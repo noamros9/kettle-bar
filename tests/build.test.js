@@ -7,7 +7,7 @@ const out = render();
 
 test('the build produces the page and one data file per program', () => {
   const { CONFIGS } = require('../program-builder.js');
-  assert.deepStrictEqual(Object.keys(out).sort(), ['index.html', 'data/recipes.json', ...CONFIGS.map((c) => `data/${c.id}.json`)].sort());
+  assert.deepStrictEqual(Object.keys(out).sort(), ['index.html', 'data/recipes.json', 'data/recipes.js', 'data/index.json', ...CONFIGS.map((c) => `data/${c.id}.json`)].sort());
   const iron = JSON.parse(out['data/iron-ppl.json']);
   assert.equal(iron.days.length, 60);
 });
@@ -18,6 +18,42 @@ test('the page carries only the program list: small to download (gzipped, as Pag
   assert.ok(gz < 150 * 1024, `index.html is ${Math.round(gz / 1024)} KB gzipped`);
   assert.doesNotMatch(html, /"days":/);
   assert.match(html, /const PROGRAM_SUMMARIES = \[/);
+});
+
+test('the first download is at most 125 KB gzipped (ticket 7b); the gate above stays at 150', () => {
+  const gz = require('zlib').gzipSync(out['index.html']).length;
+  assert.ok(gz <= 125 * 1024, `index.html is ${(gz / 1024).toFixed(1)} KB gzipped`);
+});
+
+test('the summaries in the page carry only what the pages that do not load the program need', () => {
+  const summaries = JSON.parse(out['index.html'].match(/const PROGRAM_SUMMARIES = (\[.*?\]);\n/)[1]);
+  const { CONFIGS } = require('../program-builder.js');
+  assert.equal(summaries.length, CONFIGS.length);
+  const allowed = ['id', 'name', 'subject', 'split', 'minutes', 'formats', 'equip', 'dayCount', 'about'];
+  summaries.forEach((s) => {
+    assert.deepStrictEqual(Object.keys(s).filter((k) => !allowed.includes(k)), [], `${s.id} carries more than it needs`);
+    assert.ok(s.id && s.name && s.subject && s.split && s.minutes && s.dayCount && s.about, s.id);
+    const full = JSON.parse(out[`data/${s.id}.json`]);
+    assert.equal(s.dayCount, full.days.length);
+    assert.ok((full.about || full.blurb).startsWith(s.about), `${s.id}: the card's sentence is the start of the paragraph`);
+    assert.ok(s.about.length < 250, `${s.id}: only the first sentence`);
+  });
+});
+
+test('data/index.json says which programs use each exercise (the exercise page\'s "Also in"), loaded on demand', () => {
+  const index = JSON.parse(out['data/index.json']);
+  const { summarize } = require('../app/programs.js');
+  const expected = {};
+  CONFIGS_PROGRAMS().forEach((p) => summarize(p).exercises.forEach((ex) => { (expected[ex] = expected[ex] || []).push(p.id); }));
+  assert.deepStrictEqual(index, expected);
+  assert.doesNotMatch(out['index.html'], /"exercises":/, 'no per-program exercise lists in the page');
+});
+function CONFIGS_PROGRAMS() { return require('../program-builder.js').buildAll(); }
+
+test('build your own is not in the page: its code is data/recipes.js, loaded when #build first opens', () => {
+  assert.doesNotMatch(out['index.html'], /function recipeFor|const GRID|root\.KBRecipes/);
+  assert.equal(out['data/recipes.js'], require('fs').readFileSync(require('path').join(__dirname, '../recipes.js'), 'utf8'));
+  assert.match(out['index.html'], /data\/recipes\.js/);
 });
 
 test('the page has no claude.ai sync left in it (ADR 3)', () => {

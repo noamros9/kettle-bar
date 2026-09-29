@@ -42,3 +42,16 @@ test('every exercise added in Phase 5 draws its figure on its page, and moves wh
     if (e.poses.length > 1) { await app.page.clock.runFor(300); expect(await snapshot(app), `${e.id} moves`).not.toBe(first); }
   }
 });
+
+test('"Also in" lists the other programs that use the exercise, once the exercise index has loaded', async ({ app }) => {
+  test.skip(test.info().project.name !== 'phone-light', 'theme-independent');
+  await app.open('#ex-pushup');
+  const chips = app.page.locator('.progchip');
+  await expect(app.page.getByRole('heading', { name: 'Also in' })).toBeVisible();
+  const names = await chips.allTextContents();
+  const expected = await app.data(() => programs.programsUsing('pushup').filter((id) => id !== route.pid).map((id) => programs.summary(id).name));
+  expect(names).toEqual(expected);
+  expect(names.length).toBeGreaterThan(3);
+  await chips.first().click();
+  await expect(app.heading()).toHaveText(names[0]);
+});
