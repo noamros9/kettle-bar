@@ -158,8 +158,8 @@ Returns **instructions** (`rest`, `clear`, `none`) and **phase plans** (warm-up 
 **Clock**: runs the session's instructions in the page: timer, beeps, wake lock, workout clock.
 
 **Program Catalogue**: the module the page asks for programs: the list (summaries with day counts and the exercises
-used), one program's days, and which programs use an exercise. Where programs come from (inlined today;
-fetched with an offline cache, or your own, later) is its adapter's business.
+used), one program's days, and which programs use an exercise. Where programs come from is its sources' business:
+the library (fetched with an offline cache) and, later, your own (built in the page); own programs are listed first, and ids never clash.
 
 **Program Builder**: turns a program's config into 60 days fitted to each day type's time range. Pure over the
 Exercise Catalogue it's given, so it runs in the Node build and (for your own programs) in the page.
