@@ -6,6 +6,14 @@ const { createMemoryRemote } = require('../app/store.js');
 const { device } = require('./devices.js');
 
 const chip = (app, group, name) => app.page.getByRole('group', { name: group }).getByRole('button', { name, exact: true });
+const subject = (app, name) => app.page.locator(`[data-bsub="${name}"]`);
+// one subject alone: tap it, then tap Strength (the default) off if it is still picked
+async function pickAlone(app, name) {
+  await subject(app, name).click();
+  await expect(subject(app, name)).toHaveAttribute('aria-pressed', 'true');
+  if (name !== 'Strength' && (await subject(app, 'Strength').getAttribute('aria-pressed')) === 'true') await subject(app, 'Strength').click();
+  await expect(subject(app, 'Strength')).toHaveAttribute('aria-pressed', String(name === 'Strength'));
+}
 const tileNames = (app) => app.page.locator('.grid.pv .tile .nm').allTextContents();
 
 async function buildKettlebell(app) {
@@ -68,7 +76,7 @@ test('choices the subject cannot build are off with a reason, and a message stan
     const eq = ['all', 'kb', 'bw'], name = KBOwn.subjects(recipeBook).map((x) => x.name).find((n) => eq.some((e) => !recipeBook.options(n).equipment[e].length));
     return { subject: name, gear: GEAR_TEXT[eq.find((e) => !recipeBook.options(name).equipment[e].length)] };
   });
-  await app.page.getByLabel('Subject').selectOption(lacking.subject);
+  await pickAlone(app, lacking.subject);
   await expect(chip(app, 'Equipment', lacking.gear)).toBeDisabled();
   await expect(app.page.locator('.hint', { hasText: 'No ' + lacking.subject + ' days with' })).toBeVisible();
   // untick every format: nothing to build
@@ -82,12 +90,51 @@ test('choices the subject cannot build are off with a reason, and a message stan
 test('the subject you pick changes what is offered: its formats, its levers, its preview', async ({ app }) => {
   await app.open('#build');
   await app.page.getByRole('group', { name: 'Days in a cycle' }).waitFor();
-  await app.page.getByLabel('Subject').selectOption('Yoga');
+  await pickAlone(app, 'Yoga');
   await expect(app.page.locator('.grid.pv .tile')).toHaveCount(6);
   expect(await app.page.locator('#b-lever2 option').allTextContents()).toEqual(['Longer holds', 'Harder variations']);
   await app.page.getByLabel('Name').fill('Evening flow');
   await app.page.getByRole('button', { name: 'Save program' }).click();
   await expect(app.heading()).toHaveText('Evening flow');
+});
+
+test('mix: strength then yoga, numbered as tapped, a lever pair each, mixed days in the preview; saved and its days mixed', async ({ app }) => {
+  await app.open('#build');
+  await app.page.getByRole('group', { name: 'Days in a cycle' }).waitFor();
+  await subject(app, 'Yoga').click();
+  await expect(subject(app, 'Strength').locator('.ord')).toHaveText('1');
+  await expect(subject(app, 'Yoga').locator('.ord')).toHaveText('2');
+  await expect(app.page.locator('.bpick')).toHaveText('Each day: Strength, then Yoga.');
+  await expect(app.page.getByRole('heading', { name: 'Subjects' })).toBeVisible();
+  // one lever pair per subject: strength's and yoga's own
+  await expect(app.page.locator('.blev')).toHaveText(['1 · Strength', '2 · Yoga']);
+  expect(await app.page.locator('#b-lever2-2 option').allTextContents()).toEqual(['Longer holds', 'Harder variations']);
+  await app.page.locator('#b-lever3-2').selectOption('variation');
+  await expect(app.page.locator('#b-lever3-2')).toHaveValue('variation');
+  // a subject that cannot join greys out with a reason; mixed subjects never do (they start over)
+  await expect(subject(app, 'Legs & glutes')).toBeDisabled();
+  await expect(app.page.locator('.hint', { hasText: 'no mix with it fits' })).toBeVisible();
+  await expect(subject(app, 'Fighter')).toBeEnabled();
+  // the preview: mixed days, the summary names the mix
+  await expect(app.page.locator('.pvline')).toContainText('Strength + Yoga, 3 days a cycle');
+  await expect(app.page.locator('.grid.pv .tile')).toHaveCount(6);
+  expect((await tileNames(app)).every((n) => n.includes(' + '))).toBe(true);
+  expect(await app.sidewaysScroll()).toBe(0);
+  await expect(app.page.getByLabel('Name')).toHaveValue('My Strength + Yoga 60');
+  await app.page.getByRole('button', { name: 'Save program' }).click();
+  await expect(app.heading()).toHaveText('My Strength + Yoga 60');
+  const day1 = await app.data(() => { const d = programs.day(route.pid, 1); return d.blocks.filter((b) => b.kind === 'main').map((b) => b.family); });
+  expect(day1).toEqual(['Strength', 'Mind & body']);
+  const choices = await app.data(() => store.doc('programs', Object.keys(store.docs('programs'))[0]).choices);
+  expect(choices.subjects).toEqual(['Strength', 'Yoga']);
+  expect(choices.levers).toHaveLength(4);
+  expect(choices.levers[3]).toBe('variation');
+  // tapping a mixed subject starts over with it alone
+  await app.open('#build');
+  await app.page.getByRole('group', { name: 'Days in a cycle' }).waitFor();
+  await subject(app, 'Fighter').click();
+  await expect(app.page.locator('[data-bsub][aria-pressed="true"]')).toHaveCount(1);
+  await expect(app.page.locator('.bpick')).toContainText('Fighter is already a mix');
 });
 
 test('an own program opens offline, built from its stored config', async ({ app }, testInfo) => {

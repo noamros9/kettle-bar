@@ -414,6 +414,11 @@ table.weeks tr.empty{color:var(--muted)}table.weeks tr.empty th{font-weight:400}
 .bfield{display:grid;gap:4px;min-width:0}
 .bfield>span{font-size:12px;font-weight:600;color:var(--muted)}
 .hint{margin:6px 0 0;font-size:13px;color:var(--muted)}
+.bpick{margin:0 0 4px}
+.bfam h3,.blev{margin:12px 0 6px;font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.blev{text-transform:none;letter-spacing:0;font-size:13px;color:var(--ink)}
+.fchip.subj{display:inline-flex;align-items:center;gap:6px}
+.fchip .ord{display:inline-grid;place-items:center;min-width:18px;height:18px;border-radius:999px;background:var(--accent);color:var(--accent-ink);font-size:11px;font-weight:700;font-variant-numeric:tabular-nums}
 .notice{margin:0;padding:12px 14px;border:1px solid var(--err);border-radius:8px;color:var(--ink);background:var(--surface)}
 .pvline{margin:0 0 10px;font-size:14px;color:var(--muted)}
 .grid.pv{grid-template-columns:repeat(3,minmax(0,1fr))}

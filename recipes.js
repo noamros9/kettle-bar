@@ -6,10 +6,14 @@
 
      pick({ subjects, families, equipment, formats, minutes }) -> the day types that fit (all keys optional)
      make(choice, seed) -> a config KBBuilder.build turns into 60 days (throws a message for people when nothing fits)
-       choice = { subjects: [one], split: 1-5 days per cycle, minutes: 20|25|30|35|40, equipment: 'all'|'kb'|'bw',
-                  formats?: [...], levers: [Level II, Level III], catalogue?: N (default: the newest) }
+       choice = { subjects: [1 to 3, in the order picked], split: 1-5 days per cycle, minutes: 20|25|30|35|40,
+                  equipment: 'all'|'kb'|'bw', formats?: [...], catalogue?: N (default: the newest),
+                  levers: [Level II, Level III] for each subject in turn (flat: [a II, a III, b II, b III, ...]) }
      options(subject) -> { subject, equipment: { all: [minutes], kb: [minutes], bw: [minutes] }, formats, levers }:
        what make() accepts for the subject (an equipment with no minutes is greyed out), and what the pickers offer
+     options([a, b, c?]) -> { subjects, equipment, formats, levers: [a's, b's, ...], reason }: the same for a mix; reason is
+       null, or why the mix cannot be made at all (then every equipment has no minutes)
+     mixReason([subjects]) -> null, or why these subjects cannot be in a mix at all (a Mixed subject, Plyometrics)
      recipeFor(dayType, { minutes, equipment, levers, catalogue? }) -> a recipe for KBBuilder.buildDay
      of(book) -> { pick, make, options, recipeFor, book(), skipped } over a book (in the page: KBRecipes.of(await load()))
      recipesLoader({ fetchJson, cache }) -> { load() }: Promise of the book from data/recipes.json, fetched once, kept in
@@ -28,10 +32,26 @@
    - Subjects and families are "any of"; family is the shelf a program sits on (a mixed day is `Mixed`, its blocks'
      families are in `families`).
    - Levers: the choice's levers rule the day, except a block's own lever (mixed days keep their flow's `holds`).
+   Mixes (2-3 subjects): every day is a mixed day, joined from one part (a main block of a library day type, see
+   recipe-book.js) of each subject, in the order picked; each block is tagged with its subject's family and gets harder
+   by its own subject's levers. A mix is made only of subjects that are one family and rest like the rest (not a Mixed
+   subject, not Plyometrics). The abs finisher comes last when the last subject is a Strength one (as in configs/mixed.js);
+   it levels by that subject's levers, which are the program's own. Equipment and formats apply to every part.
+   - Minutes (the split): after the rests between blocks (a minute each) and the abs (two minutes' rest and its usual
+     length), the day's minutes are shared evenly between the blocks; a block that cannot be that short or that long
+     (a flow comes in whole rounds) is held at what it can do and the others share the rest. Each block's share is its
+     `target` (give or take 2 minutes): the builder keeps it there when it can, after the day's window.
+   - What is refused: a mix reaches a time when some parts, one per subject, have ranges (per level, what every trial
+     of the part could be built to) that add up, with the rests and the abs, to a total that can land in the window at
+     every level. options() offers exactly those times. make() then builds the whole program it made and checks every
+     day lands in the window (its minutes rounded as the app shows them, as the book's trials); a day type whose days do not is swapped
+     for the next parts that reach, a few times, and if that never works the mix is refused with a message.
    Day types are read-only data: do not change what pick returns. */
-(function (root, Formats) {
+(function (root, Formats, deps) {
   const GRID = [15, 20, 25, 30, 35, 40], MINUTES = [20, 25, 30, 35, 40];
   const WINDOW = 2, SLACK = 2.5;
+  const ROUNDS = 6; // builds of a mix tried before it is refused
+  const MAX_SUBJECTS = 3;
   const RANK = { bw: 0, kb: 1, all: 2 };
   const GEAR = { all: 'all equipment', kb: 'a kettlebell only', bw: 'no equipment' };
   const LEVERS = ['reps', 'holds', 'weight', 'variation', 'tempo'];
@@ -79,6 +99,14 @@
       };
     });
     const subjects = book.subjects.map(([name]) => name);
+    const familyOf = Object.fromEntries(book.subjects.map(([name, family]) => [name, family]));
+    // mixes: the parts, the abs finisher's range and the one rests table a mix has (recipe-book.js)
+    const ranges = (equip, fit) => Object.fromEntries(Object.keys(RANK).slice(RANK[equip]).map((eq, i) => [eq, fit[i]]));
+    const parts = book.mix.parts.map(([si, spec, bi, equip, fit]) => {
+      const [f, title, sl, more] = book.specs[spec].b[bi], [subject, family] = book.subjects[si];
+      return { subject, family, block: { f, title, slots: slots(sl), ...more }, f, equip, range: ranges(equip, fit) };
+    });
+    const absRange = ranges('bw', book.mix.absFit), mixRests = book.rests[book.mix.rests];
 
     function check(equipment, minutes) {
       if (equipment !== undefined && !(equipment in RANK)) throw new Error(`Unknown equipment: ${equipment}`);
@@ -92,19 +120,36 @@
         && (minutes === undefined || fitsNear(t, equipment || t.equip, minutes)));
     }
 
-    function options(subject) {
+    function single(subject) {
       const own = types.filter((t) => t.subject === subject);
       if (!own.length) throw new Error(`Unknown subject: ${subject}`);
       const equipment = {};
       Object.keys(RANK).reverse().forEach((eq) => { equipment[eq] = MINUTES.filter((m) => own.some((t) => fitsGear(t, eq) && fitsExactly(t, eq, m))); });
-      return { subject, equipment, formats: [...new Set(own.flatMap((t) => t.formats))], levers: book.subjects.find(([name]) => name === subject)[2] };
+      return { subject, equipment, formats: [...new Set(own.flatMap((t) => t.formats))], levers: leversOf(subject) };
+    }
+    const leversOf = (subject) => book.subjects.find(([name]) => name === subject)[2];
+    function options(which) {
+      const list = Array.isArray(which) ? which : [which];
+      if (list.length === 1) return single(list[0]);
+      list.forEach((s) => { if (!subjects.includes(s)) throw new Error(`Unknown subject: ${s}`); });
+      const key = JSON.stringify(list);
+      if (!mixOptions.has(key)) {
+        let reason = mixReason(list);
+        const equipment = {};
+        Object.keys(RANK).reverse().forEach((eq) => { equipment[eq] = reason ? [] : MINUTES.filter((m) => someMix(list, eq, m)); });
+        if (!reason && !Object.values(equipment).some((ms) => ms.length)) reason = `No mix of ${list.join(' + ')} fits ${MINUTES[0]} to ${MINUTES.at(-1)} minutes.`;
+        const formats = [...new Set(list.flatMap((s) => parts.filter((p) => p.subject === s).map((p) => p.f)))];
+        mixOptions.set(key, { subjects: list.slice(), equipment, formats, levers: list.map(leversOf), reason });
+      }
+      return JSON.parse(JSON.stringify(mixOptions.get(key)));
     }
 
     function valid(c) {
       if (!c || typeof c !== 'object') throw new Error('Make needs a choice: subject, days per cycle, minutes, equipment and levers.');
       if (!Array.isArray(c.subjects) || !c.subjects.length) throw new Error('Pick a subject.');
-      if (c.subjects.length > 1) throw new Error('Pick one subject for now.');
-      if (!subjects.includes(c.subjects[0])) throw new Error(`Unknown subject: ${c.subjects[0]}`);
+      if (c.subjects.length > MAX_SUBJECTS) throw new Error(`Pick up to ${MAX_SUBJECTS} subjects.`);
+      c.subjects.forEach((s) => { if (!subjects.includes(s)) throw new Error(`Unknown subject: ${s}`); });
+      if (new Set(c.subjects).size < c.subjects.length) throw new Error('Pick each subject once.');
       if (!Number.isInteger(c.split) || c.split < 1 || c.split > 5) throw new Error('Days per cycle: pick 1 to 5.');
       if (!MINUTES.includes(c.minutes)) throw new Error(`Minutes: pick ${MINUTES.join(', ')}.`);
       if (!(c.equipment in RANK)) throw new Error(`Unknown equipment: ${c.equipment}`);
@@ -113,15 +158,161 @@
         c.formats.forEach((f) => { if (!(f in Formats.NAMES)) throw new Error(`Unknown format: ${f}`); });
       }
       if (c.levers !== undefined) {
-        const own = options(c.subjects[0]).levers;
-        if (!(Array.isArray(c.levers) && c.levers.length === 2)) throw new Error('Pick a lever for Level II and one for Level III.');
-        c.levers.forEach((l) => { if (!own.includes(l)) throw new Error(`${c.subjects[0]} does not get harder by ${LEVER_NAMES[l] || l}: pick ${own.map((x) => LEVER_NAMES[x]).join(', ')}.`); });
+        const n = c.subjects.length;
+        if (!(Array.isArray(c.levers) && c.levers.length === 2 * n)) throw new Error(`Pick a lever for Level II and one for Level III${n > 1 ? ' for each subject' : ''}.`);
+        c.levers.forEach((l, i) => {
+          const s = c.subjects[Math.floor(i / 2)], own = leversOf(s);
+          if (!own.includes(l)) throw new Error(`${s} does not get harder by ${LEVER_NAMES[l] || l}: pick ${own.map((x) => LEVER_NAMES[x]).join(', ')}.`);
+        });
       }
+    }
+
+    // ---------- mixes ----------
+    const mixOptions = new Map(), made = new Map();
+    // why these subjects cannot be mixed at all, or null
+    function mixReason(list) {
+      for (const s of list) {
+        if (familyOf[s] === 'Mixed') return `${s} is already a mix: pick it on its own.`;
+        if (!parts.some((p) => p.subject === s)) {
+          return types.some((t) => t.subject === s && JSON.stringify(t.rests) !== JSON.stringify(mixRests))
+            ? `${s} can't be mixed: it rests longer between sets than the others.`
+            : `${s} has no blocks to mix: pick it on its own.`;
+        }
+      }
+      return null;
+    }
+    const absLast = (list) => familyOf[list.at(-1)] === 'Strength';
+    // does a mix of these parts (one per subject, in order) reach `minutes` at every level? Quarter minutes throughout
+    function reaches(combo, eq, minutes, abs) {
+      const rest = ((combo.length - 1) * mixRests.block + (abs ? mixRests.beforeAbs : 0)) / 15;
+      return [0, 1, 2].every((L) => {
+        let short = rest, long = rest;
+        combo.concat(abs ? [{ range: absRange }] : []).forEach((p) => { short += p.range[eq][2 * L]; long += p.range[eq][2 * L + 1]; });
+        return short <= 4 * (minutes + WINDOW) && long >= 4 * (minutes - WINDOW);
+      });
+    }
+    // the parts a subject offers with this gear and these formats
+    const partsOf = (s, eq, formats) => parts.filter((p) => p.subject === s && fitsGear(p, eq) && (!formats || formats.includes(p.f)));
+    // is there a mix of these subjects that reaches the time? (depth first, dropping a start that already cannot)
+    function someMix(list, eq, minutes) {
+      const abs = absLast(list), lists = list.map((s) => partsOf(s, eq));
+      if (lists.some((l) => !l.length)) return false;
+      const rest = ((list.length - 1) * mixRests.block + (abs ? mixRests.beforeAbs : 0)) / 15;
+      const lo = 4 * (minutes - WINDOW), hi = 4 * (minutes + WINDOW);
+      // per level: the most the lists after k can still add to the long end
+      const most = lists.map((_, k) => [0, 1, 2].map((L) => lists.slice(k + 1).reduce((a, l) => a + Math.max(...l.map((p) => p.range[eq][2 * L + 1])), 0)));
+      const start = [0, 1, 2].map((L) => rest + (abs ? absRange[eq][2 * L] : 0)), end = [0, 1, 2].map((L) => rest + (abs ? absRange[eq][2 * L + 1] : 0));
+      const walk = (k, short, long) => lists[k].some((p) => {
+        const s = short.map((x, L) => x + p.range[eq][2 * L]), l = long.map((x, L) => x + p.range[eq][2 * L + 1]);
+        if (s.some((x) => x > hi) || l.some((x, L) => x + most[k][L] < lo)) return false;
+        return k === lists.length - 1 || walk(k + 1, s, l);
+      });
+      return walk(0, start, end);
+    }
+    // every mix that reaches the time, from lists of parts (one list per subject), walking them together: first the
+    // first of every list, then mixes of the first two of each, and so on (so the days of a cycle differ)
+    function mixes(list, eq, minutes, lists) {
+      const abs = absLast(list);
+      let out = [[]];
+      lists.forEach((l) => { out = out.flatMap((cb) => l.map((p, i) => cb.concat([[p, i]]))); });
+      const rank = (cb) => [Math.max(...cb.map(([, i]) => i)), cb.reduce((a, [, i]) => a + i, 0)];
+      return out.map((cb) => ({ cb, r: rank(cb) }))
+        .sort((a, b) => a.r[0] - b.r[0] || a.r[1] - b.r[1])
+        .map((x) => x.cb.map(([p]) => p))
+        .filter((cb) => reaches(cb, eq, minutes, abs));
+    }
+    // each block's share of the day, as its target: [minutes - 2, minutes + 2], in half minutes
+    function shares(combo, eq, minutes, abs) {
+      const absMin = abs ? (absRange[eq][0] + absRange[eq][1]) / 8 + mixRests.beforeAbs / 60 : 0;
+      const bounds = combo.map((p) => { const [a, b] = p.range[eq]; return [Math.min(a, b) / 4, Math.max(a, b) / 4]; });
+      const out = [], free = new Set(combo.map((_, i) => i));
+      let left = minutes - ((combo.length - 1) * mixRests.block) / 60 - absMin;
+      for (let moved = true; moved && free.size;) {
+        moved = false;
+        const share = left / free.size;
+        [...free].forEach((i) => {
+          const [lo, hi] = bounds[i];
+          if (share < lo || share > hi) { out[i] = share < lo ? lo : hi; left -= out[i]; free.delete(i); moved = true; }
+        });
+      }
+      free.forEach((i) => { out[i] = left / free.size; });
+      return out.map((m) => { const h = Math.round(m * 2) / 2; return [h - WINDOW, h + WINDOW]; });
+    }
+
+    function makeMix(c, seed) {
+      const { subjects: list, split, minutes, equipment, formats } = c;
+      const reason = mixReason(list);
+      if (reason) throw new Error(reason);
+      const text = list.join(' + '), abs = absLast(list), rnd = rngOf(seed);
+      const using = formats ? ` using only ${formats.map((f) => Formats.NAMES[f]).join(', ')}` : '';
+      const refuse = () => new Error(`No mix of ${text} fits ${minutes} min with ${GEAR[equipment]}${using}.`);
+      const lists = list.map((s) => shuffled(partsOf(s, equipment, formats), rnd));
+      const found = mixes(list, equipment, minutes, lists);
+      if (!found.length) throw refuse();
+      // the cycle: each day the first mix that reuses the fewest parts already in it
+      const used = new Set(), tried = new Set();
+      const next = () => {
+        const reuse = (cb) => cb.filter((p) => used.has(p)).length;
+        const open = found.filter((cb) => !tried.has(cb));
+        const cb = open.reduce((best, x) => (reuse(x) < reuse(best) ? x : best), open[0]);
+        if (cb) { tried.add(cb); cb.forEach((p) => used.add(p)); }
+        return cb;
+      };
+      let again = 0; // fewer mixes than days: the cycle repeats them
+      const chosen = Array.from({ length: split }, () => next() || found[again++ % found.length]);
+      const pair = (j) => (c.levers ? c.levers.slice(2 * j, 2 * j + 2) : ((ls) => [ls[0], ls[1] === undefined ? ls[0] : ls[1]])(leversOf(list[j])));
+      const configOf = () => {
+        const dayTypes = {}, cycle = [], count = {}, names = [];
+        chosen.forEach((cb, i) => {
+          const target = shares(cb, equipment, minutes, abs);
+          dayTypes[`d${i + 1}`] = {
+            label: cb.map((p) => p.block.title).join(' + '), short: `Mix ${i + 1}`, // the label: the blocks' own titles, 'Push + Standing flow'
+            blocks: cb.map((p, j) => ({ ...JSON.parse(JSON.stringify(p.block)), family: p.family, lever: [null, ...pair(j)], target: target[j] })),
+            absSlots: abs ? slots(book.mix.abs) : [], minutes: [minutes - WINDOW, minutes + WINDOW],
+          };
+          cycle.push(`d${i + 1}`);
+        });
+        for (let d = 0; d < 60; d++) {
+          const label = dayTypes[cycle[d % split]].label;
+          count[label] = (count[label] || 0) + 1;
+          names.push(`${label} ${count[label]}`);
+        }
+        const blocks = list.map((s) => s.toLowerCase()).join(' block, then a ');
+        return {
+          id: 'own-preview', name: `My ${text} 60`, subject: text, mix: list.slice(),
+          blurb: `${split} ${split === 1 ? 'day' : 'days'} a cycle, about ${minutes} minutes each: ${list.join(', then ')}${abs ? ', then abs' : ''}.`,
+          about: `A mix built from your choices: every day has a ${blocks} block${abs ? ', then abs' : ''}, about ${minutes} minutes in all, ${split} ${split === 1 ? 'day' : 'days'} in a cycle. Each block gets harder in its own way.`,
+          split: cycle.map((k) => dayTypes[k].label).join(' / '), minutes: [minutes - WINDOW, minutes + WINDOW], equip: equipment,
+          levers: [null, ...pair(abs ? list.length - 1 : 0)], catalogue: c.catalogue === undefined ? book.catalogue : c.catalogue,
+          rests: mixRests, cycle, names, dayTypes,
+        };
+      };
+      // build the program and check every day: a day type with a day out of the window is swapped for the next mix
+      const { Builder, ex } = deps();
+      for (let round = 0; round < ROUNDS; round++) {
+        const cfg = configOf(), bad = new Set();
+        Builder.build(cfg, ex).days.forEach((d) => { // est: the day's minutes as the app shows them, rounded
+          if (d.est < minutes - WINDOW || d.est > minutes + WINDOW) bad.add(cfg.cycle.indexOf(d.type));
+        });
+        if (!bad.size) return cfg;
+        bad.forEach((i) => { chosen[i] = next() || chosen[i]; });
+      }
+      throw refuse();
     }
 
     // choice + seed -> a config for KBBuilder.build
     function make(c, seed = '') {
       valid(c);
+      if (c.subjects.length > 1) {
+        // a mix is built to be checked, so it is made once per choice and seed
+        const key = JSON.stringify([c, String(seed)]);
+        if (!made.has(key)) {
+          try { made.set(key, { cfg: makeMix(c, seed) }); } catch (e) { made.set(key, { error: e.message }); }
+        }
+        const m = made.get(key);
+        if (m.error) throw new Error(m.error);
+        return JSON.parse(JSON.stringify(m.cfg));
+      }
       const [subject] = c.subjects, { split, minutes, equipment, formats } = c;
       const fit = pick({ subjects: c.subjects, equipment, formats }).filter((t) => fitsExactly(t, equipment, minutes));
       if (!fit.length) {
@@ -157,7 +348,7 @@
       };
     }
 
-    return { pick, make, options, recipeFor: (t, o) => recipeFor(t, o, book.catalogue), book: () => book, get skipped() { return book.skipped; }, fitsExactly };
+    return { pick, make, options, recipeFor: (t, o) => recipeFor(t, o, book.catalogue), book: () => book, get skipped() { return book.skipped; }, fitsExactly, mixReason, MAX_SUBJECTS };
   }
 
   // the book is one file, fetched when first needed: kept in the offline cache, which is read when the network isn't there
@@ -176,7 +367,7 @@
     };
   }
 
-  const api = { of, GRID, MINUTES, LEVERS, fitsExactly, recipeOf: recipeFor, recipesLoader };
+  const api = { of, GRID, MINUTES, LEVERS, MAX_SUBJECTS, fitsExactly, recipeOf: recipeFor, recipesLoader };
   /* node:coverage ignore next 4 */ // the page: no book yet, the loader brings it
   if (typeof module === 'undefined' || !module.exports) {
     root.KBRecipes = api;
@@ -188,7 +379,9 @@
   module.exports = {
     ...api,
     pick: (o) => lazy().pick(o), make: (c, s) => lazy().make(c, s), options: (s) => lazy().options(s),
-    recipeFor: (t, o) => lazy().recipeFor(t, o), book: () => lazy().book(), get skipped() { return lazy().skipped; },
+    recipeFor: (t, o) => lazy().recipeFor(t, o), mixReason: (l) => lazy().mixReason(l), book: () => lazy().book(), get skipped() { return lazy().skipped; },
   };
-  /* node:coverage ignore next */
-})(typeof window !== 'undefined' ? window : globalThis, typeof module !== 'undefined' && module.exports ? require('./formats.js') : window.KBFormats);
+  /* node:coverage ignore next 3 */
+})(typeof window !== 'undefined' ? window : globalThis, ...(typeof module !== 'undefined' && module.exports
+  ? [require('./formats.js'), () => ({ Builder: require('./program-builder.js'), ex: require('./exercises.js') })] // a mix is checked by building it
+  : [window.KBFormats, () => ({ Builder: window.KBBuilder, ex: window.KBEx })]));
