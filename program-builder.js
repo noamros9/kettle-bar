@@ -52,6 +52,12 @@
       ygRest: ['childs_pose', 'puppy_pose', 'happy_baby', 'supine_twist', 'seated_forward_fold', 'forward_fold'],
       ygYinHips: ['pigeon_pose', 'low_lunge', 'butterfly', 'happy_baby', 'garland_pose', 'seated_forward_fold'],
       ygYinSpine: ['sphinx_pose', 'puppy_pose', 'supine_twist', 'childs_pose', 'seated_twist', 'forward_fold'],
+      // Phase 5: Pilates
+      plAbs: ['hundred', 'single_leg_stretch', 'double_leg_stretch', 'scissors', 'criss_cross'],
+      plRoll: ['roll_up', 'rolling_like_a_ball', 'spine_stretch', 'seal', 'saw'],
+      plBack: ['swan', 'swimming', 'leg_pull_front'],
+      plSide: ['side_kick', 'single_leg_circles', 'shoulder_bridge'],
+      plGlute: ['shoulder_bridge', 'side_kick', 'swimming', 'standing_leg_lift', 'plie_squat'],
       core: ['plank', 'side_plank', 'hollow_hold', 'hollow_rock', 'dead_bug', 'weighted_dead_bug', 'bird_dog', 'bear_crawl', 'suitcase_march', 'kb_halo', 'db_side_bend', 'shoulder_taps', 'superman', 'russian_twist'],
     };
     // Pools computed from the catalogue. An exercise marked `added: N` (the phase that added it) joins them only
@@ -82,6 +88,7 @@
       // Phase 5 (new exercises only, so existing programs keep their days)
       chair_pose: 'twisting_chair', triangle_pose: 'half_moon', high_lunge: 'warrior_three', tree_pose: 'dancer_pose',
       bridge_pose: 'camel_pose', dolphin_pose: 'crow_pose',
+      roll_up: 'teaser', single_leg_stretch: 'double_leg_stretch', rolling_like_a_ball: 'seal',
     };
     // holds: like reps (the level's number from the catalogue), said the way it feels in a flow
     const LEVER_TEXT = { base: 'Base', reps: 'More reps', holds: 'Longer holds', weight: 'Heavier weights', variation: 'Harder variations', tempo: 'Slow tempo' };

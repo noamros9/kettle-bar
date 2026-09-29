@@ -12,6 +12,7 @@ const itemsOf = (d) => [...d.blocks.flatMap((b) => b.items), ...d.warmup.items, 
 // subject -> how many programs, whether days end with abs, and the formats its main blocks may use
 const SUBJECTS = {
   Yoga: { count: 5, abs: false, formats: ['flow'] },
+  Pilates: { count: 5, abs: false, formats: ['flow'] },
 };
 
 for (const [subject, want] of Object.entries(SUBJECTS)) {
