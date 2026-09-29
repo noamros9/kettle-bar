@@ -18,7 +18,7 @@
    that ones marked `first` come before the rest (your own programs before the library). Ids never clash: a
    duplicate id across sources throws (own programs are `own-<id>`).
    Sources (adapters): fetched(summaries, { fetchJson, cache }) in the page, named 'library'; inlined(programs, name)
-   in tests. Coming: your own programs (Phase 6), built in the page from stored choices, named 'own', `first`. */
+   in tests. Your own programs (app/own.js): built in the page from stored choices, named 'own', `first`. */
 (function (root) {
   const itemsOf = (w) => [...w.blocks.flatMap((b) => b.items), ...(w.warmup ? w.warmup.items : []), ...(w.cooldown ? w.cooldown.items : [])];
 

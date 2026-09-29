@@ -367,3 +367,28 @@ table.weeks tr.empty{color:var(--muted)}table.weeks tr.empty th{font-weight:400}
 .keeplist label{display:flex;gap:10px;align-items:flex-start;background:var(--soft);border-radius:10px;padding:12px 14px;cursor:pointer}
 .keeplist input{width:20px;height:20px;margin:1px 0 0;accent-color:var(--accent);flex:none}
 .sheet .actions{display:flex;gap:8px;flex-wrap:wrap}
+
+/* build your own (#build) and the Your programs shelf */
+.buildbtn{display:block;margin-top:16px}
+.pgroup.yours{margin-top:22px}
+.bsec{margin-top:22px}
+.bsec h2{margin-bottom:8px}
+.bsec .filters{margin-top:0}
+.bsec select,.bsec input[type="text"]{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 12px;width:100%;box-sizing:border-box;min-width:0}
+.bsec select:focus-visible,.bsec input[type="text"]:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.fchip:disabled{opacity:.4;cursor:not-allowed}
+.fchip.fmt{display:inline-flex;align-items:center;gap:7px;cursor:pointer}
+.fchip.fmt input{width:18px;height:18px;margin:0;accent-color:var(--accent)}
+.fchip.fmt:has(input:checked){background:var(--accent-soft);border-color:var(--accent)}
+.fchip.fmt:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
+.bfields{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.bfield{display:grid;gap:4px;min-width:0}
+.bfield>span{font-size:12px;font-weight:600;color:var(--muted)}
+.hint{margin:6px 0 0;font-size:13px;color:var(--muted)}
+.notice{margin:0;padding:12px 14px;border:1px solid var(--err);border-radius:8px;color:var(--ink);background:var(--surface)}
+.pvline{margin:0 0 10px;font-size:14px;color:var(--muted)}
+.grid.pv{grid-template-columns:repeat(3,minmax(0,1fr))}
+.grid.pv .tile{min-height:104px}
+.grid.pv .open{cursor:default}
+.bsec .actions{display:flex;gap:8px;margin-top:12px}
+.bsec .btn:disabled{opacity:.4}

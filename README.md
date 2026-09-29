@@ -45,6 +45,10 @@ Progress is always kept on the device. Press **Sign in** (Google) at the top to
 sync it through Firebase to every device where you sign in. On first sign-in,
 days ticked on the device and in the cloud are merged.
 
+- **Build your own** (top of the Programs page): pick a subject, days per cycle (1–5), minutes (20–40), equipment,
+  formats and how Levels II and III get harder; the first six days show as a preview, **Regenerate** gives another set,
+  **Save** names it and opens it. Saved programs sit on a **Your programs** shelf above the families, keep their own
+  progress, sync with your account and work offline.
 - **Settings** (gear, top right) → **Export progress** downloads every program's done days as one file;
   **Import a backup** shows which days it would add or remove, then asks **Merge** or **Replace**.
 - **Tap the logo** (top left) from any page to open today's workout: the next day you haven't done in the program
@@ -79,6 +83,7 @@ days ticked on the device and in the cloud are merged.
 | `app/session.js` | **Workout Session**: progress through a day and every rest/timer rule (pure, no page) |
 | `app/store.js` | **Progress Store**: done days per program, device copy + sync adapters (Firebase, in-memory) |
 | `app/backup.js` | **Backup**: the progress file: export, read, diff, merge or replace |
+| `app/own.js` | **Your programs**: build-your-own choices → config, validation, the stored record, the own-programs catalogue source, and the link that keeps catalogue and Progress Store in step. Pure |
 | `app/docs.js` | **Account data**: own programs, random workouts, preferences: stamping and combining copies |
 | `app/library.js` | **Library filters**: what the programs page shows for the family, subject and length picked (pure; `FAMILIES` lives here) |
 | `app/views.js` | Routing and page rendering |
