@@ -16,7 +16,7 @@ Decided on 29 Sep:
 | # | Ticket | Tier | Blocked by | Branch | Status |
 |---|---|---|---|---|---|
 | 1 | Resume a workout after closing the app | feature | – | `feature/resume` | done (PR #89) |
-| 2 | Random workout | feature | review III 4, 5; Phase 6 4 | `feature/random-workout` | |
+| 2 | Random workout | feature | review III 4, 5; Phase 6 4 | `feature/random-workout` | done (PR #PRNUM) |
 | 3 | Rest-day flow | feature | 2 | `feature/rest-day-flow` | |
 | 4 | Shorter today | feature | review III 4 | `feature/shorter-today` | |
 | 5 | Travel mode | feature | review III 5 | `feature/travel-mode` | |
@@ -53,7 +53,8 @@ Decided on 29 Sep:
 - **Test first:** the level rule (last done day's level; none → I); a 25-min kettlebell Strength day lands in range
   and uses kettlebell exercises only; a done random workout adds to the week's minutes but no program's count.
 - **Done when:** on the phone, start a random Cardio & combat 15-min workout, mark it done: Stats' week goes up,
-  no program changes; it syncs.
+  no program changes; it syncs. (Built 30 Sep: Cardio & combat has no 15-minute days in the recipe book, so the check
+  uses 25 minutes, and 15 is greyed out there with the reason; 15 works for Mind & body.)
 
 ### 3. Rest-day flow (#67.9)
 - When nothing has been marked done today, the Programs page shows a small card: "Rest day? A 10-minute mobility

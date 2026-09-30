@@ -56,7 +56,14 @@ often, which stretches) and one random stream. Build your own and the random wor
 **Recipe book**: every day type of every library config as a recipe, tagged with subject, family (a Mixed day also lists its blocks' families), formats, equipment (`bw` fits every choice, `kb` fits `kb` and `all`, `all` fits only `all`) and the time targets it really builds to. Made from the configs by `recipe-book.js` (slow, so kept in the committed `recipes/book.json` with a hash of its inputs; `npm run recipes`), served as `data/recipes.json` and fetched by the page when first needed (and for offline), read by `recipes.js`: `pick` filters it, `make(choice, seed)` turns a choice into a config, `options(subject)` says which equipment and minutes a subject (or a mix of 2–3) allows. A combination nothing can build is refused with a message, never faked. Three-Split 60 (frozen) is left out.
 
 **Random workout**: a one-off day built fresh, outside any program: counts in stats, not in program progress. Its
-level is the level of the last day marked done.
+level is the level of the last day marked done (a program day's level by its day number: 1–20 I, 21–40 II, 41–60
+III; a random workout's own). Chosen on a sheet on the Programs page (a family or one subject, 15 / 25 / 35 minutes,
+equipment), made by `app/random.js` from the recipe book: a day type that fits, picked with the seed, built by
+`buildDay` with a fresh memory and that day type's own levers. **Reshuffle** is a new seed. Started, it is the **open
+random workout**: on the device only (`kb-random-open`, with its swaps, today only), its session saved as a day's is,
+forgotten after 12 hours or on **Discard**, shown at `#random`. **Mark as done** writes the record
+`users/{uid}/random/{id}` = `{ name, choices, seed, level, day, swaps, time }`; Stats read it through `dayOf('random',
+id)`, and it has its own scope, "Random workouts".
 
 **Travel mode**: a setting (no bar / kettlebell only / bodyweight only) that swaps exercises needing missing gear
 for today, on every day, until turned off.

@@ -130,6 +130,11 @@ Plan and tickets: [docs/plans/phase-7-day-to-day.md](docs/plans/phase-7-day-to-d
 18. **Random workout ([#64](https://github.com/noamros9/kettle-bar/issues/64)):** counts in stats, not in program
     progress; its level follows the last day marked done. Chosen on a sheet (family or subject, 15/25/35 min,
     equipment) with reshuffle, built fresh, from a button on the Programs page.
+    - **Built (30 Sep):** the recipe book has 15-minute days only in **Mind & body**; for Strength, Cardio & combat
+      and Mixed, 15 is greyed out with the reason (they start at 20), as build your own greys out what can't be made.
+      An unfinished random workout stays on the device (resumes like a program day, **Discard** to drop it) and is
+      written to the account only when marked done. A program day's level comes from its day number (1–20, 21–40,
+      41–60).
 19. **From the ideas list ([#67](https://github.com/noamros9/kettle-bar/issues/67)):** **resume a workout** (ticks kept on the device per day, so closing the app or opening another day
     loses nothing; Noam, 29 Sep) after closing
     the app; travel mode (lasts until turned off); shorter today; a warm-up that matches the format; a rest-day
