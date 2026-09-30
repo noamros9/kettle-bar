@@ -196,3 +196,30 @@ test('newId and newSeed make short distinct strings', () => {
   assert.match(Random.newId(), /^[a-z0-9]+$/);
   assert.match(Random.newSeed(), /^[a-z0-9]+$/);
 });
+
+// ---- Rest-day flow (Phase 7 ticket 3) ----
+test('the rest-day card: shown when nothing is marked done today, hidden once a day is (or it was dismissed today)', () => {
+  const now = new Date(2026, 8, 30, 18, 0); // local time: "today" is the phone's day
+  const yesterday = new Date(2026, 8, 29, 23, 30).toISOString(), today = new Date(2026, 8, 30, 0, 10).toISOString();
+  assert.equal(Random.restDay([], now, null), true);
+  assert.equal(Random.restDay([yesterday], now, null), true);
+  assert.equal(Random.restDay([yesterday, today], now, null), false, 'one day done today');
+  assert.equal(Random.restDay([], now, Random.dayKey(now)), false, 'dismissed today');
+  assert.equal(Random.restDay([], now, Random.dayKey(new Date(2026, 8, 29, 12))), true, 'dismissed yesterday: back today');
+  assert.equal(Random.dayKey(new Date(2026, 0, 5, 1)), '2026-01-05');
+});
+
+test('the rest-day flow: mobility & posture or flexibility, 15 minutes (the shortest the book makes), no equipment', () => {
+  assert.deepEqual(Random.REST_DAY, { subjects: ['Mobility & posture', 'Flexibility'], minutes: 15, equipment: 'bw' });
+  assert.equal(Random.problem(recipes, Random.REST_DAY), null);
+  const subjects = new Set();
+  for (const seed of ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']) {
+    const made = Random.make(deps, Random.REST_DAY, { level: 2, seed });
+    subjects.add(made.subject);
+    assert.ok(Math.abs(made.day.est - 15) <= 2.5, `${seed}: ${made.day.est}`);
+    itemsOf(made.day).forEach((ex) => assert.ok(cat.allowedIn('bw', cat.EX[ex]), ex));
+  }
+  assert.deepEqual([...subjects].sort(), ['Flexibility', 'Mobility & posture'], 'either subject comes up');
+  assert.equal(Random.problem(recipes, { subjects: ['Boxing', 'HIIT'], minutes: 15, equipment: 'bw' }), 'No 15-minute Boxing or HIIT workout with no equipment.');
+  assert.equal(Random.problem(recipes, { subjects: ['Nope'], minutes: 15, equipment: 'bw' }), 'No Nope workouts.');
+});
