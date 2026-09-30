@@ -20,7 +20,7 @@ Decided on 29 Sep:
 | 3 | Rest-day flow | feature | 2 | `feature/rest-day-flow` | done (PR #102) |
 | 4 | Shorter today | feature | review III 4 | `feature/shorter-today` | done (PR #103) |
 | 5 | Travel mode | feature | review III 5 | `feature/travel-mode` | done (PR #107) |
-| 6 | Warm-up that matches the format | feature | review III 3 | `feature/warmup-by-format` | done (PR #PRNUM) |
+| 6 | Warm-up that matches the format | feature | review III 3 | `feature/warmup-by-format` | done (PR #108) |
 | 7 | Big timer | feature | – | `feature/big-timer` | done (PR #90) |
 | 8 | What next, when a program ends | feature | – | `feature/what-next` | done (PR #92) |
 
