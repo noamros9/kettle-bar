@@ -143,6 +143,12 @@ Plan and tickets: [docs/plans/phase-7-day-to-day.md](docs/plans/phase-7-day-to-d
       Stored as `short: { day: true }` in the program's progress, **only when a day has been shortened**, so every
       document, device copy and backup from before keeps its exact shape (backup format stays version 2; `short` is
       an optional section). A round keeps its own short days when the next one starts.
+    - **Travel mode, built (30 Sep):** Settings → Travel mode (Off / No bar / Kettlebell only / Bodyweight only), in
+      the synced `prefs`. The day page swaps what needs missing gear (same first main muscle and kind of work when it
+      can, else either kind, else another of its main muscles) and says so; Stats keep counting the planned day.
+      **Found:** the catalogue has **no bodyweight pulling** (rows, curls, raises, pull-ups), so in "Bodyweight only"
+      those stay, marked "Needs gear" on the card. Adding a few (towel or doorframe rows, bodyweight curls) would
+      close the gap; not planned yet.
 19. **From the ideas list ([#67](https://github.com/noamros9/kettle-bar/issues/67)):** **resume a workout** (ticks kept on the device per day, so closing the app or opening another day
     loses nothing; Noam, 29 Sep) after closing
     the app; travel mode (lasts until turned off); shorter today; a warm-up that matches the format; a rest-day

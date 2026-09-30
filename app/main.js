@@ -11,7 +11,7 @@ const store = KBStore.createStore({ programIds: programs.ids(), storage: localSt
 // your own programs: the store's programs docs -> the catalogue's 'own' source (built from their stored configs),
 // and the catalogue's own ids -> the store (app/own.js)
 const ownLink = KBOwn.link({ store, programs, load: loadBook, build: KBBuilder.build, ex: KBEx });
-const days = KBDay.createDays({ programs, store, cat: KBEx, createSession: KBSession.createSession, storage: localStore });
+const days = KBDay.createDays({ programs, store, cat: KBEx, createSession: KBSession.createSession, storage: localStore, travel: () => travelMode() });
 // the random workout: the open one on the device, done ones in the account (app/random.js)
 const random = KBRandom.createRandom({ store, cat: KBEx, createSession: KBSession.createSession, storage: localStore });
 const SYNC_TEXT = { ok: 'Synced', saving: 'Saving…', offline: 'Offline, will sync', local: 'Saved on this device', signin: 'Sign in', ro: 'View only', err: 'Sync problem' };
@@ -24,7 +24,7 @@ function paintSync(s) {
 }
 store.on('status', paintSync);
 store.on('change', () => rerender());
-store.on('docs', (c) => { if (c === 'random') rerender(); }); // a random workout done here or on another device: stats and the week line
+store.on('docs', (c) => { if (c === 'random' || c === 'prefs') rerender(); }); // prefs: travel mode, here or from another device // a random workout done here or on another device: stats and the week line
 programs.onChange(() => rerender()); // your programs changed (here or synced from another device): redraw the page
 window.addEventListener('online', () => store.online());
 // hooks for the Firebase module (GitHub Pages build)
@@ -84,6 +84,7 @@ document.addEventListener('click', (ev) => {
   if (d.bookRetry) { bookError = null; render(); return; }
   if (d.randomOpen) return randomOpen();
   if (d.restOpen) return restOpen();
+  if (d.travel !== undefined) return setTravel(d.travel || null);
   if (d.restDismiss) return restDismiss();
   if (d.randomSet) { const k = d.randomSet.slice(0, d.randomSet.indexOf(':')); return randomSet(k, d.randomSet.slice(k.length + 1)); }
   if (d.randomShuffle) { randomState.seed = KBRandom.newSeed(); render(); return; }

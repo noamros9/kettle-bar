@@ -77,7 +77,11 @@ on the Programs page offers a random workout of Mobility & posture or Flexibilit
 today** hides it until the next day, on that device (`kb-rest-dismissed`).
 
 **Travel mode**: a setting (no bar / kettlebell only / bodyweight only) that swaps exercises needing missing gear
-for today, on every day, until turned off.
+for today, on every day, until turned off. Kept in `prefs` (doc `main`, `travel: 'nobar' | 'kb' | 'bw'`), synced.
+`KBSwaps.travel(day, mode, program, cat)`: each exercise the gear doesn't allow becomes its first alternative the gear
+allows and the day doesn't have (same first main muscle and kind of work; else either kind; else another of its main
+muscles), marked `travel`; one with none stays, `travelMissing` ("Needs gear"). Only the open day (the Day module)
+is swapped; Stats count the planned day. Swapping a travel stand-in yourself swaps the planned exercise.
 
 **Day**: one workout, numbered 1–60. Days are numbers, not dates: rest days are up to the user.
 
