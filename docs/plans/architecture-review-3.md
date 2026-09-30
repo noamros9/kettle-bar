@@ -156,7 +156,7 @@ the day inside) and **preferences** (favourites, hidden subjects, travel mode).
 - **Test first:** the unit walk, which must fail on a day with an unknown format.
 - **Done when:** the UI suite runs in under 4 minutes in CI and the unit walk covers all 98 programs.
 
-### 8. Noam: phone check (not for Sonnet)
+### 8. Noam: phone check (manual)
 - #67 item 12: on the phone, after a fresh install on mobile data, note the time until "every program is offline",
   and in Chrome → Site settings → Storage, the size used. If it's over ~25 MB or the download takes minutes, tell
   Claude before Phase 6's mixed programs add ~30 more.
