@@ -12,14 +12,17 @@
        D.alternatives(bi, i)            what item i of block bi can be swapped for
        D.swap(bi, i, to, { onward })    today only, or from this day to the end of the program
        D.undo(bi, i), D.swapBehind(bi, i)   the swap that put this item here, and undoing it
+       D.short(), D.canShort(), D.setShort(on)   "short on time" (Phase 7): the day trimmed to about 20 minutes for this
+                                        round (app/short.js); canShort: the day is longer than that, or already short
 
    Saved sessions: every change to the open day's session is written to the device, `storage` = { get, set, remove }
    (never the synced store), under kb-session-<pid>-<round>-<day> as { savedAt, session: snapshot }. The round is in the
    key so round 2's day 5 never restores round 1's. One saved more than 12 hours ago is ignored and removed. A running
    timer is not saved, only what is ticked, counted and stretched and when the workout clock started.
 
-   Swaps are stored with the program's progress (Progress Store); the rules are in app/swaps.js. */
-(function (root, S, P) {
+   Swaps and short days are stored with the program's progress (Progress Store); the rules are in app/swaps.js and
+   app/short.js. A short day is trimmed after its swaps, with the program's rests. */
+(function (root, S, P, Short) {
   function createDays({ programs, store, cat, createSession, storage, now = Date.now }) {
     const live = { key: null, exs: null, session: null, restored: false };
     const HOURS_12 = 12 * 3600 * 1000;
@@ -37,11 +40,13 @@
       return { ...ses, complete: keep(ses.complete), count: keep(ses.count), setStarted: keep(ses.setStarted) };
     }
     // a day with its swaps: the current round's, or a past round's (for stats)
+    const trim = (pid, day) => Short.trim(day, { R: programs.get(pid).rests, EX: cat.EX });
     const resolved = (pid, n, round) => {
       const w = programs.day(pid, n);
       if (!w) return undefined;
       const swaps = round === undefined ? store.swaps(pid) : P.swapsOfRound(store.progress(pid), round);
-      return S.applySwaps(w, swaps, cat);
+      const day = S.applySwaps(w, swaps, cat);
+      return store.shortOf(pid, round)[n] ? trim(pid, day) : day;
     };
 
     function open(pid, n) {
@@ -65,13 +70,17 @@
         },
         swapBehind: (bi, i) => S.swapBehind(store.swaps(pid), n, itemAt(bi, i).ex),
         undo(bi, i) { store.setSwaps(pid, S.undoSwap(store.swaps(pid), n, itemAt(bi, i).ex)); },
+        short: () => store.isShort(pid, n),
+        canShort: () => store.isShort(pid, n) || trim(pid, day) !== day,
+        setShort(on) { store.setShort(pid, n, on); },
       };
     }
     return { open, resolved, forget: (pid, n) => storage.remove(savedKey(pid, n)) };
   }
 
   const api = { createDays };
-  /* node:coverage ignore next 3 */ // the browser branch; the page's UI tests cover it
+  /* node:coverage ignore next 4 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBDay = api;
 })(typeof window !== 'undefined' ? window : globalThis, typeof module !== 'undefined' && module.exports ? require('./swaps.js') : window.KBSwaps,
-  typeof module !== 'undefined' && module.exports ? require('./progress.js') : window.KBProgress);
+  typeof module !== 'undefined' && module.exports ? require('./progress.js') : window.KBProgress,
+  typeof module !== 'undefined' && module.exports ? require('./short.js') : window.KBShort);

@@ -694,7 +694,8 @@ function viewDay() {
       <div class="step"><button data-day="${w.day - 1}" ${w.day <= 1 ? 'disabled' : ''} aria-label="Previous day">‹</button><button data-day="${w.day + 1}" ${w.day >= p.days.length ? 'disabled' : ''} aria-label="Next day">›</button></div></div>
     <div class="whead"><div><div class="eyebrow">${store.round(p.id) > 1 ? `Round ${store.round(p.id)} · ` : ''}Day ${w.day} · ${esc(p.levels[w.level - 1])}</div><h1>${esc(w.name)}</h1>
       <p class="daysum">${KBSummary.daySummary(w, p, KBEx).map((l) => `<span>${esc(l)}</span>`).join('')}</p>
-      <div class="meta"><span class="ty"><i class="dot" style="--c:${t.c}"></i>${esc(t.label || w.title)}</span><span>About ${w.est} min${w.stretchMin ? ` + ${w.stretchMin} min stretching` : ''}</span><span>${nEx} exercises</span></div></div>
+      <div class="meta"><span class="ty"><i class="dot" style="--c:${t.c}"></i>${esc(t.label || w.title)}</span><span>About ${w.est} min${w.stretchMin ? ` + ${w.stretchMin} min stretching` : ''}</span><span>${nEx} exercises</span></div>
+      ${D.canShort() ? `<button class="shortbtn" data-short="1" aria-pressed="${D.short()}">${D.short() ? `<b>Short on time</b> · about ${w.est} min instead of ${w.short.from}. Tap for the full day.` : `<b>Short on time?</b> Make today about ${KBShort.TARGET} min`}</button>` : ''}</div>
       <button class="btn ${isD ? 'done' : ''}" data-toggle="${w.day}" aria-pressed="${isD}">${isD ? '✓ Done' : 'Mark as done'}</button></div>
     ${D.restored() ? '<p class="resumed" role="status">Picked up where you left off</p>' : ''}
     <p class="how">Tap a set, round or pair number when you finish it and the right rest starts on the timer. EMOM, AMRAP, Tabata, ladder, bout and guided-flow blocks have a Start button that runs the clock for you.</p>

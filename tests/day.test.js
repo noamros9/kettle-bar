@@ -183,3 +183,34 @@ test('a swap made while away still restores the ticks (same shape), and one afte
   assert.equal(make().open(P, 1).session().state(0).sets[0], 1);
   assert.equal(days.open(P, 1).session().state(0).sets[0], 1, 'the live session carried the ticks');
 });
+
+// ---- Shorter today (Phase 7 ticket 4) ----
+const Short = require('../app/short.js');
+test('short on time: the day opens trimmed to about 20 minutes, stats see it per round, and it can be turned off', () => {
+  const { days, store } = setup();
+  const n = real[0].days.find((d) => d.est > 25).day;
+  const D = days.open(P, n);
+  assert.equal(D.short(), false);
+  assert.equal(D.canShort(), true);
+  D.setShort(true);
+  const S = days.open(P, n);
+  assert.equal(S.short(), true);
+  assert.ok(S.day.est >= 18 && S.day.est <= 22, `${S.day.est}`);
+  assert.deepEqual(S.day.short, { from: D.day.est });
+  assert.equal(S.canShort(), true, 'a shortened day can be put back');
+  assert.equal(days.resolved(P, n).est, S.day.est, 'stats: the current round');
+  store.toggle(P, n); store.startRound(P, []);
+  assert.equal(days.resolved(P, n, 1).est, S.day.est, 'round 1 was short');
+  assert.equal(days.resolved(P, n).est, D.day.est, 'round 2 is not');
+  days.open(P, n).setShort(true); days.open(P, n).setShort(false);
+  assert.equal(days.open(P, n).short(), false);
+});
+
+test('a day already about 20 minutes cannot be made shorter', () => {
+  const flat = buildAll().filter((p) => p.id === 'twenty-flat');
+  const m = {}, store = createStore({ programIds: ['twenty-flat'], storage: { get: (k) => m[k] ?? null, set: (k, v) => { m[k] = v; } }, now: () => 't' });
+  store.load();
+  const days = createDays({ programs: createProgramCatalogue(inlined(flat)), store, cat, createSession, storage: { get: () => null, set() {}, remove() {} } });
+  const small = flat[0].days.find((d) => d.est <= Short.TARGET + 2);
+  assert.equal(days.open('twenty-flat', small.day).canShort(), false);
+});

@@ -113,3 +113,59 @@ test('a file a round ahead brings its swaps along; a file ahead without swaps br
   assert.deepEqual(P.importMerge(mine, ahead, 'merge').swaps, [sw(1, 'x', 'y', true)]);
   assert.deepEqual(P.importMerge(mine, { done: {}, past: ahead.past }, 'merge').swaps, []);
 });
+
+// ---- Shorter today (Phase 7 ticket 4): `short: { day: true }`, only when a day was shortened ----
+test('short days: set and cleared per day, kept only when there is one, so older documents and copies keep their shape', () => {
+  const v0 = P.empty();
+  assert.equal('short' in v0, false);
+  const v1 = P.setShort(v0, 3, true), v2 = P.setShort(v1, 5, true);
+  assert.deepEqual(v2.short, { 3: true, 5: true });
+  assert.equal(P.isShort(v2, 3), true);
+  assert.equal(P.isShort(v2, 4), false);
+  assert.equal(P.isShort(v0, 3), false);
+  const v3 = P.setShort(P.setShort(v2, 3, false), 5, false);
+  assert.equal('short' in v3, false, 'the last one cleared: no field');
+  assert.deepEqual(v3, v0);
+  assert.deepEqual(P.setShort(v0, 2, false), v0);
+  // documents and device copies
+  assert.deepEqual(P.toDoc(v2, 'now'), { done: {}, swaps: [], past: [], short: { 3: true, 5: true }, updatedAt: 'now' });
+  assert.deepEqual(P.fromDoc({ done: {}, short: { 3: true } }).short, { 3: true });
+  assert.equal('short' in P.fromDoc({ done: {}, short: {} }), false);
+  assert.equal('short' in P.fromDoc({ done: {}, short: 'x' }), false, 'a damaged field reads as none');
+  assert.deepEqual(P.toDevice(v2).short, '{"3":true,"5":true}');
+  assert.equal('short' in P.toDevice(v0), false);
+  assert.deepEqual(P.fromDevice({ ...P.toDevice(v2) }), v2);
+  assert.deepEqual(P.fromDevice({ done: null, swaps: null, past: null, short: '{oops' }), v0);
+  // toggling a day done leaves its short mark alone; so do swaps
+  assert.deepEqual(P.toggle(v1, 3, 't').short, { 3: true });
+  assert.deepEqual(P.withSwaps(v1, []).short, { 3: true });
+});
+
+test('short days belong to their round: a new round keeps them in the past one and starts with none', () => {
+  const v = P.setShort(P.toggle(P.empty(), 3, 't'), 3, true);
+  const r2 = P.startRound(v, 'end', []);
+  assert.equal('short' in r2, false);
+  assert.deepEqual(r2.past[0].short, { 3: true });
+  assert.deepEqual(P.shortOfRound(r2, 1), { 3: true });
+  assert.deepEqual(P.shortOfRound(r2, 2), {});
+  const r3 = P.startRound(r2, 'end2', []);
+  assert.equal('short' in r3.past[1], false, 'a round with none keeps the old shape');
+  assert.deepEqual(P.shortOfRound(r3, 2), {});
+});
+
+test('two copies of short days combine as done days do', () => {
+  const a = P.setShort(P.empty(), 1, true), b = P.setShort(P.empty(), 2, true);
+  const { merged, changed } = P.mergeFirstSync(a, b);
+  assert.deepEqual(merged.short, { 1: true, 2: true });
+  assert.equal(changed, true, 'the cloud lacks day 1');
+  assert.equal(P.mergeFirstSync(b, P.setShort(b, 1, true)).changed, false, 'the cloud has them all');
+  assert.equal('short' in P.mergeFirstSync(P.empty(), P.empty()).merged, false);
+  // import
+  assert.deepEqual(P.importMerge(a, { done: {}, short: { 2: true } }, 'merge').short, { 1: true, 2: true });
+  assert.deepEqual(P.importMerge(a, { done: {}, short: { 2: true } }, 'replace').short, { 2: true });
+  assert.deepEqual(P.importMerge(a, { done: {} }, 'replace').short, { 1: true }, 'a file from before: yours stay');
+  assert.deepEqual(P.importMerge(a, { done: {} }, 'merge').short, { 1: true });
+  const ahead = { done: {}, past: [{ round: 1, done: {}, swaps: [] }], short: { 4: true } };
+  assert.deepEqual(P.importMerge(a, ahead, 'merge').short, { 4: true }, 'a file further along wins whole');
+  assert.equal('short' in P.importMerge(a, { done: {}, past: [{ round: 1, done: {}, swaps: [] }] }, 'merge'), false);
+});

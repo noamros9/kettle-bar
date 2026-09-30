@@ -1,4 +1,4 @@
-/* Progress Store: each program's Program Progress (done days and exercise swaps), and the account's other synced
+/* Progress Store: each program's Program Progress (done days, exercise swaps and short days), and the account's other synced
    data (own programs, random workouts, preferences), kept in sync.
    Always keeps a device copy (storage adapter). A remote adapter can be attached for sync:
      remote = { kind, account?,
@@ -30,7 +30,8 @@
     const emit = (ev, x) => listeners[ev].forEach((f) => f(x));
     const progress = {};
     let remote = null, unsubs = [], progressUnsubs = {}, seen = {}, docSeen = {}, queue = Promise.resolve(), docQueue = Promise.resolve(), readonly = false, auth = null, status = 'local';
-    const keys = (pid) => ({ done: 'kb-progress-' + pid, swaps: 'kb-swaps-' + pid, past: 'kb-past-' + pid });
+    const keys = (pid) => ({ done: 'kb-progress-' + pid, swaps: 'kb-swaps-' + pid, past: 'kb-past-' + pid, short: 'kb-short-' + pid });
+    const fromDevice = (pid) => { const k = keys(pid); return P.fromDevice({ done: read(k.done), swaps: read(k.swaps), past: read(k.past), short: read(k.short) }); };
     const setStatus = (s) => { status = s; emit('status', s); };
     const of = (pid) => progress[pid] || P.empty();
 
@@ -44,8 +45,7 @@
 
     function load() {
       programIds.forEach((pid) => {
-        const k = keys(pid);
-        progress[pid] = P.fromDevice({ done: read(k.done), swaps: read(k.swaps), past: read(k.past) });
+        progress[pid] = fromDevice(pid);
       });
       D.COLLECTIONS.forEach((c) => {
         let ids; try { ids = JSON.parse(read(indexKey(c))); } catch (e) { ids = null; }
@@ -56,6 +56,7 @@
     function save(pid) {
       const k = keys(pid), text = P.toDevice(progress[pid]);
       try { storage.set(k.done, text.done); storage.set(k.swaps, text.swaps); storage.set(k.past, text.past); } catch (e) { /* storage full or blocked: keep going */ }
+      if (text.short) { try { storage.set(k.short, text.short); } catch (e) { /* as above */ } } else forgetKey(k.short); // none: no key, as before
     }
     function saveDoc(c, id) { try { storage.set(docKey(c, id), JSON.stringify(account[c][id])); } catch (e) { /* device copy is best effort */ } }
     function forgetKey(key) { try { if (storage.remove) storage.remove(key); else storage.set(key, ''); } catch (e) { /* device copy is best effort */ } }
@@ -147,8 +148,7 @@
     function addProgram(pid) {
       if (programIds.includes(pid)) return;
       programIds.push(pid);
-      const k = keys(pid);
-      progress[pid] = P.fromDevice({ done: read(k.done), swaps: read(k.swaps), past: read(k.past) });
+      progress[pid] = fromDevice(pid);
       if (remote) follow(pid);
       emit('change', pid);
     }
@@ -165,13 +165,14 @@
     function deleteProgress(pid) {
       const k = keys(pid);
       dropProgram(pid);
-      [k.done, k.swaps, k.past].forEach(forgetKey);
+      [k.done, k.swaps, k.past, k.short].forEach(forgetKey);
       const r = remote; if (!r) return queue;
       queue = queue.then(async () => { try { await r.remove('progress', pid); } catch (e) { console.warn('progress not deleted from the cloud', e); } });
       return queue;
     }
     const toggle = (pid, day) => set(pid, P.toggle(of(pid), day, now()));
     const setSwaps = (pid, list) => set(pid, P.withSwaps(of(pid), list));
+    const setShort = (pid, day, on) => set(pid, P.setShort(of(pid), day, on)); // "short on time" for that day (Phase 7)
     // a new round: the current one is kept as it was; `keep` = the onward swaps to carry over
     const startRound = (pid, keep) => set(pid, P.startRound(of(pid), now(), keep));
     // set whole programs at once (an import): { pid: Program Progress }; one write per program
@@ -197,7 +198,7 @@
       return queue;
     }
     return {
-      load, attach, detach, addProgram, dropProgram, deleteProgress, programIds: () => programIds.slice(), toggle, replaceAll, setSwaps, startRound, setDoc, deleteDoc, replaceDocs,
+      load, attach, detach, addProgram, dropProgram, deleteProgress, programIds: () => programIds.slice(), toggle, replaceAll, setSwaps, setShort, startRound, setDoc, deleteDoc, replaceDocs,
       doc: (c, id) => (known(c) && account[c][id] ? JSON.parse(JSON.stringify(account[c][id])) : null),
       docs: (c) => JSON.parse(JSON.stringify(account[known(c)])),
       round: (pid) => P.round(of(pid)),
@@ -205,6 +206,8 @@
       progress: (pid) => P.fromDoc(of(pid)), // a copy
       swaps: (pid) => of(pid).swaps.map((x) => ({ ...x })),
       isDone: (pid, day) => P.isDone(of(pid), day),
+      isShort: (pid, day) => P.isShort(of(pid), day),
+      shortOf: (pid, round) => P.shortOfRound(of(pid), round === undefined ? P.round(of(pid)) : round),
       count: (pid) => P.count(of(pid)),
       days: (pid) => ({ ...of(pid).done }),
       setAuth(a) { auth = a; setStatus(remote ? status : 'signin'); },

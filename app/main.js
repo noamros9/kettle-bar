@@ -114,6 +114,7 @@ document.addEventListener('click', (ev) => {
   if (d.openProg) return go('p-' + d.openProg);
   if (d.lenMenu) { toggleLengthMenu(); render(); return; }
   if (d.filter) { const [k, v] = d.filter.split(':'); setFilter(k, v); render(); return; }
+  if (d.short) { const D = openDay(); D.setShort(!D.short()); return; } // the store's change event redraws
   if (d.toggle) { days.forget(prog().id, +d.toggle); store.toggle(prog().id, +d.toggle); return; } // marked or un-marked: the saved session is done with
   if (d.day) { const n = +d.day; if (n >= 1 && n <= prog().days.length) go(dayHash(prog().id, n)); return; }
   if (d.pip) { const [bi, i, k] = d.pip.split(':').map(Number); return tick({ type: 'set', bi, i, k }); }
@@ -138,7 +139,7 @@ function download(name, text) {
 }
 function exportProgress() {
   const rounds = Object.fromEntries(programs.ids().map((pid) => [pid, store.progress(pid).past]));
-  download(KBBackup.fileName(new Date()), JSON.stringify(KBBackup.exportProgress(allDone(), { swaps: allSwaps(), rounds, ownPrograms: store.docs('programs'), random: store.docs('random'), prefs: store.docs('prefs') }), null, 2));
+  download(KBBackup.fileName(new Date()), JSON.stringify(KBBackup.exportProgress(allDone(), { swaps: allSwaps(), rounds, short: Object.fromEntries(programs.ids().map((pid) => [pid, store.shortOf(pid)])), ownPrograms: store.docs('programs'), random: store.docs('random'), prefs: store.docs('prefs') }), null, 2));
 }
 
 const allDone = () => Object.fromEntries(programs.ids().map((pid) => [pid, store.days(pid)]));
