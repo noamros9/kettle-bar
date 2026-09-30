@@ -13,15 +13,13 @@ How Noam wants work done in this repo. Words: [CONTEXT.md](CONTEXT.md). Decision
   linking where it's planned.
 - The plan ships as its own `plan/...` PR.
 
-## Building (standing permission from Noam, 29 Sep 2026)
-- **Who builds:** Sonnet sub-agents build contained tickets (program content, small features, refactors with a
-  byte-identical check). Claude on Opus builds the tricky design tickets itself (where a fix round costs more
-  than doing it right: mixing subjects, random workout, anything touching sync or stored data shapes).
-- **Parallel:** run up to two tickets at once when they don't touch the same files, each in its own checkout
-  (`git worktree add ../kb-<ticket> -b <branch> main`) and its own UI port (`UI_PORT=4174 npm run test:ui`).
-  The git proxy allows about two concurrent git operations.
-- **Review and merge without asking:** Claude reviews every sub-agent PR and merges it itself (squash) when it
-  passes; otherwise sends it back to the same sub-agent with the fixes. Tell Noam what was merged, briefly.
+## Building (standing permission from Noam, 29 Sep 2026; Opus only since 30 Sep 2026)
+- **Who builds:** Claude on Opus builds every ticket itself. No Sonnet, no sub-agents for building (Noam, 30 Sep:
+  Sonnet's work wasn't to his liking on this project).
+- **One at a time:** work the roadmap ticket by ticket, in plan order. Finish, merge and check CI before starting
+  the next one.
+- **Merge without asking:** when a ticket passes the review checks below, Claude merges its PR itself (squash).
+  Tell Noam what was merged, briefly.
 - **Review checks:**
   - `npm test` and `npm run test:coverage` (100% on the gated modules);
   - the phone UI suite (`npm run test:ui`) once, after a fresh build (Playwright reuses a running server);
