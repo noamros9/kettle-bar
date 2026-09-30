@@ -65,6 +65,8 @@ days ticked on the device and in the cloud are merged.
 - **Travel mode** (Settings): No bar, Kettlebell only or Bodyweight only swaps, on every workout, the exercises that
   need missing gear for ones that work the same muscles, until you turn it off; synced. A few (rows, curls, raises,
   pull-ups) have no bodyweight stand-in and say so.
+- **Warm-ups match the workout:** boxing, kickboxing, HIIT and plyometrics days warm up on their feet; yoga, Pilates,
+  flexibility and mobility days gently.
 - **Unfinished workouts are kept**: ticks, counters and stretches are saved on the device as you go, so closing the app
   or opening another day doesn't lose them; opening the day again shows "Picked up where you left off". **Mark as
   done**, or 12 hours, clears it. A running timer isn't resumed. It stays on the device (not synced, not in backups).
