@@ -18,7 +18,7 @@ Decided on 29 Sep:
 | 1 | Resume a workout after closing the app | feature | – | `feature/resume` | done (PR #89) |
 | 2 | Random workout | feature | review III 4, 5; Phase 6 4 | `feature/random-workout` | done (PR #100) |
 | 3 | Rest-day flow | feature | 2 | `feature/rest-day-flow` | done (PR #102) |
-| 4 | Shorter today | feature | review III 4 | `feature/shorter-today` | done (PR #PRNUM) |
+| 4 | Shorter today | feature | review III 4 | `feature/shorter-today` | done (PR #103) |
 | 5 | Travel mode | feature | review III 5 | `feature/travel-mode` | |
 | 6 | Warm-up that matches the format | feature | review III 3 | `feature/warmup-by-format` | |
 | 7 | Big timer | feature | – | `feature/big-timer` | done (PR #90) |
