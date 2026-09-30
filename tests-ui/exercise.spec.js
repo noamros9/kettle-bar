@@ -39,7 +39,12 @@ test('every exercise added in Phase 5 draws its figure on its page, and moves wh
     await expect(drawing(app).locator('svg.fig'), e.id).toHaveAttribute('aria-label', `${e.name} illustration`);
     const first = await snapshot(app);
     expect(first, e.id).not.toContain('NaN');
-    if (e.poses.length > 1) { await app.page.clock.runFor(300); expect(await snapshot(app), `${e.id} moves`).not.toBe(first); }
+    if (e.poses.length > 1) {
+      // frame by frame: the fake clock also runs in real time, so one long jump can land back on the frame it started on
+      let moved = false;
+      for (let k = 0; k < 8 && !moved; k++) { await app.page.clock.runFor(55); moved = (await snapshot(app)) !== first; }
+      expect(moved, `${e.id} moves`).toBe(true);
+    }
   }
 });
 
