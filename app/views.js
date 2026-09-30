@@ -22,7 +22,8 @@ function rerender() {
 }
 
 /* ---------------- routing ----------------
-   #today (the logo, home, and the home-screen shortcut) · #programs · #exercises · #stats · #settings · #ex-<id> · #p-<pid> · #p-<pid>-d<n>   (#d<n> = Three-Split 60, kept for old links) */
+   #today (the logo, home, and the home-screen shortcut) · #programs · #exercises · #stats · #settings · #ex-<id> · #p-<pid> · #p-<pid>-d<n>   (#d<n> = Three-Split 60, kept for old links)
+   · #add=<code> (a program someone shared: its preview and Add this program) */
 // every program, through the Program Catalogue (today: all inlined in the page)
 const OFFLINE_CACHE = 'kettle-bar-v2'; // the service worker's cache; the page writes loaded programs into it too
 const offlineCache = {
@@ -73,6 +74,7 @@ function parseHash() {
     return n ? { view: 'day', pid, day: n } : { view: 'program', pid };
   }
   if (h === 'stats') return { view: 'stats' };
+  if (h.startsWith('add=')) return { view: 'add', code: h.slice(4) };
   const x = h.match(/^ex-([a-z0-9_]+)$/);
   if (x && EX[x[1]]) return { view: 'exercise', ex: x[1], pid: route.pid };
   const pd = h.match(/^p-([a-z0-9-]+)-d(\d+)$/);
@@ -255,6 +257,44 @@ function viewBuild() {
       <div class="actions"><button class="btn" data-b-save="1"${problem ? ' disabled' : ''}>${editing ? 'Save changes' : 'Save program'}</button>${editing ? '<button class="btn ghost" data-b-cancel="1">Cancel</button>' : ''}</div></section>`;
 }
 
+/* ---------------- a shared program (#add=<code>) ----------------
+   Read the link, show the program's first days, and add it to Your programs under the id it was made with (the builder
+   draws the exercises from it, so the days are the same as the sharer's). No server: everything is in the link. */
+let addState = { code: null }; // { code, shared?, program?, error? }: the link being shown
+function viewAdd() {
+  const code = route.code;
+  const head = '<div class="crumbs"><button class="back" data-go="programs">← All programs</button></div><div class="eyebrow">Shared with you</div>';
+  if (addState.code !== code) {
+    addState = { code };
+    KBOwn.readShare(code, ownDeps()).then((shared) => {
+      if (addState.code !== code) return;
+      addState.shared = shared;
+      addState.program = KBOwn.programOf(ownDeps(), { pid: KBOwn.pidOf(shared.id), name: shared.name, config: shared.config });
+      rerender();
+    }, (e) => { if (addState.code === code) { addState.error = e.message; rerender(); } });
+  }
+  if (addState.error) return `${head}<h1>This link can't be opened</h1><p class="notice" role="alert">${esc(addState.error)}</p>`;
+  if (!addState.program) return `${head}<h1>A shared program</h1><p class="loading lede" role="status">Loading…</p>`;
+  const sh = addState.shared, p = addState.program, TY = typesOf(p), pid = KBOwn.pidOf(sh.id);
+  const tiles = `<div class="grid pv">${p.days.slice(0, 6).map((w) => {
+    const t = TY[w.type] || { short: w.title, c: 'var(--muted)' };
+    return `<div class="tile"><span class="open"><span class="n num">${w.day}</span><span class="nm">${esc(w.name)}</span><span class="ty"><i class="dot" style="--c:${t.c}"></i>${esc(t.short)} · ${w.est}′</span></span></div>`;
+  }).join('')}</div>`;
+  const have = !!store.doc('programs', sh.id);
+  const actions = have
+    ? `<p class="hint" role="status">This program is already in Your programs${programs.has(pid) && programs.summary(pid).name !== sh.name ? `, as ${esc(programs.summary(pid).name)}` : ''}.</p><div class="actions"><button class="btn" data-add-open="${esc(pid)}">Open it</button></div>`
+    : '<div class="actions"><button class="btn" data-add-confirm="1">Add this program</button><button class="btn ghost" data-go="programs">Not now</button></div>';
+  return `${head}<h1>${esc(sh.name)}</h1><p class="lede">${esc(p.about)} Adding it gives you your own copy: your progress is yours, and you can rename or edit it.</p>
+    <section class="bsec"><h2>First six days</h2><p class="pvline num">${esc(KBOwn.summaryLine(p))}</p>${tiles}${actions}</section>`;
+}
+function addShared() {
+  const sh = addState.shared;
+  if (!sh) return;
+  const { id, ...made } = sh;
+  if (!store.doc('programs', id)) store.setDoc('programs', id, KBOwn.toRecord(made, new Date().toISOString())); // the catalogue follows at once
+  location.replace('#p-' + KBOwn.pidOf(id)); // back from the program goes where you were before the link, not to it
+}
+
 /* ---------------- program page ---------------- */
 // Start a new round: { pid } while the sheet is open. Each rest-of-program swap: keep it, or back to the original.
 let roundState = null;
@@ -276,7 +316,13 @@ function ownTitle(p) {
   return `<form class="renamerow" data-own-form="1"><label class="sr" for="own-name">Program name</label><input id="own-name" type="text" maxlength="60" value="${esc(ownState.text)}" autocomplete="off"${ownState.error ? ' aria-invalid="true" aria-describedby="own-err"' : ''}>
     <button class="btn" type="submit">Save name</button><button class="btn ghost" type="button" data-own-cancel="1">Cancel</button></form>${ownState.error ? `<p class="notice" id="own-err" role="alert">${esc(ownState.error)}</p>` : ''}`;
 }
-const ownTools = (p) => `<div class="owntools"><button class="btn ghost" data-own-rename="1">Rename</button><button class="btn ghost" data-own-edit="1">Edit</button><button class="btn ghost danger" data-own-delete="1">Delete</button></div>`;
+const ownTools = (p) => `<div class="owntools"><button class="btn ghost" data-own-share="1">Share</button><button class="btn ghost" data-own-rename="1">Rename</button><button class="btn ghost" data-own-edit="1">Edit</button><button class="btn ghost danger" data-own-delete="1">Delete</button></div>${shareNote(p)}`;
+// after Share: "Link copied", or the link to copy by hand when the phone won't let the page copy it
+function shareNote(p) {
+  if (!ownState || ownState.pid !== p.id || ownState.mode !== 'share') return '';
+  if (ownState.copied) return '<p class="hint sharenote" role="status">Link copied. Whoever opens it can add this program, with its 60 days, to their own.</p>';
+  return `<div class="sharenote"><label class="bfield" for="share-link"><span>Copy this link</span><input id="share-link" type="text" readonly value="${esc(ownState.link)}"></label></div>`;
+}
 function deleteSheet(p) {
   if (!ownState || ownState.pid !== p.id || ownState.mode !== 'delete') return '';
   return `<div class="sheetwrap"><button class="sheetbg" data-own-cancel="1" aria-label="Close"></button>
@@ -701,7 +747,7 @@ function render(scrollTop) {
   const v = route.view;
   const needsProgram = v === 'program' || v === 'day' || v === 'exercise';
   if (needsProgram && stillLoading([route.pid]).length) app.innerHTML = loadingView(route.pid);
-  else app.innerHTML = v === 'programs' ? viewPrograms() : v === 'build' ? viewBuild() : v === 'library' ? viewLibrary() : v === 'settings' ? viewSettings() : v === 'stats' ? viewStats() : v === 'exercise' ? viewExercise() : v === 'day' ? viewDay() : viewProgram();
+  else app.innerHTML = v === 'programs' ? viewPrograms() : v === 'build' ? viewBuild() : v === 'add' ? viewAdd() : v === 'library' ? viewLibrary() : v === 'settings' ? viewSettings() : v === 'stats' ? viewStats() : v === 'exercise' ? viewExercise() : v === 'day' ? viewDay() : viewProgram();
   const section = v === 'library' || v === 'exercise' ? 'library' : v === 'settings' || v === 'stats' ? v : 'programs';
   document.querySelectorAll('.top [data-go]').forEach((b) => b.setAttribute('aria-current', b.dataset.go === section ? 'page' : 'false'));
   // the family tabs are a scrolling row (a re-render resets it): bring the chosen one fully into view

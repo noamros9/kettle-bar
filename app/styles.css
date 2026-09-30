@@ -434,6 +434,7 @@ table.weeks tr.empty{color:var(--muted)}table.weeks tr.empty th{font-weight:400}
 .bsec .btn:disabled{opacity:.4}
 /* your program's page: rename, edit, delete */
 .owntools{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.sharenote{margin-top:10px}
 .owntools .btn{font-size:14px;padding:8px 14px}
 .btn.ghost.danger{color:var(--err);border-color:var(--err)}
 .btn.danger:not(.ghost){background:var(--err);color:var(--surface)}

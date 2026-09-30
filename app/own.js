@@ -27,6 +27,10 @@
      edit({ recipes, build, ex }, id, record, { name?, choices, seed?, doneDays }, now) -> the record after an edit: the new
                                                   choices' config, and every day in doneDays (of any round) frozen as it was built
                                                   from the OLD record: `frozenDays: { n: day }`, without the day number
+     shareCode(entry) -> Promise of the code for #add=   shareLink(pageUrl, code) -> the link
+     readShare(code, { build, ex }) -> Promise of { id, name, choices, seed, catalogue, config }; rejects with a message
+                                       for people (damaged, or made by a newer app); the program is added under that id
+     newestCatalogue(EX) -> the newest exercise batch (`added`) this app knows
      summaryLine(program) -> "Push / Legs / Pull · 60 days · ~28–32 min · kettlebell only"
                              (a mix: "Strength + Yoga, 3 days a cycle · 60 days · ~28–32 min · all equipment")
 
@@ -242,7 +246,51 @@
     return { refresh };
   }
 
-  const api = { checkName, renamed, edit, defaults, fit, toggle, subjectStates, problem, states, subjects, toConfig, configOf, toRecord, fromRecord, programOf, summaryLine, source, link, pidOf, defaultName, newId, newSeed, MINUTES, EQUIPMENT };
+  /* ---- share a copy by link (#add=<code>) ----
+     The code is the program as stored, less what is yours alone (progress, frozen days, dates): its id, name, choices,
+     seed, catalogue version and config, as JSON, deflated, in base64url. It carries the config, not only the choices, so
+     the days are built from it alone (as a stored program's are), whatever recipe book the other browser has; and the id,
+     because the builder draws the exercises from it (the program is added under the same id). */
+  const SHARE_VERSION = 1;
+  const DAMAGED = 'This link is damaged or cut short. Ask for it again.';
+  const NEWER = 'This link was made by a newer version of the app. Close and reopen the app to update it, then open the link again.';
+  const newestCatalogue = (EX) => Math.max(0, ...Object.values(EX).map((e) => e.added || 0));
+  const toBase64url = (bytes) => btoa(Array.from(bytes, (b) => String.fromCharCode(b)).join('')).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  const fromBase64url = (code) => Uint8Array.from(atob(code.replace(/-/g, '+').replace(/_/g, '/')), (ch) => ch.charCodeAt(0));
+  const MAX_CODE = 12000; // the longest program makes about 1,600 characters; a longer code is not ours (nor a zip bomb)
+  // someone else's link is checked before anything of it is shown: only what the recipes make, and no markup in any text
+  const CONFIG_KEYS = ['subject', 'blurb', 'about', 'split', 'minutes', 'equip', 'levers', 'catalogue', 'rests', 'cycle', 'dayTypes', 'mix'];
+  const plain = (x, depth = 0) => (typeof x === 'string' ? !/[<>"`\\]/.test(x)
+    : typeof x === 'number' ? Number.isFinite(x)
+    : x === null || typeof x === 'boolean' ? true
+    : depth < 12 && Object.entries(x).every(([k, v]) => plain(k) && plain(v, depth + 1)));
+  const plainConfig = (g) => Object.keys(g).every((k) => CONFIG_KEYS.includes(k)) && Array.isArray(g.minutes) && g.minutes.length === 2
+    && g.minutes.every((m) => typeof m === 'number') && EQUIPMENT.includes(g.equip) && plain(g);
+  const through = (bytes, stream) => new Response(new Blob([bytes]).stream().pipeThrough(stream)).arrayBuffer();
+
+  async function shareCode(entry) {
+    const payload = { v: SHARE_VERSION, i: entry.id, n: entry.name, c: entry.choices, s: entry.seed, k: entry.catalogue, g: entry.config };
+    return toBase64url(new Uint8Array(await through(new TextEncoder().encode(JSON.stringify(payload)), new CompressionStream('deflate-raw'))));
+  }
+  const shareLink = (pageUrl, code) => pageUrl.split('#')[0] + '#add=' + code;
+
+  // -> { id, name, choices, seed, catalogue, config } (all but the id make the record); throws a message for people
+  async function readShare(code, { build, ex }) {
+    let p;
+    try {
+      if (!code || code.length > MAX_CODE) throw new Error('not ours');
+      p = JSON.parse(new TextDecoder().decode(await through(fromBase64url(code), new DecompressionStream('deflate-raw'))));
+    } catch (e) { throw new Error(DAMAGED); }
+    if (!isObject(p)) throw new Error(DAMAGED);
+    if (p.v > SHARE_VERSION || p.k > newestCatalogue(ex.EX)) throw new Error(NEWER);
+    if (typeof p.i !== 'string' || !/^[a-z0-9]{1,24}$/.test(p.i)) throw new Error(DAMAGED);
+    const entry = fromRecord(p.i, { name: p.n, choices: p.c, seed: p.s, catalogue: p.k, config: p.g });
+    if (!entry.config || checkName(entry.name) || !plain(entry.choices) || !plainConfig(entry.config)) throw new Error(DAMAGED);
+    try { programOf({ build, ex }, entry); } catch (e) { throw new Error(DAMAGED); }
+    return { id: entry.id, name: entry.name, choices: entry.choices, seed: entry.seed, catalogue: entry.catalogue, config: entry.config };
+  }
+
+  const api = { SHARE_VERSION, newestCatalogue, shareCode, shareLink, readShare, checkName, renamed, edit, defaults, fit, toggle, subjectStates, problem, states, subjects, toConfig, configOf, toRecord, fromRecord, programOf, summaryLine, source, link, pidOf, defaultName, newId, newSeed, MINUTES, EQUIPMENT };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBOwn = api;
 })(typeof window !== 'undefined' ? window : globalThis, typeof module !== 'undefined' && module.exports ? require('./programs.js') : window.KBPrograms);

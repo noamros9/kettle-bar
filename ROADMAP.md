@@ -101,7 +101,7 @@ Grilled with Noam on 29 Sep 2026: the review comes first, then Phases 6, 7 and 8
   subjects as chips with counts, length on one quiet line; the counter follows the selection. Built alongside
   the rest of the review.
 
-## Phase 6: build your own program, and mixed programs
+## Phase 6: build your own program, and mixed programs (done, Sep 2026)
 Plan and tickets: [docs/plans/phase-6-build-your-own.md](docs/plans/phase-6-build-your-own.md).
 16. **Build your own:** you pick the subject(s), split (days per cycle), minutes, equipment, formats and how
     it gets harder. The Program Builder makes 60 days, and you can regenerate until you like it. Comes after
@@ -111,6 +111,12 @@ Plan and tickets: [docs/plans/phase-6-build-your-own.md](docs/plans/phase-6-buil
       export/import and the nightly backup.
     - **Share a copy by link:** the link carries the choices, and whoever opens it gets "Add this
       program". No server needed.
+      - **Built (30 Sep):** the link carries the program's **config and id** too, not only the choices: the days are
+        built from the config alone (as a stored program's are, whatever recipe book the other browser has), and the
+        builder draws the exercises from the program's id, so the copy is added under the same id. Days you did
+        (frozen days) stay yours; the link carries the program as it is made now. **Share** opens the phone's share
+        sheet where there is one, else copies the link. A link made by a newer app, or damaged, or carrying anything the
+        recipes don't make (markup, other fields) is refused with a message.
     - **Where (29 Sep):** your programs get their own shelf at the top of the Programs page.
 17. **Mixed programs ([#65](https://github.com/noamros9/kettle-bar/issues/65), 29 Sep):** both a "mix" choice in
     build your own (2–3 subjects) and **about 30 hand-made mixed programs** in a new **Mixed** family (5 subjects × 6).

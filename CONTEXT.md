@@ -27,6 +27,13 @@ then a short flow). They sit in the **Mixed** family (Phase 6). Each block can g
 main block of a mixed day carries a `family` tag (`'Strength'`, `'Cardio & combat'` or `'Mind & body'`, from its config)
 for Phase 8's stats; single-family programs' blocks have none.
 
+**Share link** (`#add=<code>`): a Your program in a link, so someone else can add a copy. The code (`app/own.js`
+`shareCode` / `readShare`) is `{ v, i: id, n: name, c: choices, s: seed, k: catalogue, g: config }` as JSON, deflated, in
+base64url (about 1–1.6 KB). It carries the config and the id because the days are built from the config alone and the
+builder draws the exercises from the program's id: the copy is added under the same id, with the same 60 days. Never
+its progress or frozen days. Refused when made by a newer app (`v` or `k` newer than this one's), damaged, or carrying
+anything the recipes don't make.
+
 **Mix** (in build your own): a Your program of 2–3 subjects, picked in order. Every day is a mixed day joined from one
 **part** of each subject, in that order: a part is a main block (three slots or more) of a library day type of a subject
 that is one family and rests like the others (not a Mixed subject, not Plyometrics). Each block gets harder by its own
