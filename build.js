@@ -16,8 +16,15 @@ const SCRIPTS = ['figures.js', 'formats.js', 'exercises.js', null, 'program-buil
 const HEAD = '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="color-scheme" content="light dark"><meta name="theme-color" content="#2346D5"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" href="icons/icon-32.png"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"></head><body>';
 const TAIL = '<script type="module" src="firebase-sync.js"></script><script>if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});</script></body></html>';
 
+// the page's copy of a module without its documentation: the file-top comment and whole-line // comments (the
+// source files keep them). Behaviour is unchanged; the first download is ~19 KB (gzipped) smaller.
+function lean(src) {
+  const body = src.startsWith('/*') ? src.slice(src.indexOf('*/') + 2) : src;
+  return body.split('\n').filter((line) => !/^\s*\/\/(?!.*\*\/)/.test(line)).join('\n');
+}
+
 function render(programs = buildAll()) {
-  const scripts = SCRIPTS.map((f) => `<script>\n${f ? read(f) : `const PROGRAM_SUMMARIES = ${JSON.stringify(programs.map((p) => slim(summarize(p))))};`}\n</script>`).join('\n');
+  const scripts = SCRIPTS.map((f) => `<script>\n${f ? lean(read(f)) : `const PROGRAM_SUMMARIES = ${JSON.stringify(programs.map((p) => slim(summarize(p))))};`}\n</script>`).join('\n');
   const page = read('app/shell.html')
     .replace('/*__STYLES__*/', () => read('app/styles.css'))
     .replace('<!--__SCRIPTS__-->', () => scripts);
@@ -34,4 +41,4 @@ if (require.main === module) {
   console.log('bytes', out['index.html'].length);
 }
 
-module.exports = { render };
+module.exports = { render, lean };

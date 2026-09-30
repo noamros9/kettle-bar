@@ -73,3 +73,13 @@ test('the installed app has a "Today\'s workout" shortcut to #today', () => {
   assert.deepEqual(manifest.shortcuts.map((s) => [s.name, s.url]), [["Today's workout", './#today']]);
   assert.ok(manifest.shortcuts[0].icons.length > 0);
 });
+
+test('the page carries each module without its documentation: no file-top comment, no whole-line // comments', () => {
+  const { lean } = require('../build.js');
+  assert.equal(lean('/* doc\n   more */\n(function () {\n  // a note\n  const a = 1; // kept: code on the line\n  const url = "https://x"; \n})();'),
+    '\n(function () {\n  const a = 1; // kept: code on the line\n  const url = "https://x"; \n})();');
+  assert.equal(lean('const a = 1;\n// x */ y\n'), 'const a = 1;\n// x */ y\n', 'a line that closes a block comment stays');
+  const html = out['index.html'];
+  assert.doesNotMatch(html, /Program Progress: one program's done days/, 'the modules\' doc blocks are out');
+  assert.match(html, /function createStore\(/, 'the code is in');
+});
