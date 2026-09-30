@@ -18,7 +18,7 @@ Decided on 29 Sep:
 | 1 | Resume a workout after closing the app | feature | – | `feature/resume` | done (PR #89) |
 | 2 | Random workout | feature | review III 4, 5; Phase 6 4 | `feature/random-workout` | done (PR #100) |
 | 3 | Rest-day flow | feature | 2 | `feature/rest-day-flow` | done (PR #102) |
-| 4 | Shorter today | feature | review III 4 | `feature/shorter-today` | |
+| 4 | Shorter today | feature | review III 4 | `feature/shorter-today` | done (PR #103) |
 | 5 | Travel mode | feature | review III 5 | `feature/travel-mode` | |
 | 6 | Warm-up that matches the format | feature | review III 3 | `feature/warmup-by-format` | |
 | 7 | Big timer | feature | – | `feature/big-timer` | done (PR #90) |
@@ -70,6 +70,8 @@ Decided on 29 Sep:
 - Stored in the program's progress as `short: { day: true }` (Program Progress gains the field; `fromDoc` reads a
   document without it as none), so it syncs and is in backups.
 - **Test first:** `trim` of a 35-min straight-set day gives 18–22 min and keeps every block's first exercise.
+- **Built 30 Sep:** `trim` lives in `app/short.js` (the page's builder has no time model of its own); `short` is only in
+  the progress when a day was shortened, so older documents and backups keep their shape.
 
 ### 5. Travel mode (#67.2)
 - Settings: **Travel mode** with "No bar", "Kettlebell only", "Bodyweight only". On **until turned off** (Noam).

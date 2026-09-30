@@ -32,7 +32,7 @@ const known = ['a', 'b'];
 
 test('reading a file keeps the programs this app has and names the ones it does not', () => {
   const got = parseBackup(file({ a: { 1: 't1' }, gone: { 2: 't2' } }), { known });
-  assert.deepEqual(got, { programs: { a: { 1: 't1' } }, swaps: {}, rounds: {}, unknown: ['gone'], ownPrograms: null, random: null, prefs: null });
+  assert.deepEqual(got, { programs: { a: { 1: 't1' } }, swaps: {}, rounds: {}, short: {}, unknown: ['gone'], ownPrograms: null, random: null, prefs: null });
 });
 
 test('reading refuses files that are not a readable backup, saying why', () => {
@@ -300,4 +300,42 @@ test('the nightly file (version 2) carries each account\'s ownPrograms, random a
   assert.deepEqual(Object.keys(back.ownPrograms), ['alpha', 'zed']);
   assert.deepEqual(back.random.r2, { name: 'B', updatedAt: '2' });
   assert.deepEqual(back.prefs, { hidden: [], travel: true });
+});
+
+// ---- Shorter today (Phase 7 ticket 4): short days travel in export, nightly and import; files without them are unchanged ----
+test('short days are exported only when there are some, and a file without them is the same bytes as before', () => {
+  const now = () => 'T';
+  const before = JSON.stringify(exportProgress({ a: { 1: 't' } }, { now }));
+  assert.equal(JSON.stringify(exportProgress({ a: { 1: 't' } }, { now, short: { a: {} } })), before);
+  const f = exportProgress({ a: { 1: 't' } }, { now, short: { a: { 1: true }, b: {} } });
+  assert.deepEqual(f.short, { a: { 1: true } });
+});
+
+test('short days in a file are read, checked and imported; an old file keeps yours', () => {
+  const file = JSON.stringify({ format: 'kettle-bar-progress', version: 2, programs: { a: { 1: 't', 2: 'u' } }, short: { a: { 2: true }, zz: { 1: true } } });
+  const parsed = parseBackup(file, { known: ['a'] });
+  assert.deepEqual(parsed.short, { a: { 2: true } }, 'unknown programs are left out');
+  const plan = planImport({ a: { done: { 1: 't', 2: 'u' }, swaps: [], past: [] } }, file, { known: ['a'], name: 'f' });
+  assert.equal(plan.hasChanges, true, 'a short day the device lacks is a change');
+  assert.equal(plan.canMerge, true);
+  assert.deepEqual(plan.result('merge').a.short, { 2: true });
+  const old = JSON.stringify({ format: 'kettle-bar-progress', version: 2, programs: { a: { 1: 't' } } });
+  const mine = { a: { done: { 1: 't' }, swaps: [], past: [], short: { 1: true } } };
+  assert.deepEqual(planImport(mine, old, { known: ['a'], name: 'f' }).result('replace').a.short, { 1: true });
+  assert.equal(planImport(mine, file.replace('"2":true', '"1":true'), { known: ['a'], name: 'f' }).hasChanges, true, 'days added still count');
+  for (const bad of [[1], { a: 'x' }, { a: { 0: true } }, { a: { 1: 'yes' } }]) {
+    const t = JSON.stringify({ format: 'kettle-bar-progress', version: 2, programs: { a: {} }, short: bad });
+    assert.throws(() => parseBackup(t, { known: ['a'] }), /damaged: .*short/);
+  }
+});
+
+test('the nightly file carries short days of the current round, and past rounds keep their own', () => {
+  const past = [{ round: 1, done: { 3: 'x' }, swaps: [], short: { 3: true }, endedAt: 'e' }];
+  const text = nightlyFile([{ uid: 'u', pid: 'a', done: { 1: 't' }, swaps: [], past, short: { 1: true } }, { uid: 'u', pid: 'b', done: {}, past: [] }]);
+  const u = JSON.parse(text).users.u;
+  assert.deepEqual(u.short, { a: { 1: true } });
+  assert.deepEqual(u.rounds.a[0].short, { 3: true });
+  const plain = nightlyFile([{ uid: 'u', pid: 'b', done: {}, past: [] }]);
+  assert.equal('short' in JSON.parse(plain).users.u, false);
+  assert.deepEqual(parseBackup(text, { known: ['a', 'b'], uid: 'u' }).short, { a: { 1: true } });
 });

@@ -19,12 +19,13 @@
        (every account), stable byte for byte
 
    Export file:  { format: 'kettle-bar-progress', version: 2, exportedAt, programs: { programId: { day: time } },
-                   swaps?: { programId: [swap] }, rounds?: { programId: [past round] },
+                   swaps?: { programId: [swap] }, rounds?: { programId: [past round] }, short?: { programId: { day: true } },
                    ownPrograms?: { id: doc }, random?: { id: doc }, prefs?: doc }
-   Nightly file: { format: 'kettle-bar-backup', version: 2, users: { uid: { email, programs, swaps?, rounds?,
+   Nightly file: { format: 'kettle-bar-backup', version: 2, users: { uid: { email, programs, swaps?, rounds?, short?,
                    ownPrograms?, random?, prefs? } } }
    `programs` is the progress of the library programs (as in version 1); the account's own programs are `ownPrograms`.
-   Only what exists is written: swaps for programs that have any, ownPrograms / random / prefs when not empty, so a
+   Only what exists is written: swaps for programs that have any, short (the current round's days done "short on
+   time", Phase 7; a past round keeps its own in `rounds`) only when a program has some, ownPrograms / random / prefs when not empty, so a
    file with none of them is the same bytes as before. Version 1 files (no account data) still import; from
    version 2 on the merge / replace rules for the docs are in app/docs.js.
    Both can be imported; from a nightly file, import takes the signed-in account (ADR 5). */
@@ -33,6 +34,8 @@
   const NIGHTLY = 'kettle-bar-backup';
   const VERSION = 2;
 
+  const shortDays = (m) => Object.fromEntries(Object.entries(m || {}).filter(([, days]) => days && Object.keys(days).length).map(([pid, days]) => [pid, { ...days }]));
+  const shortField = (m) => { const s = shortDays(m); return Object.keys(s).length ? { short: s } : {}; };
   const nonEmpty = (swaps = {}) => Object.fromEntries(Object.entries(swaps).filter(([, l]) => l && l.length).map(([pid, l]) => [pid, l.map((x) => ({ ...x }))]));
   const isEmpty = (o) => !o || !Object.keys(o).length;
   // the account data a file carries, only what exists: { ownPrograms?, random?, prefs? }
@@ -44,10 +47,10 @@
     return out;
   }
   // prefs: the prefs docs { main: body } (or nothing)
-  function exportProgress(done, { now = () => new Date().toISOString(), swaps, rounds, ownPrograms, random, prefs } = {}) {
+  function exportProgress(done, { now = () => new Date().toISOString(), swaps, rounds, short, ownPrograms, random, prefs } = {}) {
     const programs = {};
     Object.entries(done).forEach(([pid, days]) => { programs[pid] = { ...days }; });
-    return { format: FORMAT, version: VERSION, exportedAt: now(), programs, swaps: nonEmpty(swaps), rounds: nonEmpty(rounds), ...accountFields(ownPrograms, random, prefs && prefs.main) };
+    return { format: FORMAT, version: VERSION, exportedAt: now(), programs, swaps: nonEmpty(swaps), rounds: nonEmpty(rounds), ...shortField(short), ...accountFields(ownPrograms, random, prefs && prefs.main) };
   }
 
   const isObject = (x) => !!x && typeof x === 'object' && !Array.isArray(x);
@@ -79,7 +82,7 @@
       if (known.includes(pid)) programs[pid] = { ...days }; else unknown.push(pid);
     });
     return {
-      programs, swaps: readSwaps(data.swaps, known), rounds: readRounds(data.rounds, known), unknown,
+      programs, swaps: readSwaps(data.swaps, known), rounds: readRounds(data.rounds, known), short: readShort(data.short, known), unknown,
       ownPrograms: readDocs(data.ownPrograms, 'own programs'), random: readDocs(data.random, 'random workouts'), prefs: readPrefs(data.prefs),
     };
   }
@@ -112,6 +115,17 @@
     return out;
   }
 
+
+  // short days: { pid: { day: true } }
+  function readShort(short = {}, known) {
+    if (!isObject(short)) throw new Error('The backup file is damaged: short days.');
+    const out = {};
+    Object.entries(short).forEach(([pid, days]) => {
+      if (!isObject(days) || !Object.entries(days).every(([d, on]) => /^[1-9]\d*$/.test(d) && on === true)) throw new Error(`The backup file is damaged: ${pid} short days.`);
+      if (known.includes(pid)) out[pid] = { ...days };
+    });
+    return out;
+  }
 
   const isRound = (r) => isObject(r) && Number.isInteger(r.round) && r.round >= 1 && isObject(r.done) && Array.isArray(r.swaps) && r.swaps.every(isSwap);
   function readRounds(rounds = {}, known) {
@@ -152,11 +166,12 @@
   function nightlyFile(rows, docRows = []) {
     const users = {};
     const userOf = (uid, email) => (users[uid] = users[uid] || { email: email || null, programs: {} });
-    rows.forEach(({ uid, email, pid, done, swaps, past }) => {
+    rows.forEach(({ uid, email, pid, done, swaps, past, short }) => {
       const u = userOf(uid, email);
       u.programs[pid] = sorted(done, true);
       if (swaps && swaps.length) (u.swaps = u.swaps || {})[pid] = swaps;
       if (past && past.length) (u.rounds = u.rounds || {})[pid] = past;
+      if (short && Object.keys(short).length) (u.short = u.short || {})[pid] = sorted(short, true);
     });
     docRows.forEach(({ uid, email, collection, id, doc }) => {
       const u = userOf(uid, email);
@@ -166,7 +181,7 @@
     // every account's fields in one fixed order, and every doc's keys in order
     Object.entries(users).forEach(([uid, u]) => {
       const out = { email: u.email, programs: sorted(u.programs) };
-      ['swaps', 'rounds'].forEach((k) => { if (u[k]) out[k] = sorted(u[k]); });
+      ['swaps', 'rounds', 'short'].forEach((k) => { if (u[k]) out[k] = sorted(u[k]); });
       ['ownPrograms', 'random'].forEach((k) => { if (u[k]) out[k] = D.sortKeys(sorted(u[k])); });
       if (u.prefs) out.prefs = D.sortKeys(u.prefs);
       users[uid] = out;
@@ -181,12 +196,13 @@
   const none = () => ({ added: [], removed: [], changed: [] });
 
   function planImport(current, text, { known, uid, name, docs = {} }) {
-    const { programs, swaps, rounds, unknown, ownPrograms, random, prefs } = parseBackup(text, { known, uid });
+    const { programs, swaps, rounds, short, unknown, ownPrograms, random, prefs } = parseBackup(text, { known, uid });
     const have = Object.fromEntries(Object.keys(programs).map((pid) => [pid, P.fromDoc(current[pid]) || P.empty()]));
     const diff = diffProgress(Object.fromEntries(Object.entries(have).map(([pid, v]) => [pid, v.done])), programs);
     const swapNotes = Object.entries(swaps).filter(([pid, l]) => JSON.stringify(l) !== JSON.stringify(have[pid].swaps))
       .map(([pid, l]) => ({ pid, file: l.length, mine: have[pid].swaps.length }));
     const roundNotes = Object.entries(rounds).map(([pid, past]) => ({ pid, file: past.length + 1, mine: P.round(have[pid]) })).filter((x) => x.file !== x.mine);
+    const shortAdds = Object.entries(short).filter(([pid, days]) => Object.keys(days).some((d) => !P.isShort(have[pid], d))).length;
     const sum = (k) => Object.values(diff).reduce((a, d) => a + d[k].length, 0);
     const added = sum('added'), removed = sum('removed');
 
@@ -211,9 +227,9 @@
       ...(prefsNote ? ['preferences from the file'] : [])].join('; ');
     return {
       name, diff, swapNotes, roundNotes, docDiff, prefsNote, unknown, added, removed,
-      hasChanges: added + removed > 0 || swapNotes.length > 0 || roundNotes.length > 0 || docChanges || !!prefsNote,
-      canMerge: added > 0 || swapNotes.length > 0 || roundNotes.length > 0 || docAdds || !!(prefsNote && !prefsNote.mine),
-      result: (mode) => Object.fromEntries(Object.entries(programs).map(([pid, done]) => [pid, P.importMerge(have[pid], { done, swaps: swaps[pid], past: rounds[pid] }, mode)])),
+      hasChanges: added + removed > 0 || swapNotes.length > 0 || roundNotes.length > 0 || shortAdds > 0 || docChanges || !!prefsNote,
+      canMerge: added > 0 || swapNotes.length > 0 || roundNotes.length > 0 || shortAdds > 0 || docAdds || !!(prefsNote && !prefsNote.mine),
+      result: (mode) => Object.fromEntries(Object.entries(programs).map(([pid, done]) => [pid, P.importMerge(have[pid], { done, swaps: swaps[pid], past: rounds[pid], short: short[pid] }, mode)])),
       docsResult: (mode) => Object.fromEntries(D.COLLECTIONS.map((c) => [c, fileSets[c] ? D.importMerge(c, mine(c), fileSets[c], mode) : null])),
       message: (mode) => (mode === 'merge' ? `Merged: ${mergeMessage()}.` : `Replaced: ${replaceMessage()}.`),
     };

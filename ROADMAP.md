@@ -138,6 +138,11 @@ Plan and tickets: [docs/plans/phase-7-day-to-day.md](docs/plans/phase-7-day-to-d
     - **Rest-day flow, built (30 Sep):** **15 minutes**, not 10: the recipe book makes nothing shorter. On a day with
       nothing marked done (the phone's own date), a card on the Programs page opens the random workout's sheet with
       Mobility & posture or Flexibility, 15 min, no equipment. **Not today** hides it until tomorrow, on that device.
+    - **Shorter today, built (30 Sep):** "Short on time?" on a day page trims it to about 20 min (fewer sets, rounds or
+      minutes, the last exercises of a block dropped, never its first); tapping again brings the full day back.
+      Stored as `short: { day: true }` in the program's progress, **only when a day has been shortened**, so every
+      document, device copy and backup from before keeps its exact shape (backup format stays version 2; `short` is
+      an optional section). A round keeps its own short days when the next one starts.
 19. **From the ideas list ([#67](https://github.com/noamros9/kettle-bar/issues/67)):** **resume a workout** (ticks kept on the device per day, so closing the app or opening another day
     loses nothing; Noam, 29 Sep) after closing
     the app; travel mode (lasts until turned off); shorter today; a warm-up that matches the format; a rest-day

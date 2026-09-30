@@ -60,6 +60,8 @@ days ticked on the device and in the cloud are merged.
   progress goes too) and **Share** (the phone's share sheet, or the link is copied): whoever opens the link sees the
   program's first days and **Add this program** gives them their own copy, with the same 60 days. No server: the
   program travels in the link.
+- **Short on time?** on a day page trims today's workout to about 20 minutes (fewer sets or rounds, the last exercise
+  or two of a block dropped); it counts in Stats as trimmed, syncs, and a tap brings the full day back.
 - **Unfinished workouts are kept**: ticks, counters and stretches are saved on the device as you go, so closing the app
   or opening another day doesn't lose them; opening the day again shows "Picked up where you left off". **Mark as
   done**, or 12 hours, clears it. A running timer isn't resumed. It stays on the device (not synced, not in backups).
