@@ -405,6 +405,15 @@ table.weeks tr.empty{color:var(--muted)}table.weeks tr.empty th{font-weight:400}
 
 /* build your own (#build) and the Your programs shelf */
 .buildbtn{display:block;margin-top:16px}
+.pbtns{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.pbtns .buildbtn{margin-top:0}
+.rnotice{margin:12px 0 0}
+.rsheet .filters{margin:0}
+.rprev{display:grid;gap:4px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--bg)}
+.rprev .rname{font-size:17px}
+.rblocks{margin:6px 0 0;padding-left:18px;display:grid;gap:4px;font-size:14px;color:var(--muted)}
+.rblocks b{color:var(--ink)}
+.rtools{display:flex;flex-wrap:wrap;gap:8px;align-items:flex-start}
 .pgroup.yours{margin-top:22px}
 .bsec{margin-top:22px}
 .bsec h2{margin-bottom:8px}

@@ -12,6 +12,8 @@ const store = KBStore.createStore({ programIds: programs.ids(), storage: localSt
 // and the catalogue's own ids -> the store (app/own.js)
 const ownLink = KBOwn.link({ store, programs, load: loadBook, build: KBBuilder.build, ex: KBEx });
 const days = KBDay.createDays({ programs, store, cat: KBEx, createSession: KBSession.createSession, storage: localStore });
+// the random workout: the open one on the device, done ones in the account (app/random.js)
+const random = KBRandom.createRandom({ store, cat: KBEx, createSession: KBSession.createSession, storage: localStore });
 const SYNC_TEXT = { ok: 'Synced', saving: 'Saving…', offline: 'Offline, will sync', local: 'Saved on this device', signin: 'Sign in', ro: 'View only', err: 'Sync problem' };
 function paintSync(s) {
   const el = $('#sync'); el.dataset.s = s;
@@ -22,6 +24,7 @@ function paintSync(s) {
 }
 store.on('status', paintSync);
 store.on('change', () => rerender());
+store.on('docs', (c) => { if (c === 'random') rerender(); }); // a random workout done here or on another device: stats and the week line
 programs.onChange(() => rerender()); // your programs changed (here or synced from another device): redraw the page
 window.addEventListener('online', () => store.online());
 // hooks for the Firebase module (GitHub Pages build)
@@ -37,7 +40,8 @@ document.addEventListener('click', (e) => { const pop = $('#acct'); if (!pop.hid
 $('#signout').addEventListener('click', () => { $('#acct').hidden = true; store.auth && store.auth.signOut(); });
 
 /* ---------------- workout: page -> session -> clock ---------------- */
-const openDay = () => days.open(prog().id, route.day);
+const openDay = () => (route.view === 'random' ? random.open() : days.open(prog().id, route.day));
+const openKey = () => (route.view === 'random' ? 'random:1' : prog().id + ':' + route.day); // the swap sheet's day
 const openSession = () => openDay().session();
 function finish(target) { T.apply(openSession().complete(target)); rerender(); }
 // the workout clock starts with the first tick or Start; the day's session keeps that time
@@ -56,7 +60,7 @@ function runPlanned(target, withClock = true) {
 }
 
 // resetting the workout clock forgets when this day's workout started (or the page would bring it back)
-$('#sessreset').addEventListener('click', () => { if (route.view === 'day') openSession().setStarted(null); });
+$('#sessreset').addEventListener('click', () => { if (route.view === 'day' || (route.view === 'random' && random.current())) openSession().setStarted(null); });
 
 document.addEventListener('click', (ev) => {
   const el = ev.target.closest('button'); if (!el) return;
@@ -78,6 +82,13 @@ document.addEventListener('click', (ev) => {
   if (d.bRegen) return buildRegenerate();
   if (d.bSave) return buildSave();
   if (d.bookRetry) { bookError = null; render(); return; }
+  if (d.randomOpen) return randomOpen();
+  if (d.randomSet) { const k = d.randomSet.slice(0, d.randomSet.indexOf(':')); return randomSet(k, d.randomSet.slice(k.length + 1)); }
+  if (d.randomShuffle) { randomState.seed = KBRandom.newSeed(); render(); return; }
+  if (d.randomCancel) { randomState = null; render(); return; }
+  if (d.randomStart) return randomStart();
+  if (d.randomDone) return randomDone();
+  if (d.randomDiscard) { random.discard(); go('programs'); return; }
   if (d.go === 'library') return go('exercises');
   if (d.go === 'settings') return go('settings');
   if (d.go === 'stats') return go('stats');
@@ -91,12 +102,12 @@ document.addEventListener('click', (ev) => {
   }
   if (d.retry) { delete loadFailures[d.retry]; render(); return; }
   if (d.statSpan) { statsView.span = d.statSpan; render(); return; }
-  if (d.swap) { const [bi, i] = d.swap.split(':').map(Number); swapState = { key: prog().id + ':' + route.day, bi, i }; rerender(); return; }
+  if (d.swap) { const [bi, i] = d.swap.split(':').map(Number); swapState = { key: openKey(), bi, i }; rerender(); return; }
   if (d.swapTo) { swapState.to = d.swapTo; rerender(); return; }
   if (d.swapBack) { delete swapState.to; rerender(); return; }
   if (d.swapCancel) { swapState = null; rerender(); return; }
-  if (d.unswap) { const [bi, i] = d.unswap.split(':').map(Number); openDay().undo(bi, i); return; }
-  if (d.swapApply) { const { bi, i, to } = swapState; swapState = null; openDay().swap(bi, i, to, { onward: d.swapApply === 'onward' }); return; }
+  if (d.unswap) { const [bi, i] = d.unswap.split(':').map(Number); openDay().undo(bi, i); rerender(); return; } // a random workout's swaps are on the device: no store event
+  if (d.swapApply) { const { bi, i, to } = swapState; swapState = null; openDay().swap(bi, i, to, { onward: d.swapApply === 'onward' }); rerender(); return; }
   if (d.go === 'program') return go('p-' + prog().id);
   if (d.openProg) return go('p-' + d.openProg);
   if (d.lenMenu) { toggleLengthMenu(); render(); return; }

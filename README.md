@@ -45,6 +45,10 @@ Progress is always kept on the device. Press **Sign in** (Google) at the top to
 sync it through Firebase to every device where you sign in. On first sign-in,
 days ticked on the device and in the cloud are merged.
 
+- **Random workout** (top of the Programs page): pick a family or one subject, 15 / 25 / 35 minutes and your equipment;
+  a day is built fresh at the level of the last day you marked done, previewed before **Start** (**Reshuffle** for
+  another). It counts in Stats (all programs, and its own "Random workouts" scope), never in a program's progress;
+  unfinished, it waits on the device (**Discard** drops it); marked done, it syncs and is in backups.
 - **Build your own** (top of the Programs page): pick a subject, or tap up to three to mix them (each day then has a
   block of each, in the order you tapped, each getting harder its own way), days per cycle (1–5), minutes (20–40), equipment,
   formats and how Levels II and III get harder (for each subject); the first six days show as a preview, **Regenerate** gives another set,

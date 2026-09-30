@@ -23,7 +23,7 @@ function rerender() {
 
 /* ---------------- routing ----------------
    #today (the logo, home, and the home-screen shortcut) · #programs · #exercises · #stats · #settings · #ex-<id> · #p-<pid> · #p-<pid>-d<n>   (#d<n> = Three-Split 60, kept for old links)
-   · #add=<code> (a program someone shared: its preview and Add this program) */
+   · #add=<code> (a program someone shared: its preview and Add this program) · #random (the open random workout) */
 // every program, through the Program Catalogue (today: all inlined in the page)
 const OFFLINE_CACHE = 'kettle-bar-v2'; // the service worker's cache; the page writes loaded programs into it too
 const offlineCache = {
@@ -64,6 +64,7 @@ function parseHash() {
   const h = location.hash.replace('#', '');
   if (h === 'programs') return { view: 'programs' };
   if (h === 'build') return { view: 'build' };
+  if (h === 'random') return { view: 'random' };
   if (h === 'exercises') return { view: 'library' };
   if (h === 'settings') return { view: 'settings' };
   // home (the logo) and the home-screen shortcut: the next day not done in the program of the workout marked done last
@@ -132,13 +133,128 @@ function viewPrograms() {
   const chip = (x) => `<button class="fchip acc" data-filter="subject:${esc(x.key)}" aria-pressed="${x.pressed}">${esc(x.name)} <span class="fcount">${x.count}</span></button>`;
   return `<div class="eyebrow">${esc(lib.counter)}</div><h1>Programs</h1>
     <p class="lede">Every program starts at intermediate, with a matched warm-up and cool-down, and most end each workout with abs. Progress is kept per program.</p>
-    <button class="btn buildbtn" data-go="build">Build your own</button>
+    <div class="pbtns"><button class="btn buildbtn" data-go="build">Build your own</button><button class="btn ghost buildbtn" data-random-open="1">${random.current() ? 'Random workout · continue' : 'Random workout'}</button></div>
+    ${randomNotice ? `<p class="hint rnotice" role="status">${esc(randomNotice)}</p>` : ''}
     ${yours}
     <div class="ftabs" role="group" aria-label="Filter by family">${lib.families.map((f) => tab('family', f)).join('')}</div>
     <div class="filters" role="group" aria-label="Filter by subject">${lib.subjects.map(chip).join('')}</div>
     <button class="lenline" data-len-menu="1" aria-expanded="${lengthMenu}">Length: <b>${esc(lib.lengthLabel)}</b> <span aria-hidden="true">${lengthMenu ? '▴' : '▾'}</span></button>
     ${lengthMenu ? `<div class="filters" role="group" aria-label="Filter by length">${lib.lengths.map((l) => `<button class="fchip acc" data-filter="len:${l.key}" aria-pressed="${l.pressed}">${esc(l.label)}</button>`).join('')}</div>` : ''}
-    ${groups || '<p class="lede" style="margin-top:24px">No programs match these filters.</p>'}`;
+    ${groups || '<p class="lede" style="margin-top:24px">No programs match these filters.</p>'}${randomSheet()}`;
+}
+
+/* ---------------- random workout (Phase 7, #64) ----------------
+   A sheet on the Programs page: a family (or one of its subjects), 15 / 25 / 35 minutes and equipment; the day it makes
+   (app/random.js, from the recipe book) shows before Start, and Reshuffle makes another. Its level is the level of the
+   day marked done last. Started, it opens at #random, a day page of its own; Mark as done writes it to the account, and
+   it counts in stats, not in any program. */
+let randomState = null; // { choice, seed } while the sheet is open
+let randomNotice = ''; // "Random workout done…", once, on the Programs page
+let randomCache = { key: '', made: null };
+const RANDOM_GEAR = { all: 'All equipment', kb: 'Kettlebell only', bw: 'No equipment' };
+// every day marked done, as { time, level }: program days by their day number, random workouts by their own level
+const doneLevels = () => [...programs.ids().flatMap((pid) => store.entries(pid).map((e) => ({ time: e.time, level: KBRandom.levelOfDay(e.day) }))), ...random.levels()];
+const randomDeps = () => ({ recipes: recipeBook, buildDay: KBBuilder.buildDay, newMemory: KBBuilder.newMemory, makeRnd: KBBuilder.makeRnd, cat: KBEx });
+function randomMade(st) {
+  const key = JSON.stringify([st.choice, st.seed]);
+  if (randomCache.key !== key) randomCache = { key, made: KBRandom.make(randomDeps(), st.choice, { level: KBRandom.levelOf(doneLevels()), seed: st.seed }) };
+  return randomCache.made;
+}
+const familyOfSubject = (name) => recipeBook.book().subjects.find(([n]) => n === name)[1];
+function randomSet(k, v) {
+  const c = randomState.choice, keep = { minutes: c.minutes, equipment: c.equipment };
+  if (k === 'family') randomState.choice = { family: v, ...keep };
+  else if (k === 'subject') randomState.choice = v ? { subject: v, ...keep } : { family: familyOfSubject(c.subject), ...keep };
+  else randomState.choice = { ...c, [k]: k === 'minutes' ? +v : v };
+  render();
+}
+function randomSheet() {
+  if (!randomState) return '';
+  const wrap = (body) => `<div class="sheetwrap"><button class="sheetbg" data-random-cancel="1" aria-label="Close"></button>
+    <div class="sheet rsheet" role="dialog" aria-modal="true" aria-labelledby="random-h"><h2 id="random-h">Random workout</h2>${body}</div></div>`;
+  if (!recipeBook) {
+    if (!bookLoading && !bookError) {
+      bookLoading = true;
+      loadBook().then(() => { bookLoading = false; rerender(); }, (e) => { bookLoading = false; bookError = e.message; rerender(); });
+    }
+    return wrap(bookError
+      ? `<p class="notice" role="alert">${esc(bookError.replace('Build your own', 'The random workout'))}</p><div class="actions"><button class="btn ghost" data-book-retry="1">Try again</button><button class="btn ghost" data-random-cancel="1">Cancel</button></div>`
+      : '<p class="loading lede" role="status">Loading…</p>');
+  }
+  const c = randomState.choice, family = c.family || familyOfSubject(c.subject), name = c.subject || family;
+  const subjects = recipeBook.book().subjects.filter(([, f]) => f === family).map(([n]) => n);
+  const chip = (key, value, label, on, why) => `<button class="fchip acc" data-random-set="${key}:${esc(value)}" aria-pressed="${on}"${why ? ` disabled title="${esc(why)}"` : ''}>${esc(label)}</button>`;
+  const whyMinutes = (m) => KBRandom.problem(recipeBook, { ...c, minutes: m });
+  const whyGear = (eq) => (KBRandom.MINUTES.some((m) => !KBRandom.problem(recipeBook, { ...c, minutes: m, equipment: eq })) ? '' : `No ${name} workouts with ${RANDOM_GEAR[eq].toLowerCase()}.`);
+  const why = KBRandom.problem(recipeBook, c);
+  const reasons = [...new Set(KBRandom.MINUTES.map(whyMinutes).filter((r) => r && r !== why))];
+  let preview;
+  if (why) preview = `<p class="notice" role="alert">${esc(why)}</p>`;
+  else {
+    const m = randomMade(randomState), w = m.day;
+    preview = `<div class="rprev" data-seed="${esc(randomState.seed)}"><b class="rname">${esc(w.name)}</b><span class="hint">${esc(m.subject)} · about ${w.est} min${w.stretchMin ? ` + ${w.stretchMin} min stretching` : ''} · ${esc(m.program.levels[w.level - 1].split(' · ')[0])}</span>
+      <ul class="rblocks">${w.blocks.map((b) => `<li><b>${esc(b.title)}</b>${(b.format || 'straight') !== 'straight' ? ` · ${esc(fmtFormat[b.format])}` : ''}: ${esc(b.items.map((it) => EX[it.ex].name).join(', '))}</li>`).join('')}</ul></div>`;
+  }
+  return wrap(`<p class="muted">Built fresh, at the level of the last day you marked done. It counts in your stats, not in any program.</p>
+    <div class="filters" role="group" aria-label="Family">${KBRandom.FAMILIES.map((f) => chip('family', f, f, family === f)).join('')}</div>
+    <div class="filters" role="group" aria-label="Subject">${chip('subject', '', `Any ${family.toLowerCase()}`, !c.subject)}${subjects.map((n) => chip('subject', n, n, c.subject === n)).join('')}</div>
+    <div class="filters" role="group" aria-label="Minutes">${KBRandom.MINUTES.map((m) => chip('minutes', m, `${m} min`, c.minutes === m, whyMinutes(m))).join('')}</div>
+    ${reasons.map((r) => `<p class="hint">${esc(r)}</p>`).join('')}
+    <div class="filters" role="group" aria-label="Equipment">${['all', 'kb', 'bw'].map((eq) => chip('equipment', eq, RANDOM_GEAR[eq], c.equipment === eq, whyGear(eq))).join('')}</div>
+    ${preview}
+    <div class="actions"><button class="btn" data-random-start="1"${why ? ' disabled' : ''}>Start</button><button class="btn ghost" data-random-shuffle="1"${why ? ' disabled' : ''}>Reshuffle</button><button class="btn ghost" data-random-cancel="1">Cancel</button></div>`);
+}
+function randomOpen() {
+  if (random.current()) return go('random');
+  randomNotice = '';
+  randomState = { choice: { family: 'Strength', minutes: 25, equipment: 'all' }, seed: KBRandom.newSeed() };
+  if (route.view !== 'programs') go('programs'); else render();
+}
+function randomStart() {
+  const made = randomMade(randomState);
+  randomState = null;
+  random.start(made);
+  go('random');
+}
+function randomDone() {
+  const id = random.done();
+  if (id) randomNotice = `Random workout done: ${random.dayOf(id).est} min added to this week. Stats has it under Random workouts.`;
+  go('programs');
+}
+function randomFinish(w) {
+  const v = KBStats.dayVolume(w, EX);
+  return `<section class="finish" aria-labelledby="finish-h"><h2 id="finish-h">Workout complete</h2>
+    <dl class="fstats">
+      <div><dt>Sets</dt><dd class="num" data-testid="sets">${v.sets}</dd></div>
+      <div><dt>Workout</dt><dd class="num" data-testid="workout-min">${Math.round(v.workoutMin)} min</dd></div>
+      <div><dt>Stretching</dt><dd class="num" data-testid="stretch-min">${Math.round(v.stretchMin)} min</dd></div>
+    </dl>
+    <p class="fweek" data-testid="week">${weekLine()}</p>
+    <div class="fmap"><h3>Muscles worked today</h3>${muscleMapSVG(v.muscles, 'Muscles worked today')}${heatLegend()}</div>
+    <button class="btn" data-random-done="1">Mark as done</button>
+  </section>`;
+}
+function viewRandom() {
+  const D = random.open();
+  if (!D) {
+    return `<div class="crumbs"><button class="back" data-go="programs">← All programs</button></div><div class="eyebrow">Random workout</div><h1>No random workout open</h1>
+      <p class="lede">Pick a family, the minutes and your equipment, and one is built for you.</p><button class="btn" data-random-open="1">Choose a random workout</button>`;
+  }
+  const p = D.program, w = D.day, ses = D.session();
+  if (ses.started() !== null) S.resume(ses.started());
+  const t = p.dayTypes[w.type], nEx = w.blocks.reduce((n, b) => n + b.items.length, 0);
+  return `<div class="crumbs"><button class="back" data-go="programs">← All programs</button></div>
+    <div class="whead"><div><div class="eyebrow">Random workout · ${esc(p.subject)} · ${esc(p.levels[w.level - 1].split(' · ')[0])}</div><h1>${esc(w.name)}</h1>
+      <p class="daysum">${KBSummary.daySummary(w, p, KBEx).map((l) => `<span>${esc(l)}</span>`).join('')}</p>
+      <div class="meta"><span class="ty"><i class="dot" style="--c:${t.c}"></i>${esc(t.label)}</span><span>About ${w.est} min${w.stretchMin ? ` + ${w.stretchMin} min stretching` : ''}</span><span>${nEx} exercises</span></div></div>
+      <div class="rtools"><button class="btn" data-random-done="1">Mark as done</button><button class="btn ghost" data-random-discard="1">Discard</button></div></div>
+    ${D.restored() ? '<p class="resumed" role="status">Picked up where you left off</p>' : ''}
+    <p class="how">Counts in your stats when you mark it done, not in any program. Tap a set, round or pair number when you finish it and the right rest starts on the timer.</p>
+    ${w.warmup ? stretchBlock(w.warmup, 'warm', 'W', 'Before you start', ses) : ''}
+    ${w.blocks.map((b, bi) => blockHTML(p, w, b, bi, ses, D)).join('')}
+    ${w.cooldown ? `<div class="between">Then stretch</div>${stretchBlock(w.cooldown, 'cool', 'C', w.blocks.at(-1).kind === 'abs' ? 'After the abs' : 'After the workout', ses)}` : ''}
+    ${ses.allDone() ? randomFinish(w) : ''}
+    ${swapSheet(D)}`;
 }
 
 /* ---------------- build your own ----------------
@@ -485,9 +601,9 @@ function stretchBlock(b, key, label, n, ses) {
 const heatLegend = () => `<div class="heatkey" aria-hidden="true"><span>Less</span>${[1, 2, 3, 4].map((n) => `<i class="mm-l${n}"></i>`).join('')}<span>More</span></div>`;
 // a day as you'll do it (or did it): the program's day with its swaps applied
 // a day as you'll do it (or did it): swaps applied; the Day module (days, made in main.js) knows how
-const dayOf = (pid, n, round) => days.resolved(pid, n, round);
+const dayOf = (pid, n, round) => (pid === 'random' ? random.dayOf(n) : days.resolved(pid, n, round));
 // every day marked done, in every program: [{ pid, day, time }]
-const doneEntries = () => programs.ids().flatMap((pid) => store.entries(pid)); // every round
+const doneEntries = () => [...programs.ids().flatMap((pid) => store.entries(pid)), ...random.entries()]; // every round, and random workouts
 // the stats for a scope ('all' or a program id) and a span, now (app/stats.js report)
 const statsReport = (scope, span, round) => KBStats.report({ entries: doneEntries(), dayOf, EX, names: MUSCLE_NAMES }, { scope, round, span, now: new Date() });
 function weekLine() {
@@ -539,9 +655,9 @@ function swapSheet(D) {
   const body = st.to
     ? `<p><b>${esc(from.name)}</b> → <b>${esc(EX[st.to].name)}</b> · ${esc(reps(st.to))}</p>
       <div class="choices"><button class="btn" data-swap-apply="day">Today only</button>
-        <button class="btn ghost choice" data-swap-apply="onward">Rest of the program<span>Days ${w.day}–${p.days.length}, wherever ${esc(from.name)} appears</span></button>
+        ${p.id === 'random' ? '' : `<button class="btn ghost choice" data-swap-apply="onward">Rest of the program<span>Days ${w.day}–${p.days.length}, wherever ${esc(from.name)} appears</span></button>`}
         <button class="btn ghost" data-swap-back="1">Back</button></div>`
-    : `<p class="muted">Works the same main muscle (${esc(MUSCLE_NAMES[from.muscles.primary[0]])}) with this program's equipment.</p>
+    : `<p class="muted">Works the same main muscle (${esc(MUSCLE_NAMES[from.muscles.primary[0]])}) with ${p.id === 'random' ? "this workout's" : "this program's"} equipment.</p>
       <ul class="altlist">${D.alternatives(st.bi, st.i).map((id) => `<li><button data-swap-to="${id}"><b>${esc(EX[id].name)}</b><span>${esc(reps(id))}${EX[id].load ? ' · ' + esc(LOAD[EX[id].load]) : ''}</span></button></li>`).join('')}</ul>`;
   return `<div class="sheetwrap"><button class="sheetbg" data-swap-cancel="1" aria-label="Close"></button>
     <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="swap-h"><h2 id="swap-h">Swap ${esc(from.name)}</h2>${body}
@@ -701,14 +817,15 @@ function viewStats() {
   if (stillLoading(doneEntries().map((x) => x.pid)).length) return `<h1>Stats</h1><p class="loading lede" role="status">Loading your programs…</p>`;
   const r = statsReport(pid, span, pid === 'all' ? undefined : statsView.round), { from, to } = r, all = doneEntries();
   const used = programs.list().filter((p) => all.some((e) => e.pid === p.id) || p.id === pid);
-  const scopeName = pid === 'all' ? 'all programs' : programs.summary(pid).name + (statsView.round ? ` · Round ${statsView.round}` : '');
-  const when = span === 'all' ? (pid === 'all' ? 'all time' : 'since you started') : `${shortDate(from)} – ${shortDate(new Date(to - 864e5))}`;
+  const scopeName = pid === 'all' ? 'all programs' : pid === 'random' ? 'random workouts' : programs.summary(pid).name + (statsView.round ? ` · Round ${statsView.round}` : '');
+  const randomOption = all.some((e) => e.pid === 'random') || pid === 'random' ? `<option value="random"${pid === 'random' ? ' selected' : ''}>Random workouts</option>` : '';
+  const when = span === 'all' ? (pid === 'all' || pid === 'random' ? 'all time' : 'since you started') : `${shortDate(from)} – ${shortDate(new Date(to - 864e5))}`;
   const none = { week: 'this week', '4weeks': 'in the last 4 weeks', all: '' }[span];
   return `<div class="eyebrow">${esc(pid === 'all' ? `${when} · ${scopeName}` : `${scopeName} · ${when}`)}</div><h1>Stats</h1>
     <div class="statbar">
       <div class="filters" role="group" aria-label="Time span">${SPANS.map(([k, l]) => `<button class="fchip" data-stat-span="${k}" aria-pressed="${span === k}">${l}</button>`).join('')}</div>
-      <div class="scope"><label for="stats-scope">Program</label><select id="stats-scope"><option value="all">All programs</option>${used.map((p) => `<option value="${p.id}"${p.id === pid ? ' selected' : ''}>${esc(p.name)}</option>`).join('')}</select></div>
-      ${pid !== 'all' && store.round(pid) > 1 ? `<div class="scope"><label for="stats-round">Round</label><select id="stats-round"><option value="all">All rounds</option>${Array.from({ length: store.round(pid) }, (_, i) => `<option value="${i + 1}"${statsView.round === i + 1 ? ' selected' : ''}>Round ${i + 1}</option>`).join('')}</select></div>` : ''}
+      <div class="scope"><label for="stats-scope">Program</label><select id="stats-scope"><option value="all">All programs</option>${used.map((p) => `<option value="${p.id}"${p.id === pid ? ' selected' : ''}>${esc(p.name)}</option>`).join('')}${randomOption}</select></div>
+      ${pid !== 'all' && pid !== 'random' && store.round(pid) > 1 ? `<div class="scope"><label for="stats-round">Round</label><select id="stats-round"><option value="all">All rounds</option>${Array.from({ length: store.round(pid) }, (_, i) => `<option value="${i + 1}"${statsView.round === i + 1 ? ' selected' : ''}>Round ${i + 1}</option>`).join('')}</select></div>` : ''}
     </div>
     ${r.hasHistory ? statTiles(r.totals) + muscleBalance(r, `${scopeName}, ${when}`) + (r.weeks ? weekRows(r.weeks) : '') : `<p class="lede">No workouts marked done ${none || 'yet'}${none ? ' yet' : ''}.</p>`}
     <p class="note">Counts the planned work of each day you marked done: its sets, reps and minutes. Weeks start on Sunday.</p>`;
@@ -747,7 +864,7 @@ function render(scrollTop) {
   const v = route.view;
   const needsProgram = v === 'program' || v === 'day' || v === 'exercise';
   if (needsProgram && stillLoading([route.pid]).length) app.innerHTML = loadingView(route.pid);
-  else app.innerHTML = v === 'programs' ? viewPrograms() : v === 'build' ? viewBuild() : v === 'add' ? viewAdd() : v === 'library' ? viewLibrary() : v === 'settings' ? viewSettings() : v === 'stats' ? viewStats() : v === 'exercise' ? viewExercise() : v === 'day' ? viewDay() : viewProgram();
+  else app.innerHTML = v === 'programs' ? viewPrograms() : v === 'build' ? viewBuild() : v === 'random' ? viewRandom() : v === 'add' ? viewAdd() : v === 'library' ? viewLibrary() : v === 'settings' ? viewSettings() : v === 'stats' ? viewStats() : v === 'exercise' ? viewExercise() : v === 'day' ? viewDay() : viewProgram();
   const section = v === 'library' || v === 'exercise' ? 'library' : v === 'settings' || v === 'stats' ? v : 'programs';
   document.querySelectorAll('.top [data-go]').forEach((b) => b.setAttribute('aria-current', b.dataset.go === section ? 'page' : 'false'));
   // the family tabs are a scrolling row (a re-render resets it): bring the chosen one fully into view
@@ -755,7 +872,7 @@ function render(scrollTop) {
   if (chosen) { const row = chosen.parentElement; row.scrollLeft = Math.max(0, chosen.offsetLeft + chosen.offsetWidth + 4 - row.clientWidth); }
   stopAnimation();
   if (v === 'exercise') startAnimation(route.ex);
-  const showTimer = v === 'day';
+  const showTimer = v === 'day' || (v === 'random' && !!random.current());
   $('#timer').hidden = !showTimer; document.body.classList.toggle('has-timer', showTimer);
   if (scrollTop) window.scrollTo(0, 0);
 }
