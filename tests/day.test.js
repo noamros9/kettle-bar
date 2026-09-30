@@ -214,3 +214,29 @@ test('a day already about 20 minutes cannot be made shorter', () => {
   const small = flat[0].days.find((d) => d.est <= Short.TARGET + 2);
   assert.equal(days.open('twenty-flat', small.day).canShort(), false);
 });
+
+// ---- Travel mode (Phase 7 ticket 5) ----
+test('travel mode: the open day swaps what needs missing gear, its Swap list leaves the gear out; stats keep the program\'s day', () => {
+  const m = {}, store = createStore({ programIds: [P], storage: { get: (k) => m[k] ?? null, set: (k, v) => { m[k] = v; } }, now: () => 't' });
+  store.load();
+  let mode = 'nobar';
+  const days = createDays({ programs: createProgramCatalogue(inlined(real)), store, cat, createSession, storage: { get: () => null, set() {}, remove() {} }, travel: () => mode });
+  const n = real[0].days.find((d) => d.blocks.some((b) => b.items.some((it) => (cat.EX[it.ex].equip || []).includes('bar')))).day;
+  const D = days.open(P, n);
+  assert.equal(D.travel(), 'nobar');
+  D.day.blocks.forEach((b) => b.items.forEach((it) => assert.ok(!(cat.EX[it.ex].equip || []).includes('bar'), it.ex)));
+  assert.ok(D.day.blocks.some((b) => b.items.some((it) => it.travel)));
+  const bi = D.day.blocks.findIndex((b) => b.items.some((it, i) => D.alternatives(D.day.blocks.indexOf(b), i).length));
+  D.alternatives(bi, 0).forEach((a) => assert.ok(!(cat.EX[a].equip || []).includes('bar')));
+  assert.ok(days.resolved(P, n).blocks.some((b) => b.items.some((it) => (cat.EX[it.ex].equip || []).includes('bar'))), 'stats: the day as planned');
+  // swapping a travel stand-in swaps the planned exercise it stands for
+  const tb = D.day.blocks.findIndex((b) => b.items.some((it) => it.travel)), ti = D.day.blocks[tb].items.findIndex((it) => it.travel);
+  const alt = D.alternatives(tb, ti).find((a) => a !== D.day.blocks[tb].items[ti].ex);
+  D.swap(tb, ti, alt);
+  const after = days.open(P, n).day.blocks[tb].items[ti];
+  assert.equal(after.ex, alt);
+  assert.equal(after.travel, undefined, 'your own swap now, not travel');
+  mode = null;
+  assert.equal(days.open(P, n).travel(), null);
+  assert.ok(!days.open(P, n).day.blocks.some((b) => b.items.some((it) => it.travel)));
+});

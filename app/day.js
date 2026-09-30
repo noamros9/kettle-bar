@@ -1,6 +1,8 @@
 /* The Day: a program day as you'll do it, with its live Workout Session and the swap actions.
 
-     const days = createDays({ programs, store, cat, createSession, storage, now? });
+     const days = createDays({ programs, store, cat, createSession, storage, now?, travel? });
+       travel: () => the travel mode ('nobar' | 'kb' | 'bw') or null (Phase 7): the open day swaps what needs missing
+               gear (app/swaps.js travel) and its Swap list leaves the gear out; stats (resolved) keep the program's day
      days.forget(pid, n)                 drop the saved session of that day (Mark as done, un-marking)
      days.resolved(pid, n, round?) -> the day with that round's swaps applied (for stats), or nothing
      days.open(pid, n) -> a Day, or nothing for an unknown program or day:
@@ -12,6 +14,7 @@
        D.alternatives(bi, i)            what item i of block bi can be swapped for
        D.swap(bi, i, to, { onward })    today only, or from this day to the end of the program
        D.undo(bi, i), D.swapBehind(bi, i)   the swap that put this item here, and undoing it
+       D.travel()                       the travel mode the day was opened with, or null
        D.short(), D.canShort(), D.setShort(on)   "short on time" (Phase 7): the day trimmed to about 20 minutes for this
                                         round (app/short.js); canShort: the day is longer than that, or already short
 
@@ -23,7 +26,7 @@
    Swaps and short days are stored with the program's progress (Progress Store); the rules are in app/swaps.js and
    app/short.js. A short day is trimmed after its swaps, with the program's rests. */
 (function (root, S, P, Short) {
-  function createDays({ programs, store, cat, createSession, storage, now = Date.now }) {
+  function createDays({ programs, store, cat, createSession, storage, now = Date.now, travel = () => null }) {
     const live = { key: null, exs: null, session: null, restored: false };
     const HOURS_12 = 12 * 3600 * 1000;
     const savedKey = (pid, n) => `kb-session-${pid}-${store.round(pid)}-${n}`;
@@ -50,8 +53,9 @@
     };
 
     function open(pid, n) {
-      const program = programs.get(pid), day = resolved(pid, n);
-      if (!day) return undefined;
+      const program = programs.get(pid), planned = resolved(pid, n), mode = travel() || null;
+      if (!planned) return undefined;
+      const day = S.travel(planned, mode, program, cat);
       const itemAt = (bi, i) => day.blocks[bi].items[i];
       return {
         program, day,
@@ -64,14 +68,16 @@
           return live.session;
         },
         restored() { this.session(); return live.restored; },
-        alternatives: (bi, i) => S.alternatives(itemAt(bi, i).ex, day.blocks[bi], program, cat),
+        alternatives: (bi, i) => S.alternatives(itemAt(bi, i).ex, day.blocks[bi], program, cat, mode),
+        travel: () => mode,
         swap(bi, i, to, { onward } = {}) {
-          store.setSwaps(pid, [...store.swaps(pid), { day: n, ex: itemAt(bi, i).ex, to, ...(onward ? { onward: true } : {}) }]);
+          // a travel stand-in is swapped as the planned exercise it stands for (the stand-in is not in the program)
+          store.setSwaps(pid, [...store.swaps(pid), { day: n, ex: planned.blocks[bi].items[i].ex, to, ...(onward ? { onward: true } : {}) }]);
         },
         swapBehind: (bi, i) => S.swapBehind(store.swaps(pid), n, itemAt(bi, i).ex),
         undo(bi, i) { store.setSwaps(pid, S.undoSwap(store.swaps(pid), n, itemAt(bi, i).ex)); },
         short: () => store.isShort(pid, n),
-        canShort: () => store.isShort(pid, n) || trim(pid, day) !== day,
+        canShort: () => store.isShort(pid, n) || trim(pid, planned) !== planned,
         setShort(on) { store.setShort(pid, n, on); },
       };
     }

@@ -518,7 +518,7 @@ function exCard(it, i, bi, opts = {}) {
   return `<article class="ex${straight && done >= sets ? ' fin' : ''}"><div class="exhead"><div class="ord">${opts.label || String(i + 1).padStart(2, '0')}${straight ? ` · ${sets} sets` : ''}</div>${swapButton(opts.D, bi, i)}</div>
     <button class="exlink" data-ex="${it.ex}" aria-label="${esc(e.name)}: how to and muscles worked"><div class="figbox">${fig(it.ex)}</div>
     <div class="cnt">${count}</div><div class="nm">${esc(e.name)}</div></button>
-    ${it.swappedFrom ? `<span class="notechip swapped">Swapped from ${esc(EX[it.swappedFrom].name)}</span>${undoButton(opts.D, bi, i)}` : ''}${noteChip(it)}${e.load ? `<div class="ld">${esc(LOAD[e.load])}</div>` : ''}
+    ${it.travel ? `<span class="notechip swapped">Swapped for travel, from ${esc(EX[it.swappedFrom].name)}</span>` : it.swappedFrom ? `<span class="notechip swapped">Swapped from ${esc(EX[it.swappedFrom].name)}</span>${undoButton(opts.D, bi, i)}` : ''}${it.travelMissing ? '<span class="notechip needsgear">Needs gear: nothing to swap to</span>' : ''}${noteChip(it)}${e.load ? `<div class="ld">${esc(LOAD[e.load])}</div>` : ''}
     <p class="cue">${esc(e.cue)}</p>${work}${pips}</article>`;
 }
 function roundPips(id, total, done, what) {
@@ -697,7 +697,7 @@ function viewDay() {
       <div class="meta"><span class="ty"><i class="dot" style="--c:${t.c}"></i>${esc(t.label || w.title)}</span><span>About ${w.est} min${w.stretchMin ? ` + ${w.stretchMin} min stretching` : ''}</span><span>${nEx} exercises</span></div>
       ${D.canShort() ? `<button class="shortbtn" data-short="1" aria-pressed="${D.short()}">${D.short() ? `<b>Short on time</b> · about ${w.est} min instead of ${w.short.from}. Tap for the full day.` : `<b>Short on time?</b> Make today about ${KBShort.TARGET} min`}</button>` : ''}</div>
       <button class="btn ${isD ? 'done' : ''}" data-toggle="${w.day}" aria-pressed="${isD}">${isD ? '✓ Done' : 'Mark as done'}</button></div>
-    ${D.restored() ? '<p class="resumed" role="status">Picked up where you left off</p>' : ''}
+    ${D.restored() ? '<p class="resumed" role="status">Picked up where you left off</p>' : ''}${travelNote(D)}
     <p class="how">Tap a set, round or pair number when you finish it and the right rest starts on the timer. EMOM, AMRAP, Tabata, ladder, bout and guided-flow blocks have a Start button that runs the clock for you.</p>
     ${w.warmup ? stretchBlock(w.warmup, 'warm', 'W', 'Before you start', ses) : ''}
     ${w.blocks.map((b, bi) => blockHTML(p, w, b, bi, ses, D)).join('')}
@@ -799,10 +799,32 @@ function viewSettings() {
     ${st.done ? `<p class="ok" role="status">${esc(st.done)}</p>` : ''}
     ${st.diff ? importReview(st) : ''}
   </section>
+  <section class="card setting"><h2>Travel mode</h2>
+    <div class="filters" role="group" aria-label="Travel mode">${[[null, 'Off'], ...Object.entries(TRAVEL_TEXT)].map(([k, l]) => `<button class="fchip acc" data-travel="${k || ''}" aria-pressed="${travelMode() === k}">${esc(l)}</button>`).join('')}</div>
+    <p class="muted">Away from your gear? Every workout swaps the exercises that need it for ones that work the same muscles, until you turn this off. Synced with your account.</p>
+  </section>
   <section class="card setting"><h2>Voice</h2>
     <label class="switch"><input type="checkbox" role="switch" id="voice-toggle"${T.voiceOn() ? ' checked' : ''}><span>Voice cues</span></label>
     <p class="muted">During holds and one-side moves, the phone says "Halfway", "Switch sides" and "Done". In guided flows it also names each pose and side, and in boxing bouts it calls each combo. The beeps stay either way. Remembered on this device.</p>
   </section>`;
+}
+
+/* ---------------- travel mode (Phase 7) ----------------
+   A preference (prefs doc 'main', `travel`), synced: the Day module swaps, on the day page, what needs missing gear. */
+const TRAVEL_TEXT = { nobar: 'No bar', kb: 'Kettlebell only', bw: 'Bodyweight only' };
+const travelMode = () => { const m = (store.doc('prefs', 'main') || {}).travel; return TRAVEL_TEXT[m] ? m : null; };
+function setTravel(mode) {
+  const prefs = store.doc('prefs', 'main') || {};
+  if (mode) prefs.travel = mode; else delete prefs.travel;
+  delete prefs.updatedAt;
+  store.setDoc('prefs', 'main', prefs);
+}
+function travelNote(D) {
+  const mode = D.travel && D.travel();
+  if (!mode) return '';
+  const items = D.day.blocks.flatMap((b) => b.items), swapped = items.filter((it) => it.travel).length, stuck = items.filter((it) => it.travelMissing).length;
+  const what = swapped ? `${plural(swapped, 'exercise')} swapped for today` : 'nothing needed swapping today';
+  return `<p class="travelnote" role="status"><b>Travel mode: ${esc(TRAVEL_TEXT[mode].toLowerCase())}.</b> ${what}${stuck ? `; ${plural(stuck, 'exercise')} still ${stuck === 1 ? 'needs' : 'need'} gear (nothing works the same muscles without it)` : ''}. <button class="linkbtn" data-go="settings">Change</button></p>`;
 }
 
 /* ---------------- stats ---------------- */
