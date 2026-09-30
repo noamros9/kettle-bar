@@ -15,6 +15,8 @@
        D.swap(bi, i, to, { onward })    today only, or from this day to the end of the program
        D.undo(bi, i), D.swapBehind(bi, i)   the swap that put this item here, and undoing it
        D.travel()                       the travel mode the day was opened with, or null
+       The open day's warm-up matches its format (app/warmup.js: dynamic for combat and cardio days, gentle for yoga and
+       the like); stats (resolved) keep the stored one, of the same length.
        D.short(), D.canShort(), D.setShort(on)   "short on time" (Phase 7): the day trimmed to about 20 minutes for this
                                         round (app/short.js); canShort: the day is longer than that, or already short
 
@@ -25,7 +27,7 @@
 
    Swaps and short days are stored with the program's progress (Progress Store); the rules are in app/swaps.js and
    app/short.js. A short day is trimmed after its swaps, with the program's rests. */
-(function (root, S, P, Short) {
+(function (root, S, P, Short, W) {
   function createDays({ programs, store, cat, createSession, storage, now = Date.now, travel = () => null }) {
     const live = { key: null, exs: null, session: null, restored: false };
     const HOURS_12 = 12 * 3600 * 1000;
@@ -55,7 +57,8 @@
     function open(pid, n) {
       const program = programs.get(pid), planned = resolved(pid, n), mode = travel() || null;
       if (!planned) return undefined;
-      const day = S.travel(planned, mode, program, cat);
+      const moved = S.travel(planned, mode, program, cat), warm = W.warmupFor(moved, cat.EX, program.subject);
+      const day = warm === moved.warmup ? moved : { ...moved, warmup: warm };
       const itemAt = (bi, i) => day.blocks[bi].items[i];
       return {
         program, day,
@@ -85,8 +88,9 @@
   }
 
   const api = { createDays };
-  /* node:coverage ignore next 4 */ // the browser branch; the page's UI tests cover it
+  /* node:coverage ignore next 5 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBDay = api;
 })(typeof window !== 'undefined' ? window : globalThis, typeof module !== 'undefined' && module.exports ? require('./swaps.js') : window.KBSwaps,
   typeof module !== 'undefined' && module.exports ? require('./progress.js') : window.KBProgress,
-  typeof module !== 'undefined' && module.exports ? require('./short.js') : window.KBShort);
+  typeof module !== 'undefined' && module.exports ? require('./short.js') : window.KBShort,
+  typeof module !== 'undefined' && module.exports ? require('./warmup.js') : window.KBWarmup);

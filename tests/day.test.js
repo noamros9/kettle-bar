@@ -240,3 +240,15 @@ test('travel mode: the open day swaps what needs missing gear, its Swap list lea
   assert.equal(days.open(P, n).travel(), null);
   assert.ok(!days.open(P, n).day.blocks.some((b) => b.items.some((it) => it.travel)));
 });
+
+// ---- Warm-up that matches the format (Phase 7 ticket 6) ----
+test('the open day shows a warm-up that matches its format; stats keep the stored one', () => {
+  const box = buildAll().find((p) => p.subject === 'Boxing');
+  const m = {}, store = createStore({ programIds: [box.id], storage: { get: (k) => m[k] ?? null, set: (k, v) => { m[k] = v; } }, now: () => 't' });
+  store.load();
+  const days = createDays({ programs: createProgramCatalogue(inlined([box])), store, cat, createSession, storage: { get: () => null, set() {}, remove() {} } });
+  const D = days.open(box.id, 1);
+  assert.equal(D.day.warmup.items[0].ex, 'shadow_footwork');
+  assert.deepEqual(days.resolved(box.id, 1).warmup, box.days[0].warmup);
+  assert.equal(D.day.warmup.seconds, box.days[0].warmup.seconds);
+});

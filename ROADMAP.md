@@ -125,7 +125,7 @@ Plan and tickets: [docs/plans/phase-6-build-your-own.md](docs/plans/phase-6-buil
 
     - **Signature variations (29 Sep):** two per signature program, Tempo and Harder moves, same split; on the Signature shelf after the original.
 
-## Phase 7: day to day
+## Phase 7: day to day (done, Sep 2026)
 Plan and tickets: [docs/plans/phase-7-day-to-day.md](docs/plans/phase-7-day-to-day.md). Decided 29 Sep 2026.
 18. **Random workout ([#64](https://github.com/noamros9/kettle-bar/issues/64)):** counts in stats, not in program
     progress; its level follows the last day marked done. Chosen on a sheet (family or subject, 15/25/35 min,
@@ -149,6 +149,10 @@ Plan and tickets: [docs/plans/phase-7-day-to-day.md](docs/plans/phase-7-day-to-d
       **Found:** the catalogue has **no bodyweight pulling** (rows, curls, raises, pull-ups), so in "Bodyweight only"
       those stay, marked "Needs gear" on the card. Adding a few (towel or doorframe rows, bodyweight curls) would
       close the gap; not planned yet.
+    - **Warm-up that matches the format, built (30 Sep):** picked when a day opens (stored days keep theirs, same
+      length): Boxing, Kickboxing, HIIT and Plyometrics programs get a dynamic warm-up (a combat day starts with
+      shadowboxing footwork), Yoga, Pilates, Flexibility and Mobility & posture a gentle one; your own programs and
+      random workouts go by their moves. Strength and mixed days keep theirs.
 19. **From the ideas list ([#67](https://github.com/noamros9/kettle-bar/issues/67)):** **resume a workout** (ticks kept on the device per day, so closing the app or opening another day
     loses nothing; Noam, 29 Sep) after closing
     the app; travel mode (lasts until turned off); shorter today; a warm-up that matches the format; a rest-day

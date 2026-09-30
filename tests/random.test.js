@@ -223,3 +223,9 @@ test('the rest-day flow: mobility & posture or flexibility, 15 minutes (the shor
   assert.equal(Random.problem(recipes, { subjects: ['Boxing', 'HIIT'], minutes: 15, equipment: 'bw' }), 'No 15-minute Boxing or HIIT workout with no equipment.');
   assert.equal(Random.problem(recipes, { subjects: ['Nope'], minutes: 15, equipment: 'bw' }), 'No Nope workouts.');
 });
+
+test('a random workout\'s warm-up matches its format too (Phase 7 ticket 6)', () => {
+  const { random } = setup();
+  random.start(Random.make(deps, { subject: 'Boxing', minutes: 25, equipment: 'bw' }, { level: 1, seed: 'w' }), { id: 'rb' });
+  assert.equal(random.open().day.warmup.items[0].ex, 'shadow_footwork');
+});

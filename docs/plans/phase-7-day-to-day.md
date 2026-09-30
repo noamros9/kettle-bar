@@ -20,7 +20,7 @@ Decided on 29 Sep:
 | 3 | Rest-day flow | feature | 2 | `feature/rest-day-flow` | done (PR #102) |
 | 4 | Shorter today | feature | review III 4 | `feature/shorter-today` | done (PR #103) |
 | 5 | Travel mode | feature | review III 5 | `feature/travel-mode` | done (PR #107) |
-| 6 | Warm-up that matches the format | feature | review III 3 | `feature/warmup-by-format` | |
+| 6 | Warm-up that matches the format | feature | review III 3 | `feature/warmup-by-format` | done (PR #PRNUM) |
 | 7 | Big timer | feature | – | `feature/big-timer` | done (PR #90) |
 | 8 | What next, when a program ends | feature | – | `feature/what-next` | done (PR #92) |
 
@@ -90,6 +90,8 @@ Decided on 29 Sep:
   workout minutes, and stretching minutes stay the day's stored value.
 - **Test first:** `warmupFor` on a boxing day contains only dynamic warm-ups; a straight-set day's warm-up is
   unchanged.
+- **Built 30 Sep:** in `app/warmup.js`; the program's subject decides first (the moves alone mislabel HIIT days with an
+  abs block and yoga days with stretch poses), the moves decide for your own programs and random workouts.
 
 ### 7. Big timer (#67.10)
 - In a timed block (flow, bouts, EMOM, Tabata, AMRAP, ladder) a **Big timer** button fills the screen with the

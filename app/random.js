@@ -32,7 +32,7 @@
    Marked done, it becomes the record users/{uid}/random/{id} (synced, in export/import and the nightly backup):
      { name: 'Random: <title>', choices, seed, level, day, swaps, time }   (day: as built; swaps: [{ day: 1, ex, to }])
    A record that is damaged, or names an exercise this app doesn't know, is left out of stats. */
-(function (root, S) {
+(function (root, S, W) {
   const FAMILIES = ['Strength', 'Cardio & combat', 'Mind & body', 'Mixed'];
   const MINUTES = [15, 25, 35];
   const GEAR = { all: 'all equipment', kb: 'a kettlebell only', bw: 'no equipment' };
@@ -123,7 +123,8 @@
     function open() {
       const o = current();
       if (!o) return undefined;
-      const day = S.applySwaps(o.day, o.swaps, cat), program = { ...o.program, days: [day] };
+      const swapped = S.applySwaps(o.day, o.swaps, cat), warm = W.warmupFor(swapped, cat.EX, o.subject);
+      const day = warm === swapped.warmup ? swapped : { ...swapped, warmup: warm }, program = { ...o.program, days: [day] };
       const itemAt = (bi, i) => day.blocks[bi].items[i];
       const change = (swaps) => save({ ...o, swaps });
       return {
@@ -165,6 +166,7 @@
   }
 
   const api = { REST_DAY, restDay, dayKey, make, problem, levelOf, levelOfDay, createRandom, newId, newSeed, FAMILIES, MINUTES };
-  /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
+  /* node:coverage ignore next 3 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBRandom = api;
-})(typeof window !== 'undefined' ? window : globalThis, typeof module !== 'undefined' && module.exports ? require('./swaps.js') : window.KBSwaps);
+})(typeof window !== 'undefined' ? window : globalThis, typeof module !== 'undefined' && module.exports ? require('./swaps.js') : window.KBSwaps,
+  typeof module !== 'undefined' && module.exports ? require('./warmup.js') : window.KBWarmup);

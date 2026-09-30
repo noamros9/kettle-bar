@@ -71,6 +71,11 @@ Kept in the program's progress as `short: { day: true }` for the current round (
 field that exists only when a day was shortened; device copy `kb-short-<pid>`; in backups as the optional `short`
 section. The Day module trims after the swaps, and Stats count the trimmed day.
 
+**Matched warm-up**: the warm-up a day shows, picked when it opens (`app/warmup.js`): dynamic (jumping jacks, high
+knees, arm circles, lateral shuffle; shadowboxing footwork first on a combat day) or gentle (cat-cow, twists, child's
+pose), by the program's subject, else by the day's moves; strength and mixed days keep their own. Always the length
+of the stored warm-up, so stretching minutes don't change; stats and pins keep the stored one.
+
 **Rest-day flow**: on a day with nothing marked done (program days and random workouts, by the phone's date), a card
 on the Programs page offers a random workout of Mobility & posture or Flexibility, 15 minutes, no equipment
 (`KBRandom.REST_DAY`; a choice may name several `subjects`, each bringing its own best-fitting day types). **Not
