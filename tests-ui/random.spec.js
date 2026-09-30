@@ -94,13 +94,15 @@ test('a swap in a random workout is for today only; a 15-minute Mind & body one 
   await choose(app.page, { family: 'Strength', minutes: 25, equipment: 'All equipment' });
   await sheetOf(app.page).getByRole('button', { name: 'Start' }).click();
   const swap = app.page.locator('.swapbtn').first();
+  const from = (await swap.getAttribute('aria-label')).replace(/^Swap /, '');
+  const times = await app.page.locator('article.ex .nm', { hasText: new RegExp(`^${from.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`) }).count(); // it may be on the day twice
   await swap.click();
   const sheet = app.page.locator('.sheet[role="dialog"]');
   await sheet.locator('[data-swap-to]').first().click();
   await expect(sheet.getByRole('button', { name: 'Today only' })).toBeVisible();
   await expect(sheet.getByText('Rest of the program')).toHaveCount(0);
   await sheet.getByRole('button', { name: 'Today only' }).click();
-  await expect(app.page.locator('article.ex').filter({ hasText: 'Swapped from' })).toHaveCount(1);
+  await expect(app.page.locator('article.ex').filter({ hasText: `Swapped from ${from}` })).toHaveCount(times);
   await app.page.getByRole('button', { name: 'Discard' }).click();
 
   await openSheet(app.page);
