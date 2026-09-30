@@ -408,6 +408,10 @@ table.weeks tr.empty{color:var(--muted)}table.weeks tr.empty th{font-weight:400}
 .pbtns{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
 .pbtns .buildbtn{margin-top:0}
 .rnotice{margin:12px 0 0}
+.restcard{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between;margin-top:14px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+.restcard .rc-t{display:grid;gap:2px}
+.restcard .rc-t span{font-size:14px;color:var(--muted)}
+.restcard .rc-a{display:flex;gap:8px;flex-wrap:wrap}
 .rsheet .filters{margin:0}
 .rprev{display:grid;gap:4px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--bg)}
 .rprev .rname{font-size:17px}

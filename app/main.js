@@ -83,6 +83,8 @@ document.addEventListener('click', (ev) => {
   if (d.bSave) return buildSave();
   if (d.bookRetry) { bookError = null; render(); return; }
   if (d.randomOpen) return randomOpen();
+  if (d.restOpen) return restOpen();
+  if (d.restDismiss) return restDismiss();
   if (d.randomSet) { const k = d.randomSet.slice(0, d.randomSet.indexOf(':')); return randomSet(k, d.randomSet.slice(k.length + 1)); }
   if (d.randomShuffle) { randomState.seed = KBRandom.newSeed(); render(); return; }
   if (d.randomCancel) { randomState = null; render(); return; }

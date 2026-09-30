@@ -135,6 +135,9 @@ Plan and tickets: [docs/plans/phase-7-day-to-day.md](docs/plans/phase-7-day-to-d
       An unfinished random workout stays on the device (resumes like a program day, **Discard** to drop it) and is
       written to the account only when marked done. A program day's level comes from its day number (1–20, 21–40,
       41–60).
+    - **Rest-day flow, built (30 Sep):** **15 minutes**, not 10: the recipe book makes nothing shorter. On a day with
+      nothing marked done (the phone's own date), a card on the Programs page opens the random workout's sheet with
+      Mobility & posture or Flexibility, 15 min, no equipment. **Not today** hides it until tomorrow, on that device.
 19. **From the ideas list ([#67](https://github.com/noamros9/kettle-bar/issues/67)):** **resume a workout** (ticks kept on the device per day, so closing the app or opening another day
     loses nothing; Noam, 29 Sep) after closing
     the app; travel mode (lasts until turned off); shorter today; a warm-up that matches the format; a rest-day

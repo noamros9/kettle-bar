@@ -134,7 +134,7 @@ function viewPrograms() {
   return `<div class="eyebrow">${esc(lib.counter)}</div><h1>Programs</h1>
     <p class="lede">Every program starts at intermediate, with a matched warm-up and cool-down, and most end each workout with abs. Progress is kept per program.</p>
     <div class="pbtns"><button class="btn buildbtn" data-go="build">Build your own</button><button class="btn ghost buildbtn" data-random-open="1">${random.current() ? 'Random workout · continue' : 'Random workout'}</button></div>
-    ${randomNotice ? `<p class="hint rnotice" role="status">${esc(randomNotice)}</p>` : ''}
+    ${randomNotice ? `<p class="hint rnotice" role="status">${esc(randomNotice)}</p>` : ''}${restCard()}
     ${yours}
     <div class="ftabs" role="group" aria-label="Filter by family">${lib.families.map((f) => tab('family', f)).join('')}</div>
     <div class="filters" role="group" aria-label="Filter by subject">${lib.subjects.map(chip).join('')}</div>
@@ -161,10 +161,27 @@ function randomMade(st) {
   return randomCache.made;
 }
 const familyOfSubject = (name) => recipeBook.book().subjects.find(([n]) => n === name)[1];
+const familyOfChoice = (c) => c.family || familyOfSubject(c.subject || c.subjects[0]);
+// Rest-day flow (Phase 7 ticket 3): on a day with nothing marked done, a card offers a short mobility or flexibility
+// flow; it opens the random workout's sheet with that choice. "Not today" hides it until tomorrow (on this device).
+const REST_KEY = 'kb-rest-dismissed';
+const doneTimes = () => doneEntries().map((e) => e.time);
+function restCard() {
+  let dismissed = null; try { dismissed = localStorage.getItem(REST_KEY); } catch (e) { /* blocked: shown */ }
+  if (random.current() || !KBRandom.restDay(doneTimes(), new Date(), dismissed)) return '';
+  return `<div class="restcard"><div class="rc-t"><b>Rest day?</b><span>A ${KBRandom.REST_DAY.minutes}-minute mobility or flexibility flow, no equipment.</span></div>
+    <div class="rc-a"><button class="btn" data-rest-open="1">Show me</button><button class="btn ghost" data-rest-dismiss="1">Not today</button></div></div>`;
+}
+function restOpen() {
+  randomNotice = '';
+  randomState = { choice: JSON.parse(JSON.stringify(KBRandom.REST_DAY)), seed: KBRandom.newSeed() };
+  render();
+}
+function restDismiss() { try { localStorage.setItem(REST_KEY, KBRandom.dayKey(new Date())); } catch (e) { /* blocked */ } render(); }
 function randomSet(k, v) {
   const c = randomState.choice, keep = { minutes: c.minutes, equipment: c.equipment };
   if (k === 'family') randomState.choice = { family: v, ...keep };
-  else if (k === 'subject') randomState.choice = v ? { subject: v, ...keep } : { family: familyOfSubject(c.subject), ...keep };
+  else if (k === 'subject') randomState.choice = v ? { subject: v, ...keep } : { family: familyOfChoice(c), ...keep };
   else randomState.choice = { ...c, [k]: k === 'minutes' ? +v : v };
   render();
 }
@@ -181,7 +198,7 @@ function randomSheet() {
       ? `<p class="notice" role="alert">${esc(bookError.replace('Build your own', 'The random workout'))}</p><div class="actions"><button class="btn ghost" data-book-retry="1">Try again</button><button class="btn ghost" data-random-cancel="1">Cancel</button></div>`
       : '<p class="loading lede" role="status">Loading…</p>');
   }
-  const c = randomState.choice, family = c.family || familyOfSubject(c.subject), name = c.subject || family;
+  const c = randomState.choice, family = familyOfChoice(c), name = c.subjects ? c.subjects.join(' or ') : c.subject || family;
   const subjects = recipeBook.book().subjects.filter(([, f]) => f === family).map(([n]) => n);
   const chip = (key, value, label, on, why) => `<button class="fchip acc" data-random-set="${key}:${esc(value)}" aria-pressed="${on}"${why ? ` disabled title="${esc(why)}"` : ''}>${esc(label)}</button>`;
   const whyMinutes = (m) => KBRandom.problem(recipeBook, { ...c, minutes: m });
@@ -197,7 +214,7 @@ function randomSheet() {
   }
   return wrap(`<p class="muted">Built fresh, at the level of the last day you marked done. It counts in your stats, not in any program.</p>
     <div class="filters" role="group" aria-label="Family">${KBRandom.FAMILIES.map((f) => chip('family', f, f, family === f)).join('')}</div>
-    <div class="filters" role="group" aria-label="Subject">${chip('subject', '', `Any ${family.toLowerCase()}`, !c.subject)}${subjects.map((n) => chip('subject', n, n, c.subject === n)).join('')}</div>
+    <div class="filters" role="group" aria-label="Subject">${chip('subject', '', `Any ${family.toLowerCase()}`, !c.subject && !c.subjects)}${subjects.map((n) => chip('subject', n, n, c.subject === n || (c.subjects || []).includes(n))).join('')}</div>
     <div class="filters" role="group" aria-label="Minutes">${KBRandom.MINUTES.map((m) => chip('minutes', m, `${m} min`, c.minutes === m, whyMinutes(m))).join('')}</div>
     ${reasons.map((r) => `<p class="hint">${esc(r)}</p>`).join('')}
     <div class="filters" role="group" aria-label="Equipment">${['all', 'kb', 'bw'].map((eq) => chip('equipment', eq, RANDOM_GEAR[eq], c.equipment === eq, whyGear(eq))).join('')}</div>

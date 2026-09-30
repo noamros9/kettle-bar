@@ -49,6 +49,8 @@ days ticked on the device and in the cloud are merged.
   a day is built fresh at the level of the last day you marked done, previewed before **Start** (**Reshuffle** for
   another). It counts in Stats (all programs, and its own "Random workouts" scope), never in a program's progress;
   unfinished, it waits on the device (**Discard** drops it); marked done, it syncs and is in backups.
+  On a day with nothing marked done, a **Rest day?** card offers a 15-minute mobility or flexibility flow the same way
+  (**Not today** hides it until tomorrow).
 - **Build your own** (top of the Programs page): pick a subject, or tap up to three to mix them (each day then has a
   block of each, in the order you tapped, each getting harder its own way), days per cycle (1–5), minutes (20–40), equipment,
   formats and how Levels II and III get harder (for each subject); the first six days show as a preview, **Regenerate** gives another set,

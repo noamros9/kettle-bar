@@ -130,3 +130,33 @@ base.test('a random workout marked done reaches a second browser through the acc
   expect(one.errors).toEqual([]); expect(two.errors).toEqual([]);
   await one.context.close(); await two.context.close();
 });
+
+// Rest-day flow (Phase 7 ticket 3)
+test('rest day: the card opens the sheet with a 15-minute mobility or flexibility flow; Not today hides it until tomorrow', async ({ app }, testInfo) => {
+  await app.open('#programs');
+  const card = app.page.locator('.restcard');
+  await expect(card).toContainText('Rest day?');
+  expect(await app.sidewaysScroll()).toBe(0);
+  await app.page.screenshot({ path: testInfo.outputPath('rest-card.png') });
+  await card.getByRole('button', { name: 'Show me' }).click();
+  await expect(chip(app.page, 'Family', 'Mind & body')).toHaveAttribute('aria-pressed', 'true');
+  for (const s of ['Mobility & posture', 'Flexibility']) await expect(chip(app.page, 'Subject', s)).toHaveAttribute('aria-pressed', 'true');
+  await expect(chip(app.page, 'Subject', 'Any mind & body')).toHaveAttribute('aria-pressed', 'false');
+  await expect(chip(app.page, 'Minutes', '15 min')).toHaveAttribute('aria-pressed', 'true');
+  await expect(chip(app.page, 'Equipment', 'No equipment')).toHaveAttribute('aria-pressed', 'true');
+  await expect(sheetOf(app.page).locator('.rprev')).toContainText(/Mobility & posture|Flexibility/);
+  await sheetOf(app.page).getByRole('button', { name: 'Cancel' }).click();
+  await card.getByRole('button', { name: 'Not today' }).click();
+  await expect(card).toHaveCount(0);
+  await app.page.reload(); await app.heading().waitFor(); await app.loaded();
+  await expect(app.page.locator('.restcard')).toHaveCount(0);
+});
+
+test('rest day: no card once a day is marked done today', async ({ app }, testInfo) => {
+  test.skip(testInfo.project.name !== 'phone-light', 'theme-independent');
+  await app.open('#p-three-split-60');
+  await app.page.getByRole('checkbox', { name: 'Mark day 1 done' }).click();
+  await app.go('#programs');
+  await expect(app.heading()).toHaveText('Programs');
+  await expect(app.page.locator('.restcard')).toHaveCount(0);
+});

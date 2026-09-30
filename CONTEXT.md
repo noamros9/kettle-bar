@@ -65,6 +65,11 @@ forgotten after 12 hours or on **Discard**, shown at `#random`. **Mark as done**
 `users/{uid}/random/{id}` = `{ name, choices, seed, level, day, swaps, time }`; Stats read it through `dayOf('random',
 id)`, and it has its own scope, "Random workouts".
 
+**Rest-day flow**: on a day with nothing marked done (program days and random workouts, by the phone's date), a card
+on the Programs page offers a random workout of Mobility & posture or Flexibility, 15 minutes, no equipment
+(`KBRandom.REST_DAY`; a choice may name several `subjects`, each bringing its own best-fitting day types). **Not
+today** hides it until the next day, on that device (`kb-rest-dismissed`).
+
 **Travel mode**: a setting (no bar / kettlebell only / bodyweight only) that swaps exercises needing missing gear
 for today, on every day, until turned off.
 

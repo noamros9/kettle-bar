@@ -3,7 +3,7 @@
    and in the page (KBRandom).
 
      make({ recipes, buildDay, newMemory, makeRnd, cat }, choice, { level, seed }) -> made
-       choice = { family: name | subject: name, minutes: 15|25|35, equipment: 'all'|'kb'|'bw' }
+       choice = { family: name | subject: name | subjects: [names], minutes: 15|25|35, equipment: 'all'|'kb'|'bw' }
        made   = { choice, seed, level, subject, family, day, program }: a day type of the family (or subject) that fits the
                 minutes and gear, picked with the seed, built by the Program Builder with a fresh memory at that level and
                 that day type's own levers; `program` is what the day page and its Workout Session need (id 'random',
@@ -12,6 +12,11 @@
      levelOf([{ time, level }]) -> the level of the day marked done last (in any program or a random one); none -> 1
      levelOfDay(n) -> 1-3: the level of day n of a 60-day program (days 1-20, 21-40, 41-60)
      FAMILIES, MINUTES [15, 25, 35], newId(now?, rnd?), newSeed(rnd?)
+     REST_DAY: the rest-day flow's choice (mobility & posture or flexibility, 15 min, no equipment: 15 is the shortest
+               day the recipe book makes)
+     restDay(doneTimes, now, dismissed) -> show the rest-day card: nothing marked done on today's date (the phone's own
+               day) and not dismissed today (`dismissed` = the dayKey it was dismissed on, or null)
+     dayKey(date) -> 'YYYY-MM-DD' of the local day
 
      const random = createRandom({ store, cat, createSession, storage, now? })
        random.start(made, { id? }) -> the open workout      random.current() -> it, or null
@@ -45,9 +50,16 @@
     return last ? last.level : 1;
   }
 
-  const nameOf = (c) => c.subject || c.family;
-  const filterOf = (c) => (c.subject ? { subjects: [c.subject] } : { families: [c.family] });
+  const REST_DAY = { subjects: ['Mobility & posture', 'Flexibility'], minutes: 15, equipment: 'bw' };
+  const nameOf = (c) => (c.subjects ? c.subjects.join(' or ') : c.subject || c.family);
+  const filterOf = (c) => (c.subjects ? { subjects: c.subjects } : c.subject ? { subjects: [c.subject] } : { families: [c.family] });
+  const pad = (n) => String(n).padStart(2, '0');
+  const dayKey = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+  const restDay = (doneTimes, now, dismissed) => dismissed !== dayKey(now) && !doneTimes.some((t) => dayKey(new Date(t)) === dayKey(now));
+  // the day types that fit, those that land on the minutes exactly first; with several subjects, each subject's own
+  // best, so every one of them can come up
   function candidates(recipes, c) {
+    if (c.subjects) return c.subjects.flatMap((subject) => candidates(recipes, { ...c, subjects: undefined, subject }));
     const fit = recipes.pick({ ...filterOf(c), equipment: c.equipment, minutes: c.minutes });
     const exact = fit.filter((t) => recipes.fitsExactly(t, c.equipment, c.minutes));
     return exact.length ? exact : fit;
@@ -57,11 +69,20 @@
     return candidates(recipes, c).length ? null : `No ${c.minutes}-minute ${nameOf(c)} workout with ${GEAR[c.equipment]}.`;
   }
 
+  // one well-mixed draw from the seed (FNV-1a, then a mulberry32 step): the builder's stream moves little on its
+  // first draw between seeds like 'a' and 'b', so the day type is picked with this instead
+  function mixed(seed) {
+    let a = [...String(seed)].reduce((h, c) => Math.imul(h ^ c.charCodeAt(0), 16777619) >>> 0, 2166136261);
+    a = (a + 0x6d2b79f5) >>> 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  }
   function make({ recipes, buildDay, newMemory, makeRnd, cat }, choice, { level, seed }) {
     const why = problem(recipes, choice);
     if (why) throw new Error(why);
     const list = candidates(recipes, choice), rnd = makeRnd(seed);
-    const t = list[Math.floor(rnd() * list.length)];
+    const t = list[Math.floor(mixed(seed) * list.length)];
     const recipe = recipes.recipeFor(t, { minutes: choice.minutes, equipment: choice.equipment, levers: t.levers });
     const day = { ...buildDay(recipe, { day: 1, level, rnd, memory: newMemory() }, cat), name: t.label };
     const program = {
@@ -143,7 +164,7 @@
     };
   }
 
-  const api = { make, problem, levelOf, levelOfDay, createRandom, newId, newSeed, FAMILIES, MINUTES };
+  const api = { REST_DAY, restDay, dayKey, make, problem, levelOf, levelOfDay, createRandom, newId, newSeed, FAMILIES, MINUTES };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBRandom = api;
 })(typeof window !== 'undefined' ? window : globalThis, typeof module !== 'undefined' && module.exports ? require('./swaps.js') : window.KBSwaps);
