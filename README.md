@@ -50,8 +50,10 @@ days ticked on the device and in the cloud are merged.
   formats and how Levels II and III get harder (for each subject); the first six days show as a preview, **Regenerate** gives another set,
   **Save** names it and opens it. Saved programs sit on a **Your programs** shelf above the families, keep their own
   progress, sync with your account and work offline. On its page: **Rename**, **Edit** (the builder opens with its
-  choices; days you have done stay exactly as you did them, the rest are made again) and **Delete** (asks first; its
-  progress goes too).
+  choices; days you have done stay exactly as you did them, the rest are made again), **Delete** (asks first; its
+  progress goes too) and **Share** (the phone's share sheet, or the link is copied): whoever opens the link sees the
+  program's first days and **Add this program** gives them their own copy, with the same 60 days. No server: the
+  program travels in the link.
 - **Unfinished workouts are kept**: ticks, counters and stretches are saved on the device as you go, so closing the app
   or opening another day doesn't lose them; opening the day again shows "Picked up where you left off". **Mark as
   done**, or 12 hours, clears it. A running timer isn't resumed. It stays on the device (not synced, not in backups).

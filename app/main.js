@@ -70,6 +70,9 @@ document.addEventListener('click', (ev) => {
   if (d.ownEdit) return ownEdit(prog().id);
   if (d.ownDelete) { ownState = { pid: prog().id, mode: 'delete' }; render(); return; }
   if (d.ownDeleteConfirm) return ownDelete(ownState.pid);
+  if (d.ownShare) return ownShare(prog().id);
+  if (d.addConfirm) return addShared();
+  if (d.addOpen) return go('p-' + d.addOpen);
   if (d.b) { const [k, v] = d.b.split(':'); return buildSet(k, v); }
   if (d.bsub) return buildSet('subject', d.bsub);
   if (d.bRegen) return buildRegenerate();
@@ -176,6 +179,19 @@ function ownEdit(pid) {
   go('build');
 }
 // the program and its progress (device and cloud); other devices drop it when its doc disappears
+// Share: the phone's share sheet where there is one (WhatsApp, messages…), else the link is copied (or shown to copy)
+async function ownShare(pid) {
+  const id = ownIdOf(pid), name = prog().name;
+  const link = KBOwn.shareLink(location.href, await KBOwn.shareCode(KBOwn.fromRecord(id, store.doc('programs', id))));
+  if (navigator.share) {
+    try { await navigator.share({ title: name, text: `${name}: a 60-day program for Kettle & Bar`, url: link }); return; } catch (e) { if (e && e.name === 'AbortError') return; }
+  }
+  let copied = false;
+  try { await navigator.clipboard.writeText(link); copied = true; } catch (e) { /* no clipboard: the link shows to copy by hand */ }
+  ownState = { pid, mode: 'share', link, copied };
+  render();
+  if (!copied) { const i = $('#share-link'); if (i) { i.focus(); i.select(); } }
+}
 function ownDelete(pid) {
   ownState = null;
   store.deleteProgress(pid);

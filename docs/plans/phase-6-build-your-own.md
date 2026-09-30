@@ -33,7 +33,7 @@ Tracer bullets, one branch = one PR, each from its **Test first**.
 | 6 | Your programs: rename, delete, edit | feature | 5 | `feature/own-edit` | done (PR #88) |
 | 7 | Mix in build your own (2–3 subjects) | feature | 1, 5 | `feature/own-mix` | done (PR #91) |
 | 7b | Slim the first download (≤125 KB gzipped) | refactor | 7 | `refactor/slim-first-download` | done (PR #93) |
-| 8 | Share a copy by link | feature | 5 | `feature/own-share` | |
+| 8 | Share a copy by link | feature | 5 | `feature/own-share` | done (PR #PRNUM) |
 
 ### What every mixed-program ticket (1–3) includes
 - Configs in `configs/mixed.js` (review III ticket 2), each with `family: 'Mixed'` via its subject, `added: 6`,
