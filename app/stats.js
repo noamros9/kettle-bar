@@ -35,6 +35,8 @@
        stretching minutes, sets, reps. Days the app no longer has are left out.
      calendarMonth(entries, { dayOf, year, month (0-11), scope? }) -> weeks of 7 { date, inMonth, minutes, workouts:
        [entry] } from the Sunday on or before the 1st (days the app lacks left out; scope: 'all' or one pid)
+     daysPerWeek(entries, { dayOf, from, to }) -> [{ start, days }] days with a workout per week (two on one date: one),
+       the same weeks as weekly(), newest first
      byWeekday(entries, { dayOf, from, to }) -> [7] workouts per weekday, Sunday first
      byTimeOfDay(entries, { dayOf, from, to }) -> { morning (5-12), afternoon (12-17), evening (17-22), night (22-5) },
        from when each day was first marked done (the only time stored)
@@ -106,11 +108,11 @@
   }
 
   // rows of [start, end) going back from `to`, the oldest cut at `from`
-  function rows(entries, { dayOf, EX, from, to }, back) {
+  function rows(entries, { dayOf, EX, from, to }, back, measure = summarize) {
     const out = [];
     for (let end = to; end > from;) {
       const s = back(end), start = s < from ? from : s;
-      out.push({ start, ...summarize(entries, { dayOf, EX, from: start, to: end }) });
+      out.push({ start, ...measure(entries, { dayOf, EX, from: start, to: end }) });
       end = start;
     }
     return out;
@@ -209,6 +211,9 @@
     return weeks;
   }
 
+  // days trained per week (Phase 9): distinct local dates with a workout, weeks as weekly()'s, newest first
+  const daysPerWeek = (entries, opts) => rows(entries, opts, (end) => plusDays(end, -7), (es, o) => ({ days: new Set(inSpan(es, o).map(({ t }) => t.toDateString())).size }));
+
   // when you train (Phase 9): workouts per weekday (Sunday first) and per time of day, from when each day was marked done
   const byWeekday = (entries, opts) => inSpan(entries, opts).reduce((out, { t }) => { out[t.getDay()] += 1; return out; }, [0, 0, 0, 0, 0, 0, 0]);
   const partOfDay = (h) => (h >= 5 && h < 12 ? 'morning' : h >= 12 && h < 17 ? 'afternoon' : h >= 17 && h < 22 ? 'evening' : 'night');
@@ -230,7 +235,7 @@
     return { from, to, totals, weeks: span === 'week' ? null : weekly(mine, opts), muscles: rankMuscles(totals.muscles, names), months: span === 'year' ? monthly(mine, opts) : null, hasHistory: mine.length > 0, ...breakdown(mine, { ...opts, infoOf }) };
   }
 
-  const api = { byWeekday, byTimeOfDay, calendarMonth, programFocus, dayVolume, weekStart, summarize, spanRange, weekly, monthly, rankMuscles, exerciseHistory, levelOverTime, toCSV, report, dayParts, breakdown, DEFAULT_RESTS };
+  const api = { daysPerWeek, byWeekday, byTimeOfDay, calendarMonth, programFocus, dayVolume, weekStart, summarize, spanRange, weekly, monthly, rankMuscles, exerciseHistory, levelOverTime, toCSV, report, dayParts, breakdown, DEFAULT_RESTS };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBStats = api;
 })(typeof window !== 'undefined' ? window : globalThis, typeof module !== 'undefined' && module.exports ? require('../formats.js') : window.KBFormats);

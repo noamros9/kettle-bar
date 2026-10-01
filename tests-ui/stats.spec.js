@@ -226,3 +226,15 @@ test('History: when you train, by weekday and time of day, for the span', async 
   await expect(app.page.locator('#hist-h')).toHaveText('September 2026'); // the calendar stays on its month
   expect(await app.sidewaysScroll()).toBe(0);
 });
+
+test('History: days per week as a line for spans longer than a week; two workouts on one date count once', async ({ app }) => {
+  await withHistory(app); // three-split 28 and 29 Sep, 15 Sep; Iron PPL 10 Aug
+  await tab(app, 'History').click();
+  await expect(app.page.getByRole('region', { name: 'Days per week' })).toHaveCount(0); // this week: no trend
+  await app.page.getByRole('button', { name: 'Last 4 weeks' }).click();
+  const chart = app.page.getByRole('region', { name: 'Days per week' });
+  await expect(chart.locator('.tdot')).toHaveCount(4);
+  await expect(chart.locator('svg')).toHaveAttribute('aria-label', /Week of 27 Sept: 2 days/);
+  await expect(chart.locator('svg')).toHaveAttribute('aria-label', /Week of 13 Sept: 1 day;/);
+  expect(await app.sidewaysScroll()).toBe(0);
+});
