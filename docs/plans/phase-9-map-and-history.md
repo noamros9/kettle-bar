@@ -21,7 +21,7 @@ Decided on 1 Oct (Noam):
 | 2 | Programs that train the picked muscles | feature | 1 | `feature/muscle-programs` | done (PR #126) |
 | 3 | Stats → History: the month calendar | feature | – | `feature/history-calendar` | done (PR #127) |
 | 4 | Workouts by weekday and time of day | feature | 3 | `feature/history-when` | done (PR #128) |
-| 5 | Days per week, as a trend | feature | 3 | `feature/history-days` | |
+| 5 | Days per week, as a trend | feature | 3 | `feature/history-days` | done (PR #129) |
 
 ### 1. Exercises page: pick muscles on the map (#81)
 - A **By muscle** switch under the search opens the front/back muscle map (`muscleMapSVG`, the one the exercise pages

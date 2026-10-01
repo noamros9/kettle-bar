@@ -205,7 +205,7 @@ Plan and tickets: [docs/plans/phase-8-finding-and-stats.md](docs/plans/phase-8-f
       → Workout history → **Download CSV**: one row per done day (date, program or "Random", day, level, workout and
       stretching minutes, sets, reps); it loads the programs first, and says so if it can't (offline).
 
-## Phase 9: the body muscle map, and workout history
+## Phase 9: the body muscle map, and workout history (done, Oct 2026)
 Plan and tickets: [docs/plans/phase-9-map-and-history.md](docs/plans/phase-9-map-and-history.md). Grilled with Noam on
 1 Oct 2026; both open items in one phase.
 22. **Body muscle map ([#81](https://github.com/noamros9/kettle-bar/issues/81)):** on the **Exercises page** (a "By
@@ -228,6 +228,8 @@ Plan and tickets: [docs/plans/phase-9-map-and-history.md](docs/plans/phase-9-map
     - **When you train, built (1 Oct):** under the calendar, for the chosen span, workouts by weekday (Sunday first)
       and by time of day (morning 5–12, afternoon 12–17, evening 17–22, night 22–5, from when the day was marked
       done). So the span switch shows on History too (hidden in ticket 3, back in ticket 4).
+    - **Days per week, built (1 Oct):** on History, between the calendar and "When you train", a line of the days
+      trained each week (0–7; two workouts on one date count once), for spans longer than a week.
 
 ## Decided against (don't re-suggest)
 - **Logging weights/reps per set**: Noam wants done / not done only.
