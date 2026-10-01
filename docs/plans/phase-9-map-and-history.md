@@ -16,7 +16,7 @@ Decided on 1 Oct (Noam):
 
 | # | Ticket | Tier | Blocked by | Branch | Status |
 |---|---|---|---|---|---|
-| 0 | This plan | plan | – | `plan/phase-9` | |
+| 0 | This plan | plan | – | `plan/phase-9` | done (PR #124) |
 | 1 | Exercises page: pick muscles on the map | feature | – | `feature/muscle-map` | |
 | 2 | Programs that train the picked muscles | feature | 1 | `feature/muscle-programs` | |
 | 3 | Stats → History: the month calendar | feature | – | `feature/history-calendar` | |
