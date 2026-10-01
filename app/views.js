@@ -769,24 +769,43 @@ function viewExercise() {
 }
 /* Exercises page: a search (name, muscle, cue) and chips by category and equipment, through KBLibrary.searchExercises.
    Typing redraws only the results, so the field keeps focus; the search stays while you look at an exercise and come back. */
-const exSearch = { q: '', cat: 'all', gear: 'all' };
+const exSearch = { q: '', cat: 'all', gear: 'all', muscles: [], map: false }; // muscles, map: the "By muscle" view (Phase 9)
 const exFound = () => KBLibrary.searchExercises(EX, exSearch.q, exSearch, { names: MUSCLE_NAMES, cats: Object.keys(CAT) });
 const exCounter = (r) => (r.count === r.total ? `${r.total} exercises` : `${r.count} of ${r.total} exercises`);
 function exResults() {
   const r = exFound();
   const chip = (k, key, label, on, count) => `<button class="fchip acc" data-exf="${k}:${key}" aria-pressed="${on}">${esc(label)}${count === undefined ? '' : ` <span class="fcount">${count}</span>`}</button>`;
   const card = (e) => `<article class="ex"><button class="exlink" data-ex="${e.id}" aria-label="${esc(e.name)}: how to and muscles worked"><div class="figbox">${fig(e.id)}</div><div class="nm">${esc(e.name)}</div></button>${e.load ? `<div class="ld">${esc(LOAD[e.load])}</div>` : ''}<p class="cue">${esc(e.cue)}</p></article>`;
+  if (exSearch.muscles.length) { // picked muscles: one list, best first (the order is the point, so no category sections)
+    const names = exSearch.muscles.map((m) => MUSCLE_NAMES[m]).join(' + ');
+    return `${chipsHTML(r, chip)}${r.list.length ? `<section class="libcat"><h2>Best for ${esc(names)}</h2><div class="exgrid">${r.list.map(card).join('')}</div></section>` : '<p class="lede" style="margin-top:24px">No exercises match. Try another word or fewer filters.</p>'}`;
+  }
   const sections = r.cats.slice(1).map((c) => { const list = r.list.filter((e) => e.cat === c.key); return list.length ? `<section class="libcat"><h2>${CAT[c.key]}</h2><div class="exgrid">${list.map(card).join('')}</div></section>` : ''; }).join('');
-  return `<div class="filters" role="group" aria-label="Filter by category">${r.cats.map((c) => chip('cat', c.key, c.key === 'all' ? 'All' : CAT[c.key], c.pressed, c.count)).join('')}</div>
-    <div class="filters" role="group" aria-label="Filter by equipment">${KBLibrary.GEAR.map(([k, label]) => chip('gear', k, label, exSearch.gear === k)).join('')}</div>
+  return `${chipsHTML(r, chip)}
     ${sections || '<p class="lede" style="margin-top:24px">No exercises match. Try another word or fewer filters.</p>'}`;
 }
-// redraw the counter and the results only (typing in the search field)
-function exRefresh() { const box = $('#exresults'), n = $('#excount'); if (box) box.innerHTML = exResults(); if (n) n.textContent = exCounter(exFound()); }
+function chipsHTML(r, chip) {
+  return `<div class="filters" role="group" aria-label="Filter by category">${r.cats.map((c) => chip('cat', c.key, c.key === 'all' ? 'All' : CAT[c.key], c.pressed, c.count)).join('')}</div>
+    <div class="filters" role="group" aria-label="Filter by equipment">${KBLibrary.GEAR.map(([k, label]) => chip('gear', k, label, exSearch.gear === k)).join('')}</div>`;
+}
+/* "By muscle" (Phase 9 ticket 1): tap muscles on the front/back map (or their chips, for keyboards and screen readers);
+   several combine. The picked ones are darkest on the map. */
+function exMap() {
+  const picked = exSearch.muscles;
+  const toggle = `<button class="lenline" data-exmap="1" aria-expanded="${exSearch.map}">By muscle: <b>${picked.length ? esc(picked.map((m) => MUSCLE_NAMES[m]).join(', ')) : 'Any'}</b> <span aria-hidden="true">${exSearch.map ? '▴' : '▾'}</span></button>`;
+  if (!exSearch.map) return toggle;
+  const heat = Object.fromEntries(Object.keys(MUSCLE_NAMES).map((m) => [m, picked.includes(m) ? 1 : 0]));
+  return `${toggle}<div class="mmpick">${muscleMapSVG(heat, 'Pick muscles: tap one to add or remove it')}</div>
+    <div class="filters" role="group" aria-label="Muscles">${Object.entries(MUSCLE_NAMES).map(([m, n]) => `<button class="fchip acc" data-exmuscle="${m}" aria-pressed="${picked.includes(m)}">${esc(n)}</button>`).join('')}${picked.length ? '<button class="fchip" data-exmuscle-clear="1">Clear</button>' : ''}</div>`;
+}
+function exMuscle(m) { exSearch.muscles = m === null ? [] : KBLibrary.toggleIn(exSearch.muscles, m); exRefresh(); }
+// redraw the counter, the map and the results only (typing in the search field keeps its focus)
+function exRefresh() { const box = $('#exresults'), n = $('#excount'), mp = $('#exmap'); if (box) box.innerHTML = exResults(); if (n) n.textContent = exCounter(exFound()); if (mp) mp.innerHTML = exMap(); }
 function exFilter(k, v) { exSearch[k] = v; exRefresh(); }
 function viewLibrary() {
   return `<div class="eyebrow" id="excount">${exCounter(exFound())}</div><h1>Exercises</h1><p class="lede">Every movement and stretch used in the programs, with the equipment you have: dumbbells, one kettlebell, a pull-up bar and a mat. Tap one to see the muscles it works.</p>
   <label class="exsearch"><span class="sr">Search exercises</span><input id="ex-search" type="search" placeholder="Search by name, muscle or cue" value="${esc(exSearch.q)}" autocomplete="off" enterkeyhint="search"></label>
+  <div id="exmap">${exMap()}</div>
   <div id="exresults">${exResults()}</div>`;
 }
 

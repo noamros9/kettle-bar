@@ -527,3 +527,11 @@ table.weeks tr.empty{color:var(--muted)}table.weeks tr.empty th{font-weight:400}
 .lvstrip li.lv1{background:var(--mm-l1);color:var(--ink)}
 .lvstrip li.lv2{background:var(--mm-l2);color:var(--ink)}
 .lvstrip li.lv3{background:var(--mm-l4);color:var(--surface)}
+
+/* Exercises page: pick muscles on the map (Phase 9) */
+#exmap{margin-top:10px}
+.mmpick{max-width:420px;margin:8px auto 0}
+.mmpick svg{display:block;width:100%;height:auto}
+.mmpick [data-m]{cursor:pointer}
+.mmpick [data-m]:hover{opacity:.75}
+#exmap .filters{margin-top:8px}

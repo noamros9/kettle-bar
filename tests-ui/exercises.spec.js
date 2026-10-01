@@ -40,3 +40,26 @@ test('the Kettlebell chip keeps only kettlebell exercises; a category narrows fu
   await expect(app.page.getByText('No exercises match.')).toBeVisible();
   await expect(app.page.locator('#excount')).toHaveText(`0 of ${total} exercises`);
 });
+
+test('By muscle: tap glutes and hamstrings on the map; exercises with both as main muscles lead; chips and Clear work too', async ({ app }) => {
+  await app.open('#exercises');
+  await app.page.getByRole('button', { name: /By muscle:/ }).click();
+  const map = app.page.locator('.mmpick');
+  await expect(map.locator('svg')).toBeVisible();
+  await map.locator('[data-m="glutes"]').first().click();
+  await map.locator('[data-m="hamstrings"]').first().click();
+  const chips = app.page.getByRole('group', { name: 'Muscles' });
+  await expect(chips.getByRole('button', { name: 'Glutes' })).toHaveAttribute('aria-pressed', 'true');
+  await expect(chips.getByRole('button', { name: 'Hamstrings' })).toHaveAttribute('aria-pressed', 'true');
+  await expect(map.locator('[data-m="glutes"].mm-l4').first()).toBeVisible();
+  await expect(app.page.locator('#exresults h2')).toHaveText('Best for Glutes + Hamstrings');
+  const first = await cards(app).first().getAttribute('data-ex');
+  expect(['glutes', 'hamstrings'].every((m) => EX[first].muscles.primary.includes(m)), `${first} works both as main muscles`).toBe(true);
+  await expect(app.page.locator('#exresults [data-ex="db_rdl"]')).toHaveCount(1);
+  await expect(app.page.getByRole('button', { name: /By muscle:/ })).toContainText('Glutes, Hamstrings');
+  expect(await app.sidewaysScroll()).toBe(0);
+  await chips.getByRole('button', { name: 'Hamstrings' }).click();
+  await expect(app.page.locator('#exresults h2')).toHaveText('Best for Glutes');
+  await chips.getByRole('button', { name: 'Clear' }).click();
+  await expect(cards(app)).toHaveCount(total);
+});
