@@ -192,6 +192,11 @@ Plan and tickets: [docs/plans/phase-8-finding-and-stats.md](docs/plans/phase-8-f
     - **Tabs, built (1 Oct):** Overview (the tiles), Muscles (heat map and ranked bars), Time (week by week, for Last 4
       weeks and All time). **The Exercises tab comes with ticket 7**, so no tab stands empty. The span and program
       switches stay above the tabs and carry across them; the tab is kept while the app is open.
+    - **Where time goes, built (1 Oct):** on the Time tab, workout minutes by family (tap one for its subjects) and by
+      format, and the kind of work as three totals: strength sets (and reps), cardio minutes, mind & body minutes. A
+      mixed day's blocks count under their own family and the mixed program's subject (a Fighter day's flow is Mind &
+      body · Fighter). Random workouts count under their family as "Random workouts". Stretching stays out (it has
+      its own tile on Overview). Core & abs is in Mind & body, so it counts as mind & body minutes.
 
 ## Decided against (don't re-suggest)
 - **Logging weights/reps per set**: Noam wants done / not done only.
