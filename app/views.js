@@ -16,9 +16,17 @@ const fig = (id) => figCache[id] || (figCache[id] = figureSVG(EX[id], EX[id].nam
 const LETTERS = 'ABCDEF';
 const CHECK = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3.2 3L13 4.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 let rerenderQueued = false;
+// a redraw from the background (sync from another device, a program arriving) keeps the scroll and, when a text field
+// with an id has the focus, its focus and cursor: typing a name isn't cut off by an update arriving
 function rerender() {
   if (rerenderQueued) return; rerenderQueued = true;
-  requestAnimationFrame(() => { rerenderQueued = false; const y = window.scrollY; render(); window.scrollTo(0, y); });
+  requestAnimationFrame(() => {
+    rerenderQueued = false;
+    const y = window.scrollY, a = document.activeElement, typing = a && a.id && a.matches('input[type="text"], input[type="search"]') ? { id: a.id, s: a.selectionStart, e: a.selectionEnd } : null;
+    render(); window.scrollTo(0, y);
+    const b = typing && document.getElementById(typing.id);
+    if (b) { b.focus({ preventScroll: true }); try { b.setSelectionRange(typing.s, typing.e); } catch (err) { /* not a text field now */ } }
+  });
 }
 
 /* ---------------- routing ----------------

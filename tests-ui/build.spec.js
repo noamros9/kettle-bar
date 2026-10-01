@@ -335,3 +335,17 @@ base.test('rename, edit and delete reach a second browser through the account', 
   expect(two.errors).toEqual([]);
   await one.context.close(); await two.context.close();
 });
+
+test('a redraw from the background (another device syncing) keeps the rename field\'s focus, text and cursor', async ({ app }) => {
+  await app.open('#build');
+  await app.page.getByRole('button', { name: 'Save program' }).click();
+  await app.page.getByRole('button', { name: 'Rename' }).click();
+  const field = app.page.locator('#own-name');
+  await field.fill('Pull it');
+  await field.press('ArrowLeft');
+  await app.data(() => new Promise((done) => { rerender(); requestAnimationFrame(() => requestAnimationFrame(done)); }));
+  await expect(field).toBeFocused();
+  expect(await field.evaluate((e) => [e.value, e.selectionStart])).toEqual(['Pull it', 6]);
+  await field.press('Enter');
+  await expect(app.heading()).toHaveText('Pull it');
+});
