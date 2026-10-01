@@ -20,7 +20,7 @@ Decided on 29 Sep:
 | 4 | Stats in tabs | feature | – | `feature/stats-tabs` | done (PR #119) |
 | 5 | Where time goes, kind of work | feature | 4, Phase 6 1 | `feature/stats-time` | done (PR #120) |
 | 6 | Longer spans and the weekly trend | feature | 4 | `feature/stats-spans` | done (PR #121) |
-| 7 | Exercise history, level over time, CSV | feature | 4 | `feature/stats-exercises` | |
+| 7 | Exercise history, level over time, CSV | feature | 4 | `feature/stats-exercises` | done (PR #123) |
 
 ### 1. Favourites and hidden subjects (#67.4)
 - A star on each program card and program page. Starred programs show in a **Favourites** shelf at the top (under

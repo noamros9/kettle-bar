@@ -163,3 +163,24 @@ test('trend: Last 3 months draws a line of 13 weeks; This year draws a bar per m
   await expect(workouts(app)).toHaveText('4');
   expect(await app.sidewaysScroll()).toBe(0);
 });
+
+test('Exercises tab: each exercise done with its days and last date, tapping through to its page; level by week', async ({ app }) => {
+  await withHistory(app);
+  await app.page.getByRole('button', { name: 'Last 4 weeks' }).click();
+  await tab(app, 'Exercises').click();
+  const expected = await app.data(() => {
+    const now = new Date(), r = KBStats.spanRange('4weeks', now, []);
+    return KBStats.exerciseHistory(doneEntries(), { dayOf, ...r }).map((h) => KBEx.EX[h.ex].name);
+  });
+  const rows = app.page.locator('.exhrow');
+  await expect(rows).toHaveCount(Math.min(20, expected.length));
+  await expect(rows.first()).toContainText(expected[0]);
+  if (expected.length > 20) {
+    await app.page.getByRole('button', { name: `Show all ${expected.length}` }).click();
+    await expect(rows).toHaveCount(expected.length);
+  }
+  await expect(app.page.getByRole('list', { name: 'Three-Split 60, level by week' }).locator('li')).toHaveText([/nothing done/, /: I$/, /nothing done/, /: I$/]); // 6, 13, 20, 27 Sept
+  expect(await app.sidewaysScroll()).toBe(0);
+  await rows.first().click();
+  await expect(app.heading()).toHaveText(expected[0]);
+});

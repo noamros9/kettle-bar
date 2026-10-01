@@ -176,3 +176,17 @@ test('an export with no account data is the same as before apart from the versio
   const file = JSON.parse(fs.readFileSync(await download.path(), 'utf8'));
   expect(Object.keys(file)).toEqual(['format', 'version', 'exportedAt', 'programs', 'swaps', 'rounds']);
 });
+
+test('Download CSV: one row per done day with a header, programs loaded first', async ({ app }) => {
+  test.skip(test.info().project.name !== 'phone-light', 'theme-independent');
+  await app.open('#p-three-split-60');
+  for (const n of [1, 2]) await app.page.getByRole('checkbox', { name: `Mark day ${n} done` }).click();
+  await app.page.reload(); await app.heading().waitFor(); await app.loaded();
+  await app.go('#settings');
+  const [file] = await Promise.all([app.page.waitForEvent('download'), app.page.getByRole('button', { name: 'Download CSV' }).click()]);
+  expect(file.suggestedFilename()).toMatch(/^kettle-bar-workouts-\d{4}-\d{2}-\d{2}\.csv$/);
+  const text = require('fs').readFileSync(await file.path(), 'utf8').trim().split('\n');
+  expect(text[0]).toBe('date,program,day,level,workout_minutes,stretching_minutes,sets,reps');
+  expect(text.length).toBe(3);
+  expect(text[1]).toMatch(/^\d{4}-\d{2}-\d{2},Three-Split 60,1,1,\d+,\d+,\d+,\d+$/);
+});
