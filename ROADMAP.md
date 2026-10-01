@@ -223,8 +223,11 @@ Plan and tickets: [docs/plans/phase-9-map-and-history.md](docs/plans/phase-9-map
     weekday**, **time of day** (from when a day was marked done) and **days per week** as a trend.
     - **Calendar, built (1 Oct):** Stats → History, the month from Sunday to Saturday, ‹ › and Today; a day's fill
       steps at 1–24, 25–39, 40–59 and 60+ minutes (the heat map's four shades); today outlined. Tap a day: its
-      workouts, each program day opening its day page (a random workout just shows what it was). The span switch is
-      hidden on this tab; the program switch narrows it.
+      workouts, each program day opening its day page (a random workout just shows what it was). The program switch
+      narrows it; the calendar pages by month on its own.
+    - **When you train, built (1 Oct):** under the calendar, for the chosen span, workouts by weekday (Sunday first)
+      and by time of day (morning 5–12, afternoon 12–17, evening 17–22, night 22–5, from when the day was marked
+      done). So the span switch shows on History too (hidden in ticket 3, back in ticket 4).
 
 ## Decided against (don't re-suggest)
 - **Logging weights/reps per set**: Noam wants done / not done only.

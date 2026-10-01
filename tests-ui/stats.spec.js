@@ -185,10 +185,10 @@ test('Exercises tab: each exercise done with its days and last date, tapping thr
   await expect(app.heading()).toHaveText(expected[0]);
 });
 
-test('History: September as a calendar; tap a day for what you did and open it; ‹ › page months; no span switch here', async ({ app }) => {
+test('History: September as a calendar; tap a day for what you did and open it; ‹ › page months', async ({ app }) => {
   await withHistory(app); // the clock is on Wednesday 30 Sep 2026
   await tab(app, 'History').click();
-  await expect(app.page.getByRole('group', { name: 'Time span' })).toHaveCount(0);
+  await expect(app.page.getByRole('group', { name: 'Time span' })).toHaveCount(1); // for what's under the calendar
   await expect(app.page.locator('#hist-h')).toHaveText('September 2026');
   const cells = app.page.locator('.hday');
   await expect(cells).toHaveCount(35); // 30 Aug – 3 Oct
@@ -213,4 +213,16 @@ test('History: September as a calendar; tap a day for what you did and open it; 
   await app.page.getByRole('button', { name: /^Monday 28 September/ }).click();
   await work.first().click();
   await expect(app.page).toHaveURL(/#p-three-split-60-d1$/);
+});
+
+test('History: when you train, by weekday and time of day, for the span', async ({ app }) => {
+  await withHistory(app); // three-split days on Mon 28 and Tue 29 Sep (this week), Tue 15 Sep; Iron PPL Mon 10 Aug; all at 09:00
+  await tab(app, 'History').click();
+  const wd = app.page.getByRole('list', { name: 'Workouts by weekday' }).locator('.rval');
+  await expect(wd).toHaveText(['0', '1', '1', '0', '0', '0', '0']);
+  await expect(app.page.getByRole('list', { name: 'Workouts by time of day' }).locator('.rval')).toHaveText(['2', '0', '0', '0']);
+  await app.page.getByRole('button', { name: 'All time' }).click();
+  await expect(wd).toHaveText(['0', '2', '2', '0', '0', '0', '0']);
+  await expect(app.page.locator('#hist-h')).toHaveText('September 2026'); // the calendar stays on its month
+  expect(await app.sidewaysScroll()).toBe(0);
 });
