@@ -25,6 +25,14 @@
        -> { from, to, totals, weeks (null for one week), months (this year only, else null), muscles (ranked),
             hasHistory (any done day in scope),
             byFamily, bySubject, byFormat, kinds (breakdown) }   input.infoOf as for breakdown
+     exerciseHistory(entries, { dayOf, from, to }) -> [{ ex, days, last }] each exercise of the workout blocks (swaps
+       applied: dayOf resolves them) on the done days in [from, to): on how many days it came up, and the last one;
+       most days first, then the most recent
+     levelOverTime(entries, { dayOf, from, to }) -> [{ pid, weeks: [{ start, level | null }] }] per program done in the
+       span (in the order first done), the highest level done each week, oldest week first
+     toCSV(entries, { dayOf, EX, nameOf }) -> text: a header, then one row per done day, oldest first: date (local),
+       program (nameOf(pid); "Random" for random workouts), day (empty for random), level, workout minutes,
+       stretching minutes, sets, reps. Days the app no longer has are left out.
    Muscle load: each set counts 1 for every main muscle and 0.5 for every secondary muscle. */
 (function (root, Formats) {
   // every set a day asks for, as [{ ex, sets, repsPerSet }]; timed blocks are converted to sets
@@ -143,6 +151,45 @@
     return out;
   }
 
+  const inSpan = (entries, { dayOf, from, to }) => entries.map((e) => ({ e, t: new Date(e.time), d: dayOf(e.pid, e.day, e.round) }))
+    .filter(({ t, d }) => d && t >= from && t < to).sort((a, b) => a.t - b.t);
+
+  function exerciseHistory(entries, opts) {
+    const seen = {};
+    inSpan(entries, opts).forEach(({ t, d }) => {
+      new Set(d.blocks.flatMap((b) => b.items.map((it) => it.ex))).forEach((ex) => {
+        const h = seen[ex] || (seen[ex] = { ex, days: 0, last: t });
+        h.days += 1; h.last = t;
+      });
+    });
+    return Object.values(seen).sort((a, b) => b.days - a.days || b.last - a.last);
+  }
+
+  function levelOverTime(entries, opts) {
+    const done = inSpan(entries, opts), out = [];
+    done.forEach(({ e }) => { if (!out.some((r) => r.pid === e.pid)) out.push({ pid: e.pid }); });
+    const starts = [];
+    for (let w = weekStart(opts.from); w < opts.to; w = plusDays(w, 7)) starts.push(w);
+    out.forEach((r) => {
+      r.weeks = starts.map((start) => {
+        const lv = done.filter(({ e, t }) => e.pid === r.pid && t >= start && t < plusDays(start, 7)).map(({ d }) => d.level);
+        return { start, level: lv.length ? Math.max(...lv) : null };
+      });
+    });
+    return out;
+  }
+
+  const pad = (n) => String(n).padStart(2, '0');
+  const cell = (v) => (/[",\n]/.test(String(v)) ? `"${String(v).replace(/"/g, '""')}"` : String(v));
+  function toCSV(entries, { dayOf, EX, nameOf }) {
+    const rows = inSpan(entries, { dayOf, from: new Date(-8.64e15), to: new Date(8.64e15) }).map(({ e, t, d }) => {
+      const v = dayVolume(d, EX), random = e.pid === 'random';
+      return [`${t.getFullYear()}-${pad(t.getMonth() + 1)}-${pad(t.getDate())}`, random ? 'Random' : nameOf(e.pid), random ? '' : e.day, d.level,
+        Math.round(v.workoutMin), Math.round(v.stretchMin), v.sets, v.reps].map(cell).join(',');
+    });
+    return ['date,program,day,level,workout_minutes,stretching_minutes,sets,reps', ...rows].join('\n') + '\n';
+  }
+
   function report({ entries, dayOf, EX, names, infoOf }, { scope, round, span, now }) {
     const mine = entries.filter((x) => (scope === 'all' || x.pid === scope) && (round === undefined || x.round === round));
     const { from, to } = spanRange(span, now, mine);
@@ -151,7 +198,7 @@
     return { from, to, totals, weeks: span === 'week' ? null : weekly(mine, opts), muscles: rankMuscles(totals.muscles, names), months: span === 'year' ? monthly(mine, opts) : null, hasHistory: mine.length > 0, ...breakdown(mine, { ...opts, infoOf }) };
   }
 
-  const api = { dayVolume, weekStart, summarize, spanRange, weekly, monthly, rankMuscles, report, dayParts, breakdown, DEFAULT_RESTS };
+  const api = { dayVolume, weekStart, summarize, spanRange, weekly, monthly, rankMuscles, exerciseHistory, levelOverTime, toCSV, report, dayParts, breakdown, DEFAULT_RESTS };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBStats = api;
 })(typeof window !== 'undefined' ? window : globalThis, typeof module !== 'undefined' && module.exports ? require('../formats.js') : window.KBFormats);

@@ -166,7 +166,7 @@ Plan and tickets: [docs/plans/phase-7-day-to-day.md](docs/plans/phase-7-day-to-d
     the app; travel mode (lasts until turned off); shorter today; a warm-up that matches the format; a rest-day
     mobility flow; a big timer; "what next" when a program ends.
 
-## Phase 8: finding things, and stats
+## Phase 8: finding things, and stats (tickets done, Oct 2026; 20b still to explore)
 Plan and tickets: [docs/plans/phase-8-finding-and-stats.md](docs/plans/phase-8-finding-and-stats.md). Decided 29 Sep 2026.
 20. **Finding things (#67):** favourite programs and hidden subjects (synced), an equipment filter on the Programs
     page, search and filters on the Exercises page.
@@ -201,6 +201,11 @@ Plan and tickets: [docs/plans/phase-8-finding-and-stats.md](docs/plans/phase-8-f
     - **Longer spans and the trend, built (1 Oct):** spans This week · Last 4 weeks · **Last 3 months** (13 whole
       weeks) · **This year** (1 Jan to the end of this week) · All time. The Time tab opens with **minutes per week** as
       a line, or **per month as bars** for This year (with a month-by-month table instead of the weekly one).
+    - **Exercises tab and CSV, built (1 Oct):** each exercise of the workout blocks done in the span (a swap counts as
+      the one done; warm-ups and cool-downs left out), on how many days and when last, 20 shown then "Show all"; tap →
+      its page. **Level over time**: per program, the highest level done each week (I / II / III, · for none). Settings
+      → Workout history → **Download CSV**: one row per done day (date, program or "Random", day, level, workout and
+      stretching minutes, sets, reps); it loads the programs first, and says so if it can't (offline).
 
 ## Decided against (don't re-suggest)
 - **Logging weights/reps per set**: Noam wants done / not done only.

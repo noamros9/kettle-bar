@@ -107,6 +107,8 @@ document.addEventListener('click', (ev) => {
   }
   if (d.retry) { delete loadFailures[d.retry]; render(); return; }
   if (d.statFamily !== undefined) { statsView.family = statsView.family === d.statFamily ? '' : d.statFamily; rerender(); return; }
+  if (d.statAllex) { statsView.allEx = !statsView.allEx; render(); return; }
+  if (d.csv) return downloadCSV();
   if (d.statTab) { statsView.tab = d.statTab; render(); return; }
   if (d.statSpan) { statsView.span = d.statSpan; render(); return; }
   if (d.swap) { const [bi, i] = d.swap.split(':').map(Number); swapState = { key: openKey(), bi, i }; rerender(); return; }
@@ -137,8 +139,8 @@ document.addEventListener('click', (ev) => {
 });
 
 /* ---------------- settings: backup ---------------- */
-function download(name, text) {
-  const url = URL.createObjectURL(new Blob([text], { type: 'application/json' }));
+function download(name, text, type = 'application/json') {
+  const url = URL.createObjectURL(new Blob([text], { type }));
   const a = Object.assign(document.createElement('a'), { href: url, download: name });
   document.body.appendChild(a); a.click(); a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 1000);

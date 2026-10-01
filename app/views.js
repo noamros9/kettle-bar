@@ -645,6 +645,7 @@ function infoOf(e) {
   const sm = programs.summary(e.pid), p = programs.get(e.pid);
   return sm ? { family: familyOfName(sm.subject), subject: sm.subject, rests: p && p.rests } : {};
 }
+const statsEntries = () => doneEntries().filter((x) => (statsView.pid === 'all' || x.pid === statsView.pid) && (statsView.pid === 'all' || statsView.round === undefined || x.round === statsView.round));
 const statsReport = (scope, span, round) => KBStats.report({ entries: doneEntries(), dayOf, EX, names: MUSCLE_NAMES, infoOf }, { scope, round, span, now: new Date() });
 function weekLine() {
   if (stillLoading(doneEntries().map((x) => x.pid)).length) return 'This week: loading…';
@@ -839,6 +840,11 @@ function viewSettings() {
     ${st.done ? `<p class="ok" role="status">${esc(st.done)}</p>` : ''}
     ${st.diff ? importReview(st) : ''}
   </section>
+  <section class="card setting"><h2>Workout history</h2>
+    <p>Every day you marked done as a spreadsheet file (CSV): date, program, day, level, minutes, sets and reps.</p>
+    <div class="actions"><button class="btn ghost" data-csv="1">Download CSV</button></div>
+    ${csvNote ? `<p class="hint" role="status">${esc(csvNote)}</p>` : ''}
+  </section>
   <section class="card setting"><h2>Hidden subjects</h2>
     ${KBLibrary.subjectsOf(programs.list().filter((p) => p.source !== 'own'), FAMILIES).map(([fam, list]) => `<div class="filters hidesubj" role="group" aria-label="Hide ${esc(fam)} subjects"><span class="fname">${esc(fam)}</span>${list.map((x) => `<button class="fchip acc" data-hide="${esc(x)}" aria-pressed="${libraryPrefs().hidden.includes(x)}">${esc(x)}</button>`).join('')}</div>`).join('')}
     <p class="muted">Ticked subjects don't show on the Programs page: no chip, no shelf, not counted. Programs you starred stay in Favourites. Synced with your account.</p>
@@ -851,6 +857,17 @@ function viewSettings() {
     <label class="switch"><input type="checkbox" role="switch" id="voice-toggle"${T.voiceOn() ? ' checked' : ''}><span>Voice cues</span></label>
     <p class="muted">During holds and one-side moves, the phone says "Halfway", "Switch sides" and "Done". In guided flows it also names each pose and side, and in boxing bouts it calls each combo. The beeps stay either way. Remembered on this device.</p>
   </section>`;
+}
+
+/* CSV of every done day (Phase 8 ticket 7): the programs are loaded first, so no day is left out */
+let csvNote = '';
+function downloadCSV() {
+  const all = doneEntries(), pids = [...new Set(all.map((e) => e.pid).filter((p) => p !== 'random'))];
+  csvNote = ''; render();
+  return Promise.all(pids.map((p) => programs.load(p))).then(() => {
+    const nameOf = (pid) => (programs.summary(pid) || { name: pid }).name;
+    download(`kettle-bar-workouts-${KBRandom.dayKey(new Date())}.csv`, KBStats.toCSV(doneEntries(), { dayOf, EX, nameOf }), 'text/csv');
+  }, () => { csvNote = "Some programs couldn't load (offline?), so the file wasn't made. Try again when you're online."; render(); });
 }
 
 /* ---------------- travel mode (Phase 7) ----------------
@@ -882,7 +899,7 @@ function statTiles(s) {
 // the Stats page's switches: time span and program ('all' or a program id)
 // and the tab (Phase 8): Overview · Muscles · Time, the switches staying above them and carrying across
 const statsView = { span: 'week', pid: 'all', tab: 'overview' };
-const STAT_TABS = [['overview', 'Overview'], ['muscles', 'Muscles'], ['time', 'Time']];
+const STAT_TABS = [['overview', 'Overview'], ['muscles', 'Muscles'], ['time', 'Time'], ['exercises', 'Exercises']];
 const SPANS = [['week', 'This week'], ['4weeks', 'Last 4 weeks'], ['3months', 'Last 3 months'], ['year', 'This year'], ['all', 'All time']];
 const shortDate = (d) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
 function weekRows(rows, caption = 'Week by week', head = 'Week of', label = shortDate) {
@@ -948,8 +965,28 @@ function trendChart(rows, per) {
   return `<section class="card trend" aria-labelledby="trend-h"><h2 id="trend-h">Minutes per ${per}</h2>
     <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Workout minutes per ${per}, ${esc(data.map((d) => `${tip(d)}`).join('; '))}">${grid}${marks}${labels}</svg></section>`;
 }
+/* The Exercises tab (Phase 8 ticket 7): each exercise done in the span (swaps counted as what was done), on how many
+   days and when last, tapping through to its page; then each program's level, week by week. */
+const ROMAN = ['', 'I', 'II', 'III'];
+const EX_SHOWN = 20; // the rest behind "Show all"
+function exercisesTab(r) {
+  const opts = { dayOf, from: r.from, to: r.to }, mine = statsEntries();
+  const hist = KBStats.exerciseHistory(mine, opts).filter((h) => EX[h.ex]);
+  const shown = statsView.allEx ? hist : hist.slice(0, EX_SHOWN);
+  const row = (h) => `<li><button class="exhrow" data-ex="${h.ex}"><span class="rname">${esc(EX[h.ex].name)}</span><span class="exhmeta">${plural(h.days, 'day')} · last ${shortDate(h.last)}</span></button></li>`;
+  const more = hist.length > EX_SHOWN ? `<button class="linkbtn" data-stat-allex="1">${statsView.allEx ? 'Show fewer' : `Show all ${hist.length}`}</button>` : '';
+  const levels = KBStats.levelOverTime(mine, opts);
+  const nameOf = (pid) => (pid === 'random' ? 'Random workouts' : programs.summary(pid) ? programs.summary(pid).name : pid);
+  const strip = (lv) => `<div class="lvrow"><span class="rname">${esc(nameOf(lv.pid))}</span><ol class="lvstrip" aria-label="${esc(nameOf(lv.pid))}, level by week">${lv.weeks.map((w) => `<li class="lv${w.level || 0}" title="Week of ${shortDate(w.start)}: ${w.level ? `level ${ROMAN[w.level]}` : 'nothing done'}"><span class="sr">Week of ${shortDate(w.start)}: </span>${w.level ? ROMAN[w.level] : '<span aria-hidden="true">·</span><span class="sr">nothing done</span>'}</li>`).join('')}</ol></div>`;
+  return `<section class="card exhist" aria-labelledby="exh-h"><h2 id="exh-h">Exercises done</h2>
+      <ol class="exhlist">${shown.map(row).join('')}</ol>${more}
+      <p class="note">On how many of your done days each exercise came up; a swap counts as the exercise you did. Warm-ups and cool-downs not included.</p></section>
+    <section class="card exhist" aria-labelledby="lv-h"><h2 id="lv-h">Level over time</h2>${levels.map(strip).join('')}
+      <p class="note">The highest level you did each week, oldest week first: I days 1–20, II days 21–40, III days 41–60.</p></section>`;
+}
 function statsTab(r, what) {
   if (statsView.tab === 'muscles') return muscleBalance(r, what);
+  if (statsView.tab === 'exercises') return exercisesTab(r);
   if (statsView.tab === 'time') {
     if (r.months) return trendChart(r.months, 'month') + timeTab(r) + weekRows(r.months, 'Month by month', 'Month', monthName);
     return (r.weeks ? trendChart(r.weeks, 'week') : '') + timeTab(r) + (r.weeks ? weekRows(r.weeks) : '<p class="muted">Pick a longer span to see each week.</p>');
