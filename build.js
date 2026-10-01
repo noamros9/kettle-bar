@@ -8,6 +8,10 @@ const path = require('path');
 const { buildAll } = require('./program-builder.js');
 const { summarize, slim, usageIndex } = require('./app/programs.js');
 const { refresh } = require('./recipe-book.js');
+const { programFocus } = require('./app/stats.js');
+const { EX } = require('./exercises.js');
+// each library program's muscle focus (the Exercises page's muscle map ranks programs by it): shares to 4 places
+const focusIndex = (programs) => Object.fromEntries(programs.map((p) => [p.id, Object.fromEntries(Object.entries(programFocus(p.days, EX)).map(([m, x]) => [m, Math.round(x * 1e4) / 1e4]))]));
 
 const read = (f) => fs.readFileSync(path.join(__dirname, f), 'utf8');
 
@@ -29,9 +33,10 @@ function render(programs = buildAll()) {
     .replace('/*__STYLES__*/', () => read('app/styles.css'))
     .replace('<!--__SCRIPTS__-->', () => scripts);
   const data = Object.fromEntries(programs.map((p) => [`data/${p.id}.json`, JSON.stringify(p)]));
-  // build your own (the recipe book and the code that reads it) and the exercise index (the exercise page's "Also in"):
+  // build your own (the recipe book and the code that reads it), the exercise index (the exercise page's "Also in") and
+  // the programs' muscle focus (the muscle map):
   // fetched when first needed and kept for offline, not in the page
-  return { 'index.html': HEAD + page + TAIL, ...data, 'data/recipes.json': JSON.stringify(refresh()), 'data/recipes.js': read('recipes.js'), 'data/index.json': JSON.stringify(usageIndex(programs)) };
+  return { 'index.html': HEAD + page + TAIL, ...data, 'data/recipes.json': JSON.stringify(refresh()), 'data/recipes.js': read('recipes.js'), 'data/index.json': JSON.stringify(usageIndex(programs)), 'data/muscles.json': JSON.stringify(focusIndex(programs)) };
 }
 
 if (require.main === module) {

@@ -33,6 +33,7 @@
      toCSV(entries, { dayOf, EX, nameOf }) -> text: a header, then one row per done day, oldest first: date (local),
        program (nameOf(pid); "Random" for random workouts), day (empty for random), level, workout minutes,
        stretching minutes, sets, reps. Days the app no longer has are left out.
+     programFocus(days, EX) -> { muscle: share } of the muscle load over all the days, adding up to 1 ({} for none)
    Muscle load: each set counts 1 for every main muscle and 0.5 for every secondary muscle. */
 (function (root, Formats) {
   // every set a day asks for, as [{ ex, sets, repsPerSet }]; timed blocks are converted to sets
@@ -190,6 +191,14 @@
     return ['date,program,day,level,workout_minutes,stretching_minutes,sets,reps', ...rows].join('\n') + '\n';
   }
 
+  // a program's muscle focus (Phase 9): each muscle's share of the weighted sets over all its days (they add up to 1)
+  function programFocus(days, EX) {
+    const load = {};
+    days.forEach((d) => Object.entries(dayVolume(d, EX).muscles).forEach(([m, x]) => { load[m] = (load[m] || 0) + x; }));
+    const total = Object.values(load).reduce((a, x) => a + x, 0);
+    return Object.fromEntries(Object.entries(load).map(([m, x]) => [m, x / total]));
+  }
+
   function report({ entries, dayOf, EX, names, infoOf }, { scope, round, span, now }) {
     const mine = entries.filter((x) => (scope === 'all' || x.pid === scope) && (round === undefined || x.round === round));
     const { from, to } = spanRange(span, now, mine);
@@ -198,7 +207,7 @@
     return { from, to, totals, weeks: span === 'week' ? null : weekly(mine, opts), muscles: rankMuscles(totals.muscles, names), months: span === 'year' ? monthly(mine, opts) : null, hasHistory: mine.length > 0, ...breakdown(mine, { ...opts, infoOf }) };
   }
 
-  const api = { dayVolume, weekStart, summarize, spanRange, weekly, monthly, rankMuscles, exerciseHistory, levelOverTime, toCSV, report, dayParts, breakdown, DEFAULT_RESTS };
+  const api = { programFocus, dayVolume, weekStart, summarize, spanRange, weekly, monthly, rankMuscles, exerciseHistory, levelOverTime, toCSV, report, dayParts, breakdown, DEFAULT_RESTS };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBStats = api;
 })(typeof window !== 'undefined' ? window : globalThis, typeof module !== 'undefined' && module.exports ? require('../formats.js') : window.KBFormats);

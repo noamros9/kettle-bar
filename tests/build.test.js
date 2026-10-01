@@ -7,7 +7,7 @@ const out = render();
 
 test('the build produces the page and one data file per program', () => {
   const { CONFIGS } = require('../program-builder.js');
-  assert.deepStrictEqual(Object.keys(out).sort(), ['index.html', 'data/recipes.json', 'data/recipes.js', 'data/index.json', ...CONFIGS.map((c) => `data/${c.id}.json`)].sort());
+  assert.deepStrictEqual(Object.keys(out).sort(), ['index.html', 'data/recipes.json', 'data/recipes.js', 'data/index.json', 'data/muscles.json', ...CONFIGS.map((c) => `data/${c.id}.json`)].sort());
   const iron = JSON.parse(out['data/iron-ppl.json']);
   assert.equal(iron.days.length, 60);
 });
@@ -82,4 +82,11 @@ test('the page carries each module without its documentation: no file-top commen
   const html = out['index.html'];
   assert.doesNotMatch(html, /Program Progress: one program's done days/, 'the modules\' doc blocks are out');
   assert.match(html, /function createStore\(/, 'the code is in');
+});
+
+test('data/muscles.json holds each library program\'s muscle focus (the muscle map ranks programs by it), shares adding up to 1', () => {
+  const focus = JSON.parse(out['data/muscles.json']);
+  const { CONFIGS } = require('../program-builder.js');
+  assert.deepStrictEqual(Object.keys(focus).sort(), CONFIGS.map((c) => c.id).sort());
+  Object.values(focus).forEach((f) => assert.ok(Math.abs(Object.values(f).reduce((a, b) => a + b, 0) - 1) < 0.01));
 });

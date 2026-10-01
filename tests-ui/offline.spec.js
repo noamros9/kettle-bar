@@ -8,9 +8,9 @@ test('after the first visit every program is in the offline cache and opens with
   await app.open('#programs');
   await app.page.waitForFunction(() => programs.ids().every((id) => programs.get(id)), null, { timeout: 20000 });
   // build your own's book and code and the exercise index come after the programs
-  await app.page.waitForFunction(async () => (await Promise.all(['data/recipes.json', 'data/recipes.js', 'data/index.json'].map((u) => caches.match(u)))).every(Boolean), null, { timeout: 20000 });
+  await app.page.waitForFunction(async () => (await Promise.all(['data/recipes.json', 'data/recipes.js', 'data/index.json', 'data/muscles.json'].map((u) => caches.match(u)))).every(Boolean), null, { timeout: 20000 });
   const cached = await app.data(async () => (await (await caches.open('kettle-bar-v2')).keys()).map((r) => new URL(r.url).pathname).filter((p) => p.includes('/data/')).length);
-  expect(cached).toBe(CONFIGS.length + 3); // every program, the recipe book and its code, and the exercise index
+  expect(cached).toBe(CONFIGS.length + 4); // every program, the recipe book and its code, the exercise index, the muscle focus
   app.allowErrors(/\/data\//);
   await app.page.route('**/data/**', (r) => r.abort('internetdisconnected')); // the network is gone for programs
   await app.page.reload(); await app.page.locator('#app h1').waitFor();
