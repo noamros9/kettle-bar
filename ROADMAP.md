@@ -174,6 +174,10 @@ Plan and tickets: [docs/plans/phase-8-finding-and-stats.md](docs/plans/phase-8-f
       ignores the filters; a starred program also stays on its subject's shelf. A starred program whose subject is
       hidden **stays in Favourites** (the star is the more specific choice). Hiding the subject or family that's picked
       falls back to All. Your own programs have no star (they have their own shelf). In `prefs` only while not empty.
+    - **Equipment filter, built (1 Oct):** "Equipment: Any ▾" next to Length (Any equipment / Kettlebell only / No
+      equipment). It means the gear you have, as in the recipes: **Kettlebell only shows kettlebell and no-equipment
+      programs**, No equipment only no-equipment ones. Chip counts and the total follow it (length still doesn't move
+      them); a family or subject it leaves empty falls back to All. Not remembered: it resets with the page, as Length.
 20b. **Body muscle map ([#81](https://github.com/noamros9/kettle-bar/issues/81), Noam, 29 Sep; to explore):** tap
     muscles on a front/back body map and get the exercises and programs that work them most. To be grilled and
     designed before it gets tickets; it builds on the muscle map the exercise pages and stats already draw.

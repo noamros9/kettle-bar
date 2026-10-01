@@ -207,7 +207,9 @@ main{padding-block:24px 64px}
 .ftab[aria-pressed="true"]{color:var(--ink);font-weight:800;border-bottom-color:var(--ink)}
 .lenline{display:block;margin-top:12px;padding:4px 0;border:0;background:transparent;color:var(--muted);font-size:14px;font-weight:500}
 .lenline b{color:var(--ink);font-weight:600}
-.lenline + .filters{margin-top:6px}
+.lenlines{display:flex;flex-wrap:wrap;column-gap:20px;margin-top:12px}
+.lenlines .lenline{margin-top:0}
+.lenlines + .filters{margin-top:6px}
 .pgroup{margin-top:28px}
 .pgroup h2{margin-bottom:10px}
 .pgroup .plist{margin-top:0;grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}

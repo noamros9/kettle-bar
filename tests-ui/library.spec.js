@@ -163,3 +163,18 @@ test('at 360px only the family tab row scrolls: the page does not, and the selec
   expect(box.tabLeft).toBeGreaterThanOrEqual(box.rowLeft);
   expect(box.tabRight).toBeLessThanOrEqual(box.rowRight + 0.5);
 });
+
+test('Equipment: No equipment narrows the chips, shelves and counter to bodyweight programs; Any brings them back', async ({ app }) => {
+  await app.open('#programs');
+  const bw = CONFIGS.filter((c) => c.equip === 'bw');
+  await app.page.getByRole('button', { name: /Equipment:/ }).click();
+  await app.page.getByRole('group', { name: 'Filter by equipment' }).getByRole('button', { name: 'No equipment' }).click();
+  await expect(app.page.getByRole('button', { name: /Equipment:/ })).toContainText('No equipment');
+  await expect(app.page.locator('.eyebrow').first()).toHaveText(`${bw.length} programs`);
+  await expect(app.page.locator('.pcard')).toHaveCount(bw.length);
+  await expect(subjects(app).getByRole('button', { name: /^Signature/ })).toHaveCount(CONFIGS.some((c) => c.subject === 'Signature' && c.equip === 'bw') ? 1 : 0);
+  expect(await app.sidewaysScroll()).toBe(0);
+  await app.page.getByRole('button', { name: /Equipment:/ }).click();
+  await app.page.getByRole('group', { name: 'Filter by equipment' }).getByRole('button', { name: 'Any equipment' }).click();
+  await expect(app.page.locator('.pcard')).toHaveCount(CONFIGS.length);
+});
