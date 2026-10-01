@@ -177,6 +177,12 @@ Programs page, under Your programs, whatever the filters. Stored in the synced p
 **Hidden subject**: a subject ticked in Settings → Hidden subjects. It shows nowhere on the Programs page (no chip, no
 shelf, not counted); a starred program of that subject stays in Favourites. Stored as `hidden: [subject]` in the prefs.
 
+**Muscle focus**: what share of a program's weighted sets (over its 60 days) each muscle gets. The muscle map ranks
+programs by it.
+
+**History**: every day marked done, by date: the Stats → History tab's month calendar. Not streaks: nothing counts runs
+of days or sets targets.
+
 **Done**: a day marked finished, stored as `{day: time first marked}` per program.
 
 **Program Progress**: one program's done days and swaps, as a value. The only module that knows how progress is

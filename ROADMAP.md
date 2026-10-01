@@ -15,9 +15,7 @@ future work doesn't re-ask them. Order within a phase is the build order.
   ~35% faster (sync 22 → 13 s, build 23 → 14 s, random 24 → 18 s); the build one had flaked on a busy runner. More workers don't help on 2 cores (4 workers: 4.4 min and timeouts). CI (1 Oct): the test job runs in
   Playwright's image (installing the browser took 6–20+ min of apt-get), a newer push to a PR cancels the older run,
   and a commit of Markdown only skips the pre-commit tests.
-- **Workout history with a calendar** ([#113](https://github.com/noamros9/kettle-bar/issues/113), Noam, 1 Oct): every
-  done workout by date on a calendar, a base for more stats. To be grilled and planned; settle the line with
-  "calendar/streaks" under Decided against.
+- **Workout history with a calendar** ([#113](https://github.com/noamros9/kettle-bar/issues/113)): planned as Phase 9.
 
 ## Phase 1: a safety net (done, Sep 2026)
 Planned in the PRD [#7](https://github.com/noamros9/kettle-bar/issues/7); glossary in [CONTEXT.md](CONTEXT.md), decisions in
@@ -166,7 +164,7 @@ Plan and tickets: [docs/plans/phase-7-day-to-day.md](docs/plans/phase-7-day-to-d
     the app; travel mode (lasts until turned off); shorter today; a warm-up that matches the format; a rest-day
     mobility flow; a big timer; "what next" when a program ends.
 
-## Phase 8: finding things, and stats (tickets done, Oct 2026; 20b still to explore)
+## Phase 8: finding things, and stats (done, Oct 2026; 20b moved to Phase 9)
 Plan and tickets: [docs/plans/phase-8-finding-and-stats.md](docs/plans/phase-8-finding-and-stats.md). Decided 29 Sep 2026.
 20. **Finding things (#67):** favourite programs and hidden subjects (synced), an equipment filter on the Programs
     page, search and filters on the Exercises page.
@@ -182,7 +180,7 @@ Plan and tickets: [docs/plans/phase-8-finding-and-stats.md](docs/plans/phase-8-f
       by category (with counts) and by **what the exercise uses**: Kettlebell, Dumbbells, Pull-up bar, No equipment
       (here "Kettlebell" means exercises with the kettlebell, not what you can do with one). Results stay grouped by
       category; within one, name matches come first. The search stays while you open an exercise and come back.
-20b. **Body muscle map ([#81](https://github.com/noamros9/kettle-bar/issues/81), Noam, 29 Sep; to explore):** tap
+20b. **Body muscle map ([#81](https://github.com/noamros9/kettle-bar/issues/81), Noam, 29 Sep; planned as Phase 9):** tap
     muscles on a front/back body map and get the exercises and programs that work them most. To be grilled and
     designed before it gets tickets; it builds on the muscle map the exercise pages and stats already draw.
 21. **Stats ([#66](https://github.com/noamros9/kettle-bar/issues/66)), in tabs** (Overview · Muscles · Time ·
@@ -207,10 +205,21 @@ Plan and tickets: [docs/plans/phase-8-finding-and-stats.md](docs/plans/phase-8-f
       → Workout history → **Download CSV**: one row per done day (date, program or "Random", day, level, workout and
       stretching minutes, sets, reps); it loads the programs first, and says so if it can't (offline).
 
+## Phase 9: the body muscle map, and workout history
+Plan and tickets: [docs/plans/phase-9-map-and-history.md](docs/plans/phase-9-map-and-history.md). Grilled with Noam on
+1 Oct 2026; both open items in one phase.
+22. **Body muscle map ([#81](https://github.com/noamros9/kettle-bar/issues/81)):** on the **Exercises page** (a "By
+    muscle" view, not a new tab). Pick **several muscles, combined**: exercises and programs that work all of them
+    rank first. You get **exercises and programs** that work them most.
+23. **Workout history ([#113](https://github.com/noamros9/kettle-bar/issues/113)):** a **Stats → History** tab, a
+    **month grid; tap a day** for what you did. **History yes, streaks no** (calendar/streaks stays under Decided
+    against for the streak part: no streak counts, targets or "don't break the chain"). Built on it: **workouts by
+    weekday**, **time of day** (from when a day was marked done) and **days per week** as a trend.
+
 ## Decided against (don't re-suggest)
 - **Logging weights/reps per set**: Noam wants done / not done only.
 - **Adaptive plans**: no test days, no too-easy/too-hard nudging, no deload suggestions. Plans stay as written.
-- **Calendar/streaks, consistency targets, program-progress stats, push/pull ratios, neglected-muscle alerts**:
+- **Streaks** (a history calendar is fine, Phase 9; 1 Oct), **consistency targets, program-progress stats, push/pull ratios, neglected-muscle alerts**:
   not picked.
 - **Voice countdowns, "what's next" and encouragement**: holds and sides only.
 - **Hebrew version** and **share as image**: not wanted for now.
