@@ -11,13 +11,19 @@ permissions:
   pages: write
   id-token: write
 
+# a newer push to the same PR cancels the older run; main's runs (they deploy) always finish
 concurrency:
-  group: pages
-  cancel-in-progress: false
+  group: test-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   test:
     runs-on: ubuntu-latest
+    # Playwright's own image has the browser and its system libraries: no install step (it took 6 to 20+ minutes
+    # of apt-get). Its version must match @playwright/test in package.json (tests/ci.test.js checks).
+    container:
+      image: mcr.microsoft.com/playwright:v1.56.0-noble
+      options: --user 1001
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -28,8 +34,6 @@ jobs:
         run: npm run test:coverage
       - name: Build
         run: npm run build
-      - name: Install the phone browser
-        run: npx playwright install --with-deps chromium
       - name: Phone UI tests, light and dark
         run: npm run test:ui
       - name: Keep the screenshots
@@ -51,6 +55,9 @@ jobs:
 
   deploy:
     needs: test
+    concurrency:
+      group: pages
+      cancel-in-progress: false
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment:

@@ -11,6 +11,7 @@ if (!fs.existsSync(hooksDir)) {
 }
 
 const hook = `#!/bin/sh
+if [ -z "$(git diff --cached --name-only | grep -v '\\.md$')" ]; then echo "Pre-commit: only Markdown changed, no tests to run."; exit 0; fi
 echo "Pre-commit: unit tests with the coverage gate..."
 if ! npm run -s test:coverage > /tmp/kettle-bar-precommit.log 2>&1; then
   grep -E "^not ok|coverage threshold|does not meet" /tmp/kettle-bar-precommit.log | head -20
