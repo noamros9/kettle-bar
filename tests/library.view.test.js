@@ -172,3 +172,44 @@ test('toggleIn: adds a missing value, removes a present one, and never changes t
   assert.deepEqual(toggleIn(undefined, 'a'), ['a']);
   assert.deepEqual(l, ['a']);
 });
+
+// Phase 8 ticket 2: the equipment filter. Like the recipes: "Kettlebell only" is what you can do with a kettlebell
+// (kettlebell and no-equipment programs), "No equipment" only no-equipment ones. Unlike length, the counts follow it.
+const G = [
+  { id: 'a', subject: 'Signature', minutes: [30, 30], equip: 'all' }, { id: 'b', subject: 'Strength', minutes: [20, 20], equip: 'kb' },
+  { id: 'c', subject: 'Strength', minutes: [40, 40], equip: 'bw' }, { id: 'd', subject: 'HIIT', minutes: [20, 20], equip: 'bw' },
+  { id: 'e', subject: 'Core', minutes: [20, 20] },
+];
+const gear = (f = {}) => libraryView(G, { ...start, ...f }, { families: FAM, lengthOf });
+
+test('equipment: counts, shelves and the counter follow it', () => {
+  const kb = gear({ equip: 'kb' });
+  assert.deepEqual(kb.families.map((f) => [f.name, f.count]), [['All', 3], ['Strength', 2], ['Cardio', 1]], 'Mind has nothing with a kettlebell only');
+  assert.deepEqual(kb.subjects.map((s) => [s.name, s.count]), [['All', 3], ['Strength', 2], ['HIIT', 1]]);
+  assert.deepEqual(kb.shelves.map((s) => s.programs.map((p) => p.id)), [['b', 'c'], ['d']]);
+  assert.equal(kb.counter, '3 programs');
+  const bw = gear({ equip: 'bw', subject: 'Strength' });
+  assert.equal(bw.counter, 'Strength · 1 program');
+  assert.equal(bw.equipLabel, 'No equipment');
+  assert.deepEqual(bw.equips.map((e) => [e.key, e.pressed]), [['all', false], ['kb', false], ['bw', true]]);
+});
+
+test('equipment: a program with no equip tag needs all the gear; "Any" when none is set', () => {
+  const v = gear();
+  assert.equal(v.count, 5); assert.equal(v.equipLabel, 'Any');
+  assert.ok(!gear({ equip: 'kb' }).shelves.some((s) => s.programs.some((p) => p.id === 'e' || p.id === 'a')));
+});
+
+test('equipment with length: the count follows both, the total only the equipment', () => {
+  const v = gear({ equip: 'kb', len: 'short' });
+  assert.equal(v.count, 2); assert.equal(v.total, 3);
+  assert.equal(v.counter, '2 of 3 programs');
+});
+
+test('equipment: a picked family left empty by it falls back to All', () => {
+  assert.deepEqual(pressed(gear({ equip: 'bw', family: 'Mind' }).families), ['All']);
+});
+
+test('equipment: changing it keeps the family and subject', () => {
+  assert.deepEqual(setFilter({ family: 'Mind', subject: 'Yoga', len: 'all', equip: 'all' }, 'equip', 'bw'), { family: 'Mind', subject: 'Yoga', len: 'all', equip: 'bw' });
+});

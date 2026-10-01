@@ -106,13 +106,13 @@ function cycleDays(p, key) {
 
 /* ---------------- programs page ---------------- */
 const { libraryView, suggestNext, FAMILIES, LENGTHS, lengthOf } = KBLibrary;
-let filters = { family: 'all', subject: 'all', len: 'all' };
-let lengthMenu = false; // the "Length: Any" line is open, showing the four choices
+let filters = { family: 'all', subject: 'all', len: 'all', equip: 'all' };
+let filterMenu = null; // 'len' | 'equip': which of "Length: Any" and "Equipment: Any" is open, showing its choices
 function setFilter(k, val) {
   filters = KBLibrary.setFilter(filters, k, val);
-  if (k === 'len') lengthMenu = false;
+  if (k === 'len' || k === 'equip') filterMenu = null;
 }
-const toggleLengthMenu = () => { lengthMenu = !lengthMenu; };
+const toggleFilterMenu = (which) => { filterMenu = filterMenu === which ? null : which; };
 const { firstSentence } = KBPrograms; // program cards show the paragraph's first sentence
 
 /* Favourites and hidden subjects (Phase 8 ticket 1): in the synced prefs doc, as `favourites: [program id]` and
@@ -141,6 +141,8 @@ function viewPrograms() {
   const favs = lib.favourites.length ? `<section class="pgroup favs"><h2>Favourites</h2><div class="plist">${lib.favourites.map(starred).join('')}</div></section>` : '';
   const yours = mine.length ? `<section class="pgroup yours"><h2>Your programs</h2><div class="plist">${mine.map(card).join('')}</div></section>` : '';
   const tab = (k, x) => `<button class="ftab" data-filter="${k}:${esc(x.key)}" aria-pressed="${x.pressed}">${esc(x.name)}</button>`;
+  const menuLine = (k, name, label) => `<button class="lenline" data-filter-menu="${k}" aria-expanded="${filterMenu === k}">${name}: <b>${esc(label)}</b> <span aria-hidden="true">${filterMenu === k ? '▴' : '▾'}</span></button>`;
+  const menuChips = (k, what, list) => `<div class="filters" role="group" aria-label="Filter by ${what}">${list.map((l) => `<button class="fchip acc" data-filter="${k}:${l.key}" aria-pressed="${l.pressed}">${esc(l.label)}</button>`).join('')}</div>`;
   const chip = (x) => `<button class="fchip acc" data-filter="subject:${esc(x.key)}" aria-pressed="${x.pressed}">${esc(x.name)} <span class="fcount">${x.count}</span></button>`;
   return `<div class="eyebrow">${esc(lib.counter)}</div><h1>Programs</h1>
     <p class="lede">Every program starts at intermediate, with a matched warm-up and cool-down, and most end each workout with abs. Progress is kept per program.</p>
@@ -149,8 +151,8 @@ function viewPrograms() {
     ${yours}${favs}
     <div class="ftabs" role="group" aria-label="Filter by family">${lib.families.map((f) => tab('family', f)).join('')}</div>
     <div class="filters" role="group" aria-label="Filter by subject">${lib.subjects.map(chip).join('')}</div>
-    <button class="lenline" data-len-menu="1" aria-expanded="${lengthMenu}">Length: <b>${esc(lib.lengthLabel)}</b> <span aria-hidden="true">${lengthMenu ? '▴' : '▾'}</span></button>
-    ${lengthMenu ? `<div class="filters" role="group" aria-label="Filter by length">${lib.lengths.map((l) => `<button class="fchip acc" data-filter="len:${l.key}" aria-pressed="${l.pressed}">${esc(l.label)}</button>`).join('')}</div>` : ''}
+    <div class="lenlines">${menuLine('len', 'Length', lib.lengthLabel)}${menuLine('equip', 'Equipment', lib.equipLabel)}</div>
+    ${filterMenu === 'len' ? menuChips('len', 'length', lib.lengths) : filterMenu === 'equip' ? menuChips('equip', 'equipment', lib.equips) : ''}
     ${groups || '<p class="lede" style="margin-top:24px">No programs match these filters.</p>'}${randomSheet()}`;
 }
 

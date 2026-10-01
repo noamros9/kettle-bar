@@ -1,8 +1,9 @@
-/* Library filters: what the programs page shows for the family, subject and length picked.
+/* Library filters: what the programs page shows for the family, subject, length and equipment picked.
      libraryView(summaries, filters, { families, lengthOf, prefs }) ->
        { families: [{ key, name, count, pressed }],   All first, then each family that has programs
          subjects: [{ key, name, count, pressed }],   All first, then the picked family's subjects that have programs
          lengths:  [{ key, label, pressed }], lengthLabel,
+         equips:   [{ key, label, pressed }], equipLabel,
          shelves:  [{ subject, programs }],           what is shown, in family order
          count, total,                                shown / in the picked family or subject (length ignored)
          counter,                                     the page's eyebrow: "Yoga · 2 of 5 programs"
@@ -11,7 +12,10 @@
          hidden: [subject] }                          prefs.hidden: these subjects show nowhere (chips, shelves, counts)
    A hidden subject or a family left empty that is picked falls back to All. A starred program stays a favourite even when
    its subject is hidden (the star is the more specific choice).
-   Chip counts ignore the length, so choosing a length narrows the shelves but not the chips.
+   Chip counts ignore the length, so choosing a length narrows the shelves but not the chips. The equipment is the gear you
+   have, as in the recipes: "Kettlebell only" keeps kettlebell and no-equipment programs, "No equipment" only no-equipment
+   ones (a program with no tag needs all the gear). Counts and the total follow it. A picked family or subject it leaves
+   empty falls back to All.
    setFilter(filters, key, value) -> new filters; a family change resets the subject.
    subjectsOf(summaries, families) -> [[family, [subject]]], the subjects that have programs (the Hidden subjects setting).
    toggleIn(list, value) -> a new list with value added, or removed if it was there (stars and hidden subjects).
@@ -26,6 +30,9 @@
     ['Mixed', ['Strength & stretch', 'Fighter', 'Athlete', 'Balanced week', 'Calm strength']],
   ];
   const LENGTHS = [['all', 'Any length'], ['short', 'Up to 25 min'], ['mid', '26–32 min'], ['long', '33 min +']];
+  const EQUIPS = [['all', 'Any equipment'], ['kb', 'Kettlebell only'], ['bw', 'No equipment']];
+  const FITS = { all: ['all', 'kb', 'bw'], kb: ['kb', 'bw'], bw: ['bw'] };
+  const fitsGear = (p, have = 'all') => FITS[have].includes(p.equip || 'all');
   const lengthOf = (p) => { const m = (p.minutes[0] + p.minutes[1]) / 2; return m <= 25.5 ? 'short' : m <= 32.5 ? 'mid' : 'long'; };
 
   function setFilter(filters, k, v) {
@@ -49,12 +56,15 @@
     const unknown = [...new Set(summaries.map((p) => p.subject))].filter((s) => !known.has(s));
     const hidden = prefs.hidden || [], stars = prefs.favourites || [];
     const favourites = summaries.filter((p) => stars.includes(p.id));
-    const countOf = (list) => summaries.filter((p) => list.includes(p.subject)).length;
+    const pool = summaries.filter((p) => fitsGear(p, asked.equip));
+    const countOf = (list) => pool.filter((p) => list.includes(p.subject)).length;
     const withPrograms = (list) => list.filter((s) => !hidden.includes(s) && countOf([s]) > 0);
 
     const present = families.map(([name, list]) => ({ name, list: withPrograms(list) })).filter((f) => f.list.length);
     const famOk = asked.family === 'all' || present.some((f) => f.name === asked.family);
-    const filters = { ...asked, family: famOk ? asked.family : 'all', subject: famOk && !hidden.includes(asked.subject) ? asked.subject : 'all' };
+    const family = famOk ? asked.family : 'all';
+    const subjOk = present.some((f) => (family === 'all' || f.name === family) && f.list.includes(asked.subject));
+    const filters = { equip: 'all', ...asked, family, subject: subjOk ? asked.subject : 'all' };
     const inFamily = present.filter((f) => filters.family === 'all' || f.name === filters.family);
     const subjectNames = inFamily.flatMap((f) => f.list);
     const pick = (key, name, count, chosen) => ({ key, name, count, pressed: chosen === key });
@@ -62,15 +72,17 @@
     const familyChips = [pick('all', 'All', countOf(present.flatMap((f) => f.list)), filters.family), ...present.map((f) => pick(f.name, f.name, countOf(f.list), filters.family))];
     const subjectChips = [pick('all', 'All', countOf(subjectNames), filters.subject), ...subjectNames.map((s) => pick(s, s, countOf([s]), filters.subject))];
 
-    const scoped = summaries.filter((p) => subjectNames.includes(p.subject) && (filters.subject === 'all' || p.subject === filters.subject));
+    const scoped = pool.filter((p) => subjectNames.includes(p.subject) && (filters.subject === 'all' || p.subject === filters.subject));
     const shownPrograms = scoped.filter((p) => filters.len === 'all' || lenOf(p) === filters.len);
     const shelves = subjectNames.map((subject) => ({ subject, programs: shownPrograms.filter((p) => p.subject === subject) })).filter((s) => s.programs.length);
 
     const lengths = LENGTHS.map(([key, label]) => ({ key, label, pressed: filters.len === key }));
     const chosenLength = lengths.find((l) => l.pressed);
+    const equips = EQUIPS.map(([key, label]) => ({ key, label, pressed: filters.equip === key }));
     const scope = filters.subject !== 'all' ? filters.subject : filters.family;
     return {
       families: familyChips, subjects: subjectChips, lengths, lengthLabel: chosenLength.key === 'all' ? 'Any' : chosenLength.label,
+      equips, equipLabel: filters.equip === 'all' ? 'Any' : equips.find((e) => e.pressed).label,
       shelves, count: shownPrograms.length, total: scoped.length,
       counter: counterText(scope === 'all' ? 'All' : scope, shownPrograms.length, scoped.length), unknown, favourites, hidden,
     };
@@ -91,7 +103,7 @@
       .slice(0, 3).map(({ p }) => p.id);
   }
 
-  const api = { suggestNext, libraryView, subjectsOf, toggleIn, setFilter, counterText, lengthOf, FAMILIES, LENGTHS };
+  const api = { suggestNext, libraryView, subjectsOf, toggleIn, setFilter, counterText, lengthOf, FAMILIES, LENGTHS, EQUIPS };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBLibrary = api;
 })(typeof window !== 'undefined' ? window : globalThis);
