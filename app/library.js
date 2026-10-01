@@ -90,23 +90,31 @@
 
   /* The Exercises page (Phase 8 ticket 3): searchExercises(EX, query, { cat, gear }, { names, cats? }) ->
        { list: [exercise], count, total, cats: [{ key, count, pressed }] }
-     The query matches the name, the muscles (their names) and the cue, every word somewhere, ignoring case. Name matches
+     filters.muscles (Phase 9): only exercises working a picked muscle, in byMuscles order. The query matches the name, the muscles (their names) and the cue, every word somewhere, ignoring case. Name matches
      come first, then the rest, each in catalogue order. Gear is what the exercise uses (gearOf): a kettlebell, dumbbells,
      the pull-up bar, or nothing. Category chips count what the query and gear leave (All first, then each category in
      `cats` order, else as they first appear, only those with exercises); a picked category with none falls back to All. */
+  /* byMuscles(list, picked) (Phase 9): the exercises working any picked muscle, those working more of them first, then
+     by weight (main 1, secondary ½), then list order; nothing picked -> the list as it is. */
+  function byMuscles(list, picked) {
+    if (!picked.length) return list;
+    const w = (e, m) => (e.muscles.primary.includes(m) ? 1 : e.muscles.secondary.includes(m) ? 0.5 : 0);
+    return list.map((e, i) => ({ e, i, n: picked.filter((m) => w(e, m) > 0).length, s: picked.reduce((a, m) => a + w(e, m), 0) }))
+      .filter((x) => x.n > 0).sort((a, b) => b.n - a.n || b.s - a.s || a.i - b.i).map((x) => x.e);
+  }
   const GEAR = [['all', 'Any equipment'], ['kb', 'Kettlebell'], ['db', 'Dumbbells'], ['bar', 'Pull-up bar'], ['none', 'No equipment']];
   const gearOf = (e) => (e.load === 'kb' ? 'kb' : e.load ? 'db' : (e.equip || []).includes('bar') ? 'bar' : 'none');
   function searchExercises(EX, query, filters, { names, cats: order } = {}) {
     const words = query.toLowerCase().split(/\s+/).filter(Boolean);
     const all = Object.values(EX);
     const text = (e) => [e.name, e.cue, ...[...e.muscles.primary, ...e.muscles.secondary].map((m) => names[m])].join(' ').toLowerCase();
-    const hits = all.filter((e) => (filters.gear === 'all' || gearOf(e) === filters.gear) && words.every((w) => text(e).includes(w)));
+    const hits = byMuscles(all.filter((e) => (filters.gear === 'all' || gearOf(e) === filters.gear) && words.every((w) => text(e).includes(w))), filters.muscles || []);
     const inName = (e) => words.length > 0 && words.every((w) => e.name.toLowerCase().includes(w));
     const keys = order || [...new Set(all.map((e) => e.cat))];
     const counts = keys.map((key) => ({ key, count: hits.filter((e) => e.cat === key).length })).filter((c) => c.count);
     const cat = counts.some((c) => c.key === filters.cat) ? filters.cat : 'all';
     const shown = hits.filter((e) => cat === 'all' || e.cat === cat);
-    const list = [...shown.filter(inName), ...shown.filter((e) => !inName(e))];
+    const list = filters.muscles && filters.muscles.length ? shown : [...shown.filter(inName), ...shown.filter((e) => !inName(e))]; // picked muscles: their order
     const cats = [{ key: 'all', count: hits.length }, ...counts].map((c) => ({ ...c, pressed: c.key === cat }));
     return { list, count: list.length, total: all.length, cats };
   }
@@ -126,7 +134,7 @@
       .slice(0, 3).map(({ p }) => p.id);
   }
 
-  const api = { suggestNext, libraryView, searchExercises, gearOf, GEAR, subjectsOf, toggleIn, setFilter, counterText, lengthOf, FAMILIES, LENGTHS, EQUIPS };
+  const api = { suggestNext, libraryView, searchExercises, byMuscles, gearOf, GEAR, subjectsOf, toggleIn, setFilter, counterText, lengthOf, FAMILIES, LENGTHS, EQUIPS };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBLibrary = api;
 })(typeof window !== 'undefined' ? window : globalThis);

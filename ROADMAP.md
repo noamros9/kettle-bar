@@ -211,6 +211,9 @@ Plan and tickets: [docs/plans/phase-9-map-and-history.md](docs/plans/phase-9-map
 22. **Body muscle map ([#81](https://github.com/noamros9/kettle-bar/issues/81)):** on the **Exercises page** (a "By
     muscle" view, not a new tab). Pick **several muscles, combined**: exercises and programs that work all of them
     rank first. You get **exercises and programs** that work them most.
+    - **Map picker, built (1 Oct):** "By muscle: Any ▾" under the search opens the map; tap muscles (or their chips: some
+      muscles are small on a phone, so the chips are the sure way); the list becomes one "Best for …" grid in rank order
+      (no category sections), still narrowed by the search, category and equipment chips.
 23. **Workout history ([#113](https://github.com/noamros9/kettle-bar/issues/113)):** a **Stats → History** tab, a
     **month grid; tap a day** for what you did. **History yes, streaks no** (calendar/streaks stays under Decided
     against for the streak part: no streak counts, targets or "don't break the chain"). Built on it: **workouts by
