@@ -116,6 +116,7 @@ document.addEventListener('click', (ev) => {
   if (d.go === 'program') return go('p-' + prog().id);
   if (d.openProg) return go('p-' + d.openProg);
   if (d.filterMenu) { toggleFilterMenu(d.filterMenu); render(); return; }
+  if (d.exf) { const [k, v] = d.exf.split(':'); return exFilter(k, v); }
   if (d.filter) { const [k, v] = d.filter.split(':'); setFilter(k, v); render(); return; }
   if (d.short) { const D = openDay(); D.setShort(!D.short()); return; } // the store's change event redraws
   if (d.toggle) { days.forget(prog().id, +d.toggle); store.toggle(prog().id, +d.toggle); return; } // marked or un-marked: the saved session is done with
@@ -177,6 +178,7 @@ document.addEventListener('change', (e) => {
 document.addEventListener('input', (e) => {
   if (e.target.id === 'b-name') buildState.name = e.target.value;
   if (e.target.id === 'own-name') ownState.text = e.target.value;
+  if (e.target.id === 'ex-search') { exSearch.q = e.target.value; exRefresh(); }
 });
 document.addEventListener('submit', (e) => { if (e.target.dataset.ownForm) { e.preventDefault(); ownRenameSave(); } });
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && e.target.id === 'own-name') { ownState = null; render(); } });
