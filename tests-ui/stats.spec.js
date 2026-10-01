@@ -121,3 +121,27 @@ test('tabs: Overview, Muscles and Time each render; the span and the program car
   await app.go('#programs'); await app.go('#stats');
   await expect(tab(app, 'Time')).toHaveAttribute('aria-pressed', 'true'); // kept while the app is open
 });
+
+test('Time tab: a mixed day splits its minutes between Strength and Mind & body; tap a family for its subjects', async ({ app }) => {
+  await app.page.clock.setFixedTime(new Date(2026, 8, 30, 12));
+  await app.open('#settings');
+  await app.page.locator('#import-file').setInputFiles({ name: 'h.json', mimeType: 'application/json',
+    buffer: Buffer.from(JSON.stringify({ format: 'kettle-bar-progress', version: 1, exportedAt: 'x', programs: { 'three-split-60': { 1: at(9, 28) }, 'iron-yoga': { 1: at(9, 29) } } })) });
+  await app.page.getByRole('button', { name: /^Merge/ }).click();
+  await app.go('#stats');
+  await tab(app, 'Time').click();
+  const fams = app.page.getByRole('list', { name: 'Workout minutes by family' });
+  await expect(fams.locator(':scope > li')).toHaveCount(2);
+  await expect(fams).toContainText('Strength');
+  await expect(fams).toContainText('Mind & body');
+  const total = await app.data(() => [['three-split-60', 1], ['iron-yoga', 1]].reduce((a, [p, n]) => a + programs.day(p, n).est, 0));
+  const shown = (await fams.locator(':scope > li .rval').allTextContents()).map((t) => parseInt(t, 10)).reduce((a, b) => a + b, 0);
+  expect(Math.abs(shown - total)).toBeLessThanOrEqual(1); // each family rounded on its own
+  await fams.getByRole('button', { name: /Strength/ }).click();
+  await expect(fams.getByRole('button', { name: /Strength/ })).toHaveAttribute('aria-expanded', 'true');
+  const subjects = app.page.getByRole('list', { name: 'Strength by subject' });
+  await expect(subjects).toContainText('Strength & stretch');
+  await expect(app.page.getByRole('list', { name: 'Workout minutes by format' })).toContainText('Guided flow');
+  await expect(app.page.getByRole('group', { name: 'Mind & body minutes' })).not.toContainText(/^\s*Mind & body minutes\s*0\s*$/);
+  expect(await app.sidewaysScroll()).toBe(0);
+});

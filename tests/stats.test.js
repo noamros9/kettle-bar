@@ -142,7 +142,7 @@ test('rounds: summarize resolves each entry in its own round; report can narrow 
   const entries = [{ ...e(29), round: 1 }, { ...e(30), round: 2 }, { ...e(28, 'q'), round: 1 }];
   const r = report({ entries, dayOf, EX, names: {} }, { scope: 'p', round: 2, span: 'all', now: wed });
   assert.equal(r.totals.workouts, 1);
-  assert.deepEqual(seen, [2, 2], 'weekly rows and totals both ask for round 2');
+  assert.deepEqual([...new Set(seen)], [2], 'totals, weekly rows and the time breakdown all ask for round 2 only');
   assert.equal(report({ entries, dayOf, EX, names: {} }, { scope: 'p', span: 'all', now: wed }).totals.workouts, 2, 'all rounds by default');
 });
 

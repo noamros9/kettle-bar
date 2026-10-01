@@ -490,3 +490,14 @@ table.weeks tr.empty{color:var(--muted)}table.weeks tr.empty th{font-weight:400}
 /* Stats tabs (Phase 8) */
 .stattabs{margin-top:18px}
 .stattabs + .kpis,.stattabs + .balance,.stattabs + .table-scroll,.stattabs + p{margin-top:16px}
+
+/* Stats: Time tab (Phase 8) */
+.timecard{margin-top:16px;display:grid;gap:12px}
+.timecard h3{margin:6px 0 0;font-size:14px;color:var(--muted);text-transform:none;letter-spacing:0}
+.rank.fams{gap:4px}
+.rank li.fam{display:block}
+.famrow{display:grid;grid-template-columns:8.8em 1fr 4.2em;align-items:center;gap:8px;width:100%;border:0;background:transparent;padding:6px 0;font:inherit;font-size:14px;color:inherit;text-align:left}
+.rank.fams .rank{margin:2px 0 8px 14px}
+.timecard .rank li{grid-template-columns:8.8em 1fr 4.2em}
+.kpis.kinds{margin-top:0}
+.kpis.kinds .tile-stat:first-child{grid-column:1 / -1}

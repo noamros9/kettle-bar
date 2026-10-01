@@ -635,7 +635,17 @@ const dayOf = (pid, n, round) => (pid === 'random' ? random.dayOf(n) : days.reso
 // every day marked done, in every program: [{ pid, day, time }]
 const doneEntries = () => [...programs.ids().flatMap((pid) => store.entries(pid)), ...random.entries()]; // every round, and random workouts
 // the stats for a scope ('all' or a program id) and a span, now (app/stats.js report)
-const statsReport = (scope, span, round) => KBStats.report({ entries: doneEntries(), dayOf, EX, names: MUSCLE_NAMES }, { scope, round, span, now: new Date() });
+// what a done day belongs to, for the Time tab: its family, subject and rests (a mixed day's blocks carry their own family)
+const familyOfName = (subject) => (FAMILIES.find(([, list]) => list.includes(subject)) || ['Other'])[0];
+function infoOf(e) {
+  if (e.pid === 'random') {
+    const c = (store.doc('random', e.day) || {}).choices || {};
+    return { family: c.family || familyOfName(c.subject || (c.subjects || [])[0]), subject: 'Random workouts' };
+  }
+  const sm = programs.summary(e.pid), p = programs.get(e.pid);
+  return sm ? { family: familyOfName(sm.subject), subject: sm.subject, rests: p && p.rests } : {};
+}
+const statsReport = (scope, span, round) => KBStats.report({ entries: doneEntries(), dayOf, EX, names: MUSCLE_NAMES, infoOf }, { scope, round, span, now: new Date() });
 function weekLine() {
   if (stillLoading(doneEntries().map((x) => x.pid)).length) return 'This week: loading…';
   const s = statsReport('all', 'week').totals;
@@ -890,9 +900,33 @@ function muscleBalance(r, what) {
     : '<p class="muted">No sets in this span yet.</p>';
   return `<section class="card balance" aria-labelledby="bal-h"><h2 id="bal-h">Muscle balance</h2>${body}</section>`;
 }
+/* The Time tab (Phase 8 ticket 5): where the workout minutes went, by family (tap one for its subjects) and by format,
+   and the kind of work: strength sets and reps, cardio minutes, mind & body minutes. */
+const fmtMin = (m) => `${fmtNum(m)} min`;
+function minuteBars(entries, label, opts = {}) {
+  const list = entries.filter(([, m]) => m > 0).sort((a, b) => b[1] - a[1]);
+  const max = list.length ? list[0][1] : 1;
+  const row = ([k, m]) => {
+    const bar = `<span class="rbar"><i style="width:${((m / max) * 100).toFixed(1)}%"></i></span><span class="rval num">${fmtMin(m)}</span>`;
+    const name = opts.name ? opts.name(k) : k;
+    if (opts.open === undefined) return `<li><span class="rname">${esc(name)}</span>${bar}</li>`;
+    const open = opts.open === k, subs = open ? minuteBars(Object.entries(opts.subs(k)), `${name} by subject`) : '';
+    return `<li class="fam"><button class="famrow" data-stat-family="${esc(k)}" aria-expanded="${open}"><span class="rname">${esc(name)} <span aria-hidden="true">${open ? '▴' : '▾'}</span></span>${bar}</button>${subs}</li>`;
+  };
+  return `<ol class="rank${opts.open !== undefined ? ' fams' : ''}" aria-label="${esc(label)}">${list.map(row).join('')}</ol>`;
+}
+function timeTab(r) {
+  const k = r.kinds, tile = (label, value, sub) => `<div class="tile-stat" role="group" aria-label="${label}"><span class="lbl">${label}</span><b>${fmtNum(value)}</b>${sub ? `<span class="lbl">${sub}</span>` : ''}</div>`;
+  return `<section class="card timecard" aria-labelledby="where-h"><h2 id="where-h">Where time goes</h2>
+      ${minuteBars(Object.entries(r.byFamily), 'Workout minutes by family', { open: statsView.family || '', subs: (f) => r.bySubject[f] || {} })}
+      <h3>By format</h3>${minuteBars(Object.entries(r.byFormat), 'Workout minutes by format', { name: (f) => fmtFormat[f] || f })}
+      <p class="note">Workout minutes, stretching not included. A mixed day is split by its blocks.</p></section>
+    <section class="card timecard" aria-labelledby="kind-h"><h2 id="kind-h">Kind of work</h2>
+      <div class="kpis kinds">${tile('Strength sets', k.strengthSets, `${fmtNum(k.strengthReps)} reps`)}${tile('Cardio minutes', k.cardioMin)}${tile('Mind & body minutes', k.mindMin)}</div></section>`;
+}
 function statsTab(r, what) {
   if (statsView.tab === 'muscles') return muscleBalance(r, what);
-  if (statsView.tab === 'time') return r.weeks ? weekRows(r.weeks) : '<p class="muted">Pick Last 4 weeks or All time to see each week.</p>';
+  if (statsView.tab === 'time') return timeTab(r) + (r.weeks ? weekRows(r.weeks) : '<p class="muted">Pick Last 4 weeks or All time to see each week.</p>');
   return statTiles(r.totals);
 }
 function viewStats() {

@@ -9,8 +9,16 @@
      spanRange('week' | '4weeks' | 'all', now, entries) -> { from, to }   whole weeks, this one included
      weekly(entries, { dayOf, EX, from, to }) -> [{ start, ...totals }] one per week, newest first
      rankMuscles(muscles, names) -> [{ muscle, name, load, share }] worked muscles, biggest load first
+     dayParts(day, EX, { family, subject, rests }) -> [{ family, subject, format, min, sets, reps }] one per block: the
+       day's workout minutes split by each block's time (Formats' time model, the rest between two blocks going to the
+       second), scaled to add up to day.est. A block's own `family` (mixed days) wins over the program's; no family or
+       subject -> 'Other'; no rests -> DEFAULT_RESTS (only the shares matter)
+     breakdown(entries, { dayOf, EX, from, to, infoOf }) -> { byFamily: { family: min }, bySubject: { family: { subject:
+       min } }, byFormat: { format: min }, kinds: { strengthSets, strengthReps, cardioMin, mindMin } }
+       infoOf(entry) -> { family, subject, rests } of the program (or random workout) the entry belongs to
      report({ entries, dayOf, EX, names }, { scope: 'all' | pid, round?, span, now })   round: one round only
-       -> { from, to, totals, weeks (null for one week), muscles (ranked), hasHistory (any done day in scope) }
+       -> { from, to, totals, weeks (null for one week), muscles (ranked), hasHistory (any done day in scope),
+            byFamily, bySubject, byFormat, kinds (breakdown) }   input.infoOf as for breakdown
    Muscle load: each set counts 1 for every main muscle and 0.5 for every secondary muscle. */
 (function (root, Formats) {
   // every set a day asks for, as [{ ex, sets, repsPerSet }]; timed blocks are converted to sets
@@ -89,15 +97,46 @@
     return worked.map(([muscle, load]) => ({ muscle, name: names[muscle], load, share: load / max }));
   }
 
-  function report({ entries, dayOf, EX, names }, { scope, round, span, now }) {
+  const DEFAULT_RESTS = { set: 30, exercise: 60, beforeAbs: 120, superset: 45, round: 60, block: 60 };
+  function dayParts(day, EX, { family = 'Other', subject = 'Other', rests = DEFAULT_RESTS } = {}) {
+    const secs = day.blocks.map((b, i) => Formats.of(b).time(b, rests, EX) + (i ? (b.kind === 'abs' ? rests.beforeAbs : rests.block) : 0));
+    const sum = secs.reduce((a, x) => a + x, 0);
+    return day.blocks.map((b, i) => {
+      const sets = Formats.of(b).sets(b, EX).filter((x) => x.sets > 0);
+      return {
+        family: b.family || family, subject, format: b.format || 'straight',
+        min: day.est * (sum > 0 ? secs[i] / sum : 1 / day.blocks.length),
+        sets: sets.reduce((a, x) => a + x.sets, 0), reps: sets.reduce((a, x) => a + x.sets * x.repsPerSet, 0),
+      };
+    });
+  }
+  function breakdown(entries, { dayOf, EX, from, to, infoOf = () => ({}) }) {
+    const out = { byFamily: {}, bySubject: {}, byFormat: {}, kinds: { strengthSets: 0, strengthReps: 0, cardioMin: 0, mindMin: 0 } };
+    const add = (o, k, x) => { o[k] = (o[k] || 0) + x; };
+    entries.forEach((e) => {
+      const t = new Date(e.time), d = dayOf(e.pid, e.day, e.round);
+      if (!d || t < from || t >= to) return;
+      dayParts(d, EX, infoOf(e) || {}).forEach((p) => {
+        add(out.byFamily, p.family, p.min);
+        add(out.bySubject[p.family] || (out.bySubject[p.family] = {}), p.subject, p.min);
+        add(out.byFormat, p.format, p.min);
+        if (p.family === 'Strength') { out.kinds.strengthSets += p.sets; out.kinds.strengthReps += p.reps; }
+        if (p.family === 'Cardio & combat') out.kinds.cardioMin += p.min;
+        if (p.family === 'Mind & body') out.kinds.mindMin += p.min;
+      });
+    });
+    return out;
+  }
+
+  function report({ entries, dayOf, EX, names, infoOf }, { scope, round, span, now }) {
     const mine = entries.filter((x) => (scope === 'all' || x.pid === scope) && (round === undefined || x.round === round));
     const { from, to } = spanRange(span, now, mine);
     const opts = { dayOf, EX, from, to };
     const totals = summarize(mine, opts);
-    return { from, to, totals, weeks: span === 'week' ? null : weekly(mine, opts), muscles: rankMuscles(totals.muscles, names), hasHistory: mine.length > 0 };
+    return { from, to, totals, weeks: span === 'week' ? null : weekly(mine, opts), muscles: rankMuscles(totals.muscles, names), hasHistory: mine.length > 0, ...breakdown(mine, { ...opts, infoOf }) };
   }
 
-  const api = { dayVolume, weekStart, summarize, spanRange, weekly, rankMuscles, report };
+  const api = { dayVolume, weekStart, summarize, spanRange, weekly, rankMuscles, report, dayParts, breakdown, DEFAULT_RESTS };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBStats = api;
 })(typeof window !== 'undefined' ? window : globalThis, typeof module !== 'undefined' && module.exports ? require('../formats.js') : window.KBFormats);
