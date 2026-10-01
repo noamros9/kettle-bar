@@ -86,7 +86,7 @@ test('spans: this week, the last 4 weeks (this one included) and all time from t
   assert.deepEqual(spanRange('4weeks', wed, []), { from: new Date(2026, 8, 6), to: new Date(2026, 9, 4) });
   assert.deepEqual(spanRange('all', wed, [e(29), e(10), e(15)]), { from: new Date(2026, 8, 6), to: new Date(2026, 9, 4) });
   assert.deepEqual(spanRange('all', wed, []), { from: new Date(2026, 8, 27), to: new Date(2026, 9, 4) }, 'nothing done: just this week');
-  assert.throws(() => spanRange('year', wed, []), /Unknown span year/);
+  assert.throws(() => spanRange('decade', wed, []), /Unknown span decade/);
 });
 
 test('weekly rows: one per week in the range, newest first, empty weeks included', () => {

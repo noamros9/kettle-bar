@@ -6,18 +6,24 @@
      summarize(entries, { dayOf, EX, from, to }) -> totals of the done days in [from, to)
        dayOf(pid, n, round): the day as done in that round (its swaps applied), or nothing if the app doesn't have it
        entries: [{ pid, day, time }] (time = when the day was first marked done)
-     spanRange('week' | '4weeks' | 'all', now, entries) -> { from, to }   whole weeks, this one included
-     weekly(entries, { dayOf, EX, from, to }) -> [{ start, ...totals }] one per week, newest first
+     spanRange('week' | '4weeks' | '3months' | 'year' | 'all', now, entries) -> { from, to }   whole weeks, this one
+       included (3 months: 13 weeks); 'year' starts on 1 January (not a Sunday), so its first week is a part week
+     weekly(entries, { dayOf, EX, from, to }) -> [{ start, ...totals }] one per week, newest first; the oldest row starts
+       on `from` when that isn't a Sunday
+     monthly(entries, { dayOf, EX, from, to }) -> [{ start, ...totals }] one per calendar month, newest first, cut to
+       [from, to) the same way; weeks and months each add up to the span's totals
      rankMuscles(muscles, names) -> [{ muscle, name, load, share }] worked muscles, biggest load first
      dayParts(day, EX, { family, subject, rests }) -> [{ family, subject, format, min, sets, reps }] one per block: the
        day's workout minutes split by each block's time (Formats' time model, the rest between two blocks going to the
-       second), scaled to add up to day.est. A block's own `family` (mixed days) wins over the program's; no family or
+       second), scaled to add up to day.est. A block's own `family` (mixed days) wins over the program's, and a block without one
+       on such a day (the abs finisher) goes with the block before it; no family or
        subject -> 'Other'; no rests -> DEFAULT_RESTS (only the shares matter)
      breakdown(entries, { dayOf, EX, from, to, infoOf }) -> { byFamily: { family: min }, bySubject: { family: { subject:
        min } }, byFormat: { format: min }, kinds: { strengthSets, strengthReps, cardioMin, mindMin } }
        infoOf(entry) -> { family, subject, rests } of the program (or random workout) the entry belongs to
      report({ entries, dayOf, EX, names }, { scope: 'all' | pid, round?, span, now })   round: one round only
-       -> { from, to, totals, weeks (null for one week), muscles (ranked), hasHistory (any done day in scope),
+       -> { from, to, totals, weeks (null for one week), months (this year only, else null), muscles (ranked),
+            hasHistory (any done day in scope),
             byFamily, bySubject, byFormat, kinds (breakdown) }   input.infoOf as for breakdown
    Muscle load: each set counts 1 for every main muscle and 0.5 for every secondary muscle. */
 (function (root, Formats) {
@@ -76,6 +82,8 @@
     const thisWeek = weekStart(now), to = plusDays(thisWeek, 7);
     if (span === 'week') return { from: thisWeek, to };
     if (span === '4weeks') return { from: plusDays(thisWeek, -21), to };
+    if (span === '3months') return { from: plusDays(thisWeek, -84), to };
+    if (span === 'year') return { from: new Date(now.getFullYear(), 0, 1), to };
     if (span === 'all') {
       const first = entries.reduce((m, e) => Math.min(m, new Date(e.time).getTime()), now.getTime());
       return { from: weekStart(new Date(first)), to };
@@ -83,13 +91,18 @@
     throw new Error('Unknown span ' + span);
   }
 
-  function weekly(entries, { dayOf, EX, from, to }) {
-    const rows = [];
-    for (let start = plusDays(to, -7); start >= from; start = plusDays(start, -7)) {
-      rows.push({ start, ...summarize(entries, { dayOf, EX, from: start, to: plusDays(start, 7) }) });
+  // rows of [start, end) going back from `to`, the oldest cut at `from`
+  function rows(entries, { dayOf, EX, from, to }, back) {
+    const out = [];
+    for (let end = to; end > from;) {
+      const s = back(end), start = s < from ? from : s;
+      out.push({ start, ...summarize(entries, { dayOf, EX, from: start, to: end }) });
+      end = start;
     }
-    return rows;
+    return out;
   }
+  const weekly = (entries, opts) => rows(entries, opts, (end) => plusDays(end, -7));
+  const monthly = (entries, opts) => rows(entries, opts, (end) => { const d = plusDays(end, -1); return new Date(d.getFullYear(), d.getMonth(), 1); });
 
   function rankMuscles(muscles, names) {
     const worked = Object.entries(muscles).filter(([, x]) => x > 0).sort((a, b) => b[1] - a[1]);
@@ -101,10 +114,12 @@
   function dayParts(day, EX, { family = 'Other', subject = 'Other', rests = DEFAULT_RESTS } = {}) {
     const secs = day.blocks.map((b, i) => Formats.of(b).time(b, rests, EX) + (i ? (b.kind === 'abs' ? rests.beforeAbs : rests.block) : 0));
     const sum = secs.reduce((a, x) => a + x, 0);
+    let last = family; // a mixed day's abs finisher has no family of its own: it goes with the block before it
     return day.blocks.map((b, i) => {
       const sets = Formats.of(b).sets(b, EX).filter((x) => x.sets > 0);
+      last = b.family || last;
       return {
-        family: b.family || family, subject, format: b.format || 'straight',
+        family: last, subject, format: b.format || 'straight',
         min: day.est * (sum > 0 ? secs[i] / sum : 1 / day.blocks.length),
         sets: sets.reduce((a, x) => a + x.sets, 0), reps: sets.reduce((a, x) => a + x.sets * x.repsPerSet, 0),
       };
@@ -133,10 +148,10 @@
     const { from, to } = spanRange(span, now, mine);
     const opts = { dayOf, EX, from, to };
     const totals = summarize(mine, opts);
-    return { from, to, totals, weeks: span === 'week' ? null : weekly(mine, opts), muscles: rankMuscles(totals.muscles, names), hasHistory: mine.length > 0, ...breakdown(mine, { ...opts, infoOf }) };
+    return { from, to, totals, weeks: span === 'week' ? null : weekly(mine, opts), muscles: rankMuscles(totals.muscles, names), months: span === 'year' ? monthly(mine, opts) : null, hasHistory: mine.length > 0, ...breakdown(mine, { ...opts, infoOf }) };
   }
 
-  const api = { dayVolume, weekStart, summarize, spanRange, weekly, rankMuscles, report, dayParts, breakdown, DEFAULT_RESTS };
+  const api = { dayVolume, weekStart, summarize, spanRange, weekly, monthly, rankMuscles, report, dayParts, breakdown, DEFAULT_RESTS };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBStats = api;
 })(typeof window !== 'undefined' ? window : globalThis, typeof module !== 'undefined' && module.exports ? require('../formats.js') : window.KBFormats);

@@ -116,7 +116,7 @@ test('tabs: Overview, Muscles and Time each render; the span and the program car
   await expect(app.page.getByLabel('Program', { exact: true })).toHaveValue('three-split-60');
   await app.page.getByRole('button', { name: 'This week' }).click();
   await expect(tab(app, 'Time')).toHaveAttribute('aria-pressed', 'true');
-  await expect(app.page.getByText('Pick Last 4 weeks or All time to see each week.')).toBeVisible();
+  await expect(app.page.getByText('Pick a longer span to see each week.')).toBeVisible();
   expect(await app.sidewaysScroll()).toBe(0);
   await app.go('#programs'); await app.go('#stats');
   await expect(tab(app, 'Time')).toHaveAttribute('aria-pressed', 'true'); // kept while the app is open
@@ -143,5 +143,23 @@ test('Time tab: a mixed day splits its minutes between Strength and Mind & body;
   await expect(subjects).toContainText('Strength & stretch');
   await expect(app.page.getByRole('list', { name: 'Workout minutes by format' })).toContainText('Guided flow');
   await expect(app.page.getByRole('group', { name: 'Mind & body minutes' })).not.toContainText(/^\s*Mind & body minutes\s*0\s*$/);
+  expect(await app.sidewaysScroll()).toBe(0);
+});
+
+test('trend: Last 3 months draws a line of 13 weeks; This year draws a bar per month and a month-by-month table', async ({ app }) => {
+  await withHistory(app);
+  await tab(app, 'Time').click();
+  await app.page.getByRole('button', { name: 'Last 3 months' }).click();
+  const trend = app.page.getByRole('region', { name: 'Minutes per week' });
+  await expect(trend.locator('.tdot')).toHaveCount(13);
+  await expect(rows(app)).toHaveCount(13);
+  await app.page.getByRole('button', { name: 'This year' }).click();
+  const months = app.page.getByRole('region', { name: 'Minutes per month' });
+  await expect(months.locator('.tmark')).toHaveCount(10); // January to October: the span runs to the end of this week (3 Oct)
+  await expect(months.locator('.tbar')).toHaveCount(2); // August (Iron PPL) and September
+  await expect(app.page.locator('table.weeks caption')).toHaveText('Month by month');
+  await expect(rows(app)).toHaveCount(10);
+  await tab(app, 'Overview').click();
+  await expect(workouts(app)).toHaveText('4');
   expect(await app.sidewaysScroll()).toBe(0);
 });

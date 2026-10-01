@@ -501,3 +501,15 @@ table.weeks tr.empty{color:var(--muted)}table.weeks tr.empty th{font-weight:400}
 .timecard .rank li{grid-template-columns:8.8em 1fr 4.2em}
 .kpis.kinds{margin-top:0}
 .kpis.kinds .tile-stat:first-child{grid-column:1 / -1}
+
+/* Stats: the trend (Phase 8) */
+.trend{margin-top:16px}
+.trend svg{display:block;width:100%;height:auto;margin-top:8px;overflow:visible}
+.trend .tgrid{stroke:var(--line);stroke-width:1}
+.trend .tax{fill:var(--muted);font-size:10px;font-variant-numeric:tabular-nums}
+.trend .tline{fill:none;stroke:var(--mm-l4);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.trend .tdot{fill:var(--mm-l4);stroke:var(--surface);stroke-width:2}
+.trend .tbar{fill:var(--mm-l4)}
+.trend .thit{fill:transparent}
+.trend .tmark:hover .tdot{r:6}
+.trend .tmark:hover .tbar{opacity:.8}

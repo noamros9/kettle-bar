@@ -883,13 +883,13 @@ function statTiles(s) {
 // and the tab (Phase 8): Overview · Muscles · Time, the switches staying above them and carrying across
 const statsView = { span: 'week', pid: 'all', tab: 'overview' };
 const STAT_TABS = [['overview', 'Overview'], ['muscles', 'Muscles'], ['time', 'Time']];
-const SPANS = [['week', 'This week'], ['4weeks', 'Last 4 weeks'], ['all', 'All time']];
+const SPANS = [['week', 'This week'], ['4weeks', 'Last 4 weeks'], ['3months', 'Last 3 months'], ['year', 'This year'], ['all', 'All time']];
 const shortDate = (d) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
-function weekRows(rows) {
+function weekRows(rows, caption = 'Week by week', head = 'Week of', label = shortDate) {
   const n = (x) => `<td class="num">${fmtNum(x)}</td>`;
-  return `<div class="table-scroll"><table class="weeks"><caption>Week by week</caption>
-    <thead><tr><th scope="col">Week of</th><th scope="col">Workouts</th><th scope="col">Min</th><th scope="col">Stretch min</th><th scope="col">Sets</th><th scope="col">Reps</th></tr></thead>
-    <tbody>${rows.map((r) => `<tr${r.workouts ? '' : ' class="empty"'}><th scope="row">${shortDate(r.start)}</th>${n(r.workouts)}${n(r.workoutMin)}${n(r.stretchMin)}${n(r.sets)}${n(r.reps)}</tr>`).join('')}</tbody></table></div>`;
+  return `<div class="table-scroll"><table class="weeks"><caption>${caption}</caption>
+    <thead><tr><th scope="col">${head}</th><th scope="col">Workouts</th><th scope="col">Min</th><th scope="col">Stretch min</th><th scope="col">Sets</th><th scope="col">Reps</th></tr></thead>
+    <tbody>${rows.map((r) => `<tr${r.workouts ? '' : ' class="empty"'}><th scope="row">${label(r.start)}</th>${n(r.workouts)}${n(r.workoutMin)}${n(r.stretchMin)}${n(r.sets)}${n(r.reps)}</tr>`).join('')}</tbody></table></div>`;
 }
 function muscleBalance(r, what) {
   const ranked = r.muscles;
@@ -924,9 +924,36 @@ function timeTab(r) {
     <section class="card timecard" aria-labelledby="kind-h"><h2 id="kind-h">Kind of work</h2>
       <div class="kpis kinds">${tile('Strength sets', k.strengthSets, `${fmtNum(k.strengthReps)} reps`)}${tile('Cardio minutes', k.cardioMin)}${tile('Mind & body minutes', k.mindMin)}</div></section>`;
 }
+/* The trend (Phase 8 ticket 6): workout minutes per week as a line (per month as bars for This year), oldest on the
+   left. One series, so no legend: the heading names it; each point and bar has a tooltip, and the table below the
+   breakdown holds the same numbers. */
+const monthName = (d) => d.toLocaleDateString('en-GB', { month: 'short' });
+function trendChart(rows, per) {
+  const data = rows.slice().reverse(), W = 340, H = 150, L = 30, R = 8, T = 10, B = 22, iw = W - L - R, ih = H - T - B;
+  const top = Math.max(10, ...data.map((d) => d.workoutMin)), step = top <= 60 ? 15 : top <= 150 ? 30 : top <= 300 ? 60 : 120;
+  const max = Math.ceil(top / step) * step, y = (v) => T + ih - (v / max) * ih;
+  const grid = Array.from({ length: max / step + 1 }, (_, i) => i * step).map((v) => `<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" class="tgrid"/><text x="${L - 6}" y="${y(v) + 4}" class="tax" text-anchor="end">${v}</text>`).join('');
+  const tip = (d) => `${per === 'month' ? d.start.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' }) : `Week of ${shortDate(d.start)}`}: ${fmtMin(d.workoutMin)}, ${plural(d.workouts, 'workout')}`;
+  let marks, labels;
+  if (per === 'month') {
+    const slot = iw / data.length, bw = Math.min(26, slot - 6);
+    marks = data.map((d, i) => { const x = L + slot * i + (slot - bw) / 2, h = Math.max(0, y(0) - y(d.workoutMin)), r = Math.min(4, h);
+      return `<g class="tmark"><rect x="${L + slot * i}" y="${T}" width="${slot}" height="${ih}" class="thit"/>${h ? `<path d="M${x},${y(0)}v${-(h - r)}q0,${-r} ${r},${-r}h${bw - 2 * r}q${r},0 ${r},${r}v${h - r}z" class="tbar"/>` : ''}<title>${esc(tip(d))}</title></g>`; }).join('');
+    labels = data.map((d, i) => `<text x="${L + slot * (i + 0.5)}" y="${H - 6}" class="tax" text-anchor="middle">${esc(monthName(d.start).slice(0, 1))}</text>`).join('');
+  } else {
+    const x = (i) => L + (data.length === 1 ? iw / 2 : (i / (data.length - 1)) * iw);
+    marks = `<polyline points="${data.map((d, i) => `${x(i)},${y(d.workoutMin)}`).join(' ')}" class="tline"/>` + data.map((d, i) => `<g class="tmark"><rect x="${x(i) - 10}" y="${T}" width="20" height="${ih}" class="thit"/><circle cx="${x(i)}" cy="${y(d.workoutMin)}" r="4" class="tdot"/><title>${esc(tip(d))}</title></g>`).join('');
+    labels = `<text x="${L}" y="${H - 6}" class="tax">${esc(shortDate(data[0].start))}</text><text x="${W - R}" y="${H - 6}" class="tax" text-anchor="end">${esc(shortDate(data[data.length - 1].start))}</text>`;
+  }
+  return `<section class="card trend" aria-labelledby="trend-h"><h2 id="trend-h">Minutes per ${per}</h2>
+    <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Workout minutes per ${per}, ${esc(data.map((d) => `${tip(d)}`).join('; '))}">${grid}${marks}${labels}</svg></section>`;
+}
 function statsTab(r, what) {
   if (statsView.tab === 'muscles') return muscleBalance(r, what);
-  if (statsView.tab === 'time') return timeTab(r) + (r.weeks ? weekRows(r.weeks) : '<p class="muted">Pick Last 4 weeks or All time to see each week.</p>');
+  if (statsView.tab === 'time') {
+    if (r.months) return trendChart(r.months, 'month') + timeTab(r) + weekRows(r.months, 'Month by month', 'Month', monthName);
+    return (r.weeks ? trendChart(r.weeks, 'week') : '') + timeTab(r) + (r.weeks ? weekRows(r.weeks) : '<p class="muted">Pick a longer span to see each week.</p>');
+  }
   return statTiles(r.totals);
 }
 function viewStats() {
@@ -937,7 +964,7 @@ function viewStats() {
   const scopeName = pid === 'all' ? 'all programs' : pid === 'random' ? 'random workouts' : programs.summary(pid).name + (statsView.round ? ` · Round ${statsView.round}` : '');
   const randomOption = all.some((e) => e.pid === 'random') || pid === 'random' ? `<option value="random"${pid === 'random' ? ' selected' : ''}>Random workouts</option>` : '';
   const when = span === 'all' ? (pid === 'all' || pid === 'random' ? 'all time' : 'since you started') : `${shortDate(from)} – ${shortDate(new Date(to - 864e5))}`;
-  const none = { week: 'this week', '4weeks': 'in the last 4 weeks', all: '' }[span];
+  const none = { week: 'this week', '4weeks': 'in the last 4 weeks', '3months': 'in the last 3 months', year: 'this year', all: '' }[span];
   return `<div class="eyebrow">${esc(pid === 'all' ? `${when} · ${scopeName}` : `${scopeName} · ${when}`)}</div><h1>Stats</h1>
     <div class="statbar">
       <div class="filters" role="group" aria-label="Time span">${SPANS.map(([k, l]) => `<button class="fchip" data-stat-span="${k}" aria-pressed="${span === k}">${l}</button>`).join('')}</div>

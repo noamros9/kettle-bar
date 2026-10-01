@@ -82,3 +82,9 @@ test('a day whose blocks take no time splits its minutes evenly', () => {
   const zero = { est: 10, blocks: [{ format: 'emom', minutes: 0, items: [] }, { format: 'emom', minutes: 0, items: [] }] };
   assert.deepEqual(dayParts(zero, EX, { rests: { ...R, block: 0 } }).map((p) => p.min), [5, 5]);
 });
+
+test('a mixed day\'s abs finisher (no family of its own) goes with the block before it', () => {
+  const abs = { format: 'straight', kind: 'abs', sets: 2, items: [{ ex: 'squat', n: 10 }] };
+  const d = { est: 30, blocks: [{ ...flow, family: 'Mind & body' }, { ...strength, family: 'Strength' }, abs] };
+  assert.deepEqual(dayParts(d, EX, INFO.mix).map((p) => p.family), ['Mind & body', 'Strength', 'Strength']);
+});
