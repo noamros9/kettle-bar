@@ -178,6 +178,10 @@ Plan and tickets: [docs/plans/phase-8-finding-and-stats.md](docs/plans/phase-8-f
       equipment). It means the gear you have, as in the recipes: **Kettlebell only shows kettlebell and no-equipment
       programs**, No equipment only no-equipment ones. Chip counts and the total follow it (length still doesn't move
       them); a family or subject it leaves empty falls back to All. Not remembered: it resets with the page, as Length.
+    - **Exercises page search, built (1 Oct):** one field matches name, muscles and cue (every word, any case); chips
+      by category (with counts) and by **what the exercise uses**: Kettlebell, Dumbbells, Pull-up bar, No equipment
+      (here "Kettlebell" means exercises with the kettlebell, not what you can do with one). Results stay grouped by
+      category; within one, name matches come first. The search stays while you open an exercise and come back.
 20b. **Body muscle map ([#81](https://github.com/noamros9/kettle-bar/issues/81), Noam, 29 Sep; to explore):** tap
     muscles on a front/back body map and get the exercises and programs that work them most. To be grilled and
     designed before it gets tickets; it builds on the muscle map the exercise pages and stats already draw.

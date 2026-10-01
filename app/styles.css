@@ -480,3 +480,9 @@ table.weeks tr.empty{color:var(--muted)}table.weeks tr.empty th{font-weight:400}
 .pgroup.favs{margin-top:22px}
 .hidesubj{align-items:center;margin-bottom:8px}
 .hidesubj .fname{font-size:13px;color:var(--muted);font-weight:600;width:100%}
+
+/* Exercises page search (Phase 8) */
+.exsearch{display:block;margin-top:18px}
+.exsearch input{font:inherit;font-size:16px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:11px 16px;width:100%;box-sizing:border-box;min-width:0}
+.exsearch input:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+#exresults > .filters{margin-top:12px}

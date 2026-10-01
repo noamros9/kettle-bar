@@ -88,6 +88,29 @@
     };
   }
 
+  /* The Exercises page (Phase 8 ticket 3): searchExercises(EX, query, { cat, gear }, { names, cats? }) ->
+       { list: [exercise], count, total, cats: [{ key, count, pressed }] }
+     The query matches the name, the muscles (their names) and the cue, every word somewhere, ignoring case. Name matches
+     come first, then the rest, each in catalogue order. Gear is what the exercise uses (gearOf): a kettlebell, dumbbells,
+     the pull-up bar, or nothing. Category chips count what the query and gear leave (All first, then each category in
+     `cats` order, else as they first appear, only those with exercises); a picked category with none falls back to All. */
+  const GEAR = [['all', 'Any equipment'], ['kb', 'Kettlebell'], ['db', 'Dumbbells'], ['bar', 'Pull-up bar'], ['none', 'No equipment']];
+  const gearOf = (e) => (e.load === 'kb' ? 'kb' : e.load ? 'db' : (e.equip || []).includes('bar') ? 'bar' : 'none');
+  function searchExercises(EX, query, filters, { names, cats: order } = {}) {
+    const words = query.toLowerCase().split(/\s+/).filter(Boolean);
+    const all = Object.values(EX);
+    const text = (e) => [e.name, e.cue, ...[...e.muscles.primary, ...e.muscles.secondary].map((m) => names[m])].join(' ').toLowerCase();
+    const hits = all.filter((e) => (filters.gear === 'all' || gearOf(e) === filters.gear) && words.every((w) => text(e).includes(w)));
+    const inName = (e) => words.length > 0 && words.every((w) => e.name.toLowerCase().includes(w));
+    const keys = order || [...new Set(all.map((e) => e.cat))];
+    const counts = keys.map((key) => ({ key, count: hits.filter((e) => e.cat === key).length })).filter((c) => c.count);
+    const cat = counts.some((c) => c.key === filters.cat) ? filters.cat : 'all';
+    const shown = hits.filter((e) => cat === 'all' || e.cat === cat);
+    const list = [...shown.filter(inName), ...shown.filter((e) => !inName(e))];
+    const cats = [{ key: 'all', count: hits.length }, ...counts].map((c) => ({ ...c, pressed: c.key === cat }));
+    return { list, count: list.length, total: all.length, cats };
+  }
+
   // What next: up to three library programs of the family of `pid`'s first subject (a mix: its first subject) that train
   // differently and have no progress (progressOf(id) > 0 means started). A different subject comes first, then more formats
   // the program doesn't use, then library order. The same subject only counts when it brings a new format.
@@ -103,7 +126,7 @@
       .slice(0, 3).map(({ p }) => p.id);
   }
 
-  const api = { suggestNext, libraryView, subjectsOf, toggleIn, setFilter, counterText, lengthOf, FAMILIES, LENGTHS, EQUIPS };
+  const api = { suggestNext, libraryView, searchExercises, gearOf, GEAR, subjectsOf, toggleIn, setFilter, counterText, lengthOf, FAMILIES, LENGTHS, EQUIPS };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBLibrary = api;
 })(typeof window !== 'undefined' ? window : globalThis);
