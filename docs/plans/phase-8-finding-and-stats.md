@@ -15,7 +15,7 @@ Decided on 29 Sep:
 | # | Ticket | Tier | Blocked by | Branch | Status |
 |---|---|---|---|---|---|
 | 1 | Favourite programs, hide subjects | feature | review III 1, 5 | `feature/favourites` | done (PR #115) |
-| 2 | Programs page: equipment filter | feature | review III 1 | `feature/equipment-filter` | |
+| 2 | Programs page: equipment filter | feature | review III 1 | `feature/equipment-filter` | done (PR #116) |
 | 3 | Exercises page: search and filters | feature | – | `feature/exercise-search` | |
 | 4 | Stats in tabs | feature | – | `feature/stats-tabs` | |
 | 5 | Where time goes, kind of work | feature | 4, Phase 6 1 | `feature/stats-time` | |
