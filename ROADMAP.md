@@ -189,6 +189,9 @@ Plan and tickets: [docs/plans/phase-8-finding-and-stats.md](docs/plans/phase-8-f
     Exercises): where time goes (by family, subject and format), kind of work (strength volume, cardio minutes,
     mobility minutes), longer spans with a weekly trend, exercise history, level over time, CSV export.
     Still planned volume (ADR 2).
+    - **Tabs, built (1 Oct):** Overview (the tiles), Muscles (heat map and ranked bars), Time (week by week, for Last 4
+      weeks and All time). **The Exercises tab comes with ticket 7**, so no tab stands empty. The span and program
+      switches stay above the tabs and carry across them; the tab is kept while the app is open.
 
 ## Decided against (don't re-suggest)
 - **Logging weights/reps per set**: Noam wants done / not done only.

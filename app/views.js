@@ -870,7 +870,9 @@ function statTiles(s) {
   return `<div class="kpis">${tile('Workouts', s.workouts)}${tile('Workout minutes', s.workoutMin)}${tile('Stretching minutes', s.stretchMin)}${tile('Sets', s.sets)}${tile('Reps', s.reps)}</div>`;
 }
 // the Stats page's switches: time span and program ('all' or a program id)
-const statsView = { span: 'week', pid: 'all' };
+// and the tab (Phase 8): Overview · Muscles · Time, the switches staying above them and carrying across
+const statsView = { span: 'week', pid: 'all', tab: 'overview' };
+const STAT_TABS = [['overview', 'Overview'], ['muscles', 'Muscles'], ['time', 'Time']];
 const SPANS = [['week', 'This week'], ['4weeks', 'Last 4 weeks'], ['all', 'All time']];
 const shortDate = (d) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
 function weekRows(rows) {
@@ -888,6 +890,11 @@ function muscleBalance(r, what) {
     : '<p class="muted">No sets in this span yet.</p>';
   return `<section class="card balance" aria-labelledby="bal-h"><h2 id="bal-h">Muscle balance</h2>${body}</section>`;
 }
+function statsTab(r, what) {
+  if (statsView.tab === 'muscles') return muscleBalance(r, what);
+  if (statsView.tab === 'time') return r.weeks ? weekRows(r.weeks) : '<p class="muted">Pick Last 4 weeks or All time to see each week.</p>';
+  return statTiles(r.totals);
+}
 function viewStats() {
   const { span, pid } = statsView;
   if (stillLoading(doneEntries().map((x) => x.pid)).length) return `<h1>Stats</h1><p class="loading lede" role="status">Loading your programs…</p>`;
@@ -903,7 +910,8 @@ function viewStats() {
       <div class="scope"><label for="stats-scope">Program</label><select id="stats-scope"><option value="all">All programs</option>${used.map((p) => `<option value="${p.id}"${p.id === pid ? ' selected' : ''}>${esc(p.name)}</option>`).join('')}${randomOption}</select></div>
       ${pid !== 'all' && pid !== 'random' && store.round(pid) > 1 ? `<div class="scope"><label for="stats-round">Round</label><select id="stats-round"><option value="all">All rounds</option>${Array.from({ length: store.round(pid) }, (_, i) => `<option value="${i + 1}"${statsView.round === i + 1 ? ' selected' : ''}>Round ${i + 1}</option>`).join('')}</select></div>` : ''}
     </div>
-    ${r.hasHistory ? statTiles(r.totals) + muscleBalance(r, `${scopeName}, ${when}`) + (r.weeks ? weekRows(r.weeks) : '') : `<p class="lede">No workouts marked done ${none || 'yet'}${none ? ' yet' : ''}.</p>`}
+    <div class="ftabs stattabs" role="group" aria-label="Stats views">${STAT_TABS.map(([k, l]) => `<button class="ftab" data-stat-tab="${k}" aria-pressed="${statsView.tab === k}">${l}</button>`).join('')}</div>
+    ${r.hasHistory ? statsTab(r, `${scopeName}, ${when}`) : `<p class="lede">No workouts marked done ${none || 'yet'}${none ? ' yet' : ''}.</p>`}
     <p class="note">Counts the planned work of each day you marked done: its sets, reps and minutes. Weeks start on Sunday.</p>`;
 }
 
