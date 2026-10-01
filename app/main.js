@@ -110,6 +110,9 @@ document.addEventListener('click', (ev) => {
   if (d.statFamily !== undefined) { statsView.family = statsView.family === d.statFamily ? '' : d.statFamily; rerender(); return; }
   if (d.statAllex) { statsView.allEx = !statsView.allEx; render(); return; }
   if (d.csv) return downloadCSV();
+  if (d.hmonth !== undefined) return historyMove(+d.hmonth);
+  if (d.hday) { statsView.histDay = statsView.histDay === d.hday ? null : d.hday; render(); return; }
+  if (d.hopen) { const [pid, n] = d.hopen.split(':'); return go(dayHash(pid, +n)); }
   if (d.statTab) { statsView.tab = d.statTab; render(); return; }
   if (d.statSpan) { statsView.span = d.statSpan; render(); return; }
   if (d.swap) { const [bi, i] = d.swap.split(':').map(Number); swapState = { key: openKey(), bi, i }; rerender(); return; }

@@ -184,3 +184,33 @@ test('Exercises tab: each exercise done with its days and last date, tapping thr
   await rows.first().click();
   await expect(app.heading()).toHaveText(expected[0]);
 });
+
+test('History: September as a calendar; tap a day for what you did and open it; ‹ › page months; no span switch here', async ({ app }) => {
+  await withHistory(app); // the clock is on Wednesday 30 Sep 2026
+  await tab(app, 'History').click();
+  await expect(app.page.getByRole('group', { name: 'Time span' })).toHaveCount(0);
+  await expect(app.page.locator('#hist-h')).toHaveText('September 2026');
+  const cells = app.page.locator('.hday');
+  await expect(cells).toHaveCount(35); // 30 Aug – 3 Oct
+  await expect(cells.first()).toHaveText('30');
+  await expect(app.page.locator('.hday.today')).toHaveText('30');
+  const day28 = app.page.getByRole('button', { name: /^Monday 28 September: 1 workout, \d+ minutes$/ });
+  await expect(day28).toHaveClass(/mm-l[1-4]/);
+  await day28.click();
+  await expect(app.page.locator('#hday-h')).toHaveText('Monday 28 September');
+  const work = app.page.locator('.hlist .hwork');
+  await expect(work).toHaveCount(1);
+  await expect(work).toContainText('Three-Split 60');
+  expect(await app.sidewaysScroll()).toBe(0);
+  await app.page.getByRole('button', { name: 'Previous month' }).click();
+  await expect(app.page.locator('#hist-h')).toHaveText('August 2026');
+  await expect(app.page.getByRole('button', { name: /^Monday 10 August: 1 workout/ })).toBeVisible();
+  await app.page.locator('.hnav').getByRole('button', { name: 'Today' }).click();
+  await expect(app.page.locator('#hist-h')).toHaveText('September 2026');
+  await app.page.getByLabel('Program', { exact: true }).selectOption('iron-ppl');
+  await expect(app.page.getByRole('button', { name: /^Monday 28 September: no workouts$/ })).toHaveCount(1);
+  await app.page.getByLabel('Program', { exact: true }).selectOption('all');
+  await app.page.getByRole('button', { name: /^Monday 28 September/ }).click();
+  await work.first().click();
+  await expect(app.page).toHaveURL(/#p-three-split-60-d1$/);
+});

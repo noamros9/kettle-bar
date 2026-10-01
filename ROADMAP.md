@@ -221,6 +221,10 @@ Plan and tickets: [docs/plans/phase-9-map-and-history.md](docs/plans/phase-9-map
     **month grid; tap a day** for what you did. **History yes, streaks no** (calendar/streaks stays under Decided
     against for the streak part: no streak counts, targets or "don't break the chain"). Built on it: **workouts by
     weekday**, **time of day** (from when a day was marked done) and **days per week** as a trend.
+    - **Calendar, built (1 Oct):** Stats → History, the month from Sunday to Saturday, ‹ › and Today; a day's fill
+      steps at 1–24, 25–39, 40–59 and 60+ minutes (the heat map's four shades); today outlined. Tap a day: its
+      workouts, each program day opening its day page (a random workout just shows what it was). The span switch is
+      hidden on this tab; the program switch narrows it.
 
 ## Decided against (don't re-suggest)
 - **Logging weights/reps per set**: Noam wants done / not done only.
