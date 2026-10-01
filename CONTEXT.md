@@ -171,6 +171,12 @@ day 1 with the same plan, and asks which rest-of-program swaps to keep. Stats co
 
 ## Progress
 
+**Favourite**: a library program you starred (on its card or page). Favourites have their own shelf at the top of the
+Programs page, under Your programs, whatever the filters. Stored in the synced prefs as `favourites: [program id]`.
+
+**Hidden subject**: a subject ticked in Settings → Hidden subjects. It shows nowhere on the Programs page (no chip, no
+shelf, not counted); a starred program of that subject stays in Favourites. Stored as `hidden: [subject]` in the prefs.
+
 **Done**: a day marked finished, stored as `{day: time first marked}` per program.
 
 **Program Progress**: one program's done days and swaps, as a value. The only module that knows how progress is

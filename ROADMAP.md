@@ -168,6 +168,10 @@ Plan and tickets: [docs/plans/phase-7-day-to-day.md](docs/plans/phase-7-day-to-d
 Plan and tickets: [docs/plans/phase-8-finding-and-stats.md](docs/plans/phase-8-finding-and-stats.md). Decided 29 Sep 2026.
 20. **Finding things (#67):** favourite programs and hidden subjects (synced), an equipment filter on the Programs
     page, search and filters on the Exercises page.
+    - **Favourites and hidden subjects, built (1 Oct):** the Favourites shelf lists starred programs in library order and
+      ignores the filters; a starred program also stays on its subject's shelf. A starred program whose subject is
+      hidden **stays in Favourites** (the star is the more specific choice). Hiding the subject or family that's picked
+      falls back to All. Your own programs have no star (they have their own shelf). In `prefs` only while not empty.
 20b. **Body muscle map ([#81](https://github.com/noamros9/kettle-bar/issues/81), Noam, 29 Sep; to explore):** tap
     muscles on a front/back body map and get the exercises and programs that work them most. To be grilled and
     designed before it gets tickets; it builds on the muscle map the exercise pages and stats already draw.

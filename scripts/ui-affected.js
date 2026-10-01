@@ -15,7 +15,7 @@ const SMOKE = ['renders'];
 // module (regex on the changed path) -> the specs that exercise it
 const MAP = [
   [/^(configs\/|programs\.config\.js|program-builder\.js|recipes\.js|recipe-book\.js|recipes\/|exercises\.js|figures\.js|formats\.js|build\.js)/, ['build', 'random', 'library', 'exercise']],
-  [/^app\/library\.js$/, ['library']],
+  [/^app\/library\.js$/, ['library', 'favourites']],
   [/^app\/stats\.js$/, ['stats', 'rounds', 'finish']],
   [/^app\/(session|clock)\.js$/, ['workout', 'flow', 'bouts', 'bigtimer', 'voice', 'resume', 'finish']],
   [/^app\/(store|progress|docs)\.js$/, ['sync', 'settings', 'rounds', 'resume', 'swap']],

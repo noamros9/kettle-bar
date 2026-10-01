@@ -10,7 +10,7 @@ test('the smoke check always runs, even when nothing changed', () => {
 });
 
 test('a changed spec runs itself; a changed module runs its specs; names given run too', () => {
-  assert.deepEqual(choose(['tests-ui/travel.spec.js', 'app/library.js', 'app/views.js'], ['settings']), ['library', 'renders', 'settings', 'travel']);
+  assert.deepEqual(choose(['tests-ui/travel.spec.js', 'app/library.js', 'app/views.js'], ['settings']), ['favourites', 'library', 'renders', 'settings', 'travel']);
   assert.deepEqual(choose(['app/stats.js']), ['finish', 'renders', 'rounds', 'stats']);
   assert.deepEqual(choose([], ['tests-ui/stats.spec.js']), ['renders', 'stats']);
 });
