@@ -19,7 +19,7 @@ Decided on 1 Oct (Noam):
 | 0 | This plan | plan | – | `plan/phase-9` | done (PR #124) |
 | 1 | Exercises page: pick muscles on the map | feature | – | `feature/muscle-map` | done (PR #125) |
 | 2 | Programs that train the picked muscles | feature | 1 | `feature/muscle-programs` | done (PR #126) |
-| 3 | Stats → History: the month calendar | feature | – | `feature/history-calendar` | |
+| 3 | Stats → History: the month calendar | feature | – | `feature/history-calendar` | done (PR #127) |
 | 4 | Workouts by weekday and time of day | feature | 3 | `feature/history-when` | |
 | 5 | Days per week, as a trend | feature | 3 | `feature/history-days` | |
 
