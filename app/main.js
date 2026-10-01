@@ -106,6 +106,7 @@ document.addEventListener('click', (ev) => {
     roundState = null; store.startRound(pid, keep); window.scrollTo(0, 0); return;
   }
   if (d.retry) { delete loadFailures[d.retry]; render(); return; }
+  if (d.statTab) { statsView.tab = d.statTab; render(); return; }
   if (d.statSpan) { statsView.span = d.statSpan; render(); return; }
   if (d.swap) { const [bi, i] = d.swap.split(':').map(Number); swapState = { key: openKey(), bi, i }; rerender(); return; }
   if (d.swapTo) { swapState.to = d.swapTo; rerender(); return; }

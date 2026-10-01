@@ -38,6 +38,7 @@ async function withHistory(app) {
   await app.go('#stats');
 }
 const workouts = (app) => app.page.getByRole('group', { name: 'Workouts' }).locator('b');
+const tab = (app, name) => app.page.getByRole('group', { name: 'Stats views' }).getByRole('button', { name });
 const rows = (app) => app.page.locator('table.weeks tbody tr');
 
 test('time spans: this week, last 4 weeks, all time, with a row per week', async ({ app }, testInfo) => {
@@ -46,11 +47,14 @@ test('time spans: this week, last 4 weeks, all time, with a row per week', async
   await expect(rows(app)).toHaveCount(0);
   await app.page.getByRole('button', { name: 'Last 4 weeks' }).click();
   await expect(workouts(app)).toHaveText('3');
+  await expect(rows(app)).toHaveCount(0); // week by week is on the Time tab
+  await tab(app, 'Time').click();
   await expect(rows(app)).toHaveCount(4);
   await expect(rows(app).first()).toContainText('27 Sept');
   await app.page.getByRole('button', { name: 'All time' }).click();
-  await expect(workouts(app)).toHaveText('4');
   await expect(rows(app)).toHaveCount(8);
+  await tab(app, 'Overview').click();
+  await expect(workouts(app)).toHaveText('4');
   expect(await app.sidewaysScroll()).toBe(0);
   await app.page.screenshot({ path: `test-results/shots/${testInfo.project.name}/stats-all.png`, fullPage: true });
 });
@@ -69,6 +73,8 @@ test('the program switch narrows every number to one program; all time reads "si
 
 test('muscle balance: a heat map and ranked bars that follow the span and program', async ({ app }, testInfo) => {
   await withHistory(app);
+  await expect(app.page.getByRole('region', { name: 'Muscle balance' })).toHaveCount(0); // on its own tab
+  await tab(app, 'Muscles').click();
   const section = app.page.getByRole('region', { name: 'Muscle balance' });
   await expect(section.getByRole('img', { name: /^Muscle balance/ })).toBeVisible();
   const bars = section.getByRole('listitem');
@@ -91,4 +97,27 @@ test('muscle balance: a heat map and ranked bars that follow the span and progra
   expect(await app.sidewaysScroll()).toBe(0);
   await app.page.screenshot({ path: `test-results/shots/${testInfo.project.name}/stats-muscles.png` });
   expect(before).toBeGreaterThan(3);
+});
+
+test('tabs: Overview, Muscles and Time each render; the span and the program carry across them', async ({ app }) => {
+  await withHistory(app);
+  await expect(tab(app, 'Overview')).toHaveAttribute('aria-pressed', 'true');
+  await app.page.getByRole('button', { name: 'All time' }).click();
+  await app.page.getByLabel('Program', { exact: true }).selectOption('three-split-60');
+  await expect(workouts(app)).toHaveText('3');
+  await tab(app, 'Muscles').click();
+  await expect(tab(app, 'Muscles')).toHaveAttribute('aria-pressed', 'true');
+  await expect(app.page.getByRole('region', { name: 'Muscle balance' })).toBeVisible();
+  await expect(app.page.getByRole('button', { name: 'All time' })).toHaveAttribute('aria-pressed', 'true');
+  await expect(app.page.getByLabel('Program', { exact: true })).toHaveValue('three-split-60');
+  await expect(app.page.getByRole('group', { name: 'Workouts' })).toHaveCount(0);
+  await tab(app, 'Time').click();
+  await expect(rows(app).first()).toBeVisible();
+  await expect(app.page.getByLabel('Program', { exact: true })).toHaveValue('three-split-60');
+  await app.page.getByRole('button', { name: 'This week' }).click();
+  await expect(tab(app, 'Time')).toHaveAttribute('aria-pressed', 'true');
+  await expect(app.page.getByText('Pick Last 4 weeks or All time to see each week.')).toBeVisible();
+  expect(await app.sidewaysScroll()).toBe(0);
+  await app.go('#programs'); await app.go('#stats');
+  await expect(tab(app, 'Time')).toHaveAttribute('aria-pressed', 'true'); // kept while the app is open
 });
