@@ -35,6 +35,9 @@
        stretching minutes, sets, reps. Days the app no longer has are left out.
      calendarMonth(entries, { dayOf, year, month (0-11), scope? }) -> weeks of 7 { date, inMonth, minutes, workouts:
        [entry] } from the Sunday on or before the 1st (days the app lacks left out; scope: 'all' or one pid)
+     byWeekday(entries, { dayOf, from, to }) -> [7] workouts per weekday, Sunday first
+     byTimeOfDay(entries, { dayOf, from, to }) -> { morning (5-12), afternoon (12-17), evening (17-22), night (22-5) },
+       from when each day was first marked done (the only time stored)
      programFocus(days, EX) -> { muscle: share } of the muscle load over all the days, adding up to 1 ({} for none)
    Muscle load: each set counts 1 for every main muscle and 0.5 for every secondary muscle. */
 (function (root, Formats) {
@@ -206,6 +209,11 @@
     return weeks;
   }
 
+  // when you train (Phase 9): workouts per weekday (Sunday first) and per time of day, from when each day was marked done
+  const byWeekday = (entries, opts) => inSpan(entries, opts).reduce((out, { t }) => { out[t.getDay()] += 1; return out; }, [0, 0, 0, 0, 0, 0, 0]);
+  const partOfDay = (h) => (h >= 5 && h < 12 ? 'morning' : h >= 12 && h < 17 ? 'afternoon' : h >= 17 && h < 22 ? 'evening' : 'night');
+  const byTimeOfDay = (entries, opts) => inSpan(entries, opts).reduce((out, { t }) => { out[partOfDay(t.getHours())] += 1; return out; }, { morning: 0, afternoon: 0, evening: 0, night: 0 });
+
   // a program's muscle focus (Phase 9): each muscle's share of the weighted sets over all its days (they add up to 1)
   function programFocus(days, EX) {
     const load = {};
@@ -222,7 +230,7 @@
     return { from, to, totals, weeks: span === 'week' ? null : weekly(mine, opts), muscles: rankMuscles(totals.muscles, names), months: span === 'year' ? monthly(mine, opts) : null, hasHistory: mine.length > 0, ...breakdown(mine, { ...opts, infoOf }) };
   }
 
-  const api = { calendarMonth, programFocus, dayVolume, weekStart, summarize, spanRange, weekly, monthly, rankMuscles, exerciseHistory, levelOverTime, toCSV, report, dayParts, breakdown, DEFAULT_RESTS };
+  const api = { byWeekday, byTimeOfDay, calendarMonth, programFocus, dayVolume, weekStart, summarize, spanRange, weekly, monthly, rankMuscles, exerciseHistory, levelOverTime, toCSV, report, dayParts, breakdown, DEFAULT_RESTS };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBStats = api;
 })(typeof window !== 'undefined' ? window : globalThis, typeof module !== 'undefined' && module.exports ? require('../formats.js') : window.KBFormats);
