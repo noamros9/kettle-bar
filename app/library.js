@@ -1,14 +1,20 @@
 /* Library filters: what the programs page shows for the family, subject and length picked.
-     libraryView(summaries, filters, { families, lengthOf }) ->
+     libraryView(summaries, filters, { families, lengthOf, prefs }) ->
        { families: [{ key, name, count, pressed }],   All first, then each family that has programs
          subjects: [{ key, name, count, pressed }],   All first, then the picked family's subjects that have programs
          lengths:  [{ key, label, pressed }], lengthLabel,
          shelves:  [{ subject, programs }],           what is shown, in family order
          count, total,                                shown / in the picked family or subject (length ignored)
          counter,                                     the page's eyebrow: "Yoga · 2 of 5 programs"
-         unknown }                                    subjects that no family lists (the page logs them)
+         unknown,                                     subjects that no family lists (the page logs them)
+         favourites: [program],                       prefs.favourites still in the library, in library order; filters ignored
+         hidden: [subject] }                          prefs.hidden: these subjects show nowhere (chips, shelves, counts)
+   A hidden subject or a family left empty that is picked falls back to All. A starred program stays a favourite even when
+   its subject is hidden (the star is the more specific choice).
    Chip counts ignore the length, so choosing a length narrows the shelves but not the chips.
    setFilter(filters, key, value) -> new filters; a family change resets the subject.
+   subjectsOf(summaries, families) -> [[family, [subject]]], the subjects that have programs (the Hidden subjects setting).
+   toggleIn(list, value) -> a new list with value added, or removed if it was there (stars and hidden subjects).
    Pure: the page only renders what this returns. */
 (function (root) {
   // Families group the subjects; chips and shelves follow this order. Subjects listed before they have programs
@@ -34,13 +40,21 @@
     return scope === 'All' ? n : `${scope} · ${n}`;
   }
 
-  function libraryView(summaries, filters, { families, lengthOf: lenOf }) {
+  const toggleIn = (list = [], v) => (list.includes(v) ? list.filter((x) => x !== v) : [...list, v]);
+  const hasPrograms = (summaries, s) => summaries.some((p) => p.subject === s);
+  const subjectsOf = (summaries, families) => families.map(([name, list]) => [name, list.filter((s) => hasPrograms(summaries, s))]).filter(([, l]) => l.length);
+
+  function libraryView(summaries, asked, { families, lengthOf: lenOf, prefs = {} }) {
     const known = new Set(families.flatMap(([, list]) => list));
     const unknown = [...new Set(summaries.map((p) => p.subject))].filter((s) => !known.has(s));
+    const hidden = prefs.hidden || [], stars = prefs.favourites || [];
+    const favourites = summaries.filter((p) => stars.includes(p.id));
     const countOf = (list) => summaries.filter((p) => list.includes(p.subject)).length;
-    const withPrograms = (list) => list.filter((s) => countOf([s]) > 0);
+    const withPrograms = (list) => list.filter((s) => !hidden.includes(s) && countOf([s]) > 0);
 
     const present = families.map(([name, list]) => ({ name, list: withPrograms(list) })).filter((f) => f.list.length);
+    const famOk = asked.family === 'all' || present.some((f) => f.name === asked.family);
+    const filters = { ...asked, family: famOk ? asked.family : 'all', subject: famOk && !hidden.includes(asked.subject) ? asked.subject : 'all' };
     const inFamily = present.filter((f) => filters.family === 'all' || f.name === filters.family);
     const subjectNames = inFamily.flatMap((f) => f.list);
     const pick = (key, name, count, chosen) => ({ key, name, count, pressed: chosen === key });
@@ -58,7 +72,7 @@
     return {
       families: familyChips, subjects: subjectChips, lengths, lengthLabel: chosenLength.key === 'all' ? 'Any' : chosenLength.label,
       shelves, count: shownPrograms.length, total: scoped.length,
-      counter: counterText(scope === 'all' ? 'All' : scope, shownPrograms.length, scoped.length), unknown,
+      counter: counterText(scope === 'all' ? 'All' : scope, shownPrograms.length, scoped.length), unknown, favourites, hidden,
     };
   }
 
@@ -77,7 +91,7 @@
       .slice(0, 3).map(({ p }) => p.id);
   }
 
-  const api = { suggestNext, libraryView, setFilter, counterText, lengthOf, FAMILIES, LENGTHS };
+  const api = { suggestNext, libraryView, subjectsOf, toggleIn, setFilter, counterText, lengthOf, FAMILIES, LENGTHS };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBLibrary = api;
 })(typeof window !== 'undefined' ? window : globalThis);

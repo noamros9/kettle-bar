@@ -464,3 +464,17 @@ table.weeks tr.empty{color:var(--muted)}table.weeks tr.empty th{font-weight:400}
 .renamerow input[aria-invalid="true"]{border-color:var(--err)}
 .renamerow .btn{font-size:14px;padding:9px 14px}
 .phead .notice{margin:0 0 8px}
+
+/* favourites (Phase 8): a star on each program card and on the program page */
+.pcwrap{position:relative;display:grid}
+.pcwrap .pcard{padding-right:58px}
+.star{position:absolute;top:8px;right:8px;width:44px;height:44px;display:grid;place-items:center;border:0;background:none;border-radius:999px;color:var(--muted)}
+.star svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round}
+.star[aria-pressed="true"]{color:var(--accent)}
+.star[aria-pressed="true"] svg{fill:currentColor}
+.star:focus-visible{outline:2px solid var(--accent);outline-offset:-4px}
+.ptitle{display:flex;align-items:flex-start;gap:6px}
+.ptitle .star{position:static;flex:none;margin-top:2px}
+.pgroup.favs{margin-top:22px}
+.hidesubj{align-items:center;margin-bottom:8px}
+.hidesubj .fname{font-size:13px;color:var(--muted);font-weight:600;width:100%}

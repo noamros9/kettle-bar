@@ -117,3 +117,58 @@ test('the real families cover every subject in the real configs', () => {
   const known = new Set(FAMILIES.flatMap(([, l]) => l));
   assert.deepEqual([...new Set(CONFIGS.map((c) => c.subject))].filter((s) => !known.has(s)), []);
 });
+
+// Phase 8 ticket 1: favourites and hidden subjects, from the synced prefs ({ favourites: [id], hidden: [subject] }).
+const withPrefs = (prefs, f = {}) => libraryView(S, { ...start, ...f }, { families: FAM, lengthOf, prefs });
+
+test('favourites and hidden subjects: the favourites shelf first, counts without the hidden subject', () => {
+  const v = withPrefs({ favourites: ['g', 'b'], hidden: ['HIIT'] });
+  assert.deepEqual(v.favourites.map((p) => p.id), ['b', 'g'], 'library order, not the order they were starred');
+  assert.deepEqual(v.families.map((f) => [f.name, f.count]), [['All', 7], ['Strength', 3], ['Mind', 4]], 'Cardio had only HIIT, so it goes');
+  assert.ok(!names(v.subjects).includes('HIIT'));
+  assert.deepEqual(v.shelves.map((s) => s.subject), ['Signature', 'Strength', 'Core', 'Yoga']);
+  assert.equal(v.counter, '7 programs');
+  assert.deepEqual(v.hidden, ['HIIT']);
+});
+
+test('favourites: the shelf ignores the filters; a starred program stays on its own shelf too', () => {
+  const v = withPrefs({ favourites: ['d'] }, { family: 'Mind', len: 'short' });
+  assert.deepEqual(v.favourites.map((p) => p.id), ['d']);
+  assert.ok(!v.shelves.some((s) => s.programs.some((p) => p.id === 'd')));
+  assert.deepEqual(withPrefs({ favourites: ['d'] }).shelves.find((s) => s.subject === 'HIIT').programs.map((p) => p.id), ['d']);
+});
+
+test('a starred program whose subject is hidden stays a favourite: the star is the more specific choice', () => {
+  assert.deepEqual(withPrefs({ favourites: ['d'], hidden: ['HIIT'] }).favourites.map((p) => p.id), ['d']);
+});
+
+test('favourites: ids no longer in the library are skipped; no prefs means no shelf and nothing hidden', () => {
+  assert.deepEqual(withPrefs({ favourites: ['gone', 'a'] }).favourites.map((p) => p.id), ['a']);
+  const v = view();
+  assert.deepEqual(v.favourites, []); assert.deepEqual(v.hidden, []);
+  assert.deepEqual(withPrefs({}).favourites, []);
+});
+
+test('hiding the subject or family that is picked falls back to All', () => {
+  const v = withPrefs({ hidden: ['Yoga'] }, { family: 'Mind', subject: 'Yoga' });
+  assert.deepEqual(pressed(v.subjects), ['All']);
+  assert.deepEqual(v.shelves.map((s) => s.subject), ['Core']);
+  assert.equal(v.counter, 'Mind · 1 program');
+  const w = withPrefs({ hidden: ['HIIT'] }, { family: 'Cardio' });
+  assert.deepEqual(pressed(w.families), ['All']);
+  assert.equal(w.count, 7);
+});
+
+test('subjectsOf: every subject with programs, in family order, for the Hidden subjects setting', () => {
+  const { subjectsOf } = require('../app/library.js');
+  assert.deepEqual(subjectsOf(S, FAM), [['Strength', ['Signature', 'Strength']], ['Cardio', ['HIIT']], ['Mind', ['Core', 'Yoga']]]);
+});
+
+test('toggleIn: adds a missing value, removes a present one, and never changes the list it was given', () => {
+  const { toggleIn } = require('../app/library.js');
+  const l = ['a'];
+  assert.deepEqual(toggleIn(l, 'b'), ['a', 'b']);
+  assert.deepEqual(toggleIn(l, 'a'), []);
+  assert.deepEqual(toggleIn(undefined, 'a'), ['a']);
+  assert.deepEqual(l, ['a']);
+});

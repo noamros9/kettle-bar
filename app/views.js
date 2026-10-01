@@ -114,11 +114,20 @@ function setFilter(k, val) {
 }
 const toggleLengthMenu = () => { lengthMenu = !lengthMenu; };
 const { firstSentence } = KBPrograms; // program cards show the paragraph's first sentence
+
+/* Favourites and hidden subjects (Phase 8 ticket 1): in the synced prefs doc, as `favourites: [program id]` and
+   `hidden: [subject]`, each only while not empty. A star on each library program's card and page; Settings hides subjects. */
+const libraryPrefs = () => { const p = store.doc('prefs', 'main') || {}, list = (x) => (Array.isArray(x) ? x.filter((v) => typeof v === 'string') : []); return { favourites: list(p.favourites), hidden: list(p.hidden) }; };
+const isFavourite = (pid) => libraryPrefs().favourites.includes(pid);
+const toggleFavourite = (pid) => setPref('favourites', KBLibrary.toggleIn(libraryPrefs().favourites, pid));
+const toggleHidden = (subject) => setPref('hidden', KBLibrary.toggleIn(libraryPrefs().hidden, subject));
+const STAR = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2l2.7 5.6 6.1.8-4.5 4.2 1.1 6.1L12 17l-5.4 2.9 1.1-6.1-4.5-4.2 6.1-.8z"/></svg>';
+const starButton = (p) => { const on = isFavourite(p.id); return `<button class="star" data-star="${esc(p.id)}" aria-pressed="${on}" aria-label="${on ? 'Remove' : 'Add'} ${esc(p.name)} ${on ? 'from' : 'to'} favourites">${STAR}</button>`; };
 function viewPrograms() {
   const last = lastPid();
   const all = programs.list().filter((p) => p.source !== 'own'); // your own programs have their own shelf
   const mine = programs.list().filter((p) => p.source === 'own');
-  const lib = libraryView(all, filters, { families: FAMILIES, lengthOf });
+  const lib = libraryView(all, filters, { families: FAMILIES, lengthOf, prefs: libraryPrefs() });
   lib.unknown.forEach((s) => console.error(`Subject "${s}" has no family in FAMILIES`));
   const card = (p) => {
     const n = store.count(p.id), mins = p.minutes[0] === p.minutes[1] ? p.minutes[0] : `${Math.round(p.minutes[0])}–${Math.round(p.minutes[1])}`;
@@ -127,7 +136,9 @@ function viewPrograms() {
         <div class="pc-tags"><span class="chip">${esc(p.split)}</span><span class="chip">~${mins} min</span>${(p.formats || ['straight']).map((f) => `<span class="chip">${fmtFormat[f]}</span>`).join('')}${p.equip === 'kb' ? '<span class="chip">Kettlebell only</span>' : p.equip === 'bw' ? '<span class="chip">No equipment</span>' : ''}</div></div>
       <div class="pc-prog"><span class="num">${n}/${p.dayCount}</span><div class="bar"><b style="width:${(n / p.dayCount) * 100}%"></b></div></div></button>`;
   };
-  const groups = lib.shelves.map((s) => `<section class="pgroup"><h2>${esc(s.subject)}</h2><div class="plist">${s.programs.map(card).join('')}</div></section>`).join('');
+  const starred = (p) => `<div class="pcwrap">${card(p)}${starButton(p)}</div>`;
+  const groups = lib.shelves.map((s) => `<section class="pgroup"><h2>${esc(s.subject)}</h2><div class="plist">${s.programs.map(starred).join('')}</div></section>`).join('');
+  const favs = lib.favourites.length ? `<section class="pgroup favs"><h2>Favourites</h2><div class="plist">${lib.favourites.map(starred).join('')}</div></section>` : '';
   const yours = mine.length ? `<section class="pgroup yours"><h2>Your programs</h2><div class="plist">${mine.map(card).join('')}</div></section>` : '';
   const tab = (k, x) => `<button class="ftab" data-filter="${k}:${esc(x.key)}" aria-pressed="${x.pressed}">${esc(x.name)}</button>`;
   const chip = (x) => `<button class="fchip acc" data-filter="subject:${esc(x.key)}" aria-pressed="${x.pressed}">${esc(x.name)} <span class="fcount">${x.count}</span></button>`;
@@ -135,7 +146,7 @@ function viewPrograms() {
     <p class="lede">Every program starts at intermediate, with a matched warm-up and cool-down, and most end each workout with abs. Progress is kept per program.</p>
     <div class="pbtns"><button class="btn buildbtn" data-go="build">Build your own</button><button class="btn ghost buildbtn" data-random-open="1">${random.current() ? 'Random workout · continue' : 'Random workout'}</button></div>
     ${randomNotice ? `<p class="hint rnotice" role="status">${esc(randomNotice)}</p>` : ''}${restCard()}
-    ${yours}
+    ${yours}${favs}
     <div class="ftabs" role="group" aria-label="Filter by family">${lib.families.map((f) => tab('family', f)).join('')}</div>
     <div class="filters" role="group" aria-label="Filter by subject">${lib.subjects.map(chip).join('')}</div>
     <button class="lenline" data-len-menu="1" aria-expanded="${lengthMenu}">Length: <b>${esc(lib.lengthLabel)}</b> <span aria-hidden="true">${lengthMenu ? '▴' : '▾'}</span></button>
@@ -484,7 +495,7 @@ function viewProgram() {
   }).join('');
   const mins = p.minutes ? `~${Math.round(p.minutes[0])}–${Math.round(p.minutes[1])} min` : '';
   return `<div class="crumbs"><button class="back" data-go="programs">← All programs</button></div>
-    <div class="phead"><div><div class="eyebrow">${esc(p.subject || 'Program')} · ${esc(p.split || '')} ${mins ? '· ' + mins : ''}</div>${own ? ownTitle(p) : `<h1>${esc(p.name)}</h1>`}<p class="lede">${esc(p.about || p.blurb)}</p>
+    <div class="phead"><div><div class="eyebrow">${esc(p.subject || 'Program')} · ${esc(p.split || '')} ${mins ? '· ' + mins : ''}</div>${own ? ownTitle(p) : `<div class="ptitle"><h1>${esc(p.name)}</h1>${starButton(p)}</div>`}<p class="lede">${esc(p.about || p.blurb)}</p>
       ${p.gear ? `<p class="gear">${esc(p.gear)}</p>` : ''}${own ? ownTools(p) : ''}</div>
     <div class="progress">${r > 1 ? `<div class="eyebrow">Round ${r}</div>` : ''}<div class="big num">${n}<small> / ${p.days.length} days</small></div><div class="bar"><b style="width:${(n / p.days.length) * 100}%"></b></div>
       <button class="btn ghost roundbtn" data-round-start="1">Start Round ${r + 1}</button></div></div>
@@ -799,6 +810,10 @@ function viewSettings() {
     ${st.done ? `<p class="ok" role="status">${esc(st.done)}</p>` : ''}
     ${st.diff ? importReview(st) : ''}
   </section>
+  <section class="card setting"><h2>Hidden subjects</h2>
+    ${KBLibrary.subjectsOf(programs.list().filter((p) => p.source !== 'own'), FAMILIES).map(([fam, list]) => `<div class="filters hidesubj" role="group" aria-label="Hide ${esc(fam)} subjects"><span class="fname">${esc(fam)}</span>${list.map((x) => `<button class="fchip acc" data-hide="${esc(x)}" aria-pressed="${libraryPrefs().hidden.includes(x)}">${esc(x)}</button>`).join('')}</div>`).join('')}
+    <p class="muted">Ticked subjects don't show on the Programs page: no chip, no shelf, not counted. Programs you starred stay in Favourites. Synced with your account.</p>
+  </section>
   <section class="card setting"><h2>Travel mode</h2>
     <div class="filters" role="group" aria-label="Travel mode">${[[null, 'Off'], ...Object.entries(TRAVEL_TEXT)].map(([k, l]) => `<button class="fchip acc" data-travel="${k || ''}" aria-pressed="${travelMode() === k}">${esc(l)}</button>`).join('')}</div>
     <p class="muted">Away from your gear? Every workout swaps the exercises that need it for ones that work the same muscles, until you turn this off. Synced with your account.</p>
@@ -813,9 +828,11 @@ function viewSettings() {
    A preference (prefs doc 'main', `travel`), synced: the Day module swaps, on the day page, what needs missing gear. */
 const TRAVEL_TEXT = { nobar: 'No bar', kb: 'Kettlebell only', bw: 'Bodyweight only' };
 const travelMode = () => { const m = (store.doc('prefs', 'main') || {}).travel; return TRAVEL_TEXT[m] ? m : null; };
-function setTravel(mode) {
-  const prefs = store.doc('prefs', 'main') || {};
-  if (mode) prefs.travel = mode; else delete prefs.travel;
+function setTravel(mode) { setPref('travel', mode); }
+// one field of the synced prefs doc; an empty value (null, []) removes the field, so a doc keeps only what was set
+function setPref(key, value) {
+  const prefs = { ...(store.doc('prefs', 'main') || {}) };
+  if (value && (!Array.isArray(value) || value.length)) prefs[key] = value; else delete prefs[key];
   delete prefs.updatedAt;
   store.setDoc('prefs', 'main', prefs);
 }

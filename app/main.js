@@ -24,7 +24,7 @@ function paintSync(s) {
 }
 store.on('status', paintSync);
 store.on('change', () => rerender());
-store.on('docs', (c) => { if (c === 'random' || c === 'prefs') rerender(); }); // prefs: travel mode, here or from another device // a random workout done here or on another device: stats and the week line
+store.on('docs', (c) => { if (c === 'random' || c === 'prefs') rerender(); }); // prefs: travel mode, favourites, hidden subjects, here or from another device // a random workout done here or on another device: stats and the week line
 programs.onChange(() => rerender()); // your programs changed (here or synced from another device): redraw the page
 window.addEventListener('online', () => store.online());
 // hooks for the Firebase module (GitHub Pages build)
@@ -85,6 +85,8 @@ document.addEventListener('click', (ev) => {
   if (d.randomOpen) return randomOpen();
   if (d.restOpen) return restOpen();
   if (d.travel !== undefined) return setTravel(d.travel || null);
+  if (d.star) return toggleFavourite(d.star);
+  if (d.hide) return toggleHidden(d.hide);
   if (d.restDismiss) return restDismiss();
   if (d.randomSet) { const k = d.randomSet.slice(0, d.randomSet.indexOf(':')); return randomSet(k, d.randomSet.slice(k.length + 1)); }
   if (d.randomShuffle) { randomState.seed = KBRandom.newSeed(); render(); return; }
