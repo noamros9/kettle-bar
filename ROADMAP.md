@@ -196,7 +196,11 @@ Plan and tickets: [docs/plans/phase-8-finding-and-stats.md](docs/plans/phase-8-f
       format, and the kind of work as three totals: strength sets (and reps), cardio minutes, mind & body minutes. A
       mixed day's blocks count under their own family and the mixed program's subject (a Fighter day's flow is Mind &
       body · Fighter). Random workouts count under their family as "Random workouts". Stretching stays out (it has
-      its own tile on Overview). Core & abs is in Mind & body, so it counts as mind & body minutes.
+      its own tile on Overview). Core & abs is in Mind & body, so it counts as mind & body minutes. A mixed day's abs finisher
+      (no family of its own) goes with the block before it (fixed 1 Oct with ticket 6).
+    - **Longer spans and the trend, built (1 Oct):** spans This week · Last 4 weeks · **Last 3 months** (13 whole
+      weeks) · **This year** (1 Jan to the end of this week) · All time. The Time tab opens with **minutes per week** as
+      a line, or **per month as bars** for This year (with a month-by-month table instead of the weekly one).
 
 ## Decided against (don't re-suggest)
 - **Logging weights/reps per set**: Noam wants done / not done only.
