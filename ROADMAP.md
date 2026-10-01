@@ -10,6 +10,12 @@ future work doesn't re-ask them. Order within a phase is the build order.
 
 ## Backlog
 - **Test a restore from the nightly backup** on the phone ([#16](https://github.com/noamros9/kettle-bar/issues/16)).
+- **Faster phone UI tests (1 Oct 2026):** locally only the affected specs run (`npm run test:ui:affected`), the full
+  suite in CI on the PR. Next: speed up the two-browser helper (`tests-ui/devices.js`): the four sync tests take ~85 s
+  of the ~6 min suite. More workers don't help on 2 cores (4 workers: 4.4 min and timeouts).
+- **Workout history with a calendar** ([#113](https://github.com/noamros9/kettle-bar/issues/113), Noam, 1 Oct): every
+  done workout by date on a calendar, a base for more stats. To be grilled and planned; settle the line with
+  "calendar/streaks" under Decided against.
 
 ## Phase 1: a safety net (done, Sep 2026)
 Planned in the PRD [#7](https://github.com/noamros9/kettle-bar/issues/7); glossary in [CONTEXT.md](CONTEXT.md), decisions in

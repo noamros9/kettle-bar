@@ -18,11 +18,16 @@ How Noam wants work done in this repo. Words: [CONTEXT.md](CONTEXT.md). Decision
   Sonnet's work wasn't to his liking on this project).
 - **One at a time:** work the roadmap ticket by ticket, in plan order. Finish, merge and check CI before starting
   the next one.
-- **Merge without asking:** when a ticket passes the review checks below, Claude merges its PR itself (squash).
+- **Merge without asking:** when a ticket passes the review checks below and the PR's CI run is green, Claude merges
+  its PR itself (squash).
   Tell Noam what was merged, briefly.
 - **Review checks:**
   - `npm test` and `npm run test:coverage` (100% on the gated modules);
-  - the phone UI suite (`npm run test:ui`) once, after a fresh build (Playwright reuses a running server);
+  - locally, only the phone UI tests the branch touches: `npm run test:ui:affected -- <pages the ticket's UI work
+    touched>` (a fresh build, then the changed specs, the specs mapped to the changed modules, the pages named, and a
+    smoke check that every page draws; light theme, `--dark` adds dark). The **full suite, light and dark, runs in CI
+    on the PR, and the ticket merges only when that run is green** (Noam, 1 Oct 2026: the full local run took ~6 min
+    on 2 cores and repeated CI). A new spec or module gets its line in `scripts/ui-affected.js`'s MAP;
   - when programs could be affected: `rm -rf data && node build.js` on main and on the branch, `diff -r` shows only
     new program files, and no existing pin in `tests/fixtures/program-days.json` changes (never re-pin);
   - `index.html` stays under the 150 KB gzip gate;
@@ -36,6 +41,7 @@ How Noam wants work done in this repo. Words: [CONTEXT.md](CONTEXT.md). Decision
 - `gh` isn't installed; use the GitHub REST API with curl (auth comes from the proxy). Send
   `-H "Content-Type: application/json"` on every POST/PUT.
 - `npm install` rewrites `package-lock.json`; don't commit that.
+- Give commands a time limit close to how long they really take (the affected UI tests: a minute or two; CI: ~4 min).
 - Committed tests never write outside the repo (screenshots go to `test-results/`); review screenshots for Noam go to
   `/home/claude/kettle-bar-shots/` from a throwaway script or spec that isn't committed. CI (the deploy) must stay green:
   after merging, check the Test and deploy run and fix a red one before starting new tickets.
