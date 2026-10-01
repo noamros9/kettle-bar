@@ -11,8 +11,8 @@ future work doesn't re-ask them. Order within a phase is the build order.
 ## Backlog
 - **Test a restore from the nightly backup** on the phone ([#16](https://github.com/noamros9/kettle-bar/issues/16)).
 - **Faster phone UI tests (1 Oct 2026):** locally only the affected specs run (`npm run test:ui:affected`), the full
-  suite in CI on the PR. Next: speed up the two-browser helper (`tests-ui/devices.js`): the four sync tests take ~85 s
-  of the ~6 min suite. More workers don't help on 2 cores (4 workers: 4.4 min and timeouts). CI (1 Oct): the test job runs in
+  suite in CI on the PR. The two-browser helper (`tests-ui/devices.js`) batches its calls (1 Oct): the sync tests run
+  ~35% faster (sync 22 → 13 s, build 23 → 14 s, random 24 → 18 s); the build one had flaked on a busy runner. More workers don't help on 2 cores (4 workers: 4.4 min and timeouts). CI (1 Oct): the test job runs in
   Playwright's image (installing the browser took 6–20+ min of apt-get), a newer push to a PR cancels the older run,
   and a commit of Markdown only skips the pre-commit tests.
 - **Workout history with a calendar** ([#113](https://github.com/noamros9/kettle-bar/issues/113), Noam, 1 Oct): every
