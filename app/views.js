@@ -34,6 +34,8 @@ const fetchJson = (url) => fetch(url).then((r) => { if (!r.ok) throw new Error(u
 const fetchText = (url) => fetch(url).then((r) => { if (!r.ok) throw new Error(url + ': ' + r.status); return r.text(); });
 // the exercise index (data/index.json): which programs use an exercise, fetched when an exercise page first needs it
 const usageFile = KBLazy.lazyFile({ fetch: fetchJson, cache: offlineCache, url: 'data/index.json', unavailable: "Which programs use this exercise isn't available offline yet. Open an exercise once while online." });
+// the library programs' muscle focus (data/muscles.json): fetched when the muscle map is first used, kept for offline
+const focusFile = KBLazy.lazyFile({ fetch: fetchJson, cache: offlineCache, url: 'data/muscles.json', unavailable: "Programs for these muscles aren't available offline yet. Pick a muscle once while online." });
 const programs = KBPrograms.createProgramCatalogue(KBPrograms.fetched(PROGRAM_SUMMARIES, { fetchJson, cache: offlineCache, name: 'library', usage: usageFile }));
 // build your own and the random workout: the recipe book (data/recipes.json) and the code that reads it (data/recipes.js),
 // fetched when first asked for, kept for offline; neither is in the page
@@ -778,7 +780,7 @@ function exResults() {
   const card = (e) => `<article class="ex"><button class="exlink" data-ex="${e.id}" aria-label="${esc(e.name)}: how to and muscles worked"><div class="figbox">${fig(e.id)}</div><div class="nm">${esc(e.name)}</div></button>${e.load ? `<div class="ld">${esc(LOAD[e.load])}</div>` : ''}<p class="cue">${esc(e.cue)}</p></article>`;
   if (exSearch.muscles.length) { // picked muscles: one list, best first (the order is the point, so no category sections)
     const names = exSearch.muscles.map((m) => MUSCLE_NAMES[m]).join(' + ');
-    return `${chipsHTML(r, chip)}${r.list.length ? `<section class="libcat"><h2>Best for ${esc(names)}</h2><div class="exgrid">${r.list.map(card).join('')}</div></section>` : '<p class="lede" style="margin-top:24px">No exercises match. Try another word or fewer filters.</p>'}`;
+    return `${musclePrograms(names)}${chipsHTML(r, chip)}${r.list.length ? `<section class="libcat"><h2>Best for ${esc(names)}</h2><div class="exgrid">${r.list.map(card).join('')}</div></section>` : '<p class="lede" style="margin-top:24px">No exercises match. Try another word or fewer filters.</p>'}`;
   }
   const sections = r.cats.slice(1).map((c) => { const list = r.list.filter((e) => e.cat === c.key); return list.length ? `<section class="libcat"><h2>${CAT[c.key]}</h2><div class="exgrid">${list.map(card).join('')}</div></section>` : ''; }).join('');
   return `${chipsHTML(r, chip)}
@@ -797,6 +799,24 @@ function exMap() {
   const heat = Object.fromEntries(Object.keys(MUSCLE_NAMES).map((m) => [m, picked.includes(m) ? 1 : 0]));
   return `${toggle}<div class="mmpick">${muscleMapSVG(heat, 'Pick muscles: tap one to add or remove it')}</div>
     <div class="filters" role="group" aria-label="Muscles">${Object.entries(MUSCLE_NAMES).map(([m, n]) => `<button class="fchip acc" data-exmuscle="${m}" aria-pressed="${picked.includes(m)}">${esc(n)}</button>`).join('')}${picked.length ? '<button class="fchip" data-exmuscle-clear="1">Clear</button>' : ''}</div>`;
+}
+/* Programs that train the picked muscles (Phase 9 ticket 2): the top 5 by muscle focus, library (data/muscles.json) and
+   your own (worked out here from their days). Shown above the exercises: five cards, before a long list. */
+let focusState = { data: null, loading: false, error: null };
+function musclePrograms(names) {
+  if (!focusState.data && !focusState.loading && !focusState.error) {
+    focusState.loading = true;
+    focusFile.load().then((data) => { focusState = { data, loading: false, error: null }; exRefresh(); }, (e) => { focusState = { data: null, loading: false, error: e.message }; exRefresh(); });
+  }
+  const head = `<h2>Programs for ${esc(names)}</h2>`;
+  if (focusState.error) return `<section class="libcat">${head}<p class="muted" role="status">${esc(focusState.error)}</p></section>`;
+  if (!focusState.data) return `<section class="libcat">${head}<p class="muted loading" role="status">Finding programs…</p></section>`;
+  const own = programs.list().filter((p) => p.source === 'own' && programs.get(p.id)).map((p) => [p.id, KBStats.programFocus(programs.get(p.id).days, EX)]);
+  const focus = { ...Object.fromEntries(own), ...Object.fromEntries(Object.entries(focusState.data).filter(([pid]) => programs.has(pid))) };
+  const ids = KBLibrary.rankPrograms(focus, exSearch.muscles, 5);
+  const card = (q) => `<button class="wncard" data-open-prog="${q.id}"><span class="eyebrow">${esc(q.subject)}</span><b>${esc(q.name)}</b><span>${exSearch.muscles.map((m) => `${MUSCLE_NAMES[m]} ${Math.round((focus[q.id][m] || 0) * 100)}%`).join(' · ')}</span></button>`;
+  return `<section class="libcat">${head}<div class="wnlist">${ids.map((id) => card(programs.summary(id))).join('')}</div>
+    <p class="note">Each program's share of its sets that works the muscle, over its 60 days.</p></section>`;
 }
 function exMuscle(m) { exSearch.muscles = m === null ? [] : KBLibrary.toggleIn(exSearch.muscles, m); exRefresh(); }
 // redraw the counter, the map and the results only (typing in the search field keeps its focus)

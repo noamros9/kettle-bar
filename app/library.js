@@ -102,6 +102,13 @@
     return list.map((e, i) => ({ e, i, n: picked.filter((m) => w(e, m) > 0).length, s: picked.reduce((a, m) => a + w(e, m), 0) }))
       .filter((x) => x.n > 0).sort((a, b) => b.n - a.n || b.s - a.s || a.i - b.i).map((x) => x.e);
   }
+  /* rankPrograms(focus, picked, n?) (Phase 9): program ids from { pid: { muscle: share } } (insertion order) that train a
+     picked muscle: those with all of them first, then the sum of their shares, then the order given; at most n. */
+  function rankPrograms(focus, picked, n = Infinity) {
+    if (!picked.length) return [];
+    return Object.entries(focus).map(([pid, f], i) => ({ pid, i, k: picked.filter((m) => f[m] > 0).length, s: picked.reduce((a, m) => a + (f[m] || 0), 0) }))
+      .filter((x) => x.k > 0).sort((a, b) => b.k - a.k || b.s - a.s || a.i - b.i).slice(0, n).map((x) => x.pid);
+  }
   const GEAR = [['all', 'Any equipment'], ['kb', 'Kettlebell'], ['db', 'Dumbbells'], ['bar', 'Pull-up bar'], ['none', 'No equipment']];
   const gearOf = (e) => (e.load === 'kb' ? 'kb' : e.load ? 'db' : (e.equip || []).includes('bar') ? 'bar' : 'none');
   function searchExercises(EX, query, filters, { names, cats: order } = {}) {
@@ -134,7 +141,7 @@
       .slice(0, 3).map(({ p }) => p.id);
   }
 
-  const api = { suggestNext, libraryView, searchExercises, byMuscles, gearOf, GEAR, subjectsOf, toggleIn, setFilter, counterText, lengthOf, FAMILIES, LENGTHS, EQUIPS };
+  const api = { suggestNext, libraryView, searchExercises, byMuscles, rankPrograms, gearOf, GEAR, subjectsOf, toggleIn, setFilter, counterText, lengthOf, FAMILIES, LENGTHS, EQUIPS };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBLibrary = api;
 })(typeof window !== 'undefined' ? window : globalThis);
