@@ -488,7 +488,9 @@ table.weeks tr.empty{color:var(--muted)}table.weeks tr.empty th{font-weight:400}
 #exresults > .filters{margin-top:12px}
 
 /* Stats tabs (Phase 8) */
-.stattabs{margin-top:18px}
+.stattabs{margin-top:18px;gap:12px}
+.stattabs .ftab{padding-left:2px;padding-right:2px}
+@media (max-width:380px){.stattabs{gap:6px}}
 .stattabs + .kpis,.stattabs + .balance,.stattabs + .table-scroll,.stattabs + p{margin-top:16px}
 
 /* Stats: Time tab (Phase 8) */
@@ -535,3 +537,22 @@ table.weeks tr.empty{color:var(--muted)}table.weeks tr.empty th{font-weight:400}
 .mmpick [data-m]{cursor:pointer}
 .mmpick [data-m]:hover{opacity:.75}
 #exmap .filters{margin-top:8px}
+
+/* Stats: History tab (Phase 9) */
+.history{margin-top:16px;display:grid;gap:10px}
+.hnav{display:flex;align-items:center;gap:8px}
+.hnav h2{flex:1;margin:0;text-align:center}
+.hbtn{min-width:44px;padding:8px 0;font-size:20px;line-height:1}
+.hnav .linkbtn{order:-1;font-size:14px}
+.hgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+@media (max-width:420px){.card.history{padding-left:12px;padding-right:12px}}
+.hwd{text-align:center;font-size:12px;font-weight:600;color:var(--muted)}
+.hday{aspect-ratio:1;min-width:0;border:0;border-radius:8px;font:inherit;font-size:14px;font-variant-numeric:tabular-nums;background:var(--soft);color:var(--ink)}
+.hday.mm-l1{background:var(--mm-l1)}.hday.mm-l2{background:var(--mm-l2)}.hday.mm-l3{background:var(--mm-l3);color:var(--surface)}.hday.mm-l4{background:var(--mm-l4);color:var(--surface)}
+.hday.out{opacity:.4}
+.hday.today{outline:2px solid var(--ink);outline-offset:-2px}
+.hday[aria-pressed="true"]{box-shadow:0 0 0 3px var(--accent)}
+.hlist{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.hwork{display:grid;gap:2px;width:100%;text-align:left;background:var(--soft);border:0;border-radius:10px;padding:10px 14px;color:var(--ink);font:inherit}
+.hwork b{font:800 18px/1.15 var(--display);text-transform:uppercase}
+.hwork span:last-child{color:var(--muted);font-size:13px}

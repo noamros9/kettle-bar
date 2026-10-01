@@ -33,6 +33,8 @@
      toCSV(entries, { dayOf, EX, nameOf }) -> text: a header, then one row per done day, oldest first: date (local),
        program (nameOf(pid); "Random" for random workouts), day (empty for random), level, workout minutes,
        stretching minutes, sets, reps. Days the app no longer has are left out.
+     calendarMonth(entries, { dayOf, year, month (0-11), scope? }) -> weeks of 7 { date, inMonth, minutes, workouts:
+       [entry] } from the Sunday on or before the 1st (days the app lacks left out; scope: 'all' or one pid)
      programFocus(days, EX) -> { muscle: share } of the muscle load over all the days, adding up to 1 ({} for none)
    Muscle load: each set counts 1 for every main muscle and 0.5 for every secondary muscle. */
 (function (root, Formats) {
@@ -191,6 +193,19 @@
     return ['date,program,day,level,workout_minutes,stretching_minutes,sets,reps', ...rows].join('\n') + '\n';
   }
 
+  // the History tab's month (Phase 9): weeks from the Sunday on or before the 1st to the Saturday on or after the last day
+  function calendarMonth(entries, { dayOf, year, month, scope = 'all' }) {
+    const first = new Date(year, month, 1), start = weekStart(first), end = plusDays(weekStart(new Date(year, month + 1, 0)), 7);
+    const done = inSpan(entries.filter((e) => scope === 'all' || e.pid === scope), { dayOf, from: start, to: end });
+    const weeks = [];
+    for (let d = start; d < end; d = plusDays(d, 1)) {
+      if (d.getDay() === 0) weeks.push([]);
+      const next = plusDays(d, 1), mine = done.filter(({ t }) => t >= d && t < next);
+      weeks[weeks.length - 1].push({ date: d, inMonth: d.getMonth() === month, minutes: mine.reduce((a, x) => a + x.d.est, 0), workouts: mine.map((x) => x.e) });
+    }
+    return weeks;
+  }
+
   // a program's muscle focus (Phase 9): each muscle's share of the weighted sets over all its days (they add up to 1)
   function programFocus(days, EX) {
     const load = {};
@@ -207,7 +222,7 @@
     return { from, to, totals, weeks: span === 'week' ? null : weekly(mine, opts), muscles: rankMuscles(totals.muscles, names), months: span === 'year' ? monthly(mine, opts) : null, hasHistory: mine.length > 0, ...breakdown(mine, { ...opts, infoOf }) };
   }
 
-  const api = { programFocus, dayVolume, weekStart, summarize, spanRange, weekly, monthly, rankMuscles, exerciseHistory, levelOverTime, toCSV, report, dayParts, breakdown, DEFAULT_RESTS };
+  const api = { calendarMonth, programFocus, dayVolume, weekStart, summarize, spanRange, weekly, monthly, rankMuscles, exerciseHistory, levelOverTime, toCSV, report, dayParts, breakdown, DEFAULT_RESTS };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBStats = api;
 })(typeof window !== 'undefined' ? window : globalThis, typeof module !== 'undefined' && module.exports ? require('../formats.js') : window.KBFormats);

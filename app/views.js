@@ -938,7 +938,7 @@ function statTiles(s) {
 // the Stats page's switches: time span and program ('all' or a program id)
 // and the tab (Phase 8): Overview · Muscles · Time, the switches staying above them and carrying across
 const statsView = { span: 'week', pid: 'all', tab: 'overview' };
-const STAT_TABS = [['overview', 'Overview'], ['muscles', 'Muscles'], ['time', 'Time'], ['exercises', 'Exercises']];
+const STAT_TABS = [['overview', 'Overview'], ['muscles', 'Muscles'], ['time', 'Time'], ['exercises', 'Exercises'], ['history', 'History']];
 const SPANS = [['week', 'This week'], ['4weeks', 'Last 4 weeks'], ['3months', 'Last 3 months'], ['year', 'This year'], ['all', 'All time']];
 const shortDate = (d) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
 function weekRows(rows, caption = 'Week by week', head = 'Week of', label = shortDate) {
@@ -1023,7 +1023,40 @@ function exercisesTab(r) {
     <section class="card exhist" aria-labelledby="lv-h"><h2 id="lv-h">Level over time</h2>${levels.map(strip).join('')}
       <p class="note">The highest level you did each week, oldest week first: I days 1–20, II days 21–40, III days 41–60.</p></section>`;
 }
+/* The History tab (Phase 9 ticket 3): a month as a calendar, ‹ › to page, Today back; a day with workouts is filled,
+   darker for more minutes; tap one for what you did. The program switch narrows it; the span switch doesn't apply (it
+   is hidden here). History, not streaks: nothing counts runs of days. */
+const statsMonth = () => { const n = new Date(), m = statsView.month || [n.getFullYear(), n.getMonth()]; return new Date(m[0], m[1], 1); };
+const dateKey = (d) => KBRandom.dayKey(d);
+const minuteLevel = (m) => (m <= 0 ? 0 : m < 25 ? 1 : m < 40 ? 2 : m < 60 ? 3 : 4);
+function historyTab() {
+  const m = statsMonth(), now = new Date(), today = dateKey(now), thisMonth = m.getFullYear() === now.getFullYear() && m.getMonth() === now.getMonth();
+  const weeks = KBStats.calendarMonth(statsEntries(), { dayOf, year: m.getFullYear(), month: m.getMonth() });
+  const label = (c) => `${c.date.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' })}: ${c.workouts.length ? `${plural(c.workouts.length, 'workout')}, ${fmtNum(c.minutes)} minutes` : 'no workouts'}`;
+  const cell = (c) => { const k = dateKey(c.date);
+    return `<button class="hday mm-l${minuteLevel(c.minutes)}${c.inMonth ? '' : ' out'}${k === today ? ' today' : ''}" data-hday="${k}" aria-pressed="${statsView.histDay === k}" aria-label="${esc(label(c))}"${c.workouts.length ? '' : ' tabindex="-1"'}>${c.date.getDate()}</button>`; };
+  const picked = weeks.flat().find((c) => dateKey(c.date) === statsView.histDay);
+  const nav = `<div class="hnav"><button class="btn ghost hbtn" data-hmonth="-1" aria-label="Previous month">‹</button><h2 id="hist-h">${esc(m.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' }))}</h2><button class="btn ghost hbtn" data-hmonth="1" aria-label="Next month">›</button>${thisMonth ? '' : '<button class="linkbtn" data-hmonth="0">Today</button>'}</div>`;
+  const head = ['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((d) => `<span class="hwd" aria-hidden="true">${d}</span>`).join('');
+  return `<section class="card history" aria-labelledby="hist-h">${nav}<div class="hgrid">${head}${weeks.flat().map(cell).join('')}</div>
+      ${heatLegend()}</section>${picked ? historyDay(picked) : '<p class="muted">Tap a day to see what you did.</p>'}`;
+}
+function historyDay(c) {
+  const row = (e) => {
+    const d = dayOf(e.pid, e.day, e.round);
+    if (e.pid === 'random') { const rec = store.doc('random', e.day) || {}; return `<li class="hwork"><span class="eyebrow">Random workout</span><b>${esc((rec.name || 'Random workout').replace(/^Random: /, ''))}</b><span>${fmtMin(d.est)} · level ${ROMAN[d.level]}</span></li>`; }
+    const sm = programs.summary(e.pid);
+    return `<li><button class="hwork" data-hopen="${esc(e.pid)}:${e.day}"><span class="eyebrow">${esc(sm ? sm.name : e.pid)}${e.round > 1 ? ` · Round ${e.round}` : ''}</span><b>Day ${e.day} · ${esc(d.name || d.title)}</b><span>${fmtMin(d.est)} · level ${ROMAN[d.level]}</span></button></li>`;
+  };
+  return `<section class="card history" aria-labelledby="hday-h"><h2 id="hday-h">${esc(c.date.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' }))}</h2>
+    ${c.workouts.length ? `<ol class="hlist">${c.workouts.map(row).join('')}</ol>` : '<p class="muted">No workouts this day.</p>'}</section>`;
+}
+function historyMove(n) {
+  const m = statsMonth(), d = n === 0 ? new Date() : new Date(m.getFullYear(), m.getMonth() + n, 1);
+  statsView.month = [d.getFullYear(), d.getMonth()]; statsView.histDay = null; render();
+}
 function statsTab(r, what) {
+  if (statsView.tab === 'history') return historyTab();
   if (statsView.tab === 'muscles') return muscleBalance(r, what);
   if (statsView.tab === 'exercises') return exercisesTab(r);
   if (statsView.tab === 'time') {
@@ -1039,11 +1072,12 @@ function viewStats() {
   const used = programs.list().filter((p) => all.some((e) => e.pid === p.id) || p.id === pid);
   const scopeName = pid === 'all' ? 'all programs' : pid === 'random' ? 'random workouts' : programs.summary(pid).name + (statsView.round ? ` · Round ${statsView.round}` : '');
   const randomOption = all.some((e) => e.pid === 'random') || pid === 'random' ? `<option value="random"${pid === 'random' ? ' selected' : ''}>Random workouts</option>` : '';
-  const when = span === 'all' ? (pid === 'all' || pid === 'random' ? 'all time' : 'since you started') : `${shortDate(from)} – ${shortDate(new Date(to - 864e5))}`;
-  const none = { week: 'this week', '4weeks': 'in the last 4 weeks', '3months': 'in the last 3 months', year: 'this year', all: '' }[span];
+  const history = statsView.tab === 'history', month = statsMonth();
+  const when = history ? month.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' }) : span === 'all' ? (pid === 'all' || pid === 'random' ? 'all time' : 'since you started') : `${shortDate(from)} – ${shortDate(new Date(to - 864e5))}`;
+  const none = history ? '' : { week: 'this week', '4weeks': 'in the last 4 weeks', '3months': 'in the last 3 months', year: 'this year', all: '' }[span];
   return `<div class="eyebrow">${esc(pid === 'all' ? `${when} · ${scopeName}` : `${scopeName} · ${when}`)}</div><h1>Stats</h1>
     <div class="statbar">
-      <div class="filters" role="group" aria-label="Time span">${SPANS.map(([k, l]) => `<button class="fchip" data-stat-span="${k}" aria-pressed="${span === k}">${l}</button>`).join('')}</div>
+      ${history ? '' : `<div class="filters" role="group" aria-label="Time span">`}${history ? '' : SPANS.map(([k, l]) => `<button class="fchip" data-stat-span="${k}" aria-pressed="${span === k}">${l}</button>`).join('') + '</div>'}
       <div class="scope"><label for="stats-scope">Program</label><select id="stats-scope"><option value="all">All programs</option>${used.map((p) => `<option value="${p.id}"${p.id === pid ? ' selected' : ''}>${esc(p.name)}</option>`).join('')}${randomOption}</select></div>
       ${pid !== 'all' && pid !== 'random' && store.round(pid) > 1 ? `<div class="scope"><label for="stats-round">Round</label><select id="stats-round"><option value="all">All rounds</option>${Array.from({ length: store.round(pid) }, (_, i) => `<option value="${i + 1}"${statsView.round === i + 1 ? ' selected' : ''}>Round ${i + 1}</option>`).join('')}</select></div>` : ''}
     </div>
