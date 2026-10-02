@@ -22,7 +22,7 @@ backups).
 |---|---|---|---|---|---|
 | 0 | This plan (in the 2 Oct roadmap plan) | plan | – | `plan/roadmap-oct` | done (PR #133) |
 | 1 | Pages as modules | refactor | – | `refactor/pages` | done (PR #140) |
-| 2 | Actions instead of a click chain | refactor | 1 | `refactor/actions` | |
+| 2 | Actions instead of a click chain | refactor | 1 | `refactor/actions` | done (PR #141) |
 | 3 | Minify the page | build | – | `build/minify` | |
 | 4 | Program length and levels in one place | refactor | – | `refactor/program-length` | |
 | 5 | Build the library once per test run | test | – | `test/library-cache` | |
