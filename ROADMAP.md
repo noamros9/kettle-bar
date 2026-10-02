@@ -302,7 +302,7 @@ the +50% on top**:
   Catalogue 8 (29 exercises for the new subjects) is frozen: later additions use new pool names or catalogue 9.
   Shelves show 6 with "Show all N"; 30-day programs say so on their card.
 
-### Phase 15: the Program finder
+### Phase 15: the Program finder (done, Oct 2026)
 Plan: [docs/plans/phase-15-program-finder.md](docs/plans/phase-15-program-finder.md). Suggested 2 Oct after Phase 14
 (program finder, your training days, a note on a done day, calendar export); **Noam picked the Program finder, with
 free-language search using AI** (2 Oct). Grilled:
