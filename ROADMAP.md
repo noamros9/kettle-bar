@@ -263,6 +263,11 @@ library offline**; **"Offline · N changes waiting"** in the header.
 - **Open from cache, built (2 Oct):** `sw.js` serves from the cache at once and updates it behind; the page asks
   `version.json` (a hash of the build, never cached) when it opens and when it comes back to the front, and shows "A
   new version is ready · Reload / Later" (Reload drops the cached page first).
+- **Outbox, built (2 Oct):** every cloud write while signed in (progress, own programs, random workouts, prefs, deletes)
+  is kept on the phone (`kb-outbox`, no key when empty) until the cloud confirms it; sent again on reconnect and at
+  the next start, where a waiting change **wins over the cloud's copy** (so an un-done day or a delete never comes
+  back). With nothing waiting, the first sync joins as before (newest wins, done days joined). A change the rules
+  refuse for good isn't kept.
 
 ### Architecture review IV
 Plan: [docs/plans/architecture-review-4.md](docs/plans/architecture-review-4.md). **Full review, like III** (2 Oct):
