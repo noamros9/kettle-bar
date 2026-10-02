@@ -22,7 +22,7 @@ program in the page; the offline download grows ~3.7 KB gzipped each).
 | 0 | This plan (in the 2 Oct roadmap plan) | plan | – | `plan/roadmap-oct` | done (PR #133) |
 | 1 | 30-day programs in the engine | feature | review IV 4 | `feature/thirty-days` | done (PR #149) |
 | 2 | Programs page for ~260 programs | feature | – | `feature/library-scale` | done (PR #150) |
-| 3 | Catalogue 8: exercises the new subjects need | feature | – | `feature/catalogue-8` | |
+| 3 | Catalogue 8: exercises the new subjects need | feature | – | `feature/catalogue-8` | done (PR #151) |
 | 4 | Fill to 6 (+9) and the floor-pull programs (+3) | content | 3 | `content/fill-six` | |
 | 5 | New subjects: Running prep, Court & field sports (+10) | content | 3 | `content/cardio-subjects` | |
 | 6 | New subjects: Grip & forearms, Kettlebell complexes, Climber (+15) | content | 3 | `content/strength-subjects` | |
@@ -59,6 +59,15 @@ program in the page; the offline download grows ~3.7 KB gzipped each).
   variations on the bar, lateral bounds, cat-friendly back-care moves), `added: 8`, with drawings and muscles. The list
   is settled at the start of the ticket from the new subjects' day types.
 - **Test first:** every new exercise draws, has muscles and reps; catalogue ≤ 7 builds never draw them.
+- **As built (2 Oct): 29 exercises.** Running prep: A-skips, wall drives, running arm drives. Court & field: carioca,
+  shuttle touches, split-step hops, backpedals. Grip: farmer carry, wrist curls, reverse wrist curls, reverse curls,
+  bottoms-up hold. Kettlebell complexes: cleans, push press, one-arm swings, figure eights, around-the-body passes.
+  Climber: wide-grip pull-ups, lock-off holds, archer pull-ups. Gentle: wall push-ups, sit-to-stands, standing march,
+  step touches. Back care: pelvic tilts, prone press-ups (mobility, so they never land in an abs finisher), clamshells,
+  McGill curl-ups, side plank from the knees.
+- **Catalogue 8 is now frozen.** From this merge, own programs and random workouts build at 8, so no later ticket may
+  add to an existing pool at 8 or add `added: 8` exercises: tickets 4–12 put the new exercises in **new pool names**
+  (old configs never name them), and anything else new goes to catalogue 9.
 
 ### 4–12. Programs
 - Each ticket: configs (and day types) in the family's config file, hand-written summaries, pins added (never
