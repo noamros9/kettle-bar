@@ -49,7 +49,7 @@ function render(programs = buildAll()) {
   // the build's version (Phase 12): a hash of the page, in the page and in version.json, which the page asks to know
   // when a newer build is out
   const version = require('crypto').createHash('sha256').update(page).digest('hex').slice(0, 12);
-  return { 'index.html': HEAD + page.replace('<!--__VERSION__-->', () => `<script>window.KB_VERSION=${JSON.stringify(version)};</script>`) + TAIL, 'version.json': JSON.stringify({ v: version }), ...data, 'data/recipes.json': JSON.stringify(refresh()), 'data/recipes.js': read('recipes.js'), 'data/index.json': JSON.stringify(usageIndex(programs)), 'data/muscles.json': JSON.stringify(focusIndex(programs)), 'data/finder.json': JSON.stringify(finderIndex(programs)) };
+  return { 'index.html': HEAD + page.replace('<!--__VERSION__-->', () => `<script>window.KB_VERSION=${JSON.stringify(version)};</script>`) + TAIL, 'version.json': JSON.stringify({ v: version }), ...data, 'data/recipes.json': JSON.stringify(refresh()), 'data/recipes.js': read('recipes.js'), 'data/finder-model.js': read('app/finder-model.js'), 'data/index.json': JSON.stringify(usageIndex(programs)), 'data/muscles.json': JSON.stringify(focusIndex(programs)), 'data/finder.json': JSON.stringify(finderIndex(programs)) };
 }
 
 if (require.main === module) {
