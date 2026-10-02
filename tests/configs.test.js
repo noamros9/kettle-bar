@@ -47,6 +47,13 @@ const IDS = [
     'back-basics', 'back-flow', 'strong-back', 'desk-back', 'back-and-hips',
     // Phase 14 ticket 8: 30-day programs, two per family
     'strength-30', 'kettlebell-30', 'hiit-30', 'boxing-30', 'yoga-30', 'core-30', 'balanced-month', 'calm-month',
+    // Phase 14 ticket 9: Strength family +26
+    'push-pull', 'body-part-split', 'upper-lower-volume', 'strength-endurance', 'minimalist-strength',
+    'pullup-pyramid', 'chinup-strength', 'pull-and-push', 'bar-emom',
+    'quad-focus', 'glute-lab', 'legs-twice', 'hamstring-strong', 'athletic-legs',
+    'bell-circuit', 'getup-strong', 'swing-press-emom', 'slow-bell',
+    'pushup-progress', 'bodyweight-amrap', 'pistol-path',
+    'twenty-strength', 'twenty-tabata', 'fifteen-flat', 'commuter', 'kettlebell-20',
 ];
 
 test('the config ids, in order, are today\'s list', () => {

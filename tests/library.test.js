@@ -27,14 +27,14 @@ const SUBJECTS = {
   'Back care': { count: 5, abs: false, formats: ['straight', 'flow', 'circuit'] },
   'Running prep': { count: 5, abs: true, formats: ['circuit', 'straight', 'emom', 'amrap'] },
   'Court & field sports': { count: 5, abs: true, formats: ['circuit', 'emom', 'straight', 'tabata', 'amrap'] },
-  Strength: { count: 7, abs: true, formats: ['straight', 'superset'] },
-  'Pull-ups': { count: 6, abs: true, formats: ['straight', 'superset', 'emom'] },
-  'Legs & glutes': { count: 6, abs: true, formats: ['straight'] },
-  'Kettlebell only': { count: 7, abs: true, formats: ['straight', 'circuit', 'emom'] },
+  Strength: { count: 12, abs: true, formats: ['straight', 'superset'] },
+  'Pull-ups': { count: 10, abs: true, formats: ['straight', 'superset', 'emom', 'ladder'] },
+  'Legs & glutes': { count: 11, abs: true, formats: ['straight'] },
+  'Kettlebell only': { count: 11, abs: true, formats: ['straight', 'circuit', 'emom'] },
   'Core & abs': { count: 7, abs: true, formats: ['circuit', 'straight'] },
   Conditioning: { count: 6, abs: true, formats: ['circuit', 'amrap', 'ladder', 'emom'] },
-  Bodyweight: { count: 9, abs: true, formats: ['superset', 'straight', 'circuit'] },
-  'Busy week': { count: 6, abs: true, formats: ['circuit', 'superset', 'amrap', 'emom'] },
+  Bodyweight: { count: 12, abs: true, formats: ['superset', 'straight', 'circuit', 'amrap'] },
+  'Busy week': { count: 11, abs: true, formats: ['circuit', 'superset', 'amrap', 'emom', 'straight', 'tabata'] },
   // Mixed (Phase 6): abs depends on the day type, so it has its own test below
   'Strength & stretch': { count: 6, abs: undefined, formats: ['straight', 'superset', 'flow'] },
   Fighter: { count: 6, abs: undefined, formats: ['bouts', 'straight', 'superset', 'circuit', 'emom', 'amrap', 'tabata', 'flow'] },
@@ -125,8 +125,8 @@ test('the core programs opt in to the new catalogue (catalogue: 5): their abs fi
   assert.ok(optIn.some((p) => p.days.some((d) => d.blocks.at(-1).items.some((it) => fresh.has(it.ex)))));
 });
 
-test('the library: 193 programs in 30 subjects', () => {
-  assert.equal(programs.length, 193);
+test('the library: 219 programs in 30 subjects', () => {
+  assert.equal(programs.length, 219);
   assert.equal(new Set(programs.map((p) => p.subject)).size, 30);
 });
 

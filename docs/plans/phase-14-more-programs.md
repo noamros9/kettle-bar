@@ -28,7 +28,7 @@ program in the page; the offline download grows ~3.7 KB gzipped each).
 | 6 | New subjects: Grip & forearms, Kettlebell complexes, Climber (+15) | content | 3 | `content/strength-subjects` | done (PR #154) |
 | 7 | New subjects: Gentle / low impact, Back care (+10) | content | 3 | `content/mind-subjects` | done (PR #155) |
 | 8 | 30-day programs (+8) | content | 1 | `content/thirty-day` | done (PR #156) |
-| 9 | Strength +26 | content | 3 | `content/strength-plus` | |
+| 9 | Strength +26 | content | 3 | `content/strength-plus` | done (PR #157) |
 | 10 | Cardio & combat +13 | content | 3 | `content/cardio-plus` | |
 | 11 | Mind & body +16 | content | 3 | `content/mind-plus` | |
 | 12 | Mixed +15 | content | 3 | `content/mixed-plus` | |
@@ -100,6 +100,13 @@ program in the page; the offline download grows ~3.7 KB gzipped each).
   real 30-day program (card chip, Days 1–10 / 11–20 / 21–30, Day 11 is Level II, the Stats note). Tests that assumed
   60 days now read each program's length (renderable, renders.spec, the builder count); renders.spec now samples the
   *first* program of each subject, as its comment always said; the Phase 6 Mixed tests cover the Phase 6 programs only.
+- **Ticket 9 as built (2 Oct):** Strength +5 (Push Pull, Body-Part Split, Upper Lower Volume, Strength Endurance,
+  Minimalist Strength), Pull-ups +4 (Pull-up Pyramid, Chin-up Strength, Pull & Push, Bar EMOM), Legs & glutes +5 (Quad
+  Focus, Glute Lab, Legs Twice, Hamstring Strong, Athletic Legs), Kettlebell only +4 (Bell Circuit, Get-up Strong, Swing
+  & Press EMOM, Slow Bell), Bodyweight +3 (Push-up Progress, Bodyweight AMRAP, Pistol Path), Busy week +5 (Twenty
+  Strength, Twenty Tabata, Fifteen Flat, Commuter, Kettlebell 20). The warm-up test now lets a strength day that is
+  mostly jumps warm up dynamically (Athletic Legs' power days); the floor test caught Bar EMOM leaving two rows stuck in
+  Bodyweight only, so its second block became a row and a core move.
 
 ## Challenge round
 - **Weakest assumption:** that +50% per family is varied enough to be worth it. Each new program needs a different
