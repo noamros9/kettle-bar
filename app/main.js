@@ -135,6 +135,8 @@ const ACTIONS = [
   ['pickOpen', () => pickOpen()],
   ['pickSet', (v) => { const k = v.slice(0, v.indexOf(':')); pickSet(k, v.slice(k.length + 1)); }],
   ['pickClose', () => { pickState = null; render(); }],
+  ['askOk', () => askAgree()],
+  ['askNo', () => { askState.phase = null; render(); }],
   ['filterMenu', (v) => { toggleFilterMenu(v); render(); }],
   ['mgear', (v) => { musclePick.gear = v; muscleRefresh(); }],
   ['exmuscle', (v) => exMuscle(v)],
@@ -210,13 +212,17 @@ document.addEventListener('change', (e) => {
 document.addEventListener('input', (e) => {
   if (e.target.id === 'b-name') buildState.name = e.target.value;
   if (e.target.id === 'own-name') ownState.text = e.target.value;
+  if (e.target.id === 'ask-q') askState.q = e.target.value; // kept through redraws
   if (e.target.id === 'ex-search') { exSearch.q = e.target.value; exRefresh(); }
   if (e.target.id === 'prog-search') { // the whole page redraws (shelves, chips, counter), then the field gets its focus back
     progQuery = e.target.value; const at = e.target.selectionStart; render();
     const i = $('#prog-search'); if (i) { i.focus(); i.setSelectionRange(at, at); }
   }
 });
-document.addEventListener('submit', (e) => { if (e.target.dataset.ownForm) { e.preventDefault(); ownRenameSave(); } });
+document.addEventListener('submit', (e) => {
+  if (e.target.dataset.ownForm) { e.preventDefault(); ownRenameSave(); }
+  if (e.target.dataset.askForm) { e.preventDefault(); askSubmit($('#ask-q').value); }
+});
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && e.target.id === 'own-name') { ownState = null; render(); } });
 
 /* ---------------- your programs: rename, edit, delete ---------------- */

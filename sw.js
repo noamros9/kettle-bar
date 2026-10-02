@@ -2,6 +2,8 @@
 // the network brings replaces the cached copy for next time. The page itself asks version.json (never cached) whether
 // it is the newest build, and offers "A new version is ready · Reload".
 // Nothing cached yet: the network, as before; offline with nothing cached: the cached start page.
+// The Program finder's files (vendor/finder/, pinned by hash) never change at a URL: once cached they are not fetched
+// again; its model files (vendor/finder/models/) are kept by the model's own library, so they aren't stored twice.
 const CACHE = 'kettle-bar-v2';
 self.addEventListener('install', () => self.skipWaiting());
 self.addEventListener('activate', (e) => e.waitUntil(self.clients.claim()));
@@ -15,10 +17,11 @@ async function refresh(req) {
 self.addEventListener('fetch', (e) => {
   const url = new URL(e.request.url);
   if (e.request.method !== 'GET' || url.origin !== location.origin || url.pathname.endsWith('/version.json')) return; // version.json: always the network
+  if (url.pathname.includes('/vendor/finder/models/')) return;
+  const pinned = url.pathname.includes('/vendor/finder/');
   e.respondWith((async () => {
     const cached = await caches.match(e.request);
-    const fresh = refresh(e.request);
-    if (cached) { e.waitUntil(fresh.catch(() => {})); return cached; }
-    return fresh.catch(async () => (await caches.match('./')) || (await caches.match('index.html')) || Response.error());
+    if (cached) { if (!pinned) e.waitUntil(refresh(e.request).catch(() => {})); return cached; }
+    return refresh(e.request).catch(async () => (await caches.match('./')) || (await caches.match('index.html')) || Response.error());
   })());
 });

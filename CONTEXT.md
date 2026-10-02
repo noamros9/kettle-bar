@@ -261,7 +261,8 @@ split or blurb), **Help me pick** (goal, minutes, gear as taps) and **Ask** (fre
 meaning with an on-phone model; minutes, gear and length are read with plain rules first.
 
 **Finder text**: what the finder knows of a program, one paragraph made at build time from its name, subject, split,
-blurb, about, formats and main muscles. Its **vector** is made on the phone and kept until the next build.
+blurb, about, formats and main muscles. Its **vector** (what the model makes of it) is made in the deploy (`data/finder-vectors.json`), so a phone embeds
+only the question.
 
 **Why line**: the one line under a finder result saying why it fits, made from the program's facts that match what
 was asked ("Back care · 15–20 min · no equipment"), never generated text.

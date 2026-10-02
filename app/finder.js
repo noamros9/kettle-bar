@@ -13,7 +13,11 @@
      Help me pick (Phase 15 ticket 2): GOALS [[key, label, [subject]]] (every library subject once), MINUTES, GEAR
      pick(summaries, { goal, minutes, gear }, { started?, n? = 5 }) -> { list, loosened: null | 'minutes' | 'both' }:
        the goal's programs within the minutes and gear, the ones you have not started first, then library order; with
-       none, the minutes are dropped, then the gear too (loosened says which), so it is never empty while the goal has any */
+       none, the minutes are dropped, then the gear too (loosened says which), so it is never empty while the goal has any
+     Ask the finder (Phase 15 ticket 5):
+     quantize(unitVector) -> whole numbers -127..127 (data/finder-vectors.json, made in the deploy)
+     track(files, progressEvent) / percent(files): the model download's progress over the files it reports (null: unknown)
+     answer(ranked) -> { ids, fitting }: the programs that fit, at most 5; under 3, the closest others fill up to 3 */
 (function (root) {
   const fold = (t) => String(t || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
   const around = (n) => [n - 3, n + 3];
@@ -112,7 +116,19 @@
     return { list: order(pool), loosened: 'both' };
   }
 
-  const api = { limits, fits, why, textOf, rank, cosine, GOALS, MINUTES, GEAR, pick };
+  // Ask the finder (Phase 15 ticket 5)
+  const quantize = (v) => Array.from(v, (x) => Math.round(x * 127) || 0);
+  const track = (files, ev) => (ev && ev.status === 'progress' ? { ...files, [ev.file]: { loaded: ev.loaded, total: ev.total } } : files);
+  function percent(files) {
+    const all = Object.values(files), total = all.reduce((s, f) => s + f.total, 0);
+    return total ? Math.round((100 * all.reduce((s, f) => s + f.loaded, 0)) / total) : null;
+  }
+  function answer(ranked) {
+    const fitting = ranked.filter((r) => r.fits), list = fitting.length >= 3 ? fitting.slice(0, 5) : [...fitting, ...ranked.filter((r) => !r.fits)].slice(0, 3);
+    return { ids: list.map((r) => r.id), fitting: Math.min(fitting.length, 5) };
+  }
+
+  const api = { limits, fits, why, textOf, rank, cosine, GOALS, MINUTES, GEAR, pick, quantize, track, percent, answer };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBFinder = api;
 })(typeof window !== 'undefined' ? window : globalThis);

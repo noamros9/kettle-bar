@@ -1,11 +1,16 @@
 // The real model, end to end, in CI (Phase 15 ticket 4): `node scripts/finder-smoke.js _site` serves the collected
 // site, opens it in Chromium, loads the served model with app/finder-model.js and checks that it understands a
 // workout question: a back-care text is closer to "easy for my sore back" than a heavy-lifting one is.
+// Then it makes the program vectors (Phase 15 ticket 5): every program's finder text (data/finder.json) embedded with
+// the same model, as whole numbers (KBFinder.quantize), into data/finder-vectors.json, so a phone only embeds the
+// question; and checks that a sore-back question finds back-care or gentle programs among them.
 // Needs the vendored files (scripts/vendor-finder.js) and the browser, so it runs in the deploy job, not in npm test.
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const { chromium } = require('playwright');
+const F = require('../app/finder.js');
+const { MODEL } = require('./vendor-finder.js');
 
 const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript', '.json': 'application/json', '.wasm': 'application/wasm', '.onnx': 'application/octet-stream' };
 async function main(root) {
@@ -34,6 +39,22 @@ async function main(root) {
     console.log(`::notice title=finder smoke::finder model: ${r.dims} dims, loaded in ${r.loadMs} ms, 3 texts in ${r.embedMs} ms; back ${r.back.toFixed(3)} vs lifting ${r.lift.toFixed(3)}`);
     if (r.dims !== 384) throw new Error(`expected 384 dimensions, got ${r.dims}`);
     if (!(r.back > r.lift)) throw new Error('the model ranks heavy lifting above back care for a sore back');
+    const texts = JSON.parse(fs.readFileSync(path.join(root, 'data', 'finder.json'), 'utf8')), ids = Object.keys(texts);
+    const t0 = Date.now();
+    const made = await page.evaluate(async ({ base, list }) => { try {
+      const { loadEmbedder } = await import(new URL('data/finder-model.js', base).href);
+      const embed = await loadEmbedder(base), out = [];
+      for (let i = 0; i < list.length; i += 32) out.push(...await embed(list.slice(i, i + 32)));
+      return { out, q: (await embed(['something easy for my sore back']))[0] };
+    } catch (e) { return { error: String(e && e.stack || e).slice(0, 600) }; } }, { base: `http://localhost:${port}/`, list: ids.map((id) => texts[id]) });
+    if (made.error) throw new Error(made.error);
+    const vectors = Object.fromEntries(ids.map((id, i) => [id, F.quantize(made.out[i])]));
+    fs.writeFileSync(path.join(root, 'data', 'finder-vectors.json'), JSON.stringify({ model: MODEL, dims: made.q.length, vectors }));
+    const subjects = Object.fromEntries(ids.map((id) => [id, JSON.parse(fs.readFileSync(path.join(root, 'data', `${id}.json`), 'utf8')).subject]));
+    const top = F.rank(vectors, made.q, Object.fromEntries(ids.map((id) => [id, { minutes: [0, 90] }])), F.limits(''), 5).map((x) => x.id);
+    console.log(`::notice title=finder vectors::${ids.length} programs in ${Date.now() - t0} ms; "something easy for my sore back": ${top.map((id) => `${id} (${subjects[id]})`).join(', ')}`);
+    if (ids.length < 200 || made.out.some((v) => v.length !== 384)) throw new Error(`program vectors: ${ids.length} programs, dims ${[...new Set(made.out.map((v) => v.length))]}`);
+    if (!top.some((id) => /^(Back care|Gentle \/ low impact)$/.test(subjects[id]))) throw new Error(`no back-care or gentle program in the top five for a sore back: ${top.join(', ')}`);
     if (outside.length) throw new Error(`fetched from outside the site: ${outside.join(', ')}`);
   } finally { await browser.close(); server.close(); }
 }
