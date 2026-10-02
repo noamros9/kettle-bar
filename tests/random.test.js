@@ -253,3 +253,13 @@ test('skip: a random workout swaps what I skip when it opens; the record keeps t
   random.done();
   assert.equal(random.dayOf('r1').blocks[b].items[0].ex, to, 'stats: the day as made, with your swaps');
 });
+
+test('a workout whose warm-up has no format of its own (plain strength) keeps the stored one', () => {
+  const W = require('../app/warmup.js');
+  const { random } = setup();
+  const made = ['s1', 's2', 's3', 's4', 's5', 's6', 's7', 's8'].map((seed) => Random.make(deps, { subject: 'Strength', minutes: 25, equipment: 'kb' }, { level: 1, seed }))
+    .find((m) => W.warmupFor(m.day, cat.EX, m.subject) === m.day.warmup);
+  assert.ok(made, 'a plain strength workout');
+  random.start(made, { id: 'r1' });
+  assert.deepEqual(random.open().day.warmup, made.day.warmup);
+});

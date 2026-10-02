@@ -27,7 +27,7 @@
   // Families group the subjects; chips and shelves follow this order. Subjects listed before they have programs
   // just don't show. A program whose subject is missing here is an error (the UI tests fail on it), never dropped quietly.
   const FAMILIES = [
-    ['Strength', ['Signature', 'Strength', 'Pull-ups', 'Legs & glutes', 'Kettlebell only', 'Bodyweight', 'Busy week']],
+    ['Strength', ['Signature', 'Strength', 'Pull-ups', 'Legs & glutes', 'Kettlebell only', 'Bodyweight', 'Busy week', 'Grip & forearms', 'Kettlebell complexes', 'Climber / pull strength']],
     ['Cardio & combat', ['Conditioning', 'HIIT', 'Plyometrics', 'Boxing', 'Kickboxing', 'Running prep', 'Court & field sports']],
     ['Mind & body', ['Core & abs', 'Mobility & posture', 'Yoga', 'Pilates', 'Flexibility', 'Balance & stability']],
     ['Mixed', ['Strength & stretch', 'Fighter', 'Athlete', 'Balanced week', 'Calm strength']],

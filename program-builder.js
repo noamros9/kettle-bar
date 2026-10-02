@@ -149,6 +149,16 @@
       courtMove: ['carioca', 'shuttle_touch', 'lateral_shuffle', 'backpedal', 'fast_feet'],
       courtPower: ['split_step', 'lateral_bounds', 'skater_jumps', 'broad_jump', 'tuck_jumps', 'single_leg_hop_stick'],
       courtLegs: ['cossack_squat', 'lateral_lunge', 'split_squat', 'single_leg_rdl_bw', 'reverse_lunge', 'copenhagen_plank'],
+      gripHold: ['farmer_carry', 'dead_hang', 'kb_bottoms_up_hold', 'suitcase_march', 'chin_hold'],
+      gripCurl: ['wrist_curl', 'reverse_wrist_curl', 'reverse_curl', 'hammer_curl'],
+      gripPull: ['db_row', 'one_arm_row', 'kb_deadlift', 'db_rdl', 'kb_high_pull', 'renegade_row'],
+      kbCx: ['kb_clean', 'kb_push_press', 'kb_one_arm_swing', 'kb_figure_eight', 'kb_clean_press', 'kb_snatch', 'kb_high_pull', 'kb_front_squat', 'goblet_squat'],
+      kbCxLower: ['kb_one_arm_swing', 'kb_swing', 'kb_front_squat', 'goblet_squat', 'kb_deadlift', 'kb_sumo_deadlift', 'kb_figure_eight'],
+      kbCxUpper: ['kb_clean', 'kb_push_press', 'kb_press', 'kb_row', 'kb_high_pull', 'kb_clean_press'],
+      kbCxCore: ['kb_around_body', 'kb_bottoms_up_hold', 'kb_windmill', 'suitcase_march', 'kb_halo', 'turkish_getup'],
+      climbPull: ['pullup', 'chinup', 'wide_pullup', 'archer_pullup', 'commando_pullup', 'negative_pullup'],
+      climbHold: ['lock_off', 'chin_hold', 'dead_hang', 'l_sit_hang', 'hang_knee_raise'],
+      climbBack: ['scap_pullup', 'prone_ytw', 'reverse_snow_angel', 'superman_row', 'one_arm_row', 'db_row'],
     };
     // Pools computed from the catalogue. An exercise marked `added: N` (the phase that added it) joins them only
     // for configs with `catalogue: N` or later, so new exercises can't reshuffle the days of existing programs.

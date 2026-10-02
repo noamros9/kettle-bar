@@ -25,7 +25,7 @@ program in the page; the offline download grows ~3.7 KB gzipped each).
 | 3 | Catalogue 8: exercises the new subjects need | feature | – | `feature/catalogue-8` | done (PR #151) |
 | 4 | Fill to 6 (+9) and the floor-pull programs (+3) | content | 3 | `content/fill-six` | done (PR #152) |
 | 5 | New subjects: Running prep, Court & field sports (+10) | content | 3 | `content/cardio-subjects` | done (PR #153) |
-| 6 | New subjects: Grip & forearms, Kettlebell complexes, Climber (+15) | content | 3 | `content/strength-subjects` | |
+| 6 | New subjects: Grip & forearms, Kettlebell complexes, Climber (+15) | content | 3 | `content/strength-subjects` | done (PR #154) |
 | 7 | New subjects: Gentle / low impact, Back care (+10) | content | 3 | `content/mind-subjects` | |
 | 8 | 30-day programs (+8) | content | 1 | `content/thirty-day` | |
 | 9 | Strength +26 | content | 3 | `content/strength-plus` | |
@@ -84,6 +84,11 @@ program in the page; the offline download grows ~3.7 KB gzipped each).
   & Hips. Court & field sports: Court Agility, Change of Direction, First Step, Field Strength (the one with weights),
   Game Day Conditioning. New pools `runDrill runLegs runPlyo runFast courtMove courtPower courtLegs` (new names, so
   nothing built before changes); both subjects join Cardio & combat in FAMILIES.
+- **Ticket 6 as built (2 Oct):** Grip & forearms: Grip Strength, Carry Day, Forearm Pump, Hang Time, Grip & Lift.
+  Kettlebell complexes (kettlebell only): Complex Builder, Complex EMOM, Bell Ladders, Bell AMRAP, Complex & Carry.
+  Climber / pull strength: Climb Strength, Pull Ladders, Hang & Hold, Archer Project, Wall Ready. New pools `gripHold
+  gripCurl gripPull kbCx kbCxLower kbCxUpper kbCxCore climbPull climbHold climbBack`. A random-workout test now picks
+  a plain strength workout itself (the seed it relied on lands on a new day type).
 
 ## Challenge round
 - **Weakest assumption:** that +50% per family is varied enough to be worth it. Each new program needs a different
