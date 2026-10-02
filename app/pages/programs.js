@@ -52,6 +52,7 @@ function viewPrograms() {
   return `<div class="eyebrow">${esc(lib.counter)}</div><h1>Programs</h1>
     <p class="lede">Every program starts at intermediate, with a matched warm-up and cool-down, and most end each workout with abs. Progress is kept per program.</p>
     <div class="pbtns"><button class="btn buildbtn" data-go="build">Build your own</button><button class="btn ghost buildbtn" data-random-open="1">${random.current() ? 'Random workout · continue' : 'Random workout'}</button><button class="btn ghost buildbtn" data-pick-open="1">Help me pick</button></div>
+    ${askBlock()}
     ${randomNotice ? `<p class="hint rnotice" role="status">${esc(randomNotice)}</p>` : ''}${restCard()}
     ${yours}${favs}
     <label class="exsearch progsearch"><span class="sr">Search programs</span><input id="prog-search" type="search" placeholder="Search programs by name or subject" value="${esc(progQuery)}" autocomplete="off" enterkeyhint="search"></label>
@@ -80,4 +81,78 @@ function pickSheet() {
     ${group('goal', 'Goal', KBFinder.GOALS)}${group('minutes', 'Minutes', KBFinder.MINUTES)}${group('gear', 'Gear', KBFinder.GEAR)}
     <div class="pickout">${results}</div>
     <div class="actions"><button class="btn ghost" data-pick-close="1">Close</button></div></div></div>`;
+}
+
+/* Ask the finder (Phase 15 ticket 5): signed in, a question in your own words. The model (about 38 MB, served with the
+   app) downloads once, after a yes; the program vectors come with the deploy (data/finder-vectors.json) or, without
+   them (a local build), are made here from data/finder.json. Then each question is one embedding and a ranking.
+   window.KB_EMBED(onProgress) -> Promise of embed(texts) replaces the model loader (the phone tests' stub). */
+let askState = { q: '', phase: null }; // phase: null | 'consent' | 'loading' | 'error'; results: { q, ids, fitting }
+let finderLoad = null; // Promise of { embed, vectors(dims) } once the download has started
+const finderTexts = KBLazy.lazyFile({ fetch: fetchJson, cache: offlineCache, url: 'data/finder.json', unavailable: "The finder isn't available offline yet. Ask once while online." });
+const finderVectors = KBLazy.lazyFile({ fetch: fetchJson, cache: offlineCache, url: 'data/finder-vectors.json', unavailable: 'no program vectors' });
+const finderAgreed = () => { try { return localStorage.getItem('kb-finder') === 'yes'; } catch (e) { return false; } };
+function loadFinder() {
+  let files = {};
+  const shown = (step) => { askState.step = step; const el = $('.askstatus'); if (el) el.textContent = step; };
+  const onProgress = (ev) => { files = KBFinder.track(files, ev); const pct = KBFinder.percent(files); shown(`Downloading the finder…${pct === null ? '' : ` ${pct}%`}`); };
+  shown('Downloading the finder…');
+  const loader = window.KB_EMBED || ((cb) => import(new URL('data/finder-model.js', location.href).href).then((m) => m.loadEmbedder(location.href, cb)));
+  return loader(onProgress).then((embed) => {
+    let made = null;
+    const own = async () => { // no vectors file: embed every program's finder text here, a few at a time
+      const texts = await finderTexts.load(), ids = Object.keys(texts), out = {};
+      for (let i = 0; i < ids.length; i += 16) {
+        shown(`Getting the programs ready… ${Math.round((100 * i) / ids.length)}%`);
+        (await embed(ids.slice(i, i + 16).map((id) => texts[id]))).forEach((v, j) => { out[ids[i + j]] = v; });
+      }
+      return out;
+    };
+    const vectors = (dims) => made || (made = finderVectors.load().then((f) => (f.dims === dims ? f.vectors : own()), own).catch((e) => { made = null; throw e; }));
+    return { embed, vectors };
+  });
+}
+async function askRun() {
+  const q = askState.q.trim();
+  askState = { q: askState.q, phase: 'loading', step: finderLoad ? 'Finding programs…' : 'Downloading the finder…', results: askState.results };
+  render();
+  try {
+    if (!finderLoad) finderLoad = loadFinder();
+    const f = await finderLoad;
+    const [qv] = await f.embed([q]);
+    const vecs = await f.vectors(qv.length);
+    const lib = Object.fromEntries(programs.list().filter((p) => p.source !== 'own').map((p) => [p.id, p]));
+    askState = { q: askState.q, phase: null, results: { q, ...KBFinder.answer(KBFinder.rank(vecs, qv, lib, KBFinder.limits(q), 8)) } };
+  } catch (e) {
+    finderLoad = null;
+    askState = { q: askState.q, phase: 'error', error: e.message, results: askState.results };
+  }
+  render();
+}
+function askSubmit(q) {
+  askState.q = q;
+  if (!q.trim() || askState.phase === 'loading') return;
+  if (!finderLoad && !finderAgreed()) { askState.phase = 'consent'; render(); return; }
+  askRun();
+}
+function askAgree() {
+  try { localStorage.setItem('kb-finder', 'yes'); } catch (e) { /* blocked: asks again next time */ }
+  askRun();
+}
+function askBlock() {
+  if (!store.remote) return '<p class="hint asknote">Sign in to ask in your own words. Until then, search by name or use Help me pick.</p>';
+  const st = askState, busy = st.phase === 'loading';
+  let out = '';
+  if (st.phase === 'consent') {
+    out = `<div class="askconsent" role="group" aria-label="Download the finder"><p>The finder understands questions on your phone. It downloads about 38 MB once, then works offline.</p>
+      <div class="actions"><button class="btn" data-ask-ok="1">Download</button><button class="btn ghost" data-ask-no="1">Not now</button></div></div>`;
+  } else if (busy) out = `<p class="hint askstatus" role="status">${esc(st.step)}</p>`;
+  else if (st.phase === 'error') out = `<p class="hint askerr" role="alert">The finder couldn't load (${esc(st.error)}). Ask again to try again.</p>`;
+  if (st.results && !busy) {
+    const r = st.results, byId = (id) => programs.list().find((p) => p.id === id);
+    const note = r.fitting === 0 ? 'Nothing fits everything you asked, so here are the closest.' : r.fitting < r.ids.length ? `Only ${r.fitting} fit${r.fitting === 1 ? 's' : ''} everything you asked; the others are close.` : '';
+    out += `<div class="askout">${note ? `<p class="hint">${note}</p>` : ''}<ul class="picklist">${r.ids.map(byId).filter(Boolean).map((p) => `<li><button class="pickres" data-open-prog="${esc(p.id)}"><b>${esc(p.name)}</b><span>${esc(KBFinder.why(p, r.q))}</span></button></li>`).join('')}</ul></div>`;
+  }
+  return `<form class="askform" data-ask-form="1" role="search"><label class="exsearch"><span class="sr">Ask the finder</span><input id="ask-q" type="search" placeholder="Describe what you want…" value="${esc(st.q)}" autocomplete="off" enterkeyhint="search"></label><button class="btn" type="submit"${busy ? ' disabled' : ''}>Ask</button></form>
+    <p class="hint askhint">For example: “20 minutes for a sore back, no gear”.</p>${out}`;
 }

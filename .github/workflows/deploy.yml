@@ -53,7 +53,7 @@ jobs:
         run: node scripts/vendor-firebase.js _site
       - name: Serve the Program finder's model with the app (pinned, every file's hash checked)
         run: node scripts/vendor-finder.js _site
-      - name: The finder's model loads in Chromium from our own site and understands a question
+      - name: The finder's model loads in Chromium from our own site, understands a question, and makes the program vectors
         run: node scripts/finder-smoke.js _site
       - uses: actions/upload-pages-artifact@v5
         with:

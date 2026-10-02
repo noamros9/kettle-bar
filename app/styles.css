@@ -597,4 +597,8 @@ body.has-timer .updatenote{bottom:calc(96px + env(safe-area-inset-bottom,0px))}
 .pickres b{font-size:16px}
 .pickres span{font-size:13px;color:var(--muted)}
 .pickout{margin-top:14px}
+.askform{display:flex;gap:8px;align-items:center;margin-top:18px}.askform .exsearch{flex:1;min-width:0;margin:0}.askform .btn{flex:none}
+.askhint{font-size:13px;margin:6px 4px 0}.asknote{margin-top:14px}.askstatus,.askerr{margin-top:10px}
+.askconsent{margin-top:12px;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}.askconsent p{margin:0 0 10px}.askconsent .actions{display:flex;gap:8px;flex-wrap:wrap;margin:0}
+.askout{margin-top:10px}
 .picksheet .filters{margin:0}.picksheet .pickh{margin:4px 0 -4px}.picksheet .pickout{margin:0}

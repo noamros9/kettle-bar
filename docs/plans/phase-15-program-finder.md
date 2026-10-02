@@ -36,7 +36,7 @@ the AI search, after saying yes to "About 25 MB, once". Tests never load the rea
 | 2 | Help me pick (three taps) | feature | 3 | `feature/help-me-pick` | done (PR #164) |
 | 3 | Finder text, limits and the "why" line | feature | – | `feature/finder-facts` | done (PR #163) |
 | 4 | The model on our own site (deploy) | build | – | `build/vendor-model` | done (PR #165) |
-| 5 | Ask the finder (AI search) | feature | 3, 4 | `feature/ask-finder` | |
+| 5 | Ask the finder (AI search) | feature | 3, 4 | `feature/ask-finder` | done (PR #NN) |
 
 ### 1. Name search on Programs
 - A search field above the family tabs: typing narrows the shelves to programs whose name, subject, split or blurb
@@ -101,6 +101,16 @@ the AI search, after saying yes to "About 25 MB, once". Tests never load the rea
 - **Test first:** phone, with the stub: signed out → the sign-in note; signed in → consent, progress, results with
   why lines, a gear limit respected, a second ask is instant (vectors cached), offline after the first time.
 - **Done when:** on a real phone (Noam), the first ask completes and the second answers in under a second.
+- **As built (3 Oct):** the program vectors are made **in the deploy**, not on the phone: `scripts/finder-smoke.js`
+  embeds every finder text with the same model and writes `data/finder-vectors.json` (whole numbers -127..127,
+  `KBFinder.quantize`; about 100 KB), and checks that "something easy for my sore back" puts a Back care or Gentle
+  program in the top five. So the phone embeds only the question, and the vectors are cached for offline like any data
+  file (no IndexedDB). Without the file (a local build, the tests), the page makes them itself from `data/finder.json`,
+  16 at a time, with a progress line. The consent says **about 38 MB**; a yes is remembered (`kb-finder` on the
+  device). Results: the programs that fit the minutes, gear and length, at most five; under three, the closest others
+  fill up to three with a note (`KBFinder.answer`). A load that fails says so; asking again tries again. The service
+  worker no longer re-fetches the pinned `vendor/finder/` files behind the page (the runtime is 14 MB) and leaves
+  `vendor/finder/models/` to transformers.js's own cache, so the weights aren't stored twice.
 
 ## Challenge round
 - **Weakest assumption:** that MiniLM understands workout requests well enough. Mitigated by doing minutes, gear and

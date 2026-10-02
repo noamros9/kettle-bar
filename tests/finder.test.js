@@ -131,3 +131,33 @@ test('pick with an unknown goal finds nothing; unknown minutes set no minutes li
   assert.deepEqual(F.pick(P2, { goal: 'zzz', minutes: '30', gear: 'bw' }).list, []);
   assert.deepEqual(F.pick(P2, { goal: 'flex', minutes: 'zzz', gear: 'bw' }), { list: P2, loosened: null });
 });
+
+// ---- ticket 5: Ask the finder ----
+test('quantize: a unit vector as whole numbers from -127 to 127 (the deploy\'s program vectors); cosine reads them as they are', () => {
+  assert.deepEqual(F.quantize([1, -1, 0.5, -0.003, 0]), [127, -127, 64, 0, 0]);
+  const a = [0.6, 0.8, 0], b = [0.8, 0.6, 0];
+  assert.ok(Math.abs(F.cosine(F.quantize(a), b) - F.cosine(a, b)) < 0.01);
+});
+
+test('track and percent: the download\'s progress over every file the model reports', () => {
+  let files = {};
+  assert.equal(F.percent(files), null, 'nothing reported yet');
+  files = F.track(files, { status: 'initiate', file: 'config.json' });
+  assert.equal(F.percent(files), null);
+  files = F.track(files, { status: 'progress', file: 'onnx/model_quantized.onnx', loaded: 5, total: 20 });
+  files = F.track(files, { status: 'progress', file: 'tokenizer.json', loaded: 10, total: 10 });
+  assert.equal(F.percent(files), 50);
+  files = F.track(files, { status: 'progress', file: 'onnx/model_quantized.onnx', loaded: 20, total: 20 });
+  assert.equal(F.percent(files), 100);
+  assert.equal(F.track(files, undefined), files);
+  assert.equal(F.percent({ x: { loaded: 0, total: 0 } }), null);
+});
+
+test('answer: the programs that fit, at most five; with fewer than three, the closest others fill up to three and say so', () => {
+  const r = (fit, n) => Array.from({ length: n }, (_, i) => ({ id: (fit ? 'f' : 'o') + i, score: 1 - i / 10, fits: fit }));
+  assert.deepEqual(F.answer([...r(true, 6)]), { ids: ['f0', 'f1', 'f2', 'f3', 'f4'], fitting: 5 });
+  assert.deepEqual(F.answer([...r(true, 3), ...r(false, 2)]), { ids: ['f0', 'f1', 'f2'], fitting: 3 });
+  assert.deepEqual(F.answer([...r(true, 1), ...r(false, 4)]), { ids: ['f0', 'o0', 'o1'], fitting: 1 });
+  assert.deepEqual(F.answer(r(false, 4)), { ids: ['o0', 'o1', 'o2'], fitting: 0 });
+  assert.deepEqual(F.answer([]), { ids: [], fitting: 0 });
+});

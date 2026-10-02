@@ -10,10 +10,11 @@ const path = require('path');
 // page can be slowed down or changed: { delay: ms for index.html, extra: text added to index.html, version: what
 // version.json says }
 function server() {
-  const root = path.join(__dirname, '..'), ctl = { delay: 0, extra: '' };
+  const root = path.join(__dirname, '..'), ctl = { delay: 0, extra: '', hits: {} };
   const TYPES = { '.woff2': 'font/woff2', '.html': 'text/html', '.js': 'text/javascript', '.json': 'application/json', '.webmanifest': 'application/manifest+json', '.png': 'image/png', '.svg': 'image/svg+xml' };
   const srv = http.createServer((req, res) => {
     const url = decodeURIComponent(req.url.split('?')[0]), file = path.join(root, url === '/' ? 'index.html' : url);
+    ctl.hits[url] = (ctl.hits[url] || 0) + 1;
     if (ctl.files && ctl.files[url] !== undefined) { res.writeHead(200, { 'Content-Type': 'text/javascript' }).end(ctl.files[url]); return; }
     fs.readFile(file, (err, body) => {
       if (err) { res.writeHead(404).end(); return; }
@@ -99,4 +100,21 @@ base.test('offline after one visit: the page keeps its fonts, and sync starts fr
   expect(await page.evaluate(() => [...document.fonts].filter((f) => f.status === 'loaded').map((f) => f.family.replace(/"/g, '')))).toContain('Barlow Condensed');
   expect(errors).toEqual([]);
   await context.close(); s.close();
+});
+
+// Phase 15 ticket 5: the finder's files are pinned (scripts/vendor-finder.js), so once cached they are not fetched again
+// behind the page (the runtime is 14 MB); the model's own files are cached by the model's library, not twice
+base.test('the finder\'s runtime comes from the cache without asking again; its model files are left to the model', async ({ browser }, testInfo) => {
+  base.test.skip(testInfo.project.name !== 'phone-light', 'theme-independent');
+  const { context, page, errors } = await sw(browser, testInfo);
+  context.server.ctl.files = { '/vendor/finder/transformers.min.js': 'export const x = 1;', '/vendor/finder/models/m/config.json': '{}' };
+  const get = (u) => page.evaluate((x) => fetch(x).then((r) => r.text()), u);
+  expect(await get('vendor/finder/transformers.min.js')).toBe('export const x = 1;');
+  expect(await get('vendor/finder/transformers.min.js')).toBe('export const x = 1;');
+  await get('vendor/finder/models/m/config.json');
+  await page.waitForTimeout(500); // a refresh behind the page would have reached the server by now
+  expect(context.server.ctl.hits['/vendor/finder/transformers.min.js']).toBe(1);
+  expect(await page.evaluate(async () => !!(await caches.match(new URL('vendor/finder/models/m/config.json', location.href).href)))).toBe(false);
+  expect(errors).toEqual([]);
+  await context.close(); context.server.close();
 });
