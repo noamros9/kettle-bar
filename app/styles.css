@@ -580,3 +580,11 @@ body.has-timer .updatenote{bottom:calc(96px + env(safe-area-inset-bottom,0px))}
 .sync .wcount{min-width:18px;height:18px;padding:0 5px;box-sizing:border-box;border-radius:999px;background:var(--t-low);color:#fff;font-size:11px;font-weight:700;line-height:18px;text-align:center;font-variant-numeric:tabular-nums}
 .sync .wcount[hidden]{display:none}
 .sync:has(.wcount:not([hidden])) i{display:none} /* the count stands in for the dot */
+/* exercises I skip (Phase 13) */
+.expage-skip{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin-top:10px}
+.expage-skip .note{margin:0;color:var(--muted);font-size:14px}
+.skiplist{list-style:none;margin:0 0 8px;padding:0}
+.skiprow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid var(--line)}
+.skiprow:last-child{border-bottom:0}
+.skiprow .linkbtn{text-align:left;min-width:0;overflow-wrap:anywhere}
+.skiprow .btn{flex:none;padding:6px 12px;font-size:14px}

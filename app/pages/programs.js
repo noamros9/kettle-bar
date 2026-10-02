@@ -15,6 +15,10 @@ const libraryPrefs = () => { const p = store.doc('prefs', 'main') || {}, list = 
 const isFavourite = (pid) => libraryPrefs().favourites.includes(pid);
 const toggleFavourite = (pid) => setPref('favourites', KBLibrary.toggleIn(libraryPrefs().favourites, pid));
 const toggleHidden = (subject) => setPref('hidden', KBLibrary.toggleIn(libraryPrefs().hidden, subject));
+/* Exercises I skip (Phase 13 ticket 1): `skip: [exercise id]` in the synced prefs, only while not empty. Skipped on the
+   exercise page, listed in Settings to unskip. */
+const skipList = () => KBLibrary.skipped(store.doc('prefs', 'main'), EX);
+const toggleSkip = (id) => setPref('skip', KBLibrary.toggleIn(skipList(), id));
 const STAR = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2l2.7 5.6 6.1.8-4.5 4.2 1.1 6.1L12 17l-5.4 2.9 1.1-6.1-4.5-4.2 6.1-.8z"/></svg>';
 const starButton = (p) => { const on = isFavourite(p.id); return `<button class="star" data-star="${esc(p.id)}" aria-pressed="${on}" aria-label="${on ? 'Remove' : 'Add'} ${esc(p.name)} ${on ? 'from' : 'to'} favourites">${STAR}</button>`; };
 function viewPrograms() {

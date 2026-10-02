@@ -339,3 +339,11 @@ test('the nightly file carries short days of the current round, and past rounds 
   assert.equal('short' in JSON.parse(plain).users.u, false);
   assert.deepEqual(parseBackup(text, { known: ['a', 'b'], uid: 'u' }).short, { a: { 1: true } });
 });
+
+test('Phase 13: a skip list rides in the prefs; an old prefs doc without one still imports', () => {
+  const f = exportProgress({ a: {} }, { now: () => 'n', prefs: { main: { skip: ['pushup', 'kb_swing'], travel: 'bw' } } });
+  assert.deepEqual(f.prefs, { skip: ['pushup', 'kb_swing'], travel: 'bw' });
+  assert.deepEqual(parseBackup(JSON.stringify(f), { known: ['a'] }).prefs, { skip: ['pushup', 'kb_swing'], travel: 'bw' });
+  const old = exportProgress({ a: {} }, { now: () => 'n', prefs: { main: { travel: 'bw' } } });
+  assert.deepEqual(parseBackup(JSON.stringify(old), { known: ['a'] }).prefs, { travel: 'bw' });
+});

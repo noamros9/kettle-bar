@@ -3,6 +3,12 @@ function usesEx(w, id) { return [...w.blocks.flatMap((b) => b.items), ...(w.warm
 // "Also in" needs the exercise index (data/index.json): asked for when the first exercise page opens, the page draws again
 // when it is here; if it can't be had (offline, never cached) the card says so, and the next exercise tries again
 let usageLoading = false, usageError = null;
+// "Skip this exercise" (Phase 13): the button and, when skipped, what that means
+function skipRow(e) {
+  const on = skipList().includes(e.id);
+  return `<div class="expage-skip"><button class="btn ghost" data-skip="${e.id}" aria-pressed="${on}">${on ? "Don't skip" : 'Skip this exercise'}</button>
+    ${on ? '<p class="note" role="status">You skip this exercise. Settings lists the ones you skip.</p>' : ''}</div>`;
+}
 function viewExercise() {
   const e = EX[route.ex], m = e.muscles, p = prog();
   const days = p.days.filter((w) => usesEx(w, e.id)).map((w) => w.day);
@@ -17,6 +23,7 @@ function viewExercise() {
   const dose = stretch ? `${r[0]} s${e.side ? ' each side' : ''}` : e.u === 'sec' ? `${r.join(' / ')} s${e.side ? ' each side' : ''} (Level I / II / III)` : `${r.join(' / ')} ${unitText(e)} (Level I / II / III)`;
   return `<div class="crumbs"><button class="back" data-back="1">← Back</button></div>
     <div class="eyebrow">${CAT[e.cat] || ''}</div><h1>${esc(e.name)}</h1>
+    ${stretch ? '' : skipRow(e)}
     <div class="expage">
       <div class="card"><div class="bigfig">${fig(e.id)}</div>
         <dl class="facts">

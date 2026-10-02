@@ -19,6 +19,7 @@
    setFilter(filters, key, value) -> new filters; a family change resets the subject.
    subjectsOf(summaries, families) -> [[family, [subject]]], the subjects that have programs (the Hidden subjects setting).
    toggleIn(list, value) -> a new list with value added, or removed if it was there (stars and hidden subjects).
+   skipped(prefs, EX) -> the exercises I skip (Phase 13): prefs.skip's ids this app knows, once each, in the order skipped.
    Pure: the page only renders what this returns. */
 (function (root) {
   // Families group the subjects; chips and shelves follow this order. Subjects listed before they have programs
@@ -48,6 +49,7 @@
   }
 
   const toggleIn = (list = [], v) => (list.includes(v) ? list.filter((x) => x !== v) : [...list, v]);
+  const skipped = (prefs, EX) => [...new Set(prefs && Array.isArray(prefs.skip) ? prefs.skip.filter((id) => typeof id === 'string' && Object.prototype.hasOwnProperty.call(EX, id)) : [])];
   const hasPrograms = (summaries, s) => summaries.some((p) => p.subject === s);
   const subjectsOf = (summaries, families) => families.map(([name, list]) => [name, list.filter((s) => hasPrograms(summaries, s))]).filter(([, l]) => l.length);
 
@@ -148,7 +150,7 @@
       .slice(0, 3).map(({ p }) => p.id);
   }
 
-  const api = { suggestNext, libraryView, searchExercises, byMuscles, splitByMuscles, rankPrograms, gearOf, GEAR, subjectsOf, toggleIn, setFilter, counterText, lengthOf, FAMILIES, LENGTHS, EQUIPS };
+  const api = { suggestNext, libraryView, searchExercises, byMuscles, splitByMuscles, rankPrograms, gearOf, GEAR, subjectsOf, toggleIn, skipped, setFilter, counterText, lengthOf, FAMILIES, LENGTHS, EQUIPS };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBLibrary = api;
 })(typeof window !== 'undefined' ? window : globalThis);
