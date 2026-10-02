@@ -255,3 +255,14 @@ kickboxing) are swapped only for their own kind and are never offered as swaps f
 
 **Adapter**: an implementation behind one of the store's seams: storage (localStorage / in-memory) or
 remote (Firebase / in-memory).
+
+**Program finder** (Phase 15): finds programs for you three ways: the **name search** (words in the name, subject,
+split or blurb), **Help me pick** (goal, minutes, gear as taps) and **Ask** (free language, signed in). Ask ranks by
+meaning with an on-phone model; minutes, gear and length are read with plain rules first.
+
+**Finder text**: what the finder knows of a program, one paragraph made at build time from its name, subject, split,
+blurb, about, formats and main muscles. Its **vector** is made on the phone and kept until the next build.
+
+**Why line**: the one line under a finder result saying why it fits, made from the program's facts that match what
+was asked ("Back care · 15–20 min · no equipment"), never generated text.
+
