@@ -36,7 +36,7 @@ test('the level is the level of the last day marked done (in any program, random
   const round2 = [1, 2, 3].map((n) => ({ time: new Date(T0 + (60 + n) * 864e5).toISOString(), level: Random.levelOfDay(n) }));
   assert.equal(Random.levelOf(round1), 3);
   assert.equal(Random.levelOf([...round1, ...round2]), 1);
-  assert.deepEqual([1, 20, 21, 40, 41, 60].map(Random.levelOfDay), [1, 1, 2, 2, 3, 3]);
+  assert.deepEqual([1, 20, 21, 40, 41, 60].map((d) => Random.levelOfDay(d)), [1, 1, 2, 2, 3, 3]);
 });
 
 test('a 25-minute kettlebell Strength workout lands in range and uses kettlebell exercises only', () => {

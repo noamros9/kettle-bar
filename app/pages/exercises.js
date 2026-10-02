@@ -69,7 +69,7 @@ function musclePrograms(picked, names) {
   const ids = KBLibrary.rankPrograms(focus, picked, 5);
   const card = (q) => `<button class="wncard" data-open-prog="${q.id}"><span class="eyebrow">${esc(q.subject)}</span><b>${esc(q.name)}</b><span>${picked.map((m) => `${MUSCLE_NAMES[m]} ${Math.round((focus[q.id][m] || 0) * 100)}%`).join(' · ')}</span></button>`;
   return `<section class="libcat">${head}<div class="wnlist">${ids.map((id) => card(programs.summary(id))).join('')}</div>
-    <p class="note">Each program's share of its sets that works the muscle, over its 60 days.</p></section>`;
+    <p class="note">Each program's share of its sets that works the muscle, over all its days.</p></section>`;
 }
 /* The Muscles page (2 Oct, Noam): the front/back body always shown; tap muscles (or their chips) and every exercise that
    works them is listed, "Main muscle" first, then "Also works" (secondary), after the programs that train them most.

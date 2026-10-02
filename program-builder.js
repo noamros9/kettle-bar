@@ -1,13 +1,13 @@
-/* Program Builder: build(config, catalogue) -> a 60-day program; buildDay(recipe, { day, level, lever, rnd, memory },
+/* Program Builder: build(config, catalogue) -> a program (60 days unless its config says `days`); buildDay(recipe, { day, level, lever, rnd, memory },
    catalogue) -> one day. Pure: runs in Node (the build) and in the page (your own programs, Phase 6, and the random
    workout, Phase 7); the Exercise Catalogue is passed in.
    recipesOf(config) -> { dayTypeKey: recipe }: what one day needs (blocks, time range, equipment, rests, catalogue,
-   levers, absSlots). build() is the loop over days 1-60 with one shared memory (newMemory(): what was used, how
+   levers, absSlots). build() is the loop over its days with one shared memory (newMemory(): what was used, how
    often, which stretches) and one rnd (makeRnd(seed)), so its days are what buildDay gives one by one.
    Owns the time model, rest values, exercise pools, progression levers, stretch picking and fitting.
    Node only: CONFIGS (programs.config.js), buildConfig / buildAll, and frozen programs (Three-Split 60),
    whose already-generated days are read from disk so saved progress stays valid (ADR 1). */
-(function (root, Formats) {
+(function (root, Formats, L) {
   const REST = { set: 30, exercise: 60, beforeAbs: 120, superset: 45, round: 60, block: 60 };
   const ABS_SLOTS = ['absW', 'abs', 'abs?'];
 
@@ -347,14 +347,15 @@
       };
     }
 
-    // ---------- program builder: days 1-60, one memory and one rnd through all of them ----------
+    // ---------- program builder: days 1 to its length (KBLength: 60 unless the config says), one memory and one rnd ----------
     function build(cfg) {
       if (cfg.frozen) throw new Error(cfg.id + ' is frozen: its days are read from ' + cfg.frozen + ' by the Node build');
       const rnd = makeRnd(cfg.id), memory = newMemory(), recipes = recipesOf(cfg);
       const days = [];
       const nameCount = {};
-      for (let d = 1; d <= 60; d++) {
-        const level = d <= 20 ? 1 : d <= 40 ? 2 : 3;
+      const dayCount = L.dayCountOf(cfg);
+      for (let d = 1; d <= dayCount; d++) {
+        const level = L.levelOf(dayCount, d);
         const typeKey = cfg.cycle[(d - 1) % cfg.cycle.length];
         const { day, type, title, level: lv, ...rest } = buildDay(recipes[typeKey], { day: d, level, rnd, memory });
 
@@ -410,5 +411,6 @@
   }
   const buildConfig = (cfg) => (cfg.frozen ? buildFrozen(cfg) : b.build(cfg));
   module.exports = { ...api, buildConfig, buildAll: () => CONFIGS.map(buildConfig), CONFIGS, POOLS: b.POOLS, REST: b.REST, timing: b.timing };
-  /* node:coverage ignore next */
-})(typeof window !== 'undefined' ? window : globalThis, typeof module !== 'undefined' && module.exports ? require('./formats.js') : window.KBFormats);
+  /* node:coverage ignore next 2 */
+})(typeof window !== 'undefined' ? window : globalThis, typeof module !== 'undefined' && module.exports ? require('./formats.js') : window.KBFormats,
+  typeof module !== 'undefined' && module.exports ? require('./app/length.js') : window.KBLength);

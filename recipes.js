@@ -6,7 +6,7 @@
    is given, so it is pure and runs in Node and in the page (KBRecipes).
 
      pick({ subjects, families, equipment, formats, minutes }) -> the day types that fit (all keys optional)
-     make(choice, seed) -> a config KBBuilder.build turns into 60 days (throws a message for people when nothing fits)
+     make(choice, seed) -> a config KBBuilder.build turns into KBLength.DAYS (60) days (throws a message for people when nothing fits)
        choice = { subjects: [1 to 3, in the order picked], split: 1-5 days per cycle, minutes: 20|25|30|35|40,
                   equipment: 'all'|'kb'|'bw', formats?: [...], catalogue?: N (default: the newest),
                   levers: [Level II, Level III] for each subject in turn (flat: [a II, a III, b II, b III, ...]) }
@@ -46,7 +46,7 @@
      day lands in the window (its minutes rounded as the app shows them, as the book's trials); a day type whose days do not is swapped
      for the next parts that reach, a few times, and if that never works the mix is refused with a message.
    Day types are read-only data: do not change what pick returns. */
-(function (root, Formats, deps) {
+(function (root, Formats, deps, L) {
   const GRID = [15, 20, 25, 30, 35, 40], MINUTES = [20, 25, 30, 35, 40];
   const WINDOW = 2, SLACK = 2.5;
   const ROUNDS = 6; // builds of a mix tried before it is refused
@@ -271,7 +271,7 @@
           };
           cycle.push(`d${i + 1}`);
         });
-        for (let d = 0; d < 60; d++) {
+        for (let d = 0; d < L.DAYS; d++) {
           const label = dayTypes[cycle[d % split]].label;
           count[label] = (count[label] || 0) + 1;
           names.push(`${label} ${count[label]}`);
@@ -333,7 +333,7 @@
         dayTypes[`d${i + 1}`] = { label: t.label, short: t.short, blocks: t.blocks, absSlots: t.absSlots, minutes: [minutes - WINDOW, minutes + WINDOW] };
         cycle.push(`d${i + 1}`);
       });
-      for (let d = 0; d < 60; d++) {
+      for (let d = 0; d < L.DAYS; d++) {
         const label = chosen[d % split].label;
         count[label] = (count[label] || 0) + 1;
         names.push(`${label} ${count[label]}`);
@@ -366,5 +366,5 @@
   };
   /* node:coverage ignore next 3 */
 })(typeof window !== 'undefined' ? window : globalThis, ...(typeof module !== 'undefined' && module.exports
-  ? [require('./formats.js'), () => ({ Builder: require('./program-builder.js'), ex: require('./exercises.js') })] // a mix is checked by building it
-  : [window.KBFormats, () => ({ Builder: window.KBBuilder, ex: window.KBEx })]));
+  ? [require('./formats.js'), () => ({ Builder: require('./program-builder.js'), ex: require('./exercises.js') }), require('./app/length.js')] // a mix is checked by building it
+  : [window.KBFormats, () => ({ Builder: window.KBBuilder, ex: window.KBEx }), window.KBLength]));

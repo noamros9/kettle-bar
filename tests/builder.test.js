@@ -89,6 +89,7 @@ test('the builder runs without Node: build(config, catalogue) in a sandbox with 
   const src = fs.readFileSync(path.join(__dirname, '../program-builder.js'), 'utf8');
   const sandbox = { window: {} };
   vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../formats.js'), 'utf8'), sandbox); // the page loads formats.js first
+  vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../app/length.js'), 'utf8'), sandbox); // and app/length.js
   vm.runInNewContext(src, sandbox);
   const cat = require('../exercises.js');
   const cfg = CONFIGS.find((c) => c.id === 'iron-ppl');
@@ -306,6 +307,7 @@ test('KBBuilder in the page has build, buildDay, blockTimes, recipesOf, newMemor
   const vm = require('vm');
   const sandbox = { window: {} };
   vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../formats.js'), 'utf8'), sandbox);
+  vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../app/length.js'), 'utf8'), sandbox);
   vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../program-builder.js'), 'utf8'), sandbox);
   const K = sandbox.window.KBBuilder;
   assert.deepEqual(Object.keys(K).sort(), ['ABS_SLOTS', 'blockTimes', 'build', 'buildDay', 'makeRnd', 'newMemory', 'recipesOf']);

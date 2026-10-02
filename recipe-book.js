@@ -29,6 +29,7 @@ const path = require('path');
 const crypto = require('crypto');
 const Recipes = require('./recipes.js');
 const Builder = require('./program-builder.js');
+const L = require('./app/length.js');
 const cat = require('./exercises.js');
 const { FAMILIES } = require('./app/library.js');
 
@@ -67,7 +68,8 @@ function draws(level, lever) {
 function builds(type, minutes, equipment, catalogue, levers) {
   const rec = Recipes.recipeOf(type, { minutes, equipment, levers: type.levers, catalogue });
   const [lo, hi] = rec.minutes;
-  const days = [{ day: 1, level: 1 }, ...levers.flatMap((lever) => [{ day: 21, level: 2, lever }, { day: 41, level: 3, lever }])];
+  const [, two, three] = L.levelStarts(L.DAYS); // the first day of Levels II and III
+  const days = [{ day: 1, level: 1 }, ...levers.flatMap((lever) => [{ day: two, level: 2, lever }, { day: three, level: 3, lever }])];
   return days.every((d) => draws(d.level, d.lever).every((draw) => {
     const day = Builder.buildDay(rec, { ...d, ...draw() }, cat);
     const t = Builder.timing.dayTime(day.blocks, rec.rests) / 60;
@@ -168,7 +170,7 @@ function generate({ configs = require('./programs.config.js'), families = FAMILI
 // what the book comes from: the configs, the builder and what it reads, the families, and this file
 const INPUTS = () => [
   ...fs.readdirSync(path.join(__dirname, 'configs')).filter((f) => f.endsWith('.js')).sort().map((f) => `configs/${f}`),
-  'programs.config.js', 'exercises.js', 'formats.js', 'program-builder.js', 'app/library.js', 'recipes.js', 'recipe-book.js',
+  'programs.config.js', 'exercises.js', 'formats.js', 'program-builder.js', 'app/length.js', 'app/library.js', 'recipes.js', 'recipe-book.js',
 ];
 const hash = () => {
   const h = crypto.createHash('sha256');

@@ -23,7 +23,7 @@ const ownTools = (p) => `<div class="owntools"><button class="btn ghost" data-ow
 // after Share: "Link copied", or the link to copy by hand when the phone won't let the page copy it
 function shareNote(p) {
   if (!ownState || ownState.pid !== p.id || ownState.mode !== 'share') return '';
-  if (ownState.copied) return '<p class="hint sharenote" role="status">Link copied. Whoever opens it can add this program, with its 60 days, to their own.</p>';
+  if (ownState.copied) return '<p class="hint sharenote" role="status">Link copied. Whoever opens it can add this program, with its ' + KBLength.dayCountOf(prog()) + ' days, to their own.</p>';
   return `<div class="sharenote"><label class="bfield" for="share-link"><span>Copy this link</span><input id="share-link" type="text" readonly value="${esc(ownState.link)}"></label></div>`;
 }
 function deleteSheet(p) {

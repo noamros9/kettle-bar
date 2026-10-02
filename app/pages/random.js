@@ -8,7 +8,7 @@ let randomNotice = ''; // "Random workout done…", once, on the Programs page
 let randomCache = { key: '', made: null };
 const RANDOM_GEAR = { all: 'All equipment', kb: 'Kettlebell only', bw: 'No equipment' };
 // every day marked done, as { time, level }: program days by their day number, random workouts by their own level
-const doneLevels = () => [...programs.ids().flatMap((pid) => store.entries(pid).map((e) => ({ time: e.time, level: KBRandom.levelOfDay(e.day) }))), ...random.levels()];
+const doneLevels = () => [...programs.ids().flatMap((pid) => store.entries(pid).map((e) => ({ time: e.time, level: KBRandom.levelOfDay(e.day, programs.summary(pid).dayCount) }))), ...random.levels()];
 const randomDeps = () => ({ recipes: recipeBook, buildDay: KBBuilder.buildDay, newMemory: KBBuilder.newMemory, makeRnd: KBBuilder.makeRnd, cat: KBEx });
 function randomMade(st) {
   const key = JSON.stringify([st.choice, st.seed]);

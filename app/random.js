@@ -10,7 +10,7 @@
                 equip, rests, levels, dayTypes, days: [day]). Throws problem()'s message when nothing fits.
      problem(recipes, choice) -> null, or the message for people why nothing can be made
      levelOf([{ time, level }]) -> the level of the day marked done last (in any program or a random one); none -> 1
-     levelOfDay(n) -> 1-3: the level of day n of a 60-day program (days 1-20, 21-40, 41-60)
+     levelOfDay(n, dayCount = 60) -> 1-3: the level of day n of a program that long (KBLength.levelOf)
      FAMILIES, MINUTES [15, 25, 35], newId(now?, rnd?), newSeed(rnd?)
      REST_DAY: the rest-day flow's choice (mobility & posture or flexibility, 15 min, no equipment: 15 is the shortest
                day the recipe book makes)
@@ -32,7 +32,7 @@
    Marked done, it becomes the record users/{uid}/random/{id} (synced, in export/import and the nightly backup):
      { name: 'Random: <title>', choices, seed, level, day, swaps, time }   (day: as built; swaps: [{ day: 1, ex, to }])
    A record that is damaged, or names an exercise this app doesn't know, is left out of stats. */
-(function (root, S, W) {
+(function (root, S, W, L) {
   const FAMILIES = ['Strength', 'Cardio & combat', 'Mind & body', 'Mixed'];
   const MINUTES = [15, 25, 35];
   const GEAR = { all: 'all equipment', kb: 'a kettlebell only', bw: 'no equipment' };
@@ -44,7 +44,7 @@
 
   const newId = (now = Date.now(), rnd = Math.random) => now.toString(36) + Math.floor(rnd() * 1296).toString(36).padStart(2, '0');
   const newSeed = (rnd = Math.random) => Math.floor(rnd() * 2 ** 32).toString(36);
-  const levelOfDay = (n) => (n <= 20 ? 1 : n <= 40 ? 2 : 3);
+  const levelOfDay = (n, dayCount = L.DAYS) => L.levelOf(dayCount, n);
   function levelOf(dones) {
     const last = dones.reduce((best, d) => (!best || d.time > best.time ? d : best), null);
     return last ? last.level : 1;
@@ -166,7 +166,8 @@
   }
 
   const api = { REST_DAY, restDay, dayKey, make, problem, levelOf, levelOfDay, createRandom, newId, newSeed, FAMILIES, MINUTES };
-  /* node:coverage ignore next 3 */ // the browser branch; the page's UI tests cover it
+  /* node:coverage ignore next 4 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBRandom = api;
 })(typeof window !== 'undefined' ? window : globalThis, typeof module !== 'undefined' && module.exports ? require('./swaps.js') : window.KBSwaps,
-  typeof module !== 'undefined' && module.exports ? require('./warmup.js') : window.KBWarmup);
+  typeof module !== 'undefined' && module.exports ? require('./warmup.js') : window.KBWarmup,
+  typeof module !== 'undefined' && module.exports ? require('./length.js') : window.KBLength);
