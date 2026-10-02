@@ -242,3 +242,25 @@ ownLink.refresh(); // your own programs are built from their stored configs: no 
 start();
 T.paint();
 if (!store.remote) paintSync(store.auth ? 'signin' : 'local');
+
+// a newer build is out (Phase 12): the page came from the cache, so it asks version.json (never cached) when it opens and
+// when it comes back to the front; a different version: "A new version is ready · Reload". Reload drops the cached page
+// first, so it comes from the network.
+window.kbUpdateReady = () => {
+  if (document.getElementById('updatenote')) return;
+  const n = Object.assign(document.createElement('div'), { id: 'updatenote', className: 'updatenote' });
+  n.setAttribute('role', 'status');
+  n.innerHTML = '<span>A new version is ready.</span><button class="btn" id="update-reload">Reload</button><button class="linkbtn" id="update-later">Later</button>';
+  document.body.appendChild(n);
+  $('#update-reload').addEventListener('click', async () => {
+    try { const c = await caches.open(OFFLINE_CACHE); await Promise.all(['index.html', './'].map((u) => c.delete(new URL(u, location.href).href))); } catch (e) { /* no cache: a plain reload */ }
+    location.reload();
+  });
+  $('#update-later').addEventListener('click', () => n.remove());
+};
+function checkVersion() {
+  if (!window.KB_VERSION) return;
+  fetch('version.json', { cache: 'no-store' }).then((r) => (r.ok ? r.json() : null)).then((v) => { if (v && v.v && v.v !== window.KB_VERSION) window.kbUpdateReady(); }, () => { /* offline: ask next time */ });
+}
+checkVersion();
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') checkVersion(); });

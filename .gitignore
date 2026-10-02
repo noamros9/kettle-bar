@@ -5,3 +5,4 @@ test-results/
 playwright-report/
 index.html
 data/
+version.json

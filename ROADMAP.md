@@ -260,6 +260,9 @@ Plan: [docs/plans/phase-12-offline.md](docs/plans/phase-12-offline.md). Noam, 2 
 upkeep: **open from cache at once** (update in the background, "new version · Reload"); **an outbox** so changes made
 offline (un-done days and deletes too) always reach the account, even after closing the app; **fonts and the sync
 library offline**; **"Offline · N changes waiting"** in the header.
+- **Open from cache, built (2 Oct):** `sw.js` serves from the cache at once and updates it behind; the page asks
+  `version.json` (a hash of the build, never cached) when it opens and when it comes back to the front, and shows "A
+  new version is ready · Reload / Later" (Reload drops the cached page first).
 
 ### Architecture review IV
 Plan: [docs/plans/architecture-review-4.md](docs/plans/architecture-review-4.md). **Full review, like III** (2 Oct):
