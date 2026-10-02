@@ -26,7 +26,7 @@ test('a boxing day\'s warm-up holds only dynamic moves; a straight-set day\'s wa
 });
 
 // ---- the rest ----
-test('HIIT and plyometrics days are dynamic; yoga, Pilates, flexibility and mobility days gentle; mixed and strength days keep theirs', () => {
+test('HIIT and plyometrics days are dynamic; yoga, Pilates, flexibility and mobility days gentle; mixed and strength days keep theirs (unless mostly jumps)', () => {
   for (const s of ['Kickboxing', 'HIIT', 'Plyometrics']) daysOf(s).forEach((d) => assert.equal(W.kindOf(d, EX, d.subject), 'dynamic', `${s} ${d.day}`));
   for (const s of ['Yoga', 'Pilates', 'Flexibility', 'Mobility & posture']) {
     daysOf(s).forEach((d) => {
@@ -34,7 +34,9 @@ test('HIIT and plyometrics days are dynamic; yoga, Pilates, flexibility and mobi
       W.warmupFor(d, EX, d.subject).items.forEach((it) => assert.ok(W.GENTLE.includes(it.ex), `${s} ${d.day}: ${it.ex}`));
     });
   }
-  for (const s of ['Strength', 'Legs & glutes', 'Strength & stretch']) daysOf(s).forEach((d) => assert.equal(W.warmupFor(d, EX, d.subject), d.warmup, `${s} ${d.day}`));
+  // a strength day keeps its own warm-up, unless most of it is jumps and cardio (Athletic Legs' power days, Phase 14): then it warms up dynamically
+  const mostlyCardio = (d) => { const cats = d.blocks.filter((b) => b.kind !== 'abs').flatMap((b) => b.items.map((it) => EX[it.ex].cat)).filter((c) => c !== 'abs'); return cats.filter((c) => c === 'cardio').length * 2 > cats.length; };
+  for (const s of ['Strength', 'Legs & glutes', 'Strength & stretch']) daysOf(s).forEach((d) => assert.equal(W.warmupFor(d, EX, d.subject) === d.warmup, !mostlyCardio(d), `${s} ${d.day}`));
 });
 
 test('every day\'s warm-up keeps its length, has no move twice, and is the same each time the day opens', () => {
