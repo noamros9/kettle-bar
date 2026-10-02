@@ -16,7 +16,7 @@ Decided 2 Oct 2026 (Noam), after the architecture review.
 | 0 | This plan (in the 2 Oct roadmap plan) | plan | – | `plan/roadmap-oct` | done (PR #133) |
 | 1 | Skip an exercise: the list | feature | review IV | `feature/skip-list` | done (PR #146) |
 | 2 | Skipped exercises swap out everywhere | feature | 1 | `feature/skip-swaps` | done (PR #147) |
-| 3 | Reverse snow angels | feature | – | `feature/snow-angels` | |
+| 3 | Reverse snow angels | feature | – | `feature/snow-angels` | done (PR #148) |
 
 ### 1. Skip an exercise: the list
 - "Skip this exercise" / "Don't skip" on the exercise page; Settings → **Exercises I skip** lists them with Unskip.
@@ -41,6 +41,11 @@ Decided 2 Oct 2026 (Noam), after the architecture review.
   catalogue 6 builds.
 - **Test first:** in Bodyweight only over every library day, rows never keep "Needs gear" on a day with three pulls
   (four or more may); pins unchanged.
+- **As built (2 Oct): `added: 7`, not 6.** Own programs and random workouts made since Phase 10 build at catalogue 6
+  (the newest), so adding to 6 would have reshuffled the undone days of own programs. At 7 it joins `pullBw` for
+  catalogue 7 builds; the library and stored own programs are unchanged, and new own programs and random workouts
+  build at 7. Travel mode and the Swap list use it everywhere at once (they don't go by catalogue). Phase 14's new
+  exercises move to catalogue 8.
 
 ## Challenge round
 - **Weakest assumption:** that swapping silently is what Noam wants. The card says it (like travel), and Settings

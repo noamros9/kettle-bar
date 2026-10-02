@@ -194,7 +194,7 @@ test('make: what the config holds', () => {
   assert.equal(cfg.subject, 'Strength');
   assert.equal(cfg.equip, 'kb');
   assert.deepEqual(cfg.levers, [null, 'weight', 'reps']);
-  assert.equal(cfg.catalogue, 6, 'the newest catalogue (Phase 10)');
+  assert.equal(cfg.catalogue, 7, 'the newest catalogue (Phase 13)');
   assert.equal(cfg.cycle.length, 4);
   assert.equal(new Set(cfg.cycle).size, 4);
   assert.equal(typeof cfg.about, 'string');
@@ -298,7 +298,7 @@ test('make: a choice that is not a choice is refused', () => {
 test('recipeFor: a recipe buildDay accepts, from a day type', () => {
   const t = R.pick({ subjects: ['Strength'], equipment: 'kb', minutes: 30 })[0];
   const r = R.recipeFor(t, { minutes: 30, equipment: 'kb', levers: ['weight', 'reps'] });
-  assert.deepEqual([r.minutes, r.equip, r.levers, r.catalogue, r.key, r.label], [[28, 32], 'kb', [null, 'weight', 'reps'], 6, t.key, t.label]);
+  assert.deepEqual([r.minutes, r.equip, r.levers, r.catalogue, r.key, r.label], [[28, 32], 'kb', [null, 'weight', 'reps'], 7, t.key, t.label]);
   const d = Builder.buildDay(r, { day: 1, level: 1, rnd: Builder.makeRnd('r'), memory: Builder.newMemory() }, cat);
   assert.equal(d.title, t.label);
 });
