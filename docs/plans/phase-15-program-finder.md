@@ -35,7 +35,7 @@ the AI search, after saying yes to "About 25 MB, once". Tests never load the rea
 | 1 | Name search on Programs | feature | – | `feature/program-search` | done (PR #162) |
 | 2 | Help me pick (three taps) | feature | 3 | `feature/help-me-pick` | done (PR #164) |
 | 3 | Finder text, limits and the "why" line | feature | – | `feature/finder-facts` | done (PR #163) |
-| 4 | The model on our own site (deploy) | build | – | `build/vendor-model` | |
+| 4 | The model on our own site (deploy) | build | – | `build/vendor-model` | done (PR #165) |
 | 5 | Ask the finder (AI search) | feature | 3, 4 | `feature/ask-finder` | |
 
 ### 1. Name search on Programs
@@ -80,6 +80,17 @@ the AI search, after saying yes to "About 25 MB, once". Tests never load the rea
 - **Test first:** the script's pure parts (the file list, the hash check with a fake download, the paths it writes);
   a wrong hash fails the deploy.
 - **Note:** this container cannot reach Hugging Face, so the real download is checked in CI only (the first PR run).
+- **As built (2 Oct):** `scripts/vendor-finder.js` pins revision `751bff37…` (Noam sent the file list): the small model
+  files are checked against their git blob ids, the quantized weights against their sha256, and transformers.js 4.3.0
+  and ONNX Runtime Web are taken from their npm tarballs, checked against npm's sha512 (not installed: the package
+  pulls a native Node runtime whose install fetches from NuGet). The **plain CPU** runtime (14 MB) instead of the
+  default 27 MB build; one thread (GitHub Pages can't send the cross-origin-isolation headers threads need). The
+  phone's one-time download is about **38 MB** (not 25). `app/finder-model.js` (served as `data/finder-model.js`)
+  loads it with remote models off. `scripts/finder-smoke.js` runs in CI after the vendoring: the real model, in
+  Chromium, from our own site only, must rank a back-care text above heavy lifting for "something easy for my sore
+  back". First real run (3 Oct): 384 dimensions, loaded in 0.8 s, three texts in 120 ms; "easy for my sore back" scores
+  0.50 against a back-care text and 0.30 against heavy lifting. transformers.js 4.3.0 skips its local-file check when
+  the model path is a full URL (no tokenizer then), so the path is site-relative.
 
 ### 5. Ask the finder (AI search)
 - On the Programs page, signed in: an "Ask" field ("Describe what you want…"). First use: "Download the finder

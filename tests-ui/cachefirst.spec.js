@@ -65,7 +65,7 @@ base.test('a new version on the server shows "A new version is ready" and Reload
   await expect(page.getByRole('status').filter({ hasText: 'A new version is ready' })).toBeVisible();
   await page.getByRole('button', { name: 'Reload' }).click();
   await page.locator('#app h1').first().waitFor();
-  expect(await page.content()).toContain('<!-- v-next -->');
+  await expect.poll(() => page.content().catch(() => ''), { message: 'the reloaded page is the new version' }).toContain('<!-- v-next -->'); // the reload may still be settling
   expect(errors).toEqual([]);
   await context.close(); context.server.close();
 });

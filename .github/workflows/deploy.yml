@@ -51,6 +51,10 @@ jobs:
           cp -r index.html version.json data fonts manifest.webmanifest sw.js icons firebase-config.js firebase-sync.js _site/
       - name: Serve the Firebase library with the app (offline sign-in and sync)
         run: node scripts/vendor-firebase.js _site
+      - name: Serve the Program finder's model with the app (pinned, every file's hash checked)
+        run: node scripts/vendor-finder.js _site
+      - name: The finder's model loads in Chromium from our own site and understands a question
+        run: node scripts/finder-smoke.js _site
       - uses: actions/upload-pages-artifact@v5
         with:
           path: _site

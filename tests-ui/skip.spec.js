@@ -81,7 +81,9 @@ test('a random workout swaps what I skip too', async ({ app }) => {
   await expect(app.page).toHaveURL(/#random$/);
   const x = await app.data(() => { const it = random.open().day.blocks[0].items[0]; return { id: it.ex, name: KBEx.EX[it.ex].name }; });
   await app.data((id) => store.setDoc('prefs', 'main', { skip: [id] }), x.id);
-  await expect(app.page.locator('article.ex').filter({ hasText: `Swapped: you skip ${x.name}` })).toHaveCount(1);
+  // the workout is random: the skipped exercise may be in it more than once, and each one is swapped
+  await expect(app.page.locator('article.ex').filter({ hasText: `Swapped: you skip ${x.name}` }).first()).toBeVisible();
+  expect(await app.page.locator('article.ex .nm', { hasText: new RegExp(`^${x.name}$`) }).count()).toBe(0);
   await expect(app.page.locator('.skipnote')).toBeVisible();
 });
 
