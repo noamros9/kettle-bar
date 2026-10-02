@@ -90,7 +90,10 @@
     // the cloud's swaps first, then the device's new ones
     const merged = { done: mergeDays(c.done, local.done), swaps: [...c.swaps, ...notIn(local.swaps, c.swaps)], past: clone(c.past), ...shortOf({ ...c.short, ...local.short }) };
     const shorts = (x) => Object.keys(x.short || {}).length;
-    const changed = !cloud || count(merged) !== count(c) || merged.swaps.length !== c.swaps.length || shorts(merged) !== shorts(c);
+    // no cloud copy: written only when there's something to say (an empty program needs no document of its own: a missing
+    // one reads as empty everywhere), so a first sign-in doesn't write a document for every program in the library
+    const something = (x) => count(x) > 0 || x.swaps.length > 0 || x.past.length > 0 || shorts(x) > 0;
+    const changed = (!cloud && something(merged)) || (!!cloud && (count(merged) !== count(c) || merged.swaps.length !== c.swaps.length || shorts(merged) !== shorts(c)));
     return { merged, changed };
   }
 
