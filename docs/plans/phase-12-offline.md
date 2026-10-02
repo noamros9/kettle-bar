@@ -21,7 +21,7 @@ muscle focus are cached, and progress is always kept on the phone. What doesn't 
 | 1 | Open from cache at once, update in the background | feature | Phase 11 | `feature/cache-first` | done (PR #136) |
 | 2 | An outbox that survives closing the app | feature | – | `feature/outbox` | done (PR #137) |
 | 3 | Fonts and the sync library offline | feature | 1 | `feature/offline-assets` | done (PR #138) |
-| 4 | "Offline · 3 changes waiting" | feature | 2 | `feature/offline-status` | |
+| 4 | "Offline · 3 changes waiting" | feature | 2 | `feature/offline-status` | done (PR #139) |
 
 ### 1. Open from cache at once, update in the background
 - The page and its files are served from the cache straight away (stale-while-revalidate); the newest version is

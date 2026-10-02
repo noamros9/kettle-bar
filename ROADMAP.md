@@ -255,7 +255,7 @@ exercises I skip + a fourth floor pull, then more programs, then a round of new 
 Plan: [docs/plans/phase-11-ci-upkeep.md](docs/plans/phase-11-ci-upkeep.md). Current action majors (Node 20 is
 deprecated on runners) and a pinned runner (`ubuntu-latest` moves to Ubuntu 26 on 19 Oct).
 
-### Phase 12: offline you can rely on
+### Phase 12: offline you can rely on (done, Oct 2026)
 Plan: [docs/plans/phase-12-offline.md](docs/plans/phase-12-offline.md). Noam, 2 Oct, all four parts, right after CI
 upkeep: **open from cache at once** (update in the background, "new version · Reload"); **an outbox** so changes made
 offline (un-done days and deletes too) always reach the account, even after closing the app; **fonts and the sync
