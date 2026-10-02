@@ -25,7 +25,7 @@ backups).
 | 2 | Actions instead of a click chain | refactor | 1 | `refactor/actions` | done (PR #141) |
 | 3 | Minify the page | build | – | `build/minify` | |
 | 4 | Program length and levels in one place | refactor | – | `refactor/program-length` | |
-| 5 | Build the library once per test run | test | – | `test/library-cache` | |
+| 5 | Build the library once per test run | test | – | `test/library-cache` | done (PR #142) |
 
 ### 1. Pages as modules
 - `app/views.js` splits into `app/pages/` (programs, program & day, exercises, stats, settings, build & add, random)
