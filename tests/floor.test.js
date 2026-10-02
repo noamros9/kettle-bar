@@ -56,6 +56,6 @@ test('reverse snow angels: floor only, upper-back led, added in catalogue 7 (cat
   assert.deepEqual(e.muscles.primary, ['upper_back', 'rear_delts']);
   const used = (p) => new Set(p.days.flatMap((d) => d.blocks.flatMap((b) => b.items.map((it) => it.ex))));
   const bw = CONFIGS.filter((c) => c.equip === 'bw' && !c.frozen);
-  bw.map((c) => buildConfig({ ...c, catalogue: 6 })).forEach((p) => assert.ok(!used(p).has('reverse_snow_angel'), p.id));
+  bw.filter((c) => (c.catalogue || 0) < 7).map((c) => buildConfig({ ...c, catalogue: 6 })).forEach((p) => assert.ok(!used(p).has('reverse_snow_angel'), p.id)); // the configs made before it
   assert.ok(bw.map((c) => buildConfig({ ...c, catalogue: 7 })).some((p) => used(p).has('reverse_snow_angel')), 'some bodyweight program at catalogue 7 uses it');
 });

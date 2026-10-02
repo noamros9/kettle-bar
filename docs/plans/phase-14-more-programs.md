@@ -30,7 +30,7 @@ program in the page; the offline download grows ~3.7 KB gzipped each).
 | 8 | 30-day programs (+8) | content | 1 | `content/thirty-day` | done (PR #156) |
 | 9 | Strength +26 | content | 3 | `content/strength-plus` | done (PR #157) |
 | 10 | Cardio & combat +13 | content | 3 | `content/cardio-plus` | done (PR #158) |
-| 11 | Mind & body +16 | content | 3 | `content/mind-plus` | |
+| 11 | Mind & body +16 | content | 3 | `content/mind-plus` | done (PR #159) |
 | 12 | Mixed +15 | content | 3 | `content/mixed-plus` | |
 
 ### 1. 30-day programs in the engine
@@ -114,6 +114,11 @@ program in the page; the offline download grows ~3.7 KB gzipped each).
   still can't be mixed). A config may ask for a warm-up kind: `warmup: 'quiet'` (arm circles, squats, inchworms… no
   jumping) for Quiet HIIT, whose subject would otherwise warm up with jumping jacks; the built program carries the
   field only when set.
+- **Ticket 11 as built (2 Oct):** Core & abs +3 (Core EMOM, Loaded Core, Plank Project), Mobility & posture +2
+  (Shoulder Health, Hip Mobility), Yoga +2 (Evening Yoga, Yoga Strength), Pilates +2 (Pilates Flow, Pilates 15),
+  Flexibility +2 (Backbend Flexibility, Active Flexibility), Balance & stability +2 (Steady Feet, Loaded Balance),
+  Gentle +2 (Gentle Flow, Easy Strength), Back care +1 (Loaded Back Care). Learned: a guided flow repeats in whole
+  passes, so a long flow day is two medium flows (finer steps for the builder), not one long one.
 
 ## Challenge round
 - **Weakest assumption:** that +50% per family is varied enough to be worth it. Each new program needs a different
