@@ -26,6 +26,7 @@ const MAP = [
   [/^app\/own\.js$/, ['build', 'share']],
   [/^app\/random\.js$/, ['random', 'skip']],
   [/^app\/pages\/(exercises|settings)\.js$/, ['skip']],
+  [/^app\/finder\.js$/, ['finder']],
   [/^app\/length\.js$/, ['build', 'random', 'rounds', 'stats', 'share', 'thirty']],
   [/^app\/short\.js$/, ['short']],
   [/^app\/warmup\.js$/, ['warmup']],
