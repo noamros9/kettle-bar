@@ -16,7 +16,7 @@ const SMOKE = ['renders'];
 const MAP = [
   // recipes/book.json is left out: it changes with its inputs (listed here), and only its hash when app/library.js does
   [/^(configs\/|programs\.config\.js|program-builder\.js|recipes\.js|recipe-book\.js|exercises\.js|figures\.js|formats\.js|build\.js)/, ['build', 'random', 'library', 'exercise', 'thirty']],
-  [/^app\/library\.js$/, ['library', 'favourites', 'exercises', 'muscles']],
+  [/^app\/library\.js$/, ['library', 'favourites', 'exercises', 'muscles', 'finder']],
   [/^app\/(stats|charts)\.js$/, ['stats', 'rounds', 'finish']],
   [/^app\/(session|clock)\.js$/, ['workout', 'flow', 'bouts', 'bigtimer', 'voice', 'resume', 'finish']],
   [/^app\/(store|progress|docs)\.js$/, ['sync', 'settings', 'rounds', 'resume', 'swap', 'outbox']],
@@ -33,7 +33,7 @@ const MAP = [
   [/^app\/day\.js$/, ['swap', 'travel', 'warmup', 'short', 'resume', 'skip']],
   [/^(firebase-sync\.js|firebase-config\.js)$/, ['sync']],
   // the pages (architecture review IV); ui.js and pages/core.js are under every page: the smoke check covers them
-  [/^app\/pages\/programs\.js$/, ['library', 'favourites']],
+  [/^app\/pages\/programs\.js$/, ['library', 'favourites', 'finder']],
   [/^app\/pages\/random\.js$/, ['random', 'skip']],
   [/^app\/pages\/build\.js$/, ['build', 'share']],
   [/^app\/pages\/program\.js$/, ['rounds', 'shortcut']],
