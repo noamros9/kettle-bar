@@ -24,7 +24,7 @@ backups).
 | 1 | Pages as modules | refactor | – | `refactor/pages` | done (PR #140) |
 | 2 | Actions instead of a click chain | refactor | 1 | `refactor/actions` | done (PR #141) |
 | 3 | Minify the page | build | – | `build/minify` | done (PR #143) |
-| 4 | Program length and levels in one place | refactor | – | `refactor/program-length` | |
+| 4 | Program length and levels in one place | refactor | – | `refactor/program-length` | done (PR #145) |
 | 5 | Build the library once per test run | test | – | `test/library-cache` | done (PR #142) |
 
 ### 1. Pages as modules
@@ -50,6 +50,11 @@ backups).
   builder, random workouts, rounds and page text. 60-day programs come out byte-identical.
 - **Test first:** `levelOf` for a 60-day program (20 / 21 / 41 boundaries) and a 30-day one (10 / 11 / 21); pins
   unchanged.
+- **As built (2 Oct):** `app/length.js` (`KBLength`): `DAYS` (60), `dayCountOf` (a config's `days`, a built program's
+  days, a summary's `dayCount`), `levelOf(dayCount, day)`, `levelStarts`, `levelRanges`. The builder loops to
+  `dayCountOf(cfg)`; random workouts read a done day's level from its program's length; the recipe book checks
+  Levels II and III at `levelStarts(60)`; own programs stay 60 days. Generated programs are byte-identical; the book's
+  content is unchanged (only its hash, which now covers `app/length.js`).
 
 ### 5. Build the library once per test run
 - A test helper builds every program once per source hash and caches it under `test-results/.cache/` (inside the

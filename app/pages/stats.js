@@ -90,7 +90,7 @@ function exercisesTab(r) {
       <ol class="exhlist">${shown.map(row).join('')}</ol>${more}
       <p class="note">On how many of your done days each exercise came up; a swap counts as the exercise you did. Warm-ups and cool-downs not included.</p></section>
     <section class="card exhist" aria-labelledby="lv-h"><h2 id="lv-h">Level over time</h2>${levels.map(strip).join('')}
-      <p class="note">The highest level you did each week, oldest week first: I days 1–20, II days 21–40, III days 41–60.</p></section>`;
+      <p class="note">The highest level you did each week, oldest week first: ${KBLength.levelRanges(KBLength.DAYS)}.</p></section>`;
 }
 /* The History tab (Phase 9 ticket 3): a month as a calendar, ‹ › to page, Today back; a day with workouts is filled,
    darker for more minutes; tap one for what you did. The program switch narrows it; the span switch doesn't move it (it

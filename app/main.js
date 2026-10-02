@@ -230,7 +230,7 @@ async function ownShare(pid) {
   const id = ownIdOf(pid), name = prog().name;
   const link = KBOwn.shareLink(location.href, await KBOwn.shareCode(KBOwn.fromRecord(id, store.doc('programs', id))));
   if (navigator.share) {
-    try { await navigator.share({ title: name, text: `${name}: a 60-day program for Kettle & Bar`, url: link }); return; } catch (e) { if (e && e.name === 'AbortError') return; }
+    try { await navigator.share({ title: name, text: `${name}: a ${KBLength.dayCountOf(prog())}-day program for Kettle & Bar`, url: link }); return; } catch (e) { if (e && e.name === 'AbortError') return; }
   }
   let copied = false;
   try { await navigator.clipboard.writeText(link); copied = true; } catch (e) { /* no clipboard: the link shows to copy by hand */ }

@@ -41,7 +41,7 @@
        the catalogue (a saved program's progress is kept and synced like any program's; a deleted one is dropped).
        refresh() builds from what is stored now, with no recipe book. A doc without a config (none should exist) is made
        once through load() -> recipes and saved back with its config; until then it is left out. */
-(function (root, Programs) {
+(function (root, Programs, L) {
   const GEAR = { all: 'all equipment', kb: 'a kettlebell only', bw: 'no equipment' };
   const SUMMARY_GEAR = { all: 'all equipment', kb: 'kettlebell only', bw: 'no equipment' };
   const EQUIPMENT = ['all', 'kb', 'bw'], MINUTES = [20, 25, 30, 35, 40];
@@ -129,7 +129,7 @@
   }
   function namesOf(config) {
     const count = {};
-    return Array.from({ length: 60 }, (_, d) => {
+    return Array.from({ length: L.DAYS }, (_, d) => {
       const label = config.dayTypes[config.cycle[d % config.cycle.length]].label;
       count[label] = (count[label] || 0) + 1;
       return `${label} ${count[label]}`;
@@ -154,11 +154,11 @@
   }
 
   // a day you did is kept as it was made: the record holds it without its number (the key is the number)
-  const frozenOk = (n, d) => Number.isInteger(+n) && +n >= 1 && +n <= 60 && isObject(d) && Array.isArray(d.blocks);
+  const frozenOk = (n, d) => Number.isInteger(+n) && +n >= 1 && +n <= L.DAYS && isObject(d) && Array.isArray(d.blocks);
   function edit({ recipes, build, ex }, id, record, { name, choices, seed, doneDays }, now) {
     const old = fromRecord(id, record), oldProgram = programOf({ build, ex }, old);
     const frozenDays = { ...(old.frozenDays || {}) };
-    doneDays.filter((n) => Number.isInteger(n) && n >= 1 && n <= 60).forEach((n) => { const { day, ...rest } = oldProgram.days[n - 1]; frozenDays[n] = clone(rest); });
+    doneDays.filter((n) => Number.isInteger(n) && n >= 1 && n <= L.DAYS).forEach((n) => { const { day, ...rest } = oldProgram.days[n - 1]; frozenDays[n] = clone(rest); });
     const made = { choices, seed: seed === undefined ? old.seed : seed, catalogue: recipes.book().catalogue };
     return toRecord({ name: name === undefined ? old.name : name, ...made, config: configOf(recipes, made), frozenDays, createdAt: old.createdAt }, now);
   }
@@ -291,6 +291,7 @@
   }
 
   const api = { SHARE_VERSION, newestCatalogue, shareCode, shareLink, readShare, checkName, renamed, edit, defaults, fit, toggle, subjectStates, problem, states, subjects, toConfig, configOf, toRecord, fromRecord, programOf, summaryLine, source, link, pidOf, defaultName, newId, newSeed, MINUTES, EQUIPMENT };
-  /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
+  /* node:coverage ignore next 3 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBOwn = api;
-})(typeof window !== 'undefined' ? window : globalThis, typeof module !== 'undefined' && module.exports ? require('./programs.js') : window.KBPrograms);
+})(typeof window !== 'undefined' ? window : globalThis, typeof module !== 'undefined' && module.exports ? require('./programs.js') : window.KBPrograms,
+  typeof module !== 'undefined' && module.exports ? require('./length.js') : window.KBLength);

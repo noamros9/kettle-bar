@@ -306,7 +306,7 @@ test('recipeFor: a recipe buildDay accepts, from a day type', () => {
 test('the builder builds the made config in the page too: no Node calls, same days, the book from a loader', async () => {
   const load = (f, sb) => vm.runInContext(fs.readFileSync(path.join(__dirname, '..', f), 'utf8'), sb);
   const sandbox = vm.createContext({ window: {} });
-  ['formats.js', 'exercises.js', 'program-builder.js', 'recipes.js'].forEach((f) => load(f, sandbox));
+  ['formats.js', 'exercises.js', 'app/length.js', 'program-builder.js', 'recipes.js'].forEach((f) => load(f, sandbox));
   const page = sandbox.window;
   assert.ok(page.KBRecipes && page.KBBuilder);
   assert.equal(page.KBRecipes.pick, undefined, 'the page has no book until the loader brings it');
