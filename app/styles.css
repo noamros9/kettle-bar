@@ -575,3 +575,8 @@ table.weeks tr.empty{color:var(--muted)}table.weeks tr.empty th{font-weight:400}
 .updatenote{position:fixed;left:16px;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:40;display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;box-shadow:0 6px 24px rgba(0,0,0,.18)}
 .updatenote span{flex:1;min-width:10em;font-weight:600}
 body.has-timer .updatenote{bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+
+/* changes waiting for the account (Phase 12) */
+.sync .wcount{min-width:18px;height:18px;padding:0 5px;box-sizing:border-box;border-radius:999px;background:var(--t-low);color:#fff;font-size:11px;font-weight:700;line-height:18px;text-align:center;font-variant-numeric:tabular-nums}
+.sync .wcount[hidden]{display:none}
+.sync:has(.wcount:not([hidden])) i{display:none} /* the count stands in for the dot */

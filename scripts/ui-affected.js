@@ -19,7 +19,7 @@ const MAP = [
   [/^app\/library\.js$/, ['library', 'favourites', 'exercises', 'muscles']],
   [/^app\/stats\.js$/, ['stats', 'rounds', 'finish']],
   [/^app\/(session|clock)\.js$/, ['workout', 'flow', 'bouts', 'bigtimer', 'voice', 'resume', 'finish']],
-  [/^app\/(store|progress|docs)\.js$/, ['sync', 'settings', 'rounds', 'resume', 'swap']],
+  [/^app\/(store|progress|docs)\.js$/, ['sync', 'settings', 'rounds', 'resume', 'swap', 'outbox']],
   [/^app\/backup\.js$/, ['settings', 'rounds']],
   [/^(app\/lazy\.js|sw\.js|manifest\.webmanifest)$/, ['offline', 'shortcut', 'cachefirst']],
   [/^app\/programs\.js$/, ['library', 'build', 'shortcut']],

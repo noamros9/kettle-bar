@@ -39,17 +39,20 @@
 
     // account data: { collection: { id: body } }; pending: writes not finished yet, per 'collection/id'
     const pending = {};
-    // the outbox (Phase 12): 'progress/<pid>' or '<collection>/<id>' -> the number of its latest change. Kept on the device
+    // the outbox (Phase 12): 'progress/<pid>' or '<collection>/<id>' -> { s: the number of its latest change, n: how many
+    // changes it holds } (an older device's plain number reads as one change). Kept on the device
     // (kb-outbox) until the cloud confirms that change; sent again on reconnect (online()) and at the next attach, where
     // a waiting change wins over the cloud's copy. Only while signed in (a remote, or an account known from sign-in).
     let outbox = {}, seq = 0;
     const OUTBOX = 'kb-outbox';
+    const changes = () => Object.values(outbox).reduce((a, x) => a + x.n, 0);
     const saveOutbox = () => { // an empty box leaves no key: the device copy is as it was before
       if (Object.keys(outbox).length) { try { storage.set(OUTBOX, JSON.stringify(outbox)); } catch (e) { /* best effort */ } } else forgetKey(OUTBOX);
-      emit('outbox', Object.keys(outbox).length);
+      emit('outbox', changes());
     };
-    const mark = (k) => { if (!remote && !auth) return 0; outbox[k] = ++seq; saveOutbox(); return outbox[k]; };
-    const sent = (k, n) => { if (n && outbox[k] === n) { delete outbox[k]; saveOutbox(); } };
+    // a change to send (a retry of one already waiting doesn't count as another)
+    const mark = (k, again) => { if (!remote && !auth) return 0; outbox[k] = { s: ++seq, n: (outbox[k] ? outbox[k].n : 0) + (again ? 0 : 1) }; saveOutbox(); return seq; };
+    const sent = (k, n) => { if (n && outbox[k] && outbox[k].s === n) { delete outbox[k]; saveOutbox(); } };
     const waits = (k) => outbox[k] !== undefined;
     const account = Object.fromEntries(D.COLLECTIONS.map((c) => [c, {}]));
     const docKey = (c, id) => 'kb-doc-' + c + '-' + id, indexKey = (c) => 'kb-docs-' + c;
@@ -59,7 +62,8 @@
 
     function load() {
       try { const o = JSON.parse(read(OUTBOX)); outbox = o && typeof o === 'object' && !Array.isArray(o) ? o : {}; } catch (e) { outbox = {}; }
-      seq = Math.max(0, ...Object.values(outbox).filter(Number.isFinite));
+      outbox = Object.fromEntries(Object.entries(outbox).map(([k, x]) => [k, typeof x === 'number' ? { s: x, n: 1 } : { s: +x.s || 0, n: +x.n || 1 }]));
+      seq = Math.max(0, ...Object.values(outbox).map((x) => x.s));
       programIds.forEach((pid) => {
         progress[pid] = fromDevice(pid);
       });
@@ -93,14 +97,14 @@
       // account data: an error here (e.g. the rules for the new collections are not published) is not a sync problem for progress
       if (r.subscribeAll) D.COLLECTIONS.forEach((c) => unsubs.push(r.subscribeAll(c, (docs) => onDocs(c, docs), (e) => console.warn('sync error (' + c + ')', e))));
       // waiting deletes of programs no longer here (their progress isn't followed)
-      Object.keys(outbox).filter((k) => k.startsWith('progress/') && !programIds.includes(k.slice(9))).forEach((k) => removeProgress(k.slice(9)));
+      Object.keys(outbox).filter((k) => k.startsWith('progress/') && !programIds.includes(k.slice(9))).forEach((k) => removeProgress(k.slice(9), true));
     }
     // send everything waiting (reconnect): programs followed get their whole value again, docs their current body
     function retryOutbox() {
       if (!remote) return;
       Object.keys(outbox).forEach((k) => {
         const i = k.indexOf('/'), c = k.slice(0, i), id = k.slice(i + 1);
-        if (c !== 'progress') writeDoc(c, id); else if (programIds.includes(id)) write(id); else removeProgress(id);
+        if (c !== 'progress') writeDoc(c, id, true); else if (programIds.includes(id)) write(id, true); else removeProgress(id, true);
       });
     }
     // listen to one program's cloud document
@@ -118,10 +122,10 @@
       const mine = waits('progress/' + pid); // a change still waiting for the cloud: the phone's copy wins
       if (!seen[pid]) {
         seen[pid] = true;
-        if (mine) { write(pid); return; }
+        if (mine) { write(pid, true); return; }
         const { merged, changed } = P.mergeFirstSync(of(pid), cloud);
         progress[pid] = merged; save(pid);
-        if (changed) write(pid);
+        if (changed) write(pid, true); // the first sync's own write: kept until sent, not counted as a change of yours
       } else { // later snapshots replace the copy here, as before (a live connection's snapshot includes our own writes)
         progress[pid] = cloud || P.empty(); save(pid);
       }
@@ -136,7 +140,7 @@
         const waiting = Object.keys(outbox).filter((k) => k.startsWith(c + '/')).map((k) => k.slice(c.length + 1));
         waiting.forEach((id) => { if (account[c][id]) merged[id] = account[c][id]; else delete merged[id]; });
         account[c] = merged; saveAll(c, prev);
-        [...new Set([...push, ...waiting])].forEach((id) => writeDoc(c, id));
+        [...new Set([...push, ...waiting])].forEach((id) => writeDoc(c, id, true));
       } else { // the cloud's set, except docs with a write still on its way: those stay as they are here
         const next = D.mergeFirstSync({}, cloud).merged;
         [...Object.keys(pending).filter((k) => pending[k] > 0), ...Object.keys(outbox)].filter((k) => k.startsWith(c + '/')).map((k) => k.slice(c.length + 1)).forEach((id) => {
@@ -151,8 +155,8 @@
       Object.keys(account[c]).forEach((id) => saveDoc(c, id));
       if (prev.length || Object.keys(account[c]).length) saveIndex(c); // nothing to say about an empty collection
     }
-    function writeDoc(c, id) {
-      const k = c + '/' + id, n = mark(k);
+    function writeDoc(c, id, again) {
+      const k = c + '/' + id, n = mark(k, again);
       const r = remote; if (!r) return docQueue;
       pending[k] = (pending[k] || 0) + 1;
       docQueue = docQueue.then(async () => {
@@ -199,8 +203,8 @@
       [k.done, k.swaps, k.past, k.short].forEach(forgetKey);
       return removeProgress(pid);
     }
-    function removeProgress(pid) {
-      const k = 'progress/' + pid, n = mark(k);
+    function removeProgress(pid, again) {
+      const k = 'progress/' + pid, n = mark(k, again);
       const r = remote; if (!r) return queue;
       queue = queue.then(async () => { try { await r.remove('progress', pid); sent(k, n); } catch (e) { console.warn('progress not deleted from the cloud', e); } });
       return queue;
@@ -215,8 +219,8 @@
       Object.entries(values).forEach(([pid, v]) => set(pid, P.fromDoc(v))); // fromDoc fills in what a value leaves out
       return queue;
     }
-    function write(pid) {
-      const key = 'progress/' + pid, n = mark(key);
+    function write(pid, again) {
+      const key = 'progress/' + pid, n = mark(key, again);
       const r = remote; if (!r) return queue;
       setStatus(isOnline() ? 'saving' : 'offline');
       queue = queue.then(async () => {
@@ -248,7 +252,7 @@
       days: (pid) => ({ ...of(pid).done }),
       setAuth(a) { auth = a; setStatus(remote ? status : 'signin'); },
       online() { if (status === 'offline') setStatus('saving'); retryOutbox(); },
-      waiting: () => Object.keys(outbox).length, // changes not confirmed by the cloud yet (Phase 12)
+      waiting: changes, // changes not confirmed by the cloud yet (Phase 12)
       on(ev, fn) { listeners[ev].push(fn); return () => { listeners[ev] = listeners[ev].filter((f) => f !== fn); }; },
       flush: () => Promise.all([queue, docQueue]).then(() => {}),
       get auth() { return auth; },
