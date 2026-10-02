@@ -47,9 +47,10 @@ test('the gear is what the move needs: bar moves on the bar, loaded moves with a
     .forEach((id) => assert.ok(cat.allowedIn('bw', cat.EX[id]), `${id} needs no gear`));
 });
 
-test('builds at catalogue 7 or older never draw them: the library, and every config rebuilt at 7', () => {
+test('builds at catalogue 7 or older never draw them: the library below 8, and every config rebuilt at 7', () => {
   const used = (p) => new Set(p.days.flatMap((d) => d.blocks.flatMap((b) => b.items.map((it) => it.ex))));
-  all.forEach((p) => NEW.forEach((id) => assert.ok(!used(p).has(id), `${p.id} draws ${id}`)));
+  const cfg = Object.fromEntries(CONFIGS.map((c) => [c.id, c]));
+  all.filter((p) => (cfg[p.id].catalogue || 0) < 8).forEach((p) => NEW.forEach((id) => assert.ok(!used(p).has(id), `${p.id} draws ${id}`)));
   CONFIGS.filter((c) => !c.frozen).forEach((c) => {
     const u = used(buildConfig({ ...c, catalogue: 7 }));
     NEW.forEach((id) => assert.ok(!u.has(id), `${c.id} at 7 draws ${id}`));

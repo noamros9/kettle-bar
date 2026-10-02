@@ -23,7 +23,7 @@ program in the page; the offline download grows ~3.7 KB gzipped each).
 | 1 | 30-day programs in the engine | feature | review IV 4 | `feature/thirty-days` | done (PR #149) |
 | 2 | Programs page for ~260 programs | feature | – | `feature/library-scale` | done (PR #150) |
 | 3 | Catalogue 8: exercises the new subjects need | feature | – | `feature/catalogue-8` | done (PR #151) |
-| 4 | Fill to 6 (+9) and the floor-pull programs (+3) | content | 3 | `content/fill-six` | |
+| 4 | Fill to 6 (+9) and the floor-pull programs (+3) | content | 3 | `content/fill-six` | done (PR #152) |
 | 5 | New subjects: Running prep, Court & field sports (+10) | content | 3 | `content/cardio-subjects` | |
 | 6 | New subjects: Grip & forearms, Kettlebell complexes, Climber (+15) | content | 3 | `content/strength-subjects` | |
 | 7 | New subjects: Gentle / low impact, Back care (+10) | content | 3 | `content/mind-subjects` | |
@@ -74,6 +74,12 @@ program in the page; the offline download grows ~3.7 KB gzipped each).
   re-pinned), the program check (`rm -rf data && node build.js` on main and the branch: only new files), the size
   gate, a 390 px screenshot of one new program in both themes.
 - **Test first:** each ticket's new programs build, fit their time ranges, and their pins are added.
+- **Ticket 4 as built (2 Oct):** Power Vinyasa (Yoga), Pilates Sculpt, Boxing Strength (bouts + straight sets), Kick &
+  Core (bouts + core circuit), Daily Stretch 15 (Flexibility), Mobility Flow, Balance EMOM, Bell Intervals (HIIT with
+  one kettlebell), Plyo Circuits; and Floor Pull, Back at Home, Quiet Upper (Bodyweight, the five floor pulls). All
+  `catalogue: 8`, `added: 14`. A new test checks no two programs in a subject share split + formats + levers. Size
+  checks raised for the rest of Phase 14: the page 110 → 125 KB gzipped (113.1 now; CLAUDE.md's gate stays 150), the
+  recipe book 140 → 300 KB raw, 20 → 40 KB gzipped (it loads only for Build your own).
 
 ## Challenge round
 - **Weakest assumption:** that +50% per family is varied enough to be worth it. Each new program needs a different

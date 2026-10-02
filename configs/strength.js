@@ -535,6 +535,40 @@ const CONFIGS = [
       b: { label: 'EMOM B', short: 'B', blocks: [E('EMOM', ['kbBallistic', 'lunge2', 'pushLoad2', 'hiit', 'core2'], { values: [12, 14, 15] })] },
     },
   },
+  // ---------------- PHASE 14: bodyweight programs with the floor-only pulls (catalogue 8: five floor pulls) ----------------
+  {
+    id: 'floor-pull', added: 14, catalogue: 8, name: 'Floor Pull', subject: 'Bodyweight', minutes: [23, 27], equip: 'bw', levers: [null, 'reps', 'tempo'],
+    split: 'Push & pull / legs & pull', blurb: 'Bodyweight strength with a pull every day, and no bar: floor pulls between push-ups and legs.',
+    about: 'Bodyweight strength with a pull on every day and no bar needed. The pulls are done lying face down: prone lat pulls, superman rows, reverse snow angels and supermans, or table rows if you have a sturdy table. One day pairs them with push-ups, the other with single-leg work, in straight sets with full rests. Abs finish every session. Level II adds reps and Level III slows every rep down.',
+    names: ['Groundwork', 'Floorboard', 'Parquet', 'Tatami', 'Lino', 'Rug Burn', 'Ground Floor', 'Basement', 'Flagstone', 'Doormat', 'Hearthrug', 'Deck', 'Plank Floor', 'Tile', 'Cork', 'Bamboo', 'Oak Boards', 'Terrazzo', 'Slate Floor', 'Mosaic'],
+    cycle: ['push', 'legs'],
+    dayTypes: {
+      push: { label: 'Push & pull', short: 'Push · Pull', blocks: [S('Push & pull', ['pushBw2', 'pullBw', 'pushBw2', 'pullBw', 'pike_pushup?'])] },
+      legs: { label: 'Legs & pull', short: 'Legs · Pull', blocks: [S('Legs & pull', ['legsBw2', 'pullBw', 'legsBw2', 'pullBw', 'legsBw2?'])] },
+    },
+  },
+  {
+    id: 'back-at-home', added: 14, catalogue: 8, name: 'Back at Home', subject: 'Bodyweight', minutes: [23, 27], equip: 'bw', levers: [null, 'reps', 'variation'],
+    split: 'Back & push / back & legs', blurb: 'Circuits led by the upper back: two floor pulls a round, with push-ups or legs and core between.',
+    about: 'Circuits that put the upper back first, for posture and balance with all the pushing most home training does. Every round has two floor pulls, such as reverse snow angels and superman rows, with push-ups or legs and a core move between them. Days alternate back with push and back with legs. Abs finish every session. Level II adds reps and Level III brings harder versions.',
+    names: ['Shoulder Blade', 'Upright', 'Tall Spine', 'Stand Tall', 'Lifted', 'Backbone', 'Scapula', 'Rhomboid', 'Trapezius', 'Wingspan', 'Keelson', 'Mast', 'Flagpole', 'Plumb', 'Column', 'Pillar', 'Spire', 'Totem', 'Steeple', 'Lighthouse'],
+    cycle: ['push', 'legs'],
+    dayTypes: {
+      push: { label: 'Back & push', short: 'Back · Push', blocks: [C('Back circuit', ['pullBw', 'pushBw2', 'pullBw', 'coreAnti', 'pullBw?'], { values: [2, 3, 4] })] },
+      legs: { label: 'Back & legs', short: 'Back · Legs', blocks: [C('Back circuit', ['pullBw', 'legsBw2', 'pullBw', 'coreRot', 'legsBw2?'], { values: [2, 3, 4] })] },
+    },
+  },
+  {
+    id: 'quiet-upper', added: 14, catalogue: 8, name: 'Quiet Upper', subject: 'Bodyweight', minutes: [23, 27], equip: 'bw', levers: [null, 'variation', 'reps'],
+    split: 'Upper A / upper B', blurb: 'Upper-body supersets on the floor: a push and a pull back to back, quiet enough for a flat at night.',
+    about: 'Upper-body training in supersets, a push and a floor pull back to back, then rest. Nothing jumps, so it suits a flat late in the evening. One day leans on chest and triceps, the other on shoulders, with a pull in every pair so the back keeps up. Abs finish every session. Level II brings harder versions first and Level III adds reps on top.',
+    names: ['Hush', 'Whisper', 'Tiptoe', 'Library', 'Night Shift', 'Lights Out', 'Muffle', 'Velvet', 'Felt', 'Slipper', 'Moth', 'Owl', 'Midnight', 'Small Hours', 'Silent Night', 'Low Key', 'Undertone', 'Pianissimo', 'Murmur', 'Shh'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Upper A', short: 'A', blocks: [SS('Push & pull', ['pushBw2', 'pullBw', 'diamond_pushup', 'pullBw', 'pushBw2', 'pullBw'])] },
+      b: { label: 'Upper B', short: 'B', blocks: [SS('Push & pull', ['pike_pushup', 'pullBw', 'pushBw2', 'pullBw', 'pushBw2', 'pullBw'])] },
+    },
+  },
 ];
 
 // Hand-written paragraphs for the older programs (newer ones carry theirs as `about:` in the config).

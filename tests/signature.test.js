@@ -112,7 +112,7 @@ test('the variations sit on the Signature shelf right after their original, and 
     assert.match(PINS[id] || '', /^[0-9a-f]{64}$/, `${id}: run npm run pin`);
     assert.equal(PINS[id], crypto.createHash('sha256').update(JSON.stringify(progOf[id].days)).digest('hex'), id);
   });
-  assert.equal(Object.keys(PINS).length, 138);
+  assert.equal(Object.keys(PINS).length, CONFIGS.length, 'every program pinned, none dropped');
 });
 
 test('the Tempo variations: at Level III, at least 40% of the main-block exercises carry the 3 s lowering, and only Levels II and III do', () => {

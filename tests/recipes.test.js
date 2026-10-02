@@ -330,12 +330,12 @@ test('the builder builds the made config in the page too: no Node calls, same da
   assert.equal(sandbox.require, undefined);
 });
 
-test('the recipe book file is small (under 140 KB raw, 20 KB gzipped) and is not in index.html', () => {
+test('the recipe book file is small (under 300 KB raw, 40 KB gzipped) and is not in index.html', () => {
   const { render } = require('../build.js');
   const out = require('./helpers/library.js').rendered(), json = out['data/recipes.json'];
   const gz = zlib.gzipSync(json).length;
   console.log(`# data/recipes.json: ${json.length} bytes raw, ${gz} bytes gzipped; ${R.pick({}).length} day types, ${R.book().specs.length} specs`);
-  assert.ok(json.length < 140 * 1024 && gz < 20 * 1024, `${json.length} raw, ${gz} gzipped`); // the mix parts (ticket 7) are about 17 KB raw, 4 KB gzipped
+  assert.ok(json.length < 300 * 1024 && gz < 40 * 1024, `${json.length} raw, ${gz} gzipped`); // 140 / 20 KB until Phase 14: each new program's day types add about 1 KB raw; the book loads only when Build your own opens // the mix parts (ticket 7) are about 17 KB raw, 4 KB gzipped
   assert.equal(json, JSON.stringify(R.book()));
   assert.ok(!out['index.html'].includes('RECIPE_BOOK') && !out['index.html'].includes('"specs"'), 'the page does not carry the book');
   assert.ok(!out['index.html'].includes('function recipeFor') && out['data/recipes.js'].includes('KBRecipes'), 'its code is data/recipes.js');

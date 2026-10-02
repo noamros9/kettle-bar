@@ -11,22 +11,22 @@ const itemsOf = (d) => [...d.blocks.flatMap((b) => b.items), ...d.warmup.items, 
 
 // subject -> how many programs, whether days end with abs, and the formats its main blocks may use
 const SUBJECTS = {
-  Yoga: { count: 5, abs: false, formats: ['flow'] },
-  Pilates: { count: 5, abs: false, formats: ['flow'] },
-  Boxing: { count: 5, abs: true, formats: ['bouts', 'circuit', 'tabata'] },
-  Kickboxing: { count: 5, abs: true, formats: ['bouts', 'circuit', 'tabata'] },
-  Flexibility: { count: 5, abs: false, formats: ['flow'] },
-  'Mobility & posture': { count: 5, abs: false, formats: ['flow', 'circuit'] },
-  'Balance & stability': { count: 5, abs: true, formats: ['circuit', 'straight'] },
-  HIIT: { count: 5, abs: true, formats: ['circuit', 'amrap', 'emom', 'tabata', 'ladder'] },
-  Plyometrics: { count: 5, abs: true, formats: ['straight'] },
+  Yoga: { count: 6, abs: false, formats: ['flow'] },
+  Pilates: { count: 6, abs: false, formats: ['flow'] },
+  Boxing: { count: 6, abs: true, formats: ['bouts', 'circuit', 'tabata', 'straight'] },
+  Kickboxing: { count: 6, abs: true, formats: ['bouts', 'circuit', 'tabata'] },
+  Flexibility: { count: 6, abs: false, formats: ['flow'] },
+  'Mobility & posture': { count: 6, abs: false, formats: ['flow', 'circuit'] },
+  'Balance & stability': { count: 6, abs: true, formats: ['circuit', 'straight', 'emom'] },
+  HIIT: { count: 6, abs: true, formats: ['circuit', 'amrap', 'emom', 'tabata', 'ladder'] },
+  Plyometrics: { count: 6, abs: true, formats: ['straight', 'circuit'] },
   Strength: { count: 6, abs: true, formats: ['straight', 'superset'] },
   'Pull-ups': { count: 6, abs: true, formats: ['straight', 'superset', 'emom'] },
   'Legs & glutes': { count: 6, abs: true, formats: ['straight'] },
   'Kettlebell only': { count: 6, abs: true, formats: ['straight', 'circuit', 'emom'] },
   'Core & abs': { count: 6, abs: true, formats: ['circuit', 'straight'] },
   Conditioning: { count: 6, abs: true, formats: ['circuit', 'amrap', 'ladder', 'emom'] },
-  Bodyweight: { count: 6, abs: true, formats: ['superset', 'straight', 'circuit'] },
+  Bodyweight: { count: 9, abs: true, formats: ['superset', 'straight', 'circuit'] },
   'Busy week': { count: 6, abs: true, formats: ['circuit', 'superset', 'amrap', 'emom'] },
   // Mixed (Phase 6): abs depends on the day type, so it has its own test below
   'Strength & stretch': { count: 6, abs: undefined, formats: ['straight', 'superset', 'flow'] },
@@ -118,8 +118,8 @@ test('the core programs opt in to the new catalogue (catalogue: 5): their abs fi
   assert.ok(optIn.some((p) => p.days.some((d) => d.blocks.at(-1).items.some((it) => fresh.has(it.ex)))));
 });
 
-test('the library: 138 programs in 23 subjects', () => {
-  assert.equal(programs.length, 138);
+test('the library: 150 programs in 23 subjects', () => {
+  assert.equal(programs.length, 150);
   assert.equal(new Set(programs.map((p) => p.subject)).size, 23);
 });
 
@@ -322,4 +322,15 @@ test('Calm strength: a Pilates or core block, slow-tempo strength and a long-hol
   });
   assert.ok(calm.some((p) => p.days.some((d) => mainOf(d).some((b) => b.items.some((it) => EX[it.ex].cat === 'pilates')))), 'Pilates appears');
   assert.ok(calm.some((p) => p.equip === 'bw') && calm.some((p) => p.equip === 'kb') && calm.some((p) => p.equip === 'all'), 'no gear, one bell and full gear');
+});
+
+// Phase 14: each new program differs from its subject's others in split, formats or how it gets harder
+test('no two programs in a subject share their split, main-block formats and levers', () => {
+  const key = (c) => [c.split, [...new Set(Object.values(c.dayTypes).flatMap((t) => (t.blocks || []).map((b) => b.f)))].sort().join('+'), (c.levers || []).join(',')].join(' | ');
+  const seen = {};
+  CONFIGS.filter((c) => !c.frozen).forEach((c) => {
+    const k = `${c.subject} :: ${key(c)}`;
+    assert.ok(!seen[k], `${c.id} and ${seen[k]} share ${k}`);
+    seen[k] = c.id;
+  });
 });
