@@ -562,3 +562,8 @@ table.weeks tr.empty{color:var(--muted)}table.weeks tr.empty th{font-weight:400}
 /* four header tabs (Muscles, 2 Oct) on small phones */
 @media (max-width:400px){.nav{gap:0}.nav button{padding:8px 4px;font-size:12.5px}.top .wrap{gap:6px}}
 @media (max-width:350px){.nav button{padding:8px 3px;font-size:12px}}
+
+/* a new version is ready (Phase 12) */
+.updatenote{position:fixed;left:16px;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:40;display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;box-shadow:0 6px 24px rgba(0,0,0,.18)}
+.updatenote span{flex:1;min-width:10em;font-weight:600}
+body.has-timer .updatenote{bottom:calc(96px + env(safe-area-inset-bottom,0px))}

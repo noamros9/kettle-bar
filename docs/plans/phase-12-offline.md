@@ -18,7 +18,7 @@ muscle focus are cached, and progress is always kept on the phone. What doesn't 
 | # | Ticket | Tier | Blocked by | Branch | Status |
 |---|---|---|---|---|---|
 | 0 | This plan (in the 2 Oct roadmap plan) | plan | – | `plan/roadmap-oct` | done (PR #133) |
-| 1 | Open from cache at once, update in the background | feature | Phase 11 | `feature/cache-first` | |
+| 1 | Open from cache at once, update in the background | feature | Phase 11 | `feature/cache-first` | done (PR #136) |
 | 2 | An outbox that survives closing the app | feature | – | `feature/outbox` | |
 | 3 | Fonts and the sync library offline | feature | 1 | `feature/offline-assets` | |
 | 4 | "Offline · 3 changes waiting" | feature | 2 | `feature/offline-status` | |

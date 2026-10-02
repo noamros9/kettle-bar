@@ -7,7 +7,7 @@ const out = render();
 
 test('the build produces the page and one data file per program', () => {
   const { CONFIGS } = require('../program-builder.js');
-  assert.deepStrictEqual(Object.keys(out).sort(), ['index.html', 'data/recipes.json', 'data/recipes.js', 'data/index.json', 'data/muscles.json', ...CONFIGS.map((c) => `data/${c.id}.json`)].sort());
+  assert.deepStrictEqual(Object.keys(out).sort(), ['index.html', 'version.json', 'data/recipes.json', 'data/recipes.js', 'data/index.json', 'data/muscles.json', ...CONFIGS.map((c) => `data/${c.id}.json`)].sort());
   const iron = JSON.parse(out['data/iron-ppl.json']);
   assert.equal(iron.days.length, 60);
 });
@@ -89,4 +89,10 @@ test('data/muscles.json holds each library program\'s muscle focus (the muscle m
   const { CONFIGS } = require('../program-builder.js');
   assert.deepStrictEqual(Object.keys(focus).sort(), CONFIGS.map((c) => c.id).sort());
   Object.values(focus).forEach((f) => assert.ok(Math.abs(Object.values(f).reduce((a, b) => a + b, 0) - 1) < 0.01));
+});
+
+test('version.json and the page carry the same build version, which changes with the page (Phase 12)', () => {
+  const v = JSON.parse(out['version.json']).v;
+  assert.match(v, /^[0-9a-f]{12}$/);
+  assert.ok(out['index.html'].includes(`window.KB_VERSION=${JSON.stringify(v)}`));
 });
