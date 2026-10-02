@@ -40,3 +40,17 @@ test('searchExercises: picked muscles and a search word both apply, in muscle or
   const none = searchExercises(EX, '', { cat: 'all', gear: 'all', muscles: [] }, { names: MUSCLE_NAMES });
   assert.equal(none.count, all.length);
 });
+
+// 2 Oct: the Muscles page splits the exercises for the picked muscles into main and secondary
+test('splitByMuscles: "Main muscle" holds exercises where a picked muscle is main, "Also works" only secondary ones', () => {
+  const { splitByMuscles } = require('../app/library.js');
+  const { main, also } = splitByMuscles(all, ['glutes']);
+  assert.ok(main.length > 0 && also.length > 0);
+  assert.ok(main.every((e) => e.muscles.primary.includes('glutes')));
+  assert.ok(also.every((e) => !e.muscles.primary.includes('glutes') && e.muscles.secondary.includes('glutes')));
+  assert.equal(main.length + also.length, all.filter((e) => works(e, 'glutes')).length, 'every exercise that works it, once');
+  assert.ok(ids(main).includes('hip_thrust') && ids(main).includes('db_rdl'));
+  const two = splitByMuscles(all, ['glutes', 'hamstrings']);
+  assert.ok(two.main.every((e) => e.muscles.primary.some((m) => m === 'glutes' || m === 'hamstrings')));
+  assert.deepEqual(splitByMuscles(all, []), { main: [], also: [] });
+});

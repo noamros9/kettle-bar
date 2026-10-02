@@ -16,7 +16,7 @@ const SMOKE = ['renders'];
 const MAP = [
   // recipes/book.json is left out: it changes with its inputs (listed here), and only its hash when app/library.js does
   [/^(configs\/|programs\.config\.js|program-builder\.js|recipes\.js|recipe-book\.js|exercises\.js|figures\.js|formats\.js|build\.js)/, ['build', 'random', 'library', 'exercise']],
-  [/^app\/library\.js$/, ['library', 'favourites', 'exercises']],
+  [/^app\/library\.js$/, ['library', 'favourites', 'exercises', 'muscles']],
   [/^app\/stats\.js$/, ['stats', 'rounds', 'finish']],
   [/^app\/(session|clock)\.js$/, ['workout', 'flow', 'bouts', 'bigtimer', 'voice', 'resume', 'finish']],
   [/^app\/(store|progress|docs)\.js$/, ['sync', 'settings', 'rounds', 'resume', 'swap']],

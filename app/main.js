@@ -63,7 +63,7 @@ function runPlanned(target, withClock = true) {
 $('#sessreset').addEventListener('click', () => { if (route.view === 'day' || (route.view === 'random' && random.current())) openSession().setStarted(null); });
 
 document.addEventListener('click', (ev) => {
-  const muscle = ev.target.closest('.mmpick [data-m]'); if (muscle) return exMuscle(muscle.dataset.m); // the Exercises page's muscle map
+  const muscle = ev.target.closest('.mmpick [data-m]'); if (muscle) return exMuscle(muscle.dataset.m); // the Muscles page's body map
   const el = ev.target.closest('button'); if (!el) return;
   const d = el.dataset;
   if (el.id === 'brand') return go('today'); // home: the next day in the program of your last done workout (as the shortcut)
@@ -98,6 +98,7 @@ document.addEventListener('click', (ev) => {
   if (d.go === 'library') return go('exercises');
   if (d.go === 'settings') return go('settings');
   if (d.go === 'stats') return go('stats');
+  if (d.go === 'muscles') return go('muscles');
   if (d.backup) return backupAction(d.backup);
   if (d.roundStart) { roundState = { pid: prog().id }; rerender(); return; }
   if (d.roundCancel) { roundState = null; rerender(); return; }
@@ -124,7 +125,7 @@ document.addEventListener('click', (ev) => {
   if (d.go === 'program') return go('p-' + prog().id);
   if (d.openProg) return go('p-' + d.openProg);
   if (d.filterMenu) { toggleFilterMenu(d.filterMenu); render(); return; }
-  if (d.exmap) { exSearch.map = !exSearch.map; exRefresh(); return; }
+  if (d.mgear) { musclePick.gear = d.mgear; muscleRefresh(); return; }
   if (d.exmuscle) return exMuscle(d.exmuscle);
   if (d.exmuscleClear) return exMuscle(null);
   if (d.exf) { const [k, v] = d.exf.split(':'); return exFilter(k, v); }
