@@ -237,6 +237,10 @@ on 2 Oct 2026, from Phase 7's travel mode finding.
     Superman rows, Side-lying lateral raises. Used in **travel mode, the Swap list and new builds** (build your own,
     random workouts) from now on; existing programs never reshuffle (`added: 6`). **Curls, pull-ups and hangs are left
     as they are** in Bodyweight only (still "Needs gear").
+    - **Built (2 Oct):** the three are `added: 6`; build your own and random workouts (catalogue 6) can draw the two
+      pulls (they join the bodyweight pull pool after Table rows and Supermans). Lateral raises never need gear now.
+      A row can still keep "Needs gear" on a day with three or more pulls needing gear (pull-ups count): each floor
+      pull is used once a day (65 of 8,280 library days, at most one row each).
 
 ## Decided against (don't re-suggest)
 - **Logging weights/reps per set**: Noam wants done / not done only.

@@ -19,8 +19,8 @@ test('bodyweight only: a Three-Split 60 day needs no dumbbells, kettlebell or ba
   const loosened = new Set(), missing = new Set();
   for (const day of three.days) {
     const t = S.travel(day, 'bw', three, cat);
-    // gear is left only where nothing without it works any of the exercise's main muscles (the catalogue has no
-    // bodyweight pulling: rows, curls, raises and pull-ups stay, marked on the card)
+    // gear is left only where nothing without it works any of the exercise's main muscles, or the floor-only pulls are
+    // used up that day (curls, pull-ups and hangs, and a third pull; marked on the card)
     mains(t).forEach((it) => {
       if (!needsGear(EX[it.ex])) return;
       assert.equal(it.travelMissing, true, `day ${day.day}: ${it.ex}`);
