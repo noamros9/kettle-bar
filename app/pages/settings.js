@@ -56,6 +56,10 @@ function viewSettings() {
     ${KBLibrary.subjectsOf(programs.list().filter((p) => p.source !== 'own'), FAMILIES).map(([fam, list]) => `<div class="filters hidesubj" role="group" aria-label="Hide ${esc(fam)} subjects"><span class="fname">${esc(fam)}</span>${list.map((x) => `<button class="fchip acc" data-hide="${esc(x)}" aria-pressed="${libraryPrefs().hidden.includes(x)}">${esc(x)}</button>`).join('')}</div>`).join('')}
     <p class="muted">Ticked subjects don't show on the Programs page: no chip, no shelf, not counted. Programs you starred stay in Favourites. Synced with your account.</p>
   </section>
+  <section class="card setting"><h2>Exercises I skip</h2>
+    ${skipList().length ? `<ul class="skiplist">${skipList().map((id) => `<li class="skiprow"><button class="linkbtn" data-ex="${id}">${esc(EX[id].name)}</button><button class="btn ghost" data-skip="${id}" aria-label="Unskip ${esc(EX[id].name)}">Unskip</button></li>`).join('')}</ul>` : '<p class="muted">No exercises skipped. To skip one, open it and tap "Skip this exercise".</p>'}
+    <p class="muted">Synced with your account.</p>
+  </section>
   <section class="card setting"><h2>Travel mode</h2>
     <div class="filters" role="group" aria-label="Travel mode">${[[null, 'Off'], ...Object.entries(TRAVEL_TEXT)].map(([k, l]) => `<button class="fchip acc" data-travel="${k || ''}" aria-pressed="${travelMode() === k}">${esc(l)}</button>`).join('')}</div>
     <p class="muted">Away from your gear? Every workout swaps the exercises that need it for ones that work the same muscles, until you turn this off. Synced with your account.</p>

@@ -213,3 +213,14 @@ test('equipment: a picked family left empty by it falls back to All', () => {
 test('equipment: changing it keeps the family and subject', () => {
   assert.deepEqual(setFilter({ family: 'Mind', subject: 'Yoga', len: 'all', equip: 'all' }, 'equip', 'bw'), { family: 'Mind', subject: 'Yoga', len: 'all', equip: 'bw' });
 });
+
+// Phase 13 ticket 1: exercises I skip, as `skip: [exercise id]` in the synced prefs
+test('skipped: the exercises in prefs.skip this app knows, once each, in the order they were skipped', () => {
+  const { skipped, toggleIn } = require('../app/library.js');
+  const EXS = { pushup: {}, kb_swing: {}, pullup: {} };
+  assert.deepEqual(skipped({}, EXS), []);
+  assert.deepEqual(skipped(null, EXS), []);
+  assert.deepEqual(skipped({ skip: 'pushup' }, EXS), [], 'not a list: nothing skipped');
+  assert.deepEqual(skipped({ skip: ['kb_swing', 'gone', 3, 'pushup', 'kb_swing'] }, EXS), ['kb_swing', 'pushup']);
+  assert.deepEqual(skipped({ skip: toggleIn(toggleIn([], 'pullup'), 'pushup') }, EXS), ['pullup', 'pushup']);
+});
