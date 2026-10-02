@@ -242,6 +242,46 @@ on 2 Oct 2026, from Phase 7's travel mode finding.
       A row can still keep "Needs gear" on a day with three or more pulls needing gear (pull-ups count): each floor
       pull is used once a day (65 of 8,280 library days, at most one row each).
 
+## The 2 Oct 2026 roadmap
+Noam's order, grilled 2 Oct 2026: CI upkeep, then offline (added the same morning), then architecture review IV, then
+exercises I skip + a fourth floor pull, then more programs, then a round of new feature suggestions.
+
+### Phase 11: CI upkeep
+Plan: [docs/plans/phase-11-ci-upkeep.md](docs/plans/phase-11-ci-upkeep.md). Current action majors (Node 20 is
+deprecated on runners) and a pinned runner (`ubuntu-latest` moves to Ubuntu 26 on 19 Oct).
+
+### Phase 12: offline you can rely on
+Plan: [docs/plans/phase-12-offline.md](docs/plans/phase-12-offline.md). Noam, 2 Oct, all four parts, right after CI
+upkeep: **open from cache at once** (update in the background, "new version · Reload"); **an outbox** so changes made
+offline (un-done days and deletes too) always reach the account, even after closing the app; **fonts and the sync
+library offline**; **"Offline · N changes waiting"** in the header.
+
+### Architecture review IV
+Plan: [docs/plans/architecture-review-4.md](docs/plans/architecture-review-4.md). **Full review, like III** (2 Oct):
+pages as modules, actions instead of the click chain, minify the page, program length and levels in one place (for
+30-day programs), build the library once per test run. Behaviour stays the same.
+
+### Phase 13: exercises I skip, and a fourth floor pull
+Plan: [docs/plans/phase-13-skip-and-floor.md](docs/plans/phase-13-skip-and-floor.md).
+25. **Exercises I skip** (2 Oct): marked on the **exercise page**, listed in **Settings**, synced. Applies
+    **everywhere** (day pages, random workouts, build previews). No stand-in: **kept, marked** "You skip this".
+26. **Reverse snow angels** (2 Oct): the fourth floor-only pull.
+
+### Phase 14: more programs
+Plan: [docs/plans/phase-14-more-programs.md](docs/plans/phase-14-more-programs.md). Decided 2 Oct, **all of these,
+the +50% on top**:
+27. Fill every 5-program subject to 6 (+9).
+28. **New subjects, 5 each:** Running prep, Grip & forearms, Gentle / low impact, Kettlebell complexes, Back care,
+    Climber / pull strength, Court & field sports (+35).
+29. **30-day programs, 3 levels of 10 days:** 2 per family (+8).
+30. Bodyweight programs with the floor-only pulls (+3).
+31. **Each family +50%** (Strength +26, Cardio & combat +13, Mind & body +16, Mixed +15).
+
+### Phase 15: new feature suggestions
+After Phase 14: Claude suggests features again (not the Decided against list), Noam picks, and they're planned by
+the method. Earlier suggestions not picked yet (2 Oct): a note on a done day; your training days; a reminder at a set
+time (needs a push server).
+
 ## Decided against (don't re-suggest)
 - **Logging weights/reps per set**: Noam wants done / not done only.
 - **Adaptive plans**: no test days, no too-easy/too-hard nudging, no deload suggestions. Plans stay as written.
