@@ -22,7 +22,7 @@ backups).
 |---|---|---|---|---|---|
 | 0 | This plan (in the 2 Oct roadmap plan) | plan | – | `plan/roadmap-oct` | done (PR #133) |
 | 1 | Pages as modules | refactor | – | `refactor/pages` | done (PR #140) |
-| 2 | Actions instead of a click chain | refactor | 1 | `refactor/actions` | |
+| 2 | Actions instead of a click chain | refactor | 1 | `refactor/actions` | done (PR #141) |
 | 3 | Minify the page | build | – | `build/minify` | |
 | 4 | Program length and levels in one place | refactor | – | `refactor/program-length` | |
 | 5 | Build the library once per test run | test | – | `test/library-cache` | |
@@ -35,6 +35,9 @@ backups).
 
 ### 2. Actions instead of a click chain
 - Buttons carry `data-act="name"` (+ `data-arg`); each page module registers its actions; main.js dispatches.
+- **As built (2 Oct):** buttons keep their data attributes (`data-swap`, `data-star`…), so no page markup changes; the
+  69-branch chain became one ordered table `ACTIONS` of [attribute, what it does], and the listener only dispatches
+  (the first attribute a button carries wins, as before).
 - **Test first:** a phone test that walks every page and checks each `[data-act]` has a registered action.
 
 ### 3. Minify the page

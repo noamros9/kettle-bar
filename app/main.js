@@ -70,89 +70,96 @@ function runPlanned(target, withClock = true) {
 // resetting the workout clock forgets when this day's workout started (or the page would bring it back)
 $('#sessreset').addEventListener('click', () => { if (route.view === 'day' || (route.view === 'random' && random.current())) openSession().setStarted(null); });
 
+/* Button actions (architecture review IV ticket 2): a button names its action with a data attribute; this table maps each
+   attribute to what it does, in the order they are tried (the first one a button carries wins). The click listener
+   only dispatches; a phone test checks that every button the pages draw has an action here. */
+const ACTIONS = [
+  ['go', (v) => ({
+    programs: () => go('programs'),
+    build: () => { if (buildState && buildState.editId) buildState = null; go('build'); }, // "Build your own" starts fresh, not from an edit
+    library: () => go('exercises'), settings: () => go('settings'), stats: () => go('stats'), muscles: () => go('muscles'),
+    program: () => go('p-' + prog().id),
+  }[v] || (() => {}))()],
+  ['bCancel', () => { const pid = buildState && buildState.editId ? KBOwn.pidOf(buildState.editId) : null; buildState = null; go(pid && programs.has(pid) ? 'p-' + pid : 'programs'); }],
+  ['ownRename', () => { ownState = { pid: prog().id, mode: 'rename', text: prog().name, error: null }; render(); const i = $('#own-name'); if (i) { i.focus(); i.select(); } }],
+  ['ownCancel', () => { ownState = null; render(); }],
+  ['ownEdit', () => ownEdit(prog().id)],
+  ['ownDelete', () => { ownState = { pid: prog().id, mode: 'delete' }; render(); }],
+  ['ownDeleteConfirm', () => ownDelete(ownState.pid)],
+  ['ownShare', () => ownShare(prog().id)],
+  ['addConfirm', () => addShared()],
+  ['addOpen', (v) => go('p-' + v)],
+  ['b', (v) => { const [k, x] = v.split(':'); buildSet(k, x); }],
+  ['bsub', (v) => buildSet('subject', v)],
+  ['bRegen', () => buildRegenerate()],
+  ['bSave', () => buildSave()],
+  ['bookRetry', () => { bookError = null; render(); }],
+  ['randomOpen', () => randomOpen()],
+  ['restOpen', () => restOpen()],
+  ['travel', (v) => setTravel(v || null)],
+  ['star', (v) => toggleFavourite(v)],
+  ['hide', (v) => toggleHidden(v)],
+  ['restDismiss', () => restDismiss()],
+  ['randomSet', (v) => { const k = v.slice(0, v.indexOf(':')); randomSet(k, v.slice(k.length + 1)); }],
+  ['randomShuffle', () => { randomState.seed = KBRandom.newSeed(); render(); }],
+  ['randomCancel', () => { randomState = null; render(); }],
+  ['randomStart', () => randomStart()],
+  ['randomDone', () => randomDone()],
+  ['randomDiscard', () => { random.discard(); go('programs'); }],
+  ['backup', (v) => backupAction(v)],
+  ['roundStart', () => { roundState = { pid: prog().id }; rerender(); }],
+  ['roundCancel', () => { roundState = null; rerender(); }],
+  ['roundConfirm', () => {
+    const pid = roundState.pid, onward = KBProgress.onwardSwaps(store.progress(pid));
+    const keep = onward.filter((_, i) => { const box = document.querySelector(`[data-keep="${i}"]`); return box && box.checked; });
+    roundState = null; store.startRound(pid, keep); window.scrollTo(0, 0);
+  }],
+  ['retry', (v) => { delete loadFailures[v]; render(); }],
+  ['statFamily', (v) => { statsView.family = statsView.family === v ? '' : v; rerender(); }],
+  ['statAllex', () => { statsView.allEx = !statsView.allEx; render(); }],
+  ['csv', () => downloadCSV()],
+  ['hmonth', (v) => historyMove(+v)],
+  ['hday', (v) => { statsView.histDay = statsView.histDay === v ? null : v; render(); }],
+  ['hopen', (v) => { const [pid, n] = v.split(':'); go(dayHash(pid, +n)); }],
+  ['statTab', (v) => { statsView.tab = v; render(); }],
+  ['statSpan', (v) => { statsView.span = v; render(); }],
+  ['swap', (v) => { const [bi, i] = v.split(':').map(Number); swapState = { key: openKey(), bi, i }; rerender(); }],
+  ['swapTo', (v) => { swapState.to = v; rerender(); }],
+  ['swapBack', () => { delete swapState.to; rerender(); }],
+  ['swapCancel', () => { swapState = null; rerender(); }],
+  ['unswap', (v) => { const [bi, i] = v.split(':').map(Number); openDay().undo(bi, i); rerender(); }], // a random workout's swaps are on the device: no store event
+  ['swapApply', (v) => { const { bi, i, to } = swapState; swapState = null; openDay().swap(bi, i, to, { onward: v === 'onward' }); rerender(); }],
+  ['openProg', (v) => go('p-' + v)],
+  ['filterMenu', (v) => { toggleFilterMenu(v); render(); }],
+  ['mgear', (v) => { musclePick.gear = v; muscleRefresh(); }],
+  ['exmuscle', (v) => exMuscle(v)],
+  ['exmuscleClear', () => exMuscle(null)],
+  ['exf', (v) => { const [k, x] = v.split(':'); exFilter(k, x); }],
+  ['filter', (v) => { const [k, x] = v.split(':'); setFilter(k, x); render(); }],
+  ['short', () => { const D = openDay(); D.setShort(!D.short()); }], // the store's change event redraws
+  ['toggle', (v) => { days.forget(prog().id, +v); store.toggle(prog().id, +v); }], // marked or un-marked: the saved session is done with
+  ['day', (v) => { const n = +v; if (n >= 1 && n <= prog().days.length) go(dayHash(prog().id, n)); }],
+  ['pip', (v) => { const [bi, i, k] = v.split(':').map(Number); tick({ type: 'set', bi, i, k }); }],
+  ['rpip', (v) => {
+    const parts = v.split(':').map(Number);
+    tick(parts.length === 3 ? { type: 'pair', bi: parts[0], pi: parts[1], k: parts[2] } : { type: 'round', bi: parts[0], k: parts[1] });
+  }],
+  ['work', (v) => { const [bi, i] = v.split(':').map(Number); runPlanned({ type: 'hold', bi, i }); }],
+  ['run', (v) => runPlanned({ type: 'block', bi: +v })],
+  ['count', (v) => { const [bi, delta] = v.split(':').map(Number); openSession().count(bi, delta); rerender(); }],
+  ['ex', (v) => { navDepth++; go('ex-' + v); }],
+  ['back', () => { if (navDepth > 0) { navDepth--; history.back(); } else go('exercises'); }],
+  ['stretch', (v) => runPlanned({ type: 'stretch', key: v }, v === 'warm')],
+];
+window.KB_ACTIONS = ACTIONS.map(([k]) => k);
 document.addEventListener('click', (ev) => {
   const muscle = ev.target.closest('.mmpick [data-m]'); if (muscle) return exMuscle(muscle.dataset.m); // the Muscles page's body map
   const el = ev.target.closest('button'); if (!el) return;
-  const d = el.dataset;
   if (el.id === 'brand') return go('today'); // home: the next day in the program of your last done workout (as the shortcut)
-  if (d.go === 'programs') return go('programs');
-  if (d.go === 'build') { if (buildState && buildState.editId) buildState = null; return go('build'); } // "Build your own" starts fresh, not from an edit
-  if (d.bCancel) { const pid = buildState && buildState.editId ? KBOwn.pidOf(buildState.editId) : null; buildState = null; return go(pid && programs.has(pid) ? 'p-' + pid : 'programs'); }
-  if (d.ownRename) { ownState = { pid: prog().id, mode: 'rename', text: prog().name, error: null }; render(); const i = $('#own-name'); if (i) { i.focus(); i.select(); } return; }
-  if (d.ownCancel) { ownState = null; render(); return; }
-  if (d.ownEdit) return ownEdit(prog().id);
-  if (d.ownDelete) { ownState = { pid: prog().id, mode: 'delete' }; render(); return; }
-  if (d.ownDeleteConfirm) return ownDelete(ownState.pid);
-  if (d.ownShare) return ownShare(prog().id);
-  if (d.addConfirm) return addShared();
-  if (d.addOpen) return go('p-' + d.addOpen);
-  if (d.b) { const [k, v] = d.b.split(':'); return buildSet(k, v); }
-  if (d.bsub) return buildSet('subject', d.bsub);
-  if (d.bRegen) return buildRegenerate();
-  if (d.bSave) return buildSave();
-  if (d.bookRetry) { bookError = null; render(); return; }
-  if (d.randomOpen) return randomOpen();
-  if (d.restOpen) return restOpen();
-  if (d.travel !== undefined) return setTravel(d.travel || null);
-  if (d.star) return toggleFavourite(d.star);
-  if (d.hide) return toggleHidden(d.hide);
-  if (d.restDismiss) return restDismiss();
-  if (d.randomSet) { const k = d.randomSet.slice(0, d.randomSet.indexOf(':')); return randomSet(k, d.randomSet.slice(k.length + 1)); }
-  if (d.randomShuffle) { randomState.seed = KBRandom.newSeed(); render(); return; }
-  if (d.randomCancel) { randomState = null; render(); return; }
-  if (d.randomStart) return randomStart();
-  if (d.randomDone) return randomDone();
-  if (d.randomDiscard) { random.discard(); go('programs'); return; }
-  if (d.go === 'library') return go('exercises');
-  if (d.go === 'settings') return go('settings');
-  if (d.go === 'stats') return go('stats');
-  if (d.go === 'muscles') return go('muscles');
-  if (d.backup) return backupAction(d.backup);
-  if (d.roundStart) { roundState = { pid: prog().id }; rerender(); return; }
-  if (d.roundCancel) { roundState = null; rerender(); return; }
-  if (d.roundConfirm) {
-    const pid = roundState.pid, onward = KBProgress.onwardSwaps(store.progress(pid));
-    const keep = onward.filter((_, i) => { const box = document.querySelector(`[data-keep="${i}"]`); return box && box.checked; });
-    roundState = null; store.startRound(pid, keep); window.scrollTo(0, 0); return;
-  }
-  if (d.retry) { delete loadFailures[d.retry]; render(); return; }
-  if (d.statFamily !== undefined) { statsView.family = statsView.family === d.statFamily ? '' : d.statFamily; rerender(); return; }
-  if (d.statAllex) { statsView.allEx = !statsView.allEx; render(); return; }
-  if (d.csv) return downloadCSV();
-  if (d.hmonth !== undefined) return historyMove(+d.hmonth);
-  if (d.hday) { statsView.histDay = statsView.histDay === d.hday ? null : d.hday; render(); return; }
-  if (d.hopen) { const [pid, n] = d.hopen.split(':'); return go(dayHash(pid, +n)); }
-  if (d.statTab) { statsView.tab = d.statTab; render(); return; }
-  if (d.statSpan) { statsView.span = d.statSpan; render(); return; }
-  if (d.swap) { const [bi, i] = d.swap.split(':').map(Number); swapState = { key: openKey(), bi, i }; rerender(); return; }
-  if (d.swapTo) { swapState.to = d.swapTo; rerender(); return; }
-  if (d.swapBack) { delete swapState.to; rerender(); return; }
-  if (d.swapCancel) { swapState = null; rerender(); return; }
-  if (d.unswap) { const [bi, i] = d.unswap.split(':').map(Number); openDay().undo(bi, i); rerender(); return; } // a random workout's swaps are on the device: no store event
-  if (d.swapApply) { const { bi, i, to } = swapState; swapState = null; openDay().swap(bi, i, to, { onward: d.swapApply === 'onward' }); rerender(); return; }
-  if (d.go === 'program') return go('p-' + prog().id);
-  if (d.openProg) return go('p-' + d.openProg);
-  if (d.filterMenu) { toggleFilterMenu(d.filterMenu); render(); return; }
-  if (d.mgear) { musclePick.gear = d.mgear; muscleRefresh(); return; }
-  if (d.exmuscle) return exMuscle(d.exmuscle);
-  if (d.exmuscleClear) return exMuscle(null);
-  if (d.exf) { const [k, v] = d.exf.split(':'); return exFilter(k, v); }
-  if (d.filter) { const [k, v] = d.filter.split(':'); setFilter(k, v); render(); return; }
-  if (d.short) { const D = openDay(); D.setShort(!D.short()); return; } // the store's change event redraws
-  if (d.toggle) { days.forget(prog().id, +d.toggle); store.toggle(prog().id, +d.toggle); return; } // marked or un-marked: the saved session is done with
-  if (d.day) { const n = +d.day; if (n >= 1 && n <= prog().days.length) go(dayHash(prog().id, n)); return; }
-  if (d.pip) { const [bi, i, k] = d.pip.split(':').map(Number); return tick({ type: 'set', bi, i, k }); }
-  if (d.rpip) {
-    const parts = d.rpip.split(':').map(Number);
-    return parts.length === 3 ? tick({ type: 'pair', bi: parts[0], pi: parts[1], k: parts[2] }) : tick({ type: 'round', bi: parts[0], k: parts[1] });
-  }
-  if (d.work) { const [bi, i] = d.work.split(':').map(Number); return runPlanned({ type: 'hold', bi, i }); }
-  if (d.run) return runPlanned({ type: 'block', bi: +d.run });
-  if (d.count) { const [bi, delta] = d.count.split(':').map(Number); openSession().count(bi, delta); rerender(); return; }
-  if (d.ex) { navDepth++; return go('ex-' + d.ex); }
-  if (d.back) { if (navDepth > 0) { navDepth--; history.back(); } else go('exercises'); return; }
-  if (d.stretch) return runPlanned({ type: 'stretch', key: d.stretch }, d.stretch === 'warm');
+  const hit = ACTIONS.find(([k]) => el.dataset[k] !== undefined);
+  if (hit) hit[1](el.dataset[hit[0]], el);
 });
+
 
 /* ---------------- settings: backup ---------------- */
 function download(name, text, type = 'application/json') {
