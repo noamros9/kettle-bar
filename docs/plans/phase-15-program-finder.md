@@ -34,7 +34,7 @@ the AI search, after saying yes to "About 25 MB, once". Tests never load the rea
 | 0 | This plan | plan | – | `plan/program-finder` | done (PR #161) |
 | 1 | Name search on Programs | feature | – | `feature/program-search` | done (PR #162) |
 | 2 | Help me pick (three taps) | feature | – | `feature/help-me-pick` | |
-| 3 | Finder text, limits and the "why" line | feature | – | `feature/finder-facts` | |
+| 3 | Finder text, limits and the "why" line | feature | – | `feature/finder-facts` | done (PR #163) |
 | 4 | The model on our own site (deploy) | build | – | `build/vendor-model` | |
 | 5 | Ask the finder (AI search) | feature | 3, 4 | `feature/ask-finder` | |
 
@@ -65,6 +65,9 @@ the AI search, after saying yes to "About 25 MB, once". Tests never load the rea
   limits, n)` (cosine, limits first). `data/finder.json` at build: id → finder text.
 - **Test first:** `limits` on a table of phrases ("20 min", "half an hour", "no gear", "with a kettlebell", "a
   month"); `rank` with hand-made vectors; `why` lines; 100% coverage.
+- **As built (2 Oct), before ticket 2** (Help me pick shows the why line): `why(program, query)` adds the question's
+  words that the program's name, subject, split or first sentence hold ("matches “back”"); limit words and everyday
+  words never count. `data/finder.json`: 263 texts, 150 KB raw, 38 KB gzipped, fetched only when Ask is used.
 
 ### 4. The model on our own site (deploy)
 - `scripts/vendor-model.js _site`: downloads the pinned model revision's files (config, tokenizer, quantized ONNX) and

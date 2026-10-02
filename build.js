@@ -9,8 +9,11 @@ const { buildAll } = require('./program-builder.js');
 const { summarize, slim, usageIndex } = require('./app/programs.js');
 const { refresh } = require('./recipe-book.js');
 const { programFocus } = require('./app/stats.js');
-const { EX } = require('./exercises.js');
+const { EX, MUSCLE_NAMES } = require('./exercises.js');
+const { textOf } = require('./app/finder.js');
 // each library program's muscle focus (the Exercises page's muscle map ranks programs by it): shares to 4 places
+// the Program finder (Phase 15): each program's finder text, made into a vector on the phone
+const finderIndex = (programs) => Object.fromEntries(programs.map((p) => [p.id, textOf(p, { focus: programFocus(p.days, EX), names: MUSCLE_NAMES })]));
 const focusIndex = (programs) => Object.fromEntries(programs.map((p) => [p.id, Object.fromEntries(Object.entries(programFocus(p.days, EX)).map(([m, x]) => [m, Math.round(x * 1e4) / 1e4]))]));
 
 const read = (f) => fs.readFileSync(path.join(__dirname, f), 'utf8');
@@ -19,7 +22,7 @@ const read = (f) => fs.readFileSync(path.join(__dirname, f), 'utf8');
 // the pages (architecture review IV: split from views.js), in this order: ui.js and core.js first (their top-level code
 // runs as the page loads), then one file per page
 const PAGES = ['app/ui.js', 'app/pages/core.js', 'app/pages/programs.js', 'app/pages/random.js', 'app/pages/build.js', 'app/pages/program.js', 'app/pages/day.js', 'app/pages/exercises.js', 'app/pages/settings.js', 'app/pages/stats.js'];
-const SCRIPTS = ['figures.js', 'formats.js', 'exercises.js', null, 'app/length.js', 'program-builder.js', 'app/lazy.js', 'app/progress.js', 'app/docs.js', 'app/store.js', 'app/session.js', 'app/backup.js', 'app/stats.js', 'app/swaps.js', 'app/programs.js', 'app/own.js', 'app/library.js', 'app/short.js', 'app/warmup.js', 'app/day.js', 'app/random.js', 'app/summary.js', 'app/charts.js', ...PAGES, 'app/clock.js', 'app/main.js'];
+const SCRIPTS = ['figures.js', 'formats.js', 'exercises.js', null, 'app/length.js', 'program-builder.js', 'app/lazy.js', 'app/progress.js', 'app/docs.js', 'app/store.js', 'app/session.js', 'app/backup.js', 'app/stats.js', 'app/swaps.js', 'app/programs.js', 'app/own.js', 'app/library.js', 'app/short.js', 'app/warmup.js', 'app/day.js', 'app/random.js', 'app/summary.js', 'app/charts.js', 'app/finder.js', ...PAGES, 'app/clock.js', 'app/main.js'];
 const HEAD = '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="color-scheme" content="light dark"><meta name="theme-color" content="#2346D5"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" href="icons/icon-32.png"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"></head><body>';
 const TAIL = '<script type="module" src="firebase-sync.js"></script><script>if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});</script></body></html>';
 
@@ -46,7 +49,7 @@ function render(programs = buildAll()) {
   // the build's version (Phase 12): a hash of the page, in the page and in version.json, which the page asks to know
   // when a newer build is out
   const version = require('crypto').createHash('sha256').update(page).digest('hex').slice(0, 12);
-  return { 'index.html': HEAD + page.replace('<!--__VERSION__-->', () => `<script>window.KB_VERSION=${JSON.stringify(version)};</script>`) + TAIL, 'version.json': JSON.stringify({ v: version }), ...data, 'data/recipes.json': JSON.stringify(refresh()), 'data/recipes.js': read('recipes.js'), 'data/index.json': JSON.stringify(usageIndex(programs)), 'data/muscles.json': JSON.stringify(focusIndex(programs)) };
+  return { 'index.html': HEAD + page.replace('<!--__VERSION__-->', () => `<script>window.KB_VERSION=${JSON.stringify(version)};</script>`) + TAIL, 'version.json': JSON.stringify({ v: version }), ...data, 'data/recipes.json': JSON.stringify(refresh()), 'data/recipes.js': read('recipes.js'), 'data/index.json': JSON.stringify(usageIndex(programs)), 'data/muscles.json': JSON.stringify(focusIndex(programs)), 'data/finder.json': JSON.stringify(finderIndex(programs)) };
 }
 
 if (require.main === module) {
