@@ -31,7 +31,7 @@ the AI search, after saying yes to "About 25 MB, once". Tests never load the rea
 
 | # | Ticket | Tier | Blocked by | Branch | Status |
 |---|---|---|---|---|---|
-| 0 | This plan | plan | – | `plan/program-finder` | |
+| 0 | This plan | plan | – | `plan/program-finder` | done (PR #161) |
 | 1 | Name search on Programs | feature | – | `feature/program-search` | |
 | 2 | Help me pick (three taps) | feature | – | `feature/help-me-pick` | |
 | 3 | Finder text, limits and the "why" line | feature | – | `feature/finder-facts` | |
