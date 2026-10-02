@@ -272,6 +272,10 @@ library offline**; **"Offline · N changes waiting"** in the header.
   Fonts); the deploy copies the pinned Firebase library into `vendor/firebasejs/<V>/` (`scripts/vendor-firebase.js`,
   imports pointed at the copies) and `firebase-sync.js` loads it from there first (gstatic as a fallback), so the
   service worker caches both like the rest of the app.
+- **Changes waiting, built (2 Oct):** the outbox counts **your changes** (two days ticked = 2; the first sync's own
+  writes are kept but not counted). The header says "Offline · 2 changes waiting" (in full to screen readers and on
+  wide screens; on a phone a small count replaces the status dot), and the account popover explains it; it clears
+  once the account has them.
 
 ### Architecture review IV
 Plan: [docs/plans/architecture-review-4.md](docs/plans/architecture-review-4.md). **Full review, like III** (2 Oct):

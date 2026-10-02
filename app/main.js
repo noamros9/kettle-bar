@@ -15,14 +15,22 @@ const days = KBDay.createDays({ programs, store, cat: KBEx, createSession: KBSes
 // the random workout: the open one on the device, done ones in the account (app/random.js)
 const random = KBRandom.createRandom({ store, cat: KBEx, createSession: KBSession.createSession, storage: localStore });
 const SYNC_TEXT = { ok: 'Synced', saving: 'Saving…', offline: 'Offline, will sync', local: 'Saved on this device', signin: 'Sign in', ro: 'View only', err: 'Sync problem' };
-function paintSync(s) {
+// the header's sync status; with changes waiting for the account (Phase 12): "Offline · 2 changes waiting" (said in full
+// to screen readers and on wide screens; a small count next to the dot on a phone)
+function paintSync(s = store.status) {
   const el = $('#sync'); el.dataset.s = s;
-  const who = s === 'ok' && store.remote && store.remote.account ? ' · ' + store.remote.account.name : '';
-  $('span', el).textContent = (SYNC_TEXT[s] || '') + who;
+  const n = store.waiting(), who = s === 'ok' && !n && store.remote && store.remote.account ? ' · ' + store.remote.account.name : '';
+  const text = (SYNC_TEXT[s] || '').replace(/, will sync$/, '') + (n && s !== 'signin' && s !== 'local' ? ` · ${n} change${n === 1 ? '' : 's'} waiting` : '') + who;
+  $('span', el).textContent = text;
+  el.setAttribute('aria-label', text);
+  const c = $('.wcount', el); c.hidden = !n || s === 'signin' || s === 'local'; c.textContent = c.hidden ? '' : n;
   el.disabled = !store.auth;
   el.title = s === 'signin' ? 'Sign in with Google to sync your progress across devices' : '';
+  const w = $('#acctwait'); if (w) { w.hidden = !n; w.textContent = `${n} change${n === 1 ? ' is' : 's are'} saved on this phone and will reach your account when you're back online.`; }
 }
 store.on('status', paintSync);
+store.on('outbox', () => paintSync());
+window.addEventListener('offline', () => paintSync(store.remote ? 'offline' : store.status));
 store.on('change', () => rerender());
 store.on('docs', (c) => { if (c === 'random' || c === 'prefs') rerender(); }); // prefs: travel mode, favourites, hidden subjects, here or from another device // a random workout done here or on another device: stats and the week line
 programs.onChange(() => rerender()); // your programs changed (here or synced from another device): redraw the page
@@ -32,9 +40,9 @@ window.kbSync = { attach: (r) => store.attach(r), detach: () => store.detach(), 
 $('#sync').addEventListener('click', (e) => {
   e.stopPropagation();
   const a = store.auth; if (!a) return;
-  if (!store.remote) { a.signIn(); return; }
+  if (!store.remote && !store.waiting()) { a.signIn(); return; }
   const pop = $('#acct'); pop.hidden = !pop.hidden;
-  if (!pop.hidden) $('#acctwho').textContent = (store.remote.account && store.remote.account.email) || 'Signed in';
+  if (!pop.hidden) $('#acctwho').textContent = (store.remote && store.remote.account && store.remote.account.email) || 'Signed in';
 });
 document.addEventListener('click', (e) => { const pop = $('#acct'); if (!pop.hidden && !e.target.closest('#acct')) pop.hidden = true; });
 $('#signout').addEventListener('click', () => { $('#acct').hidden = true; store.auth && store.auth.signOut(); });

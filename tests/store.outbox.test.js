@@ -46,7 +46,8 @@ test('reconnecting in the same session sends what is waiting; a later change to 
   net.down = true;
   s.setDoc('prefs', 'main', { travel: 'bw' }); s.setDoc('prefs', 'main', { travel: 'kb' }); s.toggle('p', 3);
   await s.flush();
-  assert.equal(s.waiting(), 2, 'one box entry per doc');
+  assert.equal(s.waiting(), 3, 'three changes waiting');
+  assert.equal(Object.keys(JSON.parse(storage.m['kb-outbox'])).length, 2, 'one box entry per doc');
   net.down = false; s.online(); await tick(); await s.flush();
   assert.equal(cloud.collections.prefs.main.travel, 'kb');
   assert.ok(cloud.docs.p.done[3]);
@@ -100,5 +101,16 @@ test('a program deleted offline is removed from the cloud when the connection co
   assert.ok(cloud.docs['own-x']);
   net.down = false; s.online(); await tick(); await s.flush();
   assert.equal(cloud.docs['own-x'], undefined);
+  assert.equal(s.waiting(), 0);
+});
+
+test('an older device\'s box (plain numbers) reads as one change each; a retry adds no change', async () => {
+  const storage = memStorage({ 'kb-outbox': JSON.stringify({ 'prefs/main': 4, 'progress/p': { s: 5, n: 3 }, 'random/r': {} }) });
+  const s = make(storage, ['p']);
+  assert.equal(s.waiting(), 5, 'a damaged entry counts as one change');
+  const cloud = createMemoryRemote(), net = flaky(cloud); net.down = true;
+  s.attach(net); await tick(20); await s.flush();
+  assert.equal(s.waiting(), 5, 'the first sync re-sends without counting more');
+  net.down = false; s.online(); await tick(); await s.flush();
   assert.equal(s.waiting(), 0);
 });
