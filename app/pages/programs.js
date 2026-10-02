@@ -2,6 +2,7 @@
 const { libraryView, suggestNext, FAMILIES, LENGTHS, lengthOf } = KBLibrary;
 let filters = { family: 'all', subject: 'all', len: 'all', equip: 'all' };
 let progQuery = ''; // the name search (Phase 15): words in the name, subject, split or first sentence
+let pickState = null; // Help me pick (Phase 15): { goal, minutes, gear } while the sheet is open
 let openShelves = []; // subjects whose shelf shows all its programs (Phase 14: a shelf shows 6 and "Show all N")
 const toggleShelf = (subject) => { openShelves = KBLibrary.toggleIn(openShelves, subject); render(); };
 let filterMenu = null; // 'len' | 'equip': which of "Length: Any" and "Equipment: Any" is open, showing its choices
@@ -50,7 +51,7 @@ function viewPrograms() {
   const chip = (x) => `<button class="fchip acc" data-filter="subject:${esc(x.key)}" aria-pressed="${x.pressed}">${esc(x.name)} <span class="fcount">${x.count}</span></button>`;
   return `<div class="eyebrow">${esc(lib.counter)}</div><h1>Programs</h1>
     <p class="lede">Every program starts at intermediate, with a matched warm-up and cool-down, and most end each workout with abs. Progress is kept per program.</p>
-    <div class="pbtns"><button class="btn buildbtn" data-go="build">Build your own</button><button class="btn ghost buildbtn" data-random-open="1">${random.current() ? 'Random workout · continue' : 'Random workout'}</button></div>
+    <div class="pbtns"><button class="btn buildbtn" data-go="build">Build your own</button><button class="btn ghost buildbtn" data-random-open="1">${random.current() ? 'Random workout · continue' : 'Random workout'}</button><button class="btn ghost buildbtn" data-pick-open="1">Help me pick</button></div>
     ${randomNotice ? `<p class="hint rnotice" role="status">${esc(randomNotice)}</p>` : ''}${restCard()}
     ${yours}${favs}
     <label class="exsearch progsearch"><span class="sr">Search programs</span><input id="prog-search" type="search" placeholder="Search programs by name or subject" value="${esc(progQuery)}" autocomplete="off" enterkeyhint="search"></label>
@@ -58,5 +59,25 @@ function viewPrograms() {
     <div class="filters" role="group" aria-label="Filter by subject">${lib.subjects.map(chip).join('')}</div>
     <div class="lenlines">${menuLine('len', 'Length', lib.lengthLabel)}${menuLine('equip', 'Equipment', lib.equipLabel)}</div>
     ${filterMenu === 'len' ? menuChips('len', 'length', lib.lengths) : filterMenu === 'equip' ? menuChips('equip', 'equipment', lib.equips) : ''}
-    ${groups || `<p class="lede" style="margin-top:24px">${progQuery.trim() ? `No programs match “${esc(progQuery.trim())}” with these filters.` : 'No programs match these filters.'}</p>`}${randomSheet()}`;
+    ${pickSheet()}${groups || `<p class="lede" style="margin-top:24px">${progQuery.trim() ? `No programs match “${esc(progQuery.trim())}” with these filters.` : 'No programs match these filters.'}</p>`}${randomSheet()}`;
+}
+
+/* Help me pick (Phase 15 ticket 2): goal, minutes and gear as taps; the top five with their why line (KBFinder.pick) */
+const pickOpen = () => { pickState = { goal: null, minutes: '30', gear: 'all' }; render(); };
+function pickSet(key, value) { pickState[key] = value; render(); }
+function pickSheet() {
+  if (!pickState) return '';
+  const st = pickState, chip = (key, [k, label]) => `<button class="fchip acc" data-pick-set="${key}:${k}" aria-pressed="${st[key] === k}">${esc(label)}</button>`;
+  const group = (key, name, list) => `<h3 class="pickh">${name}</h3><div class="filters" role="group" aria-label="${name}">${list.map((x) => chip(key, x)).join('')}</div>`;
+  let results = '<p class="muted">Pick a goal to see programs.</p>';
+  if (st.goal) {
+    const lib = programs.list().filter((p) => p.source !== 'own'), r = KBFinder.pick(lib, st, { started: lib.filter((p) => store.count(p.id) > 0).map((p) => p.id) });
+    const note = r.loosened === 'minutes' ? 'Nothing fits those minutes, so here are the closest with your gear.' : r.loosened === 'both' ? 'Nothing fits those minutes and gear, so here is what the goal has.' : '';
+    results = `${note ? `<p class="hint" role="status">${note}</p>` : ''}<ul class="picklist">${r.list.map((p) => `<li><button class="pickres" data-open-prog="${esc(p.id)}"><b>${esc(p.name)}</b><span>${esc(KBFinder.why(p, ''))}</span></button></li>`).join('')}</ul>`;
+  }
+  return `<div class="sheetwrap"><button class="sheetbg" data-pick-close="1" aria-label="Close"></button>
+    <div class="sheet picksheet" role="dialog" aria-modal="true" aria-labelledby="pick-h"><h2 id="pick-h">Help me pick</h2>
+    ${group('goal', 'Goal', KBFinder.GOALS)}${group('minutes', 'Minutes', KBFinder.MINUTES)}${group('gear', 'Gear', KBFinder.GEAR)}
+    <div class="pickout">${results}</div>
+    <div class="actions"><button class="btn ghost" data-pick-close="1">Close</button></div></div></div>`;
 }

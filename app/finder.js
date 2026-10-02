@@ -9,7 +9,11 @@
      textOf(program, { focus?, names? }) -> the finder text: name, subject, split, blurb, about, formats, main muscles
      rank(vectors, queryVector, programs, limits, n) -> [{ id, score, fits }]: the programs that fit first, closest
                                  meaning first; the rest after, so there is always an answer
-     cosine(a, b) */
+     cosine(a, b)
+     Help me pick (Phase 15 ticket 2): GOALS [[key, label, [subject]]] (every library subject once), MINUTES, GEAR
+     pick(summaries, { goal, minutes, gear }, { started?, n? = 5 }) -> { list, loosened: null | 'minutes' | 'both' }:
+       the goal's programs within the minutes and gear, the ones you have not started first, then library order; with
+       none, the minutes are dropped, then the gear too (loosened says which), so it is never empty while the goal has any */
 (function (root) {
   const fold = (t) => String(t || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
   const around = (n) => [n - 3, n + 3];
@@ -84,7 +88,31 @@
       .sort((a, b) => (b.fits - a.fits) || (b.score - a.score)).slice(0, n);
   }
 
-  const api = { limits, fits, why, textOf, rank, cosine };
+  const GOALS = [
+    ['strength', 'Get stronger', ['Signature', 'Strength', 'Pull-ups', 'Legs & glutes', 'Kettlebell only', 'Bodyweight', 'Busy week', 'Grip & forearms', 'Kettlebell complexes', 'Climber / pull strength']],
+    ['fitness', 'Fitness & cardio', ['Conditioning', 'HIIT', 'Plyometrics', 'Running prep', 'Court & field sports']],
+    ['fight', 'Fighting skills', ['Boxing', 'Kickboxing', 'Fighter']],
+    ['flex', 'Flexibility & mobility', ['Yoga', 'Pilates', 'Flexibility', 'Mobility & posture']],
+    ['balance', 'Core, balance & sport', ['Core & abs', 'Balance & stability', 'Athlete']],
+    ['gentle', 'Gentle, or a sore back', ['Gentle / low impact', 'Back care', 'Calm strength']],
+    ['mix', 'A bit of everything', ['Balanced week', 'Strength & stretch']],
+  ];
+  const MINUTES = [['15', 'About 15 min', [0, 18]], ['20', '20–25 min', [18, 26]], ['30', 'About 30 min', [26, 33]], ['35', '35 min or more', [33, 90]]];
+  const GEAR = [['bw', 'No equipment'], ['kb', 'A kettlebell'], ['all', 'Dumbbells & kettlebell']];
+  function pick(summaries, { goal, minutes, gear }, { started = [], n = 5 } = {}) {
+    const subjects = (GOALS.find(([k]) => k === goal) || [, , []])[2];
+    const mins = (MINUTES.find(([k]) => k === minutes) || [, , null])[2], g = gear === 'all' ? null : gear;
+    const pool = summaries.filter((p) => subjects.includes(p.subject));
+    const order = (list) => list.map((p, i) => ({ p, i })).sort((a, b) => (started.includes(a.p.id) - started.includes(b.p.id)) || a.i - b.i).map((x) => x.p).slice(0, n);
+    const within = (lim) => pool.filter((p) => fits(p, { days: null, ...lim }));
+    const exact = within({ minutes: mins, gear: g });
+    if (exact.length) return { list: order(exact), loosened: null };
+    const anyTime = within({ minutes: null, gear: g });
+    if (anyTime.length) return { list: order(anyTime), loosened: 'minutes' };
+    return { list: order(pool), loosened: 'both' };
+  }
+
+  const api = { limits, fits, why, textOf, rank, cosine, GOALS, MINUTES, GEAR, pick };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBFinder = api;
 })(typeof window !== 'undefined' ? window : globalThis);

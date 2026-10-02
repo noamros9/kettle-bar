@@ -31,3 +31,35 @@ test('name search works with the family and subject filters', async ({ app }) =>
   const mind = ['Core & abs', 'Mobility & posture', 'Yoga', 'Pilates', 'Flexibility', 'Balance & stability', 'Gentle / low impact', 'Back care'];
   shown.forEach((id) => expect(mind).toContain(CONFIGS.find((c) => c.id === id).subject));
 });
+
+// ---- ticket 2: Help me pick ----
+const sheet = (app) => app.page.getByRole('dialog', { name: 'Help me pick' });
+test('Help me pick: three taps, up to five programs with why lines, open one', async ({ app }) => {
+  await app.open('#programs');
+  await app.page.getByRole('button', { name: 'Help me pick' }).click();
+  await expect(sheet(app)).toBeVisible();
+  await expect(sheet(app)).toContainText('Pick a goal to see programs.');
+  await sheet(app).getByRole('group', { name: 'Goal' }).getByRole('button', { name: 'Gentle, or a sore back' }).click();
+  await sheet(app).getByRole('group', { name: 'Minutes' }).getByRole('button', { name: '20–25 min' }).click();
+  await sheet(app).getByRole('group', { name: 'Gear' }).getByRole('button', { name: 'No equipment' }).click();
+  const results = sheet(app).locator('.pickres');
+  const n = await results.count();
+  expect(n).toBeGreaterThan(0); expect(n).toBeLessThanOrEqual(5);
+  await expect(results.first().locator('span')).toContainText('no equipment');
+  expect(await app.sidewaysScroll()).toBe(0);
+  const name = (await results.first().locator('b').textContent()).trim();
+  await results.first().click();
+  await expect(app.heading()).toHaveText(name);
+  await app.go('#programs');
+  await expect(sheet(app)).toHaveCount(0);
+});
+
+test('Help me pick says when it loosened the minutes, and closes', async ({ app }) => {
+  await app.open('#programs');
+  await app.page.getByRole('button', { name: 'Help me pick' }).click();
+  await sheet(app).getByRole('group', { name: 'Goal' }).getByRole('button', { name: 'Fighting skills' }).click();
+  await sheet(app).getByRole('group', { name: 'Minutes' }).getByRole('button', { name: 'About 15 min' }).click();
+  await expect(sheet(app).locator('.hint')).toContainText('Nothing fits those minutes');
+  await sheet(app).getByRole('button', { name: 'Close' }).last().click();
+  await expect(sheet(app)).toHaveCount(0);
+});

@@ -33,7 +33,7 @@ the AI search, after saying yes to "About 25 MB, once". Tests never load the rea
 |---|---|---|---|---|---|
 | 0 | This plan | plan | – | `plan/program-finder` | done (PR #161) |
 | 1 | Name search on Programs | feature | – | `feature/program-search` | done (PR #162) |
-| 2 | Help me pick (three taps) | feature | – | `feature/help-me-pick` | |
+| 2 | Help me pick (three taps) | feature | 3 | `feature/help-me-pick` | done (PR #164) |
 | 3 | Finder text, limits and the "why" line | feature | – | `feature/finder-facts` | done (PR #163) |
 | 4 | The model on our own site (deploy) | build | – | `build/vendor-model` | |
 | 5 | Ask the finder (AI search) | feature | 3, 4 | `feature/ask-finder` | |
@@ -58,6 +58,9 @@ the AI search, after saying yes to "About 25 MB, once". Tests never load the rea
   then programs you have not started first, library order.
 - **Test first:** unit: each goal maps to existing subjects, limits hold, never empty (loosens minutes, then gear,
   and says so); phone: three taps → five cards → open one.
+- **As built (2 Oct, after ticket 3):** goals are Get stronger, Fitness & cardio, Fighting skills, Flexibility &
+  mobility, Core balance & sport, Gentle or a sore back, A bit of everything; together they hold every library
+  subject once (a test). The sheet opens at 30 minutes and all gear; nothing shows until a goal is picked.
 
 ### 3. Finder text, limits and the "why" line
 - `app/finder.js` (pure, Node and page): `textOf(program)` (the finder text), `limits(query)` (minutes, gear, length
