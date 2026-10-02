@@ -169,3 +169,9 @@ test('two copies of short days combine as done days do', () => {
   assert.deepEqual(P.importMerge(a, ahead, 'merge').short, { 4: true }, 'a file further along wins whole');
   assert.equal('short' in P.importMerge(a, { done: {}, past: [{ round: 1, done: {}, swaps: [] }] }, 'merge'), false);
 });
+
+test('first sync: a program with nothing on either side writes nothing (no empty document for every program)', () => {
+  assert.deepEqual(P.mergeFirstSync(P.empty(), null), { merged: P.empty(), changed: false });
+  assert.equal(P.mergeFirstSync({ done: {}, swaps: [{ day: 2, ex: 'a', to: 'b' }], past: [] }, null).changed, true, 'a swap is something to write');
+  assert.equal(P.mergeFirstSync(P.setShort(P.empty(), 3, true), null).changed, true, 'so is a short day');
+});
