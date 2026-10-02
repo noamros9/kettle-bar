@@ -113,7 +113,7 @@ days ticked on the device and in the cloud are merged.
 | `app/docs.js` | **Account data**: own programs, random workouts, preferences: stamping and combining copies |
 | `app/lazy.js` | **Lazy files**: `lazyFile({ fetch, cache, url, unavailable })`: fetched once when first needed, kept for offline, read from the cache when the network isn't there (the recipe book and its code, the exercise index) |
 | `app/library.js` | **Library filters**: what the programs page shows for the family, subject and length picked (pure; `FAMILIES` lives here) |
-| `app/views.js` | Routing and page rendering |
+| `app/ui.js`, `app/pages/*.js` | Shared page helpers; routing and render (`core.js`), then one file per page |
 | `app/clock.js` | Timer, beeps, wake lock and workout clock (runs the session's instructions) |
 | `app/main.js` | Wires store, session and clock to the page |
 | `app/shell.html`, `app/styles.css` | Page markup and styles |

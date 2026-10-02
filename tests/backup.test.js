@@ -156,7 +156,7 @@ test('planImport: a file that matches has no changes; one day reads "1 day"; a p
 
 test('the page modules leave counting and merging an import to planImport', () => {
   const fs = require('fs'), path = require('path');
-  const src = ['app/views.js', 'app/main.js'].map((f) => fs.readFileSync(path.join(__dirname, '..', f), 'utf8')).join('\n');
+  const src = [...require('../build.js').PAGES, 'app/main.js'].map((f) => fs.readFileSync(path.join(__dirname, '..', f), 'utf8')).join('\n');
   assert.doesNotMatch(src, /reduce\(\(a, pid\)|diffProgress|importMerge|parseBackup/);
 });
 

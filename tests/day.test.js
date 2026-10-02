@@ -71,7 +71,7 @@ test('alternatives: what the item can be swapped for, none for an exercise with 
 
 test('the page modules leave days, sessions and swap rules to the Day module', () => {
   const fs = require('fs'), path = require('path');
-  const src = ['app/views.js', 'app/main.js'].map((f) => fs.readFileSync(path.join(__dirname, '..', f), 'utf8')).join('\n');
+  const src = [...require('../build.js').PAGES, 'app/main.js'].map((f) => fs.readFileSync(path.join(__dirname, '..', f), 'utf8')).join('\n');
   assert.doesNotMatch(src, /\bsessionFor\b|\bcardDay\b|createSession\(p|x\.onward|KBSwaps\.(applySwaps|undoSwap|alternatives)/);
 });
 

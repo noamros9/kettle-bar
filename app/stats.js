@@ -40,6 +40,7 @@
      byWeekday(entries, { dayOf, from, to }) -> [7] workouts per weekday, Sunday first
      byTimeOfDay(entries, { dayOf, from, to }) -> { morning (5-12), afternoon (12-17), evening (17-22), night (22-5) },
        from when each day was first marked done (the only time stored)
+     scoped(entries, scope, round?) -> the entries of every program ('all') or one, and of one round of that program
      programFocus(days, EX) -> { muscle: share } of the muscle load over all the days, adding up to 1 ({} for none)
    Muscle load: each set counts 1 for every main muscle and 0.5 for every secondary muscle. */
 (function (root, Formats) {
@@ -227,15 +228,17 @@
     return Object.fromEntries(Object.entries(load).map(([m, x]) => [m, x / total]));
   }
 
+  // the entries in scope: every program ('all') or one, and within one program all rounds or one
+  const scoped = (entries, scope, round) => entries.filter((x) => (scope === 'all' || x.pid === scope) && (scope === 'all' || round === undefined || x.round === round));
   function report({ entries, dayOf, EX, names, infoOf }, { scope, round, span, now }) {
-    const mine = entries.filter((x) => (scope === 'all' || x.pid === scope) && (round === undefined || x.round === round));
+    const mine = scoped(entries, scope, round);
     const { from, to } = spanRange(span, now, mine);
     const opts = { dayOf, EX, from, to };
     const totals = summarize(mine, opts);
     return { from, to, totals, weeks: span === 'week' ? null : weekly(mine, opts), muscles: rankMuscles(totals.muscles, names), months: span === 'year' ? monthly(mine, opts) : null, hasHistory: mine.length > 0, ...breakdown(mine, { ...opts, infoOf }) };
   }
 
-  const api = { daysPerWeek, byWeekday, byTimeOfDay, calendarMonth, programFocus, dayVolume, weekStart, summarize, spanRange, weekly, monthly, rankMuscles, exerciseHistory, levelOverTime, toCSV, report, dayParts, breakdown, DEFAULT_RESTS };
+  const api = { scoped, daysPerWeek, byWeekday, byTimeOfDay, calendarMonth, programFocus, dayVolume, weekStart, summarize, spanRange, weekly, monthly, rankMuscles, exerciseHistory, levelOverTime, toCSV, report, dayParts, breakdown, DEFAULT_RESTS };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBStats = api;
 })(typeof window !== 'undefined' ? window : globalThis, typeof module !== 'undefined' && module.exports ? require('../formats.js') : window.KBFormats);

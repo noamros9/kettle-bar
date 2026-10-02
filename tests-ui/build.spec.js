@@ -169,6 +169,7 @@ test('own programs are there at boot with the recipe book unavailable: they neve
 
 base.test('a saved program and its progress reach a second browser through the account', async ({ browser }, testInfo) => {
   base.test.skip(testInfo.project.name !== 'phone-light', 'theme-independent');
+  base.test.slow(); // two browsers each sync every program through the test's in-memory remote, as the test below
   const remote = createMemoryRemote();
   const baseURL = testInfo.project.use.baseURL;
   const one = await device(browser, baseURL, remote, 'one');

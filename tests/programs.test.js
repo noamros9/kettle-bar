@@ -51,7 +51,7 @@ test('programsUsing agrees with scanning every day of every real program', () =>
 });
 
 test('the page modules read programs only through the catalogue', () => {
-  const src = ['app/views.js', 'app/main.js'].map((f) => fs.readFileSync(path.join(__dirname, '..', f), 'utf8')).join('\n');
+  const src = [...require('../build.js').PAGES, 'app/main.js'].map((f) => fs.readFileSync(path.join(__dirname, '..', f), 'utf8')).join('\n');
   assert.doesNotMatch(src, /\bPROGRAMS\b/);
   assert.equal((src.match(/\bPROGRAM_SUMMARIES\b/g) || []).length, 1, 'only where the catalogue is created');
   assert.doesNotMatch(src, /\bPBYID\b/);
