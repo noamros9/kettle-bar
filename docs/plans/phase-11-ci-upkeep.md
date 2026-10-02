@@ -9,7 +9,7 @@ Decided 2 Oct 2026 (Noam): first, before anything else. GitHub warns on every ru
 
 | # | Ticket | Tier | Blocked by | Branch | Status |
 |---|---|---|---|---|---|
-| 0 | This plan (in the 2 Oct roadmap plan) | plan | – | `plan/roadmap-oct` | |
+| 0 | This plan (in the 2 Oct roadmap plan) | plan | – | `plan/roadmap-oct` | done (PR #133) |
 | 1 | Current actions, a pinned runner | chore | – | `chore/ci-upkeep` | |
 
 ### 1. Current actions, a pinned runner

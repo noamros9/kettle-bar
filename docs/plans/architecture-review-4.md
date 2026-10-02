@@ -20,7 +20,7 @@ backups).
 
 | # | Ticket | Tier | Blocked by | Branch | Status |
 |---|---|---|---|---|---|
-| 0 | This plan (in the 2 Oct roadmap plan) | plan | – | `plan/roadmap-oct` | |
+| 0 | This plan (in the 2 Oct roadmap plan) | plan | – | `plan/roadmap-oct` | done (PR #133) |
 | 1 | Pages as modules | refactor | – | `refactor/pages` | |
 | 2 | Actions instead of a click chain | refactor | 1 | `refactor/actions` | |
 | 3 | Minify the page | build | – | `build/minify` | |

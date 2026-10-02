@@ -13,7 +13,7 @@ Decided 2 Oct 2026 (Noam), after the architecture review.
 
 | # | Ticket | Tier | Blocked by | Branch | Status |
 |---|---|---|---|---|---|
-| 0 | This plan (in the 2 Oct roadmap plan) | plan | – | `plan/roadmap-oct` | |
+| 0 | This plan (in the 2 Oct roadmap plan) | plan | – | `plan/roadmap-oct` | done (PR #133) |
 | 1 | Skip an exercise: the list | feature | review IV | `feature/skip-list` | |
 | 2 | Skipped exercises swap out everywhere | feature | 1 | `feature/skip-swaps` | |
 | 3 | Reverse snow angels | feature | – | `feature/snow-angels` | |

@@ -19,7 +19,7 @@ program in the page; the offline download grows ~3.7 KB gzipped each).
 
 | # | Ticket | Tier | Blocked by | Branch | Status |
 |---|---|---|---|---|---|
-| 0 | This plan (in the 2 Oct roadmap plan) | plan | – | `plan/roadmap-oct` | |
+| 0 | This plan (in the 2 Oct roadmap plan) | plan | – | `plan/roadmap-oct` | done (PR #133) |
 | 1 | 30-day programs in the engine | feature | review IV 4 | `feature/thirty-days` | |
 | 2 | Programs page for ~260 programs | feature | – | `feature/library-scale` | |
 | 3 | Catalogue 7: exercises the new subjects need | feature | – | `feature/catalogue-7` | |
