@@ -19,6 +19,9 @@ test('every button on every page has an action', async ({ app }) => {
   await app.open('#programs');
   await visit('#programs', async () => { await app.page.getByRole('button', { name: /Length:/ }).click(); });
   await visit('#programs', async () => { await app.page.getByRole('button', { name: /^Random workout/ }).click(); await app.page.locator('.sheetwrap').waitFor(); });
+  await app.data(() => { randomState = null; render(); }); // the random sheet is still open from the visit above
+  await visit('#programs', async () => { await app.page.getByRole('button', { name: 'Help me pick' }).click(); await app.page.getByRole('group', { name: 'Goal' }).getByRole('button', { name: 'Get stronger' }).click(); await app.page.locator('.pickres').first().waitFor(); });
+  await app.page.locator('.picksheet [data-pick-close]').click();
   await visit('#p-three-split-60-d1', async () => { await app.page.locator('[data-swap]').first().click(); });
   await app.page.locator('[data-swap-cancel]').first().click();
   await visit('#p-three-split-60', async () => { await app.page.getByRole('button', { name: /Start Round/ }).click(); });

@@ -131,7 +131,10 @@ const ACTIONS = [
   ['swapCancel', () => { swapState = null; rerender(); }],
   ['unswap', (v) => { const [bi, i] = v.split(':').map(Number); openDay().undo(bi, i); rerender(); }], // a random workout's swaps are on the device: no store event
   ['swapApply', (v) => { const { bi, i, to } = swapState; swapState = null; openDay().swap(bi, i, to, { onward: v === 'onward' }); rerender(); }],
-  ['openProg', (v) => go('p-' + v)],
+  ['openProg', (v) => { pickState = null; go('p-' + v); }],
+  ['pickOpen', () => pickOpen()],
+  ['pickSet', (v) => { const k = v.slice(0, v.indexOf(':')); pickSet(k, v.slice(k.length + 1)); }],
+  ['pickClose', () => { pickState = null; render(); }],
   ['filterMenu', (v) => { toggleFilterMenu(v); render(); }],
   ['mgear', (v) => { musclePick.gear = v; muscleRefresh(); }],
   ['exmuscle', (v) => exMuscle(v)],

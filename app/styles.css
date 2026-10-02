@@ -590,3 +590,11 @@ body.has-timer .updatenote{bottom:calc(96px + env(safe-area-inset-bottom,0px))}
 .skiprow .btn{flex:none;padding:6px 12px;font-size:14px}
 .shelfmore{color:var(--accent);font-weight:700;margin-top:10px}
 .progsearch{margin-top:14px}
+/* Help me pick (Phase 15) */
+.pickh{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:14px 0 6px}
+.picklist{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:8px}
+.pickres{display:flex;flex-direction:column;align-items:flex-start;gap:2px;width:100%;text-align:left;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);font:inherit}
+.pickres b{font-size:16px}
+.pickres span{font-size:13px;color:var(--muted)}
+.pickout{margin-top:14px}
+.picksheet .filters{margin:0}.picksheet .pickh{margin:4px 0 -4px}.picksheet .pickout{margin:0}

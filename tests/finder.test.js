@@ -92,3 +92,42 @@ test('edges: a built program (its days) or one that says nothing about length; n
   assert.equal(F.why({ ...P.iron, equip: undefined }, ''), 'Strength · 38–42 min · dumbbells & kettlebell');
   assert.equal(F.textOf({ name: 'X', subject: 'Y' }, { focus: { side_delts: 0.5 } }), 'X. Y. Works side_delts.');
 });
+
+// ---- Phase 15 ticket 2: Help me pick (goal, minutes, gear as taps) ----
+test('GOALS cover every library subject, each subject once, and only subjects the families list', () => {
+  const { FAMILIES } = require('../app/library.js');
+  const listed = FAMILIES.flatMap(([, s]) => s);
+  const goals = F.GOALS.flatMap(([, , subjects]) => subjects);
+  assert.deepEqual([...goals].sort(), [...listed].sort());
+  assert.equal(new Set(goals).size, goals.length);
+  assert.deepEqual(F.MINUTES.map(([k]) => k), ['15', '20', '30', '35']);
+  assert.deepEqual(F.GEAR.map(([k]) => k), ['bw', 'kb', 'all']);
+});
+
+test('pick: the goal\'s subjects within the minutes and gear; programs you have not started first; at most 5', () => {
+  const { summarize, slim } = require('../app/programs.js');
+  const lib = require('./helpers/library.js').library().map((p) => slim(summarize(p)));
+  const r = F.pick(lib, { goal: 'gentle', minutes: '20', gear: 'bw' });
+  assert.equal(r.loosened, null);
+  assert.ok(r.list.length >= 1 && r.list.length <= 5);
+  const subjects = F.GOALS.find(([k]) => k === 'gentle')[2];
+  r.list.forEach((p) => { assert.ok(subjects.includes(p.subject), p.id); assert.ok(F.fits(p, { minutes: [18, 26], gear: 'bw', days: null }), p.id); });
+  const started = F.pick(lib, { goal: 'gentle', minutes: '20', gear: 'bw' }, { started: [r.list[0].id] });
+  assert.notEqual(started.list[0].id, r.list[0].id, 'a program you started goes after the rest');
+  assert.equal(F.pick(lib, { goal: 'strength', minutes: '35', gear: 'all' }).list.length, 5);
+});
+
+test('pick never comes back empty: it loosens the minutes first, then the gear, and says so', () => {
+  const P2 = [{ id: 'a', subject: 'Yoga', minutes: [30, 35], equip: 'bw', dayCount: 60 }, { id: 'b', subject: 'Yoga', minutes: [40, 45], equip: 'all', dayCount: 60 }];
+  assert.deepEqual(F.pick(P2, { goal: 'flex', minutes: '15', gear: 'bw' }).loosened, 'minutes');
+  assert.deepEqual(F.pick(P2, { goal: 'flex', minutes: '15', gear: 'bw' }).list.map((p) => p.id), ['a']);
+  const P3 = [{ id: 'b', subject: 'Yoga', minutes: [40, 45], equip: 'all', dayCount: 60 }];
+  assert.deepEqual(F.pick(P3, { goal: 'flex', minutes: '15', gear: 'bw' }), { list: [P3[0]], loosened: 'both' });
+  assert.deepEqual(F.pick(P3, { goal: 'fight', minutes: '15', gear: 'bw' }), { list: [], loosened: 'both' }, 'a goal with no programs at all');
+});
+
+test('pick with an unknown goal finds nothing; unknown minutes set no minutes limit', () => {
+  const P2 = [{ id: 'a', subject: 'Yoga', minutes: [40, 45], equip: 'bw', dayCount: 60 }];
+  assert.deepEqual(F.pick(P2, { goal: 'zzz', minutes: '30', gear: 'bw' }).list, []);
+  assert.deepEqual(F.pick(P2, { goal: 'flex', minutes: 'zzz', gear: 'bw' }), { list: P2, loosened: null });
+});
