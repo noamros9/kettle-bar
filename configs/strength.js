@@ -739,6 +739,30 @@ const CONFIGS = [
       b: { label: 'Circuit B', short: 'B', blocks: [C('Climber circuit', ['climbPull', 'legsBw2', 'climbHold', 'coreAnti', 'climbBack?'], { values: [2, 3, 4] })] },
     },
   },
+  // ---------------- PHASE 14: 30-DAY PROGRAMS (three levels of ten days) ----------------
+  {
+    id: 'strength-30', added: 14, catalogue: 8, days: 30, name: 'Strength 30', subject: 'Strength', minutes: [30, 35], levers: [null, 'weight', 'reps'],
+    split: 'Upper / lower, 30 days', blurb: 'A month of dumbbell and kettlebell strength: upper and lower days, a new level every ten days.',
+    about: 'A month of strength with dumbbells and a kettlebell, for when sixty days is more than you want to commit to. Upper and lower days alternate in straight sets with full rests. Every ten days the level steps up: Level II asks for heavier weights and Level III adds reps on top. Abs finish every session. At the end of the month, start Round 2 or move to a longer program.',
+    names: ['Week One', 'Foundation', 'Groundwork', 'Base Layer', 'Footing', 'Build-up', 'Stepping Up', 'Momentum', 'Halfway', 'Stride', 'Push On', 'Home Stretch', 'Last Lap', 'Month End', 'Full Moon'],
+    cycle: ['upper', 'lower'],
+    dayTypes: {
+      upper: { label: 'Upper', short: 'Upper', blocks: [S('Upper body', ['pushLoad2', 'row2', 'shoulders2', 'arms', 'row2?'])] },
+      lower: { label: 'Lower', short: 'Lower', blocks: [S('Lower body', ['squat2', 'hinge2', 'lunge2', 'glute2', 'singleLeg?'])] },
+    },
+  },
+  {
+    id: 'kettlebell-30', added: 14, catalogue: 8, days: 30, name: 'Kettlebell 30', subject: 'Kettlebell only', minutes: [25, 30], equip: 'kb', levers: [null, 'reps', 'weight'],
+    split: 'Swing / press / squat, 30 days', blurb: 'A month with one kettlebell: swing, press and squat days in turn, a new level every ten days.',
+    about: 'A month with one kettlebell. Three days rotate: a swing day for the hips and lungs, a press day for the shoulders and a squat day for the legs, each mixing straight sets with a short complex. Every ten days the level steps up: Level II adds reps and Level III asks for a heavier bell. Abs finish every session.',
+    names: ['Bell One', 'Clean Start', 'First Swing', 'Hike', 'Rack Up', 'Lockout Day', 'Press On', 'Goblet', 'Snatch Grab', 'Halo', 'Windmill Day', 'Get-up', 'Iron Month', 'Last Bell', 'Ring Out'],
+    cycle: ['swing', 'press', 'squat'],
+    dayTypes: {
+      swing: { label: 'Swing', short: 'Swing', blocks: [S('Swing strength', ['kb_swing', 'kbLower', 'kbBallistic', 'kbLower?']), C('Complex', ['kbCx', 'kbCxCore'], { values: [2, 3] })] },
+      press: { label: 'Press', short: 'Press', blocks: [S('Press strength', ['kb_press', 'kbUpper', 'kbUpper2', 'kbUpper?']), C('Complex', ['kbCx', 'kbCxCore'], { values: [2, 3] })] },
+      squat: { label: 'Squat', short: 'Squat', blocks: [S('Squat strength', ['goblet_squat', 'kbLower2', 'kbLower', 'kbLower2?']), C('Complex', ['kbCx', 'kbCxCore'], { values: [2, 3] })] },
+    },
+  },
 ];
 
 // Hand-written paragraphs for the older programs (newer ones carry theirs as `about:` in the config).

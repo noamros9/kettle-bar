@@ -11,14 +11,14 @@ const itemsOf = (d) => [...d.blocks.flatMap((b) => b.items), ...d.warmup.items, 
 
 // subject -> how many programs, whether days end with abs, and the formats its main blocks may use
 const SUBJECTS = {
-  Yoga: { count: 6, abs: false, formats: ['flow'] },
+  Yoga: { count: 7, abs: false, formats: ['flow'] },
   Pilates: { count: 6, abs: false, formats: ['flow'] },
-  Boxing: { count: 6, abs: true, formats: ['bouts', 'circuit', 'tabata', 'straight'] },
+  Boxing: { count: 7, abs: true, formats: ['bouts', 'circuit', 'tabata', 'straight'] },
   Kickboxing: { count: 6, abs: true, formats: ['bouts', 'circuit', 'tabata'] },
   Flexibility: { count: 6, abs: false, formats: ['flow'] },
   'Mobility & posture': { count: 6, abs: false, formats: ['flow', 'circuit'] },
   'Balance & stability': { count: 6, abs: true, formats: ['circuit', 'straight', 'emom'] },
-  HIIT: { count: 6, abs: true, formats: ['circuit', 'amrap', 'emom', 'tabata', 'ladder'] },
+  HIIT: { count: 7, abs: true, formats: ['circuit', 'amrap', 'emom', 'tabata', 'ladder'] },
   Plyometrics: { count: 6, abs: true, formats: ['straight', 'circuit'] },
   'Grip & forearms': { count: 5, abs: true, formats: ['straight', 'circuit', 'superset', 'emom'] },
   'Kettlebell complexes': { count: 5, abs: true, formats: ['circuit', 'emom', 'ladder', 'amrap', 'straight'] },
@@ -27,11 +27,11 @@ const SUBJECTS = {
   'Back care': { count: 5, abs: false, formats: ['straight', 'flow', 'circuit'] },
   'Running prep': { count: 5, abs: true, formats: ['circuit', 'straight', 'emom', 'amrap'] },
   'Court & field sports': { count: 5, abs: true, formats: ['circuit', 'emom', 'straight', 'tabata', 'amrap'] },
-  Strength: { count: 6, abs: true, formats: ['straight', 'superset'] },
+  Strength: { count: 7, abs: true, formats: ['straight', 'superset'] },
   'Pull-ups': { count: 6, abs: true, formats: ['straight', 'superset', 'emom'] },
   'Legs & glutes': { count: 6, abs: true, formats: ['straight'] },
-  'Kettlebell only': { count: 6, abs: true, formats: ['straight', 'circuit', 'emom'] },
-  'Core & abs': { count: 6, abs: true, formats: ['circuit', 'straight'] },
+  'Kettlebell only': { count: 7, abs: true, formats: ['straight', 'circuit', 'emom'] },
+  'Core & abs': { count: 7, abs: true, formats: ['circuit', 'straight'] },
   Conditioning: { count: 6, abs: true, formats: ['circuit', 'amrap', 'ladder', 'emom'] },
   Bodyweight: { count: 9, abs: true, formats: ['superset', 'straight', 'circuit'] },
   'Busy week': { count: 6, abs: true, formats: ['circuit', 'superset', 'amrap', 'emom'] },
@@ -39,8 +39,8 @@ const SUBJECTS = {
   'Strength & stretch': { count: 6, abs: undefined, formats: ['straight', 'superset', 'flow'] },
   Fighter: { count: 6, abs: undefined, formats: ['bouts', 'straight', 'superset', 'circuit', 'emom', 'amrap', 'tabata', 'flow'] },
   Athlete: { count: 6, abs: undefined, formats: ['straight', 'superset', 'circuit'] },
-  'Balanced week': { count: 6, abs: undefined, formats: ['straight', 'superset', 'circuit', 'emom', 'amrap', 'tabata', 'ladder', 'bouts', 'flow'] },
-  'Calm strength': { count: 6, abs: undefined, formats: ['straight', 'superset', 'circuit', 'flow'] },
+  'Balanced week': { count: 7, abs: undefined, formats: ['straight', 'superset', 'circuit', 'emom', 'amrap', 'tabata', 'ladder', 'bouts', 'flow'] },
+  'Calm strength': { count: 7, abs: undefined, formats: ['straight', 'superset', 'circuit', 'flow'] },
 };
 
 for (const [subject, want] of Object.entries(SUBJECTS)) {
@@ -125,8 +125,8 @@ test('the core programs opt in to the new catalogue (catalogue: 5): their abs fi
   assert.ok(optIn.some((p) => p.days.some((d) => d.blocks.at(-1).items.some((it) => fresh.has(it.ex)))));
 });
 
-test('the library: 185 programs in 30 subjects', () => {
-  assert.equal(programs.length, 185);
+test('the library: 193 programs in 30 subjects', () => {
+  assert.equal(programs.length, 193);
   assert.equal(new Set(programs.map((p) => p.subject)).size, 30);
 });
 
@@ -209,8 +209,9 @@ const familiesOf = (d) => [...new Set(mainOf(d).map((b) => b.family))];
 // ---------- Mixed: Balanced week and Calm strength (Phase 6 ticket 3) ----------
 const BALANCED = ['three-in-one', 'everyday-athlete', 'balanced-30', 'whole-body-week', 'lift-sweat-stretch', 'the-generalist'];
 const CALM = ['slow-burn', 'steady-strength', 'pilates-and-iron', 'yin-and-yang', 'quiet-power', 'control'];
-const balanced = programs.filter((p) => p.subject === 'Balanced week');
-const calm = programs.filter((p) => p.subject === 'Calm strength');
+// the Phase 6 programs (Phase 14's 30-day months are checked on their own below)
+const balanced = programs.filter((p) => p.subject === 'Balanced week' && cfgOf[p.id].added === 6);
+const calm = programs.filter((p) => p.subject === 'Calm strength' && cfgOf[p.id].added === 6);
 
 // (which kinds of day a subject has: abs at the end or not)
 for (const [subject, list, ids, kinds] of [['Fighter', fighter, FIGHTER, [false, true]], ['Athlete', athlete, ATHLETE, [false, true]], ['Balanced week', balanced, BALANCED, [false, true]], ['Calm strength', calm, CALM, [false]]]) {
@@ -339,5 +340,23 @@ test('no two programs in a subject share their split, main-block formats and lev
     const k = `${c.subject} :: ${key(c)}`;
     assert.ok(!seen[k], `${c.id} and ${seen[k]} share ${k}`);
     seen[k] = c.id;
+  });
+});
+
+// Phase 14 ticket 8: the 30-day programs, two per family
+test('the 30-day programs: two per family, 30 days with levels at 1 / 11 / 21, and the Mixed months mix families every day', () => {
+  const { FAMILIES } = require('../app/library.js');
+  const famOf = Object.fromEntries(FAMILIES.flatMap(([f, list]) => list.map((s) => [s, f])));
+  const months = CONFIGS.filter((c) => c.days === 30);
+  assert.deepEqual(Object.values(months.reduce((m, c) => ({ ...m, [famOf[c.subject]]: (m[famOf[c.subject]] || 0) + 1 }), {})), [2, 2, 2, 2]);
+  months.forEach((c) => {
+    const p = programs.find((x) => x.id === c.id);
+    assert.equal(p.days.length, 30, c.id);
+    assert.deepEqual([1, 11, 21].map((n) => p.days[n - 1].level), [1, 2, 3], c.id);
+    assert.deepEqual([10, 20].map((n) => p.days[n - 1].level), [1, 2], c.id);
+    if (famOf[c.subject] === 'Mixed') p.days.forEach((d) => {
+      assert.ok(mainOf(d).every((b) => FAMILY_TAGS.includes(b.family)), `${c.id} d${d.day}`);
+      assert.ok(familiesOf(d).length >= 2, `${c.id} d${d.day}: a mixed day`);
+    });
   });
 });

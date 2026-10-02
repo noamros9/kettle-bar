@@ -660,6 +660,38 @@ const CONFIGS = [
         F('Yin spine & shoulders', ['ygYinSpine', 'ygYinSpine', 'ygYinSpine'], YIN)] },
     },
   },
+  // ---------------- PHASE 14: 30-DAY PROGRAMS (three levels of ten days) ----------------
+  {
+    id: 'balanced-month', added: 14, catalogue: 8, days: 30, name: 'Balanced Month', subject: 'Balanced week', minutes: [28, 33], levers: [null, 'weight', 'reps'],
+    split: 'Lift & sweat / lift & stretch, 30 days', blurb: 'A month that covers everything: strength every day, with a burst of cardio or a flow after it.',
+    about: 'A month that covers the whole of fitness without planning a week. Every day starts with strength in straight sets; one day follows it with a short Tabata of cardio, the next with a yoga or mobility flow. Every ten days the level steps up: the strength asks for heavier weights at Level II and more reps at Level III, and the cardio and flows grow with it. Abs finish the strength-and-cardio days.',
+    names: ['All-rounder', 'Mixed Bag', 'Variety', 'Spectrum', 'Palette', 'Mosaic Day', 'Patchwork', 'Medley Day', 'Assortment', 'Sampler', 'Rainbow', 'Kaleidoscope', 'Smorgasbord', 'Buffet', 'Tapas'],
+    cycle: ['sweat', 'stretch'],
+    dayTypes: {
+      sweat: { label: 'Lift & sweat', short: 'Sweat', blocks: [
+        S('Strength', ['squat2', 'pushLoad2', 'row2', 'hinge2?'], LIFT),
+        T('Tabata', ['hiit', 'cardio', 'hiit', 'core'], CARDIO_TABATA)] },
+      stretch: { label: 'Lift & stretch', short: 'Stretch', absSlots: [], blocks: [
+        S('Strength', ['lunge2', 'shoulders2', 'row2', 'glute2?'], LIFT),
+        F('Flow', ['sun_salutation', 'ygStand', 'ygHips', 'ygRest', 'ygRest?'], FLOW)] },
+    },
+  },
+  {
+    id: 'calm-month', added: 14, catalogue: 8, days: 30, name: 'Calm Month', subject: 'Calm strength', minutes: [26, 31], levers: [null, 'tempo', 'weight'], absSlots: [],
+    gear: 'A pair of dumbbells or a kettlebell, and a mat.',
+    split: 'Pilates & slow strength / slow strength & yin, 30 days', blurb: 'A quiet month: Pilates and slow strength one day, slow strength and long yin holds the next.',
+    about: 'A quiet month of strength without hurry. One day opens with a Pilates series before slow dumbbell or kettlebell strength; the other pairs slow strength with a yin finish of long floor holds. From day 11 every rep gets a slow lowering, and from day 21 the weights go up. Nothing jumps and nothing rushes, and there is no separate abs finisher.',
+    names: ['Quiet Hour', 'Still Morning', 'Calm Water', 'Slow Tide', 'Soft Light', 'Deep Breath', 'Steady Hand', 'Stone Garden', 'Zen', 'Tea House', 'Bamboo Grove', 'Paper Lantern', 'Koi Pond', 'Moss Garden', 'Temple Bell'],
+    cycle: ['pilates', 'yin'],
+    dayTypes: {
+      pilates: { label: 'Pilates & slow strength', short: 'Pilates', blocks: [
+        F('Pilates series', ['hundred', 'plAbs', 'plRoll', 'plAbs?'], PILATES),
+        S('Slow strength', ['squat2', 'row2', 'pushLoad2', 'hinge2?'], LIFT)] },
+      yin: { label: 'Slow strength & yin', short: 'Yin', blocks: [
+        S('Slow strength', ['lunge2', 'shoulders2', 'glute2', 'row2?'], LIFT),
+        F('Yin', ['ygYinHips', 'ygYinSpine', 'ygYinHips'], YIN)] },
+    },
+  },
 ];
 
 module.exports = CONFIGS;

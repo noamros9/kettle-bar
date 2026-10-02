@@ -27,7 +27,7 @@ program in the page; the offline download grows ~3.7 KB gzipped each).
 | 5 | New subjects: Running prep, Court & field sports (+10) | content | 3 | `content/cardio-subjects` | done (PR #153) |
 | 6 | New subjects: Grip & forearms, Kettlebell complexes, Climber (+15) | content | 3 | `content/strength-subjects` | done (PR #154) |
 | 7 | New subjects: Gentle / low impact, Back care (+10) | content | 3 | `content/mind-subjects` | done (PR #155) |
-| 8 | 30-day programs (+8) | content | 1 | `content/thirty-day` | |
+| 8 | 30-day programs (+8) | content | 1 | `content/thirty-day` | done (PR #156) |
 | 9 | Strength +26 | content | 3 | `content/strength-plus` | |
 | 10 | Cardio & combat +13 | content | 3 | `content/cardio-plus` | |
 | 11 | Mind & body +16 | content | 3 | `content/mind-plus` | |
@@ -95,6 +95,11 @@ program in the page; the offline download grows ~3.7 KB gzipped each).
   backMove backStrength`. Warm-ups: Running prep and Court & field get the dynamic one, Gentle and Back care the gentle
   one (what the day page shows; stored days and pins don't change). The library phone spec reads each family's
   subjects from FAMILIES instead of listing them.
+- **Ticket 8 as built (2 Oct):** Strength 30, Kettlebell 30, HIIT 30, Boxing 30, Yoga 30, Core 30, Balanced Month, Calm
+  Month (`days: 30`; their subjects' existing shelves, behind "Show all" where a shelf is past 6). A phone spec opens a
+  real 30-day program (card chip, Days 1–10 / 11–20 / 21–30, Day 11 is Level II, the Stats note). Tests that assumed
+  60 days now read each program's length (renderable, renders.spec, the builder count); renders.spec now samples the
+  *first* program of each subject, as its comment always said; the Phase 6 Mixed tests cover the Phase 6 programs only.
 
 ## Challenge round
 - **Weakest assumption:** that +50% per family is varied enough to be worth it. Each new program needs a different

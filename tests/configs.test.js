@@ -45,6 +45,8 @@ const IDS = [
     // Phase 14 ticket 7: Gentle / low impact, Back care
     'gentle-start', 'chair-and-wall', 'low-impact-cardio', 'move-daily', 'strong-and-steady',
     'back-basics', 'back-flow', 'strong-back', 'desk-back', 'back-and-hips',
+    // Phase 14 ticket 8: 30-day programs, two per family
+    'strength-30', 'kettlebell-30', 'hiit-30', 'boxing-30', 'yoga-30', 'core-30', 'balanced-month', 'calm-month',
 ];
 
 test('the config ids, in order, are today\'s list', () => {

@@ -9,7 +9,7 @@ const { daySummary } = require('../app/summary.js');
 const { createSession } = require('../app/session.js');
 const { alternatives } = require('../app/swaps.js');
 
-const DAYS = [1, 31, 60];
+const daysOf = (p) => [1, p.days.length / 2 + 1, p.days.length]; // first, middle (Level II) and last: 1, 31, 60 (16 and 30 in a 30-day program)
 const { EX, MUSCLE_NAMES } = cat;
 
 // what is wrong with this day, as a list of words (empty: the page can draw it)
@@ -52,8 +52,8 @@ test('the walk covers every program', () => {
 });
 
 for (const program of programs) {
-  test(`${program.name}: days ${DAYS.join(', ')} are renderable`, () => {
-    for (const n of DAYS) {
+  test(`${program.name}: days ${daysOf(program).join(', ')} are renderable`, () => {
+    for (const n of daysOf(program)) {
       const day = program.days[n - 1];
       assert.ok(day, `day ${n} exists`);
       assert.deepEqual(problems(program, day), [], `day ${n}`);

@@ -532,6 +532,31 @@ const CONFIGS = [
       spine: { label: 'Spine', short: 'Spine', blocks: [F('Spine flow', ['pelvic_tilt', 'cat_cow', 'backMove', 'backMove', 'backMove', 'backMove?']), C('Trunk', ['bird_dog', 'mcgill_curl_up', 'side_plank_knee?'], { values: [2, 3, 4] })] },
     },
   },
+  // ---------------- PHASE 14: 30-DAY PROGRAMS (three levels of ten days) ----------------
+  {
+    id: 'yoga-30', added: 14, catalogue: 8, days: 30, name: 'Yoga 30', subject: 'Yoga', minutes: [23, 28], equip: 'bw', absSlots: [], levers: [null, 'holds', 'variation'],
+    split: 'Stand / balance / unwind, 30 days', blurb: 'A month of yoga, about twenty-five minutes a day: standing, balance and floor days, a new level every ten days.',
+    about: 'A month of yoga for building a habit, about twenty-five minutes a day. Three days rotate: a standing flow, a balance and core flow, and a slower floor flow to unwind. Each starts with sun salutations and the voice names every pose. Level II, from day 11, holds each pose longer, and Level III, from day 21, brings harder versions. No equipment beyond a mat.',
+    names: ['Arrive', 'Root Down', 'Rise Up', 'Open Up', 'Find Balance', 'Breathe In', 'Settle In', 'Grow', 'Bloom', 'Steady', 'Strong', 'Soft', 'Bright', 'Whole', 'Namaste'],
+    cycle: ['stand', 'balance', 'unwind'],
+    dayTypes: {
+      stand: { label: 'Standing', short: 'Stand', blocks: [SUN, F('Standing flow', ['warrior_one', 'ygStand', 'ygStand', 'ygStand?']), F('Rest', ['ygRest', 'ygRest?'])] },
+      balance: { label: 'Balance & core', short: 'Balance', blocks: [SUN, F('Balance flow', ['tree_pose', 'ygBalance', 'ygStand', 'ygBalance?']), F('Core & rest', ['ygCore', 'ygRest', 'ygRest?'])] },
+      unwind: { label: 'Unwind', short: 'Unwind', blocks: [F('Wake-up', ['cat_cow', 'sun_salutation']), F('Floor flow', ['ygHips', 'ygBack', 'ygHips', 'ygBack?']), F('Rest', ['ygRest', 'ygRest?'])] },
+    },
+  },
+  {
+    id: 'core-30', added: 14, catalogue: 8, days: 30, name: 'Core 30', subject: 'Core & abs', minutes: [16, 21], equip: 'bw', levers: [null, 'reps', 'variation'],
+    split: 'Brace / twist / hollow, 30 days', blurb: 'A month of core work, under twenty minutes a day: brace, twist and hollow days, a new level every ten days.',
+    about: 'A month of short core sessions, under twenty minutes a day. Three days rotate: bracing against arching, resisting and making rotation, and hollow-body work. Each is a circuit with a breather between rounds, then a short abs finisher. Every ten days the level steps up: Level II adds reps and Level III brings harder versions.',
+    names: ['Core One', 'Brace Day', 'Twist Day', 'Hollow Day', 'Plank Day', 'Rotation', 'Anti-twist', 'Bird Dog Day', 'Dead Bug Day', 'Side Day', 'Rock Day', 'Hold Day', 'Final Plank', 'Iron Core', 'Six Pack'],
+    cycle: ['brace', 'twist', 'hollow'],
+    dayTypes: {
+      brace: { label: 'Brace', short: 'Brace', blocks: [C('Brace circuit', ['coreAnti', 'coreAnti', 'core2', 'coreAnti?'], { values: [2, 3] })] },
+      twist: { label: 'Twist', short: 'Twist', blocks: [C('Twist circuit', ['coreRot', 'coreRot', 'core2', 'coreRot?'], { values: [2, 3] })] },
+      hollow: { label: 'Hollow', short: 'Hollow', blocks: [C('Hollow circuit', ['coreHollow', 'coreHollow', 'core2', 'coreHollow?'], { values: [2, 3] })] },
+    },
+  },
 ];
 
 // Hand-written paragraphs for the older programs (newer ones carry theirs as `about:` in the config).
