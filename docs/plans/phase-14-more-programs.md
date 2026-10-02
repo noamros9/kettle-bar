@@ -22,7 +22,7 @@ program in the page; the offline download grows ~3.7 KB gzipped each).
 | 0 | This plan (in the 2 Oct roadmap plan) | plan | – | `plan/roadmap-oct` | done (PR #133) |
 | 1 | 30-day programs in the engine | feature | review IV 4 | `feature/thirty-days` | |
 | 2 | Programs page for ~260 programs | feature | – | `feature/library-scale` | |
-| 3 | Catalogue 7: exercises the new subjects need | feature | – | `feature/catalogue-7` | |
+| 3 | Catalogue 8: exercises the new subjects need | feature | – | `feature/catalogue-8` | |
 | 4 | Fill to 6 (+9) and the floor-pull programs (+3) | content | 3 | `content/fill-six` | |
 | 5 | New subjects: Running prep, Court & field sports (+10) | content | 3 | `content/cardio-subjects` | |
 | 6 | New subjects: Grip & forearms, Kettlebell complexes, Climber (+15) | content | 3 | `content/strength-subjects` | |
@@ -42,11 +42,14 @@ program in the page; the offline download grows ~3.7 KB gzipped each).
 - A subject shelf shows its first 6 and "Show all N"; the counter and filters as today.
 - **Test first:** a shelf with 10 programs shows 6 and the button; favourites and Your programs are never cut.
 
-### 3. Catalogue 7: exercises the new subjects need
+### 3. Catalogue 8: exercises the new subjects need
+- **Renumbered 2 Oct:** Reverse snow angels (Phase 13) took catalogue 7, and own programs and random workouts made
+  after it build at 7, so these exercises are `added: 8` (an exercise added to a catalogue already in use would
+  reshuffle the programs built at it).
 - Drills, carries, grip and court moves (e.g. A-skips, farmer carries with the kettlebell, towel-free dead hang
-  variations on the bar, lateral bounds, cat-friendly back-care moves), `added: 7`, with drawings and muscles. The list
+  variations on the bar, lateral bounds, cat-friendly back-care moves), `added: 8`, with drawings and muscles. The list
   is settled at the start of the ticket from the new subjects' day types.
-- **Test first:** every new exercise draws, has muscles and reps; catalogue ≤ 6 builds never draw them.
+- **Test first:** every new exercise draws, has muscles and reps; catalogue ≤ 7 builds never draw them.
 
 ### 4–12. Programs
 - Each ticket: configs (and day types) in the family's config file, hand-written summaries, pins added (never

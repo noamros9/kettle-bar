@@ -145,7 +145,7 @@
     // Pools computed from the catalogue. An exercise marked `added: N` (the phase that added it) joins them only
     // for configs with `catalogue: N` or later, so new exercises can't reshuffle the days of existing programs.
     // Named pools that later catalogues add to (at the end, so a config at an older catalogue draws exactly as before)
-    const POOL_ADDS = { pullBw: { 6: ['prone_lat_pull', 'superman_row'] } }; // Phase 10: floor-only pulls
+    const POOL_ADDS = { pullBw: { 6: ['prone_lat_pull', 'superman_row'], 7: ['reverse_snow_angel'] } }; // Phase 10 and 13: floor-only pulls
     const computedPools = (upTo) => {
       const has = (fn) => ids((e) => (e.added || 0) <= upTo && fn(e));
       const adds = Object.fromEntries(Object.entries(POOL_ADDS).map(([name, byCat]) => [name, Object.entries(byCat).filter(([n]) => +n <= upTo).flatMap(([, list]) => list)]).filter(([, list]) => list.length));
