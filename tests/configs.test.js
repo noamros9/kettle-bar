@@ -32,6 +32,9 @@ const IDS = [
     // Phase 6 ticket 3: Balanced week, Calm strength
     'three-in-one', 'everyday-athlete', 'balanced-30', 'whole-body-week', 'lift-sweat-stretch', 'the-generalist',
     'slow-burn', 'steady-strength', 'pilates-and-iron', 'yin-and-yang', 'quiet-power', 'control',
+    // Phase 14 ticket 4: a sixth program for every five-program subject, and the floor-pull programs
+    'power-vinyasa', 'pilates-sculpt', 'boxing-strength', 'kick-and-core', 'daily-stretch-15', 'mobility-flow',
+    'balance-emom', 'bell-intervals', 'plyo-circuits', 'floor-pull', 'back-at-home', 'quiet-upper',
 ];
 
 test('the config ids, in order, are today\'s list', () => {

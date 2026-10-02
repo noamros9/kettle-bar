@@ -38,9 +38,10 @@ test('the three new exercises: floor only (no load, no bar), added in catalogue 
   assert.equal(cat.EX.side_lying_raise.side, 1);
 });
 
-test('a build at catalogue 6 can draw them; the library (catalogue 5 and older) never does', () => {
+test('a build at catalogue 6 can draw them; library programs at catalogue 5 and older never do', () => {
   const used = (p) => new Set(p.days.flatMap((d) => d.blocks.flatMap((b) => b.items.map((it) => it.ex))));
-  all.forEach((p) => NEW.forEach((id) => assert.ok(!used(p).has(id), `${p.id} draws ${id}`)));
+  const cfg = Object.fromEntries(CONFIGS.map((c) => [c.id, c]));
+  all.filter((p) => (cfg[p.id].catalogue || 0) < 6).forEach((p) => NEW.forEach((id) => assert.ok(!used(p).has(id), `${p.id} draws ${id}`)));
   const fresh = CONFIGS.filter((c) => c.equip === 'bw' && !c.frozen).map((c) => buildConfig({ ...c, catalogue: 6 }));
   assert.ok(fresh.some((p) => NEW.some((id) => used(p).has(id))), 'some bodyweight program at catalogue 6 uses one');
 });

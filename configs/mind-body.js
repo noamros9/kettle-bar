@@ -1,4 +1,4 @@
-const { S, C, F } = require('./shared.js');
+const { S, C, E, F } = require('./shared.js');
 
 const SUN = F('Sun salutations', ['sun_salutation']);
 const ONCE = { values: [1] }; // a flow done once through (the hundred opens a Pilates session once)
@@ -355,6 +355,66 @@ const CONFIGS = [
     dayTypes: {
       a: { label: 'Abs A', short: 'A', blocks: [C('Core circuit', ['coreHollow', 'coreRot', 'coreAnti'], { values: [1, 2, 3] })] },
       b: { label: 'Abs B', short: 'B', blocks: [C('Core circuit', ['coreAnti', 'coreHollow', 'coreRot'], { values: [1, 2, 3] })] },
+    },
+  },
+  // ---------------- PHASE 14: a sixth program for each five-program subject (catalogue 8) ----------------
+  {
+    id: 'power-vinyasa', added: 14, catalogue: 8, name: 'Power Vinyasa', subject: 'Yoga', minutes: [32, 37], equip: 'bw', absSlots: [], levers: [null, 'variation', 'variation'],
+    split: 'Power / twists / backbends', blurb: 'A strong, sweaty yoga practice: long standing flows, twists and backbends, with harder poses each level.',
+    about: 'A strong yoga practice that keeps moving: salutations, then long standing flows held on the clock. Three days rotate a power flow with balances, a twisting day and a backbend day, each closing with core and rest. Both later levels bring harder poses rather than longer holds, so Level III looks different from Level I. About thirty-five minutes, no equipment.',
+    names: ['Ignite', 'Charge', 'Momentum', 'Surge', 'Velocity', 'Updraft', 'Thrust', 'Kinetic', 'Drive', 'Torque', 'Pulse', 'Current', 'Voltage', 'Lift-off', 'Spiral', 'Whirl', 'Arc', 'Bridgework', 'Crescent', 'Summit'],
+    cycle: ['power', 'twist', 'back'],
+    dayTypes: {
+      power: { label: 'Power flow', short: 'Power', blocks: [SUN, F('Power flow', ['chair_pose', 'ygStand', 'ygStand', 'ygBalance', 'ygStand', 'ygStand?']), F('Core', ['ygCore', 'ygCore', 'ygCore?']), F('Rest', ['ygRest', 'ygRest?'])] },
+      twist: { label: 'Twists', short: 'Twists', blocks: [SUN, F('Twisting flow', ['twisting_chair', 'ygStand', 'seated_twist', 'ygStand', 'ygHips', 'ygStand?']), F('Core', ['ygCore', 'ygCore?']), F('Rest', ['supine_twist', 'ygRest?'])] },
+      back: { label: 'Backbends', short: 'Back', blocks: [SUN, F('Standing', ['high_lunge', 'ygStand', 'ygBalance', 'ygStand?']), F('Backbends', ['ygBack', 'ygBack', 'camel_pose', 'ygBack?']), F('Rest', ['childs_pose', 'ygRest?'])] },
+    },
+  },
+  {
+    id: 'pilates-sculpt', added: 14, catalogue: 8, name: 'Pilates Sculpt', subject: 'Pilates', minutes: [24, 29], equip: 'bw', absSlots: [], levers: [null, 'variation', 'reps'],
+    split: 'Abs / glutes & legs / back & sides', blurb: 'Pilates mat work in three focused days: abs, then glutes and legs, then back and sides.',
+    about: 'Pilates mat work split into three focused days instead of the whole series every time. The abs day goes deep on the hundred and the stretches, the glutes day works side kicks, bridges and standing legs, and the back day strengthens with swan, swimming and leg pulls. Level II brings harder versions first and Level III adds reps on top. Every session opens with the hundred and a roll-up. No equipment beyond a mat.',
+    names: ['Chisel', 'Contour', 'Silhouette', 'Outline', 'Sketch', 'Relief', 'Etching', 'Carve', 'Profile', 'Statue', 'Plaster', 'Marble Line', 'Clay', 'Bronze', 'Facet', 'Lathe', 'Mould', 'Stencil', 'Engrave', 'Cameo'],
+    cycle: ['abs', 'glutes', 'back'],
+    dayTypes: {
+      abs: { label: 'Abs', short: 'Abs', blocks: [F('Warm-up', ['hundred', 'roll_up'], ONCE), F('Abs series', ['single_leg_stretch', 'double_leg_stretch', 'scissors', 'criss_cross', 'plAbs', 'plAbs', 'plRoll?']), F('Roll & back', ['plRoll', 'plBack', 'plRoll', 'spine_stretch?'])] },
+      glutes: { label: 'Glutes & legs', short: 'Glutes', blocks: [F('Warm-up', ['hundred', 'roll_up'], ONCE), F('Glutes & legs', ['side_kick', 'shoulder_bridge', 'plGlute', 'standing_side_leg_lift', 'plie_squat', 'plGlute?']), F('Abs', ['plAbs', 'plAbs?'])] },
+      back: { label: 'Back & sides', short: 'Back', blocks: [F('Warm-up', ['hundred', 'spine_stretch'], ONCE), F('Back & sides', ['swan', 'swimming', 'leg_pull_front', 'plSide', 'plBack', 'plSide', 'plSide?']), F('Abs', ['plAbs', 'plAbs', 'plRoll?'])] },
+    },
+  },
+  {
+    id: 'daily-stretch-15', added: 14, catalogue: 8, name: 'Daily Stretch 15', subject: 'Flexibility', minutes: [12, 17], equip: 'bw', absSlots: [], levers: [null, 'holds', 'holds'],
+    split: 'Legs / shoulders / spine', blurb: 'Fifteen minutes of stretching you can do every day: legs, then shoulders, then spine, in turn.',
+    about: 'A short stretch for every day, about fifteen minutes, so it fits before bed or after training. Three days take turns: legs and hips, shoulders and chest, then the spine. Each is one calm flow of held stretches that the voice walks you through. Levels II and III hold each stretch a little longer. Small and often beats long and rare for flexibility.',
+    names: ['Unwind', 'Loosen', 'Ease', 'Lengthen', 'Release', 'Soften', 'Breathe Out', 'Slacken', 'Settle', 'Melt', 'Drift', 'Let Go', 'Exhale', 'Unfurl', 'Unknot', 'Limber', 'Supple', 'Pliant', 'Elastic', 'Bend'],
+    cycle: ['legs', 'upper', 'spine'],
+    dayTypes: {
+      legs: { label: 'Legs & hips', short: 'Legs', blocks: [F('Legs & hips', ['fxHam', 'fxHips', 'fxQuad', 'fxHam', 'fxHips?'])] },
+      upper: { label: 'Shoulders & chest', short: 'Upper', blocks: [F('Shoulders & chest', ['fxUpper', 'fxUpper', 'fxUpper', 'fxUpper?', 'fxSpine?'])] },
+      spine: { label: 'Spine', short: 'Spine', blocks: [F('Spine', ['cat_cow', 'fxSpine', 'fxSpine', 'fxSpine', 'fxHips?'])] },
+    },
+  },
+  {
+    id: 'balance-emom', added: 14, catalogue: 8, name: 'Balance EMOM', subject: 'Balance & stability', minutes: [22, 27], equip: 'bw', levers: [null, 'reps', 'reps'],
+    split: 'EMOM A / EMOM B', blurb: 'Balance on the clock: a new one-leg drill every minute, then slow single-leg strength and abs.',
+    about: 'Balance work on the clock: every minute a new one-leg drill starts, and you rest for whatever is left of the minute. The drills rotate reaches, hops and sticks, and single-leg strength, so both legs work in turn. A short block of slow single-leg strength and abs finish each session. Levels II and III add reps, so the rest in each minute gets shorter. Good for runners and anyone who plays sport.',
+    names: ['Second Hand', 'Metronome', 'Ticker', 'Chime', 'Minute Man', 'Sundial', 'Hourglass', 'Cuckoo', 'Big Ben', 'Escapement', 'Pendulum Swing', 'Tock', 'Quartz', 'Balance Wheel', 'Mainspring', 'Clockwork', 'Dial', 'Interval', 'Lap', 'Beat'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'EMOM A', short: 'A', blocks: [E('Balance EMOM', ['blDynamic', 'blStrength', 'blPower', 'blDynamic'], { values: [8, 10, 12, 14] }), S('Single-leg strength', ['blStrength', 'blStrength?'])] },
+      b: { label: 'EMOM B', short: 'B', blocks: [E('Balance EMOM', ['blPower', 'blDynamic', 'blStrength', 'blStatic'], { values: [8, 10, 12, 14] }), S('Single-leg strength', ['blStrength', 'blStrength?'])] },
+    },
+  },
+  {
+    id: 'mobility-flow', added: 14, catalogue: 8, name: 'Mobility Flow', subject: 'Mobility & posture', minutes: [24, 29], equip: 'bw', absSlots: [], levers: [null, 'reps', 'reps'],
+    split: 'Hips / shoulders / spine', blurb: 'Longer mobility sessions in three days: hips, shoulders and spine, each a long guided flow.',
+    about: 'A longer mobility practice, twenty-five minutes or so, for when a quick reset is not enough. Three days take one area each, hips, shoulders and spine, in a long guided flow followed by a shorter one for the rest of the body. Moves are slow joint circles and drills that own the range, not just stretches. Levels II and III add reps to each move. Good on rest days or as a weekly service for stiff joints.',
+    names: ['Hinge', 'Swivel', 'Axle', 'Ball Joint', 'Gimbal', 'Pivot Point', 'Socket', 'Bearing', 'Spindle', 'Rotor', 'Knuckle', 'Universal', 'Castor', 'Trunnion', 'Bushing', 'Grease', 'Oil Can', 'Tune-up', 'Service', 'Overhaul'],
+    cycle: ['hips', 'shoulders', 'spine'],
+    dayTypes: {
+      hips: { label: 'Hips', short: 'Hips', blocks: [F('Hip flow', ['hip_cars', 'mbHip', 'mbHip', 'ninety_ninety', 'mbHip', 'mbHip?']), F('Spine & shoulders', ['mbSpine', 'mbShoulder', 'mbSpine?'])] },
+      shoulders: { label: 'Shoulders', short: 'Shoulders', blocks: [F('Shoulder flow', ['shoulder_cars', 'mbShoulder', 'mbShoulder', 'wall_slides', 'mbPosture', 'mbShoulder?']), F('Hips & spine', ['mbHip', 'mbSpine', 'mbHip', 'mbSpine?'])] },
+      spine: { label: 'Spine', short: 'Spine', blocks: [F('Spine flow', ['cat_cow', 'mbSpine', 'mbSpine', 'open_book', 'mbPosture', 'mbSpine?']), F('Hips & shoulders', ['mbHip', 'mbShoulder', 'mbHip?'])] },
     },
   },
 ];

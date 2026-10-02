@@ -286,6 +286,51 @@ const CONFIGS = [
       circuit: { label: 'Complex circuit', short: 'Circuit', blocks: [C('Complex circuit', ['hinge2', 'row2', 'squat2', 'pushLoad2', 'lunge2'], { values: [2, 3, 4] })] },
     },
   },
+  // ---------------- PHASE 14: a sixth program for each five-program subject (catalogue 8) ----------------
+  {
+    id: 'boxing-strength', added: 14, catalogue: 8, name: 'Boxing Strength', subject: 'Boxing', minutes: [30, 35], equip: 'bw', levers: [null, 'variation', 'variation'],
+    split: 'Bouts + strength A / B', blurb: 'Shadowboxing bouts, then bodyweight strength in straight sets for the punches behind them, then abs.',
+    about: 'Shadowboxing for skill, then strength for the punches behind it. Three or four 3-minute bouts mix basics, power and defence, each one combination called out by the voice. Then come straight sets of push-ups and single-leg work with full rests, because hard punches start in the legs and finish in the arms. Abs close every session. Levels II and III bring longer combinations and harder strength moves.',
+    names: ['Southside', 'Ringside', 'Corner', 'Canvas', 'Rope-a-dope', 'Weigh-in', 'Main Event', 'Undercard', 'Title Shot', 'Gym Rat', 'Sparring', 'Heavy Bag', 'Hand Wraps', 'Mouthguard', 'Bell Ringer', 'Cutman', 'Glove Up', 'Roadwork', 'Fight Night', 'Belt'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Bouts + strength A', short: 'A', blocks: [B('Bouts', ['bxBasic', 'bxPower', 'bxDefense', 'bxPower?']), S('Strength', ['pushBw2', 'legsBw2', 'pushBw2?'])] },
+      b: { label: 'Bouts + strength B', short: 'B', blocks: [B('Bouts', ['bxMove', 'bxBasic', 'bxPower', 'bxDefense?']), S('Strength', ['legsBw2', 'pushBw2', 'legsBw2?'])] },
+    },
+  },
+  {
+    id: 'kick-and-core', added: 14, catalogue: 8, name: 'Kick & Core', subject: 'Kickboxing', minutes: [28, 33], equip: 'bw', levers: [null, 'variation', 'reps'],
+    split: 'Bouts + core A / B', blurb: 'Kickboxing bouts, then a core circuit that builds the twist and brace every kick needs.',
+    about: 'Kickboxing bouts first, then a core circuit built for kicking. Three or four bouts rotate kicks, combinations and knees, called out by the voice as each bell starts. The circuit after works anti-rotation, twisting and bracing, which is where kicks get their power and balance. A short abs finisher follows. Level II brings harder kicks and Level III adds reps in the circuit.',
+    names: ['Shin Guard', 'Pad Work', 'Thai Pad', 'Teep Line', 'Clinch', 'Ring Craft', 'Low Kick', 'Switch', 'Spinning Back', 'Check', 'Sweep', 'Knee Up', 'Elbow Room', 'Mongkol', 'Sak Yant', 'Tiger Line', 'Crane Kick', 'Axe Kick', 'Round Kick', 'Liver Shot'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Bouts + core A', short: 'A', blocks: [B('Bouts', ['kkKick', 'kkCombo', 'kkKnee', 'kkCombo?']), C('Kicker\'s core', ['coreRot', 'coreAnti', 'core2', 'coreRot?'], { values: [2, 3] })] },
+      b: { label: 'Bouts + core B', short: 'B', blocks: [B('Bouts', ['kkCombo', 'kkKick', 'kkSpin', 'kkKnee?']), C('Kicker\'s core', ['coreAnti', 'coreRot', 'coreHollow', 'coreAnti?'], { values: [2, 3] })] },
+    },
+  },
+  {
+    id: 'bell-intervals', added: 14, catalogue: 8, name: 'Bell Intervals', subject: 'HIIT', minutes: [22, 27], equip: 'kb', levers: [null, 'reps', 'weight'],
+    split: 'Tabata / EMOM', blurb: 'HIIT with one kettlebell: swing-led Tabatas one day, an EMOM of bell and bodyweight moves the next.',
+    about: 'Intervals with a single kettlebell. One day is Tabatas, twenty seconds of swings, snatches and bodyweight moves as hard as you can, then ten seconds of rest. The other is an EMOM, a set at the top of every minute and the rest of the minute to recover. Abs finish every session. Level II adds reps and Level III asks for a heavier bell.',
+    names: ['Cast Iron', 'Clang', 'Handle', 'Horn', 'Bell Tower', 'Toll', 'Ring Out', 'Peal', 'Anvil', 'Cannonball', 'Pood', 'Swingset', 'Hike Pass', 'Overspeed', 'Float', 'Lockout', 'Rack', 'Hardstyle', 'Pendulum', 'Iron Bell'],
+    cycle: ['tabata', 'emom'],
+    dayTypes: {
+      tabata: { label: 'Tabata', short: 'Tabata', blocks: [T('Bell Tabatas', ['kbSwing', 'hiit', 'kbBallistic', 'core'], { values: [2, 3, 4] })] },
+      emom: { label: 'EMOM', short: 'EMOM', blocks: [E('Bell EMOM', ['kbBallistic', 'hiit', 'kbLower', 'hiit'], { values: [10, 12, 14, 16] })] },
+    },
+  },
+  {
+    id: 'plyo-circuits', added: 14, catalogue: 8, name: 'Plyo Circuits', subject: 'Plyometrics', minutes: [24, 29], equip: 'bw', rests: { set: 60, exercise: 90 }, levers: [null, 'reps', 'variation'],
+    split: 'Up & out / side to side', blurb: 'Jumps in circuits: vertical, broad and lateral jumps with an upper-body power move, a full minute between rounds.',
+    about: 'Jumps in circuits rather than straight sets, so legs and arms take turns while the other recovers. One day goes up and out with vertical and broad jumps, the other goes side to side with bounds and skaters, and both add an explosive push. A full minute of rest between rounds keeps every jump crisp. Abs finish each session. Level II adds reps and Level III brings harder jumps.',
+    names: ['Rebound', 'Trampoline', 'Pogo', 'Coil', 'Recoil', 'Kangaroo', 'Grasshopper', 'Springbok', 'Gazelle', 'Impala', 'Jackrabbit', 'Hopscotch', 'Leapfrog', 'Bungee', 'Catapult', 'Slingshot', 'Launch Pad', 'Liftoff', 'Spring Tide', 'Boing'],
+    cycle: ['up', 'side'],
+    dayTypes: {
+      up: { label: 'Up & out', short: 'Up', blocks: [C('Plyo circuit', ['plyoVert', 'plyoUp', 'plyoLow', 'core?'], { values: [2, 3, 4] })] },
+      side: { label: 'Side to side', short: 'Side', blocks: [C('Plyo circuit', ['plyoLat', 'plyoUp', 'plyoLat', 'core?'], { values: [2, 3, 4] })] },
+    },
+  },
 ];
 
 // Hand-written paragraphs for the older programs (newer ones carry theirs as `about:` in the config).

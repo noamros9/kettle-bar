@@ -98,9 +98,9 @@ test('version.json and the page carry the same build version, which changes with
 });
 
 // Architecture review IV ticket 3: the page's scripts are minified (whitespace, comments, local names); top-level names stay
-test('the page is minified: under 110 KB gzipped, its scripts parse, and the names the page and its tests use are kept', () => {
+test('the page is minified: under 125 KB gzipped, its scripts parse, and the names the page and its tests use are kept', () => {
   const zlib = require('zlib'), page = out['index.html'];
-  assert.ok(zlib.gzipSync(page).length < 110 * 1024, `${zlib.gzipSync(page).length} bytes gzipped`);
+  assert.ok(zlib.gzipSync(page).length < 125 * 1024, `${zlib.gzipSync(page).length} bytes gzipped`); // 110 KB in review IV; Phase 14's ~125 programs add about 0.06 KB each (the gate in CLAUDE.md is 150)
   const scripts = [...page.matchAll(/<script>([\s\S]*?)<\/script>/g)].map((m) => m[1]);
   scripts.forEach((code) => { new Function(code); }); // each one parses
   const all = scripts.join('\n');
