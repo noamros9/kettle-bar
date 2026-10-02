@@ -268,6 +268,10 @@ library offline**; **"Offline · N changes waiting"** in the header.
   the next start, where a waiting change **wins over the cloud's copy** (so an un-done day or a delete never comes
   back). With nothing waiting, the first sync joins as before (newest wins, done days joined). A change the rules
   refuse for good isn't kept.
+- **Fonts and the sync library offline, built (2 Oct):** the Barlow fonts (OFL) are served from `fonts/` (no Google
+  Fonts); the deploy copies the pinned Firebase library into `vendor/firebasejs/<V>/` (`scripts/vendor-firebase.js`,
+  imports pointed at the copies) and `firebase-sync.js` loads it from there first (gstatic as a fallback), so the
+  service worker caches both like the rest of the app.
 
 ### Architecture review IV
 Plan: [docs/plans/architecture-review-4.md](docs/plans/architecture-review-4.md). **Full review, like III** (2 Oct):

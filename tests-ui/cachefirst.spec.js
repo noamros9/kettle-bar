@@ -11,9 +11,10 @@ const path = require('path');
 // version.json says }
 function server() {
   const root = path.join(__dirname, '..'), ctl = { delay: 0, extra: '' };
-  const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.json': 'application/json', '.webmanifest': 'application/manifest+json', '.png': 'image/png', '.svg': 'image/svg+xml' };
+  const TYPES = { '.woff2': 'font/woff2', '.html': 'text/html', '.js': 'text/javascript', '.json': 'application/json', '.webmanifest': 'application/manifest+json', '.png': 'image/png', '.svg': 'image/svg+xml' };
   const srv = http.createServer((req, res) => {
     const url = decodeURIComponent(req.url.split('?')[0]), file = path.join(root, url === '/' ? 'index.html' : url);
+    if (ctl.files && ctl.files[url] !== undefined) { res.writeHead(200, { 'Content-Type': 'text/javascript' }).end(ctl.files[url]); return; }
     fs.readFile(file, (err, body) => {
       if (err) { res.writeHead(404).end(); return; }
       if (url.endsWith('/version.json') && ctl.version) { res.writeHead(200, { 'Content-Type': 'application/json' }).end(JSON.stringify({ v: ctl.version })); return; }
@@ -67,4 +68,35 @@ base.test('a new version on the server shows "A new version is ready" and Reload
   expect(await page.content()).toContain('<!-- v-next -->');
   expect(errors).toEqual([]);
   await context.close(); context.server.close();
+});
+
+// Phase 12 ticket 3: the fonts and the sync library come with the app, so offline the page looks the same and sync starts
+const V = /^const V = '([\d.]+)';/m.exec(fs.readFileSync(path.join(__dirname, '..', 'firebase-sync.js'), 'utf8'))[1];
+const STUBS = { // just enough of the library for firebase-sync.js to start: nobody is signed in
+  'firebase-app.js': 'window.__fbLoaded = (window.__fbLoaded || 0) + 1; export const initializeApp = () => ({});',
+  'firebase-auth.js': 'export const getAuth = () => ({}); export class GoogleAuthProvider { setCustomParameters() {} } export const getRedirectResult = () => Promise.resolve(); export const onAuthStateChanged = (a, cb) => cb(null); export const signOut = () => Promise.resolve();',
+  'firebase-firestore.js': 'export const initializeFirestore = () => ({}); export const persistentLocalCache = () => ({}); export const persistentMultipleTabManager = () => ({}); export const getFirestore = () => ({});',
+};
+
+base.test('offline after one visit: the page keeps its fonts, and sync starts from the cached library', async ({ browser }, testInfo) => {
+  base.test.skip(testInfo.project.name !== 'phone-light', 'theme-independent');
+  const s = await server();
+  s.ctl.files = Object.fromEntries(Object.entries(STUBS).map(([f, code]) => [`/vendor/firebasejs/${V}/${f}`, code]));
+  const context = await browser.newContext({ baseURL: s.url, serviceWorkers: 'allow', viewport: { width: 390, height: 844 } });
+  const page = await context.newPage(), errors = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  await page.goto('/index.html');
+  await page.waitForFunction(async () => !!(await navigator.serviceWorker.ready).active);
+  await page.reload(); await page.waitForFunction(() => !!navigator.serviceWorker.controller);
+  await page.waitForFunction(() => window.__fbLoaded >= 1 && document.fonts.status === 'loaded');
+  await page.waitForFunction(async () => (await (await caches.open('kettle-bar-v2')).keys()).some((r) => r.url.includes('/fonts/barlow-condensed')));
+  await context.setOffline(true);
+  await page.reload();
+  await page.locator('#app h1').first().waitFor();
+  await page.waitForFunction(() => window.__fbLoaded >= 1, null, { timeout: 5000 });
+  await page.evaluate(() => document.fonts.ready);
+  expect(await page.evaluate(() => [document.fonts.check('800 30px "Barlow Condensed"'), document.fonts.check('400 16px "Barlow"')])).toEqual([true, true]);
+  expect(await page.evaluate(() => [...document.fonts].filter((f) => f.status === 'loaded').map((f) => f.family.replace(/"/g, '')))).toContain('Barlow Condensed');
+  expect(errors).toEqual([]);
+  await context.close(); s.close();
 });
