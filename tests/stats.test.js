@@ -132,7 +132,7 @@ test('report: scope and span in, totals, weeks and ranked muscles out', () => {
 });
 
 test('the page asks for stats in one call per view', () => {
-  const src = require('fs').readFileSync(require('path').join(__dirname, '..', 'app/views.js'), 'utf8');
+  const src = require('../build.js').PAGES.map((f) => require('fs').readFileSync(require('path').join(__dirname, '..', f), 'utf8')).join('\n');
   assert.doesNotMatch(src, /KBStats\.(summarize|spanRange|weekly|rankMuscles|weekStart)/);
 });
 
@@ -158,4 +158,13 @@ test('bouts: each bout is one set of its combo, no reps', () => {
   assert.equal(v.sets, 3);
   assert.equal(v.reps, 0);
   assert.equal(v.muscles.abs, 2);
+});
+
+test('scoped: every program, one program, one round of one program (a round is ignored for all programs)', () => {
+  const { scoped } = require('../app/stats.js');
+  const es = [{ pid: 'p', round: 1 }, { pid: 'p', round: 2 }, { pid: 'q', round: 1 }];
+  assert.equal(scoped(es, 'all').length, 3);
+  assert.equal(scoped(es, 'all', 2).length, 3);
+  assert.deepEqual(scoped(es, 'p').map((e) => e.round), [1, 2]);
+  assert.deepEqual(scoped(es, 'p', 2), [{ pid: 'p', round: 2 }]);
 });
