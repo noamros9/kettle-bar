@@ -10,8 +10,8 @@ const { chromium } = require('playwright');
 const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript', '.json': 'application/json', '.wasm': 'application/wasm', '.onnx': 'application/octet-stream' };
 async function main(root) {
   const server = http.createServer((req, res) => {
-    const file = path.join(root, decodeURIComponent(req.url.split('?')[0]).replace(/\/$/, '/index.html'));
-    if (!file.startsWith(path.resolve(root)) || !fs.existsSync(file)) { res.statusCode = 404; return res.end(); }
+    const base = path.resolve(root), file = path.join(base, decodeURIComponent(req.url.split('?')[0]).replace(/\/$/, '/index.html'));
+    if (!file.startsWith(base) || !fs.existsSync(file) || fs.statSync(file).isDirectory()) { res.statusCode = 404; return res.end(); }
     res.setHeader('Content-Type', TYPES[path.extname(file)] || 'application/octet-stream');
     fs.createReadStream(file).pipe(res);
   }).listen(0);
