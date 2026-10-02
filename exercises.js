@@ -621,6 +621,80 @@
       { t: [34, 0], hn: [34, 30], hf: [36, 30], fn: [-16, 30], ff: [-17, 30], kh: [1, 0.2], mat: 1 }] },
     glute_bridge_march: { name: 'Glute bridge march', cat: 'lower', added: 5, r: [12, 16, 20], alt: 1, tp: 2.5, mus: 'glutes | hamstrings abs', cue: 'Hold a high glute bridge and lift one knee toward your chest, then the other, without your hips dropping or twisting.', poses: [
       GB_UP, P(GB_UP, { fn: [10, -12], khn: [1, -1] })] },
+    // ---- Phase 14: catalogue 8, what the new subjects need (added: 8: builds at 7 or older never draw them) ----
+    // running prep
+    a_skip: { name: 'A-skips', cat: 'cardio', added: 8, r: [20, 24, 30], alt: 1, tp: 0.8, mus: 'hip_flexors calves | quads glutes', cue: 'Skip forward or on the spot, driving one knee to hip height and pawing the foot back down under you, opposite arm swinging. Stay tall and light.', poses: [
+      { t: [2, -34], lift: 5, fn: [21, 20], khn: [1, -1], ff: [0, 41], hn: [-10, -10], ehn: [-1, 0.3], hf: [12, -20], ehf: [0, 1] },
+      { t: [2, -34], lift: 5, ff: [21, 20], khf: [1, -1], fn: [0, 41], hf: [-10, -10], ehf: [-1, 0.3], hn: [12, -20], ehn: [0, 1] }] },
+    wall_drive: { name: 'Wall drives', cat: 'cardio', added: 8, r: [16, 20, 24], alt: 1, tp: 1.2, mus: 'hip_flexors glutes | calves abs', cue: 'Hands on a wall at shoulder height, body leaning in a straight line. Drive one knee up to hip height and switch feet fast, like sprinting in place.', poses: [
+      { t: [16, -30], hn: [38, -33], hf: [38, -32], eh: [0, 1], ff: [-16, 37], fn: [16, 10], khn: [1, -1], wall: 40 },
+      { t: [16, -30], hn: [38, -33], hf: [38, -32], eh: [0, 1], fn: [-16, 37], ff: [16, 10], khf: [1, -1], wall: 40 }] },
+    arm_drive: { name: 'Running arm drives', cat: 'cardio', added: 8, u: 'sec', r: [30, 30, 40], mus: 'front_delts rear_delts | abs upper_back', cue: 'Stand tall in a split stance, elbows bent at 90 degrees. Swing the arms from the shoulders, hand to cheek in front and hand past the hip behind, fast and relaxed.', poses: [
+      { t: [1, -34], fn: [10, 40], ff: [-8, 40], hn: [14, -24], ehn: [0, 1], hf: [-12, -6], ehf: [-1, 0.3] },
+      { t: [1, -34], fn: [10, 40], ff: [-8, 40], hf: [14, -24], ehf: [0, 1], hn: [-12, -6], ehn: [-1, 0.3] }] },
+    // court & field sports
+    carioca: { name: 'Carioca', cat: 'cardio', added: 8, view: 'front', u: 'sec', r: [30, 30, 40], mus: 'adductors glutes obliques | calves hip_flexors', cue: 'Travel sideways, the trailing foot crossing in front, then behind, while the hips twist and the shoulders stay square. Go a few steps each way.', poses: [
+      { t: [0, -34], fn: [-18, 39], ff: [18, 39], khn: [-1, 0], khf: [1, 0], hn: [-26, -14], hf: [26, -14] },
+      { t: [0, -34], fn: [10, 40], ff: [-8, 40], khn: [1, 0], khf: [-1, 0], hn: [-26, -14], hf: [26, -14] }] },
+    shuttle_touch: { name: 'Shuttle touches', cat: 'cardio', added: 8, view: 'front', u: 'sec', r: [30, 30, 40], mus: 'quads glutes adductors | calves obliques', cue: 'Shuffle three steps to one side, sink low and touch the floor by your outside foot, then shuffle back and touch on the other side.', poses: [
+      { t: [0, -32], fn: [-22, 32], ff: [22, 32], khn: [-1, 0], khf: [1, 0], hn: [-14, -12], hf: [14, -12] },
+      { t: [-10, -30], fn: [-26, 28], ff: [22, 32], khn: [-1, 0], khf: [1, 0], hn: [-26, 22], hf: [14, -10] }] },
+    split_step: { name: 'Split-step hops', cat: 'cardio', added: 8, view: 'front', r: [12, 16, 20], tp: 1.5, mus: 'calves quads | glutes adductors', cue: 'Small bounce on the balls of your feet, then land wide and low in an athletic stance, ready to go either way. Reset and repeat.', poses: [
+      { t: [0, -34], lift: 6, fn: [-8, 41], ff: [8, 41], hn: [-14, -12], hf: [14, -12] },
+      { t: [0, -30], fn: [-24, 32], ff: [24, 32], khn: [-1, 0], khf: [1, 0], hn: [-16, -10], hf: [16, -10] }] },
+    backpedal: { name: 'Backpedals', cat: 'cardio', added: 8, u: 'sec', r: [20, 30, 30], mus: 'quads calves | hamstrings glutes', cue: 'Chest slightly forward over your toes, run backwards with short quick steps, pushing off the balls of the feet. A few metres back, jog forward, repeat.', poses: [
+      { t: [6, -33], fn: [-16, 37], ff: [6, 40], kh: [1, -0.2], hn: [14, -16], ehn: [0, 1], hf: [-6, -8] },
+      { t: [6, -33], ff: [-16, 37], fn: [6, 40], kh: [1, -0.2], hf: [14, -16], ehf: [0, 1], hn: [-6, -8] }] },
+    // grip & forearms
+    farmer_carry: { name: 'Farmer carry', cat: 'full', added: 8, u: 'sec', r: [30, 40, 45], load: 'heavy', mus: 'forearms upper_back | abs glutes', cue: 'A heavy dumbbell in each hand, arms long, shoulders down and back. Walk tall with short steps around the room, gripping hard.', poses: [
+      P(STAND, { hn: [3, -1], hf: [1, -1], db: 'nf' }), P(STAND, { fn: [12, 39], ff: [-10, 39], hn: [3, -1], hf: [1, -1], db: 'nf' })] },
+    wrist_curl: { name: 'Dumbbell wrist curls', cat: 'upper', added: 8, r: [15, 18, 20], tp: 2, load: 'light', mus: 'forearms |', cue: 'Elbows tucked at your sides, forearms forward, palms up. Let the dumbbells roll toward your fingertips, then curl them up with the wrists only.', poses: [
+      P(STAND, { hn: [18, -12], hf: [16, -12], eh: [-0.2, 1], db: 'nf' }), P(STAND, { hn: [18, -17], hf: [16, -17], eh: [-0.2, 1], db: 'nf' })] },
+    reverse_wrist_curl: { name: 'Reverse wrist curls', cat: 'upper', added: 8, r: [15, 18, 20], tp: 2, load: 'light', mus: 'forearms |', cue: 'Elbows tucked at your sides, forearms forward, palms down. Lift the backs of your hands toward you with the wrists only, then lower slowly.', poses: [
+      P(STAND, { hn: [18, -12], hf: [16, -12], eh: [-0.2, 1], db: 'nf' }), P(STAND, { hn: [18, -17], hf: [16, -17], eh: [-0.2, 1], db: 'nf' })] },
+    reverse_curl: { name: 'Reverse curls', cat: 'upper', added: 8, r: [12, 12, 14], tp: 3, load: 'light', mus: 'forearms biceps |', cue: 'Palms facing back, elbows pinned to your sides. Curl the dumbbells to your shoulders with straight wrists, lower slowly.', poses: [
+      P(STAND, { db: 'nf' }), P(STAND, { hn: [8, -30], hf: [6, -30], eh: [-0.2, 1], db: 'nf' })] },
+    kb_bottoms_up_hold: { name: 'Bottoms-up hold', cat: 'upper', added: 8, u: 'sec', r: [20, 25, 30], side: 1, load: 'kb', mus: 'forearms front_delts | upper_back abs', cue: 'Hold the kettlebell upside down by the handle at your shoulder, bell up, elbow under it. Squeeze the handle hard to keep it balanced. Switch hands.', poses: [
+      P(STAND, { hn: [10, -40], ehn: [0.2, 1], kb: 'n', kbd: [0, -1] })] },
+    // kettlebell complexes
+    kb_clean: { name: 'Kettlebell cleans', cat: 'full', added: 8, r: [8, 10, 12], side: 1, tp: 2.5, load: 'kb', mus: 'glutes hamstrings | forearms upper_back abs', cue: 'Swing the bell back between your legs, drive the hips and pull it close so it rolls softly onto the back of your forearm at the shoulder. Switch hands.', poses: [
+      { t: [24, -24], fn: [7, 37], ff: [5, 37], kh: [1, -0.3], hn: [14, 8], hf: [26, 2], kb: 'n' }, RACK] },
+    kb_push_press: { name: 'Kettlebell push press', cat: 'full', added: 8, r: [8, 10, 12], side: 1, tp: 2.5, load: 'kb', mus: 'front_delts triceps quads | glutes abs', cue: 'Bell in the rack, dip a few centimetres at the knees, then drive up through your legs and press the bell overhead. Lower to the rack. Switch hands.', poses: [
+      P(RACK, { t: [2, -32], fn: [8, 38], ff: [6, 38], kh: [1, -0.4] }), PRESS_UP] },
+    kb_one_arm_swing: { name: 'One-arm kettlebell swings', cat: 'cardio', added: 8, r: [12, 15, 20], side: 1, tp: 2, load: 'kb', mus: 'glutes hamstrings | obliques forearms lower_back', cue: 'One hand on the bell, hike it back between your legs and snap your hips to float it to chest height, the free arm by your side. Switch hands.', poses: [
+      P(SWING_LOW, { kb: 'n', hf: [12, 2] }), { t: [-3, -34], fn: [1, 41], ff: [-1, 41], hn: [30, -36], hf: [3, -1], kb: 'n' }] },
+    kb_figure_eight: { name: 'Kettlebell figure eights', cat: 'full', added: 8, r: [10, 12, 16], tp: 2.5, load: 'kb', mus: 'glutes hamstrings forearms | abs lower_back', cue: 'Feet wide, hips back, back flat. Pass the bell between your legs from one hand to the other, around the outside of a leg, and back through.', poses: [
+      P(HINGE, { hn: [6, 12], hf: [4, 12], kb: 'n', kh: [1, -0.3] }), P(HINGE, { hn: [16, 8], hf: [4, 12], kb: 'f', kh: [1, -0.3] })] },
+    kb_around_body: { name: 'Around-the-body passes', cat: 'abs', added: 8, u: 'sec', r: [30, 40, 45], load: 'kb', mus: 'obliques forearms | abs front_delts', cue: 'Stand tall, hips still, and pass the bell around your waist from hand to hand, quick and smooth. Change direction halfway.', poses: [
+      P(STAND, { hn: [14, -8], hf: [14, -8], eh: [0.3, 1], kb: 'both', kbd: [0, 1] }), P(STAND, { hn: [-12, -6], hf: [-12, -6], eh: [-0.3, 1], kb: 'both', kbd: [0, 1] })] },
+    // climber / pull strength
+    wide_pullup: { name: 'Wide-grip pull-ups', cat: 'back', added: 8, r: [4, 5, 6], tp: 4, equip: ['bar'], mus: 'lats upper_back | biceps forearms rear_delts', cue: 'Hands well outside your shoulders, overhand. Pull your chest toward the bar, elbows driving down and out, and lower all the way.', poses: [HANG, PULLTOP] },
+    lock_off: { name: 'Lock-off holds', cat: 'back', added: 8, u: 'sec', r: [10, 15, 20], equip: ['bar'], mus: 'lats biceps forearms | upper_back abs', cue: 'Pull up halfway, elbows at 90 degrees, and hold still there, shoulders down. Lower slowly when the time is up.', poses: [PULLMID] },
+    archer_pullup: { name: 'Archer pull-ups', cat: 'back', added: 8, r: [2, 3, 4], alt: 1, tp: 5, equip: ['bar'], mus: 'lats upper_back biceps | forearms rear_delts', cue: 'Wide grip. Pull toward one hand while the other arm straightens along the bar, lower, then pull to the other side.', poses: [HANG, P(PULLTOP, { t: [-6, -34] })] },
+    // gentle / low impact
+    wall_pushup: { name: 'Wall push-ups', cat: 'chest', added: 8, r: [12, 15, 20], tp: 2.5, mus: 'chest triceps | front_delts abs', cue: 'Hands on a wall at chest height, feet a step back, body straight. Bend the elbows to bring your chest to the wall, then push away.', poses: [
+      { t: [10, -32], fn: [-6, 40], ff: [-8, 40], hn: [34, -32], hf: [34, -31], eh: [0, 1], wall: 36 },
+      { t: [16, -30], fn: [-6, 40], ff: [-8, 40], hn: [34, -32], hf: [34, -31], eh: [-0.4, 1], wall: 36 }] },
+    sit_to_stand: { name: 'Sit-to-stands', cat: 'lower', added: 8, r: [10, 12, 15], tp: 3, mus: 'quads glutes | abs hamstrings', cue: 'Sit at the front of a chair, feet flat. Lean forward and stand up without using your hands, then sit back down slowly.', poses: [
+      P(STAND, { hn: [26, -26], hf: [26, -25], eh: [0, 1] }), { t: [16, -30], fn: [20, 28], ff: [18, 28], kh: [1, -0.4], hn: [36, -26], hf: [36, -25], eh: [0, 1] }] },
+    standing_march: { name: 'Standing march', cat: 'cardio', added: 8, u: 'sec', r: [30, 40, 45], mus: 'hip_flexors | calves abs', cue: 'March on the spot at an easy pace, lifting each knee comfortably high and swinging the opposite arm. Stand tall and keep breathing.', poses: [
+      { t: [0, -34], fn: [0, 41], ff: [18, 22], khf: [1, -1], hn: [8, -16], ehn: [0, 1], hf: [-4, -2] },
+      { t: [0, -34], ff: [0, 41], fn: [18, 22], khn: [1, -1], hf: [8, -16], ehf: [0, 1], hn: [-4, -2] }] },
+    step_touch: { name: 'Step touches', cat: 'cardio', added: 8, view: 'front', u: 'sec', r: [30, 40, 45], mus: 'calves glutes | adductors hip_flexors', cue: 'Step one foot out to the side, bring the other in to tap beside it, then step back the other way. Easy rhythm, arms swinging.', poses: [
+      { t: [0, -34], fn: [-20, 40], ff: [2, 41], hn: [-18, -14], hf: [16, -6] },
+      { t: [0, -34], fn: [-2, 41], ff: [20, 40], hn: [-16, -6], hf: [18, -14] }] },
+    // back care
+    pelvic_tilt: { name: 'Pelvic tilts', cat: 'mobility', added: 8, r: [12, 15, 20], tp: 2.5, mus: 'abs | lower_back glutes', cue: 'On your back, knees bent and feet flat. Gently press your lower back into the floor by tilting the pelvis, hold a breath, then release.', poses: [
+      GB_DOWN, P(GB_DOWN, { t: [34, -2] })] },
+    prone_press_up: { name: 'Prone press-ups', cat: 'mobility', added: 8, r: [8, 10, 12], tp: 3, mus: 'lower_back | abs', cue: 'Lie face down, hands under your shoulders. Press your chest up as far as is comfortable while your hips stay on the floor and your back relaxes, then lower.', poses: [
+      P(PRONE, { hn: [30, 1], hf: [31, 1], eh: [-1, -1] }), COBRA] },
+    clamshell: { name: 'Clamshells', cat: 'lower', added: 8, r: [12, 15, 20], side: 1, tp: 2, mus: 'glutes | adductors', cue: 'Lie on your side, hips and knees bent, feet together. Keep the feet touching and lift the top knee like a shell opening, without rolling back. Switch sides.', poses: [
+      { t: [34, -4], hd: [1, -0.3], hn: [46, -3], hf: [14, -6], fn: [-38, 4], ff: [-38, 2], kh: [0.2, 1], mat: 1 },
+      { t: [34, -4], hd: [1, -0.3], hn: [46, -3], hf: [14, -6], fn: [-38, 4], ff: [-30, 0], khn: [0.2, 1], khf: [0.2, -1], mat: 1 }] },
+    mcgill_curl_up: { name: 'McGill curl-ups', cat: 'abs', added: 8, r: [6, 8, 10], tp: 5, mus: 'abs | obliques', cue: 'On your back, one knee bent, hands under the small of your back. Lift head and shoulders a few centimetres as one piece, hold ten seconds, lower.', poses: [
+      P(LIE, { fn: [-24, 0], khn: [0.2, -1], hn: [6, 3], hf: [7, 3], eh: [0, -1] }), P(LIE, { t: [33, -6], hd: [0.8, -0.6], fn: [-24, 0], khn: [0.2, -1], hn: [6, 3], hf: [7, 3], eh: [0, -1] })] },
+    side_plank_knee: { name: 'Side plank from the knees', cat: 'abs', added: 8, u: 'sec', r: [20, 30, 40], side: 1, mus: 'obliques | abs glutes', cue: 'On one forearm with knees bent behind you, lift the hips until shoulders, hips and knees line up. Hold, breathing. Switch sides.', poses: [
+      P(FOREARM, { fn: [-34, -4], ff: [-35, -4], kh: [0, 1], hf: [34, -41], ehf: [0, -1] })] },
   };
 
 

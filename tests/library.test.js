@@ -70,7 +70,7 @@ for (const [subject, want] of Object.entries(SUBJECTS)) {
 
 test('every exercise added in Phase 5 is marked added: 5, and only programs marked added: 5 use them', () => {
   const PHASE5_CATS = ['yoga', 'pilates', 'flex', 'mobility', 'boxing', 'kick', 'balance'];
-  Object.values(EX).filter((e) => PHASE5_CATS.includes(e.cat)).forEach((e) => assert.equal(e.added, 5, e.id));
+  Object.values(EX).filter((e) => PHASE5_CATS.includes(e.cat) && !(e.added > 5)).forEach((e) => assert.equal(e.added, 5, e.id)); // later catalogues add to these kinds too
   programs.forEach((p) => p.days.forEach((d) => itemsOf(d).forEach((it) => {
     assert.ok((EX[it.ex].added || 0) <= (cfgOf[p.id].added || 0), `${p.id} d${d.day}: ${it.ex} is newer than the program`);
   })));
