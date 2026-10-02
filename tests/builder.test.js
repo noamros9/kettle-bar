@@ -315,3 +315,23 @@ test('KBBuilder in the page has build, buildDay, blockTimes, recipesOf, newMemor
   const day = K.buildDay(Object.values(r)[0], { day: 1, level: 1, rnd: K.makeRnd('page'), memory: K.newMemory() }, cat);
   assert.equal(day.day, 1);
 });
+
+// ---- Phase 14 ticket 1: 30-day programs ----
+test('a config with days: 30 builds 30 days, levels 10 / 10 / 10, names and cycle carried on; the summary says 30', () => {
+  const { summarize, slim } = require('../app/programs.js');
+  const cfg = { ...base(), id: 'thirty-test', days: 30 };
+  const p = build(cfg);
+  assert.equal(p.days.length, 30);
+  assert.deepEqual(p.days.map((d) => d.day), Array.from({ length: 30 }, (_, i) => i + 1));
+  assert.deepEqual([1, 2, 3].map((l) => p.days.filter((d) => d.level === l).length), [10, 10, 10]);
+  assert.deepEqual([p.days[9].level, p.days[10].level, p.days[20].level], [1, 2, 3]);
+  assert.equal(p.days[29].type, cfg.cycle[29 % cfg.cycle.length]);
+  assert.equal(slim(summarize(p)).dayCount, 30);
+  // the same config at 60 days: its first days are not the 30-day program's (Level II starts at day 21, not 11)
+  assert.equal(build(base()).days[10].level, 1);
+});
+
+test('a program is 30 or 60 days: any other length is refused', () => {
+  assert.throws(() => build({ ...base(), id: 'x', days: 45 }), /30 or 60 days/);
+  assert.equal(build({ ...base(), id: 'y', days: 60 }).days.length, 60);
+});

@@ -25,6 +25,7 @@ test('every level start is where levelOf steps up', () => {
 
 test('a program\'s length: from a config, a built program or a summary; 60 when nothing says', () => {
   assert.equal(L.DAYS, 60);
+  assert.deepEqual(L.LENGTHS, [30, 60]);
   assert.equal(L.dayCountOf({ id: 'x' }), 60);
   assert.equal(L.dayCountOf({ days: 30 }), 30);
   assert.equal(L.dayCountOf({ days: Array.from({ length: 30 }, (_, i) => ({ day: i + 1 })) }), 30);
