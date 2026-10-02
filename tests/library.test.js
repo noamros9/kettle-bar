@@ -5,7 +5,7 @@ const cat = require('../exercises.js');
 const { buildAll, CONFIGS, timing, build, POOLS } = require('../program-builder.js');
 
 const { EX, allowedIn } = cat;
-const programs = buildAll();
+const programs = require('./helpers/library.js').library();
 const cfgOf = Object.fromEntries(CONFIGS.map((c) => [c.id, c]));
 const itemsOf = (d) => [...d.blocks.flatMap((b) => b.items), ...d.warmup.items, ...d.cooldown.items];
 

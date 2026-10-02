@@ -6,7 +6,7 @@ const cat = require('../exercises.js');
 const S = require('../app/swaps.js');
 const { buildAll } = require('../program-builder.js');
 
-const all = buildAll(), three = all.find((p) => p.id === 'three-split-60');
+const all = require('./helpers/library.js').library(), three = all.find((p) => p.id === 'three-split-60');
 const EX = cat.EX;
 const needsGear = (e) => !!e.load || (e.equip || []).includes('bar');
 const mains = (day) => day.blocks.flatMap((b) => b.items);

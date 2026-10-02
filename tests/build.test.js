@@ -3,7 +3,7 @@ const test = require('node:test');
 const assert = require('node:assert');
 const { render } = require('../build.js');
 
-const out = render();
+const out = require('./helpers/library.js').rendered();
 
 test('the build produces the page and one data file per program', () => {
   const { CONFIGS } = require('../program-builder.js');
@@ -48,7 +48,7 @@ test('data/index.json says which programs use each exercise (the exercise page\'
   assert.deepStrictEqual(index, expected);
   assert.doesNotMatch(out['index.html'], /"exercises":/, 'no per-program exercise lists in the page');
 });
-function CONFIGS_PROGRAMS() { return require('../program-builder.js').buildAll(); }
+function CONFIGS_PROGRAMS() { return require('./helpers/library.js').library(); }
 
 test('build your own is not in the page: its code is data/recipes.js, loaded when #build first opens', () => {
   assert.doesNotMatch(out['index.html'], /function recipeFor|const GRID|root\.KBRecipes/);

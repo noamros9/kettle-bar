@@ -6,7 +6,7 @@ const S = require('../app/swaps.js');
 const { buildAll, buildConfig, CONFIGS } = require('../program-builder.js');
 
 const NEW = ['prone_lat_pull', 'superman_row', 'side_lying_raise'];
-const all = buildAll();
+const all = require('./helpers/library.js').library();
 
 test('bodyweight only, over every library day: lateral raises never keep "Needs gear"; a row only on a day with 3+ pulls needing gear, at most one', () => {
   const ROWS = ['db_row', 'one_arm_row', 'kb_row'];
