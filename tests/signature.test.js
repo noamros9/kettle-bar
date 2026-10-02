@@ -6,7 +6,7 @@ const crypto = require('crypto');
 const { EX, allowedIn } = require('../exercises.js');
 const { buildAll, CONFIGS, timing } = require('../program-builder.js');
 
-const programs = buildAll();
+const programs = require('./helpers/library.js').library();
 const cfgOf = Object.fromEntries(CONFIGS.map((c) => [c.id, c]));
 const progOf = Object.fromEntries(programs.map((p) => [p.id, p]));
 const PINS = require('./fixtures/program-days.json');

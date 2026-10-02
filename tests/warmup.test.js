@@ -7,7 +7,7 @@ const cat = require('../exercises.js');
 const W = require('../app/warmup.js');
 const { buildAll } = require('../program-builder.js');
 
-const EX = cat.EX, all = buildAll();
+const EX = cat.EX, all = require('./helpers/library.js').library();
 const secondsOf = (w) => w.items.reduce((s, it) => s + it.n * (EX[it.ex].side ? 2 : 1), 0);
 const daysOf = (subject) => all.filter((p) => p.subject === subject).flatMap((p) => p.days.map((d) => ({ ...d, subject })));
 

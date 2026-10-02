@@ -56,6 +56,10 @@ backups).
   repo, ignored); test files read it. The recipe-book tests reuse one generated book.
 - **Test first:** the cache is rebuilt when a source changes (hash); a stale cache is never read.
 - **Done when:** `npm run test:coverage` runs in under 90 s here.
+- **As built (2 Oct), ahead of tickets 3–4** (the pre-commit had grown to ~5 min, slowing every commit): the helper
+  caches `buildAll()` and `build.js render()` by a hash of every source; the scripts also run test files on every
+  core (`--test-concurrency=$(nproc)`; Node's default leaves one free, so here it ran one file at a time). Plain run
+  166 s → 50 s; coverage gate ~290 s → 86 s.
 
 ## Challenge round
 - **Weakest assumption:** that mangling is safe. Only names inside functions are mangled; the phone suite is the

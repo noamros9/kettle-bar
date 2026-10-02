@@ -6,7 +6,7 @@ const path = require('path');
 const { EX } = require('../exercises.js');
 const { buildAll, CONFIGS, timing } = require('../program-builder.js');
 
-const programs = buildAll();
+const programs = require('./helpers/library.js').library();
 const hasBar = (id) => (EX[id].equip || []).includes('bar');
 
 test('every program has 60 days, unique ids', () => {

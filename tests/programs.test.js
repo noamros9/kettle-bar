@@ -45,7 +45,7 @@ test('a program not loaded yet: get says nothing until load resolves', async () 
 });
 
 test('programsUsing agrees with scanning every day of every real program', () => {
-  const real = buildAll(), all = createProgramCatalogue(inlined(real));
+  const real = require('./helpers/library.js').library(), all = createProgramCatalogue(inlined(real));
   const uses = (p, id) => p.days.some((w) => [...w.blocks.flatMap((b) => b.items), ...(w.warmup ? w.warmup.items : []), ...(w.cooldown ? w.cooldown.items : [])].some((it) => it.ex === id));
   ['pushup', 'kb_swing', 'plank', 'pullup'].forEach((id) => assert.deepEqual(all.programsUsing(id), real.filter((p) => uses(p, id)).map((p) => p.id), id));
 });

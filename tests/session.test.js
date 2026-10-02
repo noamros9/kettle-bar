@@ -5,7 +5,7 @@ const { EX } = require('../exercises.js');
 const { createSession } = require('../app/session.js');
 const { buildAll } = require('../program-builder.js');
 
-const programs = Object.fromEntries(buildAll().map((p) => [p.id, p]));
+const programs = Object.fromEntries(require('./helpers/library.js').library().map((p) => [p.id, p]));
 const day = (pid, n) => programs[pid].days[n - 1];
 const firstOf = (pid, format) => programs[pid].days.find((d) => d.blocks.some((b) => b.format === format));
 

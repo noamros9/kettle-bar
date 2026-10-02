@@ -8,7 +8,7 @@ const { createProgramCatalogue, inlined } = require('../app/programs.js');
 const { createDays } = require('../app/day.js');
 const { buildAll } = require('../program-builder.js');
 
-const real = buildAll().filter((p) => p.id === 'three-split-60');
+const real = require('./helpers/library.js').library().filter((p) => p.id === 'three-split-60');
 const setup = () => {
   const m = {}, clock = { t: 1_000_000 };
   const store = createStore({ programIds: ['three-split-60'], storage: { get: (k) => m[k] ?? null, set: (k, v) => { m[k] = v; } }, now: () => 't' });
@@ -207,7 +207,7 @@ test('short on time: the day opens trimmed to about 20 minutes, stats see it per
 });
 
 test('a day already about 20 minutes cannot be made shorter', () => {
-  const flat = buildAll().filter((p) => p.id === 'twenty-flat');
+  const flat = require('./helpers/library.js').library().filter((p) => p.id === 'twenty-flat');
   const m = {}, store = createStore({ programIds: ['twenty-flat'], storage: { get: (k) => m[k] ?? null, set: (k, v) => { m[k] = v; } }, now: () => 't' });
   store.load();
   const days = createDays({ programs: createProgramCatalogue(inlined(flat)), store, cat, createSession, storage: { get: () => null, set() {}, remove() {} } });
@@ -243,7 +243,7 @@ test('travel mode: the open day swaps what needs missing gear, its Swap list lea
 
 // ---- Warm-up that matches the format (Phase 7 ticket 6) ----
 test('the open day shows a warm-up that matches its format; stats keep the stored one', () => {
-  const box = buildAll().find((p) => p.subject === 'Boxing');
+  const box = require('./helpers/library.js').library().find((p) => p.subject === 'Boxing');
   const m = {}, store = createStore({ programIds: [box.id], storage: { get: (k) => m[k] ?? null, set: (k, v) => { m[k] = v; } }, now: () => 't' });
   store.load();
   const days = createDays({ programs: createProgramCatalogue(inlined([box])), store, cat, createSession, storage: { get: () => null, set() {}, remove() {} } });

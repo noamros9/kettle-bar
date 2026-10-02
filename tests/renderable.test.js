@@ -45,7 +45,7 @@ function problems(program, day) {
   return bad;
 }
 
-const programs = buildAll();
+const programs = require('./helpers/library.js').library();
 
 test('the walk covers every program', () => {
   assert.ok(programs.length >= 98, `${programs.length} programs`);

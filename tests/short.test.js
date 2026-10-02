@@ -7,7 +7,7 @@ const F = require('../formats.js');
 const cat = require('../exercises.js');
 const Short = require('../app/short.js');
 
-const all = B.buildAll();
+const all = require('./helpers/library.js').library();
 const restsOf = (p) => ({ ...B.REST, ...(p.rests || {}) });
 const minutes = (day, R) => day.blocks.reduce((s, b, i) => s + F.of(b).time(b, R, cat.EX) + (i ? (b.kind === 'abs' ? R.beforeAbs : R.block) : 0), 0) / 60;
 const firsts = (day) => day.blocks.map((b) => b.items[0].ex);

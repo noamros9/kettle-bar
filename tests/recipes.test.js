@@ -312,7 +312,7 @@ test('the builder builds the made config in the page too: no Node calls, same da
   assert.equal(page.KBRecipes.pick, undefined, 'the page has no book until the loader brings it');
   // the page fetches data/recipes.json (what build.js writes)
   const { render } = require('../build.js');
-  const file = render()['data/recipes.json'];
+  const file = require('./helpers/library.js').rendered()['data/recipes.json'];
   const loader = require('../app/lazy.js').lazyFile({ fetch: async (url) => { assert.equal(url, 'data/recipes.json'); return JSON.parse(file); }, cache: { get: async () => undefined, put: async () => {} }, url: 'data/recipes.json', unavailable: '' });
   const recipes = page.KBRecipes.of(await loader.load());
   const c = choice('Fighter', 'all', 35, { split: 3 });
@@ -332,7 +332,7 @@ test('the builder builds the made config in the page too: no Node calls, same da
 
 test('the recipe book file is small (under 140 KB raw, 20 KB gzipped) and is not in index.html', () => {
   const { render } = require('../build.js');
-  const out = render(), json = out['data/recipes.json'];
+  const out = require('./helpers/library.js').rendered(), json = out['data/recipes.json'];
   const gz = zlib.gzipSync(json).length;
   console.log(`# data/recipes.json: ${json.length} bytes raw, ${gz} bytes gzipped; ${R.pick({}).length} day types, ${R.book().specs.length} specs`);
   assert.ok(json.length < 140 * 1024 && gz < 20 * 1024, `${json.length} raw, ${gz} gzipped`); // the mix parts (ticket 7) are about 17 KB raw, 4 KB gzipped
