@@ -331,6 +331,120 @@ const CONFIGS = [
       side: { label: 'Side to side', short: 'Side', blocks: [C('Plyo circuit', ['plyoLat', 'plyoUp', 'plyoLat', 'core?'], { values: [2, 3, 4] })] },
     },
   },
+  // ---------------- PHASE 14: RUNNING PREP (drills, single-leg strength and springs for runners; abs to finish) ----------------
+  {
+    id: 'run-ready', added: 14, catalogue: 8, name: 'Run Ready', subject: 'Running prep', minutes: [25, 30], equip: 'bw', levers: [null, 'reps', 'reps'],
+    split: 'Drills & strength A / B', blurb: 'Running drills in a circuit, then single-leg strength: the gym half of getting ready to run.',
+    about: 'The training that makes running feel easier, for the days you are not running. Each session starts with a circuit of running drills, A-skips, wall drives and high knees, to groove a quick, tall stride. Then come straight sets of single-leg strength for the hips and calves that take the load on every step. Abs finish every session. Levels II and III add reps.',
+    names: ['First Mile', 'Warm Lap', 'Easy Pace', 'Trailhead', 'Kerb', 'Towpath', 'Track Bend', 'Park Loop', 'Finish Line', 'Bib Number', 'Start Gun', 'Split Time', 'Negative Split', 'Cadence', 'Stride', 'Footfall', 'Second Wind', 'Runner\'s High', 'Long Way Home', 'Parkrun'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Drills & strength A', short: 'A', blocks: [C('Running drills', ['runDrill', 'runDrill', 'runFast', 'runDrill?'], { values: [2, 3] }), S('Single-leg strength', ['runLegs', 'runLegs', 'runLegs?'])] },
+      b: { label: 'Drills & strength B', short: 'B', blocks: [C('Running drills', ['runDrill', 'runFast', 'runDrill', 'runDrill?'], { values: [2, 3] }), S('Single-leg strength', ['runLegs', 'runLegs', 'runLegs?'])] },
+    },
+  },
+  {
+    id: 'stride-strength', added: 14, catalogue: 8, name: 'Stride Strength', subject: 'Running prep', minutes: [24, 29], equip: 'bw', levers: [null, 'reps', 'tempo'],
+    split: 'Hips / calves & feet / single leg', blurb: 'Strength for runners in three days: hips, then calves and feet, then single-leg control.',
+    about: 'Slow, steady strength for the parts running wears out: hips, calves, feet and knees. Three days rotate, glutes and hips, calves and feet, then single-leg control, all in straight sets with full rests. Each session ends with abs. Level II adds reps and Level III slows every rep down, which is where tendons get strong. Pair it with two or three runs a week.',
+    names: ['Achilles', 'Arch', 'Heel Strike', 'Forefoot', 'Glute Med', 'Hip Drive', 'Knee Lift', 'Shin', 'Ankle', 'Soleus', 'Gastroc', 'Plantar', 'IT Band', 'Hamstring', 'Toe Off', 'Midfoot', 'Push-off', 'Landing', 'Stance', 'Swing Leg'],
+    cycle: ['hips', 'calves', 'single'],
+    dayTypes: {
+      hips: { label: 'Hips', short: 'Hips', blocks: [S('Hips & glutes', ['single_leg_bridge', 'glute_bridge_march', 'runLegs', 'clamshell', 'runLegs?'])] },
+      calves: { label: 'Calves & feet', short: 'Calves', blocks: [S('Calves & feet', ['single_leg_calf_raise', 'heel_raise', 'runLegs', 'pogo_hops', 'runLegs?'])] },
+      single: { label: 'Single leg', short: 'Single', blocks: [S('Single-leg control', ['reverse_lunge', 'single_leg_rdl_bw', 'lunge_to_balance', 'runLegs', 'runLegs?'])] },
+    },
+  },
+  {
+    id: 'springy-legs', added: 14, catalogue: 8, name: 'Springy Legs', subject: 'Running prep', minutes: [24, 29], equip: 'bw', rests: { set: 60, exercise: 90 }, levers: [null, 'reps', 'variation'],
+    split: 'Bounce / bound', blurb: 'Plyometrics for runners: pogo hops, bounds and single-leg hops that teach the legs to be springs.',
+    about: 'Plyometrics made for runners, so each step gives back more of the energy it takes. One day works short, stiff bounces like pogo hops and split-step hops; the other works long bounds and single-leg hops. Sets are short and rests long, a minute between sets, so every rep is springy. Abs finish each session. Level II adds reps and Level III brings harder jumps.',
+    names: ['Spring Step', 'Bounce', 'Recoil', 'Elastic', 'Rubber Band', 'Tendon', 'Slinky', 'Coil Spring', 'Pogo Stick', 'Bounder', 'Gazelle Run', 'Fawn', 'Hare', 'Deer Leap', 'Antelope', 'Spring Lamb', 'Jumping Bean', 'Flea', 'Cricket', 'Frog'],
+    cycle: ['bounce', 'bound'],
+    dayTypes: {
+      bounce: { label: 'Bounce', short: 'Bounce', blocks: [S('Bounces', ['pogo_hops', 'split_step', 'runPlyo', 'runDrill', 'runPlyo?'])] },
+      bound: { label: 'Bound', short: 'Bound', blocks: [S('Bounds', ['bounding', 'single_leg_hops', 'runPlyo', 'runDrill', 'runPlyo?'])] },
+    },
+  },
+  {
+    id: 'track-intervals', added: 14, catalogue: 8, name: 'Track Intervals', subject: 'Running prep', minutes: [22, 27], equip: 'bw', levers: [null, 'reps', 'reps'],
+    split: 'EMOM / AMRAP', blurb: 'Running fitness indoors: sprint-in-place EMOMs and drill AMRAPs, for days you cannot get out.',
+    about: 'Running fitness for days you cannot get outside. One day is an EMOM, a burst of sprinting on the spot, fast feet or drills at the top of every minute, recovering in what is left. The other is an AMRAP of drills and single-leg work, as many rounds as you can. Abs finish every session. Levels II and III add reps, so the recovery shrinks.',
+    names: ['400s', 'Mile Repeat', 'Fartlek', 'Tempo Run', 'Strides', 'Hill Repeats', 'Lap Time', 'Back Straight', 'Home Straight', 'Lane One', 'Bell Lap', 'Kick Finish', 'Pacer', 'Splits', 'Yasso', 'Ladder Run', 'Track Spikes', 'Baton', 'Relay', 'Anchor Leg'],
+    cycle: ['emom', 'amrap'],
+    dayTypes: {
+      emom: { label: 'EMOM', short: 'EMOM', blocks: [E('Sprint EMOM', ['runFast', 'runDrill', 'runFast', 'runPlyo'], { values: [10, 12, 14, 16] })] },
+      amrap: { label: 'AMRAP', short: 'AMRAP', blocks: [A('Drill AMRAP', ['runDrill', 'runLegs', 'runFast', 'core'], { values: [8, 10, 12] })] },
+    },
+  },
+  {
+    id: 'runners-core', added: 14, catalogue: 8, name: 'Runner\'s Core & Hips', subject: 'Running prep', minutes: [20, 25], equip: 'bw', levers: [null, 'reps', 'variation'],
+    split: 'Core & glutes A / B', blurb: 'Twenty minutes of core and hip circuits that keep a runner\'s pelvis level and stride steady.',
+    about: 'A short circuit for the trunk and hips that keep a running stride steady when you tire. Planks, side planks and anti-rotation work hold the pelvis level, and bridges, clamshells and single-leg drills keep the hips strong. Two days alternate with different moves. A short abs finisher follows. Level II adds reps and Level III brings harder versions.',
+    names: ['Level Pelvis', 'Steady State', 'Upright Run', 'Brace', 'Keel Line', 'Gyro', 'Plumb Bob', 'Stabiliser', 'Ballast Tank', 'Centre Line', 'Midline', 'Waistline', 'Belt Line', 'Axis', 'Core Temp', 'Hip Lock', 'Hip Hinge', 'Steadfast', 'Rock Steady', 'Even Keel'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Core & glutes A', short: 'A', blocks: [C('Core & hips', ['coreAnti', 'single_leg_bridge', 'side_plank', 'clamshell', 'runLegs?'], { values: [2, 3, 4] })] },
+      b: { label: 'Core & glutes B', short: 'B', blocks: [C('Core & hips', ['coreRot', 'glute_bridge_march', 'coreAnti', 'runLegs', 'clamshell?'], { values: [2, 3, 4] })] },
+    },
+  },
+  // ---------------- PHASE 14: COURT & FIELD SPORTS (agility, first-step power and change of direction; abs to finish) ----------------
+  {
+    id: 'court-agility', added: 14, catalogue: 8, name: 'Court Agility', subject: 'Court & field sports', minutes: [25, 30], equip: 'bw', levers: [null, 'reps', 'reps'],
+    split: 'Agility A / B', blurb: 'Quick feet for court and field: shuttles, carioca and shuffles in circuits, with a jump in every round.',
+    about: 'Footwork for tennis, basketball, football and every sport that changes direction. Circuits mix shuttle touches, carioca, lateral shuffles and backpedals with a jump each round, so feet stay quick while you tire. Rounds are short with a breather between. Abs finish every session. Levels II and III add reps and time to each drill.',
+    names: ['Baseline', 'Sideline', 'Penalty Box', 'Free Throw', 'Half Court', 'Centre Circle', 'Service Line', 'Paint', 'Crease', 'Goal Line', 'Touchline', 'Kick-off', 'Tip-off', 'Face-off', 'Drop Shot', 'Fast Break', 'Give and Go', 'Pick and Roll', 'Rebound', 'Breakaway'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Agility A', short: 'A', blocks: [C('Agility circuit', ['courtMove', 'courtPower', 'courtMove', 'courtLegs', 'courtMove?'], { values: [2, 3, 4] })] },
+      b: { label: 'Agility B', short: 'B', blocks: [C('Agility circuit', ['courtMove', 'courtLegs', 'courtMove', 'courtPower', 'courtMove?'], { values: [2, 3, 4] })] },
+    },
+  },
+  {
+    id: 'change-of-direction', added: 14, catalogue: 8, name: 'Change of Direction', subject: 'Court & field sports', minutes: [24, 29], equip: 'bw', levers: [null, 'reps', 'variation'],
+    gear: 'A sturdy chair for the Copenhagen plank.',
+    split: 'EMOM / strength', blurb: 'Cut, stop and go: agility on the minute one day, and the side-to-side leg strength behind it the next.',
+    about: 'Training for the cut: stopping, planting and going the other way without losing speed. One day is an EMOM of agility drills and jumps at the top of each minute. The other is straight sets of side-to-side leg strength, Cossack squats, single-leg deadlifts and Copenhagen planks, that protect knees and groins. Abs finish every session. Level II adds reps and Level III brings harder versions.',
+    names: ['Crossover', 'Jab Step', 'Juke', 'Side Step', 'Spin Move', 'Plant', 'Cut Back', 'Stutter', 'Hesitation', 'Shake', 'Pivot Foot', 'Drop Step', 'Euro Step', 'Swerve', 'Feint', 'Dummy', 'Nutmeg', 'Dodge', 'Sidestep', 'Zig-zag'],
+    cycle: ['emom', 'strength'],
+    dayTypes: {
+      emom: { label: 'Agility EMOM', short: 'EMOM', blocks: [E('Agility EMOM', ['courtMove', 'courtPower', 'courtMove', 'courtLegs'], { values: [10, 12, 14, 16] })] },
+      strength: { label: 'Lateral strength', short: 'Strength', blocks: [S('Lateral strength', ['cossack_squat', 'courtLegs', 'copenhagen_plank', 'courtLegs', 'courtLegs?'])] },
+    },
+  },
+  {
+    id: 'first-step', added: 14, catalogue: 8, name: 'First Step', subject: 'Court & field sports', minutes: [24, 29], equip: 'bw', rests: { set: 60, exercise: 90 }, levers: [null, 'reps', 'variation'],
+    split: 'Forward power / lateral power', blurb: 'The first step decides the race to the ball: jumps and bounds for explosive starts, with long rests.',
+    about: 'Explosive starts, because the first step often decides who gets to the ball. One day trains forward power with broad jumps, tuck jumps and split-step hops; the other trains lateral power with bounds, skaters and hop-and-stick landings. Sets are short and rests are a full minute, so every rep is fast. Abs finish each session. Level II adds reps and Level III brings harder jumps.',
+    names: ['Jump Ball', 'Gun Lap', 'Launch', 'Burst', 'Takeoff', 'Get Set', 'Blocks', 'Explode', 'Snap', 'Trigger', 'Quick Start', 'Head Start', 'Off the Mark', 'Lift Off', 'Fire', 'Spark', 'Rocket', 'Jet', 'Turbo', 'Afterburner'],
+    cycle: ['forward', 'lateral'],
+    dayTypes: {
+      forward: { label: 'Forward power', short: 'Forward', blocks: [S('Forward power', ['broad_jump', 'split_step', 'courtPower', 'courtMove', 'courtPower?'])] },
+      lateral: { label: 'Lateral power', short: 'Lateral', blocks: [S('Lateral power', ['lateral_bounds', 'skater_jumps', 'courtPower', 'courtMove', 'courtPower?'])] },
+    },
+  },
+  {
+    id: 'field-strength', added: 14, catalogue: 8, name: 'Field Strength', subject: 'Court & field sports', minutes: [30, 35], levers: [null, 'weight', 'reps'],
+    split: 'Legs & power / upper & core', blurb: 'Strength for contact sports with your dumbbells and kettlebell, each day starting with a jump.',
+    about: 'Strength for field and contact sports, using your dumbbells and kettlebell. Each session starts with a jump while you are fresh, then lifts in straight sets: squats, hinges and lunges one day, presses, rows and carries the other. Abs finish every session. Level II asks for heavier weights and Level III adds reps on top. Two sessions a week sit well alongside practice.',
+    names: ['Scrum', 'Tackle', 'Ruck', 'Maul', 'Lineout', 'Huddle', 'Snap Count', 'Blitz', 'Endzone', 'Try Line', 'Front Row', 'Linebacker', 'Fullback', 'Wing', 'Prop', 'Hooker', 'Lock', 'Flanker', 'Number Eight', 'Scrum Half'],
+    cycle: ['legs', 'upper'],
+    dayTypes: {
+      legs: { label: 'Legs & power', short: 'Legs', blocks: [S('Jump', ['courtPower']), S('Legs', ['squat2', 'hinge2', 'lunge2', 'courtLegs?'])] },
+      upper: { label: 'Upper & core', short: 'Upper', blocks: [S('Jump', ['courtPower']), S('Upper & core', ['pushLoad2', 'row2', 'farmer_carry', 'shoulders2?'])] },
+    },
+  },
+  {
+    id: 'game-day', added: 14, catalogue: 8, name: 'Game Day Conditioning', subject: 'Court & field sports', minutes: [22, 27], equip: 'bw', levers: [null, 'reps', 'variation'],
+    split: 'Tabata / AMRAP', blurb: 'Repeat-sprint fitness for the last ten minutes of a match: agility Tabatas and AMRAPs.',
+    about: 'Fitness for the end of the match, when legs are heavy and the game is still on. One day is Tabatas, twenty seconds of agility drills and jumps as hard as you can and ten seconds of rest. The other is an AMRAP that mixes shuttles, jumps and lateral strength. Abs finish every session. Level II adds reps and Level III brings harder jumps.',
+    names: ['Extra Time', 'Injury Time', 'Final Whistle', 'Last Quarter', 'Overtime', 'Sudden Death', 'Tie-break', 'Match Point', 'Set Point', 'Fourth Down', 'Buzzer Beater', 'Shootout', 'Golden Goal', 'Full Time', 'Second Half', 'Comeback', 'Stoppage', 'Hail Mary', 'Clutch', 'Final Score'],
+    cycle: ['tabata', 'amrap'],
+    dayTypes: {
+      tabata: { label: 'Tabata', short: 'Tabata', blocks: [T('Agility Tabatas', ['courtMove', 'courtPower', 'courtMove', 'core'], { values: [2, 3, 4] })] },
+      amrap: { label: 'AMRAP', short: 'AMRAP', blocks: [A('Match AMRAP', ['courtMove', 'courtPower', 'courtLegs', 'courtMove'], { values: [8, 10, 12] })] },
+    },
+  },
 ];
 
 // Hand-written paragraphs for the older programs (newer ones carry theirs as `about:` in the config).

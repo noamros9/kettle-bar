@@ -35,7 +35,7 @@ test('a subject picked in one family resets when another family is picked', asyn
   await expect(app.page.locator('.pgroup h2')).toHaveText(['Pull-ups']);
   await family(app).getByRole('button', { name: 'Cardio & combat' }).click();
   await expect(subjects(app).getByRole('button', { name: 'All' })).toHaveAttribute('aria-pressed', 'true');
-  const cardio = ['Conditioning', 'HIIT', 'Plyometrics', 'Boxing', 'Kickboxing'].filter((x) => CONFIGS.some((c) => c.subject === x));
+  const cardio = ['Conditioning', 'HIIT', 'Plyometrics', 'Boxing', 'Kickboxing', 'Running prep', 'Court & field sports'].filter((x) => CONFIGS.some((c) => c.subject === x));
   await expect(app.page.locator('.pgroup h2')).toHaveText(cardio);
 });
 

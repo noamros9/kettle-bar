@@ -141,6 +141,14 @@
       pushBw2: ['pushup', 'diamond_pushup', 'spiderman_pushup', 'pike_pushup', 'plank_to_pushup', 'clap_pushup', 'archer_pushup'],
       legsBw2: ['reverse_lunge', 'cossack_squat', 'shrimp_squat', 'squat_jump', 'glute_bridge_march', 'single_leg_bridge', 'wall_sit', 'lateral_lunge'],
       core: ['plank', 'side_plank', 'hollow_hold', 'hollow_rock', 'dead_bug', 'weighted_dead_bug', 'bird_dog', 'bear_crawl', 'suitcase_march', 'kb_halo', 'db_side_bend', 'shoulder_taps', 'superman', 'russian_twist'],
+      // Phase 14 (catalogue 8): new pool names only, so no config built before them changes
+      runDrill: ['a_skip', 'wall_drive', 'high_knees', 'butt_kicks', 'power_skips'],
+      runLegs: ['reverse_lunge', 'split_squat', 'single_leg_bridge', 'single_leg_rdl_bw', 'single_leg_calf_raise', 'glute_bridge_march', 'lunge_to_balance'],
+      runPlyo: ['pogo_hops', 'bounding', 'single_leg_hops', 'skater_jumps', 'broad_jump'],
+      runFast: ['sprint_in_place', 'fast_feet', 'arm_drive', 'backpedal'],
+      courtMove: ['carioca', 'shuttle_touch', 'lateral_shuffle', 'backpedal', 'fast_feet'],
+      courtPower: ['split_step', 'lateral_bounds', 'skater_jumps', 'broad_jump', 'tuck_jumps', 'single_leg_hop_stick'],
+      courtLegs: ['cossack_squat', 'lateral_lunge', 'split_squat', 'single_leg_rdl_bw', 'reverse_lunge', 'copenhagen_plank'],
     };
     // Pools computed from the catalogue. An exercise marked `added: N` (the phase that added it) joins them only
     // for configs with `catalogue: N` or later, so new exercises can't reshuffle the days of existing programs.

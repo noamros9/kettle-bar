@@ -148,5 +148,15 @@
   "floor-pull": "4f65f8c32c0d93e764b9665c63798e69c57dec44e5592ead36dbff0495add46d",
   "back-at-home": "e36f6bbf74c1288cb93d2554e56bd82d4f430e589e1e1be25533e2d6655eb890",
   "quiet-upper": "3412fe332f46b08aab67e584c2f40e62b46c3c89850bdc91add12f40f58bc6b1",
-  "mobility-flow": "45c1784e27f7336ef8cb60a4239447abf73dfdeb83ebae3d2e80f23fbb8eab3a"
+  "mobility-flow": "45c1784e27f7336ef8cb60a4239447abf73dfdeb83ebae3d2e80f23fbb8eab3a",
+  "run-ready": "7b3fdb48286a37d7c3f705ec3231cd0a1dbd01da5c310f217dc84a471dc9d4dc",
+  "stride-strength": "80d85ab443437ec3d0e67ba54fe9fa6866c9e9994ff03fcff2a552b89dd28a90",
+  "springy-legs": "edfc9a970add2472c0795cb998994076042b261dd44a01011567dee7d6599a77",
+  "track-intervals": "c5d0a23348d0934b073e1017c4f293fea6c659a0782153dc05301274ff8cd7cc",
+  "runners-core": "e6882166728fda8f16efbf451af43fc92f12c7b7684453996d3fc3cd340b6ee5",
+  "court-agility": "fe6d884b5bf5922e47b6f350e17459ebc3cd36f7bc167a936b21e28fa71b82e9",
+  "change-of-direction": "f3d58a2c6002567c7546fb23770172f20b66c44c70ad958029918bed7de51ed4",
+  "first-step": "33c9bbcba524f78316320f9e8ecbf8abc450557aebcbfe04109c8603cf45e6ad",
+  "field-strength": "9f3c7f55227004e1d86bfdbe454c3863783bd01b7da586d7e87dacb3550a1573",
+  "game-day": "0908d956c2695094a2a1162f9357c628c55cc4ba9a0b0e6ebd1af393f7aebcfb"
 }

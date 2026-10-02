@@ -24,7 +24,7 @@ program in the page; the offline download grows ~3.7 KB gzipped each).
 | 2 | Programs page for ~260 programs | feature | – | `feature/library-scale` | done (PR #150) |
 | 3 | Catalogue 8: exercises the new subjects need | feature | – | `feature/catalogue-8` | done (PR #151) |
 | 4 | Fill to 6 (+9) and the floor-pull programs (+3) | content | 3 | `content/fill-six` | done (PR #152) |
-| 5 | New subjects: Running prep, Court & field sports (+10) | content | 3 | `content/cardio-subjects` | |
+| 5 | New subjects: Running prep, Court & field sports (+10) | content | 3 | `content/cardio-subjects` | done (PR #153) |
 | 6 | New subjects: Grip & forearms, Kettlebell complexes, Climber (+15) | content | 3 | `content/strength-subjects` | |
 | 7 | New subjects: Gentle / low impact, Back care (+10) | content | 3 | `content/mind-subjects` | |
 | 8 | 30-day programs (+8) | content | 1 | `content/thirty-day` | |
@@ -80,6 +80,10 @@ program in the page; the offline download grows ~3.7 KB gzipped each).
   `catalogue: 8`, `added: 14`. A new test checks no two programs in a subject share split + formats + levers. Size
   checks raised for the rest of Phase 14: the page 110 → 125 KB gzipped (113.1 now; CLAUDE.md's gate stays 150), the
   recipe book 140 → 300 KB raw, 20 → 40 KB gzipped (it loads only for Build your own).
+- **Ticket 5 as built (2 Oct):** Running prep: Run Ready, Stride Strength, Springy Legs, Track Intervals, Runner's Core
+  & Hips. Court & field sports: Court Agility, Change of Direction, First Step, Field Strength (the one with weights),
+  Game Day Conditioning. New pools `runDrill runLegs runPlyo runFast courtMove courtPower courtLegs` (new names, so
+  nothing built before changes); both subjects join Cardio & combat in FAMILIES.
 
 ## Challenge round
 - **Weakest assumption:** that +50% per family is varied enough to be worth it. Each new program needs a different
