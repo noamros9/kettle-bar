@@ -31,7 +31,7 @@ async function main(root) {
       return { dims: q.length, back: dot(q, back), lift: dot(q, lift), loadMs: t1 - t0, embedMs: Date.now() - t1 };
     } catch (e) { return { error: String(e && e.stack || e).slice(0, 600) }; } }, `http://localhost:${port}/`);
     if (r.error) throw new Error(`${r.error} | console: ${logs.slice(-6).join(' || ')}`);
-    console.log(`finder model: ${r.dims} dims, loaded in ${r.loadMs} ms, 3 texts in ${r.embedMs} ms; back ${r.back.toFixed(3)} vs lifting ${r.lift.toFixed(3)}`);
+    console.log(`::notice title=finder smoke::finder model: ${r.dims} dims, loaded in ${r.loadMs} ms, 3 texts in ${r.embedMs} ms; back ${r.back.toFixed(3)} vs lifting ${r.lift.toFixed(3)}`);
     if (r.dims !== 384) throw new Error(`expected 384 dimensions, got ${r.dims}`);
     if (!(r.back > r.lift)) throw new Error('the model ranks heavy lifting above back care for a sore back');
     if (outside.length) throw new Error(`fetched from outside the site: ${outside.join(', ')}`);
