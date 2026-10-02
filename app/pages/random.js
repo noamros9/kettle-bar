@@ -120,7 +120,7 @@ function viewRandom() {
       <p class="daysum">${KBSummary.daySummary(w, p, KBEx).map((l) => `<span>${esc(l)}</span>`).join('')}</p>
       <div class="meta"><span class="ty"><i class="dot" style="--c:${t.c}"></i>${esc(t.label)}</span><span>About ${w.est} min${w.stretchMin ? ` + ${w.stretchMin} min stretching` : ''}</span><span>${nEx} exercises</span></div></div>
       <div class="rtools"><button class="btn" data-random-done="1">Mark as done</button><button class="btn ghost" data-random-discard="1">Discard</button></div></div>
-    ${D.restored() ? '<p class="resumed" role="status">Picked up where you left off</p>' : ''}
+    ${D.restored() ? '<p class="resumed" role="status">Picked up where you left off</p>' : ''}${skipNote(D)}
     <p class="how">Counts in your stats when you mark it done, not in any program. Tap a set, round or pair number when you finish it and the right rest starts on the timer.</p>
     ${w.warmup ? stretchBlock(w.warmup, 'warm', 'W', 'Before you start', ses) : ''}
     ${w.blocks.map((b, bi) => blockHTML(p, w, b, bi, ses, D)).join('')}

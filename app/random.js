@@ -18,7 +18,9 @@
                day) and not dismissed today (`dismissed` = the dayKey it was dismissed on, or null)
      dayKey(date) -> 'YYYY-MM-DD' of the local day
 
-     const random = createRandom({ store, cat, createSession, storage, now? })
+     const random = createRandom({ store, cat, createSession, storage, now?, skip? })
+       skip: () => [exercise id]: the exercises I skip (Phase 13): swapped when the workout opens (app/swaps.js standIns);
+             the record keeps the workout as made, with your own swaps
        random.start(made, { id? }) -> the open workout      random.current() -> it, or null
        random.open() -> a Day for the open workout (as app/day.js's: program, day, session(), restored(), alternatives,
                         swap (today only: there is no rest of the program), swapBehind, undo), or nothing
@@ -93,7 +95,7 @@
     return { choice: clone(choice), seed, level, subject: t.subject, family: t.family, day, program };
   }
 
-  function createRandom({ store, cat, createSession, storage, now = Date.now }) {
+  function createRandom({ store, cat, createSession, storage, now = Date.now, skip = () => [] }) {
     const live = { key: null, exs: null, session: null, restored: false };
     const sessionKey = (id) => `kb-session-random-${id}`;
     const read = (key) => { try { return JSON.parse(storage.get(key)); } catch (e) { return undefined; } };
@@ -123,8 +125,8 @@
     function open() {
       const o = current();
       if (!o) return undefined;
-      const swapped = S.applySwaps(o.day, o.swaps, cat), warm = W.warmupFor(swapped, cat.EX, o.subject);
-      const day = warm === swapped.warmup ? swapped : { ...swapped, warmup: warm }, program = { ...o.program, days: [day] };
+      const limits = { skip: skip() }, swapped = S.applySwaps(o.day, o.swaps, cat), moved = S.standIns(swapped, limits, o.program, cat);
+      const warm = W.warmupFor(moved, cat.EX, o.subject), day = warm === moved.warmup ? moved : { ...moved, warmup: warm }, program = { ...o.program, days: [day] };
       const itemAt = (bi, i) => day.blocks[bi].items[i];
       const change = (swaps) => save({ ...o, swaps });
       return {
@@ -138,8 +140,9 @@
           return live.session;
         },
         restored() { this.session(); return live.restored; },
-        alternatives: (bi, i) => S.alternatives(itemAt(bi, i).ex, day.blocks[bi], program, cat),
-        swap(bi, i, to) { change([...o.swaps, { day: 1, ex: itemAt(bi, i).ex, to }]); },
+        alternatives: (bi, i) => S.alternatives(itemAt(bi, i).ex, day.blocks[bi], program, cat, limits),
+        // a skip stand-in is swapped as the exercise it stands for (as app/day.js)
+        swap(bi, i, to) { change([...o.swaps, { day: 1, ex: swapped.blocks[bi].items[i].ex, to }]); },
         swapBehind: (bi, i) => S.swapBehind(o.swaps, 1, itemAt(bi, i).ex),
         undo(bi, i) { change(S.undoSwap(o.swaps, 1, itemAt(bi, i).ex)); },
       };

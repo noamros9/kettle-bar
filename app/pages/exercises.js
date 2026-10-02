@@ -7,7 +7,7 @@ let usageLoading = false, usageError = null;
 function skipRow(e) {
   const on = skipList().includes(e.id);
   return `<div class="expage-skip"><button class="btn ghost" data-skip="${e.id}" aria-pressed="${on}">${on ? "Don't skip" : 'Skip this exercise'}</button>
-    ${on ? '<p class="note" role="status">You skip this exercise. Settings lists the ones you skip.</p>' : ''}</div>`;
+    ${on ? '<p class="note" role="status">You skip this exercise: workouts swap it for one that works the same muscles. Settings lists the ones you skip.</p>' : ''}</div>`;
 }
 function viewExercise() {
   const e = EX[route.ex], m = e.muscles, p = prog();

@@ -103,3 +103,49 @@ test('guided kinds swap only for their own kind, and are never offered for anyth
   assert.ok(squat.length > 0);
   squat.forEach((id) => assert.notEqual(E[id].cat, 'yoga', id));
 });
+
+// ---- Exercises I skip (Phase 13 ticket 2) ----
+const { standIns, travel } = require('../app/swaps.js');
+const dayOf = (blocks, level = 1) => ({ day: 1, level, blocks });
+const exs = (d) => d.blocks.flatMap((b) => b.items.map((it) => it.ex));
+
+test('skip: a skipped exercise gets a stand-in that is neither skipped nor already in the day, marked `skipped`', () => {
+  const d = dayOf([block(['pushup', 'goblet_squat']), block(['diamond_pushup'])]);
+  const alts = alternatives('pushup', d.blocks[0], { equip: 'all' }, cat);
+  const skip = ['pushup', alts[0]];
+  const out = standIns(d, { skip }, { equip: 'all' }, cat);
+  const it = out.blocks[0].items[0];
+  assert.ok(!skip.includes(it.ex) && !['goblet_squat', 'diamond_pushup'].includes(it.ex), it.ex);
+  assert.equal(EX[it.ex].muscles.primary[0], 'chest');
+  assert.deepEqual([it.skipped, it.swappedFrom, it.travel], [true, 'pushup', undefined]);
+  assert.equal(it.n, cat.scaleReps(EX[it.ex], EX[it.ex].r[0], undefined));
+  assert.deepEqual(out.blocks[0].items[1], d.blocks[0].items[1], 'the rest stays');
+  assert.equal(new Set(exs(out)).size, exs(out).length, 'no exercise twice');
+  assert.equal(standIns(d, {}, { equip: 'all' }, cat), d, 'nothing skipped, no mode: the same day');
+  assert.equal(standIns(d, { skip: [] }, { equip: 'all' }, cat), d);
+});
+
+test('skip and travel together: gear first, then skip; a stand-in is never skipped and fits the gear', () => {
+  const d = dayOf([block(['pullup', 'goblet_squat', 'pushup'])]);
+  const skip = ['pushup', 'chinup', 'goblet_squat'];
+  const out = standIns(d, { mode: 'nobar', skip }, { equip: 'all' }, cat);
+  out.blocks[0].items.forEach((it) => {
+    assert.ok(!skip.includes(it.ex), it.ex);
+    assert.ok(!(EX[it.ex].equip || []).includes('bar'), it.ex);
+  });
+  const [pull, squat] = out.blocks[0].items;
+  assert.deepEqual([pull.travel, pull.skipped], [true, undefined], 'missing gear is the reason shown');
+  assert.deepEqual([squat.skipped, squat.travel], [true, undefined]);
+  assert.deepEqual(travel(d, 'nobar', { equip: 'all' }, cat), standIns(d, { mode: 'nobar' }, { equip: 'all' }, cat), 'travel() is standIns with a mode only');
+});
+
+test('skip: with no stand-in the exercise stays, marked `skipMissing`; the Swap list leaves skipped ones out', () => {
+  const lonely = Object.keys(EX).find((id) => !['warmup', 'cooldown'].includes(EX[id].cat) && alternatives(id, block([id]), { equip: 'all' }, cat, null, 2).length === 0);
+  const d = dayOf([block([lonely])]);
+  const out = standIns(d, { skip: [lonely] }, { equip: 'all' }, cat);
+  assert.deepEqual(out.blocks[0].items[0], { ex: lonely, n: 10, skipMissing: true });
+  // every chest alternative but one skipped: the Swap list offers that one only
+  const b = block(['pushup']), all = alternatives('pushup', b, { equip: 'all' }, cat);
+  assert.deepEqual(alternatives('pushup', b, { equip: 'all' }, cat, { skip: all.slice(1) }), all.slice(0, 1));
+  assert.deepEqual(alternatives('pushup', b, { equip: 'all' }, cat, { mode: null, skip: [] }), all);
+});

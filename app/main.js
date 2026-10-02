@@ -11,9 +11,9 @@ const store = KBStore.createStore({ programIds: programs.ids(), storage: localSt
 // your own programs: the store's programs docs -> the catalogue's 'own' source (built from their stored configs),
 // and the catalogue's own ids -> the store (app/own.js)
 const ownLink = KBOwn.link({ store, programs, load: loadBook, build: KBBuilder.build, ex: KBEx });
-const days = KBDay.createDays({ programs, store, cat: KBEx, createSession: KBSession.createSession, storage: localStore, travel: () => travelMode() });
+const days = KBDay.createDays({ programs, store, cat: KBEx, createSession: KBSession.createSession, storage: localStore, travel: () => travelMode(), skip: () => skipList() });
 // the random workout: the open one on the device, done ones in the account (app/random.js)
-const random = KBRandom.createRandom({ store, cat: KBEx, createSession: KBSession.createSession, storage: localStore });
+const random = KBRandom.createRandom({ store, cat: KBEx, createSession: KBSession.createSession, storage: localStore, skip: () => skipList() });
 const SYNC_TEXT = { ok: 'Synced', saving: 'Saving…', offline: 'Offline, will sync', local: 'Saved on this device', signin: 'Sign in', ro: 'View only', err: 'Sync problem' };
 // the header's sync status; with changes waiting for the account (Phase 12): "Offline · 2 changes waiting" (said in full
 // to screen readers and on wide screens; a small count next to the dot on a phone)
