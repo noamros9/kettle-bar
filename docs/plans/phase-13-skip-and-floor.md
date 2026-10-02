@@ -15,7 +15,7 @@ Decided 2 Oct 2026 (Noam), after the architecture review.
 |---|---|---|---|---|---|
 | 0 | This plan (in the 2 Oct roadmap plan) | plan | – | `plan/roadmap-oct` | done (PR #133) |
 | 1 | Skip an exercise: the list | feature | review IV | `feature/skip-list` | done (PR #146) |
-| 2 | Skipped exercises swap out everywhere | feature | 1 | `feature/skip-swaps` | |
+| 2 | Skipped exercises swap out everywhere | feature | 1 | `feature/skip-swaps` | done (PR #147) |
 | 3 | Reverse snow angels | feature | – | `feature/snow-angels` | |
 
 ### 1. Skip an exercise: the list
@@ -29,6 +29,12 @@ Decided 2 Oct 2026 (Noam), after the architecture review.
   previews too. With no stand-in: kept, with a "You skip this" note.
 - **Test first:** a day with a skipped exercise gets a stand-in that is neither skipped nor already in the day;
   travel mode + skip together; no stand-in → kept and marked; stats still count the planned day.
+- **As built (2 Oct):** `KBSwaps.standIns(day, { mode, skip }, …)` does travel and skip in one pass (gear is checked
+  first, so a pull-up skipped in No-bar mode reads "Swapped for travel"); `travel()` is `standIns` with a mode only.
+  Marks: `skipped` / `skipMissing`. The Day module and random workouts take `skip: () => [id]`; a skip stand-in swaps
+  as the planned exercise (as travel's do). Build-your-own previews list day tiles, not exercises, and own programs open
+  through the Day module, so nothing more was needed there. The day page says "N exercises you skip are swapped for
+  today" with a link to Settings.
 
 ### 3. Reverse snow angels
 - Floor only, `added: 6` (the catalogue Phase 10 opened), drawings, muscles, cue, reps; joins the `pullBw` pool for

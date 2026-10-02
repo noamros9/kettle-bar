@@ -252,3 +252,29 @@ test('the open day shows a warm-up that matches its format; stats keep the store
   assert.deepEqual(days.resolved(box.id, 1).warmup, box.days[0].warmup);
   assert.equal(D.day.warmup.seconds, box.days[0].warmup.seconds);
 });
+
+// ---- Exercises I skip (Phase 13 ticket 2) ----
+test('skip: the open day swaps what I skip, together with travel mode; no stand-in keeps it marked; stats keep the program\'s day', () => {
+  const m = {}, store = createStore({ programIds: [P], storage: { get: (k) => m[k] ?? null, set: (k, v) => { m[k] = v; } }, now: () => 't' });
+  store.load();
+  let mode = null, skip = [];
+  const days = createDays({ programs: createProgramCatalogue(inlined(real)), store, cat, createSession, storage: { get: () => null, set() {}, remove() {} }, travel: () => mode, skip: () => skip });
+  const planned = days.open(P, 1).day, ex = planned.blocks[0].items[0].ex;
+  skip = [ex];
+  const D = days.open(P, 1), it = D.day.blocks[0].items[0];
+  assert.deepEqual([it.skipped, it.swappedFrom], [true, ex]);
+  assert.ok(!D.day.blocks.flatMap((b) => b.items).some((x) => x.ex === ex));
+  D.alternatives(0, 0).forEach((a) => assert.notEqual(a, ex));
+  assert.equal(days.resolved(P, 1).blocks[0].items[0].ex, ex, 'stats: the day as planned');
+  // swapping a skip stand-in swaps the planned exercise it stands for
+  const to = D.alternatives(0, 0).find((a) => a !== it.ex);
+  D.swap(0, 0, to);
+  assert.deepEqual(store.swaps(P).pop(), { day: 1, ex, to });
+  // with travel mode too: nothing that needs a bar, nothing skipped
+  const n = real[0].days.find((d) => d.blocks.some((b) => b.items.some((x) => (cat.EX[x.ex].equip || []).includes('bar')))).day;
+  mode = 'nobar'; skip = days.resolved(P, n).blocks.flatMap((b) => b.items.map((x) => x.ex)).filter((x) => !(cat.EX[x].equip || []).includes('bar')).slice(0, 2);
+  days.open(P, n).day.blocks.forEach((b) => b.items.forEach((x) => {
+    assert.ok(x.skipMissing || !skip.includes(x.ex), x.ex);
+    assert.ok(x.travelMissing || !(cat.EX[x.ex].equip || []).includes('bar'), x.ex);
+  }));
+});

@@ -22,7 +22,7 @@ function exCard(it, i, bi, opts = {}) {
   return `<article class="ex${straight && done >= sets ? ' fin' : ''}"><div class="exhead"><div class="ord">${opts.label || String(i + 1).padStart(2, '0')}${straight ? ` · ${sets} sets` : ''}</div>${swapButton(opts.D, bi, i)}</div>
     <button class="exlink" data-ex="${it.ex}" aria-label="${esc(e.name)}: how to and muscles worked"><div class="figbox">${fig(it.ex)}</div>
     <div class="cnt">${count}</div><div class="nm">${esc(e.name)}</div></button>
-    ${it.travel ? `<span class="notechip swapped">Swapped for travel, from ${esc(EX[it.swappedFrom].name)}</span>` : it.swappedFrom ? `<span class="notechip swapped">Swapped from ${esc(EX[it.swappedFrom].name)}</span>${undoButton(opts.D, bi, i)}` : ''}${it.travelMissing ? '<span class="notechip needsgear">Needs gear: nothing to swap to</span>' : ''}${noteChip(it)}${e.load ? `<div class="ld">${esc(LOAD[e.load])}</div>` : ''}
+    ${it.travel ? `<span class="notechip swapped">Swapped for travel, from ${esc(EX[it.swappedFrom].name)}</span>` : it.skipped ? `<span class="notechip swapped">Swapped: you skip ${esc(EX[it.swappedFrom].name)}</span>` : it.swappedFrom ? `<span class="notechip swapped">Swapped from ${esc(EX[it.swappedFrom].name)}</span>${undoButton(opts.D, bi, i)}` : ''}${it.travelMissing ? '<span class="notechip needsgear">Needs gear: nothing to swap to</span>' : ''}${it.skipMissing ? '<span class="notechip needsgear">You skip this, no stand-in</span>' : ''}${noteChip(it)}${e.load ? `<div class="ld">${esc(LOAD[e.load])}</div>` : ''}
     <p class="cue">${esc(e.cue)}</p>${work}${pips}</article>`;
 }
 function roundPips(id, total, done, what) {
@@ -212,7 +212,7 @@ function viewDay() {
       <div class="meta"><span class="ty"><i class="dot" style="--c:${t.c}"></i>${esc(t.label || w.title)}</span><span>About ${w.est} min${w.stretchMin ? ` + ${w.stretchMin} min stretching` : ''}</span><span>${nEx} exercises</span></div>
       ${D.canShort() ? `<button class="shortbtn" data-short="1" aria-pressed="${D.short()}">${D.short() ? `<b>Short on time</b> · about ${w.est} min instead of ${w.short.from}. Tap for the full day.` : `<b>Short on time?</b> Make today about ${KBShort.TARGET} min`}</button>` : ''}</div>
       <button class="btn ${isD ? 'done' : ''}" data-toggle="${w.day}" aria-pressed="${isD}">${isD ? '✓ Done' : 'Mark as done'}</button></div>
-    ${D.restored() ? '<p class="resumed" role="status">Picked up where you left off</p>' : ''}${travelNote(D)}
+    ${D.restored() ? '<p class="resumed" role="status">Picked up where you left off</p>' : ''}${travelNote(D)}${skipNote(D)}
     <p class="how">Tap a set, round or pair number when you finish it and the right rest starts on the timer. EMOM, AMRAP, Tabata, ladder, bout and guided-flow blocks have a Start button that runs the clock for you.</p>
     ${w.warmup ? stretchBlock(w.warmup, 'warm', 'W', 'Before you start', ses) : ''}
     ${w.blocks.map((b, bi) => blockHTML(p, w, b, bi, ses, D)).join('')}
@@ -234,6 +234,13 @@ function setPref(key, value) {
   if (value && (!Array.isArray(value) || value.length)) prefs[key] = value; else delete prefs[key];
   delete prefs.updatedAt;
   store.setDoc('prefs', 'main', prefs);
+}
+// Exercises I skip (Phase 13): what the open day swapped for them, and what stayed with no stand-in
+function skipNote(D) {
+  const items = D.day.blocks.flatMap((b) => b.items), swapped = items.filter((it) => it.skipped).length, stuck = items.filter((it) => it.skipMissing).length;
+  if (!swapped && !stuck) return '';
+  const what = [swapped ? `${plural(swapped, 'exercise')} you skip ${swapped === 1 ? 'is' : 'are'} swapped for today` : '', stuck ? `${plural(stuck, 'exercise')} you skip ${stuck === 1 ? 'stays' : 'stay'}: nothing works the same muscles` : ''].filter(Boolean).join('; ');
+  return `<p class="travelnote skipnote" role="status">${what[0].toUpperCase() + what.slice(1)}. <button class="linkbtn" data-go="settings">Change</button></p>`;
 }
 function travelNote(D) {
   const mode = D.travel && D.travel();
