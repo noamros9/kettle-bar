@@ -35,6 +35,9 @@ backups).
 
 ### 2. Actions instead of a click chain
 - Buttons carry `data-act="name"` (+ `data-arg`); each page module registers its actions; main.js dispatches.
+- **As built (2 Oct):** buttons keep their data attributes (`data-swap`, `data-star`…), so no page markup changes; the
+  69-branch chain became one ordered table `ACTIONS` of [attribute, what it does], and the listener only dispatches
+  (the first attribute a button carries wins, as before).
 - **Test first:** a phone test that walks every page and checks each `[data-act]` has a registered action.
 
 ### 3. Minify the page
