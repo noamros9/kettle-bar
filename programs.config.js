@@ -52,6 +52,9 @@ const ORDER = [
   'bell-circuit', 'getup-strong', 'swing-press-emom', 'slow-bell',
   'pushup-progress', 'bodyweight-amrap', 'pistol-path',
   'twenty-strength', 'twenty-tabata', 'fifteen-flat', 'commuter', 'kettlebell-20',
+  // Phase 14 ticket 10: Cardio & combat +13
+  'dumbbell-engine', 'conditioning-ladders', 'work-and-rest', 'hiit-ladders', 'quiet-hiit', 'plyo-emom', 'single-leg-plyo',
+  'boxing-emom', 'defence-first', 'kick-strength', 'kick-speed', 'hill-legs', 'reaction-ready',
 ];
 
 const byId = new Map(FAMILY_FILES.flat().map((c) => [c.id, c]));

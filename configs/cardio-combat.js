@@ -469,6 +469,156 @@ const CONFIGS = [
       b: { label: 'Bouts B', short: 'B', blocks: [B('Bouts', ['bxMove', 'bxBasic', 'bxDefense', 'bxPower', 'bxPower?'])] },
     },
   },
+  // ---------------- PHASE 14 ticket 10: Cardio & combat +13, spread over its subjects ----------------
+  // CONDITIONING (+3)
+  {
+    id: 'dumbbell-engine', added: 14, catalogue: 8, name: 'Dumbbell Engine', subject: 'Conditioning', minutes: [23, 27], levers: [null, 'weight', 'reps'],
+    split: 'EMOM / AMRAP', blurb: 'Conditioning with your dumbbells: thrusters, rows and lunges on the minute one day, as many rounds as you can the next.',
+    about: 'Conditioning built from dumbbell moves rather than jumps. One day is an EMOM, a set of thrusters, rows, swings or lunges at the top of every minute; the other an AMRAP of the same kind of moves, as many rounds as you can. Abs finish every session. Level II asks for heavier dumbbells and Level III adds reps on top.',
+    names: ['Piston', 'Crankshaft', 'Camshaft', 'Flywheel', 'Gearbox', 'Clutch', 'Throttle', 'Exhaust', 'Spark Plug', 'Carburettor', 'Radiator', 'Dynamo', 'Alternator', 'Turbine', 'Combustion'],
+    cycle: ['emom', 'amrap'],
+    dayTypes: {
+      emom: { label: 'EMOM', short: 'EMOM', blocks: [E('Dumbbell EMOM', ['total', 'row2', 'lunge2', 'squat2'], { values: [12, 14, 16] })] },
+      amrap: { label: 'AMRAP', short: 'AMRAP', blocks: [A('Dumbbell AMRAP', ['total', 'row2', 'squat2', 'pushLoad2'], { values: [10, 12, 14] })] },
+    },
+  },
+  {
+    id: 'conditioning-ladders', added: 14, catalogue: 8, name: 'Conditioning Ladders', subject: 'Conditioning', minutes: [23, 27], levers: [null, 'reps', 'weight'],
+    split: 'Ladder A / ladder B', blurb: 'Two ladders a session: one rep, then two, then three, of a weighted move and a bodyweight one.',
+    about: 'Conditioning by ladders: one rep of each move, then two, then three, climbing until the clock stops. Each session has two ladders, a weighted pair such as thrusters and rows, then a bodyweight pair such as burpees and lunges. The climb makes the work feel shorter than it is. Abs finish every session. Level II adds reps and Level III asks for heavier weights.',
+    names: ['Jacob\'s Ladder', 'Rope Rung', 'Step Up Ladder', 'Climbing Frame', 'Ladder Back', 'Rungs Up', 'Fire Ladder', 'Ship Ladder', 'Loft Ladder', 'Tree Ladder', 'Library Ladder', 'Orchard Ladder', 'Painter\'s Ladder', 'Ladder Top', 'Ladder Down'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Ladder A', short: 'A', blocks: [L('Weighted ladder', ['total', 'row2']), L('Bodyweight ladder', ['cardio', 'legsBw'])] },
+      b: { label: 'Ladder B', short: 'B', blocks: [L('Weighted ladder', ['squat2', 'pushLoad2']), L('Bodyweight ladder', ['cardio', 'push'])] },
+    },
+  },
+  {
+    id: 'work-and-rest', added: 14, catalogue: 8, name: 'Work & Rest', subject: 'Conditioning', minutes: [23, 27], levers: [null, 'reps', 'reps'],
+    split: 'Circuit + Tabata A / B', blurb: 'A steady full-body circuit, then a Tabata: work, rest, work, rest, until you are done.',
+    about: 'Two kinds of conditioning in one session. First a steady full-body circuit with a short rest between rounds, then a Tabata, twenty seconds as hard as you can and ten seconds of rest, eight times. The circuit builds the base and the Tabata pushes the ceiling. Abs finish every session. Both later levels add reps.',
+    names: ['On Off', 'Go Stop', 'Red Green', 'Push Pause', 'Breathe Go', 'Start Stop', 'Flick', 'Switch Day', 'Toggle', 'Pulse Rest', 'Burst Rest', 'Sprint Rest', 'Hard Easy', 'Stop Start', 'Ready Go'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Circuit + Tabata A', short: 'A', blocks: [C('Circuit', ['total', 'legsBw', 'row2', 'core'], { values: [2, 3] }), T('Tabata', ['cardio', 'core', 'cardio', 'core'], { values: [1] })] },
+      b: { label: 'Circuit + Tabata B', short: 'B', blocks: [C('Circuit', ['squat2', 'push', 'row2', 'cardio'], { values: [2, 3] }), T('Tabata', ['cardio', 'legsBw', 'cardio', 'core'], { values: [1] })] },
+    },
+  },
+  // HIIT (+2)
+  {
+    id: 'hiit-ladders', added: 14, catalogue: 8, name: 'HIIT Ladders', subject: 'HIIT', minutes: [22, 27], equip: 'bw', levers: [null, 'reps', 'reps'],
+    split: 'Ladder / EMOM', blurb: 'Bodyweight HIIT that climbs: rep ladders one day, an EMOM the next, no equipment.',
+    about: 'Bodyweight HIIT in two shapes. One day is a rep ladder that climbs, one rep of each move, then two, then three, as far as the clock allows; the other is an EMOM, a burst at the top of every minute. No equipment and no complicated moves. Abs finish every session. Both later levels add reps.',
+    names: ['Step Climb', 'Stairway', 'Escalate', 'Ramp Up', 'Slope', 'Gradient', 'Incline', 'Rise Up', 'Up and Up', 'Higher', 'Uphill', 'Ascend', 'Elevator', 'Lift Shaft', 'Skyward'],
+    cycle: ['ladder', 'emom'],
+    dayTypes: {
+      ladder: { label: 'Ladder', short: 'Ladder', blocks: [L('HIIT ladder', ['hiit', 'push', 'legsBw'])] },
+      emom: { label: 'EMOM', short: 'EMOM', blocks: [E('HIIT EMOM', ['hiit', 'legsBw', 'hiitSec', 'push'], { values: [12, 14, 16] })] },
+    },
+  },
+  {
+    id: 'quiet-hiit', added: 14, catalogue: 8, name: 'Quiet HIIT', subject: 'HIIT', minutes: [22, 27], equip: 'bw', warmup: 'quiet', levers: [null, 'variation', 'reps'],
+    split: 'Circuit / AMRAP, no jumping', blurb: 'High-intensity intervals with no jumping: mountain climbers, push-ups, lunges and core, flat-friendly.',
+    about: 'High intensity without a single jump, so it suits a flat, a hotel room or sore knees. Mountain climbers, fast push-ups, lunges and core moves get the heart rate up instead. One day is a fast circuit with short rests, the other an AMRAP. Abs finish every session. Level II brings harder versions and Level III adds reps on top.',
+    names: ['Tiptoe HIIT', 'Silent Sweat', 'Hush Burn', 'Low Ceiling', 'Downstairs', 'Night Owl HIIT', 'Sleeping Baby', 'Thin Walls', 'Floorboards', 'Soft Landing', 'Library HIIT', 'Muted', 'Whisper Burn', 'Neighbour Friendly', 'Stealth'],
+    cycle: ['circuit', 'amrap'],
+    dayTypes: {
+      circuit: { label: 'Circuit', short: 'Circuit', blocks: [C('Quiet circuit', ['mountain_climber', 'pushBw2', 'reverse_lunge', 'coreRot', 'bear_crawl?'], { values: [3, 4, 5] })] },
+      amrap: { label: 'AMRAP', short: 'AMRAP', blocks: [A('Quiet AMRAP', ['pushBw2', 'legsBw2', 'mountain_climber', 'coreAnti'], { values: [10, 12, 14] })] },
+    },
+  },
+  // PLYOMETRICS (+2)
+  {
+    id: 'plyo-emom', added: 14, catalogue: 8, name: 'Plyo EMOM', subject: 'Plyometrics', minutes: [24, 29], equip: 'bw', rests: { set: 60, exercise: 90 }, levers: [null, 'reps', 'reps'],
+    split: 'Jump EMOM A / B', blurb: 'A few explosive jumps at the top of every minute, the rest of the minute to recover fully.',
+    about: 'Jumps on the clock: a small set of explosive jumps at the top of every minute. The rest of the minute is for recovering fully, which keeps every rep fast. Vertical, broad and lateral jumps and explosive push-ups rotate. A short strength block follows. Abs finish every session. Both later levels add reps, so the recovery shrinks.',
+    names: ['Jump Clock', 'Leap Minute', 'Hop Hour', 'Spring Minute', 'Bound Minute', 'Pop Minute', 'Air Minute', 'Lift Minute', 'Vault Minute', 'Rise Minute', 'Float Minute Jump', 'Soar Minute', 'Hang Time Jump', 'Flight Minute', 'Glide Minute'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Jump EMOM A', short: 'A', blocks: [E('Jump EMOM', ['plyoVert', 'plyoUp', 'plyoLow', 'plyoLat'], { values: [8, 10, 12, 14] }), S('Strength', ['legsBw2'])] },
+      b: { label: 'Jump EMOM B', short: 'B', blocks: [E('Jump EMOM', ['plyoLat', 'plyoLow', 'plyoUp', 'plyoVert'], { values: [8, 10, 12, 14] }), S('Strength', ['pushBw2'])] },
+    },
+  },
+  {
+    id: 'single-leg-plyo', added: 14, catalogue: 8, name: 'Single-Leg Plyo', subject: 'Plyometrics', minutes: [24, 29], equip: 'bw', rests: { set: 60, exercise: 90 }, levers: [null, 'variation', 'reps'],
+    split: 'Hop / bound', blurb: 'Plyometrics one leg at a time: hops, bounds, skaters and hop-and-stick landings.',
+    about: 'Plyometrics one leg at a time, which is how most sports and every running stride actually load the legs. One day is hops and hop-and-stick landings, the other bounds and skaters. Sets are short and rests a full minute, so every rep is crisp and every landing is controlled. Abs finish each session. Level II brings harder jumps and Level III adds reps.',
+    names: ['Hopscotch Day', 'One Foot', 'Peg Leg', 'Flamingo Hop', 'Kangaroo Rat', 'Skater Day', 'Speed Skater', 'Ice Rink', 'Long Jump', 'Triple Jump', 'Hop Step', 'Stick It', 'Land Soft', 'Steady Land', 'Hop Scotch'],
+    cycle: ['hop', 'bound'],
+    dayTypes: {
+      hop: { label: 'Hop', short: 'Hop', blocks: [S('Hops', ['single_leg_hops', 'single_leg_hop_stick', 'plyoVert', 'single_leg_hops?'])] },
+      bound: { label: 'Bound', short: 'Bound', blocks: [S('Bounds', ['bounding', 'skater_jumps', 'lateral_bound_hold', 'plyoLat?'])] },
+    },
+  },
+  // BOXING (+2)
+  {
+    id: 'boxing-emom', added: 14, catalogue: 8, name: 'Boxing EMOM', subject: 'Boxing', minutes: [28, 33], equip: 'bw', levers: [null, 'variation', 'variation'],
+    split: 'Bouts + EMOM A / B', blurb: 'Shadowboxing bouts, then an EMOM of punches, push-ups and core for a fighter\'s fitness.',
+    about: 'Shadowboxing for skill, then an EMOM for a fighter\'s fitness. Three or four bouts of combinations come first, called out by the voice. Then every minute starts a short set of punches, push-ups, burpees or core, resting in what is left. Abs finish every session. Levels II and III bring longer combinations and harder moves in the EMOM.',
+    names: ['Round Bell', 'Corner Stool', 'Water Bottle', 'Towel In', 'Second Out', 'Ten Count', 'Standing Eight', 'Clinch Break', 'Referee', 'Judges', 'Scorecard Fight', 'Points', 'Split Decision', 'Unanimous', 'Knockdown'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Bouts + EMOM A', short: 'A', blocks: [B('Bouts', ['bxBasic', 'bxPower', 'bxDefense', 'bxMove?']), E('Fight EMOM', ['punches', 'push', 'cardio', 'core'], { values: [8, 10, 12] })] },
+      b: { label: 'Bouts + EMOM B', short: 'B', blocks: [B('Bouts', ['bxMove', 'bxBasic', 'bxPower', 'bxDefense?']), E('Fight EMOM', ['cardio', 'punches', 'core', 'push'], { values: [8, 10, 12] })] },
+    },
+  },
+  {
+    id: 'defence-first', added: 14, catalogue: 8, name: 'Defence First', subject: 'Boxing', minutes: [24, 29], equip: 'bw', levers: [null, 'variation', 'variation'],
+    split: 'Slip & roll / counter', blurb: 'Shadowboxing built around defence: slips, rolls and bob-and-weave, then the counters that follow them.',
+    about: 'Shadowboxing built around not getting hit. One day drills slips, rolls and bob-and-weave until they are automatic; the other drills the counters that follow, so defence turns straight into offence. Each bout is one combination, called by the voice. Abs finish every session. Levels II and III bring longer, harder combinations.',
+    names: ['Slip Day', 'Roll Day', 'Weave', 'Bob', 'Duck', 'Parry', 'Block', 'Catch', 'Shell', 'High Guard', 'Peek-a-boo', 'Philly Shell', 'Shoulder Roll', 'Pull Counter', 'Check Hook'],
+    cycle: ['slip', 'counter'],
+    dayTypes: {
+      slip: { label: 'Slip & roll', short: 'Slip', blocks: [B('Defence bouts', ['bxDefense', 'bxMove', 'bxDefense', 'bxDefense', 'bxBasic?'])] },
+      counter: { label: 'Counter', short: 'Counter', blocks: [B('Counter bouts', ['slip_counter', 'bxDefense', 'bxPower', 'bxDefense', 'bxBasic?'])] },
+    },
+  },
+  // KICKBOXING (+2)
+  {
+    id: 'kick-strength', added: 14, catalogue: 8, name: 'Kick Strength', subject: 'Kickboxing', minutes: [30, 35], equip: 'bw', levers: [null, 'variation', 'variation'],
+    split: 'Bouts + legs A / B', blurb: 'Kickboxing bouts, then single-leg strength in straight sets for higher, harder kicks.',
+    about: 'Kickboxing bouts, then the leg strength behind good kicks. Three or four bouts of kicks, knees and combinations come first; then straight sets of single-leg work such as Cossack squats, single-leg deadlifts and lunges, for balance on the standing leg and power in the kicking one. Abs finish every session. Levels II and III bring harder kicks and moves.',
+    names: ['Chamber', 'Pivot Kick', 'Hip Turn', 'Standing Leg', 'Shin Bone', 'Instep', 'Ball of Foot', 'Heel Kick', 'Snap Kick', 'Push Kick', 'Head Kick', 'Body Kick', 'Leg Kick', 'Calf Kick', 'Thigh Kick'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Bouts + legs A', short: 'A', blocks: [B('Bouts', ['kkKick', 'kkCombo', 'kkKnee', 'kkKick?']), S('Leg strength', ['cossack_squat', 'single_leg_rdl_bw', 'legsBw2?'])] },
+      b: { label: 'Bouts + legs B', short: 'B', blocks: [B('Bouts', ['kkCombo', 'kkKick', 'kkSpin', 'kkCombo?']), S('Leg strength', ['reverse_lunge', 'single_leg_rdl_bw', 'legsBw2?'])] },
+    },
+  },
+  {
+    id: 'kick-speed', added: 14, catalogue: 8, name: 'Kick Speed', subject: 'Kickboxing', minutes: [22, 27], equip: 'bw', levers: [null, 'variation', 'variation'],
+    split: 'Speed A / speed B', blurb: 'Short, fast kickboxing bouts: quick kicks, switch kicks and footwork, about twenty-five minutes.',
+    about: 'Kickboxing for speed, in about twenty-five minutes. Bouts focus on fast, snapping kicks, switch kicks and teeps, with footwork bouts between to keep the feet light. Each bout is one combination called by the voice, done as fast as you can keep it clean. Abs finish every session. Levels II and III bring longer, faster combinations.',
+    names: ['Whip', 'Lash', 'Flick Kick', 'Snap', 'Blink Kick', 'Lightning', 'Thunder Kick', 'Quicksilver', 'Mercury', 'Hummingbird', 'Mongoose', 'Cobra Kick', 'Viper', 'Mantis', 'Swift Kick'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Speed A', short: 'A', blocks: [B('Speed bouts', ['kkKick', 'bxMove', 'kkCombo', 'kkKick?'])] },
+      b: { label: 'Speed B', short: 'B', blocks: [B('Speed bouts', ['switch_kick', 'kkKick', 'bxMove', 'kkCombo?'])] },
+    },
+  },
+  // RUNNING PREP (+1), COURT & FIELD SPORTS (+1)
+  {
+    id: 'hill-legs', added: 14, catalogue: 8, name: 'Hill Legs', subject: 'Running prep', minutes: [24, 29], equip: 'bw', levers: [null, 'variation', 'reps'],
+    split: 'Uphill / downhill', blurb: 'Legs for hills: driving strength for the climbs, slow control for the descents.',
+    about: 'Legs for running hills, both ways. Uphill days build drive with step-ups, lunges, wall drives and bounds; downhill days build control with slow single-leg work, which is where sore quads come from. Straight sets with full rests. Abs finish every session. Level II brings harder versions and Level III adds reps.',
+    names: ['Switchback', 'Hairpin', 'Summit Push', 'False Flat', 'Ridge Run', 'Fell', 'Tor', 'Brow', 'Crest Run', 'Descent', 'Scree Run', 'Hillside Run', 'Climb Out', 'Drop Down', 'Valley'],
+    cycle: ['up', 'down'],
+    dayTypes: {
+      up: { label: 'Uphill', short: 'Up', blocks: [S('Uphill drive', ['wall_drive', 'runLegs', 'bounding', 'runLegs', 'runDrill?'])] },
+      down: { label: 'Downhill', short: 'Down', blocks: [S('Downhill control', ['reverse_lunge', 'single_leg_rdl_bw', 'lunge_to_balance', 'runLegs', 'runLegs?'])] },
+    },
+  },
+  {
+    id: 'reaction-ready', added: 14, catalogue: 8, name: 'Reaction Ready', subject: 'Court & field sports', minutes: [24, 29], equip: 'bw', levers: [null, 'reps', 'reps'],
+    split: 'Reaction circuit / reaction EMOM', blurb: 'React and go: split steps, shuffles and short sprints in a circuit one day, on the minute the next.',
+    about: 'Training for the moment the ball moves: split step, read, go. One day is a circuit of split-step hops, shuffles, shuttles and jumps; the other is an EMOM of the same, a burst at the top of every minute, so you practise starting fresh again and again. Abs finish every session. Both later levels add reps and time.',
+    names: ['Ready Position', 'Split Step Day', 'First Read', 'Quick React', 'Jump Start', 'Off the Blocks', 'Gun Start', 'Reflex', 'Twitch', 'Startle', 'Alert', 'On Your Toes', 'Ball Watch', 'Anticipate', 'Read and React'],
+    cycle: ['circuit', 'emom'],
+    dayTypes: {
+      circuit: { label: 'Reaction circuit', short: 'Circuit', blocks: [C('Reaction circuit', ['split_step', 'courtMove', 'courtPower', 'courtMove', 'courtLegs?'], { values: [3, 4, 5] })] },
+      emom: { label: 'Reaction EMOM', short: 'EMOM', blocks: [E('Reaction EMOM', ['split_step', 'courtMove', 'courtPower', 'courtMove'], { values: [12, 14, 16] })] },
+    },
+  },
 ];
 
 // Hand-written paragraphs for the older programs (newer ones carry theirs as `about:` in the config).
