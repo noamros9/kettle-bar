@@ -30,7 +30,7 @@ function rerender() {
 }
 
 /* ---------------- routing ----------------
-   #today (the logo, home, and the home-screen shortcut) · #programs · #exercises · #stats · #settings · #ex-<id> · #p-<pid> · #p-<pid>-d<n>   (#d<n> = Three-Split 60, kept for old links)
+   #today (the logo, home, and the home-screen shortcut) · #programs · #exercises · #muscles · #stats · #settings · #ex-<id> · #p-<pid> · #p-<pid>-d<n>   (#d<n> = Three-Split 60, kept for old links)
    · #add=<code> (a program someone shared: its preview and Add this program) · #random (the open random workout) */
 // every program, through the Program Catalogue (today: all inlined in the page)
 const OFFLINE_CACHE = 'kettle-bar-v2'; // the service worker's cache; the page writes loaded programs into it too
@@ -85,6 +85,7 @@ function parseHash() {
     return n ? { view: 'day', pid, day: n } : { view: 'program', pid };
   }
   if (h === 'stats') return { view: 'stats' };
+  if (h === 'muscles') return { view: 'muscles' };
   if (h.startsWith('add=')) return { view: 'add', code: h.slice(4) };
   const x = h.match(/^ex-([a-z0-9_]+)$/);
   if (x && EX[x[1]]) return { view: 'exercise', ex: x[1], pid: route.pid };
@@ -779,17 +780,13 @@ function viewExercise() {
 }
 /* Exercises page: a search (name, muscle, cue) and chips by category and equipment, through KBLibrary.searchExercises.
    Typing redraws only the results, so the field keeps focus; the search stays while you look at an exercise and come back. */
-const exSearch = { q: '', cat: 'all', gear: 'all', muscles: [], map: false }; // muscles, map: the "By muscle" view (Phase 9)
+const exSearch = { q: '', cat: 'all', gear: 'all' };
 const exFound = () => KBLibrary.searchExercises(EX, exSearch.q, exSearch, { names: MUSCLE_NAMES, cats: Object.keys(CAT) });
 const exCounter = (r) => (r.count === r.total ? `${r.total} exercises` : `${r.count} of ${r.total} exercises`);
 function exResults() {
   const r = exFound();
   const chip = (k, key, label, on, count) => `<button class="fchip acc" data-exf="${k}:${key}" aria-pressed="${on}">${esc(label)}${count === undefined ? '' : ` <span class="fcount">${count}</span>`}</button>`;
   const card = (e) => `<article class="ex"><button class="exlink" data-ex="${e.id}" aria-label="${esc(e.name)}: how to and muscles worked"><div class="figbox">${fig(e.id)}</div><div class="nm">${esc(e.name)}</div></button>${e.load ? `<div class="ld">${esc(LOAD[e.load])}</div>` : ''}<p class="cue">${esc(e.cue)}</p></article>`;
-  if (exSearch.muscles.length) { // picked muscles: one list, best first (the order is the point, so no category sections)
-    const names = exSearch.muscles.map((m) => MUSCLE_NAMES[m]).join(' + ');
-    return `${musclePrograms(names)}${chipsHTML(r, chip)}${r.list.length ? `<section class="libcat"><h2>Best for ${esc(names)}</h2><div class="exgrid">${r.list.map(card).join('')}</div></section>` : '<p class="lede" style="margin-top:24px">No exercises match. Try another word or fewer filters.</p>'}`;
-  }
   const sections = r.cats.slice(1).map((c) => { const list = r.list.filter((e) => e.cat === c.key); return list.length ? `<section class="libcat"><h2>${CAT[c.key]}</h2><div class="exgrid">${list.map(card).join('')}</div></section>` : ''; }).join('');
   return `${chipsHTML(r, chip)}
     ${sections || '<p class="lede" style="margin-top:24px">No exercises match. Try another word or fewer filters.</p>'}`;
@@ -798,37 +795,58 @@ function chipsHTML(r, chip) {
   return `<div class="filters" role="group" aria-label="Filter by category">${r.cats.map((c) => chip('cat', c.key, c.key === 'all' ? 'All' : CAT[c.key], c.pressed, c.count)).join('')}</div>
     <div class="filters" role="group" aria-label="Filter by equipment">${KBLibrary.GEAR.map(([k, label]) => chip('gear', k, label, exSearch.gear === k)).join('')}</div>`;
 }
-/* "By muscle" (Phase 9 ticket 1): tap muscles on the front/back map (or their chips, for keyboards and screen readers);
-   several combine. The picked ones are darkest on the map. */
-function exMap() {
-  const picked = exSearch.muscles;
-  const toggle = `<button class="lenline" data-exmap="1" aria-expanded="${exSearch.map}">By muscle: <b>${picked.length ? esc(picked.map((m) => MUSCLE_NAMES[m]).join(', ')) : 'Any'}</b> <span aria-hidden="true">${exSearch.map ? '▴' : '▾'}</span></button>`;
-  if (!exSearch.map) return toggle;
-  const heat = Object.fromEntries(Object.keys(MUSCLE_NAMES).map((m) => [m, picked.includes(m) ? 1 : 0]));
-  return `${toggle}<div class="mmpick">${muscleMapSVG(heat, 'Pick muscles: tap one to add or remove it')}</div>
-    <div class="filters" role="group" aria-label="Muscles">${Object.entries(MUSCLE_NAMES).map(([m, n]) => `<button class="fchip acc" data-exmuscle="${m}" aria-pressed="${picked.includes(m)}">${esc(n)}</button>`).join('')}${picked.length ? '<button class="fchip" data-exmuscle-clear="1">Clear</button>' : ''}</div>`;
-}
+// the Exercises page points to the Muscles page (2 Oct: the map has its own page)
+const exMap = () => '<button class="lenline" data-go="muscles">Find exercises by muscle <span aria-hidden="true">→</span></button>';
 /* Programs that train the picked muscles (Phase 9 ticket 2): the top 5 by muscle focus, library (data/muscles.json) and
    your own (worked out here from their days). Shown above the exercises: five cards, before a long list. */
 let focusState = { data: null, loading: false, error: null };
-function musclePrograms(names) {
+function musclePrograms(picked, names) {
   if (!focusState.data && !focusState.loading && !focusState.error) {
     focusState.loading = true;
-    focusFile.load().then((data) => { focusState = { data, loading: false, error: null }; exRefresh(); }, (e) => { focusState = { data: null, loading: false, error: e.message }; exRefresh(); });
+    focusFile.load().then((data) => { focusState = { data, loading: false, error: null }; muscleRefresh(); }, (e) => { focusState = { data: null, loading: false, error: e.message }; muscleRefresh(); });
   }
   const head = `<h2>Programs for ${esc(names)}</h2>`;
   if (focusState.error) return `<section class="libcat">${head}<p class="muted" role="status">${esc(focusState.error)}</p></section>`;
   if (!focusState.data) return `<section class="libcat">${head}<p class="muted loading" role="status">Finding programs…</p></section>`;
   const own = programs.list().filter((p) => p.source === 'own' && programs.get(p.id)).map((p) => [p.id, KBStats.programFocus(programs.get(p.id).days, EX)]);
   const focus = { ...Object.fromEntries(own), ...Object.fromEntries(Object.entries(focusState.data).filter(([pid]) => programs.has(pid))) };
-  const ids = KBLibrary.rankPrograms(focus, exSearch.muscles, 5);
-  const card = (q) => `<button class="wncard" data-open-prog="${q.id}"><span class="eyebrow">${esc(q.subject)}</span><b>${esc(q.name)}</b><span>${exSearch.muscles.map((m) => `${MUSCLE_NAMES[m]} ${Math.round((focus[q.id][m] || 0) * 100)}%`).join(' · ')}</span></button>`;
+  const ids = KBLibrary.rankPrograms(focus, picked, 5);
+  const card = (q) => `<button class="wncard" data-open-prog="${q.id}"><span class="eyebrow">${esc(q.subject)}</span><b>${esc(q.name)}</b><span>${picked.map((m) => `${MUSCLE_NAMES[m]} ${Math.round((focus[q.id][m] || 0) * 100)}%`).join(' · ')}</span></button>`;
   return `<section class="libcat">${head}<div class="wnlist">${ids.map((id) => card(programs.summary(id))).join('')}</div>
     <p class="note">Each program's share of its sets that works the muscle, over its 60 days.</p></section>`;
 }
-function exMuscle(m) { exSearch.muscles = m === null ? [] : KBLibrary.toggleIn(exSearch.muscles, m); exRefresh(); }
+/* The Muscles page (2 Oct, Noam): the front/back body always shown; tap muscles (or their chips) and every exercise that
+   works them is listed, "Main muscle" first, then "Also works" (secondary), after the programs that train them most.
+   Several muscles combine (Phase 9). Equipment chips narrow it, as on the Exercises page. */
+const musclePick = { muscles: [], gear: 'all' };
+function muscleResults() {
+  const picked = musclePick.muscles;
+  if (!picked.length) return '<p class="lede" style="margin-top:20px">Tap a muscle on the body, or pick one above, to see every exercise that works it.</p>';
+  const names = picked.map((m) => MUSCLE_NAMES[m]).join(' + ');
+  const list = Object.values(EX).filter((e) => musclePick.gear === 'all' || KBLibrary.gearOf(e) === musclePick.gear);
+  const { main, also } = KBLibrary.splitByMuscles(list, picked);
+  const card = (e) => `<article class="ex"><button class="exlink" data-ex="${e.id}" aria-label="${esc(e.name)}: how to and muscles worked"><div class="figbox">${fig(e.id)}</div><div class="nm">${esc(e.name)}</div></button>${e.load ? `<div class="ld">${esc(LOAD[e.load])}</div>` : ''}<p class="cue">${esc(e.cue)}</p></article>`;
+  const section = (id, title, sub, l) => `<section class="libcat" aria-labelledby="${id}"><h2 id="${id}">${title}</h2><p class="muted">${sub(l.length)}</p>${l.length ? `<div class="exgrid">${l.map(card).join('')}</div>` : ''}</section>`;
+  const or = picked.map((m) => MUSCLE_NAMES[m]).join(' or ');
+  const gear = `<div class="filters" role="group" aria-label="Filter by equipment">${KBLibrary.GEAR.map(([k, label]) => `<button class="fchip acc" data-mgear="${k}" aria-pressed="${musclePick.gear === k}">${esc(label)}</button>`).join('')}</div>`;
+  return `${musclePrograms(picked, names)}${gear}
+    ${section('main-h', 'Main muscle', (n) => `${plural(n, 'exercise')} with ${esc(or)} as a main muscle.`, main)}
+    ${section('also-h', 'Also works', (n) => `${plural(n, 'exercise')} that work ${esc(or)} as a secondary muscle.`, also)}`;
+}
+function muscleMap() {
+  const picked = musclePick.muscles, heat = Object.fromEntries(Object.keys(MUSCLE_NAMES).map((m) => [m, picked.includes(m) ? 1 : 0]));
+  return `<div class="mmpick">${muscleMapSVG(heat, 'Body, front and back: tap a muscle to add or remove it')}</div>
+    <div class="filters" role="group" aria-label="Muscles">${Object.entries(MUSCLE_NAMES).map(([m, n]) => `<button class="fchip acc" data-exmuscle="${m}" aria-pressed="${picked.includes(m)}">${esc(n)}</button>`).join('')}${picked.length ? '<button class="fchip" data-exmuscle-clear="1">Clear</button>' : ''}</div>`;
+}
+function viewMuscles() {
+  return `<div class="eyebrow">${musclePick.muscles.length ? esc(musclePick.muscles.map((m) => MUSCLE_NAMES[m]).join(' + ')) : 'Front and back'}</div><h1>Muscles</h1>
+    <div id="mmap">${muscleMap()}</div><div id="mresults">${muscleResults()}</div>`;
+}
+// redraw the map and the results only (keeps the scroll where you tapped)
+function muscleRefresh() { const a = $('#mmap'), b = $('#mresults'), e = $('#app .eyebrow'); if (a) a.innerHTML = muscleMap(); if (b) b.innerHTML = muscleResults(); if (e && route.view === 'muscles') e.textContent = musclePick.muscles.length ? musclePick.muscles.map((m) => MUSCLE_NAMES[m]).join(' + ') : 'Front and back'; }
+function exMuscle(m) { musclePick.muscles = m === null ? [] : KBLibrary.toggleIn(musclePick.muscles, m); muscleRefresh(); }
 // redraw the counter, the map and the results only (typing in the search field keeps its focus)
-function exRefresh() { const box = $('#exresults'), n = $('#excount'), mp = $('#exmap'); if (box) box.innerHTML = exResults(); if (n) n.textContent = exCounter(exFound()); if (mp) mp.innerHTML = exMap(); }
+function exRefresh() { const box = $('#exresults'), n = $('#excount'); if (box) box.innerHTML = exResults(); if (n) n.textContent = exCounter(exFound()); }
 function exFilter(k, v) { exSearch[k] = v; exRefresh(); }
 function viewLibrary() {
   return `<div class="eyebrow" id="excount">${exCounter(exFound())}</div><h1>Exercises</h1><p class="lede">Every movement and stretch used in the programs, with the equipment you have: dumbbells, one kettlebell, a pull-up bar and a mat. Tap one to see the muscles it works.</p>
@@ -1149,8 +1167,8 @@ function render(scrollTop) {
   const v = route.view;
   const needsProgram = v === 'program' || v === 'day' || v === 'exercise';
   if (needsProgram && stillLoading([route.pid]).length) app.innerHTML = loadingView(route.pid);
-  else app.innerHTML = v === 'programs' ? viewPrograms() : v === 'build' ? viewBuild() : v === 'random' ? viewRandom() : v === 'add' ? viewAdd() : v === 'library' ? viewLibrary() : v === 'settings' ? viewSettings() : v === 'stats' ? viewStats() : v === 'exercise' ? viewExercise() : v === 'day' ? viewDay() : viewProgram();
-  const section = v === 'library' || v === 'exercise' ? 'library' : v === 'settings' || v === 'stats' ? v : 'programs';
+  else app.innerHTML = v === 'programs' ? viewPrograms() : v === 'build' ? viewBuild() : v === 'random' ? viewRandom() : v === 'add' ? viewAdd() : v === 'library' ? viewLibrary() : v === 'settings' ? viewSettings() : v === 'stats' ? viewStats() : v === 'muscles' ? viewMuscles() : v === 'exercise' ? viewExercise() : v === 'day' ? viewDay() : viewProgram();
+  const section = v === 'library' || v === 'exercise' ? 'library' : v === 'settings' || v === 'stats' || v === 'muscles' ? v : 'programs';
   document.querySelectorAll('.top [data-go]').forEach((b) => b.setAttribute('aria-current', b.dataset.go === section ? 'page' : 'false'));
   // the family tabs are a scrolling row (a re-render resets it): bring the chosen one fully into view
   const chosen = document.querySelector('.ftab[aria-pressed="true"]');

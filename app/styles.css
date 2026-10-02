@@ -558,3 +558,7 @@ table.weeks tr.empty{color:var(--muted)}table.weeks tr.empty th{font-weight:400}
 .hwork span:last-child{color:var(--muted);font-size:13px}
 .rank.counts li{grid-template-columns:6.4em 1fr 2em}
 .rank.counts .rbar i[style="width:0.0%"]{min-width:0}
+
+/* four header tabs (Muscles, 2 Oct) on small phones */
+@media (max-width:400px){.nav{gap:0}.nav button{padding:8px 4px;font-size:12.5px}.top .wrap{gap:6px}}
+@media (max-width:350px){.nav button{padding:8px 3px;font-size:12px}}

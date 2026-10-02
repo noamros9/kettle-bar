@@ -102,6 +102,13 @@
     return list.map((e, i) => ({ e, i, n: picked.filter((m) => w(e, m) > 0).length, s: picked.reduce((a, m) => a + w(e, m), 0) }))
       .filter((x) => x.n > 0).sort((a, b) => b.n - a.n || b.s - a.s || a.i - b.i).map((x) => x.e);
   }
+  // splitByMuscles(list, picked) (2 Oct): the exercises for the picked muscles in two lists, each in byMuscles order:
+  // main (a picked muscle is one of its main muscles) and also (picked muscles only among its secondary ones)
+  function splitByMuscles(list, picked) {
+    const ranked = picked.length ? byMuscles(list, picked) : [];
+    const isMain = (e) => picked.some((m) => e.muscles.primary.includes(m));
+    return { main: ranked.filter(isMain), also: ranked.filter((e) => !isMain(e)) };
+  }
   /* rankPrograms(focus, picked, n?) (Phase 9): program ids from { pid: { muscle: share } } (insertion order) that train a
      picked muscle: those with all of them first, then the sum of their shares, then the order given; at most n. */
   function rankPrograms(focus, picked, n = Infinity) {
@@ -141,7 +148,7 @@
       .slice(0, 3).map(({ p }) => p.id);
   }
 
-  const api = { suggestNext, libraryView, searchExercises, byMuscles, rankPrograms, gearOf, GEAR, subjectsOf, toggleIn, setFilter, counterText, lengthOf, FAMILIES, LENGTHS, EQUIPS };
+  const api = { suggestNext, libraryView, searchExercises, byMuscles, splitByMuscles, rankPrograms, gearOf, GEAR, subjectsOf, toggleIn, setFilter, counterText, lengthOf, FAMILIES, LENGTHS, EQUIPS };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBLibrary = api;
 })(typeof window !== 'undefined' ? window : globalThis);
