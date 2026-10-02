@@ -153,8 +153,7 @@ Plan and tickets: [docs/plans/phase-7-day-to-day.md](docs/plans/phase-7-day-to-d
       the synced `prefs`. The day page swaps what needs missing gear (same first main muscle and kind of work when it
       can, else either kind, else another of its main muscles) and says so; Stats keep counting the planned day.
       **Found:** the catalogue has **no bodyweight pulling** (rows, curls, raises, pull-ups), so in "Bodyweight only"
-      those stay, marked "Needs gear" on the card. Adding a few (towel or doorframe rows, bodyweight curls) would
-      close the gap; not planned yet.
+      those stay, marked "Needs gear" on the card. Rows and lateral raises: planned as Phase 10 (2 Oct).
     - **Warm-up that matches the format, built (30 Sep):** picked when a day opens (stored days keep theirs, same
       length): Boxing, Kickboxing, HIIT and Plyometrics programs get a dynamic warm-up (a combat day starts with
       shadowboxing footwork), Yoga, Pilates, Flexibility and Mobility & posture a gentle one; your own programs and
@@ -230,6 +229,14 @@ Plan and tickets: [docs/plans/phase-9-map-and-history.md](docs/plans/phase-9-map
       done). So the span switch shows on History too (hidden in ticket 3, back in ticket 4).
     - **Days per week, built (1 Oct):** on History, between the calendar and "When you train", a line of the days
       trained each week (0–7; two workouts on one date count once), for spans longer than a week.
+
+## Phase 10: floor-only stand-ins for rows and lateral raises
+Plan and tickets: [docs/plans/phase-10-bodyweight-pulls.md](docs/plans/phase-10-bodyweight-pulls.md). Grilled with Noam
+on 2 Oct 2026, from Phase 7's travel mode finding.
+24. **Floor only** (no table, door or towel). Close **a second row** and **the side shoulders**: Prone lat pulls,
+    Superman rows, Side-lying lateral raises. Used in **travel mode, the Swap list and new builds** (build your own,
+    random workouts) from now on; existing programs never reshuffle (`added: 6`). **Curls, pull-ups and hangs are left
+    as they are** in Bodyweight only (still "Needs gear").
 
 ## Decided against (don't re-suggest)
 - **Logging weights/reps per set**: Noam wants done / not done only.
