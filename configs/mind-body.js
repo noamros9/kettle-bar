@@ -417,6 +417,121 @@ const CONFIGS = [
       spine: { label: 'Spine', short: 'Spine', blocks: [F('Spine flow', ['cat_cow', 'mbSpine', 'mbSpine', 'open_book', 'mbPosture', 'mbSpine?']), F('Hips & shoulders', ['mbHip', 'mbShoulder', 'mbHip?'])] },
     },
   },
+  // ---------------- PHASE 14: GENTLE / LOW IMPACT (no jumping, no floor-to-standing scrambles; no abs finisher) ----------------
+  {
+    id: 'gentle-start', added: 14, catalogue: 8, name: 'Gentle Start', subject: 'Gentle / low impact', minutes: [20, 25], equip: 'bw', absSlots: [], levers: [null, 'reps', 'reps'],
+    gear: 'A chair and a clear bit of wall.',
+    split: 'Circuit A / circuit B', blurb: 'Easy-going strength circuits with a chair and a wall, then a gentle stretch. A kind way back in.',
+    about: 'A kind way into exercise, or back into it after a break. Each session is a relaxed circuit of sit-to-stands, wall push-ups, bridges and bird dogs, at your own pace with a breather between rounds, then a gentle stretch. Nothing jumps and nothing hurries. Levels II and III add a few reps to each move. Twenty minutes or so.',
+    names: ['Sunday Morning', 'Easy Does It', 'First Steps', 'Fresh Air', 'Cup of Tea', 'Front Garden', 'Window Seat', 'Armchair', 'Slow Lane', 'Gentle Breeze', 'Afternoon Light', 'Warm Socks', 'Porch Swing', 'Rocking Chair', 'Footpath', 'Park Bench', 'Duck Pond', 'Blue Sky', 'Daisy', 'Primrose'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Circuit A', short: 'A', blocks: [C('Gentle circuit', ['sit_to_stand', 'wall_pushup', 'glute_bridge', 'gentleStrength?'], { values: [2, 3, 4] }), F('Stretch', ['backMove', 'backMove', 'backMove', 'backMove?'])] },
+      b: { label: 'Circuit B', short: 'B', blocks: [C('Gentle circuit', ['gentleStrength', 'bird_dog', 'gentleStrength', 'gentleStrength?'], { values: [2, 3, 4] }), F('Stretch', ['backMove', 'backMove', 'backMove', 'backMove?'])] },
+    },
+  },
+  {
+    id: 'chair-and-wall', added: 14, catalogue: 8, name: 'Chair & Wall', subject: 'Gentle / low impact', minutes: [20, 25], equip: 'bw', absSlots: [], levers: [null, 'reps', 'tempo'],
+    gear: 'A sturdy chair and a wall.',
+    split: 'Legs / upper & core', blurb: 'Simple strength with a chair and a wall, in straight sets with full rests: legs one day, upper body and core the next.',
+    about: 'Simple, steady strength using only a chair and a wall. One day trains the legs with sit-to-stands, calf raises, clamshells and bridges; the other trains the upper body and core with wall push-ups, bird dogs and side planks from the knees. Straight sets with full rests, so every rep is done well. Level II adds reps and Level III slows every rep down.',
+    names: ['Oak Chair', 'Pine Table', 'Brick Wall', 'Garden Wall', 'Stone Step', 'Banister', 'Doorframe', 'Windowsill', 'Hallway', 'Landing', 'Kitchen Chair', 'Dining Room', 'Front Door', 'Back Step', 'Mantelpiece', 'Bookshelf', 'Hearth', 'Skirting', 'Picture Rail', 'Dado'],
+    cycle: ['legs', 'upper'],
+    dayTypes: {
+      legs: { label: 'Legs', short: 'Legs', blocks: [S('Legs', ['sit_to_stand', 'heel_raise', 'clamshell', 'glute_bridge', 'gentleStrength?'])] },
+      upper: { label: 'Upper & core', short: 'Upper', blocks: [S('Upper & core', ['wall_pushup', 'bird_dog', 'side_plank_knee', 'dead_bug', 'gentleStrength?'])] },
+    },
+  },
+  {
+    id: 'low-impact-cardio', added: 14, catalogue: 8, name: 'Low-Impact Cardio', subject: 'Gentle / low impact', minutes: [20, 25], equip: 'bw', absSlots: [], levers: [null, 'reps', 'reps'],
+    split: 'Intervals A / B', blurb: 'Cardio without the jumping: marching, step touches and arm drives on the minute, kind to knees and neighbours.',
+    about: 'Cardio that gets the heart going without a single jump. Each minute starts a block of marching, step touches, arm drives or sit-to-stands, and you rest for whatever is left of it. Pick the pace that feels like hard work for you. A short stretch closes each session. Levels II and III add time to each move, so the rests get shorter.',
+    names: ['Quickstep', 'Foxtrot', 'Two-step', 'Line Dance', 'Shuffle Step', 'Marching Band', 'Parade', 'Promenade', 'Stroll', 'Saunter', 'Amble', 'Stride Out', 'Brisk Walk', 'Power Walk', 'Hike', 'Ramble', 'Wander', 'Trek', 'Pace', 'Rhythm'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Intervals A', short: 'A', blocks: [E('Low-impact EMOM', ['standing_march', 'gentleCardio', 'step_touch', 'gentleCardio'], { values: [10, 12, 14, 16] }), F('Stretch', ['backMove', 'backMove?'])] },
+      b: { label: 'Intervals B', short: 'B', blocks: [E('Low-impact EMOM', ['step_touch', 'gentleCardio', 'arm_drive', 'gentleCardio'], { values: [10, 12, 14, 16] }), F('Stretch', ['backMove', 'backMove?'])] },
+    },
+  },
+  {
+    id: 'move-daily', added: 14, catalogue: 8, name: 'Move Daily', subject: 'Gentle / low impact', minutes: [13, 17], equip: 'bw', absSlots: [], levers: [null, 'reps', 'reps'],
+    split: 'Morning / evening', blurb: 'Fifteen gentle minutes for every day: a morning flow to wake up, an evening one to wind down.',
+    about: 'Fifteen gentle minutes for every day, guided by the voice. The morning flow wakes the body with marching, cat-cow, sit-to-stands and arm circles. The evening flow winds down with pelvic tilts, knee hugs, twists and child\'s pose on the floor. Do one or both. Levels II and III add a few reps and seconds to each move.',
+    names: ['Sunrise Walk', 'Dewdrop', 'Birdsong Hour', 'Lark', 'Robin', 'Wren', 'Blackbird', 'Sparrow', 'Nightingale', 'Owl Light', 'Moonrise', 'Lamplight', 'Starlight', 'Candlelight', 'Firefly', 'Glow-worm', 'Dusk Walk', 'Bedtime', 'Lullaby', 'Goodnight'],
+    cycle: ['morning', 'evening'],
+    dayTypes: {
+      morning: { label: 'Morning', short: 'AM', blocks: [F('Morning flow', ['standing_march', 'cat_cow', 'sit_to_stand', 'arm_drive', 'step_touch', 'gentleStrength', 'gentleCardio', 'gentleStrength?'])] },
+      evening: { label: 'Evening', short: 'PM', blocks: [F('Evening flow', ['pelvic_tilt', 'knee_hug', 'backMove', 'backMove', 'childs_pose', 'backMove?'])] },
+    },
+  },
+  {
+    id: 'strong-and-steady', added: 14, catalogue: 8, name: 'Strong & Steady', subject: 'Gentle / low impact', minutes: [20, 25], equip: 'bw', absSlots: [], levers: [null, 'reps', 'variation'],
+    gear: 'A chair or a wall to hold for balance.',
+    split: 'Legs & balance A / B', blurb: 'Steadier on your feet: simple leg strength and balance practice, holding a chair or wall at first.',
+    about: 'Leg strength and balance for feeling steady on your feet, on stairs and on uneven ground. Each session pairs simple leg moves, sit-to-stands, calf raises and bridges, with balance practice such as one-leg stands and heel-to-toe walking. Hold a chair or a wall until you do not need it. Level II adds reps and Level III brings slightly harder versions.',
+    names: ['Sure Foot', 'Steady Hand', 'Solid Ground', 'Firm Footing', 'Level Path', 'Stepping Stone', 'Handrail', 'Garden Path', 'Cobbles', 'Kerbside', 'Stairwell', 'Footbridge', 'Stile', 'Boardwalk', 'Pier', 'Jetty', 'Towpath Walk', 'Hillside', 'Meadow', 'Orchard'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Legs & balance A', short: 'A', blocks: [S('Legs', ['sit_to_stand', 'heel_raise', 'glute_bridge?']), C('Balance', ['gentleBalance', 'gentleBalance', 'gentleBalance?'], { values: [2, 3] })] },
+      b: { label: 'Legs & balance B', short: 'B', blocks: [S('Legs', ['sit_to_stand', 'clamshell', 'single_leg_calf_raise?']), C('Balance', ['gentleBalance', 'gentleBalance', 'gentleBalance?'], { values: [2, 3] })] },
+    },
+  },
+  // ---------------- PHASE 14: BACK CARE (gentle strength and movement for the lower back; no abs finisher) ----------------
+  {
+    id: 'back-basics', added: 14, catalogue: 8, name: 'Back Basics', subject: 'Back care', minutes: [18, 23], equip: 'bw', absSlots: [], levers: [null, 'reps', 'reps'],
+    split: 'Big three / movement', blurb: 'The core work back specialists recommend: curl-ups, side planks and bird dogs, then gentle movement.',
+    about: 'A steady routine for a back that likes to complain. One day is the big three that back specialists recommend, McGill curl-ups, side planks from the knees and bird dogs, done slowly for the endurance that holds the spine steady. The other day is gentle movement: pelvic tilts, cat-cow and prone press-ups. Levels II and III add reps. If anything sharpens pain, stop and check with a professional.',
+    names: ['Spine Line', 'Lumbar', 'Sacrum', 'Disc', 'Vertebra', 'Coccyx', 'Lordosis', 'Neutral', 'Brace Up', 'Hold Fast', 'Root', 'Trunk', 'Pillar Strength', 'Keystone', 'Lintel', 'Joist', 'Beam Strength', 'Truss', 'Strut', 'Buttress'],
+    cycle: ['big3', 'move'],
+    dayTypes: {
+      big3: { label: 'Big three', short: 'Big 3', blocks: [S('The big three', ['mcgill_curl_up', 'side_plank_knee', 'bird_dog', 'backStrength?']), F('Unwind', ['backMove', 'backMove?'])] },
+      move: { label: 'Movement', short: 'Move', blocks: [F('Back movement', ['pelvic_tilt', 'cat_cow', 'prone_press_up', 'backMove', 'backMove', 'backMove?']), C('Hips', ['glute_bridge', 'clamshell'], { values: [2, 3] })] },
+    },
+  },
+  {
+    id: 'back-flow', added: 14, catalogue: 8, name: 'Back Flow', subject: 'Back care', minutes: [13, 17], equip: 'bw', absSlots: [], levers: [null, 'reps', 'reps'],
+    split: 'Flow A / flow B', blurb: 'Fifteen minutes of guided back movement: tilts, press-ups, twists and stretches, for stiff days.',
+    about: 'Fifteen minutes of gentle, guided movement for a stiff back. Each flow moves the spine every way it bends, forward, back, sideways and round, with pelvic tilts, prone press-ups, open books and twists, held and repeated slowly. Two flows alternate. Levels II and III add a few reps and seconds. Good first thing in the morning or after a long day sitting.',
+    names: ['Unbend', 'Stretch Out', 'Uncurl', 'Easy Back', 'Loose Spine', 'Bend Easy', 'Soft Spine', 'Rested', 'Rolled Out', 'Unwound', 'Smooth', 'Supple Back', 'Wave', 'Ebb', 'Flow Back', 'Ripple Back', 'Tidal', 'Swaying', 'Willow Back', 'Reed'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Flow A', short: 'A', blocks: [F('Back flow', ['pelvic_tilt', 'cat_cow', 'prone_press_up', 'open_book', 'backMove', 'backMove?'])] },
+      b: { label: 'Flow B', short: 'B', blocks: [F('Back flow', ['cat_cow', 'pelvic_tilt', 'sphinx_pose', 'supine_twist', 'backMove', 'backMove?'])] },
+    },
+  },
+  {
+    id: 'strong-back', added: 14, catalogue: 8, name: 'Strong Back', subject: 'Back care', minutes: [22, 27], equip: 'bw', absSlots: [], levers: [null, 'reps', 'tempo'],
+    split: 'Glutes & core / back & hips', blurb: 'Strength that protects the back: glutes, trunk and upper back in straight sets, slow and controlled.',
+    about: 'Strength that protects the back, built slowly. One day trains the glutes and trunk with bridges, clamshells, curl-ups and side planks; the other the back and hips with bird dogs, supermans and Y-T-W raises. Straight sets with full rests, every rep controlled. Level II adds reps and Level III slows the reps down. Stop if anything sharpens pain.',
+    names: ['Backbone Strong', 'Upright Life', 'Stand Up', 'Carry On', 'Lift Safe', 'Bend Well', 'Hinge Right', 'Posture Plus', 'Spine Guard', 'Shield', 'Armour', 'Bulwark', 'Rampart', 'Fortress', 'Stronghold', 'Citadel', 'Bastion', 'Keep', 'Tower', 'Battlement'],
+    cycle: ['glutes', 'back'],
+    dayTypes: {
+      glutes: { label: 'Glutes & core', short: 'Glutes', blocks: [S('Glutes & core', ['glute_bridge', 'clamshell', 'mcgill_curl_up', 'side_plank_knee', 'backStrength?'])] },
+      back: { label: 'Back & hips', short: 'Back', blocks: [S('Back & hips', ['bird_dog', 'superman', 'prone_ytw', 'backStrength', 'backStrength?'])] },
+    },
+  },
+  {
+    id: 'desk-back', added: 14, catalogue: 8, name: 'Desk Back', subject: 'Back care', minutes: [15, 20], equip: 'bw', absSlots: [], levers: [null, 'reps', 'reps'],
+    split: 'Reset circuit A / B', blurb: 'For long days sitting: a short circuit of back movement, posture drills and glute work.',
+    about: 'For backs that sit all day. A short circuit undoes the desk: a back movement such as a press-up or open book, a posture drill such as chin tucks or wall slides, and a glute move to wake up the hips. Two or three relaxed rounds, about fifteen minutes. Levels II and III add reps. Good at lunchtime or straight after work.',
+    names: ['Office Hours', 'Lunch Hour', 'Coffee Break', 'Clock Off', 'Desk Job', 'Swivel Chair', 'Keyboard', 'Monitor', 'Inbox Zero', 'Meeting Room', 'Water Cooler', 'Commute', 'Home Office', 'Standing Desk', 'Spreadsheet', 'Overtime Back', 'Nine to Five', 'Friday', 'Weekend', 'Out of Office'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Reset circuit A', short: 'A', blocks: [C('Desk reset', ['backMove', 'mbPosture', 'glute_bridge', 'backMove', 'mbPosture?'], { values: [2, 3, 4] })] },
+      b: { label: 'Reset circuit B', short: 'B', blocks: [C('Desk reset', ['mbPosture', 'backMove', 'clamshell', 'mbPosture', 'backMove?'], { values: [2, 3, 4] })] },
+    },
+  },
+  {
+    id: 'back-and-hips', added: 14, catalogue: 8, name: 'Back & Hips', subject: 'Back care', minutes: [22, 27], equip: 'bw', absSlots: [], levers: [null, 'reps', 'variation'],
+    split: 'Hips / spine', blurb: 'Back care through the hips: a hip flow and glute circuit one day, spine movement and trunk strength the next.',
+    about: 'Back care that starts at the hips, because stiff hips and sleepy glutes often load the lower back. One day is a hip mobility flow followed by a glute circuit; the other is spine movement followed by trunk strength. Calm pace throughout. Level II adds reps and Level III brings slightly harder versions. Stop if anything sharpens pain.',
+    names: ['Hip Joint', 'Pelvis', 'Ilium', 'Hip Crease', 'Glute Wake', 'Hip Opener', 'Hip Circle', 'Hip Flow', 'Saddle Joint', 'Hip Swing', 'Hip Key', 'Hip Lever', 'Hip Hinge Easy', 'Psoas', 'Piriformis', 'Gluteus', 'Hamstring Easy', 'Groin', 'Sit Bones', 'Tailbone'],
+    cycle: ['hips', 'spine'],
+    dayTypes: {
+      hips: { label: 'Hips', short: 'Hips', blocks: [F('Hip flow', ['hip_cars', 'mbHip', 'mbHip', 'knee_hug']), C('Glutes', ['glute_bridge', 'clamshell', 'backStrength?'], { values: [2, 3] })] },
+      spine: { label: 'Spine', short: 'Spine', blocks: [F('Spine flow', ['pelvic_tilt', 'cat_cow', 'backMove', 'backMove', 'backMove', 'backMove?']), C('Trunk', ['bird_dog', 'mcgill_curl_up', 'side_plank_knee?'], { values: [2, 3, 4] })] },
+    },
+  },
 ];
 
 // Hand-written paragraphs for the older programs (newer ones carry theirs as `about:` in the config).
