@@ -36,7 +36,7 @@ the AI search, after saying yes to "About 25 MB, once". Tests never load the rea
 | 2 | Help me pick (three taps) | feature | 3 | `feature/help-me-pick` | done (PR #164) |
 | 3 | Finder text, limits and the "why" line | feature | – | `feature/finder-facts` | done (PR #163) |
 | 4 | The model on our own site (deploy) | build | – | `build/vendor-model` | done (PR #165) |
-| 5 | Ask the finder (AI search) | feature | 3, 4 | `feature/ask-finder` | done (PR #NN) |
+| 5 | Ask the finder (AI search) | feature | 3, 4 | `feature/ask-finder` | done (PR #166) |
 
 ### 1. Name search on Programs
 - A search field above the family tabs: typing narrows the shelves to programs whose name, subject, split or blurb
