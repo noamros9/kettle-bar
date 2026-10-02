@@ -21,6 +21,8 @@
    setFilter(filters, key, value) -> new filters; a family change resets the subject.
    subjectsOf(summaries, families) -> [[family, [subject]]], the subjects that have programs (the Hidden subjects setting).
    toggleIn(list, value) -> a new list with value added, or removed if it was there (stars and hidden subjects).
+   searchPrograms(summaries, query) -> the programs whose name, subject, split or first sentence hold every word of the
+     query, case and accents ignored, in the order given (Phase 15: the name search on Programs); no words: all of them.
    skipped(prefs, EX) -> the exercises I skip (Phase 13): prefs.skip's ids this app knows, once each, in the order skipped.
    Pure: the page only renders what this returns. */
 (function (root) {
@@ -55,6 +57,12 @@
   const hasPrograms = (summaries, s) => summaries.some((p) => p.subject === s);
   const subjectsOf = (summaries, families) => families.map(([name, list]) => [name, list.filter((s) => hasPrograms(summaries, s))]).filter(([, l]) => l.length);
 
+  const fold = (t) => String(t).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  function searchPrograms(summaries, query) {
+    const words = typeof query === 'string' ? fold(query).split(/\s+/).filter(Boolean) : [];
+    if (!words.length) return summaries;
+    return summaries.filter((p) => { const text = fold([p.name, p.subject, p.split, p.about].join(' ')); return words.every((w) => text.includes(w)); });
+  }
   const SHELF = 6;
   function libraryView(summaries, asked, { families, lengthOf: lenOf, prefs = {}, opened = [], keep = [] }) {
     const known = new Set(families.flatMap(([, list]) => list));
@@ -157,7 +165,7 @@
       .slice(0, 3).map(({ p }) => p.id);
   }
 
-  const api = { SHELF, suggestNext, libraryView, searchExercises, byMuscles, splitByMuscles, rankPrograms, gearOf, GEAR, subjectsOf, toggleIn, skipped, setFilter, counterText, lengthOf, FAMILIES, LENGTHS, EQUIPS };
+  const api = { SHELF, searchPrograms, suggestNext, libraryView, searchExercises, byMuscles, splitByMuscles, rankPrograms, gearOf, GEAR, subjectsOf, toggleIn, skipped, setFilter, counterText, lengthOf, FAMILIES, LENGTHS, EQUIPS };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBLibrary = api;
 })(typeof window !== 'undefined' ? window : globalThis);

@@ -245,3 +245,23 @@ test('a long shelf shows its first 6 and how many more; opened, or its subject p
   assert.deepEqual(yoga(v({}, { keep: ['y8'] })).programs.map((p) => p.id), ['y0', 'y1', 'y2', 'y3', 'y4', 'y5', 'y8']);
   assert.equal(yoga(v({}, { keep: ['y8'] })).more, 3);
 });
+
+// Phase 15 ticket 1: the name search on Programs
+test('searchPrograms: every word in the name, subject, split or first sentence; case and accents ignored', () => {
+  const { searchPrograms } = require('../app/library.js');
+  const P = [
+    { id: 'a', name: 'Kettlebell 30', subject: 'Kettlebell only', split: 'Swing / press / squat', about: 'A month with one kettlebell.' },
+    { id: 'b', name: 'Back Basics', subject: 'Back care', split: 'Big three / movement', about: 'A steady routine for a back that likes to complain.' },
+    { id: 'c', name: 'Pilates Flow', subject: 'Pilates', split: 'Flow A / flow B', about: 'Half an hour of Pilates that keeps moving.' },
+  ];
+  const ids = (q) => searchPrograms(P, q).map((p) => p.id);
+  assert.deepEqual(ids(''), ['a', 'b', 'c']);
+  assert.deepEqual(ids('   '), ['a', 'b', 'c']);
+  assert.deepEqual(ids('KETTLE'), ['a']);
+  assert.deepEqual(ids('back steady'), ['b'], 'every word, anywhere');
+  assert.deepEqual(ids('back swing'), []);
+  assert.deepEqual(ids('pilatés'), ['c'], 'accents ignored');
+  assert.deepEqual(ids('month'), ['a'], 'the first sentence counts');
+  assert.deepEqual(ids('squat'), ['a'], 'the split counts');
+  assert.deepEqual(ids({}), ['a', 'b', 'c'], 'a non-text query is no query');
+});

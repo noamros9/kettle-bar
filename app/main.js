@@ -208,6 +208,10 @@ document.addEventListener('input', (e) => {
   if (e.target.id === 'b-name') buildState.name = e.target.value;
   if (e.target.id === 'own-name') ownState.text = e.target.value;
   if (e.target.id === 'ex-search') { exSearch.q = e.target.value; exRefresh(); }
+  if (e.target.id === 'prog-search') { // the whole page redraws (shelves, chips, counter), then the field gets its focus back
+    progQuery = e.target.value; const at = e.target.selectionStart; render();
+    const i = $('#prog-search'); if (i) { i.focus(); i.setSelectionRange(at, at); }
+  }
 });
 document.addEventListener('submit', (e) => { if (e.target.dataset.ownForm) { e.preventDefault(); ownRenameSave(); } });
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && e.target.id === 'own-name') { ownState = null; render(); } });

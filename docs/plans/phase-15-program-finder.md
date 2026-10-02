@@ -32,7 +32,7 @@ the AI search, after saying yes to "About 25 MB, once". Tests never load the rea
 | # | Ticket | Tier | Blocked by | Branch | Status |
 |---|---|---|---|---|---|
 | 0 | This plan | plan | – | `plan/program-finder` | done (PR #161) |
-| 1 | Name search on Programs | feature | – | `feature/program-search` | |
+| 1 | Name search on Programs | feature | – | `feature/program-search` | done (PR #162) |
 | 2 | Help me pick (three taps) | feature | – | `feature/help-me-pick` | |
 | 3 | Finder text, limits and the "why" line | feature | – | `feature/finder-facts` | |
 | 4 | The model on our own site (deploy) | build | – | `build/vendor-model` | |
@@ -46,6 +46,9 @@ the AI search, after saying yes to "About 25 MB, once". Tests never load the rea
 - **Test first:** unit: every word must match, case and accents ignored, empty query = all; phone: type "kettle",
   the shelves and counter narrow, × clears, 360 px no sideways scroll.
 - **Done when:** the page stays under the size check.
+- **As built (2 Oct):** searches the summaries' name, subject, split and first sentence (already in the page, so no
+  size cost; the blurb wasn't needed). Favourites and Your programs follow the search too. The page redraws as you
+  type and the field keeps its focus and caret.
 
 ### 2. Help me pick (three taps)
 - A "Help me pick" button by Build your own opens a sheet: **Goal** (strength, fitness & cardio, fighting skills,

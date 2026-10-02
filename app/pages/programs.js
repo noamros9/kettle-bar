@@ -1,6 +1,7 @@
 /* ---------------- programs page ---------------- */
 const { libraryView, suggestNext, FAMILIES, LENGTHS, lengthOf } = KBLibrary;
 let filters = { family: 'all', subject: 'all', len: 'all', equip: 'all' };
+let progQuery = ''; // the name search (Phase 15): words in the name, subject, split or first sentence
 let openShelves = []; // subjects whose shelf shows all its programs (Phase 14: a shelf shows 6 and "Show all N")
 const toggleShelf = (subject) => { openShelves = KBLibrary.toggleIn(openShelves, subject); render(); };
 let filterMenu = null; // 'len' | 'equip': which of "Length: Any" and "Equipment: Any" is open, showing its choices
@@ -25,9 +26,10 @@ const STAR = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2l2.7 5
 const starButton = (p) => { const on = isFavourite(p.id); return `<button class="star" data-star="${esc(p.id)}" aria-pressed="${on}" aria-label="${on ? 'Remove' : 'Add'} ${esc(p.name)} ${on ? 'from' : 'to'} favourites">${STAR}</button>`; };
 function viewPrograms() {
   const last = lastPid();
-  const all = programs.list().filter((p) => p.source !== 'own'); // your own programs have their own shelf
-  const mine = programs.list().filter((p) => p.source === 'own');
-  const lib = libraryView(all, filters, { families: FAMILIES, lengthOf, prefs: libraryPrefs(), opened: openShelves, keep: all.filter((p) => p.id === last || store.count(p.id) > 0).map((p) => p.id) });
+  const found = KBLibrary.searchPrograms(programs.list(), progQuery), searching = !!progQuery.trim();
+  const all = found.filter((p) => p.source !== 'own'); // your own programs have their own shelf
+  const mine = found.filter((p) => p.source === 'own');
+  const lib = libraryView(all, filters, { families: FAMILIES, lengthOf, prefs: libraryPrefs(), opened: searching ? FAMILIES.flatMap(([, list]) => list) : openShelves, keep: all.filter((p) => p.id === last || store.count(p.id) > 0).map((p) => p.id) });
   lib.unknown.forEach((s) => console.error(`Subject "${s}" has no family in FAMILIES`));
   const card = (p) => {
     const n = store.count(p.id), mins = p.minutes[0] === p.minutes[1] ? p.minutes[0] : `${Math.round(p.minutes[0])}–${Math.round(p.minutes[1])}`;
@@ -51,9 +53,10 @@ function viewPrograms() {
     <div class="pbtns"><button class="btn buildbtn" data-go="build">Build your own</button><button class="btn ghost buildbtn" data-random-open="1">${random.current() ? 'Random workout · continue' : 'Random workout'}</button></div>
     ${randomNotice ? `<p class="hint rnotice" role="status">${esc(randomNotice)}</p>` : ''}${restCard()}
     ${yours}${favs}
+    <label class="exsearch progsearch"><span class="sr">Search programs</span><input id="prog-search" type="search" placeholder="Search programs by name or subject" value="${esc(progQuery)}" autocomplete="off" enterkeyhint="search"></label>
     <div class="ftabs" role="group" aria-label="Filter by family">${lib.families.map((f) => tab('family', f)).join('')}</div>
     <div class="filters" role="group" aria-label="Filter by subject">${lib.subjects.map(chip).join('')}</div>
     <div class="lenlines">${menuLine('len', 'Length', lib.lengthLabel)}${menuLine('equip', 'Equipment', lib.equipLabel)}</div>
     ${filterMenu === 'len' ? menuChips('len', 'length', lib.lengths) : filterMenu === 'equip' ? menuChips('equip', 'equipment', lib.equips) : ''}
-    ${groups || '<p class="lede" style="margin-top:24px">No programs match these filters.</p>'}${randomSheet()}`;
+    ${groups || `<p class="lede" style="margin-top:24px">${progQuery.trim() ? `No programs match “${esc(progQuery.trim())}” with these filters.` : 'No programs match these filters.'}</p>`}${randomSheet()}`;
 }
