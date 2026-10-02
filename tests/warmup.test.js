@@ -84,3 +84,20 @@ test('Phase 14 subjects: running and court days warm up dynamically, gentle and 
   const day = { blocks: [{ kind: 'main', items: [{ ex: 'glute_bridge' }] }], warmup: { seconds: 60, items: [] } };
   assert.deepEqual(['Running prep', 'Court & field sports', 'Gentle / low impact', 'Back care'].map((s) => W.kindOf(day, EX, s)), ['dynamic', 'dynamic', 'gentle', 'gentle']);
 });
+
+test('a program can ask for a quiet warm-up (no jumping): its own kind wins over the subject\'s', () => {
+  const W = require('../app/warmup.js'), { EX } = require('../exercises.js');
+  const day = { day: 1, blocks: [{ kind: 'main', items: [{ ex: 'mountain_climber' }] }], warmup: { seconds: 60, items: [] } };
+  assert.equal(W.kindOf(day, EX, 'HIIT'), 'dynamic');
+  assert.equal(W.kindOf(day, EX, 'HIIT', 'quiet'), 'quiet');
+  const w = W.warmupFor(day, EX, 'HIIT', 'quiet');
+  assert.ok(w.items.length && w.items.every((it) => W.QUIET.includes(it.ex)), JSON.stringify(w.items));
+  assert.ok(!W.QUIET.some((id) => ['jumping_jacks', 'high_knees'].includes(id)));
+  assert.equal(w.items.reduce((a, it) => a + it.n * (EX[it.ex].side ? 2 : 1), 0), 60);
+});
+
+test('the built program carries its warm-up kind only when its config sets one (Quiet HIIT)', () => {
+  const lib = require('./helpers/library.js').library();
+  assert.equal(lib.find((p) => p.id === 'quiet-hiit').warmup, 'quiet');
+  assert.ok(lib.filter((p) => p.id !== 'quiet-hiit').every((p) => !('warmup' in p)));
+});

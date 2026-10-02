@@ -1,23 +1,26 @@
 /* Warm-up that matches the format (Phase 7, #67.8): the warm-up a day shows, picked when it opens. Pure: runs in Node
    and in the page (KBWarmup).
 
-     kindOf(day, EX, subject?) -> 'dynamic' | 'gentle' | null
-       the program's subject first: Boxing, Kickboxing, HIIT, Plyometrics, Running prep, Court & field sports -> dynamic;
+     kindOf(day, EX, subject?, kind?) -> 'dynamic' | 'gentle' | 'quiet' | null
+       a program's own kind wins (a config's `warmup`, Phase 14: Quiet HIIT asks for 'quiet', no jumping); then
+       the program's subject: Boxing, Kickboxing, HIIT, Plyometrics, Running prep, Court & field sports -> dynamic;
        Yoga, Pilates, Flexibility, Mobility & posture, Gentle / low impact, Back care -> gentle. Otherwise (your own
        programs, random workouts) the moves: any boxing or kickboxing move, or mostly cardio (abs aside) -> dynamic; every move yoga, Pilates, flexibility, mobility or a stretch ->
        gentle; anything else (strength, mixed days) -> null: its own warm-up stays
-     warmupFor(day, EX, subject?) -> the warm-up to show: the day's own (the same object) for null, else moves from DYNAMIC (a
-       combat day starts with shadow footwork) or GENTLE, taken in turn from a place set by the day number, 30 s each
+     warmupFor(day, EX, subject?, kind?) -> the warm-up to show: the day's own (the same object) for null, else moves from
+       DYNAMIC (a combat day starts with shadow footwork), GENTLE or QUIET, taken in turn from a place set by the day number, 30 s each
        (15 s a side for one-side moves), filling exactly the day's own warm-up seconds, so stretching minutes never change.
-     DYNAMIC, GENTLE
+     DYNAMIC, GENTLE, QUIET
    Stored days keep their warm-ups (the pins hash them); this only changes what the day page shows. */
 (function (root) {
   const DYNAMIC = ['shadow_footwork', 'jumping_jacks', 'high_knees', 'arm_circles', 'lateral_shuffle'];
   const GENTLE = ['cat_cow', 'seated_twist', 'childs_pose', 'supine_twist'];
+  const QUIET = ['arm_circles', 'bw_squat', 'inchworm', 'leg_swings', 'worlds_greatest']; // warm, but no jumping
   const COMBAT = ['boxing', 'kick'], CALM = ['yoga', 'pilates', 'flex', 'mobility', 'cooldown'];
   const SUBJECTS = { Boxing: 'dynamic', Kickboxing: 'dynamic', HIIT: 'dynamic', Plyometrics: 'dynamic', 'Running prep': 'dynamic', 'Court & field sports': 'dynamic', Yoga: 'gentle', Pilates: 'gentle', Flexibility: 'gentle', 'Mobility & posture': 'gentle', 'Gentle / low impact': 'gentle', 'Back care': 'gentle' };
 
-  function kindOf(day, EX, subject) {
+  function kindOf(day, EX, subject, kind) {
+    if (kind) return kind;
     if (SUBJECTS[subject]) return SUBJECTS[subject];
     const cats = day.blocks.filter((b) => b.kind !== 'abs').flatMap((b) => b.items.map((it) => EX[it.ex].cat)).filter((c) => c !== 'abs');
     if (cats.some((c) => COMBAT.includes(c))) return 'dynamic';
@@ -26,10 +29,10 @@
     return null;
   }
 
-  function warmupFor(day, EX, subject) {
-    const kind = day.warmup ? kindOf(day, EX, subject) : null;
+  function warmupFor(day, EX, subject, own) {
+    const kind = day.warmup ? kindOf(day, EX, subject, own) : null;
     if (!kind) return day.warmup;
-    const pool = kind === 'gentle' ? GENTLE : DYNAMIC;
+    const pool = kind === 'gentle' ? GENTLE : kind === 'quiet' ? QUIET : DYNAMIC;
     const combat = kind === 'dynamic' && day.blocks.some((b) => b.items.some((it) => COMBAT.includes(EX[it.ex].cat)));
     const rest = combat ? pool.slice(1) : pool, start = (day.day - 1) % rest.length;
     const order = [...(combat ? [pool[0]] : []), ...rest.slice(start), ...rest.slice(0, start)];
@@ -50,7 +53,7 @@
     return { ...day.warmup, items };
   }
 
-  const api = { kindOf, warmupFor, DYNAMIC, GENTLE };
+  const api = { kindOf, warmupFor, DYNAMIC, GENTLE, QUIET };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBWarmup = api;
 })(typeof window !== 'undefined' ? window : globalThis);

@@ -29,7 +29,7 @@ program in the page; the offline download grows ~3.7 KB gzipped each).
 | 7 | New subjects: Gentle / low impact, Back care (+10) | content | 3 | `content/mind-subjects` | done (PR #155) |
 | 8 | 30-day programs (+8) | content | 1 | `content/thirty-day` | done (PR #156) |
 | 9 | Strength +26 | content | 3 | `content/strength-plus` | done (PR #157) |
-| 10 | Cardio & combat +13 | content | 3 | `content/cardio-plus` | |
+| 10 | Cardio & combat +13 | content | 3 | `content/cardio-plus` | done (PR #158) |
 | 11 | Mind & body +16 | content | 3 | `content/mind-plus` | |
 | 12 | Mixed +15 | content | 3 | `content/mixed-plus` | |
 
@@ -107,6 +107,13 @@ program in the page; the offline download grows ~3.7 KB gzipped each).
   Strength, Twenty Tabata, Fifteen Flat, Commuter, Kettlebell 20). The warm-up test now lets a strength day that is
   mostly jumps warm up dynamically (Athletic Legs' power days); the floor test caught Bar EMOM leaving two rows stuck in
   Bodyweight only, so its second block became a row and a core move.
+- **Ticket 10 as built (2 Oct):** Conditioning +3 (Dumbbell Engine, Conditioning Ladders, Work & Rest), HIIT +2 (HIIT
+  Ladders, Quiet HIIT), Plyometrics +2 (Plyo EMOM, Single-Leg Plyo), Boxing +2 (Boxing EMOM, Defence First),
+  Kickboxing +2 (Kick Strength, Kick Speed), Running prep +1 (Hill Legs), Court & field +1 (Reaction Ready). Boxing stays
+  variation-only (so Build your own still offers it one lever) and Plyo EMOM keeps the Plyometrics rests (so Plyometrics
+  still can't be mixed). A config may ask for a warm-up kind: `warmup: 'quiet'` (arm circles, squats, inchworms… no
+  jumping) for Quiet HIIT, whose subject would otherwise warm up with jumping jacks; the built program carries the
+  field only when set.
 
 ## Challenge round
 - **Weakest assumption:** that +50% per family is varied enough to be worth it. Each new program needs a different

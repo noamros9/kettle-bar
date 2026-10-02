@@ -59,7 +59,7 @@
     function open(pid, n) {
       const program = programs.get(pid), planned = resolved(pid, n), mode = travel() || null, limits = { mode, skip: skip() };
       if (!planned) return undefined;
-      const moved = S.standIns(planned, limits, program, cat), warm = W.warmupFor(moved, cat.EX, program.subject);
+      const moved = S.standIns(planned, limits, program, cat), warm = W.warmupFor(moved, cat.EX, program.subject, program.warmup);
       const day = warm === moved.warmup ? moved : { ...moved, warmup: warm };
       const itemAt = (bi, i) => day.blocks[bi].items[i];
       return {
