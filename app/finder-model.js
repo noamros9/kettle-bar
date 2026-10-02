@@ -10,7 +10,9 @@ export async function loadEmbedder(base, onProgress) {
   const T = await import(at('transformers.min.js'));
   T.env.allowRemoteModels = false;
   T.env.allowLocalModels = true;
-  T.env.localModelPath = at('models/');
+  // a site-relative path, not a full URL: transformers.js 4.3.0 skips its local-file check for URLs and then finds no
+  // tokenizer ("this.tokenizer is not a function")
+  T.env.localModelPath = new URL(at('models/')).pathname;
   T.env.useBrowserCache = true;
   T.env.backends.onnx.wasm.wasmPaths = { mjs: at('ort-wasm-simd-threaded.mjs'), wasm: at('ort-wasm-simd-threaded.wasm') };
   T.env.backends.onnx.wasm.numThreads = 1;
