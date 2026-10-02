@@ -26,7 +26,7 @@ program in the page; the offline download grows ~3.7 KB gzipped each).
 | 4 | Fill to 6 (+9) and the floor-pull programs (+3) | content | 3 | `content/fill-six` | done (PR #152) |
 | 5 | New subjects: Running prep, Court & field sports (+10) | content | 3 | `content/cardio-subjects` | done (PR #153) |
 | 6 | New subjects: Grip & forearms, Kettlebell complexes, Climber (+15) | content | 3 | `content/strength-subjects` | done (PR #154) |
-| 7 | New subjects: Gentle / low impact, Back care (+10) | content | 3 | `content/mind-subjects` | |
+| 7 | New subjects: Gentle / low impact, Back care (+10) | content | 3 | `content/mind-subjects` | done (PR #155) |
 | 8 | 30-day programs (+8) | content | 1 | `content/thirty-day` | |
 | 9 | Strength +26 | content | 3 | `content/strength-plus` | |
 | 10 | Cardio & combat +13 | content | 3 | `content/cardio-plus` | |
@@ -89,6 +89,12 @@ program in the page; the offline download grows ~3.7 KB gzipped each).
   Climber / pull strength: Climb Strength, Pull Ladders, Hang & Hold, Archer Project, Wall Ready. New pools `gripHold
   gripCurl gripPull kbCx kbCxLower kbCxUpper kbCxCore climbPull climbHold climbBack`. A random-workout test now picks
   a plain strength workout itself (the seed it relied on lands on a new day type).
+- **Ticket 7 as built (2 Oct):** Gentle / low impact: Gentle Start, Chair & Wall, Low-Impact Cardio, Move Daily, Strong
+  & Steady. Back care: Back Basics (the big three), Back Flow, Strong Back, Desk Back, Back & Hips. No abs finisher;
+  the back programs say to stop if anything sharpens pain. New pools `gentleStrength gentleCardio gentleBalance
+  backMove backStrength`. Warm-ups: Running prep and Court & field get the dynamic one, Gentle and Back care the gentle
+  one (what the day page shows; stored days and pins don't change). The library phone spec reads each family's
+  subjects from FAMILIES instead of listing them.
 
 ## Challenge round
 - **Weakest assumption:** that +50% per family is varied enough to be worth it. Each new program needs a different

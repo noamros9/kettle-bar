@@ -159,6 +159,11 @@
       climbPull: ['pullup', 'chinup', 'wide_pullup', 'archer_pullup', 'commando_pullup', 'negative_pullup'],
       climbHold: ['lock_off', 'chin_hold', 'dead_hang', 'l_sit_hang', 'hang_knee_raise'],
       climbBack: ['scap_pullup', 'prone_ytw', 'reverse_snow_angel', 'superman_row', 'one_arm_row', 'db_row'],
+      gentleStrength: ['sit_to_stand', 'wall_pushup', 'glute_bridge', 'clamshell', 'bird_dog', 'side_plank_knee', 'heel_raise', 'dead_bug'],
+      gentleCardio: ['standing_march', 'step_touch', 'arm_drive', 'sit_to_stand', 'wall_pushup'],
+      gentleBalance: ['single_leg_stand', 'heel_to_toe_walk', 'single_leg_calf_raise', 'single_leg_reach'],
+      backMove: ['pelvic_tilt', 'cat_cow', 'prone_press_up', 'open_book', 'knee_hug', 'childs_pose', 'sphinx_pose', 'supine_twist'],
+      backStrength: ['bird_dog', 'mcgill_curl_up', 'side_plank_knee', 'glute_bridge', 'clamshell', 'dead_bug', 'prone_ytw', 'superman'],
     };
     // Pools computed from the catalogue. An exercise marked `added: N` (the phase that added it) joins them only
     // for configs with `catalogue: N` or later, so new exercises can't reshuffle the days of existing programs.

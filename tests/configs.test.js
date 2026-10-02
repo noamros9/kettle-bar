@@ -42,6 +42,9 @@ const IDS = [
     'grip-strength', 'carry-day', 'forearm-pump', 'hang-time', 'grip-and-lift',
     'complex-builder', 'complex-emom', 'bell-ladders', 'bell-amrap', 'complex-and-carry',
     'climb-strength', 'pull-ladder-climb', 'hang-and-hold', 'archer-project', 'wall-ready',
+    // Phase 14 ticket 7: Gentle / low impact, Back care
+    'gentle-start', 'chair-and-wall', 'low-impact-cardio', 'move-daily', 'strong-and-steady',
+    'back-basics', 'back-flow', 'strong-back', 'desk-back', 'back-and-hips',
 ];
 
 test('the config ids, in order, are today\'s list', () => {

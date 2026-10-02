@@ -76,3 +76,9 @@ test('without a subject (your own programs, random workouts) the moves decide', 
   assert.equal(W.kindOf({ ...cardio, blocks: [{ kind: 'main', items: [{ ex: 'goblet_squat' }, { ex: 'jumping_jacks' }] }] }, EX), null);
   assert.equal(W.kindOf(hiit, EX, 'Strength'), W.kindOf(hiit, EX), 'a subject not named: the moves');
 });
+
+test('Phase 14 subjects: running and court days warm up dynamically, gentle and back-care days gently', () => {
+  const W = require('../app/warmup.js'), { EX } = require('../exercises.js');
+  const day = { blocks: [{ kind: 'main', items: [{ ex: 'glute_bridge' }] }], warmup: { seconds: 60, items: [] } };
+  assert.deepEqual(['Running prep', 'Court & field sports', 'Gentle / low impact', 'Back care'].map((s) => W.kindOf(day, EX, s)), ['dynamic', 'dynamic', 'gentle', 'gentle']);
+});

@@ -2,9 +2,9 @@
    and in the page (KBWarmup).
 
      kindOf(day, EX, subject?) -> 'dynamic' | 'gentle' | null
-       the program's subject first: Boxing, Kickboxing, HIIT, Plyometrics -> dynamic; Yoga, Pilates, Flexibility,
-       Mobility & posture -> gentle. Otherwise (your own programs, random workouts) the moves: any boxing or kickboxing
-       move, or mostly cardio (abs aside) -> dynamic; every move yoga, Pilates, flexibility, mobility or a stretch ->
+       the program's subject first: Boxing, Kickboxing, HIIT, Plyometrics, Running prep, Court & field sports -> dynamic;
+       Yoga, Pilates, Flexibility, Mobility & posture, Gentle / low impact, Back care -> gentle. Otherwise (your own
+       programs, random workouts) the moves: any boxing or kickboxing move, or mostly cardio (abs aside) -> dynamic; every move yoga, Pilates, flexibility, mobility or a stretch ->
        gentle; anything else (strength, mixed days) -> null: its own warm-up stays
      warmupFor(day, EX, subject?) -> the warm-up to show: the day's own (the same object) for null, else moves from DYNAMIC (a
        combat day starts with shadow footwork) or GENTLE, taken in turn from a place set by the day number, 30 s each
@@ -15,7 +15,7 @@
   const DYNAMIC = ['shadow_footwork', 'jumping_jacks', 'high_knees', 'arm_circles', 'lateral_shuffle'];
   const GENTLE = ['cat_cow', 'seated_twist', 'childs_pose', 'supine_twist'];
   const COMBAT = ['boxing', 'kick'], CALM = ['yoga', 'pilates', 'flex', 'mobility', 'cooldown'];
-  const SUBJECTS = { Boxing: 'dynamic', Kickboxing: 'dynamic', HIIT: 'dynamic', Plyometrics: 'dynamic', Yoga: 'gentle', Pilates: 'gentle', Flexibility: 'gentle', 'Mobility & posture': 'gentle' };
+  const SUBJECTS = { Boxing: 'dynamic', Kickboxing: 'dynamic', HIIT: 'dynamic', Plyometrics: 'dynamic', 'Running prep': 'dynamic', 'Court & field sports': 'dynamic', Yoga: 'gentle', Pilates: 'gentle', Flexibility: 'gentle', 'Mobility & posture': 'gentle', 'Gentle / low impact': 'gentle', 'Back care': 'gentle' };
 
   function kindOf(day, EX, subject) {
     if (SUBJECTS[subject]) return SUBJECTS[subject];

@@ -1,6 +1,8 @@
 // The programs page: family tabs (Strength · Cardio & combat · Mind & body · Mixed) above the subject chips, with counts.
 const { test, expect } = require('./fixtures.js');
 const { CONFIGS } = require('../program-builder.js');
+const { FAMILIES } = require('../app/library.js');
+const subjectsOf = (family) => FAMILIES.find(([f]) => f === family)[1].filter((x) => CONFIGS.some((c) => c.subject === x));
 
 const family = (app) => app.page.getByRole('group', { name: 'Filter by family' });
 const subjects = (app) => app.page.getByRole('group', { name: 'Filter by subject' });
@@ -20,7 +22,7 @@ test('tap Mind & body: only its subjects\' chips and shelves show; Flow State si
   await app.open('#programs');
   await family(app).getByRole('button', { name: 'Mind & body' }).click();
   await expect(family(app).getByRole('button', { name: 'Mind & body' })).toHaveAttribute('aria-pressed', 'true');
-  const mind = ['Core & abs', 'Mobility & posture', 'Yoga', 'Pilates', 'Flexibility', 'Balance & stability'].filter((x) => CONFIGS.some((c) => c.subject === x));
+  const mind = subjectsOf('Mind & body');
   expect(await chipTexts(subjects(app))).toEqual(['All', ...mind]);
   expect((await app.page.locator('.pgroup h2').allTextContents())).toEqual(mind);
   await expect(app.page.locator('.pgroup', { hasText: 'Mobility & posture' }).locator('[data-open-prog="flow-state"]')).toHaveCount(1);
@@ -35,14 +37,14 @@ test('a subject picked in one family resets when another family is picked', asyn
   await expect(app.page.locator('.pgroup h2')).toHaveText(['Pull-ups']);
   await family(app).getByRole('button', { name: 'Cardio & combat' }).click();
   await expect(subjects(app).getByRole('button', { name: 'All' })).toHaveAttribute('aria-pressed', 'true');
-  const cardio = ['Conditioning', 'HIIT', 'Plyometrics', 'Boxing', 'Kickboxing', 'Running prep', 'Court & field sports'].filter((x) => CONFIGS.some((c) => c.subject === x));
+  const cardio = subjectsOf('Cardio & combat');
   await expect(app.page.locator('.pgroup h2')).toHaveText(cardio);
 });
 
 test('the eyebrow counts what the taps select: Mind & body, then Yoga, then a length', async ({ app }) => {
   await app.open('#programs');
   const eyebrow = app.page.locator('.eyebrow').first();
-  const inFamily = CONFIGS.filter((c) => ['Core & abs', 'Mobility & posture', 'Yoga', 'Pilates', 'Flexibility', 'Balance & stability'].includes(c.subject)).length;
+  const inFamily = CONFIGS.filter((c) => subjectsOf('Mind & body').includes(c.subject)).length;
   const yoga = CONFIGS.filter((c) => c.subject === 'Yoga').length;
   await expect(eyebrow).toHaveText(`${CONFIGS.length} programs`);
   await family(app).getByRole('button', { name: 'Mind & body' }).click();
