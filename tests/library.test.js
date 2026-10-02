@@ -36,11 +36,11 @@ const SUBJECTS = {
   Bodyweight: { count: 12, abs: true, formats: ['superset', 'straight', 'circuit', 'amrap'] },
   'Busy week': { count: 11, abs: true, formats: ['circuit', 'superset', 'amrap', 'emom', 'straight', 'tabata'] },
   // Mixed (Phase 6): abs depends on the day type, so it has its own test below
-  'Strength & stretch': { count: 6, abs: undefined, formats: ['straight', 'superset', 'flow'] },
-  Fighter: { count: 6, abs: undefined, formats: ['bouts', 'straight', 'superset', 'circuit', 'emom', 'amrap', 'tabata', 'flow'] },
-  Athlete: { count: 6, abs: undefined, formats: ['straight', 'superset', 'circuit'] },
-  'Balanced week': { count: 7, abs: undefined, formats: ['straight', 'superset', 'circuit', 'emom', 'amrap', 'tabata', 'ladder', 'bouts', 'flow'] },
-  'Calm strength': { count: 7, abs: undefined, formats: ['straight', 'superset', 'circuit', 'flow'] },
+  'Strength & stretch': { count: 9, abs: undefined, formats: ['straight', 'superset', 'flow'] },
+  Fighter: { count: 9, abs: undefined, formats: ['bouts', 'straight', 'superset', 'circuit', 'emom', 'amrap', 'tabata', 'flow'] },
+  Athlete: { count: 9, abs: undefined, formats: ['straight', 'superset', 'circuit'] },
+  'Balanced week': { count: 10, abs: undefined, formats: ['straight', 'superset', 'circuit', 'emom', 'amrap', 'tabata', 'ladder', 'bouts', 'flow'] },
+  'Calm strength': { count: 10, abs: undefined, formats: ['straight', 'superset', 'circuit', 'flow'] },
 };
 
 for (const [subject, want] of Object.entries(SUBJECTS)) {
@@ -125,8 +125,8 @@ test('the core programs opt in to the new catalogue (catalogue: 5): their abs fi
   assert.ok(optIn.some((p) => p.days.some((d) => d.blocks.at(-1).items.some((it) => fresh.has(it.ex)))));
 });
 
-test('the library: 248 programs in 30 subjects', () => {
-  assert.equal(programs.length, 248);
+test('the library: 263 programs in 30 subjects', () => {
+  assert.equal(programs.length, 263);
   assert.equal(new Set(programs.map((p) => p.subject)).size, 30);
 });
 
@@ -145,7 +145,7 @@ test('the Signature shelf has 15 programs: each original, then its Tempo and Har
 
 // ---------- Mixed: Strength & stretch (Phase 6 ticket 1) ----------
 const STRETCH = ['lift-and-lengthen', 'iron-yoga', 'strong-hips', 'upper-and-open', 'kettlebell-and-yoga', 'posture-strength'];
-const stretch = programs.filter((p) => p.subject === 'Strength & stretch');
+const stretch = programs.filter((p) => p.subject === 'Strength & stretch' && cfgOf[p.id].added === 6); // Phase 6's six (Phase 14's are checked below)
 const FAMILY_TAGS = ['Strength', 'Cardio & combat', 'Mind & body'];
 const absOf = (cfg, type) => (cfg.dayTypes[type].absSlots || cfg.absSlots || ['absW', 'abs', 'abs?']).length > 0;
 
@@ -201,8 +201,8 @@ test('Strength & stretch: kettlebell-and-yoga uses one kettlebell and a mat, the
 // ---------- Mixed: Fighter and Athlete (Phase 6 ticket 2) ----------
 const FIGHTER = ['fight-ready', 'strike-and-lift', 'southpaw-strength', 'muay-thai-conditioning', 'boxers-body', 'knockout-circuit'];
 const ATHLETE = ['jump-lift-stick', 'court-ready', 'field-day', 'explosive-legs', 'power-and-poise', 'all-round-athlete'];
-const fighter = programs.filter((p) => p.subject === 'Fighter');
-const athlete = programs.filter((p) => p.subject === 'Athlete');
+const fighter = programs.filter((p) => p.subject === 'Fighter' && cfgOf[p.id].added === 6);
+const athlete = programs.filter((p) => p.subject === 'Athlete' && cfgOf[p.id].added === 6);
 const mainOf = (d) => d.blocks.filter((b) => b.kind === 'main');
 const familiesOf = (d) => [...new Set(mainOf(d).map((b) => b.family))];
 
@@ -359,4 +359,19 @@ test('the 30-day programs: two per family, 30 days with levels at 1 / 11 / 21, a
       assert.ok(familiesOf(d).length >= 2, `${c.id} d${d.day}: a mixed day`);
     });
   });
+});
+
+// Phase 14 ticket 12: every Mixed program added in Phase 14 mixes families every day, tags its blocks, and a day that
+// ends in a flow has no abs finisher
+test('Phase 14 Mixed programs: every main block tagged, two families or more every day, no abs after a flow', () => {
+  const { FAMILIES } = require('../app/library.js');
+  const mixed = FAMILIES.find(([f]) => f === 'Mixed')[1];
+  const list = programs.filter((p) => mixed.includes(p.subject) && cfgOf[p.id].added === 14);
+  assert.equal(list.length, 17, '15 in ticket 12 and the two 30-day months');
+  list.forEach((p) => p.days.forEach((d) => {
+    assert.ok(mainOf(d).every((b) => FAMILY_TAGS.includes(b.family)), `${p.id} d${d.day}`);
+    assert.ok(familiesOf(d).length >= 2, `${p.id} d${d.day}: a mixed day`);
+    const main = mainOf(d);
+    if (main.at(-1).format === 'flow') assert.notEqual(d.blocks.at(-1).kind, 'abs', `${p.id} d${d.day}: abs after a flow`);
+  }));
 });

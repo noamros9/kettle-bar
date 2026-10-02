@@ -58,6 +58,10 @@ const ORDER = [
   // Phase 14 ticket 11: Mind & body +16
   'core-emom', 'loaded-core', 'plank-project', 'shoulder-health', 'hip-mobility', 'evening-yoga', 'yoga-strength', 'pilates-flow',
   'pilates-15', 'backbend-flex', 'active-flexibility', 'steady-feet', 'loaded-balance', 'gentle-flow', 'easy-strength', 'loaded-back-care',
+  // Phase 14 ticket 12: Mixed +15
+  'bodyweight-and-stretch', 'supersets-and-stretch', 'lift-and-move', 'bouts-and-bells', 'kick-and-stretch', 'fighter-25',
+  'bodyweight-athlete', 'speed-and-strength', 'court-athlete', 'balanced-25', 'kettlebell-week', 'no-gear-week',
+  'calm-bodyweight', 'slow-supersets', 'evening-strength',
 ];
 
 const byId = new Map(FAMILY_FILES.flat().map((c) => [c.id, c]));
