@@ -51,7 +51,7 @@ test('builds at catalogue 7 or older never draw them: the library below 8, and e
   const used = (p) => new Set(p.days.flatMap((d) => d.blocks.flatMap((b) => b.items.map((it) => it.ex))));
   const cfg = Object.fromEntries(CONFIGS.map((c) => [c.id, c]));
   all.filter((p) => (cfg[p.id].catalogue || 0) < 8).forEach((p) => NEW.forEach((id) => assert.ok(!used(p).has(id), `${p.id} draws ${id}`)));
-  CONFIGS.filter((c) => !c.frozen).forEach((c) => {
+  CONFIGS.filter((c) => !c.frozen && (c.catalogue || 0) < 8).forEach((c) => { // the configs made before catalogue 8
     const u = used(buildConfig({ ...c, catalogue: 7 }));
     NEW.forEach((id) => assert.ok(!u.has(id), `${c.id} at 7 draws ${id}`));
   });

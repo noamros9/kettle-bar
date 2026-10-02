@@ -33,6 +33,9 @@ const ORDER = [
   // Phase 14 ticket 4: a sixth program for every five-program subject, and bodyweight programs with the floor pulls
   'power-vinyasa', 'pilates-sculpt', 'boxing-strength', 'kick-and-core', 'daily-stretch-15', 'mobility-flow',
   'balance-emom', 'bell-intervals', 'plyo-circuits', 'floor-pull', 'back-at-home', 'quiet-upper',
+  // Phase 14 ticket 5: Running prep, Court & field sports
+  'run-ready', 'stride-strength', 'springy-legs', 'track-intervals', 'runners-core',
+  'court-agility', 'change-of-direction', 'first-step', 'field-strength', 'game-day',
 ];
 
 const byId = new Map(FAMILY_FILES.flat().map((c) => [c.id, c]));
