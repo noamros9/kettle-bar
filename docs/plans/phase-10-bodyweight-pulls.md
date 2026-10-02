@@ -17,7 +17,7 @@ Decided on 2 Oct (Noam):
 | # | Ticket | Tier | Blocked by | Branch | Status |
 |---|---|---|---|---|---|
 | 0 | This plan | plan | – | `plan/phase-10` | done (PR #131) |
-| 1 | Three floor-only exercises | feature | – | `feature/floor-pulls` | |
+| 1 | Three floor-only exercises | feature | – | `feature/floor-pulls` | done (PR #132) |
 
 ### 1. Three floor-only exercises
 - **Prone lat pulls** (lats, upper back | rear shoulders, lower back): face down, arms long overhead, pull the elbows
