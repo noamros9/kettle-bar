@@ -99,6 +99,7 @@ const ACTIONS = [
   ['travel', (v) => setTravel(v || null)],
   ['star', (v) => toggleFavourite(v)],
   ['hide', (v) => toggleHidden(v)],
+  ['shelf', (v) => toggleShelf(v)],
   ['skip', (v) => toggleSkip(v)],
   ['restDismiss', () => restDismiss()],
   ['randomSet', (v) => { const k = v.slice(0, v.indexOf(':')); randomSet(k, v.slice(k.length + 1)); }],

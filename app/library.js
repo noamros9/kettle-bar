@@ -1,10 +1,12 @@
 /* Library filters: what the programs page shows for the family, subject, length and equipment picked.
-     libraryView(summaries, filters, { families, lengthOf, prefs }) ->
+     libraryView(summaries, filters, { families, lengthOf, prefs, opened?, keep? }) ->
        { families: [{ key, name, count, pressed }],   All first, then each family that has programs
          subjects: [{ key, name, count, pressed }],   All first, then the picked family's subjects that have programs
          lengths:  [{ key, label, pressed }], lengthLabel,
          equips:   [{ key, label, pressed }], equipLabel,
-         shelves:  [{ subject, programs }],           what is shown, in family order
+         shelves:  [{ subject, programs, total, more }], what is shown, in family order. A shelf shows its first SHELF (6)
+                                                      programs plus any in `keep` (ones you started), in place; `more`
+                                                      are left out. A subject in `opened`, or the picked subject, shows all
          count, total,                                shown / in the picked family or subject (length ignored)
          counter,                                     the page's eyebrow: "Yoga · 2 of 5 programs"
          unknown,                                     subjects that no family lists (the page logs them)
@@ -53,7 +55,8 @@
   const hasPrograms = (summaries, s) => summaries.some((p) => p.subject === s);
   const subjectsOf = (summaries, families) => families.map(([name, list]) => [name, list.filter((s) => hasPrograms(summaries, s))]).filter(([, l]) => l.length);
 
-  function libraryView(summaries, asked, { families, lengthOf: lenOf, prefs = {} }) {
+  const SHELF = 6;
+  function libraryView(summaries, asked, { families, lengthOf: lenOf, prefs = {}, opened = [], keep = [] }) {
     const known = new Set(families.flatMap(([, list]) => list));
     const unknown = [...new Set(summaries.map((p) => p.subject))].filter((s) => !known.has(s));
     const hidden = prefs.hidden || [], stars = prefs.favourites || [];
@@ -76,7 +79,11 @@
 
     const scoped = pool.filter((p) => subjectNames.includes(p.subject) && (filters.subject === 'all' || p.subject === filters.subject));
     const shownPrograms = scoped.filter((p) => filters.len === 'all' || lenOf(p) === filters.len);
-    const shelves = subjectNames.map((subject) => ({ subject, programs: shownPrograms.filter((p) => p.subject === subject) })).filter((s) => s.programs.length);
+    const shelves = subjectNames.map((subject) => {
+      const all = shownPrograms.filter((p) => p.subject === subject), whole = filters.subject !== 'all' || opened.includes(subject);
+      const programs = whole ? all : all.filter((p, i) => i < SHELF || keep.includes(p.id));
+      return { subject, programs, total: all.length, more: all.length - programs.length };
+    }).filter((s) => s.total);
 
     const lengths = LENGTHS.map(([key, label]) => ({ key, label, pressed: filters.len === key }));
     const chosenLength = lengths.find((l) => l.pressed);
@@ -150,7 +157,7 @@
       .slice(0, 3).map(({ p }) => p.id);
   }
 
-  const api = { suggestNext, libraryView, searchExercises, byMuscles, splitByMuscles, rankPrograms, gearOf, GEAR, subjectsOf, toggleIn, skipped, setFilter, counterText, lengthOf, FAMILIES, LENGTHS, EQUIPS };
+  const api = { SHELF, suggestNext, libraryView, searchExercises, byMuscles, splitByMuscles, rankPrograms, gearOf, GEAR, subjectsOf, toggleIn, skipped, setFilter, counterText, lengthOf, FAMILIES, LENGTHS, EQUIPS };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBLibrary = api;
 })(typeof window !== 'undefined' ? window : globalThis);

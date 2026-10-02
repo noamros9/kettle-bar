@@ -224,3 +224,24 @@ test('skipped: the exercises in prefs.skip this app knows, once each, in the ord
   assert.deepEqual(skipped({ skip: ['kb_swing', 'gone', 3, 'pushup', 'kb_swing'] }, EXS), ['kb_swing', 'pushup']);
   assert.deepEqual(skipped({ skip: toggleIn(toggleIn([], 'pullup'), 'pushup') }, EXS), ['pullup', 'pushup']);
 });
+
+// Phase 14 ticket 2: ~260 programs. A shelf shows its first 6, plus any program you started, and "Show all N"
+test('a long shelf shows its first 6 and how many more; opened, or its subject picked, it shows all', () => {
+  const { SHELF } = require('../app/library.js');
+  assert.equal(SHELF, 6);
+  const many = Array.from({ length: 10 }, (_, i) => mk(`y${i}`, 'Yoga', 20));
+  const lib = [...many, mk('c1', 'Core', 20)];
+  const v = (f = {}, o = {}) => libraryView(lib, { ...start, ...f }, { families: FAM, lengthOf, prefs: { favourites: ['y9'] }, ...o });
+  const yoga = (x) => x.shelves.find((s) => s.subject === 'Yoga');
+  assert.deepEqual(yoga(v()).programs.map((p) => p.id), ['y0', 'y1', 'y2', 'y3', 'y4', 'y5']);
+  assert.deepEqual([yoga(v()).total, yoga(v()).more], [10, 4]);
+  assert.deepEqual(v().shelves.find((s) => s.subject === 'Core').more, 0);
+  assert.equal(v().count, 11, 'the counter counts every program, shown or not');
+  assert.deepEqual(v().favourites.map((p) => p.id), ['y9'], 'favourites are never cut');
+  assert.equal(yoga(v({}, { opened: ['Yoga'] })).programs.length, 10);
+  assert.equal(yoga(v({}, { opened: ['Yoga'] })).more, 0);
+  assert.equal(yoga(v({ subject: 'Yoga' })).programs.length, 10, 'a picked subject shows all');
+  // a program you started stays on its shelf, in its place
+  assert.deepEqual(yoga(v({}, { keep: ['y8'] })).programs.map((p) => p.id), ['y0', 'y1', 'y2', 'y3', 'y4', 'y5', 'y8']);
+  assert.equal(yoga(v({}, { keep: ['y8'] })).more, 3);
+});

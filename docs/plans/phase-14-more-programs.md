@@ -21,7 +21,7 @@ program in the page; the offline download grows ~3.7 KB gzipped each).
 |---|---|---|---|---|---|
 | 0 | This plan (in the 2 Oct roadmap plan) | plan | – | `plan/roadmap-oct` | done (PR #133) |
 | 1 | 30-day programs in the engine | feature | review IV 4 | `feature/thirty-days` | done (PR #149) |
-| 2 | Programs page for ~260 programs | feature | – | `feature/library-scale` | |
+| 2 | Programs page for ~260 programs | feature | – | `feature/library-scale` | done (PR #150) |
 | 3 | Catalogue 8: exercises the new subjects need | feature | – | `feature/catalogue-8` | |
 | 4 | Fill to 6 (+9) and the floor-pull programs (+3) | content | 3 | `content/fill-six` | |
 | 5 | New subjects: Running prep, Court & field sports (+10) | content | 3 | `content/cardio-subjects` | |
@@ -46,6 +46,10 @@ program in the page; the offline download grows ~3.7 KB gzipped each).
 ### 2. Programs page for ~260 programs
 - A subject shelf shows its first 6 and "Show all N"; the counter and filters as today.
 - **Test first:** a shelf with 10 programs shows 6 and the button; favourites and Your programs are never cut.
+- **As built (2 Oct):** `libraryView(…, { opened, keep })`: each shelf `{ programs, total, more }`. A program you
+  started (or the current one) stays on its shelf in its place, so it's never hidden behind "Show all"; a picked subject
+  shows all. "Show all N <subject> programs" / "Show fewer" under the shelf (page state, not saved). Today only
+  Signature (15) is longer than 6.
 
 ### 3. Catalogue 8: exercises the new subjects need
 - **Renumbered 2 Oct:** Reverse snow angels (Phase 13) took catalogue 7, and own programs and random workouts made

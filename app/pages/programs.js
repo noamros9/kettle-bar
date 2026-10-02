@@ -1,6 +1,8 @@
 /* ---------------- programs page ---------------- */
 const { libraryView, suggestNext, FAMILIES, LENGTHS, lengthOf } = KBLibrary;
 let filters = { family: 'all', subject: 'all', len: 'all', equip: 'all' };
+let openShelves = []; // subjects whose shelf shows all its programs (Phase 14: a shelf shows 6 and "Show all N")
+const toggleShelf = (subject) => { openShelves = KBLibrary.toggleIn(openShelves, subject); render(); };
 let filterMenu = null; // 'len' | 'equip': which of "Length: Any" and "Equipment: Any" is open, showing its choices
 function setFilter(k, val) {
   filters = KBLibrary.setFilter(filters, k, val);
@@ -25,7 +27,7 @@ function viewPrograms() {
   const last = lastPid();
   const all = programs.list().filter((p) => p.source !== 'own'); // your own programs have their own shelf
   const mine = programs.list().filter((p) => p.source === 'own');
-  const lib = libraryView(all, filters, { families: FAMILIES, lengthOf, prefs: libraryPrefs() });
+  const lib = libraryView(all, filters, { families: FAMILIES, lengthOf, prefs: libraryPrefs(), opened: openShelves, keep: all.filter((p) => p.id === last || store.count(p.id) > 0).map((p) => p.id) });
   lib.unknown.forEach((s) => console.error(`Subject "${s}" has no family in FAMILIES`));
   const card = (p) => {
     const n = store.count(p.id), mins = p.minutes[0] === p.minutes[1] ? p.minutes[0] : `${Math.round(p.minutes[0])}–${Math.round(p.minutes[1])}`;
@@ -35,7 +37,9 @@ function viewPrograms() {
       <div class="pc-prog"><span class="num">${n}/${p.dayCount}</span><div class="bar"><b style="width:${(n / p.dayCount) * 100}%"></b></div></div></button>`;
   };
   const starred = (p) => `<div class="pcwrap">${card(p)}${starButton(p)}</div>`;
-  const groups = lib.shelves.map((s) => `<section class="pgroup"><h2>${esc(s.subject)}</h2><div class="plist">${s.programs.map(starred).join('')}</div></section>`).join('');
+  const shelfFoot = (s) => (s.more ? `<button class="lenline shelfmore" data-shelf="${esc(s.subject)}" aria-expanded="false">Show all ${s.total} ${esc(s.subject)} programs <span aria-hidden="true">▾</span></button>`
+    : filters.subject === 'all' && openShelves.includes(s.subject) && s.total > KBLibrary.SHELF ? `<button class="lenline shelfmore" data-shelf="${esc(s.subject)}" aria-expanded="true">Show fewer <span aria-hidden="true">▴</span></button>` : '');
+  const groups = lib.shelves.map((s) => `<section class="pgroup"><h2>${esc(s.subject)}</h2><div class="plist">${s.programs.map(starred).join('')}</div>${shelfFoot(s)}</section>`).join('');
   const favs = lib.favourites.length ? `<section class="pgroup favs"><h2>Favourites</h2><div class="plist">${lib.favourites.map(starred).join('')}</div></section>` : '';
   const yours = mine.length ? `<section class="pgroup yours"><h2>Your programs</h2><div class="plist">${mine.map(card).join('')}</div></section>` : '';
   const tab = (k, x) => `<button class="ftab" data-filter="${k}:${esc(x.key)}" aria-pressed="${x.pressed}">${esc(x.name)}</button>`;

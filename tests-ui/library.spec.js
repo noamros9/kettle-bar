@@ -4,11 +4,14 @@ const { CONFIGS } = require('../program-builder.js');
 
 const family = (app) => app.page.getByRole('group', { name: 'Filter by family' });
 const subjects = (app) => app.page.getByRole('group', { name: 'Filter by subject' });
+// what the shelves show of a list of configs: each subject's first 6 (Phase 14)
+const shown = (list) => Object.values(list.reduce((m, c) => ({ ...m, [c.subject]: (m[c.subject] || 0) + 1 }), {})).reduce((a, n) => a + Math.min(n, 6), 0);
 const chipTexts = async (group) => (await group.locator('.ftab, .fchip').allTextContents()).map((t) => t.trim().replace(/\s+\d+$/, '')); // subject chips carry a count: "Yoga 5"
 
 test('every program shows under All, and the families are in their order', async ({ app }) => {
   await app.open('#programs');
-  await expect(app.page.locator('.pcard')).toHaveCount(CONFIGS.length);
+  await expect(app.page.locator('.pcard')).toHaveCount(shown(CONFIGS)); // a shelf shows 6 (Phase 14)
+  await expect(app.page.locator('.eyebrow').first()).toHaveText(`${CONFIGS.length} programs`);
   expect(await chipTexts(family(app))).toEqual(['All', 'Strength', 'Cardio & combat', 'Mind & body', 'Mixed']);
   await expect(family(app).getByRole('button', { name: 'All' })).toHaveAttribute('aria-pressed', 'true');
 });
@@ -171,10 +174,34 @@ test('Equipment: No equipment narrows the chips, shelves and counter to bodyweig
   await app.page.getByRole('group', { name: 'Filter by equipment' }).getByRole('button', { name: 'No equipment' }).click();
   await expect(app.page.getByRole('button', { name: /Equipment:/ })).toContainText('No equipment');
   await expect(app.page.locator('.eyebrow').first()).toHaveText(`${bw.length} programs`);
-  await expect(app.page.locator('.pcard')).toHaveCount(bw.length);
+  await expect(app.page.locator('.pcard')).toHaveCount(shown(bw));
   await expect(subjects(app).getByRole('button', { name: /^Signature/ })).toHaveCount(CONFIGS.some((c) => c.subject === 'Signature' && c.equip === 'bw') ? 1 : 0);
   expect(await app.sidewaysScroll()).toBe(0);
   await app.page.getByRole('button', { name: /Equipment:/ }).click();
   await app.page.getByRole('group', { name: 'Filter by equipment' }).getByRole('button', { name: 'Any equipment' }).click();
-  await expect(app.page.locator('.pcard')).toHaveCount(CONFIGS.length);
+  await expect(app.page.locator('.pcard')).toHaveCount(shown(CONFIGS));
+});
+
+// Phase 14 ticket 2: ~260 programs. A long shelf shows its first 6 and "Show all N"; a program you started stays on it
+test('a long shelf shows 6 and "Show all N"; it opens and closes; a picked subject and a started program are never cut', async ({ app }) => {
+  const sig = CONFIGS.filter((c) => c.subject === 'Signature');
+  test.skip(sig.length <= 6, 'no shelf longer than 6');
+  await app.open('#programs');
+  const shelf = app.page.locator('section.pgroup', { has: app.page.getByRole('heading', { name: 'Signature', exact: true }) });
+  await expect(shelf.locator('.pcard')).toHaveCount(6);
+  const more = shelf.getByRole('button', { name: `Show all ${sig.length} Signature programs` });
+  await more.click();
+  await expect(shelf.locator('.pcard')).toHaveCount(sig.length);
+  expect(await app.sidewaysScroll()).toBe(0);
+  await shelf.getByRole('button', { name: 'Show fewer' }).click();
+  await expect(shelf.locator('.pcard')).toHaveCount(6);
+  // started: the last Signature program stays on its shelf
+  const lastSig = sig[sig.length - 1].id;
+  await app.data((pid) => store.toggle(pid, 1), lastSig);
+  await app.go('#programs');
+  await expect(shelf.locator(`[data-open-prog="${lastSig}"]`)).toHaveCount(1);
+  await expect(shelf.locator('.pcard')).toHaveCount(7);
+  await subjects(app).getByRole('button', { name: /^Signature/ }).click();
+  await expect(shelf.locator('.pcard')).toHaveCount(sig.length);
+  await expect(shelf.locator('.shelfmore')).toHaveCount(0);
 });
