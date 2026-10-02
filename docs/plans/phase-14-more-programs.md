@@ -31,7 +31,7 @@ program in the page; the offline download grows ~3.7 KB gzipped each).
 | 9 | Strength +26 | content | 3 | `content/strength-plus` | done (PR #157) |
 | 10 | Cardio & combat +13 | content | 3 | `content/cardio-plus` | done (PR #158) |
 | 11 | Mind & body +16 | content | 3 | `content/mind-plus` | done (PR #159) |
-| 12 | Mixed +15 | content | 3 | `content/mixed-plus` | |
+| 12 | Mixed +15 | content | 3 | `content/mixed-plus` | done (PR #160) |
 
 ### 1. 30-day programs in the engine
 - A config may say `days: 30`: levels at 1–10 / 11–20 / 21–30, rounds and page text ("Day 4 of 30"), stats and the
@@ -119,6 +119,13 @@ program in the page; the offline download grows ~3.7 KB gzipped each).
   Flexibility +2 (Backbend Flexibility, Active Flexibility), Balance & stability +2 (Steady Feet, Loaded Balance),
   Gentle +2 (Gentle Flow, Easy Strength), Back care +1 (Loaded Back Care). Learned: a guided flow repeats in whole
   passes, so a long flow day is two medium flows (finer steps for the builder), not one long one.
+- **Ticket 12 as built (2 Oct):** three per Mixed subject: Bodyweight & Stretch, Supersets & Stretch, Lift & Move
+  (Strength & stretch); Bouts & Bells, Kick & Stretch, Fighter 25 (Fighter); Bodyweight Athlete, Speed & Strength,
+  Court Athlete (Athlete); Balanced 25, Kettlebell Week, No-Gear Week (Balanced week); Calm Bodyweight, Slow Supersets,
+  Evening Strength (Calm strength). The Phase 6 Mixed tests cover Phase 6's programs; a new test checks every Phase 14
+  Mixed program (tagged blocks, two families or more each day, no abs after a flow).
+- **Phase 14 done (2 Oct):** 263 programs; the page 116.7 KB gzipped (under the 125 KB check), the recipe book 227 KB
+  raw / 32.5 KB gzipped (under 300 / 40).
 
 ## Challenge round
 - **Weakest assumption:** that +50% per family is varied enough to be worth it. Each new program needs a different

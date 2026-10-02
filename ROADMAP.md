@@ -277,18 +277,19 @@ library offline**; **"Offline · N changes waiting"** in the header.
   wide screens; on a phone a small count replaces the status dot), and the account popover explains it; it clears
   once the account has them.
 
-### Architecture review IV
+### Architecture review IV (done, Oct 2026)
 Plan: [docs/plans/architecture-review-4.md](docs/plans/architecture-review-4.md). **Full review, like III** (2 Oct):
 pages as modules, actions instead of the click chain, minify the page, program length and levels in one place (for
 30-day programs), build the library once per test run. Behaviour stays the same.
 
-### Phase 13: exercises I skip, and a fourth floor pull
+### Phase 13: exercises I skip, and a fourth floor pull (done, Oct 2026)
 Plan: [docs/plans/phase-13-skip-and-floor.md](docs/plans/phase-13-skip-and-floor.md).
 25. **Exercises I skip** (2 Oct): marked on the **exercise page**, listed in **Settings**, synced. Applies
     **everywhere** (day pages, random workouts, build previews). No stand-in: **kept, marked** "You skip this".
-26. **Reverse snow angels** (2 Oct): the fourth floor-only pull.
+26. **Reverse snow angels** (2 Oct): the fourth floor-only pull. Built as catalogue 7, not 6: own programs and random
+    workouts made since Phase 10 build at 6, so adding there would have reshuffled them.
 
-### Phase 14: more programs
+### Phase 14: more programs (done, Oct 2026)
 Plan: [docs/plans/phase-14-more-programs.md](docs/plans/phase-14-more-programs.md). Decided 2 Oct, **all of these,
 the +50% on top**:
 27. Fill every 5-program subject to 6 (+9).
@@ -297,6 +298,9 @@ the +50% on top**:
 29. **30-day programs, 3 levels of 10 days:** 2 per family (+8).
 30. Bodyweight programs with the floor-only pulls (+3).
 31. **Each family +50%** (Strength +26, Cardio & combat +13, Mind & body +16, Mixed +15).
+- **Built (2 Oct):** 138 → **263 programs** in 30 subjects, all pinned, no existing pin changed (PRs #149–#160).
+  Catalogue 8 (29 exercises for the new subjects) is frozen: later additions use new pool names or catalogue 9.
+  Shelves show 6 with "Show all N"; 30-day programs say so on their card.
 
 ### Phase 15: new feature suggestions
 After Phase 14: Claude suggests features again (not the Decided against list), Noam picks, and they're planned by

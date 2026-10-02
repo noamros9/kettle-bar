@@ -692,6 +692,252 @@ const CONFIGS = [
         F('Yin', ['ygYinHips', 'ygYinSpine', 'ygYinHips'], YIN)] },
     },
   },
+  // ---------------- PHASE 14 ticket 12: Mixed +15, three per subject ----------------
+  // STRENGTH & STRETCH (+3)
+  {
+    id: 'bodyweight-and-stretch', added: 14, catalogue: 8, name: 'Bodyweight & Stretch', subject: 'Strength & stretch', minutes: [24, 29], equip: 'bw', levers: [null, 'reps', 'reps'],
+    split: 'Upper & open / lower & lengthen', blurb: 'No equipment: bodyweight strength, then a stretch for the muscles you just worked.',
+    about: 'Strength and flexibility with no equipment, in about twenty-five minutes. Upper days pair push-ups and floor pulls with a chest and shoulder stretch; lower days pair squats and single-leg work with a hip and hamstring stretch. The flow at the end is held on the clock and the voice walks you through it. Levels II and III add reps to the strength and hold the stretches longer.',
+    names: ['Stretch Out', 'Reach Long', 'Bend and Lift', 'Push and Open', 'Squat and Fold', 'Lift and Lengthen', 'Strong and Supple', 'Flex Day', 'Work and Ease', 'Tension Release', 'Contract Relax', 'Pull and Open', 'Hinge and Fold', 'Rise and Reach', 'Steady Stretch'],
+    cycle: ['upper', 'lower'],
+    dayTypes: {
+      upper: { label: 'Upper & open', short: 'Upper', absSlots: [], blocks: [
+        S('Upper strength', ['pushBw2', 'pullBw', 'pushBw2', 'pullBw?'], LIFT),
+        F('Chest & shoulders', ['fxUpper', 'fxUpper', 'fxUpper', 'fxUpper?'], FLOW_SCALED)] },
+      lower: { label: 'Lower & lengthen', short: 'Lower', absSlots: [], blocks: [
+        S('Lower strength', ['legsBw2', 'legsBw2', 'single_leg_bridge', 'legsBw2?'], LIFT),
+        F('Hips & hamstrings', ['fxHam', 'fxHips', 'fxQuad', 'fxHips?'], FLOW)] },
+    },
+  },
+  {
+    id: 'supersets-and-stretch', added: 14, catalogue: 8, name: 'Supersets & Stretch', subject: 'Strength & stretch', minutes: [28, 33], levers: [null, 'weight', 'weight'],
+    split: 'Push & open / legs & lengthen', blurb: 'Dumbbell supersets, heavier each level, then a long stretch for what you trained.',
+    about: 'Supersets with dumbbells or a kettlebell, then a long stretch. Push days pair presses with rows and finish with the chest and shoulders opened; leg days pair squats with hinges and finish with the hips and hamstrings. The supersets get heavier at both later levels and the stretches hold longer. A good way to stay mobile while you get strong.',
+    names: ['Pair and Stretch', 'Two and Open', 'Back to Back Stretch', 'Duo Stretch', 'Couple Up', 'Twin Lift', 'Pair Lift', 'Partner', 'Match', 'Double Up', 'Yoked', 'Linked', 'Tandem', 'Duet Lift', 'Paired'],
+    cycle: ['push', 'legs'],
+    dayTypes: {
+      push: { label: 'Push & open', short: 'Push', absSlots: [], blocks: [
+        SS('Push supersets', ['pushLoad2', 'row2', 'shoulders2', 'row2'], LIFT),
+        F('Chest & shoulders', ['chest_opener', 'fxUpper', 'fxUpper', 'fxUpper?'], FLOW_SCALED)] },
+      legs: { label: 'Legs & lengthen', short: 'Legs', absSlots: [], blocks: [
+        SS('Leg supersets', ['squat2', 'hinge2', 'lunge2', 'glute2'], LIFT),
+        F('Hips & hamstrings', ['fxHam', 'fxHips', 'fxQuad', 'fxHam?'], FLOW)] },
+    },
+  },
+  {
+    id: 'lift-and-move', added: 14, catalogue: 8, name: 'Lift & Move', subject: 'Strength & stretch', minutes: [30, 35], levers: [null, 'tempo', 'weight'],
+    split: 'Lift & mobility A / B, abs on A', blurb: 'Full-body strength in straight sets, then a joint mobility flow for hips, spine and shoulders.',
+    about: 'Strength and mobility in one session. Each day starts with full-body strength in straight sets, then moves to a guided mobility flow, hip circles, 90/90s, open books and wall slides, that keeps joints moving well under the load. Day A ends with abs. Level II slows the lifting down and Level III asks for heavier weights; the mobility grows with it.',
+    names: ['Move Well', 'Lift Well', 'Joint Care', 'Range and Load', 'Strong Joints', 'Oiled', 'Well Hinged', 'Smooth Mover', 'Easy Joints', 'Free Moving', 'Loose and Strong', 'Fluid', 'Agile', 'Limber Lift', 'Spry'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Lift & mobility A', short: 'A', absSlots: ABS, blocks: [
+        F('Mobility', ['hip_cars', 'mbHip', 'mbSpine', 'mbShoulder?'], FLOW),
+        S('Strength', ['squat2', 'pushLoad2', 'row2', 'hinge2?'], LIFT)] },
+      b: { label: 'Lift & mobility B', short: 'B', absSlots: [], blocks: [
+        S('Strength', ['hinge2', 'shoulders2', 'row2', 'lunge2?'], LIFT),
+        F('Mobility', ['shoulder_cars', 'mbShoulder', 'mbSpine', 'mbHip?'], FLOW)] },
+    },
+  },
+  // FIGHTER (+3)
+  {
+    id: 'bouts-and-bells', added: 14, catalogue: 8, name: 'Bouts & Bells', subject: 'Fighter', minutes: [30, 35], equip: 'kb', levers: [null, 'reps', 'weight'],
+    gear: 'One kettlebell.',
+    split: 'Bouts & swings / bouts & presses', blurb: 'Boxing bouts, then kettlebell strength: swings and squats one day, cleans and presses the next.',
+    about: 'Boxing bouts first, then a kettlebell for the strength a fighter needs. Swing and squat days build the hips and legs that power punches; clean and press days build the shoulders that keep the hands up. Every session ends with abs. Levels II and III bring longer combinations, and Level II adds reps to the bell while Level III asks for a heavier one.',
+    names: ['Iron Fist', 'Bell Bout', 'Kettle Fight', 'Ring Iron', 'Corner Bell', 'Glove and Bell', 'Round Bell Day', 'Swing Round', 'Press Round', 'Heavy Round', 'Bell Clinch', 'Iron Round', 'Fight Bell', 'Bout Bell', 'Ringer'],
+    cycle: ['swing', 'press'],
+    dayTypes: {
+      swing: { label: 'Bouts & swings', short: 'Swing', absSlots: ABS, blocks: [
+        B('Bouts', ['bxBasic', 'bxPower', 'bxDefense', 'bxPower?'], BOUTS),
+        S('Bell legs', ['kb_swing', 'kbLower', 'kbLower2?'], LIFT)] },
+      press: { label: 'Bouts & presses', short: 'Press', absSlots: ABS, blocks: [
+        B('Bouts', ['bxMove', 'bxBasic', 'bxPower', 'bxDefense?'], BOUTS),
+        S('Bell upper body', ['kb_clean', 'kbUpper', 'kbUpper2?'], LIFT)] },
+    },
+  },
+  {
+    id: 'kick-and-stretch', added: 14, catalogue: 8, name: 'Kick & Stretch', subject: 'Fighter', minutes: [28, 33], equip: 'bw', levers: [null, 'reps', 'reps'],
+    split: 'Kicks & hips / combos & spine', blurb: 'Kickboxing bouts, then a flexibility flow for higher, easier kicks.',
+    about: 'Kickboxing bouts, then the flexibility that makes kicks higher and easier. Kick days drill teeps, roundhouses and side kicks, then open the hips and hamstrings; combination days mix punches and kicks, then work the spine and hip flexors. The stretches are held on the clock and the voice walks you through. Levels II and III bring longer combinations and longer holds.',
+    names: ['High Kick', 'Split Kick', 'Limber Leg', 'Head Height', 'Long Leg', 'Hip Turn Stretch', 'Kick Flex', 'Open Hip Kick', 'Loose Leg', 'Swing High', 'Reach Kick', 'Stretch Kick', 'Easy Kick', 'Flow Kick', 'Free Kick'],
+    cycle: ['kicks', 'combos'],
+    dayTypes: {
+      kicks: { label: 'Kicks & hips', short: 'Kicks', absSlots: [], blocks: [
+        B('Kick bouts', ['kkKick', 'kkKick', 'kkCombo', 'kkKnee?'], BOUTS),
+        F('Hips & hamstrings', ['fxHips', 'fxHam', 'fxSplit', 'fxHips?'], FLOW)] },
+      combos: { label: 'Combos & spine', short: 'Combos', absSlots: [], blocks: [
+        B('Combination bouts', ['kkCombo', 'bxBasic', 'kkCombo', 'kkKick?'], BOUTS),
+        F('Spine & hip flexors', ['fxSpine', 'fxQuad', 'fxSpine', 'fxQuad?'], FLOW)] },
+    },
+  },
+  {
+    id: 'fighter-25', added: 14, catalogue: 8, name: 'Fighter 25', subject: 'Fighter', minutes: [24, 29], equip: 'bw', levers: [null, 'reps', 'reps'],
+    split: 'Bouts & core A / B', blurb: 'Twenty-five minutes: shadowboxing bouts, then a core circuit a fighter would recognise.',
+    about: 'A fighter\'s session in twenty-five minutes. Three bouts of shadowboxing come first, one combination per bout called by the voice. Then a core circuit of planks, twists and hollow holds, the trunk strength that keeps a fighter balanced and protected. Levels II and III bring longer combinations and add reps to the core.',
+    names: ['Quick Round', 'Short Card', 'Prelim', 'Opener', 'Warm-up Fight', 'Three Rounder', 'Undercard Bout', 'Exhibition', 'Spar', 'Mitt Work', 'Pad Round', 'Shadow Round', 'Gym Round', 'Practice Round', 'Drill Round'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Bouts & core A', short: 'A', absSlots: [], blocks: [
+        B('Bouts', ['bxBasic', 'bxPower', 'bxDefense?'], BOUTS),
+        C('Fighter\'s core', ['coreAnti', 'coreRot', 'coreHollow', 'coreRot?'], CORE)] },
+      b: { label: 'Bouts & core B', short: 'B', absSlots: [], blocks: [
+        B('Bouts', ['bxMove', 'bxBasic', 'bxPower?'], BOUTS),
+        C('Fighter\'s core', ['coreRot', 'coreHollow', 'coreAnti', 'coreAnti?'], CORE)] },
+    },
+  },
+  // ATHLETE (+3)
+  {
+    id: 'bodyweight-athlete', added: 14, catalogue: 8, name: 'Bodyweight Athlete', subject: 'Athlete', minutes: [30, 35], equip: 'bw', levers: [null, 'reps', 'variation'], rests: PLYO_RESTS,
+    split: 'Jump & lift / bound & balance', blurb: 'The athlete\'s order with no equipment: jumps first, then bodyweight strength, then balance.',
+    about: 'Athletic training with no equipment, in the athlete\'s order: jumps while you are fresh, then strength, then balance. Jump days pair vertical and broad jumps with push-ups and squats; bound days pair lateral bounds with single-leg strength and landing drills. Rests are long so every jump is crisp. Abs finish the jump days. Level II adds reps and Level III brings harder versions.',
+    names: ['Field Test', 'Combine', 'Try-out', 'Pre-season', 'Training Camp', 'Two-a-day', 'Scrimmage', 'Practice Day', 'Drill Day', 'Agility Day', 'Speed Day', 'Power Day', 'Balance Day Athlete', 'Ready Set', 'Game Ready'],
+    cycle: ['jump', 'bound'],
+    dayTypes: {
+      jump: { label: 'Jump & lift', short: 'Jump', absSlots: ABS, blocks: [
+        S('Jumps', ['plyoVert', 'plyoLow', 'plyoVert?'], PLYO),
+        S('Bodyweight strength', ['pushBw2', 'legsBw2', 'pullBw?'], LIFT)] },
+      bound: { label: 'Bound & balance', short: 'Bound', absSlots: [], blocks: [
+        S('Bounds', ['plyoLat', 'plyoLat', 'plyoLow?'], PLYO),
+        S('Single-leg strength', ['singleLeg', 'legsBw2', 'legsBw2?'], LIFT),
+        C('Balance', ['blPower', 'blDynamic', 'blStatic?'], BAL)] },
+    },
+  },
+  {
+    id: 'speed-and-strength', added: 14, catalogue: 8, name: 'Speed & Strength', subject: 'Athlete', minutes: [30, 35], levers: [null, 'weight', 'reps'],
+    split: 'Speed & legs / speed & upper', blurb: 'Running drills and sprints in place, then dumbbell strength: fast first, strong second.',
+    about: 'Fast first, strong second. Each session opens with a circuit of running drills and sprints in place, A-skips, wall drives and fast feet, while the legs are fresh. Then comes dumbbell or kettlebell strength in straight sets, legs one day and upper body the next. Abs finish every session. Level II asks for heavier weights and Level III adds reps.',
+    names: ['Sprint Start', 'Fast Feet Day', 'Quick Step', 'Acceleration', 'Top Speed', 'Flying Start', 'Drive Phase', 'Max Velocity', 'Sprint Strong', 'Speed Lift', 'Fast and Strong', 'Quick Lift', 'Burst Lift', 'Speed Rep', 'Rapid Strength'],
+    cycle: ['legs', 'upper'],
+    dayTypes: {
+      legs: { label: 'Speed & legs', short: 'Legs', absSlots: ABS, blocks: [
+        C('Speed drills', ['runDrill', 'runFast', 'runDrill'], { ...COND, values: [2, 3] }),
+        S('Leg strength', ['squat2', 'hinge2', 'lunge2?'], LIFT)] },
+      upper: { label: 'Speed & upper', short: 'Upper', absSlots: ABS, blocks: [
+        C('Speed drills', ['runFast', 'runDrill', 'runFast'], { ...COND, values: [2, 3] }),
+        S('Upper strength', ['pushLoad2', 'row2', 'shoulders2?'], LIFT)] },
+    },
+  },
+  {
+    id: 'court-athlete', added: 14, catalogue: 8, name: 'Court Athlete', subject: 'Athlete', minutes: [30, 35], equip: 'bw', levers: [null, 'reps', 'reps'],
+    split: 'Agility, legs & balance A / B', blurb: 'For court sports: agility drills, lateral leg strength and landing control in every session.',
+    about: 'Everything a court sport asks of the legs in one session. Agility drills come first, shuttles, carioca and split steps; then lateral leg strength such as Cossack squats and Copenhagen planks; then balance and landing drills that protect knees and ankles. No equipment. Abs finish day A. Levels II and III add reps and time.',
+    names: ['Hardcourt', 'Clay Court', 'Grass Court', 'Gym Floor', 'Squash Court', 'Badminton', 'Volley', 'Spike', 'Dig', 'Set Shot', 'Layup', 'Drive Shot', 'Smash', 'Lob', 'Rally'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Agility, legs & balance A', short: 'A', absSlots: ABS, blocks: [
+        C('Agility', ['courtMove', 'courtPower', 'courtMove'], { ...COND, values: [2, 3] }),
+        S('Lateral strength', ['cossack_squat', 'courtLegs', 'courtLegs?'], LIFT),
+        C('Landing', ['blPower', 'blStatic'], BAL)] },
+      b: { label: 'Agility, legs & balance B', short: 'B', absSlots: [], blocks: [
+        C('Agility', ['courtMove', 'courtMove', 'courtPower'], { ...COND, values: [2, 3] }),
+        S('Lateral strength', ['courtLegs', 'copenhagen_plank', 'courtLegs?'], LIFT),
+        C('Landing', ['blDynamic', 'blPower'], BAL)] },
+    },
+  },
+  // BALANCED WEEK (+3)
+  {
+    id: 'balanced-25', added: 14, catalogue: 8, name: 'Balanced 25', subject: 'Balanced week', minutes: [24, 29], levers: [null, 'weight', 'reps'],
+    split: 'Lift & sweat / lift & flow', blurb: 'Twenty-five minutes that cover the week: a superset, then an EMOM or a short flow.',
+    about: 'A balanced week in twenty-five-minute sessions. Every day starts with a strength superset; one day follows it with a short EMOM of cardio moves, the next with a short yoga or mobility flow. Over a week that is strength every day, plus cardio and flexibility twice each. Abs finish the cardio days. Level II asks for heavier weights and Level III adds reps.',
+    names: ['Short Balance', 'Little of Each', 'Bit of Everything', 'Pick and Mix', 'Sampler Day', 'Taster', 'Snack Plate', 'Bento', 'Mezze', 'Small Plates', 'Thali', 'Tasting Menu', 'Platter', 'Medley 25', 'Mix 25'],
+    cycle: ['sweat', 'flow'],
+    dayTypes: {
+      sweat: { label: 'Lift & sweat', short: 'Sweat', absSlots: ABS, blocks: [
+        SS('Strength', ['squat2', 'pushLoad2', 'hinge2', 'row2'], LIFT),
+        E('Cardio EMOM', ['hiit', 'cardio', 'hiitSec', 'hiit'], { ...CARDIO, values: [6, 8] })] },
+      flow: { label: 'Lift & flow', short: 'Flow', absSlots: [], blocks: [
+        SS('Strength', ['lunge2', 'row2', 'glute2', 'shoulders2'], LIFT),
+        F('Flow', ['sun_salutation', 'ygStand', 'ygHips', 'ygRest?'], FLOW)] },
+    },
+  },
+  {
+    id: 'kettlebell-week', added: 14, catalogue: 8, name: 'Kettlebell Week', subject: 'Balanced week', minutes: [30, 35], equip: 'kb', levers: [null, 'weight', 'reps'],
+    gear: 'One kettlebell and a mat.',
+    split: 'Bell strength, Tabata & flow A / B', blurb: 'One kettlebell for strength, a bodyweight Tabata for the engine and a flow to finish.',
+    about: 'A balanced session around one kettlebell. Bell strength comes first in straight sets, then a Tabata of bodyweight cardio, twenty seconds hard and ten seconds rest, then a short yoga or mobility flow. Two days alternate the moves. Level II asks for a heavier bell and Level III adds reps; the Tabata and flow grow with it.',
+    names: ['Bell Balance', 'Iron and Air', 'Bell and Breath', 'Swing and Stretch', 'Bell Mix', 'Kettle Week', 'Bell Blend', 'Bell Trio', 'Iron Trio', 'Bell All-round', 'Bell Harmony', 'Bell Rhythm', 'Bell Medley', 'Bell Fusion', 'Bell Circle'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Bell, Tabata & flow A', short: 'A', absSlots: [], blocks: [
+        S('Bell strength', ['kb_swing', 'kbLower2', 'kbUpper2'], LIFT),
+        T('Tabata', ['hiit', 'cardio', 'hiit', 'core'], CARDIO_TABATA),
+        F('Flow', ['sun_salutation', 'ygStand', 'ygRest?'], FLOW)] },
+      b: { label: 'Bell, Tabata & flow B', short: 'B', absSlots: [], blocks: [
+        S('Bell strength', ['kb_clean', 'kbUpper', 'kbLower'], LIFT),
+        T('Tabata', ['cardio', 'hiit', 'core', 'hiit'], CARDIO_TABATA),
+        F('Flow', ['mbHip', 'mbSpine', 'mbShoulder?'], FLOW)] },
+    },
+  },
+  {
+    id: 'no-gear-week', added: 14, catalogue: 8, name: 'No-Gear Week', subject: 'Balanced week', minutes: [28, 33], equip: 'bw', levers: [null, 'reps', 'variation'],
+    split: 'Circuit, AMRAP & flow / supersets, Tabata & stretch', blurb: 'No equipment, everything covered: bodyweight strength, a burst of cardio and a flow every day.',
+    about: 'A balanced week with no equipment at all. One day is a bodyweight strength circuit, an AMRAP and a yoga flow; the other is supersets, a Tabata and a stretch. Strength, fitness and flexibility every session in about half an hour. Level II adds reps and Level III brings harder versions of the strength moves.',
+    names: ['Travel Week', 'Holiday Week', 'Anywhere', 'Park Session', 'Beach Session', 'Living Room', 'Garden Session', 'Rooftop', 'Balcony', 'Campsite', 'Cabin', 'Lodge', 'Hostel', 'Guest Room', 'Spare Room'],
+    cycle: ['circuit', 'supersets'],
+    dayTypes: {
+      circuit: { label: 'Circuit, AMRAP & flow', short: 'Circuit', absSlots: [], blocks: [
+        C('Strength circuit', ['pushBw2', 'legsBw2', 'pullBw', 'core2'], LIFT),
+        A('AMRAP', ['hiit', 'cardio', 'hiit'], { ...CARDIO, values: [5, 6] }),
+        F('Flow', ['sun_salutation', 'ygStand', 'ygRest?'], FLOW)] },
+      supersets: { label: 'Supersets, Tabata & stretch', short: 'Supersets', absSlots: [], blocks: [
+        SS('Supersets', ['pushBw2', 'legsBw2', 'pullBw', 'legsBw2'], LIFT),
+        T('Tabata', ['hiit', 'core', 'hiit', 'cardio'], CARDIO_TABATA),
+        F('Stretch', ['fxHips', 'fxHam', 'fxUpper?'], FLOW)] },
+    },
+  },
+  // CALM STRENGTH (+3)
+  {
+    id: 'calm-bodyweight', added: 14, catalogue: 8, name: 'Calm Bodyweight', subject: 'Calm strength', minutes: [28, 33], equip: 'bw', levers: [null, 'tempo', 'reps'], absSlots: [],
+    split: 'Core, slow strength & yin A / B', blurb: 'No equipment, no hurry: core work, slow bodyweight strength and a long yin finish.',
+    about: 'Strength with no equipment and no hurry. Each session opens with a core circuit, then slow bodyweight strength, push-ups, squats and floor pulls, then finishes with long, quiet yin holds. From day 21 every rep gets a slow lowering, and Level III adds reps on top. Nothing jumps, and there is no separate abs finisher.',
+    names: ['Quiet Floor', 'Still Strength', 'Soft Power', 'Gentle Force', 'Calm Push', 'Easy Squat', 'Slow Pull', 'Deep Calm', 'Low Light', 'Hushed', 'Muted Strength', 'Subtle', 'Understated', 'Restful Strength', 'Steady Calm'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Core, slow strength & yin A', short: 'A', blocks: [
+        C('Core', ['coreAnti', 'core2', 'coreAnti'], CORE),
+        S('Slow strength', ['pushBw2', 'legsBw2', 'pullBw'], LIFT),
+        F('Yin', ['ygYinHips', 'ygYinHips', 'ygYinSpine'], YIN)] },
+      b: { label: 'Core, slow strength & yin B', short: 'B', blocks: [
+        C('Core', ['coreRot', 'core2', 'coreHollow'], CORE),
+        S('Slow strength', ['legsBw2', 'pushBw2', 'pullBw'], LIFT),
+        F('Yin', ['ygYinSpine', 'ygYinSpine', 'ygYinHips'], YIN)] },
+    },
+  },
+  {
+    id: 'slow-supersets', added: 14, catalogue: 8, name: 'Slow Supersets', subject: 'Calm strength', minutes: [30, 35], levers: [null, 'tempo', 'reps'], absSlots: [],
+    gear: 'A pair of dumbbells or a kettlebell, and a mat.',
+    split: 'Pilates & slow supersets A / B', blurb: 'A Pilates series, then dumbbell supersets with a slow lowering: calm, controlled strength.',
+    about: 'Calm strength with a Pilates start. A short mat series of the hundred, the abs series and a roll-down opens each session, then dumbbell or kettlebell supersets done slowly and deliberately. Two days alternate upper and lower emphasis. Level II adds a three-second lowering to every rep and Level III adds reps on top. No separate abs finisher.',
+    names: ['Measured', 'Deliberate', 'Unhurried Lift', 'Careful', 'Precise', 'Considered', 'Thoughtful', 'Patient Lift', 'Calm Hands', 'Still Lift', 'Quiet Lift', 'Gentle Iron', 'Soft Iron', 'Calm Iron', 'Steady Iron'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Pilates & slow supersets A', short: 'A', blocks: [
+        F('Pilates series', ['hundred', 'plAbs', 'plRoll'], PILATES),
+        SS('Slow supersets', ['pushLoad2', 'row2', 'squat2', 'hinge2'], LIFT)] },
+      b: { label: 'Pilates & slow supersets B', short: 'B', blocks: [
+        F('Pilates series', ['hundred', 'plBack', 'plAbs'], PILATES),
+        SS('Slow supersets', ['lunge2', 'row2', 'shoulders2', 'glute2'], LIFT)] },
+    },
+  },
+  {
+    id: 'evening-strength', added: 14, catalogue: 8, name: 'Evening Strength', subject: 'Calm strength', minutes: [26, 31], equip: 'kb', levers: [null, 'reps', 'tempo'], absSlots: [],
+    gear: 'One kettlebell and a mat.',
+    split: 'Bell lower & yin / bell upper & yin', blurb: 'A calm evening session: a short Pilates start, one kettlebell lifted steadily, then yin.',
+    about: 'A calm session for the evening with one kettlebell. A short Pilates series wakes the core, then steady kettlebell strength, lower body one day and upper body the next, then long yin holds to wind down before bed. Level II adds reps and Level III slows every rep down. Nothing fast and nothing loud.',
+    names: ['After Hours', 'Nightcap', 'Evening Bell', 'Dusk Bell', 'Lamplit', 'Fireside', 'Hearthside', 'Late Bell', 'Moon Bell', 'Star Bell', 'Owl Bell', 'Bedtime Bell', 'Last Light', 'Sundown Bell', 'Night Bell'],
+    cycle: ['lower', 'upper'],
+    dayTypes: {
+      lower: { label: 'Bell lower & yin', short: 'Lower', blocks: [
+        F('Pilates', ['hundred', 'plAbs'], PILATES),
+        S('Bell lower body', ['kbLower2', 'kbLower', 'kbLower2'], LIFT),
+        F('Yin hips', ['ygYinHips', 'ygYinHips'], YIN)] },
+      upper: { label: 'Bell upper & yin', short: 'Upper', blocks: [
+        F('Pilates', ['hundred', 'plRoll'], PILATES),
+        S('Bell upper body', ['kbUpper2', 'kbUpper', 'kbUpper2'], LIFT),
+        F('Yin spine', ['ygYinSpine', 'ygYinSpine'], YIN)] },
+    },
+  },
 ];
 
 module.exports = CONFIGS;
