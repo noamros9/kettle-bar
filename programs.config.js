@@ -36,6 +36,10 @@ const ORDER = [
   // Phase 14 ticket 5: Running prep, Court & field sports
   'run-ready', 'stride-strength', 'springy-legs', 'track-intervals', 'runners-core',
   'court-agility', 'change-of-direction', 'first-step', 'field-strength', 'game-day',
+  // Phase 14 ticket 6: Grip & forearms, Kettlebell complexes, Climber / pull strength
+  'grip-strength', 'carry-day', 'forearm-pump', 'hang-time', 'grip-and-lift',
+  'complex-builder', 'complex-emom', 'bell-ladders', 'bell-amrap', 'complex-and-carry',
+  'climb-strength', 'pull-ladder-climb', 'hang-and-hold', 'archer-project', 'wall-ready',
 ];
 
 const byId = new Map(FAMILY_FILES.flat().map((c) => [c.id, c]));

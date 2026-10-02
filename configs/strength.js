@@ -569,6 +569,176 @@ const CONFIGS = [
       b: { label: 'Upper B', short: 'B', blocks: [SS('Push & pull', ['pike_pushup', 'pullBw', 'pushBw2', 'pullBw', 'pushBw2', 'pullBw'])] },
     },
   },
+  // ---------------- PHASE 14: GRIP & FOREARMS (carries, hangs and curls for the hands and forearms; abs to finish) ----------------
+  {
+    id: 'grip-strength', added: 14, catalogue: 8, name: 'Grip Strength', subject: 'Grip & forearms', minutes: [28, 33], levers: [null, 'weight', 'reps'],
+    split: 'Holds / curls / pulls', blurb: 'A stronger grip in three days: heavy holds and carries, forearm curls, then heavy pulls.',
+    about: 'A stronger grip from three directions. One day holds heavy things for time, with farmer carries, dead hangs and bottoms-up holds. One day trains the forearms directly with wrist curls, reverse curls and hammer curls. The third pulls heavy, rows and deadlifts, with no straps. Abs finish every session. Level II asks for heavier weights and Level III adds reps.',
+    names: ['Vice', 'Clamp', 'Pliers', 'Wrench', 'Talon', 'Claw', 'Iron Grip', 'Handshake', 'White Knuckle', 'Grapple', 'Hook', 'Lock Jaw', 'Pincer', 'Crusher', 'Monkey Grip', 'Death Grip', 'Tongs', 'Chalk', 'Calluses', 'Bulldog'],
+    cycle: ['holds', 'curls', 'pulls'],
+    dayTypes: {
+      holds: { label: 'Holds & carries', short: 'Holds', blocks: [S('Holds & carries', ['farmer_carry', 'gripHold', 'gripHold', 'gripHold?'])] },
+      curls: { label: 'Forearm curls', short: 'Curls', blocks: [S('Forearm curls', ['wrist_curl', 'reverse_wrist_curl', 'reverse_curl', 'gripCurl?'])] },
+      pulls: { label: 'Heavy pulls', short: 'Pulls', blocks: [S('Heavy pulls', ['gripPull', 'gripPull', 'gripPull', 'gripHold?'])] },
+    },
+  },
+  {
+    id: 'carry-day', added: 14, catalogue: 8, name: 'Carry Day', subject: 'Grip & forearms', minutes: [28, 33], levers: [null, 'weight', 'reps'],
+    split: 'Carry circuit A / B', blurb: 'Circuits built around carrying heavy things: farmer carries and suitcase marches between lifts.',
+    about: 'Circuits built around picking heavy things up and carrying them. Every round has a farmer carry or a suitcase march between a squat or hinge and a pull, so the grip works while the rest of you does too. Rounds are steady rather than frantic. Abs finish every session. Level II asks for heavier weights and Level III adds time and reps.',
+    names: ['Groceries', 'Luggage', 'Moving Day', 'Coal Sack', 'Water Buckets', 'Firewood', 'Haul', 'Porter', 'Sherpa', 'Stevedore', 'Pack Mule', 'Lift and Shift', 'Wheelbarrow', 'Hod', 'Removals', 'Cargo', 'Freight', 'Tote', 'Lug', 'Heave'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Carry circuit A', short: 'A', blocks: [C('Carry circuit', ['farmer_carry', 'squat2', 'gripPull', 'suitcase_march', 'gripCurl?'], { values: [2, 3, 4] })] },
+      b: { label: 'Carry circuit B', short: 'B', blocks: [C('Carry circuit', ['suitcase_march', 'hinge2', 'row2', 'farmer_carry', 'gripCurl?'], { values: [2, 3, 4] })] },
+    },
+  },
+  {
+    id: 'forearm-pump', added: 14, catalogue: 8, name: 'Forearm Pump', subject: 'Grip & forearms', minutes: [26, 31], levers: [null, 'reps', 'tempo'],
+    split: 'Upper A / upper B', blurb: 'Arm supersets with a forearm move in every pair: curls, rows and presses for big forearms.',
+    about: 'Arm day with the forearms built in. Every superset pairs a forearm move, wrist curls, reverse curls or a heavy hold, with a curl, a row or a press, then rests. The forearms never fully recover between pairs, which is what makes them grow. Abs finish every session. Level II adds reps and Level III slows every rep down.',
+    names: ['Popeye', 'Anvil Arm', 'Blacksmith', 'Lumberjack', 'Axe Handle', 'Sledge', 'Hammer Time', 'Rope Climb', 'Rowing Crew', 'Oarsman', 'Arm Wrestle', 'Gauntlet', 'Bracer', 'Vambrace', 'Cuff', 'Wristband', 'Sleeve', 'Pump', 'Forge Arm', 'Rigger'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Upper A', short: 'A', blocks: [SS('Forearm supersets', ['wrist_curl', 'db_curl', 'reverse_curl', 'gripPull', 'gripHold', 'pushLoad2'])] },
+      b: { label: 'Upper B', short: 'B', blocks: [SS('Forearm supersets', ['reverse_wrist_curl', 'hammer_curl', 'gripHold', 'row2', 'gripCurl', 'shoulders2'])] },
+    },
+  },
+  {
+    id: 'hang-time', added: 14, catalogue: 8, name: 'Hang Time', subject: 'Grip & forearms', minutes: [24, 29], levers: [null, 'reps', 'variation'],
+    split: 'Hang EMOM / curls & holds', blurb: 'Bar hangs on the minute one day, forearm curls and loaded holds the next: grip that lasts.',
+    about: 'Grip endurance from the pull-up bar. One day is an EMOM: a hang, a lock-off or a few pull-ups at the top of every minute, resting in what is left. The other day builds the forearms with curls and loaded holds in straight sets. Abs finish every session. Level II adds reps and time and Level III brings harder hangs.',
+    names: ['Monkey Bars', 'Jungle Gym', 'Trapeze', 'Swing Bar', 'Rafter', 'Branch', 'Ledge', 'Overhang', 'Crag', 'Bouldering', 'Rings', 'High Bar', 'Hang Glider', 'Zip Line', 'Rope Swing', 'Tarzan', 'Sloth', 'Gibbon', 'Bat', 'Chandelier'],
+    cycle: ['emom', 'curls'],
+    dayTypes: {
+      emom: { label: 'Hang EMOM', short: 'EMOM', blocks: [E('Hang EMOM', ['climbHold', 'pullBarMain', 'climbHold', 'gripHold'], { values: [10, 12, 14, 16] })] },
+      curls: { label: 'Curls & holds', short: 'Curls', blocks: [S('Curls & holds', ['gripCurl', 'gripCurl', 'gripHold', 'gripHold?'])] },
+    },
+  },
+  {
+    id: 'grip-and-lift', added: 14, catalogue: 8, name: 'Grip & Lift', subject: 'Grip & forearms', minutes: [30, 35], levers: [null, 'weight', 'weight'],
+    split: 'Lower & grip / upper & grip', blurb: 'Full-body strength in straight sets, every day ending on a heavy hold or carry.',
+    about: 'Full-body strength in straight sets, finished every day with grip work while the hands are already tired. One day is squats, deadlifts and a carry; the other is presses, rows and a hang or bottoms-up hold. Rests are full, and both later levels ask for heavier weights. Abs close every session. A good choice if you want a strong grip without a separate grip day.',
+    names: ['Ironmonger', 'Foundry', 'Mill', 'Smithy', 'Rolling Mill', 'Ingot', 'Billet', 'Girder', 'Rebar', 'Rivet', 'Bolt', 'Hawser', 'Cable', 'Chain Link', 'Shackle', 'Winch', 'Capstan', 'Crane Hook', 'Hoist', 'Pulley'],
+    cycle: ['lower', 'upper'],
+    dayTypes: {
+      lower: { label: 'Lower & grip', short: 'Lower', blocks: [S('Lower body', ['squat2', 'hinge2', 'lunge2']), S('Grip', ['farmer_carry', 'gripHold?'])] },
+      upper: { label: 'Upper & grip', short: 'Upper', blocks: [S('Upper body', ['pushLoad2', 'gripPull', 'shoulders2']), S('Grip', ['gripHold', 'gripCurl?'])] },
+    },
+  },
+  // ---------------- PHASE 14: KETTLEBELL COMPLEXES (one bell, moves chained without putting it down; abs to finish) ----------------
+  {
+    id: 'complex-builder', added: 14, catalogue: 8, name: 'Complex Builder', subject: 'Kettlebell complexes', minutes: [26, 31], equip: 'kb', levers: [null, 'reps', 'weight'],
+    split: 'Clean & press / swing & squat', blurb: 'One kettlebell, never put down: cleans, presses, swings and squats chained into complexes.',
+    about: 'Kettlebell complexes: four or five moves chained together without putting the bell down, then rest. One day is built around the clean and the press, the other around the swing and the squat. The bell stays in your hands for a whole round, so grip, breathing and pacing all get trained. Abs finish every session. Level II adds reps and Level III asks for a heavier bell.',
+    names: ['Chain', 'Sequence', 'Combo', 'Medley', 'Daisy Chain', 'Relay', 'Circuit Board', 'Cascade', 'Domino', 'Rosary', 'String', 'Link', 'Rope', 'Braid', 'Weave', 'Knot', 'Loop', 'Spiral', 'Coil', 'Thread'],
+    cycle: ['press', 'swing'],
+    dayTypes: {
+      press: { label: 'Clean & press', short: 'Press', blocks: [C('Clean & press complex', ['kb_clean', 'kb_push_press', 'kbCx', 'kbCxLower', 'kbCx?'], { values: [3, 4, 5] })] },
+      swing: { label: 'Swing & squat', short: 'Swing', blocks: [C('Swing & squat complex', ['kb_one_arm_swing', 'kbCxLower', 'kbCx', 'kbCxUpper', 'kbCx?'], { values: [3, 4, 5] })] },
+    },
+  },
+  {
+    id: 'complex-emom', added: 14, catalogue: 8, name: 'Complex EMOM', subject: 'Kettlebell complexes', minutes: [24, 29], equip: 'kb', levers: [null, 'reps', 'reps'],
+    split: 'EMOM A / EMOM B', blurb: 'A short kettlebell complex at the top of every minute, the rest of the minute to breathe.',
+    about: 'A kettlebell complex on the clock. At the top of every minute you do a short chain, a clean, a press and a squat, say, and rest for whatever is left of the minute. The chains change through the session so every move gets its turn. Abs finish every session. Levels II and III add reps, so the rest in each minute shrinks.',
+    names: ['Top of the Hour', 'On the Dot', 'Sharp', 'Punctual', 'Prompt', 'On the Bell', 'Tick Tock', 'Countdown', 'Every Minute', 'Clock Watcher', 'Timekeeper', 'Stopwatch Set', 'Minute Mark', 'Lap Timer', 'Ticker Tape', 'Station', 'Shift', 'Watch', 'Chronograph', 'Sundown'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'EMOM A', short: 'A', blocks: [E('Complex EMOM', ['kbCxUpper', 'kbCxLower', 'kbCx', 'kbCxCore'], { values: [12, 14, 16, 18] })] },
+      b: { label: 'EMOM B', short: 'B', blocks: [E('Complex EMOM', ['kbCxLower', 'kbCx', 'kbCxUpper', 'kbCxCore'], { values: [12, 14, 16, 18] })] },
+    },
+  },
+  {
+    id: 'bell-ladders', added: 14, catalogue: 8, name: 'Bell Ladders', subject: 'Kettlebell complexes', minutes: [26, 31], equip: 'kb', levers: [null, 'reps', 'weight'],
+    split: 'Ladder A / ladder B', blurb: 'Kettlebell ladders: one rep of each move, then two, then three, climbing until the clock stops.',
+    about: 'Kettlebell ladders that climb. A short chain of moves, a clean, a press and a front squat, is done once, then twice, then three times, and on up the ladder until the clock stops. Each day ends with a few minutes of loaded core work. Abs finish every session. Level II adds reps and Level III asks for a heavier bell.',
+    names: ['Rung', 'Step Ladder', 'Rope Ladder', 'Fire Escape', 'Staircase', 'Escalator', 'Ascent', 'Climb', 'Scaffold', 'Gantry', 'Ladder Up', 'Top Rung', 'Upward', 'Rising', 'Pyramid Step', 'Ziggurat', 'Terrace', 'Tier', 'Landing', 'Summit Rung'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Ladder A', short: 'A', blocks: [L('Bell ladder', ['kb_clean', 'kb_push_press', 'kbCxLower']), C('Loaded core', ['kbCxCore', 'kbCxCore', 'kbCxCore?'], { values: [2, 3] })] },
+      b: { label: 'Ladder B', short: 'B', blocks: [L('Bell ladder', ['kb_one_arm_swing', 'kbCxUpper', 'kbCxLower']), C('Loaded core', ['kbCxCore', 'kbCxCore', 'kbCxCore?'], { values: [2, 3] })] },
+    },
+  },
+  {
+    id: 'bell-amrap', added: 14, catalogue: 8, name: 'Bell AMRAP', subject: 'Kettlebell complexes', minutes: [25, 30], equip: 'kb', levers: [null, 'reps', 'variation'],
+    split: 'AMRAP A / AMRAP B', blurb: 'As many rounds as you can of a kettlebell complex, then a second, shorter one.',
+    about: 'As many rounds as you can of a kettlebell complex, then a second, shorter one after a breather. The first AMRAP is the long one, five moves without putting the bell down; the second is a quicker chain to finish. Write your rounds down and try to beat them two weeks later. Abs finish every session. Level II adds reps and Level III brings harder moves.',
+    names: ['Rounds Up', 'Tally', 'Scorecard', 'Personal Best', 'Beat It', 'Record', 'High Score', 'Leaderboard', 'Total', 'Rep Count', 'Notch', 'Score', 'Tick Mark', 'Chalk Line', 'Whiteboard', 'Logbook', 'Tally Ho', 'One More', 'Bonus Round', 'Final Count'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'AMRAP A', short: 'A', blocks: [A('Long AMRAP', ['kb_clean', 'kbCxUpper', 'kbCxLower', 'kbCx', 'kbCxCore'], { values: [10, 12] }), A('Short AMRAP', ['kbCx', 'kbCxCore'], { values: [5, 6] })] },
+      b: { label: 'AMRAP B', short: 'B', blocks: [A('Long AMRAP', ['kb_one_arm_swing', 'kbCxLower', 'kbCxUpper', 'kbCx', 'kbCxCore'], { values: [10, 12] }), A('Short AMRAP', ['kbCx', 'kbCxCore'], { values: [5, 6] })] },
+    },
+  },
+  {
+    id: 'complex-and-carry', added: 14, catalogue: 8, name: 'Complex & Carry', subject: 'Kettlebell complexes', minutes: [28, 33], equip: 'kb', levers: [null, 'weight', 'reps'],
+    split: 'Complex + carries A / B', blurb: 'A kettlebell complex, then straight sets of loaded carries and holds for grip and trunk.',
+    about: 'A kettlebell complex followed by slow, loaded work for the trunk and grip. The complex chains four moves without putting the bell down, for three to five rounds. Then come straight sets of suitcase marches, around-the-body passes and bottoms-up holds, which train the hands and the core together. Abs finish every session. Level II asks for a heavier bell and Level III adds reps.',
+    names: ['Freight Train', 'Pack Horse', 'Caravan', 'Convoy', 'Barge', 'Tugboat', 'Ox Cart', 'Rickshaw', 'Dray', 'Sledge Pull', 'Yoke', 'Harness', 'Saddlebag', 'Rucksack', 'Kitbag', 'Holdall', 'Satchel', 'Trunk', 'Strongbox', 'Payload'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Complex + carries A', short: 'A', blocks: [C('Complex', ['kb_clean', 'kb_push_press', 'kbCxLower', 'kbCx?'], { values: [3, 4, 5] }), S('Carries & holds', ['suitcase_march', 'kbCxCore?'])] },
+      b: { label: 'Complex + carries B', short: 'B', blocks: [C('Complex', ['kb_one_arm_swing', 'kbCxUpper', 'kbCxLower', 'kbCx?'], { values: [3, 4, 5] }), S('Carries & holds', ['kb_bottoms_up_hold', 'kbCxCore?'])] },
+    },
+  },
+  // ---------------- PHASE 14: CLIMBER / PULL STRENGTH (the bar, hangs and lock-offs for climbers and pull-up chasers; abs to finish) ----------------
+  {
+    id: 'climb-strength', added: 14, catalogue: 8, name: 'Climb Strength', subject: 'Climber / pull strength', minutes: [30, 35], levers: [null, 'reps', 'variation'],
+    split: 'Pull / hold / back', blurb: 'Pulling strength for climbers in three days: pull-ups, lock-offs and hangs, then the upper back.',
+    about: 'Pulling strength the way climbers need it: strong in every position on the bar, not just at the top. Three days rotate pull-ups in several grips, holds such as lock-offs and L-sit hangs, and upper-back work that keeps shoulders healthy. Straight sets with full rests. Abs finish every session. Level II adds reps and Level III brings harder versions, like archer pull-ups.',
+    names: ['Crimp', 'Sloper', 'Jug', 'Pinch Hold', 'Pocket', 'Undercling', 'Gaston', 'Mantle', 'Dyno', 'Flash', 'Onsight', 'Redpoint', 'Send', 'Beta', 'Crux', 'Overhang Wall', 'Roof', 'Arete', 'Chimney', 'Top Out'],
+    cycle: ['pull', 'hold', 'back'],
+    dayTypes: {
+      pull: { label: 'Pull', short: 'Pull', blocks: [S('Pull-ups', ['climbPull', 'climbPull', 'climbPull', 'climbBack?'])] },
+      hold: { label: 'Hold', short: 'Hold', blocks: [S('Holds & hangs', ['lock_off', 'climbHold', 'climbHold', 'climbPull?'])] },
+      back: { label: 'Back', short: 'Back', blocks: [S('Upper back', ['climbBack', 'climbBack', 'climbPull', 'climbBack?'])] },
+    },
+  },
+  {
+    id: 'pull-ladder-climb', added: 14, catalogue: 8, name: 'Pull Ladders', subject: 'Climber / pull strength', minutes: [26, 31], levers: [null, 'reps', 'reps'],
+    split: 'Ladder A / ladder B', blurb: 'Pull-up ladders: one rep, then two, then three, with a lock-off or hang between climbs.',
+    about: 'Pull-up volume built the patient way, with ladders. One rep, then two, then three, climbing as long as the clock allows, with a hang, a lock-off or a core move at each rung. Two days alternate grips. A short circuit for the upper back follows. Abs finish every session. Levels II and III add reps, so the ladder climbs further.',
+    names: ['Belay', 'Abseil', 'Carabiner', 'Quickdraw', 'Harness Up', 'Rope Up', 'Pitch', 'Anchor', 'Piton', 'Nut', 'Cam', 'Sling', 'Prusik', 'Jumar', 'Topo', 'Route', 'Grade', 'Ascender', 'Base Camp', 'Ridge'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Ladder A', short: 'A', blocks: [L('Pull ladder', ['pullup', 'climbHold', 'coreHollow']), C('Upper back', ['climbBack', 'climbBack'], { values: [2, 3] })] },
+      b: { label: 'Ladder B', short: 'B', blocks: [L('Pull ladder', ['chinup', 'climbHold', 'coreAnti']), C('Upper back', ['climbBack', 'climbBack'], { values: [2, 3] })] },
+    },
+  },
+  {
+    id: 'hang-and-hold', added: 14, catalogue: 8, name: 'Hang & Hold', subject: 'Climber / pull strength', minutes: [24, 29], levers: [null, 'reps', 'variation'],
+    split: 'Hang EMOM / pull EMOM', blurb: 'The bar on the minute: hangs and lock-offs one day, pull-ups of every grip the next.',
+    about: 'Bar work on the clock, built for finger and pulling endurance. One day is an EMOM of hangs, lock-offs and L-sit hangs; the other an EMOM of pull-ups in different grips, with a core move between. Each minute you work, then rest in what is left. Abs finish every session. Level II adds reps and time and Level III brings harder versions.',
+    names: ['Dead Point', 'Deadhang', 'Campus', 'Fingerboard', 'Edge', 'Rail', 'Pinch', 'Two-finger', 'Mono', 'Hangdog', 'Rest Point', 'Shake Out', 'Pump Clock', 'Endurance Wall', 'Traverse', 'Circuit Board', 'Lap Wall', 'Spray Wall', 'Board Night', 'Chalk Bag'],
+    cycle: ['hang', 'pull'],
+    dayTypes: {
+      hang: { label: 'Hang EMOM', short: 'Hang', blocks: [E('Hang EMOM', ['climbHold', 'climbHold', 'climbBack', 'climbHold'], { values: [10, 12, 14, 16] })] },
+      pull: { label: 'Pull EMOM', short: 'Pull', blocks: [E('Pull EMOM', ['climbPull', 'coreHollow', 'climbPull', 'climbBack'], { values: [10, 12, 14, 16] })] },
+    },
+  },
+  {
+    id: 'archer-project', added: 14, catalogue: 8, name: 'Archer Project', subject: 'Climber / pull strength', minutes: [30, 35], levers: [null, 'variation', 'variation'],
+    split: 'Heavy pull / pull & push', blurb: 'A long project toward one-arm pulling: archer pull-ups, wide grips, slow negatives and lock-offs.',
+    about: 'A project toward one-arm pulling, step by step over sixty days. Heavy days use archer pull-ups, wide-grip pull-ups, slow negatives and lock-offs in short straight sets with full rest. The other day pairs pulls with pushes, so the shoulders stay balanced. Abs finish every session. Both later levels move to harder versions rather than more reps.',
+    names: ['Bowstring', 'Longbow', 'Quiver', 'Arrowhead', 'Fletching', 'Bullseye', 'Target', 'Archer', 'Robin Hood', 'Sagittarius', 'Crossbow', 'Recurve', 'Nock', 'Draw', 'Loose', 'Volley', 'Marksman', 'Range', 'Fletcher', 'Bowyer'],
+    cycle: ['heavy', 'balance'],
+    dayTypes: {
+      heavy: { label: 'Heavy pull', short: 'Heavy', blocks: [S('Heavy pull', ['archer_pullup', 'wide_pullup', 'negative_pullup', 'lock_off'])] },
+      balance: { label: 'Pull & push', short: 'Pull · Push', blocks: [SS('Pull & push', ['climbPull', 'pushBw2', 'climbPull', 'pike_pushup', 'climbHold', 'pushBw2'])] },
+    },
+  },
+  {
+    id: 'wall-ready', added: 14, catalogue: 8, name: 'Wall Ready', subject: 'Climber / pull strength', minutes: [26, 31], levers: [null, 'reps', 'variation'],
+    split: 'Circuit A / circuit B', blurb: 'Circuits for climbers: a pull, a hang, a leg move and a core move every round.',
+    about: 'All-round fitness for climbing in circuits. Each round has a pull on the bar, a hang or lock-off, a single-leg move for high steps, and a core move for keeping feet on the wall. Rounds are steady, with a breather between, so you can do them after a climbing session too. Abs finish every session. Level II adds reps and Level III brings harder versions.',
+    names: ['Scramble', 'Bivouac', 'Cairn', 'Couloir', 'Col', 'Saddle', 'Cornice', 'Serac', 'Moraine', 'Tarn', 'Scree', 'Ledge Walk', 'Via Ferrata', 'Approach', 'Tick List', 'Guidebook', 'Crash Pad', 'Spotter', 'Highball', 'Lowball'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Circuit A', short: 'A', blocks: [C('Climber circuit', ['climbPull', 'climbHold', 'legsBw2', 'coreHollow', 'climbBack?'], { values: [2, 3, 4] })] },
+      b: { label: 'Circuit B', short: 'B', blocks: [C('Climber circuit', ['climbPull', 'legsBw2', 'climbHold', 'coreAnti', 'climbBack?'], { values: [2, 3, 4] })] },
+    },
+  },
 ];
 
 // Hand-written paragraphs for the older programs (newer ones carry theirs as `about:` in the config).

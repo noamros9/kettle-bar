@@ -20,6 +20,9 @@ const SUBJECTS = {
   'Balance & stability': { count: 6, abs: true, formats: ['circuit', 'straight', 'emom'] },
   HIIT: { count: 6, abs: true, formats: ['circuit', 'amrap', 'emom', 'tabata', 'ladder'] },
   Plyometrics: { count: 6, abs: true, formats: ['straight', 'circuit'] },
+  'Grip & forearms': { count: 5, abs: true, formats: ['straight', 'circuit', 'superset', 'emom'] },
+  'Kettlebell complexes': { count: 5, abs: true, formats: ['circuit', 'emom', 'ladder', 'amrap', 'straight'] },
+  'Climber / pull strength': { count: 5, abs: true, formats: ['straight', 'ladder', 'circuit', 'emom', 'superset'] },
   'Running prep': { count: 5, abs: true, formats: ['circuit', 'straight', 'emom', 'amrap'] },
   'Court & field sports': { count: 5, abs: true, formats: ['circuit', 'emom', 'straight', 'tabata', 'amrap'] },
   Strength: { count: 6, abs: true, formats: ['straight', 'superset'] },
@@ -120,9 +123,9 @@ test('the core programs opt in to the new catalogue (catalogue: 5): their abs fi
   assert.ok(optIn.some((p) => p.days.some((d) => d.blocks.at(-1).items.some((it) => fresh.has(it.ex)))));
 });
 
-test('the library: 160 programs in 25 subjects', () => {
-  assert.equal(programs.length, 160);
-  assert.equal(new Set(programs.map((p) => p.subject)).size, 25);
+test('the library: 175 programs in 28 subjects', () => {
+  assert.equal(programs.length, 175);
+  assert.equal(new Set(programs.map((p) => p.subject)).size, 28);
 });
 
 test('the Signature shelf has 15 programs: each original, then its Tempo and Harder moves variations', () => {
