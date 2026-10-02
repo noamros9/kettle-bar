@@ -15,7 +15,7 @@ const SMOKE = ['renders'];
 // module (regex on the changed path) -> the specs that exercise it
 const MAP = [
   // recipes/book.json is left out: it changes with its inputs (listed here), and only its hash when app/library.js does
-  [/^(configs\/|programs\.config\.js|program-builder\.js|recipes\.js|recipe-book\.js|exercises\.js|figures\.js|formats\.js|build\.js)/, ['build', 'random', 'library', 'exercise']],
+  [/^(configs\/|programs\.config\.js|program-builder\.js|recipes\.js|recipe-book\.js|exercises\.js|figures\.js|formats\.js|build\.js)/, ['build', 'random', 'library', 'exercise', 'thirty']],
   [/^app\/library\.js$/, ['library', 'favourites', 'exercises', 'muscles']],
   [/^app\/(stats|charts)\.js$/, ['stats', 'rounds', 'finish']],
   [/^app\/(session|clock)\.js$/, ['workout', 'flow', 'bouts', 'bigtimer', 'voice', 'resume', 'finish']],
@@ -26,7 +26,7 @@ const MAP = [
   [/^app\/own\.js$/, ['build', 'share']],
   [/^app\/random\.js$/, ['random', 'skip']],
   [/^app\/pages\/(exercises|settings)\.js$/, ['skip']],
-  [/^app\/length\.js$/, ['build', 'random', 'rounds', 'stats', 'share']],
+  [/^app\/length\.js$/, ['build', 'random', 'rounds', 'stats', 'share', 'thirty']],
   [/^app\/short\.js$/, ['short']],
   [/^app\/warmup\.js$/, ['warmup']],
   [/^app\/swaps\.js$/, ['swap', 'travel', 'rounds', 'skip']],

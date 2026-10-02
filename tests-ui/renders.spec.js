@@ -21,16 +21,17 @@ test('programs list and exercises list', async ({ app }, testInfo) => {
   await shot(app, testInfo, 'exercises');
 });
 
-const sample = [...new Map(CONFIGS.map((c) => [c.subject, c])).values()];
+const sample = [...new Map([...CONFIGS].reverse().map((c) => [c.subject, c])).values()].reverse(); // the first of each subject
+const daysOf = (cfg) => { const n = cfg.days || 60; return [1, n / 2 + 1, n]; }; // first, Level II, last
 
 for (const cfg of sample) {
-  test(`${cfg.name}: program page and days 1, 31 and 60`, async ({ app }, testInfo) => {
+  test(`${cfg.name}: program page and days ${daysOf(cfg).join(', ')}`, async ({ app }, testInfo) => {
     await app.open(`#p-${cfg.id}`);
     expect(await app.h1()).toBe(cfg.name);
     await expect(app.page.locator('.phead .lede')).toHaveText(cfg.about);
     expect(await app.sidewaysScroll(), 'program page').toBe(0);
     if (cfg.id === 'three-split-60' || cfg.id === 'tabata-ten') await shot(app, testInfo, `${cfg.id}`);
-    for (const n of [1, 31, 60]) {
+    for (const n of daysOf(cfg)) {
       await app.go(`#p-${cfg.id}-d${n}`);
       const name = await app.data(([pid, d]) => programs.get(pid).days[d - 1].name, [cfg.id, n]);
       expect(await app.h1(), `day ${n}`).toBe(name);

@@ -26,7 +26,7 @@ test('tap Mind & body: only its subjects\' chips and shelves show; Flow State si
   expect(await chipTexts(subjects(app))).toEqual(['All', ...mind]);
   expect((await app.page.locator('.pgroup h2').allTextContents())).toEqual(mind);
   await expect(app.page.locator('.pgroup', { hasText: 'Mobility & posture' }).locator('[data-open-prog="flow-state"]')).toHaveCount(1);
-  await expect(app.page.locator('.pgroup', { hasText: 'Core & abs' }).locator('.pcard')).toHaveCount(CONFIGS.filter((c) => c.subject === 'Core & abs').length);
+  await expect(app.page.locator('.pgroup', { hasText: 'Core & abs' }).locator('.pcard')).toHaveCount(Math.min(6, CONFIGS.filter((c) => c.subject === 'Core & abs').length));
   expect(await app.sidewaysScroll()).toBe(0);
 });
 
@@ -59,14 +59,15 @@ test('the eyebrow counts what the taps select: Mind & body, then Yoga, then a le
   expect(await app.sidewaysScroll()).toBe(0);
 });
 
-test('tap Mixed: five chips (Strength & stretch, Fighter, Athlete, Balanced week, Calm strength) and "Mixed · 30 programs"', async ({ app }) => {
+test('tap Mixed: five chips (Strength & stretch, Fighter, Athlete, Balanced week, Calm strength), a shelf of up to 6 each and the count in the eyebrow', async ({ app }) => {
   await app.open('#programs');
   await family(app).getByRole('button', { name: 'Mixed' }).click();
   await expect(family(app).getByRole('button', { name: 'Mixed' })).toHaveAttribute('aria-pressed', 'true');
   expect(await chipTexts(subjects(app))).toEqual(['All', 'Strength & stretch', 'Fighter', 'Athlete', 'Balanced week', 'Calm strength']);
   await expect(app.page.locator('.pgroup h2')).toHaveText(['Strength & stretch', 'Fighter', 'Athlete', 'Balanced week', 'Calm strength']);
-  await expect(app.page.locator('.pcard')).toHaveCount(30);
-  await expect(app.page.locator('.eyebrow').first()).toHaveText('Mixed · 30 programs');
+  const mixed = CONFIGS.filter((c) => subjectsOf('Mixed').includes(c.subject));
+  await expect(app.page.locator('.pcard')).toHaveCount(shown(mixed));
+  await expect(app.page.locator('.eyebrow').first()).toHaveText(`Mixed · ${mixed.length} programs`);
   await expect(app.page.locator('.pgroup', { hasText: 'Strength & stretch' }).locator('[data-open-prog="iron-yoga"]')).toHaveCount(1);
   await expect(app.page.locator('.pgroup', { hasText: 'Fighter' }).locator('.pcard')).toHaveCount(6);
   await expect(app.page.locator('.pgroup', { hasText: 'Athlete' }).locator('[data-open-prog="jump-lift-stick"]')).toHaveCount(1);

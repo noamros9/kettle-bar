@@ -445,6 +445,30 @@ const CONFIGS = [
       amrap: { label: 'AMRAP', short: 'AMRAP', blocks: [A('Match AMRAP', ['courtMove', 'courtPower', 'courtLegs', 'courtMove'], { values: [8, 10, 12] })] },
     },
   },
+  // ---------------- PHASE 14: 30-DAY PROGRAMS (three levels of ten days) ----------------
+  {
+    id: 'hiit-30', added: 14, catalogue: 8, days: 30, name: 'HIIT 30', subject: 'HIIT', minutes: [20, 25], equip: 'bw', levers: [null, 'reps', 'variation'],
+    split: 'Tabata / EMOM / AMRAP, 30 days', blurb: 'A month of short, sharp HIIT with no equipment: Tabata, EMOM and AMRAP days, a new level every ten days.',
+    about: 'A month of short, sharp intervals with no equipment, about twenty minutes a day. Three days rotate a Tabata, an EMOM and an AMRAP, so no two days in a row feel the same. Every ten days the level steps up: Level II adds reps and Level III brings harder moves. Abs finish every session. A good month to rebuild fitness after time off.',
+    names: ['Spark Day', 'Kindle', 'Light Up', 'Heat', 'Simmer', 'Boil', 'Steam', 'Pressure', 'Red Line', 'Overdrive', 'Afterburn Day', 'Meltdown', 'Wildfire', 'Inferno', 'Phoenix'],
+    cycle: ['tabata', 'emom', 'amrap'],
+    dayTypes: {
+      tabata: { label: 'Tabata', short: 'Tabata', blocks: [T('Tabatas', ['hiit', 'legsBw', 'hiit', 'core'], { values: [2, 3] })] },
+      emom: { label: 'EMOM', short: 'EMOM', blocks: [E('EMOM', ['hiit', 'push', 'hiitSec', 'legsBw'], { values: [10, 12, 14] })] },
+      amrap: { label: 'AMRAP', short: 'AMRAP', blocks: [A('AMRAP', ['hiit', 'legsBw', 'push', 'core'], { values: [8, 10, 12] })] },
+    },
+  },
+  {
+    id: 'boxing-30', added: 14, catalogue: 8, days: 30, name: 'Boxing 30', subject: 'Boxing', minutes: [24, 29], equip: 'bw', levers: [null, 'variation', 'variation'],
+    split: 'Bouts A / B, 30 days', blurb: 'A month of shadowboxing: bouts of combinations called by the voice, a new level every ten days.',
+    about: 'A month of shadowboxing, from first combinations to longer ones. Each session is four or five 3-minute bouts, one combination per bout called out by the voice, mixing basics, power, movement and defence. Every ten days the level steps up and the combinations get longer. Abs finish every session. No equipment, just room to move.',
+    names: ['First Bell', 'Stance', 'Guard Up', 'Jab Day', 'One-Two', 'Hook Day', 'Uppercut', 'Slip', 'Roll Under', 'Counter', 'Combination', 'Footwork Day', 'Pressure Fighter', 'Twelve Rounds', 'Decision'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Bouts A', short: 'A', blocks: [B('Bouts', ['bxBasic', 'bxMove', 'bxPower', 'bxDefense', 'bxBasic?'])] },
+      b: { label: 'Bouts B', short: 'B', blocks: [B('Bouts', ['bxMove', 'bxBasic', 'bxDefense', 'bxPower', 'bxPower?'])] },
+    },
+  },
 ];
 
 // Hand-written paragraphs for the older programs (newer ones carry theirs as `about:` in the config).

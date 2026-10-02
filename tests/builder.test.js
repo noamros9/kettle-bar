@@ -9,10 +9,11 @@ const { buildAll, CONFIGS, timing } = require('../program-builder.js');
 const programs = require('./helpers/library.js').library();
 const hasBar = (id) => (EX[id].equip || []).includes('bar');
 
-test('every program has 60 days, unique ids', () => {
+test('every program has 60 days (30 when its config says), unique ids', () => {
   assert.equal(programs.length, CONFIGS.length);
   assert.equal(new Set(programs.map((p) => p.id)).size, programs.length);
-  programs.forEach((p) => assert.equal(p.days.length, 60, p.id));
+  const cfg = Object.fromEntries(CONFIGS.map((c) => [c.id, c]));
+  programs.forEach((p) => assert.equal(p.days.length, cfg[p.id].days || 60, p.id));
 });
 
 test('Three-Split 60 stays exactly as saved', () => {
