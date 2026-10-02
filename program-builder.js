@@ -354,6 +354,7 @@
       const days = [];
       const nameCount = {};
       const dayCount = L.dayCountOf(cfg);
+      if (!L.LENGTHS.includes(dayCount)) throw new Error(`${cfg.id}: a program is 30 or 60 days, not ${dayCount}`);
       for (let d = 1; d <= dayCount; d++) {
         const level = L.levelOf(dayCount, d);
         const typeKey = cfg.cycle[(d - 1) % cfg.cycle.length];

@@ -76,6 +76,11 @@ function trendChart(rows, per, o = {}) {
 /* The Exercises tab (Phase 8 ticket 7): each exercise done in the span (swaps counted as what was done), on how many
    days and when last, tapping through to its page; then each program's level, week by week. */
 const ROMAN = ['', 'I', 'II', 'III'];
+// which days each level is: one line per program length in the library (Phase 14: 30-day programs)
+function levelNote() {
+  const lengths = [...new Set(programs.list().map((p) => p.dayCount))].sort((a, b) => b - a);
+  return lengths.length < 2 ? KBLength.levelRanges(lengths[0] || KBLength.DAYS) : lengths.map((n) => `${KBLength.levelRanges(n)} in a ${n}-day program`).join('; ');
+}
 const EX_SHOWN = 20; // the rest behind "Show all"
 function exercisesTab(r) {
   const opts = { dayOf, from: r.from, to: r.to }, mine = statsEntries();
@@ -90,7 +95,7 @@ function exercisesTab(r) {
       <ol class="exhlist">${shown.map(row).join('')}</ol>${more}
       <p class="note">On how many of your done days each exercise came up; a swap counts as the exercise you did. Warm-ups and cool-downs not included.</p></section>
     <section class="card exhist" aria-labelledby="lv-h"><h2 id="lv-h">Level over time</h2>${levels.map(strip).join('')}
-      <p class="note">The highest level you did each week, oldest week first: ${KBLength.levelRanges(KBLength.DAYS)}.</p></section>`;
+      <p class="note">The highest level you did each week, oldest week first: ${levelNote()}.</p></section>`;
 }
 /* The History tab (Phase 9 ticket 3): a month as a calendar, ‹ › to page, Today back; a day with workouts is filled,
    darker for more minutes; tap one for what you did. The program switch narrows it; the span switch doesn't move it (it

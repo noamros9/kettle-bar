@@ -37,12 +37,12 @@ const SUBJECTS = {
 };
 
 for (const [subject, want] of Object.entries(SUBJECTS)) {
-  test(`${subject}: ${want.count} programs of 60 days, each day inside its time range`, () => {
+  test(`${subject}: ${want.count} programs of 60 days (30 when the config says), each day inside its time range`, () => {
     const list = programs.filter((p) => p.subject === subject);
     assert.equal(list.length, want.count);
     list.forEach((p) => {
-      assert.equal(p.days.length, 60, p.id);
       const cfg = cfgOf[p.id];
+      assert.equal(p.days.length, cfg.days || 60, p.id);
       p.days.forEach((d) => {
         const [lo, hi] = cfg.dayTypes[d.type].minutes || cfg.minutes, t = timing.dayTime(d.blocks, p.rests) / 60;
         assert.ok(t >= lo - 1 && t <= hi + 1.1, `${p.id} d${d.day}: ${t.toFixed(1)} min, want ${lo}-${hi}`);

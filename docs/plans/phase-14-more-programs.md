@@ -20,7 +20,7 @@ program in the page; the offline download grows ~3.7 KB gzipped each).
 | # | Ticket | Tier | Blocked by | Branch | Status |
 |---|---|---|---|---|---|
 | 0 | This plan (in the 2 Oct roadmap plan) | plan | – | `plan/roadmap-oct` | done (PR #133) |
-| 1 | 30-day programs in the engine | feature | review IV 4 | `feature/thirty-days` | |
+| 1 | 30-day programs in the engine | feature | review IV 4 | `feature/thirty-days` | done (PR #149) |
 | 2 | Programs page for ~260 programs | feature | – | `feature/library-scale` | |
 | 3 | Catalogue 8: exercises the new subjects need | feature | – | `feature/catalogue-8` | |
 | 4 | Fill to 6 (+9) and the floor-pull programs (+3) | content | 3 | `content/fill-six` | |
@@ -37,6 +37,11 @@ program in the page; the offline download grows ~3.7 KB gzipped each).
 - A config may say `days: 30`: levels at 1–10 / 11–20 / 21–30, rounds and page text ("Day 4 of 30"), stats and the
   level-over-time strip follow; random workouts' level from a done day uses its program's length.
 - **Test first:** a 30-day build has 30 days and levels 10/10/10; a 60-day build is byte-identical (pins).
+- **As built (2 Oct):** review IV ticket 4 had done most of it (`KBLength`). Added: `LENGTHS` [30, 60] and the
+  builder refuses any other length; the program card has a "30 days" chip when a program isn't 60; the Stats level note
+  gives each length's days when the library has both. Program and day pages, rounds and the progress bar already read
+  the program's own days. Checked with a throwaway 30-day build of 20 Flat (not committed): levels 1–10 / 11–20 /
+  21–30, "12 / 30 days", "Day 11 · Level II".
 
 ### 2. Programs page for ~260 programs
 - A subject shelf shows its first 6 and "Show all N"; the counter and filters as today.
