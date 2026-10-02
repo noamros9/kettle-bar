@@ -25,13 +25,17 @@ const TAIL = '<script type="module" src="firebase-sync.js"></script><script>if("
 
 // the page's copy of a module without its documentation: the file-top comment and whole-line // comments (the
 // source files keep them). Behaviour is unchanged; the first download is ~19 KB (gzipped) smaller.
+// minified (architecture review IV ticket 3): whitespace, comments and names inside functions; each script's top-level
+// names stay (the scripts share them, and the phone tests reach them), and nothing is rewritten (no compress step)
+const { minify_sync: minify } = require('terser');
+const small = (src) => minify(src, { compress: false, mangle: { toplevel: false }, format: { comments: false } }).code;
 function lean(src) {
   const body = src.startsWith('/*') ? src.slice(src.indexOf('*/') + 2) : src;
   return body.split('\n').filter((line) => !/^\s*\/\/(?!.*\*\/)/.test(line)).join('\n');
 }
 
 function render(programs = buildAll()) {
-  const scripts = SCRIPTS.map((f) => `<script>\n${f ? lean(read(f)) : `const PROGRAM_SUMMARIES = ${JSON.stringify(programs.map((p) => slim(summarize(p))))};`}\n</script>`).join('\n');
+  const scripts = SCRIPTS.map((f) => `<script>\n${f ? small(lean(read(f))) : `const PROGRAM_SUMMARIES = ${JSON.stringify(programs.map((p) => slim(summarize(p))))};`}\n</script>`).join('\n');
   const page = read('app/shell.html')
     .replace('/*__STYLES__*/', () => read('app/styles.css'))
     .replace('<!--__SCRIPTS__-->', () => scripts);

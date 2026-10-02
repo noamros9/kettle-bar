@@ -81,7 +81,7 @@ test('the page carries each module without its documentation: no file-top commen
   assert.equal(lean('const a = 1;\n// x */ y\n'), 'const a = 1;\n// x */ y\n', 'a line that closes a block comment stays');
   const html = out['index.html'];
   assert.doesNotMatch(html, /Program Progress: one program's done days/, 'the modules\' doc blocks are out');
-  assert.match(html, /function createStore\(/, 'the code is in');
+  assert.match(html, /createStore/, 'the code is in (its local name may be shortened; the exported one stays)');
 });
 
 test('data/muscles.json holds each library program\'s muscle focus (the muscle map ranks programs by it), shares adding up to 1', () => {
@@ -95,4 +95,16 @@ test('version.json and the page carry the same build version, which changes with
   const v = JSON.parse(out['version.json']).v;
   assert.match(v, /^[0-9a-f]{12}$/);
   assert.ok(out['index.html'].includes(`window.KB_VERSION=${JSON.stringify(v)}`));
+});
+
+// Architecture review IV ticket 3: the page's scripts are minified (whitespace, comments, local names); top-level names stay
+test('the page is minified: under 110 KB gzipped, its scripts parse, and the names the page and its tests use are kept', () => {
+  const zlib = require('zlib'), page = out['index.html'];
+  assert.ok(zlib.gzipSync(page).length < 110 * 1024, `${zlib.gzipSync(page).length} bytes gzipped`);
+  const scripts = [...page.matchAll(/<script>([\s\S]*?)<\/script>/g)].map((m) => m[1]);
+  scripts.forEach((code) => { new Function(code); }); // each one parses
+  const all = scripts.join('\n');
+  // the page's top-level names, which the phone tests reach (store, programs, doneEntries, dayOf…), are not renamed
+  ['render', 'rerender', 'store', 'programs', 'doneEntries', 'dayOf', 'paintSync', 'KB_ACTIONS'].forEach((n) => assert.match(all, new RegExp(`(function |const |let |window\\.)${n}\\b`), n));
+  assert.ok(!/\/\* Stats: what the days marked done add up to/.test(all), 'comments are gone');
 });
