@@ -88,7 +88,9 @@ the AI search, after saying yes to "About 25 MB, once". Tests never load the rea
   phone's one-time download is about **38 MB** (not 25). `app/finder-model.js` (served as `data/finder-model.js`)
   loads it with remote models off. `scripts/finder-smoke.js` runs in CI after the vendoring: the real model, in
   Chromium, from our own site only, must rank a back-care text above heavy lifting for "something easy for my sore
-  back".
+  back". First real run (3 Oct): 384 dimensions, loaded in 0.8 s, three texts in 120 ms; "easy for my sore back" scores
+  0.50 against a back-care text and 0.30 against heavy lifting. transformers.js 4.3.0 skips its local-file check when
+  the model path is a full URL (no tokenizer then), so the path is site-relative.
 
 ### 5. Ask the finder (AI search)
 - On the Programs page, signed in: an "Ask" field ("Describe what you want…"). First use: "Download the finder
