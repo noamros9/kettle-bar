@@ -57,6 +57,9 @@ const IDS = [
     // Phase 14 ticket 10: Cardio & combat +13
     'dumbbell-engine', 'conditioning-ladders', 'work-and-rest', 'hiit-ladders', 'quiet-hiit', 'plyo-emom', 'single-leg-plyo',
     'boxing-emom', 'defence-first', 'kick-strength', 'kick-speed', 'hill-legs', 'reaction-ready',
+    // Phase 14 ticket 11: Mind & body +16
+    'core-emom', 'loaded-core', 'plank-project', 'shoulder-health', 'hip-mobility', 'evening-yoga', 'yoga-strength', 'pilates-flow',
+    'pilates-15', 'backbend-flex', 'active-flexibility', 'steady-feet', 'loaded-balance', 'gentle-flow', 'easy-strength', 'loaded-back-care',
 ];
 
 test('the config ids, in order, are today\'s list', () => {
