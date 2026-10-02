@@ -6,15 +6,19 @@ import config from './firebase-config.js';
 
 const V = '10.12.2';
 const BASE = `https://www.gstatic.com/firebasejs/${V}`;
+// the same files served with the app (the deploy copies them from BASE into vendor/), so sync starts offline from the
+// service worker's cache; BASE when they aren't there (a local server)
+const LOCAL = `./vendor/firebasejs/${V}`;
+const lib = (f) => import(`${LOCAL}/${f}`).catch(() => import(`${BASE}/${f}`));
 
 async function start() {
   if (!config || !config.apiKey) return; // not configured: the app stays device-only
   const kb = window.kbSync;
   if (!kb) return;
   const [{ initializeApp }, auth, fs] = await Promise.all([
-    import(`${BASE}/firebase-app.js`),
-    import(`${BASE}/firebase-auth.js`),
-    import(`${BASE}/firebase-firestore.js`),
+    lib('firebase-app.js'),
+    lib('firebase-auth.js'),
+    lib('firebase-firestore.js'),
   ]);
   const app = initializeApp(config);
   const a = auth.getAuth(app);

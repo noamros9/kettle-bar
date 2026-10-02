@@ -31,3 +31,16 @@ test('every job pins its runner (not ubuntu-latest, which moves to Ubuntu 26 on 
     runs.forEach((r) => assert.equal(r, 'ubuntu-24.04', `${f}: runs-on ${r}`));
   }
 });
+
+// Phase 12: the deploy serves the pinned Firebase library with the app; firebase-sync.js imports it from there first
+test('the Firebase library: the deploy copies the version firebase-sync.js pins, pointing its imports at the copies', () => {
+  const { version, local, FILES } = require('../scripts/vendor-firebase.js');
+  const V = version(), sync = fs.readFileSync(path.join(__dirname, '..', 'firebase-sync.js'), 'utf8');
+  assert.match(V, /^\d+\.\d+\.\d+$/);
+  assert.ok(sync.includes('./vendor/firebasejs/${V}'), 'firebase-sync.js tries the copies first');
+  FILES.forEach((f) => assert.ok(sync.includes(`lib('${f}')`), f));
+  assert.equal(local(`import{a}from"https://www.gstatic.com/firebasejs/${V}/firebase-app.js";`, V), 'import{a}from"./firebase-app.js";');
+  const yml = fs.readFileSync(path.join(__dirname, '..', '.github', 'workflows', 'deploy.yml'), 'utf8');
+  assert.ok(yml.includes('node scripts/vendor-firebase.js _site'));
+  assert.match(yml, /cp -r [^\n]*\bfonts\b[^\n]*_site\//, 'the fonts are deployed');
+});
