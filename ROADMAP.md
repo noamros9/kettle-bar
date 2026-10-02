@@ -302,10 +302,17 @@ the +50% on top**:
   Catalogue 8 (29 exercises for the new subjects) is frozen: later additions use new pool names or catalogue 9.
   Shelves show 6 with "Show all N"; 30-day programs say so on their card.
 
-### Phase 15: new feature suggestions
-After Phase 14: Claude suggests features again (not the Decided against list), Noam picks, and they're planned by
-the method. Earlier suggestions not picked yet (2 Oct): a note on a done day; your training days; a reminder at a set
-time (needs a push server).
+### Phase 15: the Program finder
+Plan: [docs/plans/phase-15-program-finder.md](docs/plans/phase-15-program-finder.md). Suggested 2 Oct after Phase 14
+(program finder, your training days, a note on a done day, calendar export); **Noam picked the Program finder, with
+free-language search using AI** (2 Oct). Grilled:
+32. **AI engine: an on-phone model** (a small embedding model in the browser; free, private, offline after a ~25 MB
+    download), not a server or the Claude API.
+33. **Signed-in only** for the AI search.
+34. **Top 3–5 programs, each with a line on why** (made from the program's facts; the model ranks, it doesn't write).
+35. **Also:** an instant **name search box** and a **3-question "help me pick"** (goal, minutes, gear).
+Not picked yet (2 Oct): your training days; a note on a done day; calendar export; a reminder at a set time (needs a
+push server).
 
 ## Decided against (don't re-suggest)
 - **Logging weights/reps per set**: Noam wants done / not done only.
