@@ -33,7 +33,7 @@ lengths only.
 | 0 | This plan | plan | – | `plan/phase-16` | done (PR #168) |
 | 1 | The program list out of the first download | feature | – | `feature/library-index` | done (PR #169) |
 | 2 | Catalogue 9: exercises for the new muscle subjects and after-dark | feature | – | `feature/catalogue-9` | done (PR #170) |
-| 3 | Variety programs in the engine (no repeated day) | feature | – | `feature/variety` | – |
+| 3 | Variety programs in the engine (no repeated day) | feature | – | `feature/variety` | done (PR #171) |
 | 4 | Muscle focus: Chest, Back, Shoulders, Arms (+32) | content | 1, 2 | `content/muscles-upper` | – |
 | 5 | Muscle focus: Hips & adductors, Calves & lower legs, Neck & traps (+24) | content | 1, 2 | `content/muscles-other` | – |
 | 6 | Variety (+15) | content | 1, 3 | `content/variety` | – |
@@ -87,6 +87,14 @@ The page is 123.8 KB gzipped against the 125 KB first-download gate (ticket 7b),
   page and the program page say "Every day is different" instead of the split.
 - **Test first:** a variety build of 60 days has 60 different (day type, format) pairs; same id, same days (pins);
   a non-variety build is byte-identical; the config check refuses a variety config with fewer than `days` pairs.
+- **As built (4 Oct):** `variety.js` `expand(config)`, applied in `programs.config.js` (the builder loads the config
+  list, so it couldn't live there). Day types plus `formats` (a day type may narrow them); blocks marked `vary: true`
+  take the day's format, the others stay as written. A deck seeded by the program's id deals one pair per day: no pair
+  twice, never the same day type two days running (and a new format from yesterday's when the deck has one). Each pair
+  becomes an ordinary day type `<type>-<format>` labelled "Push · EMOM", the cycle is as long as the program, and
+  `split` defaults to "Every day is different". Allowed formats: straight, superset, circuit, EMOM, AMRAP, Tabata,
+  ladder (flows and bouts are their own kind of day). Refused: too few pairs, another format, a day type with nothing
+  marked vary. Build your own's recipe book skips Variety programs. Day-type names can't hold a hyphen.
 
 ### 4–11. Programs
 - Each ticket: configs in the family's file, hand-written summaries, pins added (never re-pinned), the program check

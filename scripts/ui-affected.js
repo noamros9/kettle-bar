@@ -15,7 +15,7 @@ const SMOKE = ['renders'];
 // module (regex on the changed path) -> the specs that exercise it
 const MAP = [
   // recipes/book.json is left out: it changes with its inputs (listed here), and only its hash when app/library.js does
-  [/^(configs\/|programs\.config\.js|program-builder\.js|recipes\.js|recipe-book\.js|exercises\.js|figures\.js|formats\.js|build\.js)/, ['build', 'random', 'library', 'exercise', 'thirty']],
+  [/^(configs\/|programs\.config\.js|variety\.js|program-builder\.js|recipes\.js|recipe-book\.js|exercises\.js|figures\.js|formats\.js|build\.js)/, ['build', 'random', 'library', 'exercise', 'thirty']],
   // new exercises change every Swap list and the travel and skip stand-ins (Phase 16: a longer list broke two specs)
   [/^exercises\.js$/, ['swap', 'skip', 'travel', 'actions', 'muscles']],
   [/^app\/library\.js$/, ['library', 'favourites', 'exercises', 'muscles', 'finder']],
