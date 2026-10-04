@@ -136,6 +136,9 @@ The page is 123.8 KB gzipped against the 125 KB first-download gate (ticket 7b),
   for the same reason. **The program page** shows "Every day is different" instead of a sixty-line key (the builder
   marks Variety programs `variety: true`; other programs' output is unchanged). Build your own leaves Variety out (its
   chips come from the recipe book). New phone spec `variety`.
+  **A flake from ticket 5, fixed here:** Calves is a Strength subject and its pools hold Pilates heel raises, which have
+  no stand-in (Phase 13: kept, marked), so a random Strength workout could open with one. The skip spec now picks the
+  first exercise that has a stand-in. (The pools stay: changing them would reshuffle pinned programs.)
 
 ## Challenge round
 - **Weakest assumption: one look-alike muscle program per subject.** Eight programs on one muscle group risk
