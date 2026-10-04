@@ -27,6 +27,16 @@ then a short flow). They sit in the **Mixed** family (Phase 6). Each block can g
 main block of a mixed day carries a `family` tag (`'Strength'`, `'Cardio & combat'` or `'Mind & body'`, from its config)
 for Phase 8's stats; single-family programs' blocks have none.
 
+**Muscle-focus program** (Phase 16): a Strength-family program built around one muscle group and its helpers
+(Chest: chest + triceps + front shoulders). Either **2:1** (two focus days, then a day for the rest of the body) or
+**every day** (the muscle every day, a different helper as the second block).
+
+**Variety program** (Phase 16): a program with `variety: true` and no cycle: no two of its days share a day type and
+format ("Every day is different"). Subject *Variety*, in Mixed.
+
+**After-dark program** (Phase 16): a Mixed-family program for looks, stamina or positions (hip, adductor and back
+mobility with the strength to hold them).
+
 **Share link** (`#add=<code>`): a Your program in a link, so someone else can add a copy. The code (`app/own.js`
 `shareCode` / `readShare`) is `{ v, i: id, n: name, c: choices, s: seed, k: catalogue, g: config }` as JSON, deflated, in
 base64url (about 1–1.6 KB). It carries the config and the id because the days are built from the config alone and the
