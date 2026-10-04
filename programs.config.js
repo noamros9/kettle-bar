@@ -1,7 +1,7 @@
 // The program library: one file per family in configs/ (see configs/shared.js for how a config is written).
 // configs/mixed.js (Phase 6): Mixed days, blocks from more than one family in a day.
 // The program list order is ORDER below, not the family files' order, because families interleave in the list.
-const FAMILY_FILES = [require('./configs/strength.js'), require('./configs/cardio-combat.js'), require('./configs/mind-body.js'), require('./configs/mixed.js')];
+const FAMILY_FILES = [require('./configs/strength.js'), require('./configs/cardio-combat.js'), require('./configs/mind-body.js'), require('./configs/mixed.js'), require('./configs/after-dark.js')];
 const ORDER = [
   // Signature: each original, then its two variations (Tempo, Harder moves; Phase 6 ticket 3b)
   'three-split-60', 'three-split-60-tempo', 'three-split-60-harder', 'four-split-60', 'four-split-60-tempo', 'four-split-60-harder',
@@ -105,6 +105,10 @@ const ORDER = [
   'fighter-legs', 'fighter-30', 'fighter-emom', 'fighter-power', 'athlete-30', 'athlete-calves-hips',
   'athlete-supersets', 'athlete-circuit', 'athlete-kb', 'balanced-muscle', 'balanced-fighter', 'balanced-bw-plus',
   'balanced-month-plus', 'balanced-kb-plus', 'calm-muscle', 'calm-30-plus', 'calm-neck-back', 'calm-bell-plus',
+  // Phase 18 ticket 3: Couples (configs/after-dark.js)
+  'sweat-together', 'foreplay-fitness', 'strip-circuit', 'kiss-me-reps', 'lift-me-up', 'date-night-burn', 'partners-in-grime',
+  'take-it-off', 'slow-burn-couples', 'sweaty-sheets', 'dare-night', 'massage-and-mount', 'couples-kama-sutra-30',
+  'thirty-days-of-foreplay', 'ride-along', 'couples-quickie', 'fuck-fit', 'pin-me-down', 'wheelbarrow-race', 'fit-to-fuck-30',
 ];
 
 const byId = new Map(FAMILY_FILES.flat().map((c) => [c.id, c]));
