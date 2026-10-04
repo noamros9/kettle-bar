@@ -430,6 +430,7 @@
         minutes: cfg.minutes, equip: cfg.equip || 'all', gear: cfg.gear || null, formats,
         levels: ['Level I · Intermediate', `Level II · ${levelText(cfg, 1)}`, `Level III · ${levelText(cfg, 2)}`],
         rests: recipes[Object.keys(recipes)[0]].rests, dayTypes, days, ...(cfg.mix ? { mix: cfg.mix } : {}), ...(cfg.warmup ? { warmup: cfg.warmup } : {}),
+        ...(cfg.variety ? { variety: true } : {}), // Variety (Phase 16): every day its own day type, so the program page shows no key
       };
     }
 

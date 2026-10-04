@@ -28,6 +28,131 @@ const PILATES_UP = { family: 'Mind & body', lever: [null, 'reps', 'variation'] }
 const CORE = { family: 'Mind & body', lever: [null, 'reps', 'reps'] };
 const YIN = { family: 'Mind & body', lever: [null, 'holds', 'holds'], scale: 3, cap: 120, values: [1] };
 
+// ---------------- Variety (Phase 16): every day is different ----------------
+// A Variety config has day types and formats and no cycle: variety.js deals one (day type, format) pair per day, none
+// twice. Each day type's main block is marked vary (it takes the day's format) and tagged with its family; some day
+// types add a fixed second block from another family. A day type's own `formats` narrow the program's: strength works
+// in sets, supersets, circuits, EMOMs and AMRAPs; conditioning in circuits, EMOMs, AMRAPs and Tabatas; neck work only
+// in calm formats (never a Tabata).
+const VARY = (title, slots, tag) => ({ ...S(title, slots, tag), vary: true });
+const LIFT_F = ['straight', 'superset', 'circuit', 'emom', 'amrap'];
+const SWEAT_F = ['circuit', 'emom', 'amrap', 'tabata'];
+const SWEAT5_F = ['circuit', 'emom', 'amrap', 'tabata', 'straight'];
+const COMBAT_F = ['emom', 'amrap', 'tabata']; // a circuit of boxing or kicking combinations runs too long
+const CORE_F = ['straight', 'superset', 'circuit', 'emom', 'tabata'];
+const SHORT_F = ['circuit', 'emom', 'amrap', 'tabata'];
+const CALM_F = ['straight', 'superset', 'circuit'];
+const VAR_LIFT = { family: 'Strength' };
+const VAR_SWEAT = { family: 'Cardio & combat', lever: [null, 'reps', 'reps'] };
+const VAR_CORE = { family: 'Mind & body', lever: [null, 'reps', 'reps'] };
+const VT = {
+  // strength
+  push: ['Push', ['chestPress', 'shoulderPress', 'chestBw', 'triceps2'], VAR_LIFT, LIFT_F],
+  pull: ['Pull', ['backRow', 'backBar', 'backRear', 'biceps2'], VAR_LIFT, LIFT_F],
+  legs: ['Legs', ['squat2', 'lunge2', 'hinge2', 'calf'], VAR_LIFT, LIFT_F],
+  glutes: ['Glutes & hips', ['hipGlute', 'adductor', 'hinge2', 'hipFlex'], VAR_LIFT, LIFT_F],
+  chest: ['Chest', ['chestPress', 'chestBw', 'chestIso', 'triceps2'], VAR_LIFT, LIFT_F],
+  back: ['Back', ['backRow', 'backBar', 'backRear', 'trapsPool'], VAR_LIFT, LIFT_F],
+  shoulders: ['Shoulders', ['shoulderPress', 'shoulderRaise', 'shoulderHealth', 'trapsPool'], VAR_LIFT, LIFT_F],
+  arms: ['Arms', ['biceps2', 'triceps2', 'biceps2', 'triceps2'], VAR_LIFT, LIFT_F],
+  upper: ['Upper body', ['pushLoad2', 'row2', 'shoulders2', 'arms'], VAR_LIFT, LIFT_F],
+  lower: ['Lower body', ['squat2', 'hinge2', 'lunge2', 'glute2'], VAR_LIFT, LIFT_F],
+  full: ['Full body', ['total', 'squat2', 'row2', 'pushLoad2'], VAR_LIFT, LIFT_F],
+  kb: ['Kettlebell', ['kbBallistic', 'kbLower2', 'kbUpper2', 'kbCore2'], VAR_LIFT, LIFT_F],
+  calves: ['Calves & shins', ['calf', 'shin', 'calfPlyo', 'calf'], VAR_LIFT, LIFT_F],
+  neck: ['Neck & traps', ['neck', 'traps2', 'trapsBw', 'neck'], VAR_LIFT, CALM_F],
+  forearms: ['Forearms', ['gripCurl', 'gripHold', 'gripPull', 'gripCurl'], VAR_LIFT, LIFT_F],
+  upperBack: ['Upper back', ['backRear', 'trapsPool', 'backBw', 'shoulderHealth'], VAR_LIFT, LIFT_F],
+  singleLeg: ['Single leg', ['singleLeg', 'lunge2', 'calf', 'adductor'], VAR_LIFT, LIFT_F],
+  posterior: ['Back of the body', ['hinge2', 'hipGlute', 'backRow', 'core'], VAR_LIFT, LIFT_F],
+  // bodyweight strength
+  pushBw: ['Push-ups', ['chestBw', 'pushBw2', 'armsBw', 'shoulderBw'], VAR_LIFT, LIFT_F],
+  pullBw: ['Floor pulls', ['backBw', 'pullBw', 'trapsBw', 'backBw'], VAR_LIFT, LIFT_F],
+  legsBw: ['Legs, no gear', ['legsBw2', 'runLegs', 'calfBw', 'adductorBw'], VAR_LIFT, LIFT_F],
+  glutesBw: ['Glutes, no gear', ['hipGlute', 'adductorBw', 'legsBw2', 'hipFlex'], VAR_LIFT, LIFT_F],
+  fullBw: ['Full body, no gear', ['legsBw', 'push', 'core', 'cardio'], VAR_LIFT, LIFT_F],
+  shouldersBw: ['Shoulders, no gear', ['shoulderBw', 'pike_hold', 'prone_y_raise', 'pushBw2'], VAR_LIFT, LIFT_F],
+  armsBw: ['Arms, no gear', ['armsBw', 'armsBw', 'chestBw', 'backBw'], VAR_LIFT, LIFT_F],
+  // kettlebell
+  kbCx: ['Complexes', ['kbCx', 'kbCxLower', 'kbCxUpper', 'kbCxCore'], VAR_LIFT, LIFT_F],
+  kbLegs: ['Bell legs', ['kbLower2', 'kbCxLower', 'goblet_squat', 'kb_swing'], VAR_LIFT, LIFT_F],
+  kbPress: ['Bell press', ['kbUpper2', 'kb_press', 'kb_floor_press', 'kb_halo'], VAR_LIFT, LIFT_F],
+  kbPull: ['Bell pull', ['kb_row', 'kb_dead_stop_row', 'kb_high_pull', 'kbBallistic'], VAR_LIFT, LIFT_F],
+  kbHips: ['Bell hips', ['sumo_pulse', 'kb_sumo_deadlift', 'kbBallistic', 'adductorBw'], VAR_LIFT, LIFT_F],
+  kbCore: ['Bell core', ['kbCore2', 'kbCxCore', 'coreAnti', 'coreRot'], VAR_LIFT, LIFT_F],
+  kbFull: ['Bell full body', ['kbCx', 'kbLower2', 'kbUpper2', 'kbBallistic'], VAR_LIFT, LIFT_F],
+  kbGrip: ['Bell grip', ['kb_bottoms_up_hold', 'suitcase_march', 'kbCxUpper', 'kb_row'], VAR_LIFT, LIFT_F],
+  kbSwing: ['Swings', ['kb_swing', 'kb_one_arm_swing', 'kbCxLower', 'kbCore2'], VAR_LIFT, LIFT_F],
+  // conditioning and combat
+  hiit: ['HIIT', ['hiit', 'hiit', 'cardio', 'hiitSec'], VAR_SWEAT, SWEAT_F],
+  plyo: ['Jumps', ['plyoLow', 'plyoLat', 'plyoUp', 'plyoVert'], VAR_SWEAT, SWEAT_F],
+  box: ['Boxing', ['bxBasic', 'bxPower', 'bxDefense'], VAR_SWEAT, COMBAT_F],
+  kick: ['Kickboxing', ['kkKick', 'kkCombo', 'kkKnee'], VAR_SWEAT, COMBAT_F],
+  run: ['Running drills', ['runDrill', 'runPlyo', 'runFast', 'runLegs'], VAR_SWEAT, SWEAT_F],
+  court: ['Court moves', ['courtMove', 'courtPower', 'courtLegs', 'courtMove'], VAR_SWEAT, SWEAT_F],
+  kbCardio: ['Bell cardio', ['kbBallistic', 'cardio', 'kb_swing', 'hiit'], VAR_SWEAT, SWEAT_F],
+  sprint: ['Sprints', ['runFast', 'hiitSec', 'runDrill', 'courtMove'], VAR_SWEAT, SWEAT_F],
+  power: ['Power', ['plyoUp', 'courtPower', 'runPlyo', 'hiit'], VAR_SWEAT, SWEAT_F],
+  skips: ['Skips & hops', ['runDrill', 'calfPlyo', 'hiitSec', 'plyoLow'], VAR_SWEAT, SWEAT_F],
+  // conditioning with straight sets too (Sweat Shuffle)
+  cond: ['Conditioning', ['cardio', 'total', 'hiit', 'core'], VAR_SWEAT, SWEAT5_F],
+  bwCond: ['Bodyweight burn', ['legsBw', 'push', 'cardio', 'core'], VAR_SWEAT, SWEAT5_F],
+  footwork: ['Footwork', ['bxMove', 'runFast', 'courtMove', 'hiitSec'], VAR_SWEAT, SWEAT5_F],
+  jumps: ['Jump circuit', ['plyoVert', 'plyoLat', 'hiit', 'plyoLow'], VAR_SWEAT, SWEAT5_F],
+  // combat (Fighter Variety)
+  jabs: ['Jabs & crosses', ['bxBasic', 'bxBasic', 'bxMove', 'bxDefense'], VAR_SWEAT, COMBAT_F],
+  punches: ['Power punches', ['bxPower', 'bxPower', 'bxDefense', 'bxMove'], VAR_SWEAT, COMBAT_F],
+  kicks: ['Kicks', ['kkKick', 'kkKick', 'kkCombo', 'kkKnee'], VAR_SWEAT, COMBAT_F],
+  combos: ['Combinations', ['kkCombo', 'bxPower', 'kkKnee', 'bxBasic'], VAR_SWEAT, COMBAT_F],
+  clinch: ['Clinch', ['kkKnee', 'bxDefense', 'core'], VAR_SWEAT, COMBAT_F],
+  defence: ['Defence', ['bxDefense', 'bxMove', 'bxDefense', 'bxBasic'], VAR_SWEAT, COMBAT_F],
+  bodyShots: ['Body shots', ['bxPower', 'kkCombo', 'coreRot', 'bxBasic'], VAR_SWEAT, COMBAT_F],
+  kickCore: ['Kicks & core', ['kkKick', 'coreHollow', 'kkSpin', 'coreAnti'], VAR_SWEAT, COMBAT_F],
+  fightPush: ['Fighter push', ['chestBw', 'shoulderPress', 'triceps2', 'core'], VAR_LIFT, LIFT_F],
+  fightPull: ['Fighter pull', ['backBar', 'backRow', 'gripHold', 'core'], VAR_LIFT, LIFT_F],
+  fightLegs: ['Fighter legs', ['squat2', 'plyoLat', 'lunge2', 'calfPlyo'], VAR_LIFT, LIFT_F],
+  fightCore: ['Fighter core', ['coreRot', 'coreAnti', 'coreHollow', 'core2'], VAR_LIFT, LIFT_F],
+  // mind & body
+  core: ['Core', ['coreAnti', 'coreRot', 'coreHollow', 'core2'], VAR_CORE, CORE_F],
+  balance: ['Balance', ['blStatic', 'blDynamic', 'blStrength', 'blPower'], VAR_CORE, CORE_F],
+  mobility: ['Mobility', ['mbHip', 'mbSpine', 'mbShoulder', 'mbPosture'], VAR_CORE, CORE_F],
+  pilates: ['Pilates', ['plAbs', 'plRoll', 'plBack', 'plGlute'], VAR_CORE, CORE_F],
+  yogaStrength: ['Yoga strength', ['ygCore', 'ygBalance', 'ygStand', 'ygCore'], VAR_CORE, CORE_F],
+  backCare: ['Back care', ['backStrength', 'backMove', 'backStrength', 'backMove'], VAR_CORE, CORE_F],
+  gentle: ['Gentle strength', ['gentleStrength', 'gentleBalance', 'gentleStrength', 'gentleCardio'], VAR_CORE, CORE_F],
+  hips: ['Hips', ['mbHip', 'ygHips', 'hipFlex', 'adductorBw'], VAR_CORE, CORE_F],
+  posture: ['Posture', ['mbPosture', 'trapsBw', 'chin_tucks', 'mbShoulder'], VAR_CORE, CALM_F],
+  pilatesSide: ['Pilates, side & glutes', ['plSide', 'plGlute', 'plAbs', 'plBack'], VAR_CORE, CORE_F],
+  hollow: ['Hollow & brace', ['coreHollow', 'coreAnti', 'coreRot', 'plAbs'], VAR_CORE, CORE_F],
+  weighted: ['Weighted core', ['absW', 'coreAnti', 'coreRot', 'absW'], VAR_CORE, CORE_F],
+  sideCore: ['Side core', ['coreRot', 'side_plank', 'coreAnti', 'coreRot'], VAR_CORE, CORE_F],
+  rolls: ['Rolls & curls', ['plRoll', 'plAbs', 'coreHollow', 'plRoll'], VAR_CORE, CORE_F],
+  backCore: ['Back & core', ['backStrength', 'coreAnti', 'plBack', 'bird_dog'], VAR_CORE, CORE_F],
+  balanceCore: ['Balance & core', ['blStrength', 'coreAnti', 'blDynamic', 'coreRot'], VAR_CORE, CORE_F],
+  bellCore: ['Kettlebell core', ['kbCore2', 'coreAnti', 'kbCxCore', 'coreRot'], VAR_CORE, CORE_F],
+};
+// fixed second blocks: a short burst of conditioning, a short stretch (no abs after it), a short lift, a short core circuit
+const AFTER = {
+  sweat: T('Finisher', ['hiit', 'cardio'], { ...VAR_SWEAT, values: [1] }),
+  sweatBw: T('Finisher', ['hiit', 'cardio'], { ...VAR_SWEAT, values: [1] }),
+  flow: F('Stretch', ['ygRest', 'ygHips', 'ygRest?'], { family: 'Mind & body', lever: [null, 'holds', 'holds'] }),
+  lift: S('Strength', ['squat2', 'pushLoad2', 'row2?'], VAR_LIFT),
+  liftBw: S('Strength', ['legsBw2', 'pushBw2', 'backBw?'], VAR_LIFT),
+  liftKb: S('Strength', ['kbLower2', 'kbUpper2', 'kb_row?'], VAR_LIFT),
+  core: C('Core', ['coreAnti', 'coreRot'], { ...VAR_CORE, values: [2] }),
+};
+// day types for a Variety config: each key's main block, plus the second block named for it (if any); `only` replaces
+// every day type's formats (Short Variety: timed formats only)
+function vtypes(keys, second = {}, only) {
+  return Object.fromEntries(keys.map((k) => {
+    const [label, slots, tag, own] = VT[k], after = second[k] && AFTER[second[k]];
+    // a day that ends in a stretch never takes an AMRAP: fifteen minutes at most, too short with only a stretch after it
+    const formats = (only || own).filter((f) => !(second[k] === 'flow' && f === 'amrap'));
+    return [k, { label, short: label, formats, ...(second[k] === 'flow' ? { absSlots: [] } : {}), blocks: [VARY(label, slots, tag), ...(after ? [after] : [])] }];
+  }));
+}
+const every = (keys, what) => Object.fromEntries(keys.map((k) => [k, what]));
+
 const CONFIGS = [
   // ---------------- STRENGTH & STRETCH (six programs, 28–40 min) ----------------
   {
@@ -937,6 +1062,119 @@ const CONFIGS = [
         S('Bell upper body', ['kbUpper2', 'kbUpper', 'kbUpper2'], LIFT),
         F('Yin spine', ['ygYinSpine', 'ygYinSpine'], YIN)] },
     },
+  },
+  // ---------------- PHASE 16: VARIETY (every day is different: no day type and format twice) ----------------
+  {
+    id: 'every-day-different', added: 16, catalogue: 9, variety: true, name: 'Every Day Different', subject: 'Variety', minutes: [30, 36], levers: [null, 'reps', 'weight'],
+    formats: LIFT_F, split: 'Every day different · everything', blurb: 'Sixty days and no two alike: strength, cardio, combat and core, each in a new format every time.',
+    about: 'Sixty days and no two the same. Each day picks a kind of training, push, pull, legs, jumps, boxing, core and more, and a format, straight sets, supersets, a circuit, an EMOM, an AMRAP or a Tabata, and that pair never comes back. Strength days end with a short burst of cardio or a short core circuit; cardio and core days end with a short lift. The same kind of training never lands two days running. Level II adds reps and Level III asks for heavier weights.',
+    names: ['Wild Card', 'Lucky Dip', 'Grab Bag', 'Mystery Box', 'Surprise', 'Plot Twist', 'Curveball', 'Joker', 'Dice Roll', 'Coin Toss', 'Spin the Wheel', 'Pick a Card', 'Shuffle', 'Deal Me In', 'Free Spin', 'Jackpot', 'Scratch Card', 'Raffle', 'Tombola', 'Lottery'],
+    dayTypes: vtypes(['push', 'pull', 'legs', 'glutes', 'shoulders', 'arms', 'full', 'upper', 'hiit', 'plyo', 'box', 'run', 'core', 'balance'],
+      { push: 'sweat', pull: 'core', legs: 'sweat', glutes: 'core', shoulders: 'sweat', arms: 'core', full: 'sweat', upper: 'core', hiit: 'lift', plyo: 'lift', box: 'lift', run: 'lift', core: 'lift', balance: 'lift' }),
+  },
+  {
+    id: 'strength-roulette', added: 16, catalogue: 9, variety: true, name: 'Strength Roulette', subject: 'Variety', minutes: [24, 30], levers: [null, 'weight', 'reps'],
+    formats: LIFT_F, split: 'Every day different · strength only', blurb: 'Strength every day, never the same twice: a new body part and a new format each time.',
+    about: 'Strength every day, and never the same session twice. Each day deals a body part, chest, back, shoulders, arms, legs, glutes, full body, kettlebell and more, with a format: straight sets, supersets, a circuit, an EMOM or an AMRAP. Sixty days, sixty different pairs, and the same body part never two days running. Abs finish every session. Level II asks for heavier weights and Level III adds reps.',
+    names: ['Roulette', 'Red or Black', 'Spin', 'Croupier', 'House Edge', 'Double Zero', 'Even Money', 'Straight Up', 'Split Bet', 'Corner Bet', 'Column', 'Dozen', 'High Roller', 'Chip Stack', 'Wheel Spin', 'Ball Drop', 'Pocket', 'Table Limit', 'All on Red', 'Cash Out'],
+    dayTypes: vtypes(['push', 'pull', 'legs', 'glutes', 'chest', 'back', 'shoulders', 'arms', 'upper', 'lower', 'full', 'kb']),
+  },
+  {
+    id: 'sweat-shuffle', added: 16, catalogue: 9, variety: true, name: 'Sweat Shuffle', subject: 'Variety', minutes: [23, 29], levers: [null, 'reps', 'variation'],
+    formats: SWEAT5_F, split: 'Every day different · cardio & combat', blurb: 'Cardio every day in a new shape: HIIT, jumps, boxing, sprints and footwork, never the same pair twice.',
+    about: 'Cardio and combat every day, always in a new shape. Each day deals one of twelve kinds of conditioning, HIIT, jumps, boxing, kickboxing, running drills, court moves, sprints, footwork and more, with a format: a circuit, an EMOM, an AMRAP, a Tabata or straight sets. Sixty days, no pair twice, and never the same kind two days running. Abs finish every session. Level II adds reps and Level III brings harder moves.',
+    names: ['Shuffle Step', 'Mixer', 'Blender', 'Smoothie', 'Cocktail', 'Mash-up', 'Remix', 'Medley Mix', 'Playlist', 'Shuffle Play', 'B-Side', 'Encore', 'Mixtape', 'Bassline', 'Drop', 'Breakdown', 'Build-up', 'Crescendo', 'Fade Out', 'Last Track'],
+    dayTypes: vtypes(['hiit', 'plyo', 'box', 'kick', 'run', 'court', 'sprint', 'power', 'cond', 'bwCond', 'footwork', 'jumps', 'kbCardio', 'clinch', 'skips']),
+  },
+  {
+    id: 'mind-body-mix', added: 16, catalogue: 9, variety: true, name: 'Mind & Body Mix', subject: 'Variety', minutes: [22, 28], levers: [null, 'reps', 'holds'],
+    formats: CORE_F, absSlots: [], split: 'Every day different · core, balance & mobility', blurb: 'Core, balance, Pilates, mobility and yoga strength, a new pairing every day, ending with a stretch.',
+    about: 'The calmer side of training, never the same twice. Each day deals one of twelve kinds of work, core, balance, mobility, Pilates, yoga strength, back care, hips, posture and more, with a format: straight sets, supersets, a circuit, an EMOM or a Tabata. Every day ends with a short stretch. Sixty days, no pair twice. Level II adds reps and Level III makes every hold longer.',
+    names: ['Still Water', 'Lotus Pond', 'Zen Garden', 'Bamboo', 'Willow', 'Cherry Blossom', 'Moss Garden', 'Raked Sand', 'Stepping Stones', 'Koi', 'Lantern Light', 'Tea House', 'Paper Screen', 'Bonsai', 'Mountain Mist', 'Morning Dew', 'Evening Calm', 'Moonrise', 'Quiet Hour', 'Deep Breath'],
+    dayTypes: vtypes(['core', 'balance', 'mobility', 'pilates', 'yogaStrength', 'backCare', 'gentle', 'hips', 'posture', 'pilatesSide', 'hollow', 'balanceCore', 'sideCore'],
+      every(['core', 'balance', 'mobility', 'pilates', 'yogaStrength', 'backCare', 'gentle', 'hips', 'posture', 'pilatesSide', 'hollow', 'balanceCore', 'sideCore'], 'flow')),
+  },
+  {
+    id: 'bodyweight-shuffle', added: 16, catalogue: 9, variety: true, name: 'Bodyweight Shuffle', subject: 'Variety', minutes: [24, 30], equip: 'bw', levers: [null, 'reps', 'tempo'],
+    formats: LIFT_F, split: 'Every day different · no equipment', blurb: 'No equipment and no repeats: push-ups, floor pulls, legs, jumps and boxing, a new pairing every day.',
+    about: 'No equipment, and no two days alike. Each day deals a kind of training you can do on the floor, push-ups, floor pulls, legs, glutes, shoulders, arms, HIIT, jumps, boxing, kickboxing, running drills and core, with a format to match. Sixty days, no pair twice, never the same kind two days running. Abs finish every session. Level II adds reps and Level III slows every rep down.',
+    names: ['Living Room', 'Hotel Floor', 'Park Bench', 'Back Garden', 'Balcony', 'Rooftop', 'Hallway Hustle', 'Kitchen Floor', 'Bedside', 'Campsite', 'Beach Towel', 'Picnic Rug', 'Yoga Mat', 'Office Floor', 'Dorm Room', 'Studio Flat', 'Spare Room', 'Garage', 'Porch', 'Patio'],
+    dayTypes: vtypes(['pushBw', 'pullBw', 'legsBw', 'glutesBw', 'fullBw', 'shouldersBw', 'armsBw', 'hiit', 'plyo', 'box', 'kick', 'run', 'core', 'balance']),
+  },
+  {
+    id: 'kettlebell-roulette', added: 16, catalogue: 9, variety: true, name: 'Kettlebell Roulette', subject: 'Variety', minutes: [24, 30], equip: 'kb', levers: [null, 'reps', 'weight'],
+    formats: LIFT_F, split: 'Every day different · one kettlebell', blurb: 'One kettlebell and no repeats: complexes, swings, presses, rows and core, a new pairing every day.',
+    about: 'One kettlebell, sixty different days. Each day deals a kind of bell work, complexes, swings, legs, presses, rows, hips, core, grip and more, with a format: straight sets, supersets, a circuit, an EMOM or an AMRAP, plus a couple of cardio days. No pair comes back, and the same kind never lands two days running. Abs finish every session. Level II adds reps and Level III asks for a heavier bell.',
+    names: ['Bell Roulette', 'Iron Wheel', 'Bell Spin', 'Bell Toss', 'Lucky Bell', 'Bell Draw', 'Bell Deal', 'Bell Bet', 'Bell Odds', 'Bell Chance', 'Bell Luck', 'Bell Fortune', 'Bell Gamble', 'Bell Wager', 'Bell Stake', 'Bell Pot', 'Bell Ante', 'Bell Raise', 'Bell Call', 'Bell Fold'],
+    dayTypes: vtypes(['kb', 'kbCx', 'kbLegs', 'kbPress', 'kbPull', 'kbHips', 'kbCore', 'kbFull', 'kbGrip', 'kbSwing', 'kbCardio', 'box', 'core']),
+  },
+  {
+    id: 'short-variety', added: 16, catalogue: 9, variety: true, name: 'Short Variety', subject: 'Variety', minutes: [15, 22], levers: [null, 'reps', 'reps'],
+    formats: SHORT_F, split: 'Every day different · 15–22 minutes', blurb: 'About twenty minutes, never the same twice: a quick circuit, EMOM, AMRAP or Tabata every day.',
+    about: 'Short sessions that never repeat. Each day deals one of fifteen kinds of training, strength, cardio and core, in a timed format: a circuit, an EMOM, an AMRAP or a Tabata. Fifteen to twenty-two minutes, sixty different days, and never the same kind two days running. Abs finish every session. Both later levels add reps.',
+    names: ['Quickie', 'Express', 'Pit Stop', 'Flash', 'Blitz', 'Sprint Session', 'Snack', 'Espresso', 'Shot', 'Quick Fix', 'Fast Lane', 'Short Cut', 'Speed Round', 'Lightning', 'Zip', 'Dash', 'Rush', 'Whirlwind', 'Snap', 'In and Out'],
+    dayTypes: vtypes(['push', 'pull', 'legs', 'glutes', 'shoulders', 'arms', 'full', 'kb', 'hiit', 'plyo', 'sprint', 'run', 'core', 'balance', 'pilates'], {}, SHORT_F),
+  },
+  {
+    id: 'muscle-tour', added: 16, catalogue: 9, variety: true, name: 'Muscle Tour', subject: 'Variety', minutes: [26, 32], levers: [null, 'weight', 'tempo'],
+    formats: LIFT_F, split: 'Every day different · one muscle group a day', blurb: 'A tour of the body: chest, back, shoulders, arms, hips, calves, neck and more, a new pairing every day.',
+    about: 'A tour of every muscle group, one a day, never the same way twice. Chest, back, shoulders, arms, hips and inner thighs, calves and shins, neck and traps, legs, glutes, forearms, upper back and core each get their days, each time in a different format. Neck days stay calm, in sets, supersets or circuits only. Abs finish every session. Level II asks for heavier weights and Level III slows every rep down.',
+    names: ['Grand Tour', 'Road Trip', 'Itinerary', 'Passport', 'Stamp', 'Boarding Pass', 'Layover', 'Departure', 'Arrival', 'Landmark', 'Sightseeing', 'Guidebook', 'Postcard', 'Souvenir', 'Map Pin', 'Compass Rose', 'Waypoint', 'Detour', 'Scenic Route', 'Homecoming'],
+    dayTypes: vtypes(['chest', 'back', 'shoulders', 'arms', 'glutes', 'calves', 'neck', 'legs', 'lower', 'forearms', 'upperBack', 'core', 'singleLeg']),
+  },
+  {
+    id: 'fighter-variety', added: 16, catalogue: 9, variety: true, name: 'Fighter Variety', subject: 'Variety', minutes: [24, 30], levers: [null, 'reps', 'variation'],
+    formats: LIFT_F, split: 'Every day different · strike & strength', blurb: 'Fight training that never repeats: punches, kicks, clinch, defence and fighter strength in new formats daily.',
+    about: 'Training like a fighter, never the same day twice. Combat days deal jabs and crosses, power punches, kicks, combinations, clinch knees, defence or body shots; strength days deal fighter push, pull, legs, core, single-leg work, the upper back or a gentle neck day. Each comes in a different format every time. Abs finish every session. Level II adds reps and Level III brings longer combinations and harder moves.',
+    names: ['Southpaw', 'Orthodox', 'Switch Hit', 'Counter', 'Feint', 'Parry', 'Slip', 'Weave', 'Uppercut', 'Haymaker', 'Liver Shot', 'Teep Kick', 'Low Kick', 'Spinning Back', 'Clinch Up', 'Ring Craft', 'Corner Man', 'Bell to Bell', 'Twelve Rounds', 'Title Fight'],
+    dayTypes: vtypes(['jabs', 'punches', 'kicks', 'combos', 'clinch', 'defence', 'bodyShots', 'kickCore', 'fightPush', 'fightPull', 'fightLegs', 'fightCore', 'neck', 'power', 'box', 'singleLeg', 'upperBack']),
+  },
+  {
+    id: 'athlete-variety', added: 16, catalogue: 9, variety: true, name: 'Athlete Variety', subject: 'Variety', minutes: [24, 30], levers: [null, 'reps', 'weight'],
+    formats: LIFT_F, split: 'Every day different · speed & strength', blurb: 'Sport-ready training that never repeats: sprints, jumps, court moves and athletic strength in new formats daily.',
+    about: 'Athletic training, never the same day twice. Speed days deal running drills, court moves, vertical and lateral jumps, upper-body power or sprints; strength days deal legs, glutes, single-leg work, pulls, pushes, full body or the back of the body; one kind is balance. Each comes in a different format every time. Abs finish every session. Level II adds reps and Level III asks for heavier weights.',
+    names: ['Kick-off', 'Tip-off', 'Face-off', 'First Serve', 'Starting Blocks', 'Pole Vault', 'High Jump', 'Long Jump', 'Triple Jump', 'Hurdles', 'Relay Leg', 'Anchor Leg', 'Breakaway', 'Fast Break', 'Counterattack', 'Overtime Legs', 'Extra Time', 'Penalty Box', 'Final Quarter', 'Full Time'],
+    dayTypes: vtypes(['run', 'court', 'plyo', 'power', 'sprint', 'jumps', 'legs', 'glutes', 'singleLeg', 'pull', 'push', 'full', 'posterior', 'balance']),
+  },
+  {
+    id: 'variety-30', added: 16, catalogue: 9, days: 30, variety: true, name: 'Variety 30', subject: 'Variety', minutes: [30, 36], levers: [null, 'weight', 'reps'],
+    formats: ['straight', 'superset', 'circuit', 'emom'], split: 'Every day different · 30 days, two families a day', blurb: 'A month with no repeats: every day a new pairing, strength with cardio or a stretch, cardio with strength.',
+    about: 'A month where no day repeats and every day mixes two kinds of training. A strength day ends with a short Tabata of cardio or a stretch; a cardio day ends with a short lift. The main work changes kind and format every day: straight sets, supersets, circuits or EMOMs. Every ten days the level steps up: heavier weights at Level II, more reps at Level III.',
+    names: ['Thirty Ways', 'Month of Sundays', 'Calendar', 'Advent', 'Countdown Month', 'Day Planner', 'Diary', 'Almanac', 'Moon Cycle', 'Full Moon', 'Half Moon', 'New Moon', 'Waxing', 'Waning', 'Crescent', 'Gibbous', 'Equinox', 'Solstice', 'Season', 'Harvest'],
+    dayTypes: vtypes(['push', 'pull', 'legs', 'glutes', 'shoulders', 'full', 'hiit', 'plyo'],
+      { push: 'sweat', pull: 'sweat', legs: 'flow', glutes: 'sweat', shoulders: 'flow', full: 'sweat', hiit: 'lift', plyo: 'lift' },
+      ['straight', 'superset', 'circuit', 'emom']), // no AMRAP: too short with a stretch after it
+  },
+  {
+    id: 'bodyweight-variety-30', added: 16, catalogue: 9, days: 30, variety: true, name: 'Bodyweight Variety 30', subject: 'Variety', minutes: [26, 32], equip: 'bw', levers: [null, 'reps', 'holds'],
+    formats: LIFT_F, split: 'Every day different · 30 days, no equipment', blurb: 'A month on the floor with no repeats: bodyweight strength with a burst of cardio or a stretch, every day new.',
+    about: 'A month with no equipment and no repeats. Every day mixes two kinds of training: bodyweight strength with a short Tabata or a stretch, or jumps and HIIT with a short bodyweight lift. The main work changes kind and format every day. Every ten days the level steps up: more reps at Level II, longer holds at Level III. Good for travel or a month away from your gear.',
+    names: ['Floor Month', 'Mat Month', 'Rug Month', 'Room Thirty', 'Body Month', 'Bare Hands', 'No Kit', 'Travel Light', 'Carry-on', 'Backpacker', 'Nomad', 'Wanderer', 'Drifter', 'Rover', 'Vagabond', 'Pilgrim', 'Voyager', 'Explorer', 'Trekker', 'Globetrotter'],
+    dayTypes: vtypes(['pushBw', 'pullBw', 'legsBw', 'glutesBw', 'shouldersBw', 'plyo', 'hiit'],
+      { pushBw: 'sweatBw', pullBw: 'flow', legsBw: 'sweatBw', glutesBw: 'flow', shouldersBw: 'sweatBw', plyo: 'liftBw', hiit: 'liftBw' }),
+  },
+  {
+    id: 'core-roulette', added: 16, catalogue: 9, variety: true, name: 'Core Roulette', subject: 'Variety', minutes: [18, 24], levers: [null, 'reps', 'variation'],
+    formats: CORE_F, absSlots: [], split: 'Every day different · core only', blurb: 'Core every day, never the same twice: brace, rotate, hollow, Pilates, weighted and balance core in new formats.',
+    about: 'Core every day, and never the same session twice. Each day deals one of twelve kinds of core work, bracing, rotation, hollow holds, Pilates rolls, side planks, weighted core, back and core, balance and core, kettlebell core and more, with a format: straight sets, supersets, a circuit, an EMOM or a Tabata. The whole session is core, so there is no extra abs finisher. Level II adds reps and Level III brings harder moves.',
+    names: ['Six Pack', 'Washboard', 'Midsection', 'Centre Line', 'Core Value', 'Torso', 'Trunk Line', 'Belly Button', 'Waistline', 'Corset', 'Girdle', 'Cummerbund', 'Belt Line', 'Obi', 'Sash', 'Brace Up', 'Tighten', 'Cinch', 'Hollow', 'Plank Line'],
+    dayTypes: vtypes(['core', 'hollow', 'sideCore', 'rolls', 'weighted', 'backCore', 'balanceCore', 'bellCore', 'pilates', 'pilatesSide', 'yogaStrength', 'balance']),
+  },
+  {
+    id: 'long-variety', added: 16, catalogue: 9, variety: true, name: 'Long Variety', subject: 'Variety', minutes: [38, 44], levers: [null, 'weight', 'weight'],
+    formats: ['straight', 'superset', 'circuit', 'emom'], split: 'Every day different · 40 minutes, lift & finish', blurb: 'Forty minutes, no repeats: a big strength block in a new format every day, then a cardio or core finisher.',
+    about: 'Longer sessions that never repeat. Each day deals a body part and a format for a big strength block, straight sets, supersets, a circuit or an EMOM, then finishes with a short Tabata of cardio or a core circuit. About forty minutes, sixty different days, and never the same body part two days running. Abs finish every session. Both later levels ask for heavier weights, so this one is for building strength over two months.',
+    names: ['Long Haul', 'Marathon', 'Distance', 'Endurance', 'Stamina', 'Staying Power', 'Second Half', 'Long Game', 'Deep End', 'Full Session', 'Double Shift', 'Overtime Session', 'Long Road', 'Slow Burn', 'Extended Play', 'Director\'s Cut', 'Box Set', 'Feature Length', 'Epic', 'Saga'],
+    dayTypes: vtypes(['push', 'pull', 'legs', 'glutes', 'chest', 'back', 'shoulders', 'arms', 'upper', 'lower', 'full', 'kb', 'calves', 'singleLeg', 'posterior', 'forearms'],
+      { push: 'sweat', pull: 'core', legs: 'sweat', glutes: 'core', chest: 'sweat', back: 'core', shoulders: 'sweat', arms: 'core', upper: 'sweat', lower: 'core', full: 'sweat', kb: 'core', calves: 'sweat', singleLeg: 'core', posterior: 'sweat', forearms: 'core' },
+      ['straight', 'superset', 'circuit', 'emom']), // no AMRAP: fifteen minutes at most, too short for a long day
+  },
+  {
+    id: 'upper-roulette', added: 16, catalogue: 9, variety: true, name: 'Upper Body Roulette', subject: 'Variety', minutes: [24, 30], levers: [null, 'reps', 'tempo'],
+    formats: LIFT_F, split: 'Every day different · upper body only', blurb: 'Upper body every day, never the same twice: chest, back, shoulders, arms, grip and more in new formats.',
+    about: 'The upper body every day, never the same session twice. Each day deals chest, back, shoulders, arms, push, pull, upper back, forearms, bodyweight push-ups or floor pulls, a kettlebell press or a gentle neck-and-traps day, each in a different format. The same kind never lands two days running, and neck days stay calm. Abs finish every session. Level II adds reps and Level III slows every rep down.',
+    names: ['Top Half', 'Upper Deck', 'Top Floor', 'Penthouse', 'Upper Circle', 'Gallery', 'Balcony Seat', 'Crow\'s Nest Top', 'High Shelf', 'Top Drawer', 'Upper Crust', 'Skyline', 'Cloud Nine', 'Overhead Bin', 'Loft', 'Mansard', 'Top Tier', 'Upper Hand', 'High Table', 'Summit Day'],
+    dayTypes: vtypes(['chest', 'back', 'shoulders', 'arms', 'push', 'pull', 'upperBack', 'forearms', 'pushBw', 'pullBw', 'kbPress', 'neck', 'shouldersBw']),
   },
 ];
 

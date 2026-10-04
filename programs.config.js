@@ -71,6 +71,10 @@ const ORDER = [
   'hip-day', 'inner-thigh-supersets', 'floor-hips', 'hip-emom', 'bell-hips', 'hip-ladders', 'hips-30', 'hip-circuit-30',
   'calf-day', 'calves-and-shins', 'barefoot-legs', 'calf-emom', 'calf-builder', 'calf-ladders', 'calves-30', 'calf-circuit-30',
   'neck-day', 'neck-and-traps', 'desk-neck', 'neck-emom', 'shrug-and-hold', 'traps-ladders', 'traps-30', 'neck-circuit-30',
+  // Phase 16 ticket 6: Variety (every day is different)
+  'every-day-different', 'strength-roulette', 'sweat-shuffle', 'mind-body-mix', 'bodyweight-shuffle',
+  'kettlebell-roulette', 'short-variety', 'muscle-tour', 'fighter-variety', 'athlete-variety',
+  'variety-30', 'bodyweight-variety-30', 'core-roulette', 'long-variety', 'upper-roulette',
 ];
 
 const byId = new Map(FAMILY_FILES.flat().map((c) => [c.id, c]));

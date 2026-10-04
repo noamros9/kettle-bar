@@ -12,7 +12,7 @@ const cat = require('../exercises.js');
 const CONFIGS = require('../programs.config.js');
 const { FAMILIES } = require('../app/library.js');
 
-const SUBJECTS = FAMILIES.flatMap(([, list]) => list);
+const SUBJECTS = FAMILIES.flatMap(([, list]) => list).filter((s) => s !== 'Variety'); // Variety (Phase 16) is not in build your own: 60 one-off day types are not a subject to pick
 const MINUTES = [20, 25, 30, 35, 40];
 const EQUIPS = ['all', 'kb', 'bw'];
 const GEAR = { all: 'all equipment', kb: 'a kettlebell only', bw: 'no equipment' };
@@ -35,7 +35,7 @@ function built(cfg) {
 
 test('the book holds every day type of every library config that has blocks; Three-Split 60 (frozen) has none', () => {
   const types = R.pick({});
-  const want = CONFIGS.filter((c) => !c.frozen).flatMap((c) => Object.keys(c.dayTypes).map((k) => `${c.id}:${k}`));
+  const want = CONFIGS.filter((c) => !c.frozen && !c.variety).flatMap((c) => Object.keys(c.dayTypes).map((k) => `${c.id}:${k}`));
   const have = new Set(types.map((t) => t.id));
   // identical day types of one subject are one recipe: every config day type is there, or is the same as one that is
   const missing = want.filter((id) => !have.has(id));
@@ -45,7 +45,7 @@ test('the book holds every day type of every library config that has blocks; Thr
   });
   assert.ok(types.length >= 100, `${types.length} day types`);
   assert.ok(!types.some((t) => t.program === 'three-split-60'));
-  assert.deepEqual(R.skipped, ['three-split-60']);
+  assert.deepEqual(R.skipped, ['three-split-60', ...CONFIGS.filter((c) => c.variety).map((c) => c.id)]);
 });
 
 test('every subject of the library has day types, tagged with subject, family, formats, equipment, time range', () => {
