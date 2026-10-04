@@ -328,6 +328,13 @@ Plan: [docs/plans/phase-16-muscles-variety-more.md](docs/plans/phase-16-muscles-
   list left the first download (123.8 → 112.7 KB gzipped); catalogue 9 (40 exercises, neck, traps and shins on the map)
   is frozen; the recipe book's gate is 500 / 70 KB.
 
+### Phase 17: shelf groups on the Programs page
+Plan: [docs/plans/phase-17-shelf-groups.md](docs/plans/phase-17-shelf-groups.md). Noam, 4 Oct 2026, after Phase 16 ("it
+became visually messy"):
+40. **Nine groups, ten chips with All** (the finest option): Strength · Muscles · Cardio · Combat · Yoga & Pilates ·
+    Mobility & care · Mixed · Variety · After dark.
+41. **Programs page only**: Stats, build your own and random workouts keep the four training families.
+
 ## Decided against (don't re-suggest)
 - **Logging weights/reps per set**: Noam wants done / not done only.
 - **Adaptive plans**: no test days, no too-easy/too-hard nudging, no deload suggestions. Plans stay as written.

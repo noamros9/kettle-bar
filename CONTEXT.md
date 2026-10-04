@@ -22,6 +22,10 @@ Fighter, Athlete, Balanced week and Calm strength (six programs each). Each belo
 **Family**: a group of subjects on the programs page: *Strength*, *Cardio & combat*, *Mind & body*, *Mixed*. Picking one shows
 only its subjects' chips and shelves. Listed in `FAMILIES` in `app/library.js`; a subject missing there is an error.
 
+**Shelf group** (Phase 17): a tab on the Programs page, finer than a family (Strength, Muscles, Cardio, Combat, Yoga &
+Pilates, Mobility & care, Mixed, Variety, After dark). Listed in `SHELVES` in `app/library.js`; only the Programs page
+uses them, everything else keeps the families.
+
 **Mixed program**: a program whose days hold blocks from more than one family (a **mixed day**: a strength block,
 then a short flow). They sit in the **Mixed** family (Phase 6). Each block can get harder in its own way, and each
 main block of a mixed day carries a `family` tag (`'Strength'`, `'Cardio & combat'` or `'Mind & body'`, from its config)
