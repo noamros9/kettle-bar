@@ -314,7 +314,7 @@ free-language search using AI** (2 Oct). Grilled:
 Not picked yet (2 Oct): your training days; a note on a done day; calendar export; a reminder at a set time (needs a
 push server).
 
-### Phase 16: muscle focus, Variety, after-dark, and +50% more
+### Phase 16: muscle focus, Variety, after-dark, and +50% more (done, Oct 2026)
 Plan: [docs/plans/phase-16-muscles-variety-more.md](docs/plans/phase-16-muscles-variety-more.md). Grilled 4 Oct 2026:
 36. **Muscle focus, 7 new subjects × 8 (+56):** Chest, Back, Shoulders, Arms, Hips & adductors, Calves & lower legs,
     Neck & traps; each trains the muscle and its helpers. **Layout: a mix** (half "2 focus days : 1 other", half the
@@ -324,7 +324,9 @@ Plan: [docs/plans/phase-16-muscles-variety-more.md](docs/plans/phase-16-muscles-
     be fully explicit** (Noam). Decided 4 Oct: the repo stays public and the shelf is a normal
     shelf (the app is for Noam's own use); no Settings switch.
 39. **More of everything: +50% per family** (+133), on top.
-- 263 → about 497 programs. Ticket 1 first: the page is at 123.8 of its 125 KB first-download gate.
+- **Built (4 Oct): 263 → 497 programs** in 41 subjects (PRs #168–#179), all pinned, no existing pin changed. The program
+  list left the first download (123.8 → 112.7 KB gzipped); catalogue 9 (40 exercises, neck, traps and shins on the map)
+  is frozen; the recipe book's gate is 500 / 70 KB.
 
 ## Decided against (don't re-suggest)
 - **Logging weights/reps per set**: Noam wants done / not done only.

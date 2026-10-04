@@ -1518,6 +1518,277 @@ const CONFIGS = [
       bend: { label: 'Bend & hold', short: 'Bend', absSlots: [], blocks: [C('Holds', ['posHold', 'bridge_hold', 'plank', 'posHold?'], LIFT), F('Backbends & twists', ['ygBack', 'fxSpine', 'ygBack', 'ygRest', 'ygRest?'], FLOW_SCALED)] },
     },
   },
+  // ---------------- PHASE 16 ticket 11: MIXED +50% over the older Mixed subjects (catalogue 9) ----------------
+  // Strength & stretch +5 (strength, then a flow; no abs after a flow)
+  {
+    id: 'chest-and-open', added: 16, catalogue: 9, name: 'Chest & Open', subject: 'Strength & stretch', minutes: [28, 33], levers: [null, 'weight', 'reps'],
+    split: 'Chest & chest opener / back & shoulder opener', blurb: 'Press and pull, then open what you trained: chest openers after chest, shoulder openers after back.',
+    about: 'Strength followed by a stretch for the same muscles. The chest day presses and flies, then opens the chest and shoulders in a flow; the back day rows and pulls, then opens the upper back and lats. Training and stretching the same area keeps the muscles strong and long. Level II asks for heavier weights and Level III adds reps.',
+    names: ['Open Chest', 'Wide Open', 'Heart Opener', 'Chest Stretch', 'Arms Wide', 'Spread Wings', 'Open Arms', 'Embrace', 'Broad Chest', 'Pec Release', 'Lat Release', 'Back Open'],
+    cycle: ['chest', 'back'],
+    dayTypes: {
+      chest: { label: 'Chest & chest opener', short: 'Chest', absSlots: [], blocks: [S('Chest', ['chestPress', 'chestBw', 'chestIso', 'triceps2?'], LIFT), F('Chest opener', ['chest_opener', 'fxUpper', 'puppy_pose', 'ygRest?'], FLOW)] },
+      back: { label: 'Back & shoulder opener', short: 'Back', absSlots: [], blocks: [S('Back', ['backRow', 'backBar', 'backRear', 'biceps2?'], LIFT), F('Shoulder opener', ['thread_the_needle', 'fxUpper', 'childs_pose', 'ygRest?'], FLOW)] },
+    },
+  },
+  {
+    id: 'legs-and-lengthen-plus', added: 16, catalogue: 9, name: 'Legs & Long', subject: 'Strength & stretch', minutes: [28, 33], levers: [null, 'weight', 'tempo'],
+    split: 'Quads & hip flexors / hamstrings & glutes', blurb: 'Legs, then a long stretch: quads with hip flexors, hamstrings with glutes.',
+    about: 'Leg strength with a long stretch after. One day squats and lunges, then stretches the quads and hip flexors; the other hinges and thrusts, then stretches the hamstrings and glutes. Strong legs that do not feel tight. Level II asks for heavier weights and Level III slows every rep down.',
+    names: ['Long Legs', 'Lean Legs', 'Leg Stretch', 'Quad Release', 'Hip Release', 'Ham Release', 'Glute Release', 'Free Legs', 'Loose Legs', 'Light Legs', 'Supple Legs', 'Easy Legs'],
+    cycle: ['quads', 'hams'],
+    dayTypes: {
+      quads: { label: 'Quads & hip flexors', short: 'Quads', absSlots: [], blocks: [S('Quads', ['squat2', 'lunge2', 'calf', 'adductor?'], LIFT), F('Quad & hip flexor stretch', ['low_lunge', 'fxQuad', 'fxSplit', 'ygRest?'], FLOW)] },
+      hams: { label: 'Hamstrings & glutes', short: 'Hams', absSlots: [], blocks: [S('Hamstrings', ['hinge2', 'thrust', 'single_leg_rdl', 'hipGlute?'], LIFT), F('Hamstring & glute stretch', ['fxHam', 'figure_four', 'pigeon_pose', 'ygRest?'], FLOW)] },
+    },
+  },
+  {
+    id: 'neck-and-shoulders-stretch', added: 16, catalogue: 9, name: 'Shoulders & Neck Ease', subject: 'Strength & stretch', minutes: [26, 31], levers: [null, 'reps', 'weight'],
+    split: 'Shoulders & neck stretch / traps & upper-back stretch', blurb: 'Shoulder strength, then a gentle neck and upper-back stretch.',
+    about: 'For strong shoulders and an easy neck. One day presses and raises for the shoulders, then a gentle flow for the neck and shoulders; the other works the traps and upper back with shrugs and Y raises, then stretches them. Neck work is always gentle. Level II adds reps and Level III asks for heavier weights.',
+    names: ['Ease Up', 'Let Go Shoulders', 'Drop the Shoulders', 'Soft Neck', 'Loose Traps', 'Melt Shoulders', 'Shoulder Ease', 'Neck Ease Day', 'Collar Ease', 'Yoke Ease', 'Breathe Out', 'Unclench'],
+    cycle: ['shoulders', 'traps'],
+    dayTypes: {
+      shoulders: { label: 'Shoulders & neck stretch', short: 'Shoulders', absSlots: [], blocks: [S('Shoulders', ['shoulderPress', 'shoulderRaise', 'shoulderHealth', 'triceps2?'], LIFT), F('Neck & shoulder stretch', ['chin_tucks', 'cross_body_shoulder', 'fxUpper', 'ygRest?'], FLOW)] },
+      traps: { label: 'Traps & upper-back stretch', short: 'Traps', absSlots: [], blocks: [S('Traps & upper back', ['trapsPool', 'prone_y_raise', 'backRear', 'neck?'], LIFT), F('Upper-back stretch', ['thread_the_needle', 'puppy_pose', 'fxSpine', 'ygRest?'], FLOW)] },
+    },
+  },
+  {
+    id: 'stretch-30-plus', added: 16, catalogue: 9, days: 30, name: 'Strength & Stretch 30', subject: 'Strength & stretch', minutes: [28, 33], levers: [null, 'weight', 'reps'],
+    split: 'Upper & open / lower & lengthen, 30 days', blurb: 'A month of lifting and stretching: upper body with an opener, lower body with a long stretch.',
+    about: 'A month that builds strength without stiffness. Upper days lift and then open the chest and shoulders; lower days lift and then lengthen the hips and hamstrings. Every ten days the level steps up: heavier weights at Level II, more reps at Level III.',
+    names: ['Lift & Open', 'Lift & Lengthen', 'Press & Stretch', 'Squat & Stretch', 'Pull & Open', 'Hinge & Lengthen', 'Strong & Long', 'Firm & Free', 'Hard & Soft', 'Iron & Silk', 'Tight & Loose', 'Work & Rest'],
+    cycle: ['upper', 'lower'],
+    dayTypes: {
+      upper: { label: 'Upper & open', short: 'Upper', absSlots: [], blocks: [SS('Upper', ['chestPress', 'backRow', 'shoulderPress', 'biceps2'], LIFT), F('Opener', ['chest_opener', 'fxUpper', 'ygRest?'], FLOW)] },
+      lower: { label: 'Lower & lengthen', short: 'Lower', absSlots: [], blocks: [SS('Lower', ['squat2', 'hinge2', 'lunge2', 'thrust'], LIFT), F('Lengthen', ['fxHam', 'fxHips', 'ygRest?'], FLOW)] },
+    },
+  },
+  {
+    id: 'kb-and-stretch', added: 16, catalogue: 9, name: 'Bell & Stretch', subject: 'Strength & stretch', minutes: [26, 31], equip: 'kb', levers: [null, 'reps', 'weight'],
+    split: 'Bell upper & opener / bell lower & hip flow', blurb: 'One kettlebell, then a stretch: upper-body bell work with an opener, lower-body with a hip flow.',
+    about: 'Kettlebell strength with a stretch to finish. One day presses and rows the bell, then opens the chest and shoulders; the other squats and swings it, then flows through the hips. One bell and a mat are all you need. Level II adds reps and Level III asks for a heavier bell.',
+    names: ['Bell Open', 'Bell Long', 'Bell Ease', 'Bell Release', 'Bell Soft', 'Bell Free', 'Bell Loose', 'Bell Supple', 'Bell Calm', 'Bell Quiet', 'Bell Breathe', 'Bell Rest'],
+    cycle: ['upper', 'lower'],
+    dayTypes: {
+      upper: { label: 'Bell upper & opener', short: 'Upper', absSlots: [], blocks: [S('Bell upper', ['kb_press', 'kb_row', 'kb_floor_press', 'kb_halo?'], LIFT), F('Opener', ['chest_opener', 'fxUpper', 'ygRest?'], FLOW)] },
+      lower: { label: 'Bell lower & hip flow', short: 'Lower', absSlots: [], blocks: [S('Bell lower', ['goblet_squat', 'kb_swing', 'kb_sumo_deadlift', 'lateral_lunge?'], LIFT), F('Hip flow', ['ygHips', 'fxHips', 'ygRest?'], FLOW)] },
+    },
+  },
+  // Fighter +5 (bouts with strength, conditioning or a flow)
+  {
+    id: 'fighter-neck', added: 16, catalogue: 9, name: 'Fighter\'s Neck', subject: 'Fighter', minutes: [28, 33], levers: [null, 'reps', 'reps'],
+    split: 'Bouts & neck / bouts & grip', blurb: 'Fighters train the neck and the grip: bouts, then gentle neck work one day, grip the next.',
+    about: 'Fighters train two things most programs skip: the neck and the grip. Each day starts with bouts, then one day adds gentle neck holds, shrugs and upper-back work, and the other carries, hangs and forearm curls. A strong neck and grip help in the clinch. Neck work stays at half effort. Both later levels add reps.',
+    names: ['Thick Neck', 'Iron Grip Fighter', 'Clinch Ready', 'Neck Bridge', 'Collar Tie', 'Plum Grip', 'Head Control', 'Under Hook', 'Over Hook', 'Grip Fight', 'Hand Fight', 'Tie Up'],
+    cycle: ['neck', 'grip'],
+    dayTypes: {
+      neck: { label: 'Bouts & neck', short: 'Neck', blocks: [B('Bouts', ['bxBasic', 'bxPower', 'bxDefense?'], BOUTS), S('Neck & traps', ['neck', 'trapsPool', 'neck', 'trapsBw?'], LIFT)] },
+      grip: { label: 'Bouts & grip', short: 'Grip', blocks: [B('Bouts', ['kkCombo', 'kkKnee', 'bxBasic?'], BOUTS), S('Grip', ['farmer_carry', 'gripHold', 'gripCurl', 'gripHold?'], LIFT)] },
+    },
+  },
+  {
+    id: 'fighter-legs', added: 16, catalogue: 9, name: 'Fighter Legs', subject: 'Fighter', minutes: [28, 33], levers: [null, 'reps', 'weight'],
+    split: 'Kick bouts & legs / bouts & calves', blurb: 'Legs that last a fight: kick bouts with leg strength, punch bouts with calves and hops.',
+    about: 'Fighters live on their legs. One day pairs kick bouts with squats, lunges and adductor work; the other punch bouts with calf raises, hops and footwork. Legs that keep you moving and kicking in the last round. Level II adds reps and Level III asks for heavier weights.',
+    names: ['Fight Legs', 'Ring Legs', 'Bounce Legs', 'Kick Legs', 'Stance Legs', 'Sprawl Legs', 'Switch Legs', 'Step Legs', 'Pivot Legs', 'Circle Legs', 'Cut Off', 'Ring Craft Legs'],
+    cycle: ['kick', 'calves'],
+    dayTypes: {
+      kick: { label: 'Kick bouts & legs', short: 'Kick', blocks: [B('Kick bouts', ['kkKick', 'kkCombo', 'kkKick?'], BOUTS), S('Legs', ['squat2', 'lunge2', 'adductor', 'calf?'], LIFT)] },
+      calves: { label: 'Bouts & calves', short: 'Calves', blocks: [B('Bouts', ['bxMove', 'bxBasic', 'bxPower?'], BOUTS), C('Calves & feet', ['calf', 'calfPlyo', 'shin', 'calfPlyo'], { ...LIFT, values: [2, 3] })] },
+    },
+  },
+  {
+    id: 'fighter-30', added: 16, catalogue: 9, days: 30, name: 'Fighter 30', subject: 'Fighter', minutes: [28, 33], levers: [null, 'reps', 'reps'],
+    split: 'Bouts & strength / bouts & flow, 30 days', blurb: 'A month of fight training: bouts with strength one day, bouts with a flow the next.',
+    about: 'A month of fight training. Every day starts with bouts; one day follows them with strength for the push, the pull and the legs, the next with core and a mobility flow for the hips and shoulders. Every ten days the level steps up with more reps and longer combinations.',
+    names: ['Camp Start', 'Camp Week', 'Camp Ten Days', 'Camp Twenty Days', 'Camp Thirty Days', 'Camp Month', 'Fight Week Month', 'Sparring Month', 'Pad Month', 'Bag Month', 'Ring Month Fighter', 'Title Month'],
+    cycle: ['strength', 'flow'],
+    dayTypes: {
+      strength: { label: 'Bouts & strength', short: 'Strength', blocks: [B('Bouts', ['bxBasic', 'bxPower', 'bxDefense?'], BOUTS), S('Strength', ['chestBw', 'backRow', 'squat2', 'coreRot?'], LIFT)] },
+      flow: { label: 'Bouts, core & flow', short: 'Flow', absSlots: [], blocks: [B('Bouts', ['kkKick', 'kkCombo', 'kkKnee?'], BOUTS), C('Core', ['coreRot', 'coreAnti', 'coreHollow?'], CORE), F('Mobility flow', ['mbHip', 'fxHips', 'mbShoulder', 'ygRest', 'ygRest?'], FLOW)] },
+    },
+  },
+  {
+    id: 'fighter-emom', added: 16, catalogue: 9, name: 'Fighter EMOM', subject: 'Fighter', minutes: [28, 33], equip: 'bw', levers: [null, 'reps', 'reps'],
+    split: 'Bouts & strength EMOM / bouts & core EMOM', blurb: 'Bouts, then an EMOM: push-ups, sprawls and squats one day, core the next.',
+    about: 'Bouts first, then a fighter\'s EMOM. One day the EMOM is push-ups, sprawls and squats, strength for the scramble; the other it is core, twists, hollow holds and planks. Hard, honest and over in half an hour. Both later levels add reps.',
+    names: ['Sprawl', 'Scramble', 'Shoot', 'Stuff', 'Brawl', 'Grind', 'Pressure', 'Pace', 'Cardio King', 'Gas Tank', 'Second Round', 'Championship Rounds'],
+    cycle: ['sprawl', 'core'],
+    dayTypes: {
+      sprawl: { label: 'Bouts & strength EMOM', short: 'Strength', blocks: [B('Bouts', ['bxBasic', 'bxPower', 'bxDefense?'], BOUTS), E('Strength EMOM', ['chestBw', 'sprawl', 'legsBw2'], { ...LIFT, values: [6, 8, 10] })] },
+      core: { label: 'Bouts & core EMOM', short: 'Core', blocks: [B('Bouts', ['kkCombo', 'kkKick', 'kkKnee?'], BOUTS), E('Core EMOM', ['coreRot', 'coreHollow', 'coreAnti'], { ...CORE, values: [6, 8, 10] })] },
+    },
+  },
+  {
+    id: 'fighter-power', added: 16, catalogue: 9, name: 'Fighter Power', subject: 'Fighter', minutes: [30, 35], levers: [null, 'reps', 'weight'],
+    split: 'Power bouts & explosive strength / bouts & hips', blurb: 'Power for punches and kicks: explosive push-ups and swings, then hip strength and mobility.',
+    about: 'Power behind every strike. One day pairs power bouts with explosive strength: clap push-ups, swings, thrusters and rotational work. The other pairs combination bouts with hip strength and a hip flow, because kicks start in the hips. Level II adds reps and Level III asks for heavier weights.',
+    names: ['Power Shot', 'Power Kick', 'Snap', 'Torque', 'Rotation', 'Hip Turn', 'Pivot Power', 'Drive Power', 'Explode', 'Detonate', 'Ignite', 'Blast'],
+    cycle: ['power', 'hips'],
+    dayTypes: {
+      power: { label: 'Power bouts & explosive strength', short: 'Power', blocks: [B('Power bouts', ['bxPower', 'bxPower', 'bxBasic?'], BOUTS), S('Explosive strength', ['clap_pushup', 'kb_swing', 'db_thruster', 'russian_twist?'], LIFT)] },
+      hips: { label: 'Bouts & hips', short: 'Hips', absSlots: [], blocks: [B('Bouts', ['kkCombo', 'kkKick', 'kkKnee?'], BOUTS), S('Hip strength', ['cossack_squat', 'standing_knee_hold', 'adductor'], LIFT), F('Hip flow', ['fxHips', 'ygHips', 'ygRest?'], FLOW)] },
+    },
+  },
+  // Athlete +5 (plyometrics first, then strength and balance; long plyometric rests)
+  {
+    id: 'athlete-30', added: 16, catalogue: 9, days: 30, name: 'Athlete 30', subject: 'Athlete', minutes: [33, 38], rests: PLYO_RESTS, levers: [null, 'weight', 'reps'],
+    split: 'Jump, lift, balance A / B, 30 days', blurb: 'A month of athletic training: jumps, then strength, then balance, every day.',
+    about: 'A month to move like an athlete. Every day starts with jumps while you are fresh, then strength, then balance. One day leans on the legs, the other on the upper body and single-leg work. Every ten days the level steps up: heavier weights at Level II, more reps at Level III.',
+    names: ['Athlete One', 'Athlete Week', 'Athlete Ten', 'Athlete Twenty', 'Athlete Thirty', 'Athlete Month', 'Sport Month', 'Game Month Athlete', 'Field Month', 'Track Month Athlete', 'Court Month', 'Pitch Month'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Jump, lift, balance A', short: 'A', blocks: [S('Jumps', ['plyoVert', 'broad_jump'], { ...PLYO, values: [2, 3] }), S('Strength', ['squat2', 'hinge2', 'backRow?'], LIFT), C('Balance', ['blStrength', 'blStatic'], { ...BAL, values: [1, 2] })] },
+      b: { label: 'Jump, lift, balance B', short: 'B', blocks: [S('Jumps', ['plyoLat', 'plyoUp'], { ...PLYO, values: [2, 3] }), S('Strength', ['chestPress', 'singleLeg', 'backBar?'], LIFT), C('Balance', ['blDynamic', 'blPower'], { ...BAL, values: [1, 2] })] },
+    },
+  },
+  {
+    id: 'athlete-calves-hips', added: 16, catalogue: 9, name: 'Athletic Legs Plus', subject: 'Athlete', minutes: [33, 38], rests: PLYO_RESTS, levers: [null, 'reps', 'reps'],
+    split: 'Hops & calves / bounds & hips', blurb: 'The athletic lower body: hops and calves, then bounds, hips and inner thighs.',
+    about: 'The parts of the legs that make an athlete fast and robust. One day pairs hops with calf and shin strength; the other bounds with hip and inner-thigh strength. Balance work closes each day. Fewer pulled calves and groins, more spring. Both later levels add reps.',
+    names: ['Spring Heel Athlete', 'Elastic Athlete', 'Bounce Athlete', 'Hop Athlete', 'Bound Athlete', 'Stride Athlete', 'Leap Athlete', 'Launch Athlete', 'Quick Athlete', 'Swift Athlete', 'Agile Athlete', 'Nimble Athlete'],
+    cycle: ['hops', 'bounds'],
+    dayTypes: {
+      hops: { label: 'Hops & calves', short: 'Hops', blocks: [S('Hops', ['pogo_hops', 'single_leg_hops'], { ...PLYO, values: [2, 3] }), S('Calves & shins', ['calf', 'shin', 'calf?'], LIFT), C('Balance', ['blStatic', 'blStrength'], { ...BAL, values: [1, 2] })] },
+      bounds: { label: 'Bounds & hips', short: 'Bounds', blocks: [S('Bounds', ['bounding', 'lateral_bounds'], { ...PLYO, values: [2, 3] }), S('Hips & inner thighs', ['adductor', 'thrust', 'adductorLoad?'], LIFT), C('Balance', ['blDynamic', 'blPower'], { ...BAL, values: [1, 2] })] },
+    },
+  },
+  {
+    id: 'athlete-supersets', added: 16, catalogue: 9, name: 'Athlete Supersets', subject: 'Athlete', minutes: [33, 38], rests: PLYO_RESTS, levers: [null, 'weight', 'reps'],
+    split: 'Jump & lower supersets / throw & upper supersets', blurb: 'Jumps, then strength supersets: lower body one day, upper body the next.',
+    about: 'Jumps first, then strength in supersets so the session stays tight. One day is vertical and broad jumps, then squat and hinge supersets; the other is explosive push-ups, then press and pull supersets. A short balance block finishes each. Level II asks for heavier weights and Level III adds reps.',
+    names: ['Pair Up Athlete', 'Double Up', 'Back to Back', 'One Two', 'Combo Athlete', 'Link Athlete', 'Chain Athlete', 'Tag Athlete', 'Relay Athlete', 'Tandem Athlete', 'Partner Athlete', 'Duo Athlete'],
+    cycle: ['lower', 'upper'],
+    dayTypes: {
+      lower: { label: 'Jump & lower supersets', short: 'Lower', blocks: [S('Jumps', ['plyoVert', 'broad_jump'], { ...PLYO, values: [2, 3] }), SS('Lower supersets', ['squat2', 'hinge2', 'lunge2', 'thrust'], { ...LIFT, values: [2, 3] }), C('Balance', ['blStrength', 'blStatic'], { ...BAL, values: [1, 2] })] },
+      upper: { label: 'Throw & upper supersets', short: 'Upper', blocks: [S('Upper power', ['plyoUp', 'clap_pushup'], { ...PLYO, values: [2, 3] }), SS('Upper supersets', ['chestPress', 'backRow', 'shoulderPress', 'backBar'], { ...LIFT, values: [2, 3] }), C('Balance', ['blDynamic', 'blPower'], { ...BAL, values: [1, 2] })] },
+    },
+  },
+  {
+    id: 'athlete-circuit', added: 16, catalogue: 9, name: 'Athlete Circuits', subject: 'Athlete', minutes: [33, 38], equip: 'bw', rests: PLYO_RESTS, levers: [null, 'reps', 'variation'],
+    split: 'Jump & bodyweight circuit A / B', blurb: 'Athletic training with no equipment: jumps, a bodyweight circuit and balance.',
+    about: 'Athletic training with nothing but the floor. Jumps first, then a bodyweight circuit of single-leg work, push-ups and floor pulls, then balance. The two days change the jumps and the circuit. Good for travel, or for teams with no gym. Level II adds reps and Level III brings harder moves.',
+    names: ['Field Circuit', 'Park Athlete', 'Beach Athlete', 'Track Circuit', 'Grass Athlete', 'Turf Athlete', 'Sand Athlete', 'Court Circuit', 'Gym-free', 'Kit-free', 'Bare Athlete', 'Body Athlete'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Jump & circuit A', short: 'A', blocks: [S('Jumps', ['plyoVert', 'plyoLat'], { ...PLYO, values: [2, 3] }), C('Bodyweight circuit', ['singleLeg', 'chestBw', 'backBw', 'legsBw2?'], { ...LIFT, values: [2, 3] }), C('Balance', ['blStrength', 'blStatic'], { ...BAL, values: [1, 2] })] },
+      b: { label: 'Jump & circuit B', short: 'B', blocks: [S('Jumps', ['broad_jump', 'plyoUp'], { ...PLYO, values: [2, 3] }), C('Bodyweight circuit', ['legsBw2', 'pushBw2', 'backBw', 'adductorBw?'], { ...LIFT, values: [2, 3] }), C('Balance', ['blDynamic', 'blPower'], { ...BAL, values: [1, 2] })] },
+    },
+  },
+  {
+    id: 'athlete-kb', added: 16, catalogue: 9, name: 'Bell Athlete', subject: 'Athlete', minutes: [33, 38], equip: 'kb', rests: PLYO_RESTS, levers: [null, 'reps', 'weight'],
+    split: 'Jump & swing / jump & press', blurb: 'Athletic training with one kettlebell: jumps, then swings or presses, then balance.',
+    about: 'Athletic power with one kettlebell. Each day starts with jumps, then swings and squats one day, presses and rows the next, then balance. The swing and the jump train the same explosive hips. Level II adds reps and Level III asks for a heavier bell.',
+    names: ['Bell Jump', 'Bell Leap', 'Bell Spring', 'Bell Power', 'Bell Speed', 'Bell Agility', 'Bell Sport', 'Bell Game', 'Bell Field', 'Bell Court', 'Bell Track', 'Bell Pitch'],
+    cycle: ['swing', 'press'],
+    dayTypes: {
+      swing: { label: 'Jump & swing', short: 'Swing', blocks: [S('Jumps', ['plyoVert', 'broad_jump'], { ...PLYO, values: [2, 3] }), S('Swing & squat', ['kb_swing', 'goblet_squat', 'kb_one_arm_swing?'], LIFT), C('Balance', ['blStrength', 'blStatic'], { ...BAL, values: [1, 2] })] },
+      press: { label: 'Jump & press', short: 'Press', blocks: [S('Jumps', ['plyoLat', 'plyoUp'], { ...PLYO, values: [2, 3] }), S('Press & row', ['kb_press', 'kb_row', 'kb_push_press?'], LIFT), C('Balance', ['blDynamic', 'blPower'], { ...BAL, values: [1, 2] })] },
+    },
+  },
+  // Balanced week +5 (a block from each family every day: strength, cardio or combat, and a flow or circuit)
+  {
+    id: 'balanced-muscle', added: 16, catalogue: 9, name: 'Balanced Muscle', subject: 'Balanced week', minutes: [30, 35], levers: [null, 'weight', 'reps'],
+    split: 'Upper / lower / arms & shoulders: lift, sweat, stretch', blurb: 'Muscle with balance: a lift for one area, a Tabata, then a stretch, every day.',
+    about: 'Muscle building inside a balanced week. Every day lifts one area, upper, lower or arms and shoulders, then does a short Tabata, then a stretch for what you trained. Every family of training, every day, with the strength leading. Level II asks for heavier weights and Level III adds reps.',
+    names: ['Balanced Build', 'Even Build', 'Fair Build', 'Whole Build', 'Rounded Build', 'Complete Build', 'Total Build', 'Full Build', 'All Build', 'Every Build', 'Steady Build', 'True Build'],
+    cycle: ['upper', 'lower', 'arms'],
+    dayTypes: {
+      upper: { label: 'Upper, sweat & stretch', short: 'Upper', absSlots: [], blocks: [S('Upper', ['chestPress', 'backRow', 'shoulderPress'], LIFT), T('Tabata', ['hiit', 'cardio'], CARDIO_TABATA), F('Stretch', ['fxUpper', 'ygRest', 'ygRest?'], FLOW)] },
+      lower: { label: 'Lower, sweat & stretch', short: 'Lower', absSlots: [], blocks: [S('Lower', ['squat2', 'hinge2', 'calf'], LIFT), T('Tabata', ['hiit', 'legsBw'], CARDIO_TABATA), F('Stretch', ['fxHips', 'fxHam', 'ygRest?'], FLOW)] },
+      arms: { label: 'Arms & shoulders, sweat & stretch', short: 'Arms', absSlots: [], blocks: [SS('Arms & shoulders', ['biceps2', 'triceps2', 'shoulderRaise', 'shoulderHealth'], LIFT), T('Tabata', ['hiit', 'cardio'], CARDIO_TABATA), F('Stretch', ['fxUpper', 'ygRest', 'ygRest?'], FLOW)] },
+    },
+  },
+  {
+    id: 'balanced-fighter', added: 16, catalogue: 9, name: 'Balanced Fighter', subject: 'Balanced week', minutes: [30, 35], levers: [null, 'reps', 'weight'],
+    split: 'Lift, bouts & core / lift, bouts & flow', blurb: 'Strength, a few bouts and core or a flow: a fighter\'s balanced week.',
+    about: 'A balanced week with a fighter\'s accent. Every day lifts, then does a few shadowboxing or kickboxing bouts, then finishes with a core circuit or a mobility flow. Strength, combat and recovery every day. Level II adds reps and Level III asks for heavier weights.',
+    names: ['Balanced Bout', 'Even Bout', 'Fair Fight', 'Whole Fight', 'Rounded Fighter', 'Complete Fighter', 'Total Fighter', 'Full Fighter', 'All-round Fighter', 'Every Round', 'Steady Fighter', 'True Fighter'],
+    cycle: ['core', 'flow'],
+    dayTypes: {
+      core: { label: 'Lift, bouts & core', short: 'Core', blocks: [S('Strength', ['squat2', 'chestPress', 'backRow?'], LIFT), B('Bouts', ['bxBasic', 'bxPower'], BOUTS), C('Core', ['coreRot', 'coreAnti', 'coreHollow?'], { ...CORE, values: [1, 2] })] },
+      flow: { label: 'Lift, bouts & flow', short: 'Flow', absSlots: [], blocks: [S('Strength', ['hinge2', 'shoulderPress', 'backBar'], LIFT), B('Bouts', ['kkKick', 'kkCombo'], BOUTS), F('Mobility flow', ['mbHip', 'fxHips', 'ygRest', 'ygRest?'], FLOW)] },
+    },
+  },
+  {
+    id: 'balanced-bw-plus', added: 16, catalogue: 9, name: 'Balanced Bodyweight', subject: 'Balanced week', minutes: [28, 33], equip: 'bw', levers: [null, 'reps', 'reps'],
+    split: 'Push, HIIT & yoga / legs, jumps & stretch', blurb: 'A balanced week with no equipment: bodyweight strength, HIIT and a flow every day.',
+    about: 'Everything in one session, on the floor. Every day has bodyweight strength, a HIIT block and a flow: push-ups with an EMOM and a yoga flow one day, legs with jumps and a long stretch the next. Strength, cardio and mobility, every day, no gear. Both later levels add reps.',
+    names: ['Balanced Floor', 'Even Floor', 'Fair Floor', 'Whole Floor', 'Rounded Floor', 'Complete Floor', 'Total Floor', 'Full Floor', 'All Floor', 'Every Floor', 'Steady Floor', 'True Floor'],
+    cycle: ['push', 'legs'],
+    dayTypes: {
+      push: { label: 'Push, HIIT & yoga', short: 'Push', absSlots: [], blocks: [SS('Push & pull', ['chestBw', 'backBw', 'shoulderBw', 'backBw'], LIFT), E('HIIT EMOM', ['hiit', 'cardio'], { ...CARDIO, values: [6, 8] }), F('Yoga flow', ['ygStand', 'ygHips', 'ygRest', 'ygRest?'], FLOW)] },
+      legs: { label: 'Legs, jumps & stretch', short: 'Legs', absSlots: [], blocks: [SS('Legs', ['legsBw2', 'thrustBw', 'adductorBw', 'calfBw'], LIFT), C('Jumps', ['plyoLow', 'plyoLat'], { ...CARDIO, values: [2, 3] }), F('Stretch', ['fxHam', 'fxHips', 'ygRest?'], FLOW)] },
+    },
+  },
+  {
+    id: 'balanced-month-plus', added: 16, catalogue: 9, days: 30, name: 'Balanced Month Plus', subject: 'Balanced week', minutes: [30, 35], levers: [null, 'reps', 'weight'],
+    split: 'Lift, AMRAP & core / lift, Tabata & flow, 30 days', blurb: 'A balanced month: strength, a cardio burst and core or a flow, every day.',
+    about: 'A month that covers all of fitness every day. One day lifts, does a short AMRAP and finishes with a core circuit; the next lifts, does a Tabata and finishes with a flow. Every ten days the level steps up: more reps at Level II, heavier weights at Level III.',
+    names: ['Balanced One', 'Balanced Week One', 'Balanced Ten', 'Balanced Twenty', 'Balanced Thirty', 'Balanced Month Two', 'Even Month', 'Fair Month', 'Whole Month', 'Rounded Month', 'Complete Month', 'Total Month'],
+    cycle: ['amrap', 'tabata'],
+    dayTypes: {
+      amrap: { label: 'Lift, AMRAP & core', short: 'AMRAP', blocks: [S('Strength', ['squat2', 'chestPress', 'backRow'], LIFT), A('AMRAP', ['hiit', 'kbBallistic'], { ...CARDIO, values: [5, 6, 7] }), C('Core', ['coreAnti', 'coreRot'], CORE)] },
+      tabata: { label: 'Lift, Tabata & flow', short: 'Tabata', absSlots: [], blocks: [S('Strength', ['hinge2', 'shoulderPress', 'backBar'], LIFT), T('Tabata', ['hiit', 'cardio'], CARDIO_TABATA), F('Flow', ['ygStand', 'ygHips', 'ygRest', 'ygRest?'], FLOW)] },
+    },
+  },
+  {
+    id: 'balanced-kb-plus', added: 16, catalogue: 9, name: 'Balanced Bell', subject: 'Balanced week', minutes: [28, 33], equip: 'kb', levers: [null, 'weight', 'reps'],
+    split: 'Bell lift, bell EMOM & flow / bell lift, bouts & core', blurb: 'A balanced week with one kettlebell: bell strength, conditioning or bouts, then a flow or core.',
+    about: 'A balanced week with one kettlebell. One day lifts the bell, then does a bell EMOM, then a mobility flow; the other lifts, then does a few shadowboxing bouts, then a core circuit. Strength, cardio or combat, and recovery, every day. Level II asks for a heavier bell and Level III adds reps.',
+    names: ['Balanced Bell One', 'Even Bell', 'Fair Bell', 'Whole Bell', 'Rounded Bell', 'Complete Bell', 'Total Bell', 'Full Bell', 'All Bell', 'Every Bell', 'Steady Bell', 'True Bell'],
+    cycle: ['emom', 'bouts'],
+    dayTypes: {
+      emom: { label: 'Bell lift, EMOM & flow', short: 'EMOM', absSlots: [], blocks: [S('Bell strength', ['goblet_squat', 'kb_press', 'kb_row'], LIFT), E('Bell EMOM', ['kb_swing', 'kb_clean'], { ...CARDIO, values: [6, 8] }), F('Flow', ['mbHip', 'fxHips', 'ygRest', 'ygRest?'], FLOW)] },
+      bouts: { label: 'Bell lift, bouts & core', short: 'Bouts', blocks: [S('Bell strength', ['kb_deadlift', 'kb_floor_press', 'kb_dead_stop_row?'], LIFT), B('Bouts', ['bxBasic', 'bxPower?'], BOUTS), C('Core', ['kbCore2', 'coreRot'], { ...CORE, values: [1, 2] })] },
+    },
+  },
+  // Calm strength +4 (a Pilates or core block, slow strength, a long yin finish)
+  {
+    id: 'calm-muscle', added: 16, catalogue: 9, name: 'Calm Muscle', subject: 'Calm strength', minutes: [30, 35], levers: [null, 'tempo', 'weight'],
+    split: 'Upper slow / lower slow: Pilates, slow strength, yin', blurb: 'Muscle built slowly: a Pilates series, slow-tempo strength, then a long yin hold.',
+    about: 'Muscle building at a calm pace. Each day starts with a Pilates series, then lifts slowly, three or four seconds down, for the upper or lower body, then ends with long yin holds. Slow reps build muscle and control without rushing. Level II slows every rep down and Level III asks for heavier weights.',
+    names: ['Slow Build', 'Calm Build', 'Quiet Build', 'Still Build', 'Easy Build', 'Gentle Build', 'Soft Build', 'Steady Build Calm', 'Patient Build', 'Mindful Build', 'Deep Build', 'Long Build'],
+    cycle: ['upper', 'lower'],
+    dayTypes: {
+      upper: { label: 'Upper slow', short: 'Upper', absSlots: [], blocks: [F('Pilates series', ['hundred', 'plAbs', 'plBack'], PILATES), S('Slow upper', ['chestPress', 'backRow', 'shoulderPress', 'biceps2?'], LIFT), F('Yin', ['ygYinSpine', 'ygYinSpine?'], YIN)] },
+      lower: { label: 'Lower slow', short: 'Lower', absSlots: [], blocks: [F('Pilates series', ['hundred', 'plGlute', 'plSide'], PILATES), S('Slow lower', ['squat2', 'hinge2', 'thrust', 'calf?'], LIFT), F('Yin', ['ygYinHips', 'ygYinHips?'], YIN)] },
+    },
+  },
+  {
+    id: 'calm-30-plus', added: 16, catalogue: 9, days: 30, name: 'Calm 30', subject: 'Calm strength', minutes: [26, 31], levers: [null, 'tempo', 'reps'],
+    split: 'Core, slow strength & yin A / B, 30 days', blurb: 'A calm month: core, slow strength and yin, every day.',
+    about: 'A calm month of strength. Every day starts with a core circuit, lifts slowly, then finishes with long yin holds. The two days change the lifts and the yin. Every ten days the level steps up: slower reps at Level II, more reps at Level III.',
+    names: ['Calm One', 'Calm Week', 'Calm Ten', 'Calm Twenty', 'Calm Thirty', 'Calm Month Two', 'Quiet Month', 'Still Month Calm', 'Slow Month', 'Easy Month Calm', 'Gentle Month Calm', 'Soft Month Calm'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Core, slow strength & yin A', short: 'A', absSlots: [], blocks: [C('Core', ['coreAnti', 'coreHollow'], CORE), SS('Slow supersets', ['squat2', 'backRow', 'chestPress', 'hinge2'], LIFT), F('Yin', ['ygYinHips', 'ygYinHips?'], YIN)] },
+      b: { label: 'Core, slow strength & yin B', short: 'B', absSlots: [], blocks: [C('Core', ['coreRot', 'pelvic'], CORE), SS('Slow supersets', ['lunge2', 'backBar', 'shoulderPress', 'thrust'], LIFT), F('Yin', ['ygYinSpine', 'ygYinSpine?'], YIN)] },
+    },
+  },
+  {
+    id: 'calm-neck-back', added: 16, catalogue: 9, name: 'Calm Back', subject: 'Calm strength', minutes: [26, 31], equip: 'bw', levers: [null, 'tempo', 'reps'],
+    split: 'Back & neck / hips & glutes: core, slow strength, yin', blurb: 'For a calmer back: core, slow upper-back or glute strength, then yin.',
+    about: 'Calm strength for the back. One day pairs back-care core with slow upper-back and gentle neck work, then a yin finish for the spine; the other pairs Pilates glute work with slow bridges and hip work, then a yin finish for the hips. Everything is slow and controlled. Level II slows every rep down and Level III adds reps.',
+    names: ['Calm Spine', 'Quiet Back', 'Still Back', 'Slow Back', 'Easy Back', 'Gentle Back', 'Soft Back', 'Steady Back', 'Kind Back Calm', 'Patient Back', 'Mindful Back', 'Deep Back'],
+    cycle: ['back', 'hips'],
+    dayTypes: {
+      back: { label: 'Back & neck', short: 'Back', absSlots: [], blocks: [C('Back care', ['backStrength', 'bird_dog'], CORE), S('Slow upper back', ['prone_y_raise', 'reverse_snow_angel', 'prone_neck_lift'], LIFT), F('Yin', ['ygYinSpine', 'ygYinSpine?'], YIN)] },
+      hips: { label: 'Hips & glutes', short: 'Hips', absSlots: [], blocks: [F('Pilates glutes', ['plGlute', 'shoulder_bridge'], PILATES), S('Slow glutes', ['single_leg_bridge', 'frog_pump', 'clamshell'], LIFT), F('Yin', ['ygYinHips', 'ygYinHips?'], YIN)] },
+    },
+  },
+  {
+    id: 'calm-bell-plus', added: 16, catalogue: 9, name: 'Calm Bell', subject: 'Calm strength', minutes: [28, 33], equip: 'kb', levers: [null, 'tempo', 'weight'],
+    split: 'Pilates, slow bell & yin A / B', blurb: 'One kettlebell lifted slowly, between a Pilates series and a long yin finish.',
+    about: 'Kettlebell strength, slowly. Each day starts with a Pilates series, lifts the bell with slow tempo, goblet squats, presses, rows and deadlifts, then ends with long yin holds. The bell feels heavier when you slow down. Level II slows every rep down and Level III asks for a heavier bell.',
+    names: ['Slow Bell', 'Calm Bell One', 'Quiet Bell', 'Still Bell', 'Easy Bell', 'Gentle Bell', 'Soft Bell', 'Steady Bell Calm', 'Patient Bell', 'Mindful Bell', 'Deep Bell', 'Long Bell'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Pilates, slow bell & yin A', short: 'A', absSlots: [], blocks: [F('Pilates series', ['hundred', 'plAbs', 'plRoll'], PILATES), S('Slow bell', ['goblet_squat', 'kb_press', 'kb_row'], LIFT), F('Yin', ['ygYinHips', 'ygYinHips?'], YIN)] },
+      b: { label: 'Pilates, slow bell & yin B', short: 'B', absSlots: [], blocks: [F('Pilates series', ['hundred', 'plBack', 'plSide'], PILATES), S('Slow bell', ['kb_deadlift', 'kb_floor_press', 'kb_dead_stop_row'], LIFT), F('Yin', ['ygYinSpine', 'ygYinSpine?'], YIN)] },
+    },
+  },
 ];
 
 module.exports = CONFIGS;
