@@ -127,7 +127,7 @@ const dayOf = (pid, n, round) => (pid === 'random' ? random.dayOf(n) : days.reso
 const doneEntries = () => [...programs.ids().flatMap((pid) => store.entries(pid)), ...random.entries()]; // every round, and random workouts
 // the stats for a scope ('all' or a program id) and a span, now (app/stats.js report)
 // what a done day belongs to, for the Time tab: its family, subject and rests (a mixed day's blocks carry their own family)
-const familyOfName = (subject) => (FAMILIES.find(([, list]) => list.includes(subject)) || ['Other'])[0];
+const familyOfName = (subject) => (KBLibrary.FAMILIES.find(([, list]) => list.includes(subject)) || ['Other'])[0];
 function infoOf(e) {
   if (e.pid === 'random') {
     const c = (store.doc('random', e.day) || {}).choices || {};
@@ -154,7 +154,7 @@ function nextPreview(p, w) {
 // When every day of the round is done: Start Round N+1 and up to three programs of the family that train differently
 function whatNext(p) {
   if (store.count(p.id) < p.days.length) return '';
-  const ids = suggestNext(p.id, programs.list(), (id) => store.entries(id).length, { families: FAMILIES });
+  const ids = suggestNext(p.id, programs.list(), (id) => store.entries(id).length, { families: KBLibrary.FAMILIES });
   const card = (q) => `<button class="wncard" data-open-prog="${q.id}"><span class="eyebrow">${esc(q.subject)}</span><b>${esc(q.name)}</b><span>${(q.formats || ['straight']).map((f) => fmtFormat[f]).join(' · ')}</span></button>`;
   return `<section class="whatnext" aria-labelledby="wn-h"><h2 id="wn-h">What next?</h2>
     <button class="btn" data-round-start="1">Start Round ${store.round(p.id) + 1}</button>

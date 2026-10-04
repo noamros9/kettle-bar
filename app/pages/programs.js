@@ -1,5 +1,5 @@
 /* ---------------- programs page ---------------- */
-const { libraryView, suggestNext, FAMILIES, LENGTHS, lengthOf } = KBLibrary;
+const { libraryView, suggestNext, SHELVES, LENGTHS, lengthOf } = KBLibrary;
 let filters = { family: 'all', subject: 'all', len: 'all', equip: 'all' };
 let progQuery = ''; // the name search (Phase 15): words in the name, subject, split or first sentence
 let pickState = null; // Help me pick (Phase 15): { goal, minutes, gear } while the sheet is open
@@ -30,8 +30,8 @@ function viewPrograms() {
   const found = KBLibrary.searchPrograms(programs.list(), progQuery), searching = !!progQuery.trim();
   const all = found.filter((p) => p.source !== 'own'); // your own programs have their own shelf
   const mine = found.filter((p) => p.source === 'own');
-  const lib = libraryView(all, filters, { families: FAMILIES, lengthOf, prefs: libraryPrefs(), opened: searching ? FAMILIES.flatMap(([, list]) => list) : openShelves, keep: all.filter((p) => p.id === last || store.count(p.id) > 0).map((p) => p.id) });
-  lib.unknown.forEach((s) => console.error(`Subject "${s}" has no family in FAMILIES`));
+  const lib = libraryView(all, filters, { families: SHELVES, lengthOf, prefs: libraryPrefs(), opened: searching ? SHELVES.flatMap(([, list]) => list) : openShelves, keep: all.filter((p) => p.id === last || store.count(p.id) > 0).map((p) => p.id) });
+  lib.unknown.forEach((s) => console.error(`Subject "${s}" has no shelf group in SHELVES`));
   const card = (p) => {
     const n = store.count(p.id), mins = p.minutes[0] === p.minutes[1] ? p.minutes[0] : `${Math.round(p.minutes[0])}–${Math.round(p.minutes[1])}`;
     return `<button class="pcard${p.id === last ? ' current' : ''}" data-open-prog="${p.id}">
