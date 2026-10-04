@@ -66,4 +66,6 @@ const ORDER = [
 
 const byId = new Map(FAMILY_FILES.flat().map((c) => [c.id, c]));
 if (byId.size !== ORDER.length || ORDER.some((id) => !byId.has(id))) throw new Error('programs.config.js: ORDER and configs/ disagree');
-module.exports = ORDER.map((id) => byId.get(id));
+// Variety programs (Phase 16) are dealt into an ordinary cycle here, so every reader of the library sees one kind of config
+const { expand } = require('./variety.js');
+module.exports = ORDER.map((id) => expand(byId.get(id)));

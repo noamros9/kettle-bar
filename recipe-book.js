@@ -121,7 +121,7 @@ function generate({ configs = require('./programs.config.js'), families = FAMILI
   const subjects = [], restTables = [], specs = [], types = [], skipped = [], seen = new Set(), trial = new Map();
   const parts = [], partSeen = new Set(), partTrial = new Map();
   configs.forEach((cfg) => {
-    if (cfg.frozen) { skipped.push(cfg.id); return; }
+    if (cfg.frozen || cfg.variety) { skipped.push(cfg.id); return; } // frozen; Variety (Phase 16): 60 one-off day types, not a subject to pick
     const family = familyOf.get(cfg.subject);
     if (!family) throw new Error(`${cfg.id}: subject ${cfg.subject} is in no family`);
     const subject = intern(subjects, json, [cfg.subject, family, Recipes.LEVERS.filter((l) => levers[cfg.subject].has(l))]);
