@@ -98,6 +98,17 @@ test('the subject you pick changes what is offered: its formats, its levers, its
   await expect(app.heading()).toHaveText('Evening flow');
 });
 
+// Since Phase 16 every subject fits next to Strength + Yoga, so the greying out is shown with Strength + Pull-ups (long days)
+test('a subject that cannot join a mix greys out with a reason; a mixed subject never does (it starts over)', async ({ app }) => {
+  await app.open('#build');
+  await app.page.getByRole('group', { name: 'Days in a cycle' }).waitFor();
+  await subject(app, 'Pull-ups').click();
+  await expect(subject(app, 'Pull-ups').locator('.ord')).toHaveText('2');
+  await expect(subject(app, 'Legs & glutes')).toBeDisabled();
+  await expect(app.page.locator('.hint', { hasText: 'no mix with it fits' })).toBeVisible();
+  await expect(subject(app, 'Fighter')).toBeEnabled();
+});
+
 test('mix: strength then yoga, numbered as tapped, a lever pair each, mixed days in the preview; saved and its days mixed', async ({ app }) => {
   await app.open('#build');
   await app.page.getByRole('group', { name: 'Days in a cycle' }).waitFor();
@@ -111,10 +122,6 @@ test('mix: strength then yoga, numbered as tapped, a lever pair each, mixed days
   expect(await app.page.locator('#b-lever2-2 option').allTextContents()).toEqual(['Longer holds', 'Harder variations']);
   await app.page.locator('#b-lever3-2').selectOption('variation');
   await expect(app.page.locator('#b-lever3-2')).toHaveValue('variation');
-  // a subject that cannot join greys out with a reason; mixed subjects never do (they start over)
-  await expect(subject(app, 'Legs & glutes')).toBeDisabled();
-  await expect(app.page.locator('.hint', { hasText: 'no mix with it fits' })).toBeVisible();
-  await expect(subject(app, 'Fighter')).toBeEnabled();
   // the preview: mixed days, the summary names the mix
   await expect(app.page.locator('.pvline')).toContainText('Strength + Yoga, 3 days a cycle');
   await expect(app.page.locator('.grid.pv .tile')).toHaveCount(6);

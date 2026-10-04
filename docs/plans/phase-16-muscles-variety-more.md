@@ -38,7 +38,7 @@ lengths only.
 | 5 | Muscle focus: Hips & adductors, Calves & lower legs, Neck & traps (+24) | content | 1, 2 | `content/muscles-other` | done (PR #173) |
 | 6 | Variety (+15) | content | 1, 3 | `content/variety` | done (PR #174) |
 | 7 | After-dark (+30) | content | 1, 2 | `content/after-dark` | done (PR #175) |
-| 8 | Strength +49 | content | 1, 2 | `content/strength-plus-2` | – |
+| 8 | Strength +49 | content | 1, 2 | `content/strength-plus-2` | done (PR #176) |
 | 9 | Cardio & combat +28 | content | 1 | `content/cardio-plus-2` | – |
 | 10 | Mind & body +32 | content | 1 | `content/mind-plus-2` | – |
 | 11 | Mixed +24 | content | 1 | `content/mixed-plus-2` | – |
@@ -150,6 +150,14 @@ The page is 123.8 KB gzipped against the 125 KB first-download gate (ticket 7b),
   angles. New pools `thrust thrustBw pelvic posHold posLegs`. In the finder: Beach body under "Get stronger", Bedroom
   stamina under "Fitness & cardio", Sex positions under "Flexibility & mobility". **The recipe book's gate moved** from
   300 / 40 KB to 500 / 70 KB (now 306 KB raw; it loads only when Build your own opens, then stays offline).
+- **Ticket 8 as built (4 Oct): Strength family +49, 364 → 413.** Strength +7 (Upper Lower Four, Big Five, PPL Plus,
+  Strength & Size, Dumbbell Strength, Antagonist Supersets, Strength 30 Plus), Pull-ups +6, Legs & glutes +6, Kettlebell
+  only +6, Bodyweight +7, Busy week +6 (including Fifteen EMOM), Grip & forearms +4, Kettlebell complexes +4, Climber +3,
+  each within its subject's formats and with a split no sibling has, at catalogue 9 so the muscle-focus pools reach the
+  older subjects. Busy-week programs use the short abs finisher (`absSlots`) like the existing ones. **Tests:** the
+  random-skip unit test now picks the first exercise with a stand-in (as the phone test did in ticket 6), and the build
+  spec's "greyed out" check moved to its own test with Strength + Pull-ups, since every subject now fits next to
+  Strength + Yoga.
 
 ## Challenge round
 - **Weakest assumption: one look-alike muscle program per subject.** Eight programs on one muscle group risk

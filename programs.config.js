@@ -82,6 +82,14 @@ const ORDER = [
   'hold-me-up', 'marathon-session', 'on-top', 'last-longer-30', 'pelvic-power-30',
   'the-pretzel', 'legs-over-shoulders', 'doggy-style-ready', 'reverse-cowgirl', 'wheelbarrow',
   'standing-o', 'splits-in-bed', 'bendy-body', 'kama-sutra-30', 'flexible-lover-30',
+  // Phase 16 ticket 8: Strength family +50%
+  'upper-lower-four', 'big-five', 'push-pull-legs-plus', 'strength-and-size', 'dumbbell-only-strength', 'antagonist-supersets', 'strength-30-plus',
+  'pullup-plus', 'pullup-emom-ladder', 'chinup-biceps', 'pullup-30', 'bar-and-bell', 'wide-grip-week', 'glute-and-hamstring',
+  'legs-all-over', 'kettlebell-legs', 'single-leg-30', 'squat-everyday', 'glute-30', 'bell-muscle', 'bell-emom-plus',
+  'bell-hips-core', 'kettlebell-30-plus', 'bell-arms', 'bell-full-emom', 'bodyweight-muscle', 'bodyweight-circuit-plus', 'pushup-pullup-bw',
+  'bodyweight-30', 'calisthenics-skills', 'travel-strength', 'pushup-and-squat', 'twenty-muscle', 'fifteen-emom', 'twenty-arms-abs',
+  'twenty-tabata-plus', 'busy-30', 'no-gear-twenty', 'grip-emom', 'grip-and-pull', 'forearm-circuit', 'grip-30',
+  'complex-straight', 'complex-ladder-emom', 'complex-30', 'complex-hips', 'climber-30', 'climber-emom', 'climber-antagonist',
 ];
 
 const byId = new Map(FAMILY_FILES.flat().map((c) => [c.id, c]));

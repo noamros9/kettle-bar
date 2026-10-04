@@ -239,19 +239,20 @@ test('skip: a random workout swaps what I skip when it opens; the record keeps t
   let skip = [];
   const random = Random.createRandom({ store, cat, createSession, storage: device, now: () => clock.t, skip: () => skip });
   started(random);
-  const made = random.open().day, b = straight(random.open()), ex = made.blocks[b].items[0].ex;
+  // the straight block's first exercise that has a stand-in (some have none, e.g. Pilates heel raises, since Phase 16)
+  const made = random.open().day, b = straight(random.open()), k = made.blocks[b].items.findIndex((x, i) => random.open().alternatives(b, i).length), ex = made.blocks[b].items[k].ex;
   skip = [ex];
-  const D = random.open(), it = D.day.blocks[b].items[0];
+  const D = random.open(), it = D.day.blocks[b].items[k];
   assert.notEqual(it.ex, ex);
   assert.deepEqual([it.skipped, it.swappedFrom], [true, ex]);
-  D.alternatives(b, 0).forEach((a) => assert.notEqual(a, ex));
+  D.alternatives(b, k).forEach((a) => assert.notEqual(a, ex));
   // a swap of the stand-in is the swap of the exercise it stands for
-  const to = D.alternatives(b, 0).find((a) => a !== it.ex);
-  D.swap(b, 0, to);
-  assert.deepEqual(random.open().swapBehind(b, 0), { day: 1, ex, to });
-  assert.equal(random.open().day.blocks[b].items[0].ex, to);
+  const to = D.alternatives(b, k).find((a) => a !== it.ex);
+  D.swap(b, k, to);
+  assert.deepEqual(random.open().swapBehind(b, k), { day: 1, ex, to });
+  assert.equal(random.open().day.blocks[b].items[k].ex, to);
   random.done();
-  assert.equal(random.dayOf('r1').blocks[b].items[0].ex, to, 'stats: the day as made, with your swaps');
+  assert.equal(random.dayOf('r1').blocks[b].items[k].ex, to, 'stats: the day as made, with your swaps');
 });
 
 test('a workout whose warm-up has no format of its own (plain strength) keeps the stored one', () => {

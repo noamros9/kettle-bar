@@ -20,9 +20,9 @@ const SUBJECTS = {
   'Balance & stability': { count: 8, abs: true, formats: ['circuit', 'straight', 'emom'] },
   HIIT: { count: 9, abs: true, formats: ['circuit', 'amrap', 'emom', 'tabata', 'ladder'] },
   Plyometrics: { count: 8, abs: true, formats: ['straight', 'circuit', 'emom'] },
-  'Grip & forearms': { count: 5, abs: true, formats: ['straight', 'circuit', 'superset', 'emom'] },
-  'Kettlebell complexes': { count: 5, abs: true, formats: ['circuit', 'emom', 'ladder', 'amrap', 'straight'] },
-  'Climber / pull strength': { count: 5, abs: true, formats: ['straight', 'ladder', 'circuit', 'emom', 'superset'] },
+  'Grip & forearms': { count: 9, abs: true, formats: ['straight', 'circuit', 'superset', 'emom'] },
+  'Kettlebell complexes': { count: 9, abs: true, formats: ['circuit', 'emom', 'ladder', 'amrap', 'straight'] },
+  'Climber / pull strength': { count: 8, abs: true, formats: ['straight', 'ladder', 'circuit', 'emom', 'superset'] },
   'Gentle / low impact': { count: 7, abs: false, formats: ['circuit', 'flow', 'straight', 'emom'] },
   'Back care': { count: 6, abs: false, formats: ['straight', 'flow', 'circuit'] },
   // Phase 16: muscle focus
@@ -35,14 +35,14 @@ const SUBJECTS = {
   'Neck & traps': { count: 8, abs: true, formats: ['straight', 'superset', 'circuit', 'emom', 'ladder'] },
   'Running prep': { count: 6, abs: true, formats: ['circuit', 'straight', 'emom', 'amrap'] },
   'Court & field sports': { count: 6, abs: true, formats: ['circuit', 'emom', 'straight', 'tabata', 'amrap'] },
-  Strength: { count: 12, abs: true, formats: ['straight', 'superset'] },
-  'Pull-ups': { count: 10, abs: true, formats: ['straight', 'superset', 'emom', 'ladder'] },
-  'Legs & glutes': { count: 11, abs: true, formats: ['straight'] },
-  'Kettlebell only': { count: 11, abs: true, formats: ['straight', 'circuit', 'emom'] },
+  Strength: { count: 19, abs: true, formats: ['straight', 'superset'] },
+  'Pull-ups': { count: 16, abs: true, formats: ['straight', 'superset', 'emom', 'ladder'] },
+  'Legs & glutes': { count: 17, abs: true, formats: ['straight'] },
+  'Kettlebell only': { count: 17, abs: true, formats: ['straight', 'circuit', 'emom'] },
   'Core & abs': { count: 10, abs: true, formats: ['circuit', 'straight', 'emom'] },
   Conditioning: { count: 9, abs: true, formats: ['circuit', 'amrap', 'ladder', 'emom', 'tabata'] },
-  Bodyweight: { count: 12, abs: true, formats: ['superset', 'straight', 'circuit', 'amrap'] },
-  'Busy week': { count: 11, abs: true, formats: ['circuit', 'superset', 'amrap', 'emom', 'straight', 'tabata'] },
+  Bodyweight: { count: 19, abs: true, formats: ['superset', 'straight', 'circuit', 'amrap'] },
+  'Busy week': { count: 17, abs: true, formats: ['circuit', 'superset', 'amrap', 'emom', 'straight', 'tabata'] },
   // Mixed (Phase 6): abs depends on the day type, so it has its own test below
   'Strength & stretch': { count: 9, abs: undefined, formats: ['straight', 'superset', 'flow'] },
   Fighter: { count: 9, abs: undefined, formats: ['bouts', 'straight', 'superset', 'circuit', 'emom', 'amrap', 'tabata', 'flow'] },
@@ -139,8 +139,8 @@ test('the core programs opt in to the new catalogue (catalogue: 5): their abs fi
   assert.ok(optIn.some((p) => p.days.some((d) => d.blocks.at(-1).items.some((it) => fresh.has(it.ex)))));
 });
 
-test('the library: 364 programs in 41 subjects', () => {
-  assert.equal(programs.length, 364);
+test('the library: 413 programs in 41 subjects', () => {
+  assert.equal(programs.length, 413);
   assert.equal(new Set(programs.map((p) => p.subject)).size, 41);
 });
 
