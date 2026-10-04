@@ -121,6 +121,10 @@ const IDS = [
     'all-about-her', 'going-down', 'fingers-and-forearms', 'ladies-first', 'her-pleasure-30',
     'quickie', 'wham-bam', 'nooner', 'hot-and-fast', 'quickie-30',
     'no-bad-backs', 'kneel-easy', 'strong-wrists', 'the-morning-after', 'back-and-knees-30',
+    // Phase 18 ticket 6: Date night warm-up, Positions tour, Morning glory / Sunday (couple)
+    'pre-game', 'before-we-go-out', 'appetizer', 'warm-me-up', 'date-night-warm-up-30',
+    'floor-tour-30', 'standing-tour-30', 'bendy-tour-30', 'strong-tour-30', 'grand-tour-30',
+    'morning-glory', 'lazy-sunday', 'breakfast-in-bed', 'sleep-in', 'morning-glory-30',
 ];
 
 test('the config ids, in order, are today\'s list', () => {

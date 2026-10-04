@@ -340,9 +340,10 @@ became visually messy"):
 ## The 4 Oct 2026 roadmap
 Four issues Noam opened on 4 Oct 2026, grilled the same day. Order first set as architecture review V, then super
 programs, then After dark; **that evening Noam moved After dark first** ("let's do it now, then the rest on Tuesday or
-Wednesday"). The code review's place in the order isn't set yet. Each gets its own plan, by our method, when it starts.
+Wednesday"). Added the same evening: longer programs (#198), calisthenics (#199) and "do now" (#200); their place in
+the order isn't set yet. The code review's place in the order isn't set yet. Each gets its own plan, by our method, when it starts.
 
-### Phase 18: After dark, more explicit, with couple sessions ([#185](https://github.com/noamros9/kettle-bar/issues/185))
+### Phase 18: After dark, more explicit, with couple sessions ([#185](https://github.com/noamros9/kettle-bar/issues/185)) (done, Oct 2026)
 Plan: [docs/plans/phase-18-after-dark-couples.md](docs/plans/phase-18-after-dark-couples.md).
 44. **Triple it** (4 Oct), then sized exactly: **+75 programs: 20 couple programs and 5 in each of 11 other new
     subjects** (After dark: 30 → 105).
@@ -373,6 +374,27 @@ One plan that runs days from several programs in a set order (some days from her
 
 ### Code review ([#188](https://github.com/noamros9/kettle-bar/issues/188))
 Correctness, dead code, duplication, tests that no longer earn their keep. Place in the order not set yet.
+
+### Longer programs ([#198](https://github.com/noamros9/kettle-bar/issues/198))
+Noam, 4 Oct 2026: only about 1/6 of the programs run 33 min or more (of 557: 13% at 35+, 13% at 31–35, 74% under 31).
+53. **The spread he wants:** half of all programs at **35–38 min (his baseline)**, a quarter at **31–35**, a quarter
+    shorter.
+54. **Minutes are the workout only**, as the cards show; the ~3 min warm-up and cool-down come on top.
+55. **Re-time programs: rebuild them longer**, a one-time exception to the never-re-pin rule for those that change,
+    **but they shouldn't change much: just add compatible exercises** (keep the blocks and picks, add sets, rounds or
+    slots of the same kind).
+56. **The shorter quarter has no target:** whatever stays under 31.
+- Still open, for the plan: programs already started (leave them, or add only to the days ahead); which programs move
+  up (by subject, so every shelf has long ones, or by family); how the builder adds without reshuffling.
+
+### Calisthenics ([#199](https://github.com/noamros9/kettle-bar/issues/199))
+Noam, 4 Oct 2026: calisthenics programs. Still open: a subject of its own (skills such as the muscle-up, handstand,
+front lever and pistol), more programs alongside Calisthenics Base and Skills, or both.
+
+### "Do now" ([#200](https://github.com/noamros9/kettle-bar/issues/200))
+Noam, 4 Oct 2026: a button for dead time that hands you one exercise to do right now: anywhere, anytime, no
+equipment, 20–30 seconds. Still open: where the button lives, how it picks, whether it times itself and counts in
+Stats, and whether it stays quiet and office-friendly.
 
 ## Decided against (don't re-suggest)
 - **Logging weights/reps per set**: Noam wants done / not done only.

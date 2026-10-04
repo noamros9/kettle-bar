@@ -42,8 +42,8 @@ as Variety), so they are in `skipped` in the recipe book.
 | 2 | Catalogue 10: partner moves, teasing and positions | feature | 1 | `feature/catalogue-10` | done (PR #194) |
 | 3 | Couples (+20) | content | 2 | `content/couples` | done (PR #195) |
 | 4 | Endurance & control, Hip power & thrust, Carry & hold, Flexible & bendy (+20) | content | 2 | `content/after-dark-a` | done (PR #196) |
-| 5 | Strip & show-off, Her pleasure, Quickie, Back & knees care (+20) | content | 2 | `content/after-dark-b` | – |
-| 6 | Date night warm-up, Positions tour, Morning glory / Sunday (+15) | content | 2 | `content/after-dark-c` | – |
+| 5 | Strip & show-off, Her pleasure, Quickie, Back & knees care (+20) | content | 2 | `content/after-dark-b` | done (PR #197) |
+| 6 | Date night warm-up, Positions tour, Morning glory / Sunday (+15) | content | 2 | `content/after-dark-c` | done (PR #201) |
 
 ### 1. Two-figure drawings
 - `figures.js`: a pose may carry `two: { ...pose, at: [x, y], flip }`, a second figure placed relative to the first
@@ -101,12 +101,13 @@ Each subject gets 5 programs (one or two of them 30-day), names explicit where t
 - **Flexible & bendy:** splits, hip openers, hamstrings, back bends, held long.
 - **Strip & show-off:** a pump for chest, shoulders, arms and abs before a date, short and sweaty.
 - **Her pleasure:** neck, jaw, tongue, forearm and wrist endurance, kneeling comfort, hip flexors.
-- **Quickie:** 15 to 20 minute intense sessions.
+- **Quickie:** 15 to 20 minute intense sessions (as built: 16 to 20, the core work inside the session, no abs finisher).
 - **Back & knees care:** the lower back, knees and wrists that positions load, with the strength to protect them.
 - **Date night warm-up** (couple): a short partner stretch and tease, 15 to 20 minutes.
 - **Positions tour** (couple, one-off days): a 30-day program whose 30 day types are each named after a position,
   generated from one list in the config; each trains for its position, then ends with it. Five tours: floor,
-  standing, flexible, strength and a mixed one.
+  standing, flexible, strength and a mixed one. As built: `tour()` pairs each position with each way to prepare for it
+  (positions × ways = 30), dealt way by way so no position comes two days running.
 - **Morning glory / Sunday** (couple): slow and long (40 to 60 minutes), stretch, partner work, positions.
 - **Test first** (each ticket): subjects and ids pinned in the tests, Mixed rules, couple subjects skipped from the
   recipe book. **Done when:** as ticket 3.
