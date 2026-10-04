@@ -109,6 +109,11 @@ const ORDER = [
   'sweat-together', 'foreplay-fitness', 'strip-circuit', 'kiss-me-reps', 'lift-me-up', 'date-night-burn', 'partners-in-grime',
   'take-it-off', 'slow-burn-couples', 'sweaty-sheets', 'dare-night', 'massage-and-mount', 'couples-kama-sutra-30',
   'thirty-days-of-foreplay', 'ride-along', 'couples-quickie', 'fuck-fit', 'pin-me-down', 'wheelbarrow-race', 'fit-to-fuck-30',
+  // Phase 18 ticket 4: Endurance & control, Hip power & thrust, Carry & hold, Flexible & bendy
+  'last-all-night', 'edge-control', 'stamina-intervals', 'slow-and-steady', 'control-30',
+  'thrust-master', 'pound-it', 'hip-drive-ladders', 'piston', 'thrust-30',
+  'hold-her-up', 'against-the-wall', 'carry-me-home', 'grip-it-tight', 'stand-and-deliver-30',
+  'bend-me-over', 'open-wide', 'arch-your-back', 'do-the-splits', 'bendy-30',
 ];
 
 const byId = new Map(FAMILY_FILES.flat().map((c) => [c.id, c]));
