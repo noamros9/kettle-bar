@@ -30,7 +30,7 @@ lengths only.
 
 | # | Ticket | Tier | Blocked by | Branch | Status |
 |---|---|---|---|---|---|
-| 0 | This plan | plan | – | `plan/phase-16` | in review |
+| 0 | This plan | plan | – | `plan/phase-16` | done (PR #168) |
 | 1 | The program list out of the first download | feature | – | `feature/library-index` | – |
 | 2 | Catalogue 9: exercises for the new muscle subjects and after-dark | feature | – | `feature/catalogue-9` | – |
 | 3 | Variety programs in the engine (no repeated day) | feature | – | `feature/variety` | – |
