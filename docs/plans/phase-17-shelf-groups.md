@@ -25,7 +25,7 @@ visually messy"). Grilled the same day:
 | # | Ticket | Tier | Blocked by | Branch | Status |
 |---|---|---|---|---|---|
 | 0 | This plan | plan | – | `plan/phase-17` | done (PR #180) |
-| 1 | Shelf groups on the Programs page | feature | – | `feature/shelf-groups` | – |
+| 1 | Shelf groups on the Programs page | feature | – | `feature/shelf-groups` | done (PR #181) |
 
 ### 1. Shelf groups on the Programs page
 - `SHELVES` in `app/library.js` (the table above); the Programs page's tabs, chips, shelves and counter use it instead
