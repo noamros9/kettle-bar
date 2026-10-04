@@ -34,6 +34,19 @@
     ['Mind & body', ['Core & abs', 'Mobility & posture', 'Yoga', 'Pilates', 'Flexibility', 'Balance & stability', 'Gentle / low impact', 'Back care']],
     ['Mixed', ['Strength & stretch', 'Fighter', 'Athlete', 'Balanced week', 'Calm strength', 'Variety', 'Beach body', 'Bedroom stamina', 'Sex positions']],
   ];
+  // Shelf groups (Phase 17): the Programs page tabs, finer than the four families. Every family subject sits in exactly
+  // one group. Stats, build your own and random workouts keep FAMILIES.
+  const SHELVES = [
+    ['Strength', ['Signature', 'Strength', 'Busy week', 'Bodyweight', 'Kettlebell only', 'Kettlebell complexes', 'Pull-ups', 'Climber / pull strength']],
+    ['Muscles', ['Chest', 'Back', 'Shoulders', 'Arms', 'Legs & glutes', 'Hips & adductors', 'Calves & lower legs', 'Neck & traps', 'Core & abs', 'Grip & forearms']],
+    ['Cardio', ['Conditioning', 'HIIT', 'Plyometrics', 'Running prep', 'Court & field sports']],
+    ['Combat', ['Boxing', 'Kickboxing', 'Fighter']],
+    ['Yoga & Pilates', ['Yoga', 'Pilates']],
+    ['Mobility & care', ['Mobility & posture', 'Flexibility', 'Balance & stability', 'Gentle / low impact', 'Back care']],
+    ['Mixed', ['Strength & stretch', 'Athlete', 'Balanced week', 'Calm strength']],
+    ['Variety', ['Variety']],
+    ['After dark', ['Beach body', 'Bedroom stamina', 'Sex positions']],
+  ];
   const LENGTHS = [['all', 'Any length'], ['short', 'Up to 25 min'], ['mid', '26–32 min'], ['long', '33 min +']];
   const EQUIPS = [['all', 'Any equipment'], ['kb', 'Kettlebell only'], ['bw', 'No equipment']];
   const FITS = { all: ['all', 'kb', 'bw'], kb: ['kb', 'bw'], bw: ['bw'] };
@@ -165,7 +178,7 @@
       .slice(0, 3).map(({ p }) => p.id);
   }
 
-  const api = { SHELF, searchPrograms, suggestNext, libraryView, searchExercises, byMuscles, splitByMuscles, rankPrograms, gearOf, GEAR, subjectsOf, toggleIn, skipped, setFilter, counterText, lengthOf, FAMILIES, LENGTHS, EQUIPS };
+  const api = { SHELF, searchPrograms, suggestNext, libraryView, searchExercises, byMuscles, splitByMuscles, rankPrograms, gearOf, GEAR, subjectsOf, toggleIn, skipped, setFilter, counterText, lengthOf, FAMILIES, SHELVES, LENGTHS, EQUIPS };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBLibrary = api;
 })(typeof window !== 'undefined' ? window : globalThis);

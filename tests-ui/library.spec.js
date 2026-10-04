@@ -1,8 +1,9 @@
-// The programs page: family tabs (Strength · Cardio & combat · Mind & body · Mixed) above the subject chips, with counts.
+// The programs page: shelf-group tabs (Phase 17: Strength · Muscles · Cardio · Combat · Yoga & Pilates · Mobility & care · Mixed ·
+// Variety · After dark) above the subject chips, with counts.
 const { test, expect } = require('./fixtures.js');
 const { CONFIGS } = require('../program-builder.js');
-const { FAMILIES } = require('../app/library.js');
-const subjectsOf = (family) => FAMILIES.find(([f]) => f === family)[1].filter((x) => CONFIGS.some((c) => c.subject === x));
+const { SHELVES } = require('../app/library.js');
+const subjectsOf = (family) => SHELVES.find(([f]) => f === family)[1].filter((x) => CONFIGS.some((c) => c.subject === x));
 
 const family = (app) => app.page.getByRole('group', { name: 'Filter by family' });
 const subjects = (app) => app.page.getByRole('group', { name: 'Filter by subject' });
@@ -14,19 +15,19 @@ test('every program shows under All, and the families are in their order', async
   await app.open('#programs');
   await expect(app.page.locator('.pcard')).toHaveCount(shown(CONFIGS)); // a shelf shows 6 (Phase 14)
   await expect(app.page.locator('.eyebrow').first()).toHaveText(`${CONFIGS.length} programs`);
-  expect(await chipTexts(family(app))).toEqual(['All', 'Strength', 'Cardio & combat', 'Mind & body', 'Mixed']);
+  expect(await chipTexts(family(app))).toEqual(['All', 'Strength', 'Muscles', 'Cardio', 'Combat', 'Yoga & Pilates', 'Mobility & care', 'Mixed', 'Variety', 'After dark']);
   await expect(family(app).getByRole('button', { name: 'All' })).toHaveAttribute('aria-pressed', 'true');
 });
 
-test('tap Mind & body: only its subjects\' chips and shelves show; Flow State sits under Mobility & posture', async ({ app }) => {
+test('tap Mobility & care: only its subjects\' chips and shelves show; Flow State sits under Mobility & posture', async ({ app }) => {
   await app.open('#programs');
-  await family(app).getByRole('button', { name: 'Mind & body' }).click();
-  await expect(family(app).getByRole('button', { name: 'Mind & body' })).toHaveAttribute('aria-pressed', 'true');
-  const mind = subjectsOf('Mind & body');
-  expect(await chipTexts(subjects(app))).toEqual(['All', ...mind]);
-  expect((await app.page.locator('.pgroup h2').allTextContents())).toEqual(mind);
+  await family(app).getByRole('button', { name: 'Mobility & care' }).click();
+  await expect(family(app).getByRole('button', { name: 'Mobility & care' })).toHaveAttribute('aria-pressed', 'true');
+  const care = subjectsOf('Mobility & care');
+  expect(await chipTexts(subjects(app))).toEqual(['All', ...care]);
+  expect((await app.page.locator('.pgroup h2').allTextContents())).toEqual(care);
   await expect(app.page.locator('.pgroup', { hasText: 'Mobility & posture' }).locator('[data-open-prog="flow-state"]')).toHaveCount(1);
-  await expect(app.page.locator('.pgroup', { hasText: 'Core & abs' }).locator('.pcard')).toHaveCount(Math.min(6, CONFIGS.filter((c) => c.subject === 'Core & abs').length));
+  await expect(app.page.locator('.pgroup', { hasText: 'Back care' }).locator('.pcard')).toHaveCount(Math.min(6, CONFIGS.filter((c) => c.subject === 'Back care').length));
   expect(await app.sidewaysScroll()).toBe(0);
 });
 
@@ -35,20 +36,20 @@ test('a subject picked in one family resets when another family is picked', asyn
   await family(app).getByRole('button', { name: 'Strength' }).click();
   await subjects(app).getByRole('button', { name: 'Pull-ups' }).click();
   await expect(app.page.locator('.pgroup h2')).toHaveText(['Pull-ups']);
-  await family(app).getByRole('button', { name: 'Cardio & combat' }).click();
+  await family(app).getByRole('button', { name: 'Cardio' }).click();
   await expect(subjects(app).getByRole('button', { name: 'All' })).toHaveAttribute('aria-pressed', 'true');
-  const cardio = subjectsOf('Cardio & combat');
+  const cardio = subjectsOf('Cardio');
   await expect(app.page.locator('.pgroup h2')).toHaveText(cardio);
 });
 
-test('the eyebrow counts what the taps select: Mind & body, then Yoga, then a length', async ({ app }) => {
+test('the eyebrow counts what the taps select: Yoga & Pilates, then Yoga, then a length', async ({ app }) => {
   await app.open('#programs');
   const eyebrow = app.page.locator('.eyebrow').first();
-  const inFamily = CONFIGS.filter((c) => subjectsOf('Mind & body').includes(c.subject)).length;
+  const inFamily = CONFIGS.filter((c) => subjectsOf('Yoga & Pilates').includes(c.subject)).length;
   const yoga = CONFIGS.filter((c) => c.subject === 'Yoga').length;
   await expect(eyebrow).toHaveText(`${CONFIGS.length} programs`);
-  await family(app).getByRole('button', { name: 'Mind & body' }).click();
-  await expect(eyebrow).toHaveText(`Mind & body · ${inFamily} programs`);
+  await family(app).getByRole('button', { name: 'Yoga & Pilates' }).click();
+  await expect(eyebrow).toHaveText(`Yoga & Pilates · ${inFamily} programs`);
   await subjects(app).getByRole('button', { name: 'Yoga' }).click();
   await expect(eyebrow).toHaveText(`Yoga · ${yoga} programs`);
   await expect(subjects(app).getByRole('button', { name: 'Yoga' })).toContainText(String(yoga));
@@ -59,28 +60,40 @@ test('the eyebrow counts what the taps select: Mind & body, then Yoga, then a le
   expect(await app.sidewaysScroll()).toBe(0);
 });
 
-test('tap Mixed: nine chips (Strength & stretch, Fighter, Athlete, Balanced week, Calm strength, Variety, Beach body, Bedroom stamina, Sex positions), a shelf of up to 6 each and the count in the eyebrow', async ({ app }) => {
+test('tap Mixed: four chips (Strength & stretch, Athlete, Balanced week, Calm strength), a shelf of up to 6 each and the count in the eyebrow', async ({ app }) => {
   await app.open('#programs');
   await family(app).getByRole('button', { name: 'Mixed' }).click();
   await expect(family(app).getByRole('button', { name: 'Mixed' })).toHaveAttribute('aria-pressed', 'true');
-  expect(await chipTexts(subjects(app))).toEqual(['All', 'Strength & stretch', 'Fighter', 'Athlete', 'Balanced week', 'Calm strength', 'Variety', 'Beach body', 'Bedroom stamina', 'Sex positions']);
-  await expect(app.page.locator('.pgroup h2')).toHaveText(['Strength & stretch', 'Fighter', 'Athlete', 'Balanced week', 'Calm strength', 'Variety', 'Beach body', 'Bedroom stamina', 'Sex positions']);
+  expect(await chipTexts(subjects(app))).toEqual(['All', 'Strength & stretch', 'Athlete', 'Balanced week', 'Calm strength']);
+  await expect(app.page.locator('.pgroup h2')).toHaveText(['Strength & stretch', 'Athlete', 'Balanced week', 'Calm strength']);
   const mixed = CONFIGS.filter((c) => subjectsOf('Mixed').includes(c.subject));
   await expect(app.page.locator('.pcard')).toHaveCount(shown(mixed));
   await expect(app.page.locator('.eyebrow').first()).toHaveText(`Mixed · ${mixed.length} programs`);
   await expect(app.page.locator('.pgroup', { hasText: 'Strength & stretch' }).locator('[data-open-prog="iron-yoga"]')).toHaveCount(1);
-  await expect(app.page.locator('.pgroup', { hasText: 'Fighter' }).locator('.pcard')).toHaveCount(6);
   await expect(app.page.locator('.pgroup', { hasText: 'Athlete' }).locator('[data-open-prog="jump-lift-stick"]')).toHaveCount(1);
   await expect(app.page.locator('.pgroup', { hasText: 'Balanced week' }).locator('.pcard')).toHaveCount(6);
   await expect(app.page.locator('.pgroup', { hasText: 'Calm strength' }).locator('[data-open-prog="slow-burn"]')).toHaveCount(1);
-  await expect(app.page.locator('.pgroup', { hasText: 'Variety' }).locator('[data-open-prog="every-day-different"]')).toHaveCount(1);
+  expect(await app.sidewaysScroll()).toBe(0);
+});
+
+test('Combat, Variety and After dark are their own tabs (Phase 17)', async ({ app }) => {
+  await app.open('#programs');
+  await family(app).getByRole('button', { name: 'Combat' }).click();
+  expect(await chipTexts(subjects(app))).toEqual(['All', 'Boxing', 'Kickboxing', 'Fighter']);
+  await expect(app.page.locator('.pgroup').filter({ has: app.page.locator('h2', { hasText: /^Fighter$/ }) }).locator('.pcard')).toHaveCount(6);
+  await family(app).getByRole('button', { name: 'Variety' }).click();
+  await expect(app.page.locator('.pgroup h2')).toHaveText(['Variety']);
+  await expect(app.page.locator('[data-open-prog="every-day-different"]')).toHaveCount(1);
+  await family(app).getByRole('button', { name: 'After dark' }).click();
+  await expect(app.page.locator('.pgroup h2')).toHaveText(['Beach body', 'Bedroom stamina', 'Sex positions']);
+  await expect(app.page.locator('.eyebrow').first()).toHaveText(`After dark · ${CONFIGS.filter((c) => subjectsOf('After dark').includes(c.subject)).length} programs`);
   expect(await app.sidewaysScroll()).toBe(0);
 });
 
 test('a Fighter day opens: Start runs the bouts, and the flow after them is its own Start', async ({ app }) => {
   await app.page.clock.install();
   await app.open('#programs');
-  await family(app).getByRole('button', { name: 'Mixed' }).click();
+  await family(app).getByRole('button', { name: 'Combat' }).click();
   await app.page.locator('[data-open-prog="fight-ready"]').click();
   await app.go('#p-fight-ready-d1');
   const d = await app.data(() => { const d = programs.day('fight-ready', 1), b = d.blocks[0]; return { formats: d.blocks.map((x) => x.format), n: b.items.length, first: KBEx.EX[b.items[0].ex].name, abs: d.blocks.some((x) => x.kind === 'abs') }; });

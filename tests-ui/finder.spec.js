@@ -24,12 +24,12 @@ test('name search: typing narrows the shelves and the counter, keeps focus, show
 
 test('name search works with the family and subject filters', async ({ app }) => {
   await app.open('#programs');
-  await app.page.getByRole('group', { name: 'Filter by family' }).getByRole('button', { name: 'Mind & body' }).click();
+  await app.page.getByRole('group', { name: 'Filter by family' }).getByRole('button', { name: 'Mobility & care' }).click();
   await field(app).fill('back');
   const shown = await app.page.locator('.pcard').evaluateAll((els) => els.map((e) => e.dataset.openProg));
   expect(shown.length).toBeGreaterThan(0);
-  const mind = ['Core & abs', 'Mobility & posture', 'Yoga', 'Pilates', 'Flexibility', 'Balance & stability', 'Gentle / low impact', 'Back care'];
-  shown.forEach((id) => expect(mind).toContain(CONFIGS.find((c) => c.id === id).subject));
+  const care = ['Mobility & posture', 'Flexibility', 'Balance & stability', 'Gentle / low impact', 'Back care'];
+  shown.forEach((id) => expect(care).toContain(CONFIGS.find((c) => c.id === id).subject));
 });
 
 // ---- ticket 2: Help me pick ----

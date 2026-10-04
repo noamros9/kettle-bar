@@ -265,3 +265,14 @@ test('searchPrograms: every word in the name, subject, split or first sentence; 
   assert.deepEqual(ids('squat'), ['a'], 'the split counts');
   assert.deepEqual(ids({}), ['a', 'b', 'c'], 'a non-text query is no query');
 });
+
+// Phase 17: the Programs page tabs are shelf groups (SHELVES); Stats, build your own and random keep FAMILIES.
+test('shelf groups: ten tabs in order, every family subject in exactly one, none unknown', () => {
+  const { SHELVES } = require('../app/library.js');
+  assert.deepEqual(SHELVES.map(([g]) => g), ['Strength', 'Muscles', 'Cardio', 'Combat', 'Yoga & Pilates', 'Mobility & care', 'Mixed', 'Variety', 'After dark']);
+  const listed = SHELVES.flatMap(([, l]) => l);
+  const subjects = FAMILIES.flatMap(([, l]) => l);
+  assert.equal(new Set(listed).size, listed.length);
+  assert.deepEqual([...listed].sort(), [...subjects].sort());
+  assert.deepEqual(FAMILIES.map(([f]) => f), ['Strength', 'Cardio & combat', 'Mind & body', 'Mixed']);
+});

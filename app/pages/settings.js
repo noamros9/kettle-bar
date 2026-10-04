@@ -53,7 +53,7 @@ function viewSettings() {
     ${csvNote ? `<p class="hint" role="status">${esc(csvNote)}</p>` : ''}
   </section>
   <section class="card setting"><h2>Hidden subjects</h2>
-    ${KBLibrary.subjectsOf(programs.list().filter((p) => p.source !== 'own'), FAMILIES).map(([fam, list]) => `<div class="filters hidesubj" role="group" aria-label="Hide ${esc(fam)} subjects"><span class="fname">${esc(fam)}</span>${list.map((x) => `<button class="fchip acc" data-hide="${esc(x)}" aria-pressed="${libraryPrefs().hidden.includes(x)}">${esc(x)}</button>`).join('')}</div>`).join('')}
+    ${KBLibrary.subjectsOf(programs.list().filter((p) => p.source !== 'own'), KBLibrary.FAMILIES).map(([fam, list]) => `<div class="filters hidesubj" role="group" aria-label="Hide ${esc(fam)} subjects"><span class="fname">${esc(fam)}</span>${list.map((x) => `<button class="fchip acc" data-hide="${esc(x)}" aria-pressed="${libraryPrefs().hidden.includes(x)}">${esc(x)}</button>`).join('')}</div>`).join('')}
     <p class="muted">Ticked subjects don't show on the Programs page: no chip, no shelf, not counted. Programs you starred stay in Favourites. Synced with your account.</p>
   </section>
   <section class="card setting"><h2>Exercises I skip</h2>
