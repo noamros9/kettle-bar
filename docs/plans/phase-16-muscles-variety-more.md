@@ -37,7 +37,7 @@ lengths only.
 | 4 | Muscle focus: Chest, Back, Shoulders, Arms (+32) | content | 1, 2 | `content/muscles-upper` | done (PR #172) |
 | 5 | Muscle focus: Hips & adductors, Calves & lower legs, Neck & traps (+24) | content | 1, 2 | `content/muscles-other` | done (PR #173) |
 | 6 | Variety (+15) | content | 1, 3 | `content/variety` | done (PR #174) |
-| 7 | After-dark (+30) | content | 1, 2 | `content/after-dark` | in review |
+| 7 | After-dark (+30) | content | 1, 2 | `content/after-dark` | done (PR #175) |
 | 8 | Strength +49 | content | 1, 2 | `content/strength-plus-2` | – |
 | 9 | Cardio & combat +28 | content | 1 | `content/cardio-plus-2` | – |
 | 10 | Mind & body +32 | content | 1 | `content/mind-plus-2` | – |
