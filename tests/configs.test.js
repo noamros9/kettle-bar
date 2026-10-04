@@ -77,6 +77,13 @@ const IDS = [
     'every-day-different', 'strength-roulette', 'sweat-shuffle', 'mind-body-mix', 'bodyweight-shuffle',
     'kettlebell-roulette', 'short-variety', 'muscle-tour', 'fighter-variety', 'athlete-variety',
     'variety-30', 'bodyweight-variety-30', 'core-roulette', 'long-variety', 'upper-roulette',
+    // Phase 16 ticket 7: after-dark, Beach body, Bedroom stamina, Sex positions
+    'beach-body', 'v-taper', 'booty-call', 'abs-out', 'gun-show-tonight',
+    'shirt-off', 'bikini-ready', 'thirst-trap', 'beach-body-30', 'naked-mirror-30',
+    'all-night-long', 'your-ladys-favorite', 'pound-town', 'round-two', 'deep-stroke',
+    'hold-me-up', 'marathon-session', 'on-top', 'last-longer-30', 'pelvic-power-30',
+    'the-pretzel', 'legs-over-shoulders', 'doggy-style-ready', 'reverse-cowgirl', 'wheelbarrow',
+    'standing-o', 'splits-in-bed', 'bendy-body', 'kama-sutra-30', 'flexible-lover-30',
 ];
 
 test('the config ids, in order, are today\'s list', () => {

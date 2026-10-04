@@ -1176,6 +1176,348 @@ const CONFIGS = [
     names: ['Top Half', 'Upper Deck', 'Top Floor', 'Penthouse', 'Upper Circle', 'Gallery', 'Balcony Seat', 'Crow\'s Nest Top', 'High Shelf', 'Top Drawer', 'Upper Crust', 'Skyline', 'Cloud Nine', 'Overhead Bin', 'Loft', 'Mansard', 'Top Tier', 'Upper Hand', 'High Table', 'Summit Day'],
     dayTypes: vtypes(['chest', 'back', 'shoulders', 'arms', 'push', 'pull', 'upperBack', 'forearms', 'pushBw', 'pullBw', 'kbPress', 'neck', 'shouldersBw']),
   },
+  // ---------------- PHASE 16: AFTER-DARK (Noam's: looks, stamina and positions; every main block tagged with its family) ----------------
+  // Beach body: the look (chest, shoulders, arms, abs, glutes), lean from a cardio finisher; Bedroom stamina: hip drive,
+  // endurance and control; Sex positions: the hip, adductor, hamstring and back range positions need, and the strength to hold them.
+  // ---- Beach body ----
+  {
+    id: 'beach-body', added: 16, catalogue: 9, name: 'Beach Body', subject: 'Beach body', minutes: [30, 35], levers: [null, 'weight', 'reps'],
+    split: 'Upper & burn / glutes & abs', blurb: 'The classic beach look: chest, shoulders and arms one day, glutes and abs the next, a sweat after each.',
+    about: 'Built for the way you look with your shirt off. One day is chest, shoulders and arms in straight sets, then a short Tabata to burn; the other is glutes and abs, then the same. The muscles that show get the volume, and the cardio keeps you lean. Level II asks for heavier weights and Level III adds reps.',
+    names: ['Sunscreen', 'Lifeguard', 'Speedo', 'Sandbar', 'Tan Lines', 'Beach Towel Flex', 'Riviera', 'Ibiza', 'Malibu', 'Bondi', 'Copacabana', 'Mykonos', 'Cabo', 'Miami Vice', 'Pool Party', 'Cabana', 'Sun Lounger', 'Oiled Up', 'Golden Hour Glow', 'Last Swim'],
+    cycle: ['upper', 'lower'],
+    dayTypes: {
+      upper: { label: 'Upper & burn', short: 'Upper', blocks: [S('Chest, shoulders & arms', ['chestPress', 'shoulderRaise', 'biceps2', 'triceps2', 'chestBw?'], LIFT), T('Burn', ['hiit', 'cardio'], { ...CARDIO, values: [1] })] },
+      lower: { label: 'Glutes & abs', short: 'Glutes', blocks: [S('Glutes & abs', ['thrust', 'glute2', 'coreAnti', 'coreHollow', 'hipGlute?'], LIFT), T('Burn', ['hiit', 'cardio'], { ...CARDIO, values: [1] })] },
+    },
+  },
+  {
+    id: 'v-taper', added: 16, catalogue: 9, name: 'V-Taper', subject: 'Beach body', minutes: [28, 33], levers: [null, 'reps', 'tempo'],
+    split: 'Wide back & shoulders / waist & legs', blurb: 'Broad on top, tight in the middle: lats and side shoulders for width, a small waist from core work.',
+    about: 'The V shape: wide shoulders and lats over a narrow waist. One day pairs pull-ups and rows with lateral raises in supersets for width; the other works the waist with anti-rotation core and the legs so nothing looks skipped. A short circuit of cardio closes the waist day. Level II adds reps and Level III slows every rep down.',
+    names: ['Wingspan', 'Cobra Hood', 'Delta Wing', 'Stingray Back', 'Hourglass', 'Wasp Waist', 'Coat Hanger', 'Arrowhead', 'Kite Shape', 'Swimmer', 'Diver', 'Rower', 'Paddler', 'Butterfly Stroke', 'Lat Spread', 'Front Double', 'Back Double', 'Vacuum', 'Stage Ready', 'Spotlight'],
+    cycle: ['wide', 'waist'],
+    dayTypes: {
+      wide: { label: 'Wide back & shoulders', short: 'Wide', blocks: [SS('Width supersets', ['backBar', 'shoulderRaise', 'backRow', 'shoulderRaise', 'backRear', 'shoulderPress'], LIFT), T('Burn', ['hiit', 'cardio'], { ...CARDIO, values: [1] })] },
+      waist: { label: 'Waist & legs', short: 'Waist', blocks: [S('Legs', ['squat2', 'hinge2', 'lunge2?'], LIFT), C('Waist circuit', ['coreAnti', 'coreRot', 'hiit'], { ...CORE, values: [2, 3] })] },
+    },
+  },
+  {
+    id: 'booty-call', added: 16, catalogue: 9, name: 'Booty Call', subject: 'Beach body', minutes: [28, 33], levers: [null, 'weight', 'tempo'],
+    split: 'Glutes heavy / glutes pump / upper & abs', blurb: 'A rounder, stronger backside: heavy hip thrusts and hinges, a pump day, then upper body and abs.',
+    about: 'All about the glutes. One day is heavy: hip thrusts, Romanian deadlifts and lunges with full rests. The next is a pump: bridges, frog pumps, clamshells and pulses in a circuit. The third trains the upper body and abs so the whole picture works. Level II asks for heavier weights and Level III slows every rep down.',
+    names: ['Peach', 'Bubble', 'Badonkadonk', 'Junk in the Trunk', 'Back That Up', 'Baby Got Back', 'Shake It', 'Twerk Ready', 'Cheeky', 'Bum Day', 'Rear View', 'Caboose', 'Bottoms Up', 'Booty Shorts', 'Squat Booty', 'Glute Gains', 'Round Two Cheeks', 'Seat of Power', 'Derriere', 'Behind Closed Doors'],
+    cycle: ['heavy', 'pump', 'upper'],
+    dayTypes: {
+      heavy: { label: 'Glutes heavy', short: 'Heavy', blocks: [S('Heavy glutes', ['hip_thrust', 'hinge2', 'lunge2?', 'thrust?'], LIFT), C('Abs', ['coreHollow', 'coreRot'], { ...CORE, values: [2] })] },
+      pump: { label: 'Glutes pump', short: 'Pump', blocks: [C('Glute pump', ['thrust', 'hipGlute', 'adductor', 'thrust', 'hipGlute?'], { ...LIFT, values: [2, 3, 4] }), C('Abs', ['coreAnti', 'pelvic'], { ...CORE, values: [2] })] },
+      upper: { label: 'Upper & abs', short: 'Upper', blocks: [S('Upper body', ['chestPress', 'backRow', 'shoulderRaise'], LIFT), C('Abs', ['coreHollow', 'coreRot'], { ...CORE, values: [2] })] },
+    },
+  },
+  {
+    id: 'abs-out', added: 16, catalogue: 9, name: 'Abs Out', subject: 'Beach body', minutes: [24, 29], levers: [null, 'reps', 'variation'],
+    split: 'Abs & HIIT / obliques & HIIT', blurb: 'Abs you can see: core work every day, a HIIT block after it to strip the layer on top.',
+    about: 'A visible six-pack takes strong abs and a low layer of fat on top, so every day does both. One day trains the front of the abs with hollow holds, crunches and leg raises; the other the obliques with twists and side planks. A HIIT block follows each, hard enough to sweat. Level II adds reps and Level III brings harder moves.',
+    names: ['Six Pack', 'Washboard', 'Shredded', 'Cut', 'Ripped', 'Chiselled', 'Etched', 'Carved', 'Sculpted', 'Grated Cheese', 'Ab Crack', 'V-Line', 'Adonis Belt', 'Sex Lines', 'Obliques Out', 'Ab Flash', 'Crop Top', 'Lift the Shirt', 'Show Off', 'Abs for Days'],
+    cycle: ['front', 'side'],
+    dayTypes: {
+      front: { label: 'Abs & HIIT', short: 'Abs', absSlots: [], blocks: [C('Abs', ['coreHollow', 'absW', 'coreAnti', 'coreHollow'], { ...CORE, values: [3, 4] }), T('HIIT', ['hiit', 'hiit', 'cardio', 'hiit'], CARDIO)] },
+      side: { label: 'Obliques & HIIT', short: 'Obliques', absSlots: [], blocks: [C('Obliques', ['coreRot', 'side_plank', 'coreRot', 'absW'], { ...CORE, values: [3, 4] }), T('HIIT', ['hiit', 'cardio', 'hiit', 'cardio'], CARDIO)] },
+    },
+  },
+  {
+    id: 'gun-show-tonight', added: 16, catalogue: 9, name: 'Gun Show Tonight', subject: 'Beach body', minutes: [26, 31], levers: [null, 'reps', 'weight'],
+    split: 'Arms & chest / arms & shoulders', blurb: 'Arms that fill a sleeve: biceps and triceps every day, with the chest or shoulders and a pump finisher.',
+    about: 'For arms that stretch a T-shirt. Every day is biceps and triceps in supersets, paired with the chest one day and the shoulders the next, then a short AMRAP of push-ups and HIIT for the pump and a sweat. Plenty of reps, moderate weights and short rests. Level II adds reps and Level III asks for heavier dumbbells.',
+    names: ['Sleeve Buster', 'Tickets Please', 'Show Time', 'Front Row', 'Flex Friday', 'Pythons Out', 'Bicep Kiss', 'Arm Day Date', 'Tight Tee', 'Muscle Shirt', 'Tank Season', 'Rolled Sleeves', 'Peak Show', 'Curl Up', 'Pump Cover', 'Vein Train', 'Swole Patrol', 'Big Guns', 'Loaded', 'Encore Arms'],
+    cycle: ['chest', 'delts'],
+    dayTypes: {
+      chest: { label: 'Arms & chest', short: 'Chest', blocks: [SS('Arms & chest', ['biceps2', 'triceps2', 'biceps2', 'chestPress'], LIFT), A('Pump', ['chestBw', 'hiit'], { ...COND, values: [4, 5, 6] })] },
+      delts: { label: 'Arms & shoulders', short: 'Shoulders', blocks: [SS('Arms & shoulders', ['triceps2', 'biceps2', 'triceps2', 'shoulderRaise'], LIFT), A('Pump', ['armsBw', 'hiit'], { ...COND, values: [4, 5, 6] })] },
+    },
+  },
+  {
+    id: 'shirt-off', added: 16, catalogue: 9, name: 'Shirt Off', subject: 'Beach body', minutes: [28, 33], equip: 'bw', levers: [null, 'reps', 'holds'],
+    split: 'Push & abs / pull & legs', blurb: 'The beach look with no equipment: push-up and floor-pull circuits, abs and legs, a burn to finish.',
+    about: 'The look without the gym. One day is a circuit of push-up variations, pike push-ups and abs; the other floor pulls, legs and glutes. A short Tabata finishes both so you stay lean. Everything happens on the floor, so it travels well. Level II adds reps and Level III makes every hold longer.',
+    names: ['No Shirt', 'Shirtless', 'Bare Chest', 'Skin Deep', 'Body Heat', 'Sweat Glow', 'Hot Room', 'Steam', 'Flushed', 'Heat Wave', 'Summer Body', 'Hot Stuff', 'Sizzle', 'Simmer', 'Slow Burn Body', 'Afterglow', 'Fire Starter', 'Spark', 'Kindle', 'Ember'],
+    cycle: ['push', 'pull'],
+    dayTypes: {
+      push: { label: 'Push & abs', short: 'Push', blocks: [C('Push & abs', ['chestBw', 'shoulderBw', 'coreHollow', 'chestBw', 'coreAnti?'], { ...LIFT, values: [3, 4, 5] }), T('Burn', ['hiit', 'cardio'], { ...CARDIO, values: [1] })] },
+      pull: { label: 'Pull & legs', short: 'Pull', blocks: [C('Pull & legs', ['backBw', 'legsBw2', 'thrustBw', 'backBw', 'legsBw2?'], { ...LIFT, values: [3, 4, 5] }), T('Burn', ['hiit', 'cardio'], { ...CARDIO, values: [1] })] },
+    },
+  },
+  {
+    id: 'bikini-ready', added: 16, catalogue: 9, name: 'Bikini Ready', subject: 'Beach body', minutes: [28, 33], levers: [null, 'reps', 'weight'],
+    split: 'Glutes & shoulders / abs & legs / burn & stretch', blurb: 'Shoulders, glutes and abs that look good in very little: lifts, a burn, and a stretch day.',
+    about: 'For what shows in a bikini or trunks: toned shoulders, round glutes and a flat stomach. One day pairs glute work with shoulder raises; the next is abs and legs; the third is a HIIT circuit with a long stretch after it. Level II adds reps and Level III asks for heavier weights.',
+    names: ['String Bikini', 'Triangle Top', 'High Cut', 'Thong Season', 'Trunks', 'Sarong', 'Kaftan', 'Sun Hat', 'Flip Flops', 'Beach Bag', 'Shades', 'Poolside', 'Swim-up Bar', 'Piña Colada', 'Mojito', 'Daiquiri', 'Margarita', 'Aperol', 'Sundowner', 'Skinny Dip'],
+    cycle: ['glutes', 'abs', 'burn'],
+    dayTypes: {
+      glutes: { label: 'Glutes & shoulders', short: 'Glutes', blocks: [SS('Glutes & shoulders', ['thrust', 'shoulderRaise', 'glute2', 'shoulderRaise', 'hipGlute', 'shoulderPress'], LIFT), T('Burn', ['hiit', 'cardio'], { ...CARDIO, values: [1] })] },
+      abs: { label: 'Abs & legs', short: 'Abs', blocks: [S('Legs', ['squat2', 'lunge2', 'adductor'], LIFT), C('Abs', ['coreHollow', 'coreRot', 'coreAnti'], { ...CORE, values: [2, 3] })] },
+      burn: { label: 'Burn & stretch', short: 'Burn', absSlots: [], blocks: [C('HIIT', ['hiit', 'cardio', 'hiit', 'thrustBw'], CARDIO), F('Stretch', ['ygHips', 'fxHips', 'ygRest', 'ygRest?'], FLOW)] },
+    },
+  },
+  {
+    id: 'thirst-trap', added: 16, catalogue: 9, name: 'Thirst Trap', subject: 'Beach body', minutes: [26, 31], levers: [null, 'reps', 'reps'],
+    split: 'Pump upper / pump lower', blurb: 'Look your best before the photo: high-rep pump supersets for upper and lower body, every day.',
+    about: 'A pump program for looking full and tight. Every day is supersets with short rests and plenty of reps, the upper body one day and glutes and legs the next, then an EMOM of abs. Blood fills the muscles and they look their best for a few hours: good before a night out, or a photo. Both later levels add reps.',
+    names: ['Mirror Selfie', 'Gym Pic', 'Golden Light', 'Filter Free', 'Angles', 'Good Side', 'Thirst', 'Swipe Right', 'Super Like', 'Its a Match', 'DM Slide', 'Story Post', 'Close Friends', 'Link in Bio', 'Hashtag', 'Viral', 'Likes', 'Followers', 'Notifications On', 'Read Receipts'],
+    cycle: ['upper', 'lower'],
+    dayTypes: {
+      upper: { label: 'Pump upper', short: 'Upper', blocks: [SS('Upper pump', ['chestPress', 'backRow', 'shoulderRaise', 'biceps2', 'triceps2', 'chestIso'], LIFT), E('Abs', ['coreHollow', 'coreRot'], { ...CORE, values: [4, 6] })] },
+      lower: { label: 'Pump lower', short: 'Lower', blocks: [SS('Lower pump', ['thrust', 'posLegs', 'hipGlute', 'calf', 'adductor', 'glute2'], LIFT), E('Abs', ['coreAnti', 'coreHollow'], { ...CORE, values: [4, 6] })] },
+    },
+  },
+  {
+    id: 'beach-body-30', added: 16, catalogue: 9, days: 30, name: 'Beach Body 30', subject: 'Beach body', minutes: [30, 35], levers: [null, 'weight', 'tempo'],
+    split: 'Lift & burn / lift & stretch, 30 days', blurb: 'Thirty days to the beach: the muscles that show, a burn or a stretch after every lift.',
+    about: 'A month before the holiday. Every day lifts the muscles that show, chest and arms, shoulders and back, or glutes and legs, then either burns with a short Tabata or stretches with a short flow. Every ten days the level steps up: heavier weights at Level II and slower reps at Level III. Abs finish the burn days.',
+    names: ['Countdown', 'Booked', 'Passport Ready', 'Packed', 'Departure Lounge', 'In Flight', 'Touchdown', 'Check-in', 'Room Key', 'Ocean View', 'First Dip', 'Day Bed', 'Snorkel', 'Jet Ski', 'Banana Boat', 'Beach Club', 'Sunset Drinks', 'Night Swim', 'Last Night', 'Home Tanned'],
+    cycle: ['chest', 'back', 'glutes'],
+    dayTypes: {
+      chest: { label: 'Chest & arms, burn', short: 'Chest', blocks: [S('Chest & arms', ['chestPress', 'biceps2', 'triceps2', 'chestBw?'], LIFT), T('Burn', ['hiit', 'cardio'], { ...CARDIO, values: [1] })] },
+      back: { label: 'Shoulders & back, stretch', short: 'Back', absSlots: [], blocks: [S('Shoulders & back', ['shoulderPress', 'backRow', 'shoulderRaise', 'backBar?'], LIFT), F('Stretch', ['fxUpper', 'ygRest', 'ygRest?'], FLOW)] },
+      glutes: { label: 'Glutes & legs, burn', short: 'Glutes', blocks: [S('Glutes & legs', ['thrust', 'posLegs', 'glute2', 'calf?'], LIFT), T('Burn', ['hiit', 'cardio'], { ...CARDIO, values: [1] })] },
+    },
+  },
+  {
+    id: 'naked-mirror-30', added: 16, catalogue: 9, days: 30, name: 'Naked in the Mirror 30', subject: 'Beach body', minutes: [26, 31], levers: [null, 'reps', 'weight'],
+    split: 'Upper & HIIT / lower & core, 30 days', blurb: 'A month for the mirror after the shower: upper body with HIIT, then lower body with core.',
+    about: 'A month for liking what you see after the shower. One day lifts the upper body and finishes with an AMRAP of HIIT; the next lifts glutes and legs and finishes with a core circuit. Every day mixes strength with something else, and every ten days it gets harder: more reps at Level II, heavier weights at Level III.',
+    names: ['Steamed Up', 'Towel Drop', 'Bathroom Light', 'Full Length', 'Reflection', 'Double Take', 'Second Look', 'Turn Around', 'Side View', 'Bare', 'Unwrapped', 'Au Naturel', 'Birthday Suit', 'Nothing On', 'Lights On', 'Candlelit', 'Silk Sheets', 'Robe Off', 'Strip Down', 'Bare All'],
+    cycle: ['upper', 'lower'],
+    dayTypes: {
+      upper: { label: 'Upper & HIIT', short: 'Upper', blocks: [S('Upper body', ['chestPress', 'backRow', 'shoulderRaise', 'arms?'], LIFT), A('HIIT', ['hiit', 'cardio'], { ...CARDIO, values: [5, 6, 7] })] },
+      lower: { label: 'Lower & core', short: 'Lower', blocks: [S('Lower body', ['thrust', 'posLegs', 'hinge2', 'adductor?'], LIFT), C('Core', ['coreHollow', 'coreRot', 'coreAnti'], { ...CORE, values: [2, 3] })] },
+    },
+  },
+  // ---- Bedroom stamina ----
+  {
+    id: 'all-night-long', added: 16, catalogue: 9, name: 'All Night Long', subject: 'Bedroom stamina', minutes: [28, 33], levers: [null, 'reps', 'reps'],
+    split: 'Hip-drive circuit / stamina EMOM', blurb: 'Endurance where it counts: hip-drive circuits and long EMOMs that teach you to keep going.',
+    about: 'Stamina for the long session. One day is a hip-drive circuit, bridges, swings, frog pumps and core, round after round with short rests. The other is a long EMOM that keeps the heart rate up without stopping. You learn to breathe, pace yourself and keep going when you want to quit. Both later levels add reps.',
+    names: ['Midnight', 'One AM', 'Two AM', 'Three AM', 'Night Owl', 'Insomnia', 'Wide Awake', 'Lights Low', 'Do Not Disturb', 'Until Dawn', 'Sunrise Again', 'No Sleep', 'Encore', 'Again', 'One More Time', 'Keep Going', 'Don\'t Stop', 'Still Going', 'Endless', 'Marathon Man'],
+    cycle: ['circuit', 'emom'],
+    dayTypes: {
+      circuit: { label: 'Hip-drive circuit', short: 'Circuit', blocks: [C('Hip drive', ['thrust', 'kbBallistic', 'thrust', 'coreAnti', 'hiit?'], { ...COND, values: [2, 3, 4, 5] }), C('Core', ['coreHollow', 'coreRot'], { ...CORE, values: [2] })] },
+      emom: { label: 'Stamina EMOM', short: 'EMOM', blocks: [E('Stamina EMOM', ['thrust', 'cardio', 'posLegs', 'hiit'], { ...COND, values: [12, 14, 16, 18] }), C('Core', ['coreAnti', 'pelvic'], { ...CORE, values: [2] })] },
+    },
+  },
+  {
+    id: 'your-ladys-favorite', added: 16, catalogue: 9, name: 'Your Lady\'s Favorite Fuck', subject: 'Bedroom stamina', minutes: [28, 33], levers: [null, 'weight', 'reps'],
+    split: 'Thrust power / core & control / stretch & stamina', blurb: 'Hip power, core control and staying power: hip thrusts and swings, core, then a stamina circuit and a stretch.',
+    about: 'Noam named this one. It builds what makes you better in bed: powerful hips, a strong core, endurance and control. One day is heavy hip thrusts, swings and bridge pulses for drive; the next is core and pelvic-floor control; the third is a stamina circuit with a long hip stretch after it. Level II asks for heavier weights and Level III adds reps.',
+    names: ['Her Favorite', 'Repeat Customer', 'Five Stars', 'Rave Reviews', 'Tell Her Friends', 'Legend', 'Word of Mouth', 'Fan Favorite', 'Crowd Pleaser', 'Standing Ovation', 'Curtain Call', 'Bravo', 'Request Line', 'By Popular Demand', 'Main Event', 'Headliner', 'Top Billing', 'Signature Move', 'Hall of Fame', 'Lifetime Achievement'],
+    cycle: ['thrust', 'core', 'stamina'],
+    dayTypes: {
+      thrust: { label: 'Thrust power', short: 'Thrust', blocks: [S('Thrust power', ['hip_thrust', 'kb_swing', 'bridge_pulse', 'thrust?'], LIFT), C('Core', ['coreAnti', 'pelvic'], { ...CORE, values: [2] })] },
+      core: { label: 'Core & control', short: 'Core', blocks: [S('Hips', ['thrust', 'adductor', 'hipFlex'], LIFT), C('Core & control', ['coreHollow', 'pelvic', 'coreRot', 'pelvic_floor_hold'], { ...CORE, values: [2, 3] })] },
+      stamina: { label: 'Stamina & stretch', short: 'Stamina', absSlots: [], blocks: [C('Stamina', ['thrust', 'hiit', 'kbBallistic', 'cardio'], { ...COND, values: [3, 4, 5] }), F('Hip stretch', ['fxHips', 'ygHips', 'fxStraddle', 'ygRest?'], FLOW)] },
+    },
+  },
+  {
+    id: 'pound-town', added: 16, catalogue: 9, name: 'Pound Town', subject: 'Bedroom stamina', minutes: [26, 31], levers: [null, 'reps', 'weight'],
+    split: 'Hip drive AMRAP / swings & thrusters', blurb: 'Fast, powerful hips: AMRAPs of bridge pulses and frog pumps, swings and thrusters, and core to hold it together.',
+    about: 'Speed and power from the hips. One day is an AMRAP of bridge pulses, frog pumps and squats, as many rounds as you can; the other is kettlebell swings and thrusters in straight sets, with core after. Fast hip extension, repeated without slowing down, is the whole point. Level II adds reps and Level III asks for heavier weights.',
+    names: ['Pound It', 'Drill Sergeant', 'Jackhammer', 'Piston', 'Pile Driver', 'Battering Ram', 'Sledge', 'Hammer Down', 'Full Throttle', 'Express Train', 'Bump and Grind', 'Rhythm Section', 'Drum Solo', 'Beat It', 'Pump Action Hips', 'Rapid Fire', 'Machine Gun', 'Turbo Hips', 'Overdrive Hips', 'Last Stop'],
+    cycle: ['amrap', 'swing'],
+    dayTypes: {
+      amrap: { label: 'Hip drive AMRAP', short: 'AMRAP', blocks: [A('Hip drive', ['thrustBw', 'thrustBw', 'posLegs'], { ...COND, values: [10, 12, 15] }), C('Core', ['coreAnti', 'coreHollow'], { ...CORE, values: [2] })] },
+      swing: { label: 'Swings & thrusters', short: 'Swings', blocks: [S('Swings & thrusters', ['kb_swing', 'db_thruster', 'kb_one_arm_swing', 'thrust?'], LIFT), C('Core', ['coreRot', 'pelvic'], { ...CORE, values: [2] })] },
+    },
+  },
+  {
+    id: 'round-two', added: 16, catalogue: 9, name: 'Round Two', subject: 'Bedroom stamina', minutes: [24, 29], levers: [null, 'reps', 'variation'],
+    split: 'Intervals & recovery / Tabatas & core', blurb: 'Recover fast and go again: hard intervals with short rests, Tabatas, and core.',
+    about: 'Training the thing that matters for round two: how fast you recover. One day is hard EMOM intervals, the next Tabatas, both with rests short enough that you start again before you feel ready. A core block follows each. Over sixty days your heart learns to settle quickly. Level II adds reps and Level III brings harder moves.',
+    names: ['Ding Ding', 'Second Bell', 'Back for More', 'Seconds', 'Refill', 'Top Up', 'Reload', 'Recharge', 'Reboot', 'Restart', 'Second Wind', 'Revival', 'Comeback', 'Rematch', 'Sequel', 'Part Two', 'Return Visit', 'Again Please', 'Round Three', 'Overtime Round'],
+    cycle: ['emom', 'tabata'],
+    dayTypes: {
+      emom: { label: 'Intervals & recovery', short: 'EMOM', blocks: [E('Intervals', ['hiit', 'thrustBw', 'cardio', 'posLegs'], { ...COND, values: [10, 12, 14, 16] }), C('Core', ['coreHollow', 'pelvic'], { ...CORE, values: [2] })] },
+      tabata: { label: 'Tabatas & core', short: 'Tabata', blocks: [T('Tabatas', ['hiit', 'thrustBw', 'hiit', 'cardio'], COND), C('Core', ['coreAnti', 'coreRot'], { ...CORE, values: [2] })] },
+    },
+  },
+  {
+    id: 'deep-stroke', added: 16, catalogue: 9, name: 'Deep Stroke', subject: 'Bedroom stamina', minutes: [26, 31], levers: [null, 'tempo', 'holds'],
+    split: 'Slow hips / pelvic control & stretch', blurb: 'Control, not speed: slow tempo hip work, pelvic-floor holds and core, then a deep hip stretch.',
+    about: 'Control over speed. One day is slow-tempo hip work: hip thrusts, bridges and single-leg bridges with long pauses at the top. The other is pelvic-floor holds, core and a long, deep stretch for the hips and inner thighs. A strong, controllable pelvic floor helps with stamina and control for every body. Level II slows every rep down and Level III makes every hold longer.',
+    names: ['Slow Hand', 'Easy Does It', 'Take Your Time', 'Savour', 'Linger', 'Lazy Sunday', 'Slow Dance', 'Smooth Operator', 'Velvet', 'Silk', 'Honey', 'Molasses', 'Treacle', 'Slow Jam', 'Quiet Storm', 'Late Night Jazz', 'Low Lights', 'Soft Focus', 'Deep End', 'Long Exhale'],
+    cycle: ['slow', 'control'],
+    dayTypes: {
+      slow: { label: 'Slow hips', short: 'Slow', blocks: [S('Slow hips', ['hip_thrust', 'single_leg_bridge', 'thrust', 'bridge_hold'], LIFT), C('Core', ['coreAnti', 'pelvic'], { ...CORE, values: [2] })] },
+      control: { label: 'Pelvic control & stretch', short: 'Control', absSlots: [], blocks: [C('Glute & pelvic holds', ['bridge_hold', 'pelvic_floor_hold', 'glute_bridge', 'pelvic_floor_hold'], LIFT), F('Deep hip stretch', ['fxHips', 'fxStraddle', 'ygHips', 'ygRest', 'ygRest?'], FLOW)] },
+    },
+  },
+  {
+    id: 'hold-me-up', added: 16, catalogue: 9, name: 'Hold Me Up', subject: 'Bedroom stamina', minutes: [28, 33], levers: [null, 'weight', 'holds'],
+    split: 'Lift & carry / squat & hold', blurb: 'Strong enough to hold your partner up: deadlifts, carries and grip, squats and long holds.',
+    about: 'For the positions where you take your partner\'s weight. One day is lifting and carrying: deadlifts, farmer carries, rows and grip holds. The other is squats, wall sits and other long holds that keep your legs steady under load. Strong legs, back and grip make it easy, not a strain. Level II asks for heavier weights and Level III makes every hold longer.',
+    names: ['Pick Me Up', 'Up Against the Wall', 'Carry Me', 'Lift Off', 'Sweep Off Your Feet', 'Over the Threshold', 'Fireman\'s Lift', 'Piggyback', 'Koala', 'Wrapped Around', 'Legs Locked', 'Hold Tight', 'Don\'t Let Go', 'Steady Now', 'Strong Arms', 'Iron Legs', 'Pillar', 'Foundation', 'Rock Solid', 'Unshakeable'],
+    cycle: ['carry', 'hold'],
+    dayTypes: {
+      carry: { label: 'Lift & carry', short: 'Carry', blocks: [S('Lift & carry', ['hinge2', 'farmer_carry', 'backRow', 'gripHold?'], LIFT), C('Core', ['coreAnti', 'pelvic'], { ...CORE, values: [2] })] },
+      hold: { label: 'Squat & hold', short: 'Hold', blocks: [S('Squat & hold', ['squat2', 'posHold', 'posLegs', 'posHold?'], LIFT), E('Stamina', ['cardio', 'thrustBw'], { ...COND, values: [6, 8] })] },
+    },
+  },
+  {
+    id: 'marathon-session', added: 16, catalogue: 9, name: 'Marathon Session', subject: 'Bedroom stamina', minutes: [36, 42], levers: [null, 'reps', 'tempo'],
+    split: 'Long circuit / long EMOM', blurb: 'Forty-minute sessions that build real endurance: long circuits and long EMOMs, hips and core throughout.',
+    about: 'Long sessions for long nights. Each day is about forty minutes of steady work: a long circuit of hip drive, legs, push-ups and core one day, a long EMOM the next, with core to finish. Nothing is all-out; it is about lasting. Level II adds reps and Level III slows every rep down.',
+    names: ['The Long Run', 'Distance', 'Endurance Night', 'Iron Man', 'Ultra', 'Long Haul Hips', 'Overnight', 'Red-eye', 'Night Shift', 'Graveyard Shift', 'Double Header', 'Extra Innings', 'Five Setter', 'Tie Break', 'Penalties', 'Sudden Death', 'Golden Goal', 'Last Man Standing', 'Survivor', 'Finisher'],
+    cycle: ['circuit', 'emom'],
+    dayTypes: {
+      circuit: { label: 'Long circuit', short: 'Circuit', blocks: [C('Long circuit', ['thrust', 'posLegs', 'chestBw', 'kbBallistic', 'coreAnti'], { ...COND, values: [4, 5, 6] }), C('Core', ['coreHollow', 'pelvic'], { ...CORE, values: [2] })] },
+      emom: { label: 'Long EMOM', short: 'EMOM', blocks: [E('Long EMOM', ['thrust', 'cardio', 'posLegs', 'chestBw', 'hiit'], { ...COND, values: [20, 25, 30] }), C('Core', ['coreRot', 'pelvic'], { ...CORE, values: [2] })] },
+    },
+  },
+  {
+    id: 'on-top', added: 16, catalogue: 9, name: 'On Top', subject: 'Bedroom stamina', minutes: [26, 31], levers: [null, 'reps', 'holds'],
+    split: 'Quads & hips / pulses & holds / stretch', blurb: 'For riding on top: quads, inner thighs and hips that last, pulses and holds, then a hip stretch day.',
+    about: 'For the one on top. Riding asks for quads, inner thighs and hips that keep working for a long time, and a core that holds you up. One day is squats, sumo pulses and lunges; the next pulses, wall sits and bridge holds; the third a gentle circuit with a long hip stretch. Level II adds reps and Level III makes every hold longer.',
+    names: ['Cowgirl', 'Rodeo', 'Saddle Up', 'Ride On', 'Giddy Up', 'Bareback', 'Bronco', 'Trot', 'Canter', 'Gallop', 'Rein In', 'Spurs', 'Stirrups', 'Bucking Bronco', 'Mechanical Bull', 'Eight Seconds', 'Yee-haw', 'Wild West', 'High Noon Ride', 'Sunset Ride'],
+    cycle: ['quads', 'pulses', 'stretch'],
+    dayTypes: {
+      quads: { label: 'Quads & hips', short: 'Quads', blocks: [S('Quads & hips', ['posLegs', 'sumo_pulse', 'lunge2?', 'adductor?'], LIFT), C('Core', ['coreAnti', 'coreHollow'], { ...CORE, values: [2] })] },
+      pulses: { label: 'Pulses & holds', short: 'Pulses', blocks: [C('Pulses & holds', ['sumo_pulse', 'posHold', 'bridge_pulse', 'posHold', 'adductor?'], { ...COND, values: [3, 4, 5] }), C('Core', ['coreRot', 'pelvic'], { ...CORE, values: [2] })] },
+      stretch: { label: 'Stretch', short: 'Stretch', absSlots: [], blocks: [C('Gentle circuit', ['thrustBw', 'adductor', 'hipFlex', 'thrustBw?'], LIFT), F('Hip stretch', ['fxHips', 'fxStraddle', 'ygHips', 'ygRest', 'fxHips?'], FLOW)] },
+    },
+  },
+  {
+    id: 'last-longer-30', added: 16, catalogue: 9, days: 30, name: 'Last Longer 30', subject: 'Bedroom stamina', minutes: [28, 33], levers: [null, 'reps', 'weight'],
+    split: 'Hips & stamina / control & stretch, 30 days', blurb: 'Thirty days to more stamina: hip drive with a sweat one day, glute and pelvic control with a stretch the next.',
+    about: 'A month to last longer. One day is hip drive, thrusts, swings and squats, followed by a stamina Tabata; the next is slow glute work and pelvic-floor control, followed by a long hip stretch. Every day mixes strength with cardio or flexibility. Every ten days the level steps up: more reps at Level II, heavier weights at Level III.',
+    names: ['Day One Stamina', 'Warming Up', 'Pace Yourself', 'Breathe', 'Slow Down', 'Edge', 'Hold Back', 'Ride the Wave', 'Build Up', 'Plateau', 'Peak', 'Hold It', 'Control', 'Patience Pays', 'Longer', 'Longer Still', 'Staying Power', 'Endurance Test', 'Go the Distance', 'Thirty Strong'],
+    cycle: ['hips', 'core'],
+    dayTypes: {
+      hips: { label: 'Hips & stamina', short: 'Hips', blocks: [S('Hip drive', ['thrust', 'kb_swing', 'posLegs', 'thrust?'], LIFT), T('Stamina', ['hiit', 'thrustBw'], { ...CARDIO, values: [1, 2] })] },
+      core: { label: 'Control & stretch', short: 'Control', absSlots: [], blocks: [C('Glutes & control', ['single_leg_bridge', 'pelvic_floor_hold', 'bridge_hold', 'pelvic', 'thrustBw?'], LIFT), F('Hip stretch', ['fxHips', 'ygHips', 'fxStraddle', 'ygRest', 'ygRest?'], FLOW)] },
+    },
+  },
+  {
+    id: 'pelvic-power-30', added: 16, catalogue: 9, days: 30, name: 'Pelvic Power 30', subject: 'Bedroom stamina', minutes: [24, 29], levers: [null, 'holds', 'reps'],
+    split: 'Glutes & pelvic floor / hips & HIIT, 30 days', blurb: 'A month for the muscles under it all: glutes and pelvic floor, then hips with a burst of HIIT.',
+    about: 'A month for the deep muscles that make the difference. One day trains the glutes and the pelvic floor together: bridges, holds and gentle pelvic-floor squeezes. The next works the hips and inner thighs, then a short HIIT burst. Every day mixes two kinds of work, and every ten days it gets harder: longer holds at Level II, more reps at Level III.',
+    names: ['Root', 'Core Deep', 'Foundation Floor', 'Basin', 'Bowl', 'Cradle', 'Hammock', 'Sling', 'Trampoline Floor', 'Lift and Hold', 'Squeeze', 'Release', 'Pulse', 'Elevator', 'Ground Floor Up', 'Top Floor', 'Hold the Lift', 'Gentle Squeeze', 'Strong Base', 'Power Up'],
+    cycle: ['floor', 'hips'],
+    dayTypes: {
+      floor: { label: 'Glutes & pelvic floor', short: 'Floor', blocks: [S('Glutes', ['thrust', 'bridge_hold', 'single_leg_bridge'], LIFT), C('Pelvic floor', ['pelvic_floor_hold', 'pelvic', 'pelvic_floor_hold'], { ...CORE, values: [2, 3] })] },
+      hips: { label: 'Hips & HIIT', short: 'Hips', blocks: [S('Hips', ['adductor', 'thrust', 'hipFlex', 'adductor?'], LIFT), T('HIIT', ['hiit', 'cardio'], { ...CARDIO, values: [1, 2] })] },
+    },
+  },
+  // ---- Sex positions ----
+  {
+    id: 'the-pretzel', added: 16, catalogue: 9, name: 'The Pretzel', subject: 'Sex positions', minutes: [26, 31], levers: [null, 'holds', 'reps'],
+    split: 'Hip opening / inner-thigh strength', blurb: 'Bend into anything: deep hip-opening flows one day, inner-thigh and hip strength to hold it the next.',
+    about: 'For the positions that tie you in a knot. One day is a long hip-opening flow: pigeon, frog, lizard and happy baby, held long. The next builds strength at those same angles: Cossack squats, Copenhagen planks, side-lying adductions and frog pumps, so the range is yours to use, not just to reach. Level II makes every hold longer and Level III adds reps.',
+    names: ['Pretzel', 'Twist', 'Knot', 'Reef Knot', 'Granny Knot', 'Figure of Eight', 'Bowline Hips', 'Tangle', 'Twister', 'Contortionist', 'Gumby', 'Rubber Band', 'Elastic Girl', 'Origami', 'Folded', 'Bent Over Backwards', 'Lotus', 'Pigeon', 'Lizard', 'Happy Baby'],
+    cycle: ['open', 'strong'],
+    dayTypes: {
+      open: { label: 'Hip opening', short: 'Open', absSlots: [], blocks: [C('Strong at the angle', ['adductorBw', 'thrustBw', 'mbHip', 'adductorBw?'], LIFT), F('Hip opening', ['fxHips', 'fxStraddle', 'ygHips', 'fxHips', 'ygRest', 'ygRest?'], FLOW_SCALED)] },
+      strong: { label: 'Inner-thigh strength', short: 'Strength', blocks: [S('Inner-thigh strength', ['cossack_squat', 'copenhagen_plank', 'adductor', 'frog_pump'], LIFT), C('Core', ['coreRot', 'pelvic'], { ...CORE, values: [2] })] },
+    },
+  },
+  {
+    id: 'legs-over-shoulders', added: 16, catalogue: 9, name: 'Legs Over Shoulders', subject: 'Sex positions', minutes: [26, 31], levers: [null, 'holds', 'variation'],
+    split: 'Hamstrings & core / hamstring flow', blurb: 'Legs high and comfortable: hamstring and hip flexibility, with the core strength to stay there.',
+    about: 'For positions with the legs up high. Lying hamstring stretches, half splits and forward folds open the back of the legs; leg raises, hollow holds and dead bugs build the core that keeps the hips curled and steady. One day leads with strength, the other with a long flow. Level II makes every hold longer and Level III brings harder moves.',
+    names: ['Ankles Up', 'Sky High', 'Feet to Ceiling', 'Legs Up', 'Over the Top', 'Deep Fold', 'Candlestick', 'Plough', 'Jackknife', 'Folding Chair', 'Pike', 'Butterfly Up', 'High Kick', 'Can-can', 'Ballerina Legs', 'Rockette', 'Showgirl', 'Leg Lift', 'Hamstring Heaven', 'Toes to Nose'],
+    cycle: ['core', 'flow'],
+    dayTypes: {
+      core: { label: 'Hamstrings & core', short: 'Core', absSlots: [], blocks: [C('Core', ['coreHollow', 'leg_raise', 'dead_bug', 'coreHollow'], CORE), S('Hamstrings', ['single_leg_rdl_bw', 'hinge2', 'thrust?'], LIFT)] },
+      flow: { label: 'Hamstring flow', short: 'Flow', absSlots: [], blocks: [C('Active hamstrings', ['single_leg_rdl_bw', 'hipFlex', 'thrustBw', 'coreHollow?'], LIFT), F('Hamstring flow', ['fxHam', 'fxSplit', 'fxHam', 'ygRest', 'ygRest?'], FLOW_SCALED)] },
+    },
+  },
+  {
+    id: 'doggy-style-ready', added: 16, catalogue: 9, name: 'Doggy Style Ready', subject: 'Sex positions', minutes: [26, 31], levers: [null, 'reps', 'holds'],
+    split: 'Hips & back / knees & core', blurb: 'Comfortable on all fours or behind: hip drive and back care one day, knees, core and holds the next.',
+    about: 'For positions on all fours, from either side. One day trains hip drive and keeps the lower back happy: hip thrusts, bird dogs, cat-cow and back-care moves. The other builds steady knees, hips and core in a kneeling and table position: rock-backs, bear holds and planks. A happy back and strong hips make it comfortable for longer. Level II adds reps and Level III makes every hold longer.',
+    names: ['All Fours', 'Table Top', 'Bird Dog', 'Puppy Pose', 'Cat Cow', 'Downward Dog', 'Good Boy', 'Fetch', 'Sit Stay', 'Roll Over', 'Play Dead', 'Wag', 'Howl', 'Bark', 'Leash', 'Collar', 'Treat', 'Best in Show', 'Top Dog', 'Dog Days'],
+    cycle: ['hips', 'knees'],
+    dayTypes: {
+      hips: { label: 'Hips & back', short: 'Hips', blocks: [S('Hip drive', ['thrust', 'hinge2', 'thrust?'], LIFT), C('Back care', ['backStrength', 'backMove', 'bird_dog'], { ...CORE, values: [2, 3] })] },
+      knees: { label: 'Knees & core', short: 'Knees', blocks: [C('Kneeling strength', ['adductor_rockback', 'bear_hold', 'posHold', 'coreAnti'], LIFT), F('Stretch', ['ygBack', 'fxSpine', 'ygRest', 'ygRest?'], FLOW)], absSlots: [] },
+    },
+  },
+  {
+    id: 'reverse-cowgirl', added: 16, catalogue: 9, name: 'Reverse Cowgirl', subject: 'Sex positions', minutes: [26, 31], levers: [null, 'reps', 'holds'],
+    split: 'Quads & balance / thighs & hips', blurb: 'Strong quads, inner thighs and balance for riding facing away, plus the hip range to sit deep.',
+    about: 'Facing away and on top asks for strong quads, inner thighs that grip, balance and hips that let you sit deep. One day is quads and balance: split squats, wall sits and single-leg work. The next is inner thighs and hip mobility with a deep squat flow. Level II adds reps and Level III makes every hold longer.',
+    names: ['Facing Away', 'Rear View Ride', 'Back to Front', 'Reverse Gear', 'Rewind', 'Turnaround', 'About Face', 'U-turn', 'Backspin', 'Flip Side', 'Mirror Image', 'Over the Shoulder', 'Look Back', 'Glance Back', 'Throwback', 'Rearview', 'Hindsight', 'Back Seat', 'Rumble Seat', 'Saddle Back'],
+    cycle: ['quads', 'thighs'],
+    dayTypes: {
+      quads: { label: 'Quads & balance', short: 'Quads', blocks: [S('Quads', ['posLegs', 'split_squat', 'wall_sit?', 'singleLeg?'], LIFT), C('Balance', ['blStrength', 'blDynamic'], { ...CORE, values: [2] })] },
+      thighs: { label: 'Thighs & hips', short: 'Thighs', absSlots: [], blocks: [C('Inner thighs', ['sumo_pulse', 'adductor', 'deep_squat_hold', 'adductor'], LIFT), F('Deep hips', ['garland_pose', 'fxHips', 'fxStraddle', 'ygRest', 'ygRest?'], FLOW)] },
+    },
+  },
+  {
+    id: 'wheelbarrow', added: 16, catalogue: 9, name: 'Wheelbarrow', subject: 'Sex positions', minutes: [26, 31], equip: 'bw', levers: [null, 'holds', 'reps'],
+    split: 'Arms & core holds / push & bridge', blurb: 'Strong arms and core to hold yourself up: plank and push-up holds, bear holds, bridges, no equipment.',
+    about: 'For positions where you hold yourself up on your hands. One day is long holds: planks, push-up bottom holds, bear holds and pike holds. The other builds push-up strength and the bridges and glutes for the other half of the move. No equipment needed. Level II makes every hold longer and Level III adds reps.',
+    names: ['Wheelbarrow', 'Handstand', 'Hand Walk', 'Bear Walk', 'Crab Walk', 'Plank Up', 'Hold Position', 'Brace Yourself', 'Arms Locked', 'Steady Hands', 'Strong Wrists', 'Upper Hand Hold', 'Push Back', 'Lean In', 'Ground Control', 'Grounded', 'Rooted Hands', 'Table Hold', 'Bridge Over', 'Arch Up'],
+    cycle: ['holds', 'push'],
+    dayTypes: {
+      holds: { label: 'Arms & core holds', short: 'Holds', blocks: [C('Holds', ['plank', 'pushup_hold', 'bear_hold', 'pike_hold', 'coreAnti'], { ...LIFT, values: [3, 4] }), C('Bridges', ['bridge_hold', 'thrustBw'], { ...CORE, values: [2] })] },
+      push: { label: 'Push & bridge', short: 'Push', blocks: [C('Push & bridge', ['chestBw', 'thrustBw', 'armsBw', 'thrustBw'], { ...LIFT, values: [3, 4, 5] }), C('Core', ['coreHollow', 'coreAnti'], { ...CORE, values: [2] })] },
+    },
+  },
+  {
+    id: 'standing-o', added: 16, catalogue: 9, name: 'Standing O', subject: 'Sex positions', minutes: [28, 33], levers: [null, 'weight', 'holds'],
+    split: 'Legs & lift / balance & holds', blurb: 'For standing positions: legs and back to lift and hold, calves and balance to stay steady on your feet.',
+    about: 'For positions on your feet. One day builds the legs and back to lift and hold: squats, deadlifts and carries. The other trains balance and endurance on your feet: calf raises and holds, single-leg work and wall sits. Steady feet and strong legs keep it going instead of wobbling. Level II asks for heavier weights and Level III makes every hold longer.',
+    names: ['Standing Ovation', 'On Your Feet', 'Stand and Deliver', 'Upright', 'Tall Order', 'Up Against It', 'Wall Flower', 'Tiptoe Up', 'Stand Firm', 'Take a Stand', 'Stand Tall', 'Stand By Me', 'Stand Up Guy', 'Grandstand', 'Bandstand', 'Stand Easy', 'Last Stand', 'Stand Off', 'Kickstand', 'Nightstand'],
+    cycle: ['lift', 'balance'],
+    dayTypes: {
+      lift: { label: 'Legs & lift', short: 'Lift', blocks: [S('Legs & lift', ['squat2', 'hinge2', 'farmer_carry', 'posLegs?'], LIFT), C('Core', ['coreAnti', 'pelvic'], { ...CORE, values: [2] })] },
+      balance: { label: 'Balance & holds', short: 'Balance', blocks: [C('Balance & holds', ['calf', 'singleLeg', 'posHold', 'blStrength'], { ...LIFT, values: [2, 3, 4] }), C('Balance', ['blDynamic', 'blStatic'], { ...CORE, values: [2] })] },
+    },
+  },
+  {
+    id: 'splits-in-bed', added: 16, catalogue: 9, name: 'Splits in Bed', subject: 'Sex positions', minutes: [24, 29], levers: [null, 'holds', 'holds'],
+    split: 'Front split / straddle', blurb: 'Work toward the front split and a wide straddle: long flows with active strength at the end of the range.',
+    about: 'Working toward the splits, front and side. One day is a front-split flow, half splits, lizards and lunges held long; the other a straddle flow, frog, butterfly and wide-leg folds. Each starts with a short strength circuit at the end of the range, which is what makes new flexibility stick. Both later levels make every hold longer.',
+    names: ['Split Second', 'Full Split', 'Half Split', 'Middle Split', 'Side Split', 'Straddle', 'Pancake', 'Frog Legs', 'Butterfly Wings', 'Wide Open', 'Spread Eagle', 'Starfish Legs', 'Ballet Barre', 'Gymnast Split', 'Cheerleader', 'Dancer', 'Ice Skater', 'Grand Jeté', 'Splits Pending', 'Flat to the Floor'],
+    cycle: ['front', 'side'],
+    dayTypes: {
+      front: { label: 'Front split', short: 'Front', absSlots: [], blocks: [C('Active range', ['hipFlex', 'single_leg_rdl_bw', 'split_squat', 'hipFlex?'], LIFT), F('Front split flow', ['fxSplit', 'fxQuad', 'fxSplit', 'fxHam', 'ygRest', 'fxSplit?'], FLOW_SCALED)] },
+      side: { label: 'Straddle', short: 'Side', absSlots: [], blocks: [C('Active range', ['adductor', 'cossack_squat', 'copenhagen_plank', 'adductor?'], LIFT), F('Straddle flow', ['fxStraddle', 'fxHips', 'fxStraddle', 'ygRest', 'fxStraddle?'], FLOW_SCALED)] },
+    },
+  },
+  {
+    id: 'bendy-body', added: 16, catalogue: 9, name: 'Bendy Body', subject: 'Sex positions', minutes: [24, 29], levers: [null, 'holds', 'variation'],
+    split: 'Backbends & hips / twists & shoulders', blurb: 'A body that bends every way: backbends, hip openers, twists and shoulder openers, with core between.',
+    about: 'Flexible all over, not just in the hips. One day is backbends and hip openers: bridge, camel, cobra and pigeon. The other is twists and shoulder openers, for the positions where you turn or reach back. A short strength circuit for the back starts each day so the new range comes with control. Level II makes every hold longer and Level III brings deeper poses.',
+    names: ['Bendy', 'Willow', 'Reed', 'Bamboo Bend', 'Rubber', 'Flex Appeal', 'Limber', 'Supple', 'Lithe', 'Loose', 'Fluid', 'Liquid', 'Wave', 'Ripple', 'Serpent', 'Cobra', 'Camel', 'Bow', 'Wheel', 'Scorpion'],
+    cycle: ['back', 'twist'],
+    dayTypes: {
+      back: { label: 'Backbends & hips', short: 'Backbends', absSlots: [], blocks: [C('Back strength', ['superman', 'bridge_pulse', 'backStrength', 'coreHollow?'], LIFT), F('Backbends & hips', ['ygBack', 'ygHips', 'ygBack', 'fxHips', 'ygRest', 'ygHips?'], FLOW_SCALED)] },
+      twist: { label: 'Twists & shoulders', short: 'Twists', absSlots: [], blocks: [C('Back & twist strength', ['backBw', 'coreRot', 'trapsBw', 'mbSpine?'], LIFT), F('Twists & shoulders', ['fxSpine', 'fxUpper', 'fxSpine', 'fxUpper', 'ygRest', 'ygRest?'], FLOW_SCALED)] },
+    },
+  },
+  {
+    id: 'kama-sutra-30', added: 16, catalogue: 9, days: 30, name: 'Kama Sutra 30', subject: 'Sex positions', minutes: [28, 33], levers: [null, 'reps', 'holds'],
+    split: 'Hips strong / hips open / hold it, 30 days', blurb: 'Thirty days through the positions: hip strength, hip range and the holds that keep you there.',
+    about: 'A month that works through what the classics ask of a body. One day builds hip and inner-thigh strength with a short stretch after; the next opens the hips and hamstrings with a long flow after a short strength circuit at the same angles; the third trains the holds, wall sits, bridges and planks, with a stamina burst. Every day mixes two kinds of work, and every ten days it gets harder.',
+    names: ['Chapter One', 'The Lotus', 'The Bridge', 'The Swan', 'The Lion', 'The Tiger', 'The Crab', 'The Elephant', 'The Mare', 'The Cobra', 'The Butterfly', 'The Peacock', 'The Bow', 'The Wheel', 'The Plough', 'The Fan', 'The Moon', 'The Star', 'The Scissors', 'The Last Page'],
+    cycle: ['strong', 'open', 'hold'],
+    dayTypes: {
+      strong: { label: 'Hips strong', short: 'Strong', absSlots: [], blocks: [S('Hip strength', ['thrust', 'adductor', 'cossack_squat', 'hipFlex?'], LIFT), F('Stretch', ['fxHips', 'ygRest', 'ygRest?'], FLOW)] },
+      open: { label: 'Hips open', short: 'Open', absSlots: [], blocks: [C('Strong at the angle', ['adductorBw', 'thrustBw', 'hipFlex', 'adductorBw?'], LIFT), F('Hip & hamstring flow', ['fxHips', 'fxHam', 'fxStraddle', 'ygRest', 'ygRest?'], FLOW_SCALED)] },
+      hold: { label: 'Hold it', short: 'Hold', blocks: [C('Holds', ['posHold', 'bridge_hold', 'posHold', 'plank'], { ...LIFT, values: [3, 4] }), T('Stamina', ['hiit', 'thrustBw'], { ...CARDIO, values: [1] })] },
+    },
+  },
+  {
+    id: 'flexible-lover-30', added: 16, catalogue: 9, days: 30, name: 'Flexible Lover 30', subject: 'Sex positions', minutes: [24, 29], equip: 'bw', levers: [null, 'holds', 'reps'],
+    split: 'Open & strong / bend & hold, 30 days', blurb: 'A month of flexibility you can use: open hips and hamstrings, then bend and hold, no equipment.',
+    about: 'A month of flexibility you can actually use, on the floor with nothing else. One day pairs a hip-opening flow with bodyweight strength at the same angles; the next pairs backbends and twists with holds that keep you steady. Every day mixes flexibility with strength, and every ten days it gets harder: longer holds at Level II, more reps at Level III.',
+    names: ['Open Up', 'Loosen Up', 'Bend Over', 'Stretch Out', 'Reach', 'Unfold', 'Unwind Hips', 'Melt', 'Soften', 'Sink', 'Deepen', 'Open Wide', 'Arch', 'Curl', 'Twist and Shout', 'Roll With It', 'Let Go', 'Give In', 'Surrender', 'Bliss'],
+    cycle: ['open', 'bend'],
+    dayTypes: {
+      open: { label: 'Open & strong', short: 'Open', absSlots: [], blocks: [C('Strong at the angle', ['adductorBw', 'thrustBw', 'adductorBw', 'thrustBw?'], LIFT), F('Hip opening', ['fxHips', 'fxStraddle', 'fxHam', 'ygRest', 'ygRest?'], FLOW_SCALED)] },
+      bend: { label: 'Bend & hold', short: 'Bend', absSlots: [], blocks: [C('Holds', ['posHold', 'bridge_hold', 'plank', 'posHold?'], LIFT), F('Backbends & twists', ['ygBack', 'fxSpine', 'ygBack', 'ygRest', 'ygRest?'], FLOW_SCALED)] },
+    },
+  },
 ];
 
 module.exports = CONFIGS;

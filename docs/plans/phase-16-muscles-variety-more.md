@@ -37,7 +37,7 @@ lengths only.
 | 4 | Muscle focus: Chest, Back, Shoulders, Arms (+32) | content | 1, 2 | `content/muscles-upper` | done (PR #172) |
 | 5 | Muscle focus: Hips & adductors, Calves & lower legs, Neck & traps (+24) | content | 1, 2 | `content/muscles-other` | done (PR #173) |
 | 6 | Variety (+15) | content | 1, 3 | `content/variety` | done (PR #174) |
-| 7 | After-dark (+30) | content | 1, 2 | `content/after-dark` | – |
+| 7 | After-dark (+30) | content | 1, 2 | `content/after-dark` | in review |
 | 8 | Strength +49 | content | 1, 2 | `content/strength-plus-2` | – |
 | 9 | Cardio & combat +28 | content | 1 | `content/cardio-plus-2` | – |
 | 10 | Mind & body +32 | content | 1 | `content/mind-plus-2` | – |
@@ -139,6 +139,17 @@ The page is 123.8 KB gzipped against the 125 KB first-download gate (ticket 7b),
   **A flake from ticket 5, fixed here:** Calves is a Strength subject and its pools hold Pilates heel raises, which have
   no stand-in (Phase 13: kept, marked), so a random Strength workout could open with one. The skip spec now picks the
   first exercise that has a stand-in. (The pools stay: changing them would reshuffle pinned programs.)
+- **Ticket 7 as built (4 Oct): 30 after-dark programs, 334 → 364**, three Mixed subjects of 10. **Beach body:** Beach
+  Body, V-Taper, Booty Call, Abs Out, Gun Show Tonight, Shirt Off (no gear), Bikini Ready, Thirst Trap, Beach Body 30,
+  Naked in the Mirror 30. **Bedroom stamina:** All Night Long, Your Lady's Favorite Fuck (Noam's name), Pound Town,
+  Round Two, Deep Stroke, Hold Me Up, Marathon Session (~40 min), On Top, Last Longer 30, Pelvic Power 30. **Sex
+  positions:** The Pretzel, Legs Over Shoulders, Doggy Style Ready, Reverse Cowgirl, Wheelbarrow (no gear), Standing O,
+  Splits in Bed, Bendy Body, Kama Sutra 30, Flexible Lover 30. Real training underneath: the muscles that show; hip
+  drive, endurance and pelvic-floor control; hip, adductor, hamstring and back range with strength at those angles.
+  **Every day type mixes two families** (the Mixed rule), so the stretch days start with a strength circuit at the same
+  angles. New pools `thrust thrustBw pelvic posHold posLegs`. In the finder: Beach body under "Get stronger", Bedroom
+  stamina under "Fitness & cardio", Sex positions under "Flexibility & mobility". **The recipe book's gate moved** from
+  300 / 40 KB to 500 / 70 KB (now 306 KB raw; it loads only when Build your own opens, then stays offline).
 
 ## Challenge round
 - **Weakest assumption: one look-alike muscle program per subject.** Eight programs on one muscle group risk
