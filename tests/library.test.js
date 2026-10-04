@@ -44,17 +44,17 @@ const SUBJECTS = {
   Bodyweight: { count: 19, abs: true, formats: ['superset', 'straight', 'circuit', 'amrap'] },
   'Busy week': { count: 17, abs: true, formats: ['circuit', 'superset', 'amrap', 'emom', 'straight', 'tabata'] },
   // Mixed (Phase 6): abs depends on the day type, so it has its own test below
-  'Strength & stretch': { count: 9, abs: undefined, formats: ['straight', 'superset', 'flow'] },
-  Fighter: { count: 9, abs: undefined, formats: ['bouts', 'straight', 'superset', 'circuit', 'emom', 'amrap', 'tabata', 'flow'] },
-  Athlete: { count: 9, abs: undefined, formats: ['straight', 'superset', 'circuit'] },
+  'Strength & stretch': { count: 14, abs: undefined, formats: ['straight', 'superset', 'flow'] },
+  Fighter: { count: 14, abs: undefined, formats: ['bouts', 'straight', 'superset', 'circuit', 'emom', 'amrap', 'tabata', 'flow'] },
+  Athlete: { count: 14, abs: undefined, formats: ['straight', 'superset', 'circuit'] },
   // Phase 16: every day is different (its own test below)
   // Phase 16: after-dark (Mixed, abs by day type)
   'Beach body': { count: 10, abs: undefined, formats: ['straight', 'superset', 'circuit', 'tabata', 'amrap', 'emom', 'flow'] },
   'Bedroom stamina': { count: 10, abs: undefined, formats: ['straight', 'circuit', 'emom', 'amrap', 'tabata', 'flow'] },
   'Sex positions': { count: 10, abs: undefined, formats: ['straight', 'circuit', 'tabata', 'flow'] },
   Variety: { count: 15, abs: undefined, formats: ['straight', 'superset', 'circuit', 'emom', 'amrap', 'tabata', 'flow'] }, // flow: the stretch some days end with
-  'Balanced week': { count: 10, abs: undefined, formats: ['straight', 'superset', 'circuit', 'emom', 'amrap', 'tabata', 'ladder', 'bouts', 'flow'] },
-  'Calm strength': { count: 10, abs: undefined, formats: ['straight', 'superset', 'circuit', 'flow'] },
+  'Balanced week': { count: 15, abs: undefined, formats: ['straight', 'superset', 'circuit', 'emom', 'amrap', 'tabata', 'ladder', 'bouts', 'flow'] },
+  'Calm strength': { count: 14, abs: undefined, formats: ['straight', 'superset', 'circuit', 'flow'] },
 };
 
 for (const [subject, want] of Object.entries(SUBJECTS)) {
@@ -139,8 +139,8 @@ test('the core programs opt in to the new catalogue (catalogue: 5): their abs fi
   assert.ok(optIn.some((p) => p.days.some((d) => d.blocks.at(-1).items.some((it) => fresh.has(it.ex)))));
 });
 
-test('the library: 473 programs in 41 subjects', () => {
-  assert.equal(programs.length, 473);
+test('the library: 497 programs in 41 subjects', () => {
+  assert.equal(programs.length, 497);
   assert.equal(new Set(programs.map((p) => p.subject)).size, 41);
 });
 
@@ -447,4 +447,17 @@ test('after-dark: every main block tagged, no abs after a stretch, and each subj
     assert.ok(top.some((m) => muscles.includes(m)), `${p.id}: top muscles ${top.join(', ')}`);
   }));
   assert.ok(programs.some((p) => p.name === "Your Lady's Favorite Fuck"), 'Noam named it');
+});
+
+// Phase 16 ticket 11: the Mixed family's older subjects +24, held to the same rules as Phase 14's
+test('Phase 16 Mixed programs in the older subjects: every main block tagged, two families or more every day, no abs after a flow', () => {
+  const OLDER = ['Strength & stretch', 'Fighter', 'Athlete', 'Balanced week', 'Calm strength'];
+  const list = programs.filter((p) => OLDER.includes(p.subject) && cfgOf[p.id].added === 16);
+  assert.equal(list.length, 24);
+  list.forEach((p) => p.days.forEach((d) => {
+    assert.ok(mainOf(d).every((b) => FAMILY_TAGS.includes(b.family)), `${p.id} d${d.day}`);
+    assert.ok(familiesOf(d).length >= 2, `${p.id} d${d.day}: a mixed day`);
+    if (mainOf(d).at(-1).format === 'flow') assert.notEqual(d.blocks.at(-1).kind, 'abs', `${p.id} d${d.day}: abs after a flow`);
+    if (p.subject === 'Balanced week') assert.deepEqual(familiesOf(d).sort(), ['Cardio & combat', 'Mind & body', 'Strength'], `${p.id} d${d.day}: all three families`);
+  }));
 });

@@ -41,7 +41,7 @@ lengths only.
 | 8 | Strength +49 | content | 1, 2 | `content/strength-plus-2` | done (PR #176) |
 | 9 | Cardio & combat +28 | content | 1 | `content/cardio-plus-2` | done (PR #177) |
 | 10 | Mind & body +32 | content | 1 | `content/mind-plus-2` | done (PR #178) |
-| 11 | Mixed +24 | content | 1 | `content/mixed-plus-2` | – |
+| 11 | Mixed +24 | content | 1 | `content/mixed-plus-2` | done (PR #179) |
 
 ### 1. The program list out of the first download
 The page is 123.8 KB gzipped against the 125 KB first-download gate (ticket 7b), and ~234 programs add about 15 KB.
@@ -168,6 +168,11 @@ The page is 123.8 KB gzipped against the 125 KB first-download gate (ticket 7b),
   no-abs subjects keep `absSlots: []`. The new neck, calf, shin and adductor moves reach the posture, mobility,
   balance and back-care programs. **Flows fit in steps** (one pass, two or three), so a day that must land in a narrow
   range gets two shorter flows rather than one long one.
+- **Ticket 11 as built (4 Oct): Mixed +24, 473 → 497.** Strength & stretch +5, Fighter +5 (two train the neck and
+  grip, as fighters do), Athlete +5 (jumps first, on long rests), Balanced week +5 (all three families every day),
+  Calm strength +4 (Pilates or core, slow strength, yin). A new test holds them to the Phase 14 Mixed rules.
+- **Phase 16 done: 263 → 497 programs** (234 new), 40 new exercises, three new muscles, the program list out of the
+  first download (page 112.7 KB gzipped), the Variety engine, and the recipe book at 406 KB.
 
 ## Challenge round
 - **Weakest assumption: one look-alike muscle program per subject.** Eight programs on one muscle group risk
