@@ -26,7 +26,7 @@ visually messy"). Grilled the same day:
 |---|---|---|---|---|---|
 | 0 | This plan | plan | – | `plan/phase-17` | done (PR #180) |
 | 1 | Shelf groups on the Programs page | feature | – | `feature/shelf-groups` | done (PR #181) |
-| 2 | The tab strip swipes on a signed-in phone (bug, Noam 4 Oct) | fix | 1 | `fix/tab-strip-scroll` | – |
+| 2 | The tab strip swipes on a signed-in phone (bug, Noam 4 Oct) | fix | 1 | `fix/tab-strip-scroll` | done (PR #183) |
 
 ### 1. Shelf groups on the Programs page
 - `SHELVES` in `app/library.js` (the table above); the Programs page's tabs, chips, shelves and counter use it instead
