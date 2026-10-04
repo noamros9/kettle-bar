@@ -34,7 +34,7 @@ lengths only.
 | 1 | The program list out of the first download | feature | – | `feature/library-index` | done (PR #169) |
 | 2 | Catalogue 9: exercises for the new muscle subjects and after-dark | feature | – | `feature/catalogue-9` | done (PR #170) |
 | 3 | Variety programs in the engine (no repeated day) | feature | – | `feature/variety` | done (PR #171) |
-| 4 | Muscle focus: Chest, Back, Shoulders, Arms (+32) | content | 1, 2 | `content/muscles-upper` | – |
+| 4 | Muscle focus: Chest, Back, Shoulders, Arms (+32) | content | 1, 2 | `content/muscles-upper` | in review |
 | 5 | Muscle focus: Hips & adductors, Calves & lower legs, Neck & traps (+24) | content | 1, 2 | `content/muscles-other` | – |
 | 6 | Variety (+15) | content | 1, 3 | `content/variety` | – |
 | 7 | After-dark (+30) | content | 1, 2 | `content/after-dark` | – |
@@ -104,6 +104,18 @@ The page is 123.8 KB gzipped against the 125 KB first-download gate (ticket 7b),
   equipment (some no-gear, some kettlebell only).
 - **Test first:** each ticket's programs build, fit their time ranges, and their pins are added; muscle-focus programs
   give their subject's muscle the largest share in `data/muscles.json`.
+- **Ticket 4 as built (4 Oct): 32 programs, 263 → 295, four new Strength subjects.** Each subject has the same eight
+  shapes so they're easy to compare: a 2:1 straight-set Day (Chest Day, Back Day, Shoulder Day, Arm Day), an every-day
+  superset program with a helper (Push & Press, Back & Biceps, Boulder Shoulders, Arm Supersets), a no-equipment 2:1
+  circuit (Push-up Chest, Floor Back, Floor Shoulders, Bodyweight Arms), an EMOM, a kettlebell-only 2:1 (Bell Chest,
+  Bell Back, Bell Shoulders; Arms has Chin-up Arms instead, since one bell gives arms too little), a ladder program, and
+  two 30-day programs (a heavy 2:1 and an every-day AMRAP or circuit). New pools `chestPress chestBw chestIso backRow
+  backBar backRear backBw shoulderPress shoulderRaise shoulderHealth shoulderBw trapsPool biceps2 triceps2 armsBw`.
+  **The focus test, as written:** the abs finisher ends every library day and so tops every program, and the helpers
+  are close by design, so the test leaves both out: every other muscle gets less than the subject's own.
+  **Travel mode:** the side-lying raise is lateral raises' only floor stand-in (Phase 10), so `shoulderRaise` holds just
+  one side-shoulder dumbbell move and every day that can also have the lateral raise hold places the raise first.
+  The 30-day test now asks for two or more per family. Page 111.2 KB gzipped.
 
 ## Challenge round
 - **Weakest assumption: one look-alike muscle program per subject.** Eight programs on one muscle group risk

@@ -164,6 +164,22 @@
       gentleBalance: ['single_leg_stand', 'heel_to_toe_walk', 'single_leg_calf_raise', 'single_leg_reach'],
       backMove: ['pelvic_tilt', 'cat_cow', 'prone_press_up', 'open_book', 'knee_hug', 'childs_pose', 'sphinx_pose', 'supine_twist'],
       backStrength: ['bird_dog', 'mcgill_curl_up', 'side_plank_knee', 'glute_bridge', 'clamshell', 'dead_bug', 'prone_ytw', 'superman'],
+      // Phase 16 (catalogue 9): the muscle-focus subjects. New pool names only, so no config built before them changes
+      chestPress: ['db_floor_press', 'close_grip_press', 'squeeze_press', 'kb_floor_press', 'floor_fly', 'db_pullover'],
+      chestBw: ['pushup', 'wide_pushup', 'pseudo_planche_pushup', 'diamond_pushup', 'archer_pushup', 'spiderman_pushup', 'explosive_pushup'],
+      chestIso: ['floor_fly', 'squeeze_press', 'pushup_hold', 'db_pullover'],
+      backRow: ['db_row', 'one_arm_row', 'gorilla_row', 'kb_dead_stop_row', 'renegade_row', 'kb_row'],
+      backBar: ['pullup', 'chinup', 'wide_pullup', 'negative_pullup', 'commando_pullup'],
+      backRear: ['reverse_fly', 'prone_y_raise', 'prone_ytw', 'reverse_snow_angel', 'kb_high_pull'],
+      backBw: ['prone_lat_pull', 'superman_row', 'reverse_snow_angel', 'prone_y_raise', 'superman'],
+      shoulderPress: ['db_shoulder_press', 'arnold_press', 'kb_press', 'bottoms_up_press', 'pike_pushup'],
+      shoulderRaise: ['lateral_raise', 'db_front_raise'], // one side-shoulder dumbbell move: side_lying_raise, lateral raises' floor stand-in (Phase 10), must stay free for it
+      shoulderHealth: ['external_rotation', 'prone_ytw', 'wall_slides', 'kb_halo', 'reverse_fly', 'lateral_raise_hold'], // always after the raises in a day
+      shoulderBw: ['pike_pushup', 'pike_hold', 'pseudo_planche_pushup', 'prone_y_raise', 'side_lying_raise', 'prone_ytw'],
+      trapsPool: ['db_shrug', 'shrug_hold', 'upright_row', 'kb_high_pull', 'farmer_carry'],
+      biceps2: ['db_curl', 'hammer_curl', 'concentration_curl', 'zottman_curl', 'cross_body_curl'],
+      triceps2: ['db_skullcrusher', 'overhead_triceps_ext', 'db_kickback', 'tate_press', 'close_grip_press', 'floor_dip', 'close_grip_pushup'],
+      armsBw: ['floor_dip', 'close_grip_pushup', 'diamond_pushup', 'plank_to_pushup', 'pike_pushup'],
     };
     // Pools computed from the catalogue. An exercise marked `added: N` (the phase that added it) joins them only
     // for configs with `catalogue: N` or later, so new exercises can't reshuffle the days of existing programs.
