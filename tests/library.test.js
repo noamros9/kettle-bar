@@ -48,6 +48,10 @@ const SUBJECTS = {
   Fighter: { count: 9, abs: undefined, formats: ['bouts', 'straight', 'superset', 'circuit', 'emom', 'amrap', 'tabata', 'flow'] },
   Athlete: { count: 9, abs: undefined, formats: ['straight', 'superset', 'circuit'] },
   // Phase 16: every day is different (its own test below)
+  // Phase 16: after-dark (Mixed, abs by day type)
+  'Beach body': { count: 10, abs: undefined, formats: ['straight', 'superset', 'circuit', 'tabata', 'amrap', 'emom', 'flow'] },
+  'Bedroom stamina': { count: 10, abs: undefined, formats: ['straight', 'circuit', 'emom', 'amrap', 'tabata', 'flow'] },
+  'Sex positions': { count: 10, abs: undefined, formats: ['straight', 'circuit', 'tabata', 'flow'] },
   Variety: { count: 15, abs: undefined, formats: ['straight', 'superset', 'circuit', 'emom', 'amrap', 'tabata', 'flow'] }, // flow: the stretch some days end with
   'Balanced week': { count: 10, abs: undefined, formats: ['straight', 'superset', 'circuit', 'emom', 'amrap', 'tabata', 'ladder', 'bouts', 'flow'] },
   'Calm strength': { count: 10, abs: undefined, formats: ['straight', 'superset', 'circuit', 'flow'] },
@@ -135,9 +139,9 @@ test('the core programs opt in to the new catalogue (catalogue: 5): their abs fi
   assert.ok(optIn.some((p) => p.days.some((d) => d.blocks.at(-1).items.some((it) => fresh.has(it.ex)))));
 });
 
-test('the library: 334 programs in 38 subjects', () => {
-  assert.equal(programs.length, 334);
-  assert.equal(new Set(programs.map((p) => p.subject)).size, 38);
+test('the library: 364 programs in 41 subjects', () => {
+  assert.equal(programs.length, 364);
+  assert.equal(new Set(programs.map((p) => p.subject)).size, 41);
 });
 
 test('the Signature shelf has 15 programs: each original, then its Tempo and Harder moves variations', () => {
@@ -427,4 +431,20 @@ test('Variety: 15 programs, every day different, never the same kind two days ru
     });
     assert.ok(new Set(p.days.map((d) => mainOf(d)[0].format)).size >= 4, `${p.id}: at least four formats`);
   });
+});
+
+// Phase 16 ticket 7: after-dark. Mixed programs: every main block tagged, no abs after a stretch, and each subject
+// trains what it promises: Beach body the muscles that show, Bedroom stamina the hips and core, Sex positions hip range
+test('after-dark: every main block tagged, no abs after a stretch, and each subject trains what it promises', () => {
+  const { programFocus } = require('../app/stats.js');
+  const PROMISE = { 'Beach body': ['chest', 'side_delts', 'front_delts', 'biceps', 'triceps', 'abs', 'glutes', 'lats'], 'Bedroom stamina': ['glutes', 'abs', 'hamstrings', 'quads', 'adductors'], 'Sex positions': ['glutes', 'adductors', 'hamstrings', 'abs', 'hip_flexors', 'quads'] };
+  Object.entries(PROMISE).forEach(([subject, muscles]) => programs.filter((p) => p.subject === subject).forEach((p) => {
+    p.days.forEach((d) => {
+      assert.ok(mainOf(d).every((b) => FAMILY_TAGS.includes(b.family)), `${p.id} d${d.day}: untagged`);
+      if (mainOf(d).at(-1).format === 'flow') assert.ok(!d.blocks.some((b) => b.kind === 'abs'), `${p.id} d${d.day}: abs after a stretch`);
+    });
+    const f = programFocus(p.days, EX), top = Object.entries(f).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([m]) => m);
+    assert.ok(top.some((m) => muscles.includes(m)), `${p.id}: top muscles ${top.join(', ')}`);
+  }));
+  assert.ok(programs.some((p) => p.name === "Your Lady's Favorite Fuck"), 'Noam named it');
 });

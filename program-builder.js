@@ -199,6 +199,12 @@
       traps2: ['db_shrug', 'shrug_hold', 'upright_row', 'farmer_carry', 'kb_high_pull', 'prone_y_raise'],
       trapReps: ['db_shrug', 'upright_row', 'kb_high_pull', 'prone_y_raise'],
       trapsBw: ['prone_y_raise', 'reverse_snow_angel', 'prone_ytw', 'superman_row', 'wall_slides'],
+      // Phase 16 ticket 7: after-dark (hip drive, holds for positions, pelvic floor)
+      thrust: ['hip_thrust', 'bridge_pulse', 'frog_pump', 'glute_bridge', 'kb_swing', 'single_leg_bridge'],
+      thrustBw: ['bridge_pulse', 'frog_pump', 'glute_bridge', 'single_leg_bridge', 'glute_bridge_march'],
+      pelvic: ['pelvic_floor_hold', 'bridge_hold', 'pelvic_tilt', 'dead_bug'],
+      posHold: ['wall_sit', 'bridge_hold', 'bear_hold', 'plank', 'deep_squat_hold', 'copenhagen_plank', 'calf_raise_hold'],
+      posLegs: ['sumo_pulse', 'cossack_squat', 'wall_sit', 'reverse_lunge', 'split_squat', 'goblet_squat'],
     };
     // Pools computed from the catalogue. An exercise marked `added: N` (the phase that added it) joins them only
     // for configs with `catalogue: N` or later, so new exercises can't reshuffle the days of existing programs.

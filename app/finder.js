@@ -93,10 +93,10 @@
   }
 
   const GOALS = [
-    ['strength', 'Get stronger', ['Signature', 'Strength', 'Pull-ups', 'Legs & glutes', 'Kettlebell only', 'Bodyweight', 'Busy week', 'Grip & forearms', 'Kettlebell complexes', 'Climber / pull strength', 'Chest', 'Back', 'Shoulders', 'Arms', 'Hips & adductors', 'Calves & lower legs', 'Neck & traps']],
-    ['fitness', 'Fitness & cardio', ['Conditioning', 'HIIT', 'Plyometrics', 'Running prep', 'Court & field sports']],
+    ['strength', 'Get stronger', ['Signature', 'Strength', 'Pull-ups', 'Legs & glutes', 'Kettlebell only', 'Bodyweight', 'Busy week', 'Grip & forearms', 'Kettlebell complexes', 'Climber / pull strength', 'Chest', 'Back', 'Shoulders', 'Arms', 'Hips & adductors', 'Calves & lower legs', 'Neck & traps', 'Beach body']],
+    ['fitness', 'Fitness & cardio', ['Conditioning', 'HIIT', 'Plyometrics', 'Running prep', 'Court & field sports', 'Bedroom stamina']],
     ['fight', 'Fighting skills', ['Boxing', 'Kickboxing', 'Fighter']],
-    ['flex', 'Flexibility & mobility', ['Yoga', 'Pilates', 'Flexibility', 'Mobility & posture']],
+    ['flex', 'Flexibility & mobility', ['Yoga', 'Pilates', 'Flexibility', 'Mobility & posture', 'Sex positions']],
     ['balance', 'Core, balance & sport', ['Core & abs', 'Balance & stability', 'Athlete']],
     ['gentle', 'Gentle, or a sore back', ['Gentle / low impact', 'Back care', 'Calm strength']],
     ['mix', 'A bit of everything', ['Balanced week', 'Strength & stretch', 'Variety']],
