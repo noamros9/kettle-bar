@@ -41,7 +41,7 @@ as Variety), so they are in `skipped` in the recipe book.
 | 1 | Two-figure drawings | feature | – | `feature/two-figures` | done (PR #193) |
 | 2 | Catalogue 10: partner moves, teasing and positions | feature | 1 | `feature/catalogue-10` | done (PR #194) |
 | 3 | Couples (+20) | content | 2 | `content/couples` | done (PR #195) |
-| 4 | Endurance & control, Hip power & thrust, Carry & hold, Flexible & bendy (+20) | content | 2 | `content/after-dark-a` | – |
+| 4 | Endurance & control, Hip power & thrust, Carry & hold, Flexible & bendy (+20) | content | 2 | `content/after-dark-a` | done (PR #196) |
 | 5 | Strip & show-off, Her pleasure, Quickie, Back & knees care (+20) | content | 2 | `content/after-dark-b` | – |
 | 6 | Date night warm-up, Positions tour, Morning glory / Sunday (+15) | content | 2 | `content/after-dark-c` | – |
 

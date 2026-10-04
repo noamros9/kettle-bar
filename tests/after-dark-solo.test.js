@@ -14,6 +14,10 @@ const PROMISE = {
   'Hip power & thrust': ['glutes', 'hamstrings'],
   'Carry & hold': ['quads', 'forearms', 'glutes', 'abs', 'upper_back', 'traps'],
   'Flexible & bendy': ['hamstrings', 'adductors', 'hip_flexors', 'glutes', 'lower_back'],
+  'Strip & show-off': ['chest', 'front_delts', 'side_delts', 'biceps', 'triceps', 'abs', 'glutes'],
+  'Her pleasure': ['neck', 'traps', 'forearms', 'upper_back', 'hip_flexors', 'quads', 'abs'],
+  Quickie: ['quads', 'glutes', 'chest', 'abs', 'hamstrings', 'front_delts'],
+  'Back & knees care': ['lower_back', 'glutes', 'abs', 'quads', 'forearms', 'rear_delts', 'upper_back', 'shins'],
 };
 const TAGS = ['Strength', 'Cardio & combat', 'Mind & body'];
 const mains = (d) => d.blocks.filter((b) => b.kind !== 'abs' && b.kind !== 'warmup' && b.kind !== 'cooldown');

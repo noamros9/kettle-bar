@@ -480,4 +480,233 @@ module.exports = [
       back: { label: 'Back', short: 'Back', absSlots: [], blocks: [C('Strong back', ['backStrength', 'backBw', 'thrustBw?'], { ...LIFT, values: [2, 3] }), F('Back flow', ['ygBack', 'fxSpine', 'fxQuad', 'ygRest?'], FLOW_SCALED)] },
     },
   },
+  // ---- Strip & show-off (ticket 5): a pump before a date, short and sweaty ----
+  {
+    id: 'pump-before-the-date', ...SOLO, name: 'Pump Before the Date', subject: 'Strip & show-off', minutes: [22, 26], levers: [null, 'reps', 'weight'],
+    split: 'Upper pump / arms & abs', blurb: 'Twenty minutes before you go out: chest, shoulders and arms full of blood, abs lit up.',
+    about: 'A pump, not a workout to recover from. Supersets of presses, flies, raises and curls with short rests fill the muscles that show, and a fast abs finisher tightens the middle. Do it an hour before the date, shower, and walk in looking your best. Level II adds reps, Level III asks for heavier weights.',
+    names: ['Getting Ready', 'Shower After', 'Cologne', 'Good Shirt', 'Mirror Check', 'Pumped', 'Filled Out', 'Veins', 'Sleeves Tight', 'Buttons Strain', 'Fresh', 'Sharp', 'Dressed Up', 'Out the Door', 'Fashionably Late', 'Walk In', 'Heads Turn', 'Looking Good', 'Feeling Good', 'Showtime'],
+    cycle: ['upper', 'arms'],
+    dayTypes: {
+      upper: { label: 'Upper pump', short: 'Upper', blocks: [SS('Upper pump', ['chest2', 'shoulders2', 'chestIso', 'shoulderRaise'], LIFT), T('Abs finisher', ['coreHollow', 'hiit'], { ...COND, values: [1] })] },
+      arms: { label: 'Arms & abs', short: 'Arms', blocks: [SS('Arm pump', ['biceps2', 'triceps2', 'biceps2', 'triceps2'], LIFT), T('Abs finisher', ['coreRot', 'hiit'], { ...COND, values: [1] })] },
+    },
+  },
+  {
+    id: 'striptease-pump', ...SOLO, name: 'Striptease Pump', subject: 'Strip & show-off', minutes: [21, 25], equip: 'bw', levers: [null, 'reps', 'variation'],
+    split: 'Push-up pump / core & glutes', blurb: 'No equipment, maximum show: push-up pumps, glute pumps and abs, for when the clothes come off.',
+    about: 'A bodyweight pump for anywhere, a hotel room included. One day is push-up variations in a circuit until the chest and arms are full; the other is glutes and abs, bridges, frog pumps and hollow holds. Short, sweaty and ready to strip. Level II adds reps, Level III moves to harder variations.',
+    names: ['Lights Down', 'Music On', 'Slow Song', 'First Button', 'Shirt Off', 'Belt', 'Shoes', 'Socks', 'Down to Briefs', 'Spotlight', 'Stage', 'Pole', 'Chair', 'Hips', 'Shimmy', 'Grind', 'Tease', 'Reveal', 'Encore', 'Curtain'],
+    cycle: ['push', 'core'],
+    dayTypes: {
+      push: { label: 'Push-up pump', short: 'Push', blocks: [C('Push-up pump', ['chestBw', 'armsBw', 'chestBw', 'shoulderBw'], { ...LIFT, values: [2, 3, 4] }), T('Abs', ['coreHollow', 'hiit'], { ...COND, values: [1, 2] })] },
+      core: { label: 'Core & glutes', short: 'Core', blocks: [C('Glute pump', ['thrustBw', 'gluteReps', 'thrustBw'], { ...LIFT, values: [2] }), T('Abs', ['coreRot', 'coreHollow'], { ...COND, values: [1, 2] })] },
+    },
+  },
+  {
+    id: 'show-off', ...SOLO, name: 'Show Off', subject: 'Strip & show-off', minutes: [24, 29], levers: [null, 'weight', 'reps'],
+    split: 'Shoulders & arms / chest & back', blurb: 'Shoulders, arms, chest and back in quick supersets: the muscles that look good in a doorway.',
+    about: 'For a V-shape and arms that fill a sleeve. Shoulders and arms one day, chest and back the next, all in supersets so it\'s over fast, and a short abs block to finish. Nothing heavy enough to leave you sore for the evening. Level II asks for heavier weights, Level III adds reps.',
+    names: ['Doorway', 'Silhouette', 'Shoulders Back', 'Chest Out', 'Wide', 'Tall', 'Broad', 'Strut', 'Swagger', 'Peacock', 'Flex', 'Pose', 'Look at Me', 'Spotlight', 'Center Stage', 'Main Character', 'Showstopper', 'Head Turner', 'Eye Candy', 'Show Off'],
+    cycle: ['shoulders', 'chest'],
+    dayTypes: {
+      shoulders: { label: 'Shoulders & arms', short: 'Shoulders', blocks: [SS('Shoulders & arms', ['shoulders2', 'biceps2', 'shoulderRaise', 'triceps2'], LIFT), C('Abs', ['coreHollow', 'coreRot'], { ...CORE, values: [2] })] },
+      chest: { label: 'Chest & back', short: 'Chest', blocks: [SS('Chest & back', ['chest2', 'row2', 'chestIso', 'backRear'], LIFT), C('Abs', ['coreAnti', 'coreHollow'], { ...CORE, values: [2] })] },
+    },
+  },
+  {
+    id: 'abs-on-show', ...SOLO, name: 'Abs on Show', subject: 'Strip & show-off', minutes: [20, 24], levers: [null, 'reps', 'reps'],
+    split: 'Abs & chest / abs & arms', blurb: 'Abs first, every time, then a quick chest or arm pump: the middle she\'ll see first.',
+    about: 'Built around the abs, because they\'re what shows first when the shirt comes off. Every day opens with a weighted and bodyweight abs circuit, then a quick pump of chest or arms in an EMOM. Level II and III add reps.',
+    names: ['Six', 'Eight', 'Washboard', 'Ridges', 'Obliques', 'V-Lines', 'Belly', 'Waist', 'Lean', 'Tight', 'Carved', 'Etched', 'Cut', 'Crunch Time', 'Core', 'Center', 'Midriff', 'Show Them', 'Abs Out', 'On Show'],
+    cycle: ['chest', 'arms'],
+    dayTypes: {
+      chest: { label: 'Abs & chest', short: 'Chest', blocks: [C('Abs', ['coreHollow', 'coreRot', 'coreAnti'], { ...CORE, values: [1, 2] }), E('Chest pump', ['chest2', 'chestBw'], { ...LIFT, values: [6, 8] })] },
+      arms: { label: 'Abs & arms', short: 'Arms', blocks: [C('Abs', ['coreHollow', 'coreRot', 'coreAnti'], { ...CORE, values: [1, 2] }), E('Arm pump', ['biceps2', 'triceps2'], { ...LIFT, values: [6, 8] })] },
+    },
+  },
+  {
+    id: 'date-night-pump-30', ...SOLO, days: 30, name: 'Date Night Pump 30', subject: 'Strip & show-off', minutes: [22, 26], levers: [null, 'reps', 'weight'],
+    split: 'Chest & shoulders / arms / abs & glutes, 30 days', blurb: 'Thirty short pumps: chest and shoulders, arms, abs and glutes, a little harder every ten days.',
+    about: 'A month of pre-date pumps that add up. Chest and shoulders, arms, then abs and glutes turn day by day, each twenty minutes of supersets and a finisher. Every ten days the level goes up, more reps and then heavier weights.',
+    names: ['Day One', 'Chest', 'Arms', 'Abs', 'Glutes', 'Shoulders', 'Pump', 'Fill', 'Flex', 'Day Ten', 'Bigger', 'Fuller', 'Harder', 'Leaner', 'Sharper', 'Tighter', 'Broader', 'Stronger', 'Ready', 'Day Thirty'],
+    cycle: ['chest', 'arms', 'abs'],
+    dayTypes: {
+      chest: { label: 'Chest & shoulders', short: 'Chest', blocks: [SS('Chest & shoulders', ['chest2', 'shoulders2', 'chestIso', 'shoulderRaise'], LIFT), T('Finisher', ['hiit', 'coreHollow'], { ...COND, values: [1] })] },
+      arms: { label: 'Arms', short: 'Arms', blocks: [SS('Arms', ['biceps2', 'triceps2', 'biceps2', 'triceps2'], LIFT), T('Finisher', ['hiit', 'coreRot'], { ...COND, values: [1] })] },
+      abs: { label: 'Abs & glutes', short: 'Abs', blocks: [S('Glutes', ['hip_thrust', 'glute2'], LIFT), C('Abs', ['coreHollow', 'coreRot', 'coreAnti'], { ...CORE, values: [1, 2] })] },
+    },
+  },
+  // ---- Her pleasure (ticket 5): neck, jaw and forearm endurance, kneeling comfort, hip flexors ----
+  {
+    id: 'all-about-her', ...SOLO, name: 'All About Her', subject: 'Her pleasure', minutes: [24, 29], equip: 'bw', levers: [null, 'holds', 'reps'],
+    split: 'Neck & forearms / kneeling comfort', blurb: 'Endurance where she needs it: neck and forearms that don\'t tire, and knees and hips happy to kneel.',
+    about: 'For giving rather than receiving. One day builds endurance in the neck, upper back and forearms, the muscles that give out first when you\'re going down on her or using your hands. The other makes kneeling comfortable: hip-flexor, quad and knee mobility with a strong core. Level II holds longer, Level III adds reps.',
+    names: ['Ladies First', 'Her Turn', 'Patience', 'Attention', 'Detail', 'Slow Hands', 'Gentle', 'Listen', 'Follow Her Lead', 'Take Your Time', 'No Rush', 'Generous', 'Devotion', 'Worship', 'On Your Knees', 'Down There', 'Encore for Her', 'Twice', 'Thank You', 'Her Favorite'],
+    cycle: ['neck', 'kneel'],
+    dayTypes: {
+      neck: { label: 'Neck & forearms', short: 'Neck', blocks: [C('Neck & upper back', ['neck', 'trapsBw', 'neck', 'trapsBw'], { ...LIFT, values: [2, 3] }), C('Arms & core', ['armsBw', 'coreAnti', 'armsBw'], { ...HOLDS, values: [2, 3] })] },
+      kneel: { label: 'Kneeling comfort', short: 'Kneel', absSlots: [], blocks: [C('Strong knees & hips', ['legsBw2', 'hipFlex', 'posLegs'], { ...LIFT, values: [2, 3] }), F('Kneel easy', ['fxQuad', 'fxHips', 'ygHips', 'ygRest?'], FLOW_SCALED)] },
+    },
+  },
+  {
+    id: 'going-down', ...SOLO, name: 'Going Down', subject: 'Her pleasure', minutes: [22, 26], equip: 'bw', levers: [null, 'holds', 'holds'],
+    split: 'Neck endurance / hips & quads open', blurb: 'Neck endurance and hips that let you stay down there as long as she wants.',
+    about: 'Named for what it\'s for. Neck holds in every direction and chin tucks build the endurance to stay in position without strain; upper-back work keeps the shoulders from creeping up. The other day opens the hip flexors and quads so kneeling at the edge of the bed is comfortable for a long time. Both later levels hold longer.',
+    names: ['Head Down', 'Chin Up', 'Steady', 'Hold Still', 'Stay There', 'Eyes Up', 'Long Neck', 'Relax the Jaw', 'Breathe Through the Nose', 'Rhythm', 'Patience', 'Persistence', 'Dedication', 'All Night', 'Endurance', 'Steady Pace', 'Don\'t Stop', 'Right There', 'Almost', 'There'],
+    cycle: ['neck', 'hips'],
+    dayTypes: {
+      neck: { label: 'Neck endurance', short: 'Neck', blocks: [C('Neck holds', ['neckReps', 'neck', 'neck', 'neck'], { ...LIFT, values: [2, 3] }), C('Upper back', ['trapsBw', 'backBw'], { ...HOLDS, values: [2, 3] })] },
+      hips: { label: 'Hips & quads open', short: 'Hips', absSlots: [], blocks: [C('Strong hips', ['hipFlex', 'thrustBw', 'hipFlex'], { ...LIFT, values: [2, 3] }), F('Kneeling flow', ['fxQuad', 'ygHips', 'fxQuad', 'ygRest?'], FLOW_SCALED)] },
+    },
+  },
+  {
+    id: 'fingers-and-forearms', ...SOLO, name: 'Fingers and Forearms', subject: 'Her pleasure', minutes: [23, 27], levers: [null, 'reps', 'holds'],
+    split: 'Forearm endurance / wrists & core', blurb: 'Forearms, wrists and grip that keep going: hands that don\'t tire before she\'s done.',
+    about: 'Your hands are a big part of it. Wrist curls, reverse curls, holds and carries build forearm endurance one day; the other strengthens the wrists through their whole range with core work alongside, so nothing cramps or aches halfway. Level II adds reps, Level III holds longer.',
+    names: ['Fingertips', 'Light Touch', 'Firm Touch', 'Circles', 'Slow Circles', 'Pressure', 'Rhythm', 'Wrist', 'Forearm', 'Grip', 'Hold', 'Squeeze', 'Release', 'Steady Hand', 'Quick Hands', 'Skilled', 'Magic Fingers', 'Handy', 'Hands On', 'Hand It to You'],
+    cycle: ['forearms', 'wrists'],
+    dayTypes: {
+      forearms: { label: 'Forearm endurance', short: 'Forearms', blocks: [S('Forearms', ['gripCurl', 'gripHold', 'gripCurl', 'carry?'], LIFT), C('Core', ['coreAnti', 'coreHollow'], { ...CORE, values: [1, 2] })] },
+      wrists: { label: 'Wrists & core', short: 'Wrists', blocks: [C('Wrists & grip', ['gripCurl', 'gripHold', 'gripPull'], { ...LIFT, values: [2, 3] }), C('Core', ['coreRot', 'pelvic'], { ...CORE, values: [2] })] },
+    },
+  },
+  {
+    id: 'ladies-first', ...SOLO, name: 'Ladies First', subject: 'Her pleasure', minutes: [26, 31], equip: 'bw', levers: [null, 'reps', 'holds'],
+    split: 'Neck & core / hips & knees / hands & back', blurb: 'Everything it takes to put her first: neck, hands, knees and hips, round in three days.',
+    about: 'The whole kit for giving: neck and core one day, hips and knees for kneeling the next, hands and upper back the third. No equipment, mostly holds and controlled reps, and a flow on the hip day. Level II adds reps, Level III holds longer.',
+    names: ['After You', 'Please', 'Your Way', 'As You Like', 'Say When', 'More?', 'Slower', 'Faster', 'Harder', 'Softer', 'Right There', 'Don\'t Stop', 'Again', 'Your Turn Again', 'Whatever You Want', 'Generous', 'Attentive', 'Gentleman', 'Ladies First', 'Then Me'],
+    cycle: ['neck', 'hips', 'hands'],
+    dayTypes: {
+      neck: { label: 'Neck & core', short: 'Neck', blocks: [C('Neck', ['neckReps', 'neck', 'neck', 'trapsBw?'], { ...LIFT, values: [2, 3, 4] }), C('Core', ['coreAnti', 'coreHollow', 'pelvic'], { ...CORE, values: [2, 3] })] },
+      hips: { label: 'Hips & knees', short: 'Hips', absSlots: [], blocks: [C('Hips & knees', ['hipFlex', 'legsBw2', 'posLegs', 'hipFlex?'], { ...LIFT, values: [2, 3, 4] }), F('Hips open', ['fxQuad', 'fxHips', 'ygHips', 'ygRest?'], FLOW_SCALED)] },
+      hands: { label: 'Hands & back', short: 'Hands', blocks: [C('Upper back', ['trapsBw', 'backBw', 'trapsBw'], { ...LIFT, values: [2, 3] }), C('Hands & core', ['coreRot', 'pelvic'], { ...CORE, values: [2] })] },
+    },
+  },
+  {
+    id: 'her-pleasure-30', ...SOLO, days: 30, name: 'Her Pleasure 30', subject: 'Her pleasure', minutes: [22, 26], equip: 'bw', levers: [null, 'reps', 'holds'],
+    split: 'Neck / hips / core, 30 days', blurb: 'Thirty days of getting better at her: neck, hips and core, longer holds every ten days.',
+    about: 'A month for her benefit. Neck and upper back, hips and kneeling comfort, and core with pelvic-floor control turn day by day. Every ten days it gets harder, more reps first and then longer holds.',
+    names: ['Day One', 'Kiss', 'Neck', 'Hips', 'Knees', 'Hands', 'Breath', 'Pace', 'Patience', 'Day Ten', 'Longer', 'Slower', 'Deeper', 'Softer', 'Steadier', 'Closer', 'Better', 'Best', 'Hers', 'Day Thirty'],
+    cycle: ['neck', 'hips', 'core'],
+    dayTypes: {
+      neck: { label: 'Neck', short: 'Neck', blocks: [C('Neck', ['neckReps', 'neck', 'neck'], { ...LIFT, values: [2, 3] }), C('Upper back', ['trapsBw', 'backBw'], { ...HOLDS, values: [1, 2] })] },
+      hips: { label: 'Hips', short: 'Hips', absSlots: [], blocks: [C('Strong hips', ['hipFlex', 'thrustBw', 'posLegs'], { ...LIFT, values: [2, 3] }), F('Hips open', ['fxQuad', 'fxHips', 'ygRest?'], FLOW_SCALED)] },
+      core: { label: 'Core', short: 'Core', blocks: [C('Core & control', ['coreHollow', 'pelvic', 'coreAnti', 'pelvic'], { ...CORE, values: [2, 3] }), T('Finisher', ['thrustBw', 'hiit'], { ...COND, values: [1] })] },
+    },
+  },
+  // ---- Quickie (ticket 5): 15 to 20 minutes, intense ----
+  {
+    id: 'quickie', ...SOLO, name: 'Quickie', subject: 'Quickie', minutes: [16, 20], levers: [null, 'reps', 'reps'],
+    split: 'Tabata & strength / EMOM', blurb: 'In and out in under twenty minutes, sweating: a Tabata and a strength block, or one fast EMOM.',
+    about: 'For days with no time. One day pairs a Tabata with a short strength circuit; the other is a single EMOM that works the whole body. Under twenty minutes, done. Both later levels add reps.',
+    names: ['Quick', 'Fast', 'Brief', 'Short', 'Snappy', 'Hurry', 'Rush', 'Dash', 'Blitz', 'Flash', 'Zip', 'Zoom', 'Express', 'Instant', 'Rapid', 'Speedy', 'Swift', 'On the Clock', 'Ten to Go', 'Done'],
+    cycle: ['tabata', 'emom'],
+    dayTypes: {
+      tabata: { label: 'Tabata & strength', short: 'Tabata', absSlots: [], blocks: [T('Tabata', ['hiit', 'thrustBw'], { ...COND, values: [1, 2, 3] }), C('Strength', ['squat2', 'push', 'hinge2?'], { ...LIFT, values: [2, 3, 4] })] },
+      emom: { label: 'EMOM', short: 'EMOM', absSlots: [], blocks: [E('EMOM', ['kbBallistic', 'push', 'squat2', 'coreAnti'], { ...COND, values: [10, 12, 14, 16] }), C('Core', ['coreHollow', 'coreRot?'], { ...CORE, values: [1, 2, 3] })] },
+    },
+  },
+  {
+    id: 'wham-bam', ...SOLO, name: 'Wham Bam', subject: 'Quickie', minutes: [16, 20], equip: 'bw', levers: [null, 'reps', 'variation'],
+    split: 'Bodyweight blast / hip blast', blurb: 'No equipment, no warm-up chat: a bodyweight blast and you\'re done. Thank you, ma\'am.',
+    about: 'Bodyweight only and over quickly. A full-body circuit as fast as you can move one day, a hip and glute blast the other, each with a quick Tabata. Level II adds reps, Level III moves to harder variations.',
+    names: ['Wham', 'Bam', 'Thank You', 'Ma\'am', 'Slam', 'Bang', 'Pow', 'Boom', 'Crash', 'Smash', 'Whack', 'Thud', 'Kapow', 'Zap', 'Pop', 'Snap', 'Crackle', 'Sizzle', 'Fizz', 'Done Already'],
+    cycle: ['blast', 'hips'],
+    dayTypes: {
+      blast: { label: 'Bodyweight blast', short: 'Blast', absSlots: [], blocks: [C('Blast', ['legsBw2', 'pushBw2', 'hiit', 'coreAnti'], { ...COND, values: [1, 2, 3] }), C('Strength', ['legsBw2', 'pushBw2'], { ...LIFT, values: [1, 2] })] },
+      hips: { label: 'Hip blast', short: 'Hips', absSlots: [], blocks: [T('Hip Tabata', ['thrustBw', 'hiit'], { ...COND, values: [1, 2] }), C('Glutes', ['thrustBw', 'gluteReps'], { ...LIFT, values: [1, 2, 3] })] },
+    },
+  },
+  {
+    id: 'nooner', ...SOLO, name: 'Nooner', subject: 'Quickie', minutes: [18, 22], levers: [null, 'reps', 'weight'],
+    split: 'AMRAP & core / strength & finisher', blurb: 'A lunchtime quickie: an AMRAP or a strength block, a finisher, back at your desk by one.',
+    about: 'Midday and quick. An AMRAP of swings, presses and squats with a core finisher one day; a short strength superset with a Tabata after the other. Back to work with a grin. Level II adds reps, Level III asks for heavier weights.',
+    names: ['Noon', 'Lunch Hour', 'Midday', 'Twelve Sharp', 'High Noon', 'Siesta', 'Long Lunch', 'Back by One', 'Desk Break', 'Quick Bite', 'Out to Lunch', 'Meeting', 'Busy', 'Do Not Disturb', 'Lunch Date', 'Afternoon Delight', 'Sneak Out', 'Back Soon', 'Grinning', 'Nooner'],
+    cycle: ['amrap', 'strength'],
+    dayTypes: {
+      amrap: { label: 'AMRAP & core', short: 'AMRAP', absSlots: [], blocks: [A('AMRAP', ['kbBallistic', 'push', 'squat2'], { ...COND, values: [8, 10, 12, 14] }), C('Core', ['coreAnti', 'coreRot'], { ...CORE, values: [1, 2, 3] })] },
+      strength: { label: 'Strength & finisher', short: 'Strength', absSlots: [], blocks: [SS('Strength', ['squat2', 'push', 'hinge2', 'row2'], LIFT), T('Finisher', ['hiit', 'thrustBw'], { ...COND, values: [1, 2] })] },
+    },
+  },
+  {
+    id: 'hot-and-fast', ...SOLO, name: 'Hot and Fast', subject: 'Quickie', minutes: [16, 20], levers: [null, 'reps', 'reps'],
+    split: 'Hot circuit / fast EMOM', blurb: 'Hot circuits and fast EMOMs, under twenty minutes and drenched.',
+    about: 'Fast and hard. A hot circuit of swings, burpees and squats one day; a quick EMOM of swings and presses with a Tabata after the next. A minute of core to close. Both later levels add reps.',
+    names: ['Hot', 'Hotter', 'Fast', 'Faster', 'Fire', 'Blaze', 'Scorch', 'Sizzle', 'Steam', 'Sweat', 'Drench', 'Pour', 'Flood', 'Boil', 'Fever', 'Heatwave', 'Sauna', 'Furnace', 'Inferno', 'Cool Off'],
+    cycle: ['circuit', 'ladder'],
+    dayTypes: {
+      circuit: { label: 'Hot circuit', short: 'Circuit', absSlots: [], blocks: [C('Hot circuit', ['kbBallistic', 'hiit', 'squat2', 'push?'], { ...COND, values: [2, 3, 4, 5] }), C('Core', ['coreHollow', 'coreRot?'], { ...CORE, values: [1, 2, 3] })] },
+      ladder: { label: 'Fast EMOM', short: 'EMOM', absSlots: [], blocks: [E('Fast EMOM', ['kbBallistic', 'push'], { ...LIFT, values: [8, 10, 12] }), T('Finisher', ['hiit', 'thrustBw'], { ...COND, values: [1, 2] })] },
+    },
+  },
+  {
+    id: 'quickie-30', ...SOLO, days: 30, name: 'Quickie 30', subject: 'Quickie', minutes: [16, 20], levers: [null, 'reps', 'weight'],
+    split: 'Tabata / EMOM / AMRAP, 30 days', blurb: 'Thirty quick ones: Tabata, EMOM and AMRAP in turn, under twenty minutes each.',
+    about: 'A month of quickies. Tabata, EMOM and AMRAP days turn, each with a short second block so every session mixes kinds of work. Under twenty minutes a day, harder every ten days.',
+    names: ['Day One', 'Quick', 'Fast', 'Sharp', 'Snap', 'Flash', 'Dash', 'Zip', 'Blitz', 'Day Ten', 'Quicker', 'Faster', 'Sharper', 'Snappier', 'Hotter', 'Harder', 'Sweatier', 'Fitter', 'Done', 'Day Thirty'],
+    cycle: ['tabata', 'emom', 'amrap'],
+    dayTypes: {
+      tabata: { label: 'Tabata', short: 'Tabata', absSlots: [], blocks: [T('Tabata', ['hiit', 'thrustBw'], { ...COND, values: [1, 2] }), C('Strength', ['squat2', 'push'], { ...LIFT, values: [1, 2, 3] })] },
+      emom: { label: 'EMOM', short: 'EMOM', absSlots: [], blocks: [E('EMOM', ['kbBallistic', 'push', 'squat2'], { ...COND, values: [10, 12, 14] }), C('Core', ['coreHollow', 'coreRot'], { ...CORE, values: [1, 2, 3] })] },
+      amrap: { label: 'AMRAP', short: 'AMRAP', absSlots: [], blocks: [A('AMRAP', ['kbBallistic', 'squat2', 'push'], { ...COND, values: [10, 12, 14] }), C('Core', ['coreAnti', 'coreHollow?'], { ...CORE, values: [1, 2, 3] })] },
+    },
+  },
+  // ---- Back & knees care (ticket 5): the joints that positions load ----
+  {
+    id: 'no-bad-backs', ...SOLO, name: 'No Bad Backs', subject: 'Back & knees care', minutes: [24, 29], equip: 'bw', levers: [null, 'reps', 'holds'],
+    split: 'Back strength / back flow', blurb: 'A lower back that\'s ready for anything: the McGill basics, glutes, and a gentle back flow.',
+    about: 'Thrusting, carrying and arching all load the lower back. One day builds it the way physios do, bird dogs, curl-ups, side planks and bridges, with the glutes doing their share; the other moves the spine gently through every direction. Level II adds reps, Level III holds longer.',
+    names: ['Spine', 'Lumbar', 'Brace', 'Bird Dog', 'Curl-up', 'Side Plank', 'Bridge', 'Neutral', 'Long Back', 'Straight Up', 'Supported', 'Solid', 'Stable', 'Steady', 'Pain-free', 'Ready', 'Resilient', 'Robust', 'Bulletproof', 'Good Back'],
+    cycle: ['strength', 'flow'],
+    dayTypes: {
+      strength: { label: 'Back strength', short: 'Strength', blocks: [C('Back strength', ['backStrength', 'backStrength', 'thrustBw', 'backStrength'], { ...LIFT, values: [2, 3] }), C('Core', ['coreAnti', 'pelvic'], { ...CORE, values: [2] })] },
+      flow: { label: 'Back flow', short: 'Flow', absSlots: [], blocks: [C('Back & glutes', ['backStrength', 'thrustBw', 'backStrength'], { ...LIFT, values: [2, 3] }), F('Back flow', ['backMove', 'backMove', 'backMove', 'backMove', 'ygRest', 'backMove?'], FLOW_SCALED)] },
+    },
+  },
+  {
+    id: 'kneel-easy', ...SOLO, name: 'Kneel Easy', subject: 'Back & knees care', minutes: [24, 29], equip: 'bw', levers: [null, 'reps', 'holds'],
+    split: 'Knee strength / knee & hip mobility', blurb: 'Knees that can kneel and squat all night: strength around the knee and mobility above and below it.',
+    about: 'Knees take a beating in the kneeling positions. One day strengthens everything around them, slow squats, split-squat holds, tibialis raises and step-downs; the other loosens the hips and ankles above and below, so the knee isn\'t doing their job. Level II adds reps, Level III holds longer.',
+    names: ['Kneecap', 'Patella', 'Quad', 'Shin', 'Ankle', 'Hip', 'Bend', 'Straighten', 'Squat Low', 'Kneel', 'Cushion', 'Pillow', 'Soft Landing', 'Steady', 'Strong', 'Supple', 'Smooth', 'Easy', 'No Creak', 'Good Knees'],
+    cycle: ['strength', 'mobility'],
+    dayTypes: {
+      strength: { label: 'Knee strength', short: 'Strength', blocks: [C('Knee strength', ['legsBw2', 'shin', 'posLegs', 'legsBw2'], { ...LIFT, values: [2, 3] }), C('Holds', ['posHold', 'posHold'], { ...HOLDS, values: [2] })] },
+      mobility: { label: 'Knee & hip mobility', short: 'Mobility', absSlots: [], blocks: [C('Ankles & hips', ['shin', 'mbHip', 'legsBw2', 'shin?'], { ...LIFT, values: [2, 3] }), F('Hips & quads', ['fxQuad', 'fxHips', 'ygHips', 'fxQuad?', 'ygRest?'], FLOW_SCALED)] },
+    },
+  },
+  {
+    id: 'strong-wrists', ...SOLO, name: 'Strong Wrists', subject: 'Back & knees care', minutes: [22, 26], levers: [null, 'reps', 'holds'],
+    split: 'Wrists & forearms / shoulders & upper back', blurb: 'Wrists, shoulders and upper back for every position where you hold yourself up on your hands.',
+    about: 'Missionary, doggy and the wheelbarrow all put weight through the hands. One day strengthens the wrists and forearms through their range; the other builds shoulder health and upper-back strength with a short mobility flow. Level II adds reps, Level III holds longer.',
+    names: ['Wrist', 'Palm', 'Fingers', 'Forearm', 'Elbow', 'Shoulder', 'Scapula', 'Rotator', 'Upper Back', 'Posture', 'Support', 'Plank Ready', 'Hands Down', 'Weight Bearing', 'Steady Arms', 'Locked Out', 'Strong Base', 'Pillars', 'Holding Up', 'Good Wrists'],
+    cycle: ['wrists', 'shoulders'],
+    dayTypes: {
+      wrists: { label: 'Wrists & forearms', short: 'Wrists', blocks: [S('Wrists & forearms', ['gripCurl', 'gripHold', 'gripCurl?'], LIFT), C('Core', ['coreAnti', 'coreHollow'], { ...CORE, values: [2] })] },
+      shoulders: { label: 'Shoulders & upper back', short: 'Shoulders', absSlots: [], blocks: [C('Shoulder health', ['shoulderHealth', 'backRear', 'shoulderHealth', 'backRear?'], { ...LIFT, values: [2, 3, 4] }), F('Shoulder mobility', ['mbShoulder', 'fxUpper', 'mbShoulder', 'ygRest?'], FLOW)] },
+    },
+  },
+  {
+    id: 'the-morning-after', ...SOLO, name: 'The Morning After', subject: 'Back & knees care', minutes: [20, 24], equip: 'bw', levers: [null, 'holds', 'holds'],
+    split: 'Gentle strength / gentle flow', blurb: 'For the morning after a long night: gentle strength and a slow flow that puts everything back.',
+    about: 'Recovery, not training. Gentle glute, core and back work wakes things up one day; a slow flow through the hips, back and shoulders puts them back where they belong the next. Nothing hard, everything helpful. Level II and III hold longer.',
+    names: ['Sunrise', 'Coffee', 'Stretch', 'Yawn', 'Slow Start', 'Easy Morning', 'Lazy Sunday', 'Bed Head', 'Sore', 'Stiff', 'Loosen', 'Unwind', 'Undo', 'Reset', 'Restore', 'Recover', 'Refresh', 'Better', 'Ready Again', 'Tonight?'],
+    cycle: ['strength', 'flow'],
+    dayTypes: {
+      strength: { label: 'Gentle strength', short: 'Strength', absSlots: [], blocks: [C('Gentle strength', ['gentleStrength', 'backStrength', 'gentleStrength', 'backStrength?'], { ...LIFT, values: [2, 3] }), F('Stretch', ['backMove', 'ygHips', 'backMove', 'ygRest', 'ygRest?'], FLOW_SCALED)] },
+      flow: { label: 'Gentle flow', short: 'Flow', absSlots: [], blocks: [C('Wake up', ['gentleBalance', 'backStrength', 'gentleStrength?'], { ...LIFT, values: [2, 3] }), F('Morning flow', ['backMove', 'ygHips', 'mbShoulder', 'ygBack', 'ygRest', 'backMove?'], FLOW_SCALED)] },
+    },
+  },
+  {
+    id: 'back-and-knees-30', ...SOLO, days: 30, name: 'Back & Knees 30', subject: 'Back & knees care', minutes: [22, 26], equip: 'bw', levers: [null, 'reps', 'holds'],
+    split: 'Back / knees / wrists & shoulders, 30 days', blurb: 'Thirty days for the joints that positions load: back, knees, wrists and shoulders.',
+    about: 'A month of looking after yourself. Back, knees, and wrists with shoulders turn day by day, each with strength work and something gentle after. Every ten days it gets harder, reps first and then longer holds.',
+    names: ['Day One', 'Back', 'Knees', 'Wrists', 'Hips', 'Shoulders', 'Ankles', 'Spine', 'Brace', 'Day Ten', 'Stronger', 'Steadier', 'Looser', 'Easier', 'Smoother', 'Sturdier', 'Supple', 'Sound', 'Ready', 'Day Thirty'],
+    cycle: ['back', 'knees', 'wrists'],
+    dayTypes: {
+      back: { label: 'Back', short: 'Back', absSlots: [], blocks: [C('Back strength', ['backStrength', 'backStrength', 'thrustBw', 'backStrength?'], { ...LIFT, values: [2, 3, 4] }), F('Back flow', ['backMove', 'backMove', 'backMove', 'ygRest', 'ygRest?'], FLOW_SCALED)] },
+      knees: { label: 'Knees', short: 'Knees', absSlots: [], blocks: [C('Knee strength', ['legsBw2', 'shin', 'posLegs'], { ...LIFT, values: [2, 3] }), F('Hips & quads', ['fxQuad', 'fxHips', 'ygRest?'], FLOW_SCALED)] },
+      wrists: { label: 'Wrists & shoulders', short: 'Wrists', blocks: [C('Shoulders & upper back', ['shoulderBw', 'trapsBw', 'backBw'], { ...LIFT, values: [2, 3] }), C('Core', ['coreAnti', 'coreHollow'], { ...CORE, values: [2] })] },
+    },
+  },
 ];
