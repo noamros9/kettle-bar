@@ -5,6 +5,7 @@
 // Partner work is Strength or Cardio & combat; teasing, dares and massage are Mind & body flows; positions are a
 // Cardio & combat flow of timed holds, held longer at Levels II and III.
 const { S, SS, C, E, A, T, L, F } = require('./shared.js');
+const { EX } = require('../exercises.js');
 
 const LIFT = { family: 'Strength' };
 const COND = { family: 'Cardio & combat' };
@@ -24,6 +25,37 @@ const HOLDS = { family: 'Mind & body' }; // isometric holds as body control, on 
 const buildUp = (label, short, work, tease, positions) => ({ label, short, absSlots: [], blocks: [work, F('Tease', tease, TEASE), F('Positions', positions, POS)] });
 // an alternating day: partner sets and positions in turn, round after round, then a massage to finish
 const rounds = (label, short, slots, values, finish = ['back_massage']) => ({ label, short, absSlots: [], blocks: [C('Rounds', slots, { ...COND, values }), F('Massage', finish, TEASE)] });
+
+// Positions tour (Phase 18 ticket 6): 30 one-off days. tour(...) pairs each position with each way to prepare for it
+// (positions × ways = 30 day types), dealt way by way so the same position never comes two days running; each day
+// prepares, then does the position together, and a couple more after.
+const POSITION_GROUP = {
+  pos_missionary: 'hips', pos_prone: 'hips', pos_spooning: 'hips', pos_legs_up: 'range', pos_butterfly: 'range', pos_pretzel: 'range',
+  pos_cowgirl: 'top', pos_reverse_cowgirl: 'top', pos_lotus: 'top', pos_doggy: 'behind', pos_standing_behind: 'behind',
+  pos_standing_carry: 'carry', pos_wheelbarrow: 'carry', pos_edge_of_bed: 'carry', pos_69: 'mouth',
+};
+const STRONG = { hips: ['thrustBw', 'pushBw2', 'coreAnti'], range: ['coreHollow', 'adductorBw', 'thrustBw'], top: ['legsBw2', 'adductorBw', 'thrustBw'], behind: ['thrustBw', 'legsBw2', 'coreAnti'], carry: ['posLegs', 'partnerHold', 'coreAnti'], mouth: ['neckReps', 'neck', 'coreAnti'] };
+const OPEN = { hips: ['fxHips', 'ygHips', 'ygRest', 'fxHips?'], range: ['fxHam', 'fxHips', 'fxStraddle', 'ygRest?'], top: ['fxHips', 'fxQuad', 'ygRest', 'fxHips?'], behind: ['fxQuad', 'ygBack', 'ygRest', 'fxQuad?'], carry: ['fxQuad', 'fxHam', 'ygRest', 'fxHips?'], mouth: ['ygBack', 'fxHips', 'ygRest', 'ygBack?'] };
+const WAYS = {
+  strong: ['strength', (g) => S('Strong for it', STRONG[g], LIFT)],
+  open: ['range', (g) => F('Open for it', OPEN[g], FLOW_SCALED)],
+  stamina: ['stamina', () => C('Stamina for it', ['thrustBw', 'posHold', 'hiit', 'thrustBw?'], { ...LIFT, values: [2, 3, 4] })],
+  grip: ['grip & holds', () => C('Grip and holds', ['partnerHold', 'posHold', 'partnerHold', 'posHold?'], { ...LIFT, values: [2, 3, 4, 5] })],
+  legs: ['legs', () => C('Legs for it', ['legsBw2', 'posLegs', 'partnerLower', 'legsBw2?'], { ...LIFT, values: [2, 3, 4] })],
+  core: ['core', () => C('Core for it', ['coreAnti', 'coreHollow', 'partnerCore', 'coreRot?'], { ...LIFT, values: [2, 3, 4] })],
+};
+const TOUR_NAMES = ['First Stop', 'Next Stop', 'Detour', 'Scenic Route', 'Landmark', 'Sightseeing', 'Postcard', 'Souvenir', 'Guidebook', 'Halfway', 'Off the Map', 'Hidden Gem', 'Local Favorite', 'Must-See', 'Day Trip', 'Overnight', 'Layover', 'Passport Stamp', 'Last Stop', 'Home Again'];
+function tour(id, name, blurb, about, positions, ways) {
+  if (positions.length * ways.length !== 30) throw new Error(`${id}: ${positions.length} positions × ${ways.length} ways is not 30 days`);
+  const dayTypes = {}, cycle = [];
+  ways.forEach((w) => positions.forEach((pos) => {
+    const g = POSITION_GROUP[pos], [way, block] = WAYS[w], key = `${pos.slice(4)}-${w}`;
+    dayTypes[key] = { label: `${EX[pos].name} · ${way}`, short: EX[pos].name.split(' ')[0], absSlots: [], blocks: [block(g), F('The position', [pos, 'positions', 'positions?', 'positions?'], POS)] };
+    cycle.push(key);
+  }));
+  return { id, ...COUPLE, days: 30, name, subject: 'Positions tour', minutes: [24, 30], levers: [null, 'reps', 'holds'],
+    split: `${name.replace(/^Positions Tour: |^The /, '')}: ${positions.length} positions × ${ways.length} ways, 30 days`, blurb, about, names: TOUR_NAMES, cycle, dayTypes };
+}
 
 module.exports = [
   // ---- Couples (ticket 3): 14 build up, 6 alternate; 4 are 30-day programs ----
@@ -707,6 +739,136 @@ module.exports = [
       back: { label: 'Back', short: 'Back', absSlots: [], blocks: [C('Back strength', ['backStrength', 'backStrength', 'thrustBw', 'backStrength?'], { ...LIFT, values: [2, 3, 4] }), F('Back flow', ['backMove', 'backMove', 'backMove', 'ygRest', 'ygRest?'], FLOW_SCALED)] },
       knees: { label: 'Knees', short: 'Knees', absSlots: [], blocks: [C('Knee strength', ['legsBw2', 'shin', 'posLegs'], { ...LIFT, values: [2, 3] }), F('Hips & quads', ['fxQuad', 'fxHips', 'ygRest?'], FLOW_SCALED)] },
       wrists: { label: 'Wrists & shoulders', short: 'Wrists', blocks: [C('Shoulders & upper back', ['shoulderBw', 'trapsBw', 'backBw'], { ...LIFT, values: [2, 3] }), C('Core', ['coreAnti', 'coreHollow'], { ...CORE, values: [2] })] },
+    },
+  },
+  // ---- Date night warm-up (ticket 6, couple): a short partner stretch and tease, 15 to 20 minutes ----
+  {
+    id: 'pre-game', ...COUPLE, name: 'Pre-Game', subject: 'Date night warm-up', minutes: [16, 20], levers: [null, 'reps', 'holds'],
+    split: 'Partner warm-up / tease', blurb: 'Before you go out: a quick partner warm-up and a tease to think about all evening.',
+    about: 'Twenty minutes before the date. A short partner circuit to get the blood moving, squats holding hands and high-five push-ups, then a tease that\'s meant to stay unfinished: a slow dance and a dare. You go out warm and come home in a hurry. Level II adds reps, Level III holds the tease longer.',
+    names: ['Kick-off', 'Warm-up', 'Pre-Drinks', 'Getting Ready', 'Mirror', 'Lipstick', 'Cologne', 'Taxi\'s Here', 'Five Minutes', 'Coat On', 'Not Now', 'Later', 'Hold That Thought', 'To Be Continued', 'Promise', 'Rain Check', 'Tonight', 'Can\'t Wait', 'Hurry Home', 'Kick-on'],
+    cycle: ['circuit', 'stretch'],
+    dayTypes: {
+      circuit: { label: 'Partner warm-up', short: 'Warm-up', absSlots: [], blocks: [C('Partner warm-up', ['partnerLower', 'partnerUpper', 'partnerCore'], { ...LIFT, values: [2, 3, 4] }), F('Tease', ['slow_dance', 'dare'], TEASE)] },
+      stretch: { label: 'Stretch and tease', short: 'Stretch', absSlots: [], blocks: [F('Stretch together', ['fxHips', 'ygHips', 'fxHam', 'ygRest?'], FLOW), F('Tease', ['kiss_squat', 'dare_whisper', 'slow_dance?'], { ...TEASE, family: 'Strength' })] },
+    },
+  },
+  {
+    id: 'before-we-go-out', ...COUPLE, name: 'Before We Go Out', subject: 'Date night warm-up', minutes: [16, 20], levers: [null, 'reps', 'holds'],
+    split: 'Kiss reps / dares', blurb: 'Kiss squats and kiss push-ups, a dare, and out the door flushed.',
+    about: 'A warm-up with your lips. Kiss squats and kiss push-ups for a few rounds, then a dare drawn by the timer that you\'re not allowed to finish until you get home. Short, sweet and a little cruel. Level II adds reps, Level III holds longer.',
+    names: ['Lipstick Mark', 'Collar', 'Flushed', 'Rosy', 'Glowing', 'Breathless', 'Late Again', 'Worth It', 'Keys', 'Wallet', 'Phone', 'Door', 'Lift', 'Street', 'Cab', 'Restaurant', 'Bar', 'Dance Floor', 'Home Early', 'Finally'],
+    cycle: ['kiss', 'dares'],
+    dayTypes: {
+      kiss: { label: 'Kiss reps', short: 'Kiss', absSlots: [], blocks: [C('Kiss circuit', ['kiss_squat', 'kiss_pushup', 'partnerCore?'], { ...LIFT, values: [2, 3, 4] }), F('Tease', ['slow_dance', 'dare_neck'], TEASE)] },
+      dares: { label: 'Dares', short: 'Dares', absSlots: [], blocks: [C('Partner circuit', ['partnerLower', 'partnerUpper', 'partnerCore?'], { ...LIFT, values: [2, 3, 4] }), F('Dares', ['dare', 'dare', 'slow_dance?'], TEASE)] },
+    },
+  },
+  {
+    id: 'appetizer', ...COUPLE, name: 'Appetizer', subject: 'Date night warm-up', minutes: [15, 19], levers: [null, 'reps', 'holds'],
+    split: 'Partner Tabata / slow dance', blurb: 'A taste of what\'s coming later: a quick partner Tabata and a slow dance.',
+    about: 'Small and spicy. A partner Tabata, side by side, twenty seconds on and ten off, then a slow dance and a massage to bring the heart rate down and the mood up. Level II adds reps, Level III holds longer.',
+    names: ['Amuse-Bouche', 'Starter', 'Bite', 'Nibble', 'Taste', 'Sample', 'Morsel', 'Tapas', 'Canapé', 'Oysters', 'Champagne', 'Olives', 'Bread', 'Small Plate', 'Sharing', 'Tasting Menu', 'Second Course', 'Palate', 'Appetite', 'Main Course Later'],
+    cycle: ['tabata', 'dance'],
+    dayTypes: {
+      tabata: { label: 'Partner Tabata', short: 'Tabata', absSlots: [], blocks: [T('Partner Tabata', ['partnerLower', 'partnerUpper'], { ...LIFT, values: [1, 2] }), F('Tease', ['slow_dance', 'back_massage'], TEASE)] },
+      dance: { label: 'Slow dance', short: 'Dance', absSlots: [], blocks: [C('Partner holds', ['partnerHold', 'partnerLower', 'partnerCore?'], { ...LIFT, values: [2, 3, 4] }), F('Slow', ['slow_dance', 'dare_no_hands'], TEASE)] },
+    },
+  },
+  {
+    id: 'warm-me-up', ...COUPLE, name: 'Warm Me Up', subject: 'Date night warm-up', minutes: [16, 20], levers: [null, 'holds', 'holds'],
+    split: 'Stretch together / massage', blurb: 'A partner stretch and a massage: warm, loose and in the mood.',
+    about: 'The gentle one. Stretch side by side through the hips and hamstrings, then trade a massage, back one day and legs the next, with a dare to close. Nothing sweaty, everything warm. Both later levels hold longer.',
+    names: ['Cold Hands', 'Warm Hands', 'Rub', 'Knead', 'Loosen', 'Soften', 'Melt', 'Thaw', 'Heat', 'Glow', 'Toasty', 'Cosy', 'Blanket', 'Fireplace', 'Candle', 'Bath', 'Steam', 'Ember', 'Kindle', 'Warmed Up'],
+    cycle: ['back', 'legs'],
+    dayTypes: {
+      back: { label: 'Stretch and back massage', short: 'Back', absSlots: [], blocks: [F('Stretch together', ['ygBack', 'fxHips', 'ygRest', 'fxHam?'], FLOW_SCALED), F('Massage', ['back_massage', 'dare_neck'], { ...TEASE, family: 'Strength' })] },
+      legs: { label: 'Stretch and leg massage', short: 'Legs', absSlots: [], blocks: [F('Stretch together', ['fxHam', 'fxHips', 'ygRest', 'fxQuad?'], FLOW_SCALED), F('Massage', ['leg_massage', 'dare_touch'], { ...TEASE, family: 'Strength' })] },
+    },
+  },
+  {
+    id: 'date-night-warm-up-30', ...COUPLE, days: 30, name: 'Date Night Warm-up 30', subject: 'Date night warm-up', minutes: [16, 20], levers: [null, 'reps', 'holds'],
+    split: 'Partner circuit / stretch / kiss, 30 days', blurb: 'Thirty date nights started right: a quick partner warm-up and a tease every time.',
+    about: 'A month of warm-ups. A partner circuit, a partner stretch and kiss reps turn day by day, each ending in a tease left unfinished on purpose. Every ten days it gets harder, more reps and then longer holds.',
+    names: ['Day One', 'Date', 'Dinner', 'Drinks', 'Dancing', 'Movie', 'Walk', 'Picnic', 'Gallery', 'Day Ten', 'Concert', 'Show', 'Party', 'Wedding', 'Weekend Away', 'Hotel', 'Room Service', 'Late Checkout', 'Anniversary', 'Day Thirty'],
+    cycle: ['circuit', 'stretch', 'kiss'],
+    dayTypes: {
+      circuit: { label: 'Partner circuit', short: 'Circuit', absSlots: [], blocks: [C('Partner circuit', ['partnerLower', 'partnerUpper', 'partnerCore'], { ...LIFT, values: [2, 3, 4] }), F('Tease', ['slow_dance', 'dare'], TEASE)] },
+      stretch: { label: 'Partner stretch', short: 'Stretch', absSlots: [], blocks: [F('Stretch together', ['fxHips', 'fxHam', 'ygRest?'], FLOW), F('Tease', ['dare', 'slow_dance?'], { ...TEASE, family: 'Strength' })] },
+      kiss: { label: 'Kiss reps', short: 'Kiss', absSlots: [], blocks: [C('Kiss circuit', ['kiss_squat', 'kiss_pushup'], { ...LIFT, values: [2, 3, 4] }), F('Tease', ['dare_neck', 'slow_dance'], TEASE)] },
+    },
+  },
+  // ---- Positions tour (ticket 6, couple): 30 one-off days, each a position and a way to prepare for it ----
+  tour('floor-tour-30', 'Positions Tour: Floor', 'Ten positions on the bed, each prepared three ways: strength, range and stamina, then done together.',
+    'Thirty different days on the bed. Each day takes one of ten floor positions and prepares for it one of three ways: the strength it asks for, the range it needs, or the stamina to keep it going. Then you do it, for real, and a couple more after. No day repeats. Every ten days the holds get longer.',
+    ['pos_missionary', 'pos_legs_up', 'pos_cowgirl', 'pos_reverse_cowgirl', 'pos_doggy', 'pos_spooning', 'pos_lotus', 'pos_prone', 'pos_pretzel', 'pos_69'], ['strong', 'open', 'stamina']),
+  tour('standing-tour-30', 'Positions Tour: Standing', 'The five standing positions, each prepared six ways over thirty days.',
+    'Thirty days on your feet. The standing positions, from behind, the carry, the edge of the bed, the wheelbarrow and the butterfly, each prepared six ways: strength, range, stamina, grip and holds, legs, and core. Then you do it. No day repeats. Every ten days the holds get longer.',
+    ['pos_standing_behind', 'pos_standing_carry', 'pos_edge_of_bed', 'pos_wheelbarrow', 'pos_butterfly'], ['strong', 'open', 'stamina', 'grip', 'legs', 'core']),
+  tour('bendy-tour-30', 'Positions Tour: Bendy', 'The positions that ask for range, each opened five ways over thirty days.',
+    'Thirty days for the positions that ask for range. Legs over shoulders, the pretzel, the butterfly, the lotus, the wheelbarrow and standing from behind: each is prepared five ways, mostly about range, hips, hamstrings and back, then done together. No day repeats. Every ten days the holds get longer.',
+    ['pos_legs_up', 'pos_pretzel', 'pos_butterfly', 'pos_lotus', 'pos_wheelbarrow', 'pos_standing_behind'], ['open', 'strong', 'core', 'legs', 'stamina']),
+  tour('strong-tour-30', 'Positions Tour: Strong', 'The positions that ask for strength, each built five ways over thirty days.',
+    'Thirty days for the positions that take strength. The standing carry, the wheelbarrow, missionary, cowgirl, reverse cowgirl and doggy: each is built five ways, strength, grip and holds, legs, core and stamina, then done together. No day repeats. Every ten days the holds get longer.',
+    ['pos_standing_carry', 'pos_wheelbarrow', 'pos_missionary', 'pos_cowgirl', 'pos_reverse_cowgirl', 'pos_doggy'], ['strong', 'grip', 'legs', 'core', 'stamina']),
+  tour('grand-tour-30', 'The Grand Tour', 'Fifteen positions, each prepared two ways: thirty days and never the same night twice.',
+    'The whole menu. Fifteen positions from missionary to the wheelbarrow, each prepared two ways, its strength and its range, over thirty days, then done together with a couple more after. No day repeats. Every ten days the holds get longer.',
+    ['pos_missionary', 'pos_legs_up', 'pos_cowgirl', 'pos_reverse_cowgirl', 'pos_doggy', 'pos_standing_behind', 'pos_spooning', 'pos_lotus', 'pos_standing_carry', 'pos_edge_of_bed', 'pos_wheelbarrow', 'pos_prone', 'pos_butterfly', 'pos_pretzel', 'pos_69'], ['strong', 'open']),
+  // ---- Morning glory / Sunday (ticket 6, couple): slow and long, stretch, partner work, positions ----
+  {
+    id: 'morning-glory', ...COUPLE, name: 'Morning Glory', subject: 'Morning glory / Sunday', minutes: [40, 48], levers: [null, 'holds', 'holds'],
+    split: 'Wake-up flow, partner work, slow positions', blurb: 'A slow weekend morning: a wake-up stretch, easy partner work, a massage, and slow positions.',
+    about: 'For mornings with nowhere to be. A wake-up flow side by side in bed, easy partner work to get the blood moving, a massage and a slow dance, then the slow positions, spooning, lotus, missionary, held long. Coffee after. Both later levels hold longer.',
+    names: ['Sunrise', 'Alarm Off', 'Snooze', 'Five More Minutes', 'Bed Head', 'Morning Breath', 'Coffee Later', 'Sunlight', 'Curtains Closed', 'Lazy', 'Slow', 'Warm Sheets', 'Spoon', 'Stretch', 'Yawn', 'Good Morning', 'Breakfast Later', 'Brunch', 'Afternoon Already', 'Morning Glory'],
+    cycle: ['wake', 'easy'],
+    dayTypes: {
+      wake: { label: 'Wake up slow', short: 'Wake', absSlots: [], blocks: [F('Wake-up flow', ['ygHips', 'ygBack', 'fxHips', 'ygRest', 'ygRest?'], FLOW), S('Easy partner work', ['partnerLower', 'partnerCore'], LIFT), F('Massage', ['back_massage', 'slow_dance'], TEASE), F('Positions', ['positionsSlow', 'positionsSlow', 'positionsSlow?'], POS)] },
+      easy: { label: 'Easy morning', short: 'Easy', absSlots: [], blocks: [F('Wake-up flow', ['ygBack', 'fxHam', 'ygHips', 'ygRest', 'ygRest?'], FLOW), C('Partner holds', ['partner_bridge', 'partnerHold', 'partnerCore?'], { ...LIFT, values: [2, 3, 4] }), F('Massage', ['leg_massage', 'dare_neck'], TEASE), F('Positions', ['positionsBed', 'positionsSlow', 'positionsSlow?'], POS)] },
+    },
+  },
+  {
+    id: 'lazy-sunday', ...COUPLE, name: 'Lazy Sunday', subject: 'Morning glory / Sunday', minutes: [45, 55], levers: [null, 'holds', 'holds'],
+    split: 'Long stretch, partner holds, long positions', blurb: 'The longest, slowest one: a long stretch, partner holds, a massage each, and positions held long.',
+    about: 'Sunday, the whole morning. A long stretch flow, partner holds that take their time, a massage for each of you, then a long block of slow positions. Fifty minutes that don\'t feel like exercise. Both later levels hold longer.',
+    names: ['Sunday', 'No Plans', 'Pyjamas', 'Newspaper', 'Croissants', 'Pancakes', 'Rain Outside', 'Duvet Day', 'Slow Jams', 'Long Bath', 'Nap', 'Second Nap', 'Late Lunch', 'Afternoon', 'Golden Hour', 'Sunday Best', 'Sunday Roast', 'Sunday Night', 'Monday Tomorrow', 'Lazy'],
+    cycle: ['long', 'longer'],
+    dayTypes: {
+      long: { label: 'Long and slow', short: 'Long', absSlots: [], blocks: [F('Long stretch', ['ygHips', 'ygBack', 'fxHips', 'fxHam', 'ygRest', 'ygRest?'], FLOW_SCALED), C('Partner holds', ['partnerHold', 'partner_bridge', 'partnerHold'], { ...LIFT, values: [2, 3] }), F('Massage', ['back_massage', 'leg_massage'], TEASE), F('Positions', ['positionsSlow', 'positionsSlow', 'positionsBed', 'positionsBed?'], POS)] },
+      longer: { label: 'Longer', short: 'Longer', absSlots: [], blocks: [F('Long stretch', ['ygYinHips', 'ygBack', 'fxStraddle', 'ygRest', 'ygRest?'], FLOW_SCALED), S('Partner strength', ['partnerLower', 'partnerUpper'], LIFT), F('Massage', ['leg_massage', 'slow_dance'], TEASE), F('Positions', ['positionsBed', 'positionsSlow', 'positionsBed', 'positionsBed?'], POS)] },
+    },
+  },
+  {
+    id: 'breakfast-in-bed', ...COUPLE, name: 'Breakfast in Bed', subject: 'Morning glory / Sunday', minutes: [40, 48], levers: [null, 'reps', 'holds'],
+    split: 'Partner circuit, tease, her on top', blurb: 'Work up an appetite: a partner circuit, a long tease, and her on top before breakfast.',
+    about: 'A livelier morning. A partner circuit to wake up properly, a stretch, a long tease with dares, then positions where she\'s on top, cowgirl, reverse and lotus. Breakfast after, in bed. Level II adds reps, Level III holds longer.',
+    names: ['Toast', 'Butter', 'Jam', 'Honey', 'Eggs', 'Bacon', 'Coffee', 'Orange Juice', 'Tray', 'Crumbs', 'Sticky Fingers', 'Syrup', 'Whipped Cream', 'Strawberries', 'Second Helping', 'Seconds', 'Full', 'Satisfied', 'Brunch', 'Breakfast in Bed'],
+    cycle: ['circuit', 'stretch'],
+    dayTypes: {
+      circuit: { label: 'Circuit and on top', short: 'Circuit', absSlots: [], blocks: [C('Partner circuit', ['partnerLower', 'partnerUpper', 'partnerCore', 'partnerHold?'], { ...LIFT, values: [3, 4, 5] }), F('Stretch', ['fxHips', 'ygRest'], FLOW), F('Tease', ['dare', 'dare', 'slow_dance'], TEASE), F('Positions', ['positionsHer', 'positionsHer', 'positionsHer?'], POS)] },
+      stretch: { label: 'Stretch and on top', short: 'Stretch', absSlots: [], blocks: [F('Stretch', ['ygHips', 'fxHips', 'fxQuad', 'ygRest'], FLOW), S('Partner legs', ['partnerLower', 'partnerLower'], LIFT), F('Tease', ['dare_lap_dance', 'back_massage'], TEASE), F('Positions', ['positionsHer', 'positionsHer', 'positionsHer?'], POS)] },
+    },
+  },
+  {
+    id: 'sleep-in', ...COUPLE, name: 'Sleep In', subject: 'Morning glory / Sunday', minutes: [40, 48], levers: [null, 'holds', 'holds'],
+    split: 'Bed stretch, massage, slow positions', blurb: 'Never leave the bed: stretch, massage and slow positions, all under the covers.',
+    about: 'Everything here happens in bed. A gentle stretch lying down, partner bridges and core, a long massage, and the positions that suit a lazy morning, spooning, lying flat, missionary. Both later levels hold longer.',
+    names: ['Stay', 'Don\'t Get Up', 'Under Covers', 'Pillow Fort', 'Blanket', 'Cocoon', 'Nest', 'Burrow', 'Hibernate', 'Snuggle', 'Cuddle', 'Spoon', 'Big Spoon', 'Little Spoon', 'Tangle', 'Warm', 'Drowsy', 'Dozing', 'Half Awake', 'Sleep In'],
+    cycle: ['stretch', 'massage'],
+    dayTypes: {
+      stretch: { label: 'Bed stretch', short: 'Stretch', absSlots: [], blocks: [F('Bed stretch', ['ygHips', 'ygBack', 'ygYinHips', 'ygRest', 'ygRest?'], FLOW), C('In bed', ['partner_bridge', 'partnerCore', 'partnerHold?'], { ...LIFT, values: [2, 3, 4] }), F('Massage', ['back_massage', 'dare_eyes_closed'], TEASE), F('Positions', ['positionsSlow', 'positionsSlow', 'positionsSlow?'], POS)] },
+      massage: { label: 'Long massage', short: 'Massage', absSlots: [], blocks: [F('Bed stretch', ['ygBack', 'fxHam', 'ygRest', 'ygRest?'], FLOW), C('In bed', ['partner_bridge', 'partner_situp'], { ...LIFT, values: [2, 3] }), F('Massage', ['back_massage', 'leg_massage', 'dare_touch'], TEASE), F('Positions', ['positionsSlow', 'positionsBed', 'positionsSlow?'], POS)] },
+    },
+  },
+  {
+    id: 'morning-glory-30', ...COUPLE, days: 30, name: 'Morning Glory 30', subject: 'Morning glory / Sunday', minutes: [40, 48], levers: [null, 'reps', 'holds'],
+    split: 'Slow / lively / lazy, 30 days', blurb: 'Thirty slow mornings: stretch, partner work, a tease and positions, longer every ten days.',
+    about: 'A month of mornings, or weekends if that\'s more realistic. Slow, lively and lazy mornings turn, each with a stretch, partner work, a tease and a block of positions to match. Every ten days it gets harder, more reps and then longer holds.',
+    names: ['Day One', 'Dawn', 'Daybreak', 'First Light', 'Sunup', 'Morning', 'Rise', 'Shine', 'Stir', 'Day Ten', 'Wake', 'Linger', 'Laze', 'Lounge', 'Loll', 'Bask', 'Rest', 'Doze', 'Glory', 'Day Thirty'],
+    cycle: ['slow', 'lively', 'lazy'],
+    dayTypes: {
+      slow: { label: 'Slow morning', short: 'Slow', absSlots: [], blocks: [F('Wake-up flow', ['ygHips', 'ygBack', 'ygRest', 'ygRest?'], FLOW), C('Partner holds', ['partner_bridge', 'partnerHold', 'partnerCore?'], { ...LIFT, values: [2, 3, 4] }), F('Massage', ['back_massage', 'slow_dance'], TEASE), F('Positions', ['positionsSlow', 'positionsSlow', 'positionsSlow?'], POS)] },
+      lively: { label: 'Lively morning', short: 'Lively', absSlots: [], blocks: [F('Stretch', ['fxHips', 'ygRest'], FLOW), C('Partner circuit', ['partnerLower', 'partnerUpper', 'partnerCore', 'partnerHold?'], { ...LIFT, values: [3, 4, 5] }), F('Tease', ['dare', 'dare'], TEASE), F('Positions', ['positions', 'positions', 'positions', 'positions?'], POS)] },
+      lazy: { label: 'Lazy morning', short: 'Lazy', absSlots: [], blocks: [F('Bed stretch', ['ygYinHips', 'ygBack', 'ygRest?'], FLOW_SCALED), C('In bed', ['partner_bridge', 'partnerCore', 'partnerHold?'], { ...LIFT, values: [2, 3, 4] }), F('Massage', ['leg_massage', 'dare_neck'], TEASE), F('Positions', ['positionsBed', 'positionsSlow', 'positionsBed?'], POS)] },
     },
   },
 ];
