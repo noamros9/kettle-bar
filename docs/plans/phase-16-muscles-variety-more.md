@@ -41,7 +41,7 @@ lengths only.
 | 8 | Strength +49 | content | 1, 2 | `content/strength-plus-2` | done (PR #176) |
 | 9 | Cardio & combat +28 | content | 1 | `content/cardio-plus-2` | done (PR #177) |
 | 10 | Mind & body +32 | content | 1 | `content/mind-plus-2` | done (PR #178) |
-| 11 | Mixed +24 | content | 1 | `content/mixed-plus-2` | in review |
+| 11 | Mixed +24 | content | 1 | `content/mixed-plus-2` | done (PR #179) |
 
 ### 1. The program list out of the first download
 The page is 123.8 KB gzipped against the 125 KB first-download gate (ticket 7b), and ~234 programs add about 15 KB.
