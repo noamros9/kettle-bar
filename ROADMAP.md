@@ -314,6 +314,18 @@ free-language search using AI** (2 Oct). Grilled:
 Not picked yet (2 Oct): your training days; a note on a done day; calendar export; a reminder at a set time (needs a
 push server).
 
+### Phase 16: muscle focus, Variety, after-dark, and +50% more
+Plan: [docs/plans/phase-16-muscles-variety-more.md](docs/plans/phase-16-muscles-variety-more.md). Grilled 4 Oct 2026:
+36. **Muscle focus, 7 new subjects × 8 (+56):** Chest, Back, Shoulders, Arms, Hips & adductors, Calves & lower legs,
+    Neck & traps; each trains the muscle and its helpers. **Layout: a mix** (half "2 focus days : 1 other", half the
+    muscle every day with a different helper).
+37. **Variety: no day repeats** (no two days share day type + format), a new subject; **more than 10** (15).
+38. **After-dark programs** for looks, stamina and positions; **"a lot more" than 12** (3 subjects × 10); **names may
+    be fully explicit** (Noam). Noam wants the repos private; pending his call, since Pages from a private repo needs
+    a paid plan and the site stays public.
+39. **More of everything: +50% per family** (+133), on top.
+- 263 → about 497 programs. Ticket 1 first: the page is at 123.8 of its 125 KB first-download gate.
+
 ## Decided against (don't re-suggest)
 - **Logging weights/reps per set**: Noam wants done / not done only.
 - **Adaptive plans**: no test days, no too-easy/too-hard nudging, no deload suggestions. Plans stay as written.
