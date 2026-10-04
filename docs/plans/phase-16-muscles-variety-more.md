@@ -32,7 +32,7 @@ lengths only.
 |---|---|---|---|---|---|
 | 0 | This plan | plan | – | `plan/phase-16` | done (PR #168) |
 | 1 | The program list out of the first download | feature | – | `feature/library-index` | done (PR #169) |
-| 2 | Catalogue 9: exercises for the new muscle subjects and after-dark | feature | – | `feature/catalogue-9` | in review |
+| 2 | Catalogue 9: exercises for the new muscle subjects and after-dark | feature | – | `feature/catalogue-9` | done (PR #170) |
 | 3 | Variety programs in the engine (no repeated day) | feature | – | `feature/variety` | – |
 | 4 | Muscle focus: Chest, Back, Shoulders, Arms (+32) | content | 1, 2 | `content/muscles-upper` | – |
 | 5 | Muscle focus: Hips & adductors, Calves & lower legs, Neck & traps (+24) | content | 1, 2 | `content/muscles-other` | – |
