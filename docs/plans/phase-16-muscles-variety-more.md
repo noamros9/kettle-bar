@@ -35,7 +35,7 @@ lengths only.
 | 2 | Catalogue 9: exercises for the new muscle subjects and after-dark | feature | – | `feature/catalogue-9` | done (PR #170) |
 | 3 | Variety programs in the engine (no repeated day) | feature | – | `feature/variety` | done (PR #171) |
 | 4 | Muscle focus: Chest, Back, Shoulders, Arms (+32) | content | 1, 2 | `content/muscles-upper` | done (PR #172) |
-| 5 | Muscle focus: Hips & adductors, Calves & lower legs, Neck & traps (+24) | content | 1, 2 | `content/muscles-other` | – |
+| 5 | Muscle focus: Hips & adductors, Calves & lower legs, Neck & traps (+24) | content | 1, 2 | `content/muscles-other` | in review |
 | 6 | Variety (+15) | content | 1, 3 | `content/variety` | – |
 | 7 | After-dark (+30) | content | 1, 2 | `content/after-dark` | – |
 | 8 | Strength +49 | content | 1, 2 | `content/strength-plus-2` | – |
@@ -116,6 +116,15 @@ The page is 123.8 KB gzipped against the 125 KB first-download gate (ticket 7b),
   **Travel mode:** the side-lying raise is lateral raises' only floor stand-in (Phase 10), so `shoulderRaise` holds just
   one side-shoulder dumbbell move and every day that can also have the lateral raise hold places the raise first.
   The 30-day test now asks for two or more per family. Page 111.2 KB gzipped.
+- **Ticket 5 as built (4 Oct): 24 programs, 295 → 319, three new Strength subjects**, the same eight shapes. Hips &
+  adductors: Hip Day, Inner Thigh Supersets, Floor Hips, Hip EMOM, Bell Hips, Hip Ladders, Hips 30, Hip Circuit 30.
+  Calves & lower legs: Calf Day, Calves & Shins, Barefoot Legs, Calf EMOM, **Calf Builder** (heavy raises and a Tabata
+  day), Calf Ladders, Calves 30, Calf Circuit 30. Neck & traps: Neck Day, Neck & Traps, Desk Neck, Neck EMOM, **Shrug &
+  Hold**, Trap Ladders, Traps 30, Neck Circuit 30. **No kettlebell version for calves or neck:** one bell gives them
+  too little (the drafts trained the glutes and front shoulders more than their own muscle), as with Arms. Neck work is
+  always the half-effort holds and slow lifts, never in a Tabata. Ladders use reps-only pools (`adductorReps gluteReps
+  calfReps plyoReps neckReps trapReps`). New pools also `adductor adductorBw adductorLoad hipFlex hipGlute calf calfBw
+  calfPlyo shin neck traps2 trapsBw`.
 
 ## Challenge round
 - **Weakest assumption: one look-alike muscle program per subject.** Eight programs on one muscle group risk

@@ -93,7 +93,7 @@
   }
 
   const GOALS = [
-    ['strength', 'Get stronger', ['Signature', 'Strength', 'Pull-ups', 'Legs & glutes', 'Kettlebell only', 'Bodyweight', 'Busy week', 'Grip & forearms', 'Kettlebell complexes', 'Climber / pull strength', 'Chest', 'Back', 'Shoulders', 'Arms']],
+    ['strength', 'Get stronger', ['Signature', 'Strength', 'Pull-ups', 'Legs & glutes', 'Kettlebell only', 'Bodyweight', 'Busy week', 'Grip & forearms', 'Kettlebell complexes', 'Climber / pull strength', 'Chest', 'Back', 'Shoulders', 'Arms', 'Hips & adductors', 'Calves & lower legs', 'Neck & traps']],
     ['fitness', 'Fitness & cardio', ['Conditioning', 'HIIT', 'Plyometrics', 'Running prep', 'Court & field sports']],
     ['fight', 'Fighting skills', ['Boxing', 'Kickboxing', 'Fighter']],
     ['flex', 'Flexibility & mobility', ['Yoga', 'Pilates', 'Flexibility', 'Mobility & posture']],

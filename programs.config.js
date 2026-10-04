@@ -67,6 +67,10 @@ const ORDER = [
   'back-day', 'back-and-biceps', 'floor-back', 'back-emom', 'bell-back', 'back-ladders', 'back-30', 'back-circuit-30',
   'shoulder-day', 'boulder-shoulders', 'floor-shoulders', 'shoulder-emom', 'bell-shoulders', 'shoulder-ladders', 'shoulders-30', 'shoulder-circuit-30',
   'arm-day', 'arm-supersets', 'bodyweight-arms', 'arm-emom', 'chinup-arms', 'arm-ladders', 'arms-30', 'arm-circuit-30',
+  // Phase 16 ticket 5: muscle focus, Hips & adductors, Calves & lower legs, Neck & traps
+  'hip-day', 'inner-thigh-supersets', 'floor-hips', 'hip-emom', 'bell-hips', 'hip-ladders', 'hips-30', 'hip-circuit-30',
+  'calf-day', 'calves-and-shins', 'barefoot-legs', 'calf-emom', 'calf-builder', 'calf-ladders', 'calves-30', 'calf-circuit-30',
+  'neck-day', 'neck-and-traps', 'desk-neck', 'neck-emom', 'shrug-and-hold', 'traps-ladders', 'traps-30', 'neck-circuit-30',
 ];
 
 const byId = new Map(FAMILY_FILES.flat().map((c) => [c.id, c]));
