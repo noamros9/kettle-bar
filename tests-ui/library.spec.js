@@ -59,12 +59,12 @@ test('the eyebrow counts what the taps select: Mind & body, then Yoga, then a le
   expect(await app.sidewaysScroll()).toBe(0);
 });
 
-test('tap Mixed: five chips (Strength & stretch, Fighter, Athlete, Balanced week, Calm strength), a shelf of up to 6 each and the count in the eyebrow', async ({ app }) => {
+test('tap Mixed: six chips (Strength & stretch, Fighter, Athlete, Balanced week, Calm strength, Variety), a shelf of up to 6 each and the count in the eyebrow', async ({ app }) => {
   await app.open('#programs');
   await family(app).getByRole('button', { name: 'Mixed' }).click();
   await expect(family(app).getByRole('button', { name: 'Mixed' })).toHaveAttribute('aria-pressed', 'true');
-  expect(await chipTexts(subjects(app))).toEqual(['All', 'Strength & stretch', 'Fighter', 'Athlete', 'Balanced week', 'Calm strength']);
-  await expect(app.page.locator('.pgroup h2')).toHaveText(['Strength & stretch', 'Fighter', 'Athlete', 'Balanced week', 'Calm strength']);
+  expect(await chipTexts(subjects(app))).toEqual(['All', 'Strength & stretch', 'Fighter', 'Athlete', 'Balanced week', 'Calm strength', 'Variety']);
+  await expect(app.page.locator('.pgroup h2')).toHaveText(['Strength & stretch', 'Fighter', 'Athlete', 'Balanced week', 'Calm strength', 'Variety']);
   const mixed = CONFIGS.filter((c) => subjectsOf('Mixed').includes(c.subject));
   await expect(app.page.locator('.pcard')).toHaveCount(shown(mixed));
   await expect(app.page.locator('.eyebrow').first()).toHaveText(`Mixed · ${mixed.length} programs`);
@@ -73,6 +73,7 @@ test('tap Mixed: five chips (Strength & stretch, Fighter, Athlete, Balanced week
   await expect(app.page.locator('.pgroup', { hasText: 'Athlete' }).locator('[data-open-prog="jump-lift-stick"]')).toHaveCount(1);
   await expect(app.page.locator('.pgroup', { hasText: 'Balanced week' }).locator('.pcard')).toHaveCount(6);
   await expect(app.page.locator('.pgroup', { hasText: 'Calm strength' }).locator('[data-open-prog="slow-burn"]')).toHaveCount(1);
+  await expect(app.page.locator('.pgroup', { hasText: 'Variety' }).locator('[data-open-prog="every-day-different"]')).toHaveCount(1);
   expect(await app.sidewaysScroll()).toBe(0);
 });
 

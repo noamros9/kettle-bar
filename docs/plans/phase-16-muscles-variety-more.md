@@ -36,7 +36,7 @@ lengths only.
 | 3 | Variety programs in the engine (no repeated day) | feature | – | `feature/variety` | done (PR #171) |
 | 4 | Muscle focus: Chest, Back, Shoulders, Arms (+32) | content | 1, 2 | `content/muscles-upper` | done (PR #172) |
 | 5 | Muscle focus: Hips & adductors, Calves & lower legs, Neck & traps (+24) | content | 1, 2 | `content/muscles-other` | done (PR #173) |
-| 6 | Variety (+15) | content | 1, 3 | `content/variety` | – |
+| 6 | Variety (+15) | content | 1, 3 | `content/variety` | done (PR #174) |
 | 7 | After-dark (+30) | content | 1, 2 | `content/after-dark` | – |
 | 8 | Strength +49 | content | 1, 2 | `content/strength-plus-2` | – |
 | 9 | Cardio & combat +28 | content | 1 | `content/cardio-plus-2` | – |
@@ -125,6 +125,20 @@ The page is 123.8 KB gzipped against the 125 KB first-download gate (ticket 7b),
   always the half-effort holds and slow lifts, never in a Tabata. Ladders use reps-only pools (`adductorReps gluteReps
   calfReps plyoReps neckReps trapReps`). New pools also `adductor adductorBw adductorLoad hipFlex hipGlute calf calfBw
   calfPlyo shin neck traps2 trapsBw`.
+- **Ticket 6 as built (4 Oct): 15 Variety programs, 319 → 334**, a new **Variety** subject in Mixed: Every Day
+  Different, Strength Roulette, Sweat Shuffle, Mind & Body Mix, Bodyweight Shuffle, Kettlebell Roulette, Short Variety
+  (15–22 min), Muscle Tour (one muscle group a day, the new subjects included), Fighter Variety, Athlete Variety,
+  Variety 30 and Bodyweight Variety 30 (two families every day, as Mixed months must), Core Roulette, Long Variety
+  (~40 min), Upper Body Roulette. Day types come from one shared table in `configs/mixed.js` (`VT`), each with its
+  family tag and the formats it suits: strength in sets, supersets, circuits, EMOMs, AMRAPs; conditioning in circuits,
+  EMOMs, AMRAPs, Tabatas; **combat never in a circuit** (a circuit of combinations runs too long); **neck only in calm
+  formats**; and **a day ending in a stretch never takes an AMRAP** (too short). Long Variety and Variety 30 drop AMRAPs
+  for the same reason. **The program page** shows "Every day is different" instead of a sixty-line key (the builder
+  marks Variety programs `variety: true`; other programs' output is unchanged). Build your own leaves Variety out (its
+  chips come from the recipe book). New phone spec `variety`.
+  **A flake from ticket 5, fixed here:** Calves is a Strength subject and its pools hold Pilates heel raises, which have
+  no stand-in (Phase 13: kept, marked), so a random Strength workout could open with one. The skip spec now picks the
+  first exercise that has a stand-in. (The pools stay: changing them would reshuffle pinned programs.)
 
 ## Challenge round
 - **Weakest assumption: one look-alike muscle program per subject.** Eight programs on one muscle group risk

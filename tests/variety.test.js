@@ -73,6 +73,8 @@ test('a Variety config builds: 60 days, each day\'s main block in its own format
   assert.equal(p.days.length, 60);
   p.days.forEach((d) => assert.equal(d.blocks.find((b) => b.kind === 'main').format, d.type.split('-')[1], `day ${d.day}`));
   assert.equal(p.split, 'Every day is different');
+  assert.equal(p.variety, true, 'the pages know it (the program page shows one line, not sixty day types)');
+  assert.ok(CONFIGS.filter((c) => !c.variety && !c.frozen).slice(0, 20).every((c) => !('variety' in buildConfig(c))), 'other programs are as before');
 });
 
 test('build your own leaves Variety programs out of its recipe book (60 one-off day types are not a subject to pick)', () => {

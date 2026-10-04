@@ -79,7 +79,12 @@ test('a random workout swaps what I skip too', async ({ app }) => {
   await sheet.getByRole('group', { name: 'Family' }).getByRole('button', { name: 'Strength', exact: true }).click(); // the recipe book is here
   await sheet.getByRole('button', { name: 'Start' }).click();
   await expect(app.page).toHaveURL(/#random$/);
-  const x = await app.data(() => { const it = random.open().day.blocks[0].items[0]; return { id: it.ex, name: KBEx.EX[it.ex].name }; });
+  // the first exercise that has a stand-in (since Phase 16 a random strength workout can open with heel raises, a Pilates
+  // move with none: those stay, marked, as the test below checks)
+  const x = await app.data(() => {
+    const o = random.open(), at = o.day.blocks.flatMap((b, bi) => b.items.map((it, i) => ({ it, bi, i }))).find(({ bi, i }) => o.alternatives(bi, i).length);
+    return { id: at.it.ex, name: KBEx.EX[at.it.ex].name };
+  });
   await app.data((id) => store.setDoc('prefs', 'main', { skip: [id] }), x.id);
   // the workout is random: the skipped exercise may be in it more than once, and each one is swapped
   await expect(app.page.locator('article.ex').filter({ hasText: `Swapped: you skip ${x.name}` }).first()).toBeVisible();

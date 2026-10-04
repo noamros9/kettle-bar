@@ -47,6 +47,8 @@ const SUBJECTS = {
   'Strength & stretch': { count: 9, abs: undefined, formats: ['straight', 'superset', 'flow'] },
   Fighter: { count: 9, abs: undefined, formats: ['bouts', 'straight', 'superset', 'circuit', 'emom', 'amrap', 'tabata', 'flow'] },
   Athlete: { count: 9, abs: undefined, formats: ['straight', 'superset', 'circuit'] },
+  // Phase 16: every day is different (its own test below)
+  Variety: { count: 15, abs: undefined, formats: ['straight', 'superset', 'circuit', 'emom', 'amrap', 'tabata', 'flow'] }, // flow: the stretch some days end with
   'Balanced week': { count: 10, abs: undefined, formats: ['straight', 'superset', 'circuit', 'emom', 'amrap', 'tabata', 'ladder', 'bouts', 'flow'] },
   'Calm strength': { count: 10, abs: undefined, formats: ['straight', 'superset', 'circuit', 'flow'] },
 };
@@ -133,9 +135,9 @@ test('the core programs opt in to the new catalogue (catalogue: 5): their abs fi
   assert.ok(optIn.some((p) => p.days.some((d) => d.blocks.at(-1).items.some((it) => fresh.has(it.ex)))));
 });
 
-test('the library: 319 programs in 37 subjects', () => {
-  assert.equal(programs.length, 319);
-  assert.equal(new Set(programs.map((p) => p.subject)).size, 37);
+test('the library: 334 programs in 38 subjects', () => {
+  assert.equal(programs.length, 334);
+  assert.equal(new Set(programs.map((p) => p.subject)).size, 38);
 });
 
 test('the Signature shelf has 15 programs: each original, then its Tempo and Harder moves variations', () => {
@@ -404,5 +406,25 @@ test('muscle focus: each program\'s own muscle has the largest share (leaving ou
     const mine = own.reduce((t, m) => t + (f[m] || 0), 0);
     Object.entries(f).filter(([m]) => ![...own, ...helpers, 'abs', 'obliques'].includes(m))
       .forEach(([m, x]) => assert.ok(mine > x, `${p.id}: ${m} ${x.toFixed(2)} >= ${own.join('+')} ${mine.toFixed(2)}`));
+  });
+});
+
+// Phase 16 ticket 6: Variety. Every day its own day type and format, never the same kind two days running, every main
+// block tagged with its family (they are Mixed programs), and a day that ends in a stretch has no abs after it
+test('Variety: 15 programs, every day different, never the same kind two days running, every main block tagged', () => {
+  const list = programs.filter((p) => p.subject === 'Variety');
+  assert.equal(list.length, 15);
+  list.forEach((p) => {
+    const cfg = cfgOf[p.id];
+    assert.ok(cfg.variety, p.id);
+    assert.equal(new Set(p.days.map((d) => d.type)).size, p.days.length, `${p.id}: a day type twice`);
+    p.days.forEach((d, i) => {
+      const kind = d.type.split('-')[0];
+      if (i) assert.notEqual(kind, p.days[i - 1].type.split('-')[0], `${p.id} d${d.day}: same kind as the day before`);
+      assert.equal(mainOf(d)[0].format, d.type.split('-')[1], `${p.id} d${d.day}: the day's format`);
+      assert.ok(mainOf(d).every((b) => FAMILY_TAGS.includes(b.family)), `${p.id} d${d.day}: untagged`);
+      if (mainOf(d).some((b) => b.format === 'flow')) assert.ok(!d.blocks.some((b) => b.kind === 'abs'), `${p.id} d${d.day}: abs after a stretch`);
+    });
+    assert.ok(new Set(p.days.map((d) => mainOf(d)[0].format)).size >= 4, `${p.id}: at least four formats`);
   });
 });

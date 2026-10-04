@@ -15,7 +15,7 @@ const SMOKE = ['renders'];
 // module (regex on the changed path) -> the specs that exercise it
 const MAP = [
   // recipes/book.json is left out: it changes with its inputs (listed here), and only its hash when app/library.js does
-  [/^(configs\/|programs\.config\.js|variety\.js|program-builder\.js|recipes\.js|recipe-book\.js|exercises\.js|figures\.js|formats\.js|build\.js)/, ['build', 'random', 'library', 'exercise', 'thirty']],
+  [/^(configs\/|programs\.config\.js|variety\.js|program-builder\.js|recipes\.js|recipe-book\.js|exercises\.js|figures\.js|formats\.js|build\.js)/, ['build', 'random', 'library', 'exercise', 'thirty', 'variety']],
   // new exercises change every Swap list and the travel and skip stand-ins (Phase 16: a longer list broke two specs)
   [/^exercises\.js$/, ['swap', 'skip', 'travel', 'actions', 'muscles']],
   [/^app\/library\.js$/, ['library', 'favourites', 'exercises', 'muscles', 'finder']],
@@ -39,7 +39,7 @@ const MAP = [
   [/^app\/pages\/programs\.js$/, ['library', 'favourites', 'finder']],
   [/^app\/pages\/random\.js$/, ['random', 'skip']],
   [/^app\/pages\/build\.js$/, ['build', 'share']],
-  [/^app\/pages\/program\.js$/, ['rounds', 'shortcut']],
+  [/^app\/pages\/program\.js$/, ['rounds', 'shortcut', 'variety']],
   [/^app\/pages\/day\.js$/, ['workout', 'flow', 'bouts', 'bigtimer', 'swap', 'travel', 'short', 'warmup', 'finish', 'resume', 'skip']],
   [/^app\/pages\/exercises\.js$/, ['exercise', 'exercises', 'muscles']],
   [/^app\/pages\/settings\.js$/, ['settings']],
