@@ -365,8 +365,10 @@ of the session).
     frankly but not pornographic (Claude's limit, said at the time).
 48. **Pictures:** rudimentary two-figure drawings for partner moves and sex positions (new figure-engine work; stick
     figures, non-anatomical).
+49. **20 sexy couple programs** (Noam, 4 Oct): couples are a big part of this phase, not one subject among twelve.
 - Still open, for the plan: program names, the partner-move exercise list, how the figure engine describes two figures,
-  and whether Positions tour is Variety-style (one-off days) or a fixed cycle.
+  whether Positions tour is Variety-style (one-off days) or a fixed cycle, how a couple session flows (workout → tease
+  → sex, or alternating rounds), and which teasing mechanics to use.
 
 ### Code review ([#188](https://github.com/noamros9/kettle-bar/issues/188))
 Correctness, dead code, duplication, tests that no longer earn their keep. Place in the order not set yet.
