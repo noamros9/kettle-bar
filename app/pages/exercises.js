@@ -86,7 +86,7 @@ function muscleResults() {
   const picked = musclePick.muscles;
   if (!picked.length) return '<p class="lede" style="margin-top:20px">Tap a muscle on the body, or pick one above, to see every exercise that works it.</p>';
   const names = picked.map((m) => MUSCLE_NAMES[m]).join(' + ');
-  const list = Object.values(EX).filter((e) => musclePick.gear === 'all' || KBLibrary.gearOf(e) === musclePick.gear);
+  const list = Object.values(EX).filter((e) => e.cat !== 'couple' && (musclePick.gear === 'all' || KBLibrary.gearOf(e) === musclePick.gear)); // couple exercises (Phase 18) need two: not a way to train a muscle alone
   const { main, also } = KBLibrary.splitByMuscles(list, picked);
   const card = (e) => `<article class="ex"><button class="exlink" data-ex="${e.id}" aria-label="${esc(e.name)}: how to and muscles worked"><div class="figbox">${fig(e.id)}</div><div class="nm">${esc(e.name)}</div></button>${e.load ? `<div class="ld">${esc(LOAD[e.load])}</div>` : ''}<p class="cue">${esc(e.cue)}</p></article>`;
   const section = (id, title, sub, l) => `<section class="libcat" aria-labelledby="${id}"><h2 id="${id}">${title}</h2><p class="muted">${sub(l.length)}</p>${l.length ? `<div class="exgrid">${l.map(card).join('')}</div>` : ''}</section>`;

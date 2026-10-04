@@ -23,7 +23,7 @@
 (function (root) {
   const STRETCH = ['warmup', 'cooldown'];
   // guided kinds of exercise (poses, combos): swapped only for their own kind, and never offered elsewhere
-  const GUIDED = ['yoga', 'pilates', 'flex', 'mobility', 'boxing', 'kick'];
+  const GUIDED = ['yoga', 'pilates', 'flex', 'mobility', 'boxing', 'kick', 'couple']; // couple (Phase 18): two people
 
   const TRAVEL = ['nobar', 'kb', 'bw'];
   const travelAllows = (mode, e) => (!mode ? true : mode === 'nobar' ? !(e.equip || []).includes('bar') : TRAVEL_GEAR[mode](e));
