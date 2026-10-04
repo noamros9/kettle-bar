@@ -222,3 +222,23 @@ test('a long shelf shows 6 and "Show all N"; it opens and closes; a picked subje
   await expect(shelf.locator('.pcard')).toHaveCount(sig.length);
   await expect(shelf.locator('.shelfmore')).toHaveCount(0);
 });
+
+// Phase 17 ticket 2: a redraw from the background (sync) kept snapping the tab strip back to the chosen tab mid-swipe
+test('a background redraw keeps the tab strip where it was, and waits while a finger is on the screen', async ({ app }) => {
+  await app.open('#programs');
+  const strip = app.page.locator('.ftabs');
+  await strip.evaluate((e) => { e.scrollLeft = 200; });
+  await app.page.evaluate(() => new Promise((r) => { rerender(); requestAnimationFrame(() => requestAnimationFrame(r)); }));
+  expect(await strip.evaluate((e) => e.scrollLeft)).toBe(200);
+
+  await app.page.evaluate(() => { document.querySelector('#app').firstElementChild.dataset.mark = 'old'; document.dispatchEvent(new Event('touchstart')); rerender(); });
+  await app.page.waitForTimeout(150);
+  await expect(app.page.locator('#app > [data-mark="old"]')).toHaveCount(1); // not redrawn under the finger
+  await app.page.evaluate(() => document.dispatchEvent(new Event('touchend')));
+  await expect(app.page.locator('#app > [data-mark="old"]')).toHaveCount(0); // the waiting redraw runs on lift
+  expect(await strip.evaluate((e) => e.scrollLeft)).toBe(200);
+
+  await family(app).getByRole('button', { name: 'After dark' }).click(); // a tab out of view is brought fully into view
+  const r = await strip.evaluate((e) => { const t = e.querySelector('[aria-pressed="true"]').getBoundingClientRect(), b = e.getBoundingClientRect(); return [t.left >= b.left, t.right <= b.right + 1]; });
+  expect(r).toEqual([true, true]);
+});

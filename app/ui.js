@@ -15,11 +15,23 @@ const figCache = {};
 const fig = (id) => figCache[id] || (figCache[id] = figureSVG(EX[id], EX[id].name + ' illustration'));
 const LETTERS = 'ABCDEF';
 const CHECK = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3.2 3L13 4.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-let rerenderQueued = false;
+let rerenderQueued = false, touching = false, rerenderWaiting = false;
+// a redraw from the background waits while a finger is on the screen (Phase 17 ticket 2: redrawing under a swipe
+// cut it off) and runs when the last finger lifts
+document.addEventListener('touchstart', () => { touching = true; }, { passive: true, capture: true });
+const lifted = (e) => {
+  if (e.touches && e.touches.length) return;
+  touching = false;
+  if (rerenderWaiting) { rerenderWaiting = false; rerender(); }
+};
+document.addEventListener('touchend', lifted, { passive: true, capture: true });
+document.addEventListener('touchcancel', lifted, { passive: true, capture: true });
 // a redraw from the background (sync from another device, a program arriving) keeps the scroll and, when a text field
 // with an id has the focus, its focus and cursor: typing a name isn't cut off by an update arriving
 function rerender() {
-  if (!booted || rerenderQueued) return; rerenderQueued = true;
+  if (!booted) return;
+  if (touching) { rerenderWaiting = true; return; }
+  if (rerenderQueued) return; rerenderQueued = true;
   requestAnimationFrame(() => {
     rerenderQueued = false;
     const y = window.scrollY, a = document.activeElement, typing = a && a.id && a.matches('input[type="text"], input[type="search"]') ? { id: a.id, s: a.selectionStart, e: a.selectionEnd } : null;

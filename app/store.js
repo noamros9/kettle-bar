@@ -120,6 +120,7 @@
     function onRemote(pid, cloud) {
       if (!programIds.includes(pid)) return; // a program dropped while its last update was on its way
       const mine = waits('progress/' + pid); // a change still waiting for the cloud: the phone's copy wins
+      const before = JSON.stringify(P.toDevice(of(pid)));
       if (!seen[pid]) {
         seen[pid] = true;
         if (mine) { write(pid, true); return; }
@@ -129,7 +130,8 @@
       } else { // later snapshots replace the copy here, as before (a live connection's snapshot includes our own writes)
         progress[pid] = cloud || P.empty(); save(pid);
       }
-      emit('change', pid);
+      // a reply that leaves this device's copy as it was (most programs at sign-in, our own echoes) redraws nothing
+      if (JSON.stringify(P.toDevice(of(pid))) !== before) emit('change', pid);
     }
     function onDocs(c, cloud) {
       const prev = Object.keys(account[c]);
