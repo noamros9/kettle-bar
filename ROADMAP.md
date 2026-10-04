@@ -337,28 +337,18 @@ became visually messy"):
 42. **Ticket 2, a bug (4 Oct):** signed in, the tab strip snapped back mid-swipe (every program's first cloud reply
     redrew the page). Fixed in PR #183.
 
-## The 4 Oct 2026 roadmap (for another day)
-Four issues Noam opened on 4 Oct 2026, grilled the same day. **Order (Noam): architecture review V, then super programs,
-then After dark.** The code review's place in the order isn't set yet. Each gets its own plan, by our method, when it
-starts.
+## The 4 Oct 2026 roadmap
+Four issues Noam opened on 4 Oct 2026, grilled the same day. Order first set as architecture review V, then super
+programs, then After dark; **that evening Noam moved After dark first** ("let's do it now, then the rest on Tuesday or
+Wednesday"). The code review's place in the order isn't set yet. Each gets its own plan, by our method, when it starts.
 
-### Architecture review V ([#187](https://github.com/noamros9/kettle-bar/issues/187))
-A fresh review after Phases 13–17: shelf groups, Variety, ~500 programs, the library boot, sync at that scale (one cloud
-listener per program; ticket 17.2 found each first reply redrawing the page).
-
-### Phase 18: super programs ([#186](https://github.com/noamros9/kettle-bar/issues/186))
-One plan that runs days from several programs in a set order (some days from here, some from there).
-43. **Both** (4 Oct): a few ready-made super programs, and I can chain my own from any programs.
-- Still open, for the plan: how progress and pins work across the parts; how it shows on the Programs and day pages.
-
-### Phase 19: After dark, more explicit ([#185](https://github.com/noamros9/kettle-bar/issues/185))
-More subjects, more explicit names, more positions, more programs, and couple workouts (teasing and sex itself as part
-of the session).
-44. **Triple it** (4 Oct): about 60 more programs.
+### Phase 18: After dark, more explicit, with couple sessions ([#185](https://github.com/noamros9/kettle-bar/issues/185))
+Plan: [docs/plans/phase-18-after-dark-couples.md](docs/plans/phase-18-after-dark-couples.md).
+44. **Triple it** (4 Oct), then sized exactly: **+75 programs: 20 couple programs and 5 in each of 11 other new
+    subjects** (After dark: 30 → 105).
 45. **12 new subjects** (4 Oct; every one offered, "and more"): Couples / partner · Endurance & control · Hip power &
     thrust · Carry & hold · Flexible & bendy · Strip & show-off · Her pleasure · Quickie · Back & knees care · Date
-    night warm-up · Positions tour · Morning glory / Sunday. Details on
-    [#185](https://github.com/noamros9/kettle-bar/issues/185).
+    night warm-up · Positions tour · Morning glory / Sunday.
 46. **Couple sessions:** mostly together (the same moves for both, the odd role-specific step); written for him and
     her; they count in Stats like any workout.
 47. **Text:** Noam asked for fully descriptive. The sex steps name the position, the time and the form cues, written
@@ -366,9 +356,20 @@ of the session).
 48. **Pictures:** rudimentary two-figure drawings for partner moves and sex positions (new figure-engine work; stick
     figures, non-anatomical).
 49. **20 sexy couple programs** (Noam, 4 Oct): couples are a big part of this phase, not one subject among twelve.
-- Still open, for the plan: program names, the partner-move exercise list, how the figure engine describes two figures,
-  whether Positions tour is Variety-style (one-off days) or a fixed cycle, how a couple session flows (workout → tease
-  → sex, or alternating rounds), and which teasing mechanics to use.
+50. **Flow: a mix across programs** (4 Oct): most build up (partner workout → tease → positions), some alternate
+    (a partner set, then a position).
+51. **Teasing, all of it "and more"** (4 Oct): strip forfeits, kiss-and-touch reps, slow dance and massage, dares by
+    the timer, winner's choice, eyes-closed rounds.
+52. **Positions tour: one-off days** (4 Oct).
+
+### Architecture review V ([#187](https://github.com/noamros9/kettle-bar/issues/187))
+A fresh review after Phases 13–18: shelf groups, Variety, ~580 programs, the library boot, sync at that scale (one
+cloud listener per program; ticket 17.2 found each first reply redrawing the page).
+
+### Phase 19: super programs ([#186](https://github.com/noamros9/kettle-bar/issues/186))
+One plan that runs days from several programs in a set order (some days from here, some from there).
+43. **Both** (4 Oct): a few ready-made super programs, and I can chain my own from any programs.
+- Still open, for the plan: how progress and pins work across the parts; how it shows on the Programs and day pages.
 
 ### Code review ([#188](https://github.com/noamros9/kettle-bar/issues/188))
 Correctness, dead code, duplication, tests that no longer earn their keep. Place in the order not set yet.
