@@ -15,8 +15,9 @@ test('Muscles is a header tab: the body shows at once; tap glutes for its main a
   await map.locator('[data-m="glutes"]').first().click();
   await expect(app.page.locator('[data-m="glutes"].mm-l4').first()).toBeVisible();
   const main = app.page.getByRole('region', { name: /^Main muscle/ }), also = app.page.getByRole('region', { name: /^Also works/ });
-  const nMain = Object.values(EX).filter((e) => e.muscles.primary.includes('glutes')).length;
-  const nAlso = Object.values(EX).filter((e) => !e.muscles.primary.includes('glutes') && e.muscles.secondary.includes('glutes')).length;
+  const solo = Object.values(EX).filter((e) => e.cat !== 'couple'); // couple exercises (Phase 18) aren't on the Muscles page
+  const nMain = solo.filter((e) => e.muscles.primary.includes('glutes')).length;
+  const nAlso = solo.filter((e) => !e.muscles.primary.includes('glutes') && e.muscles.secondary.includes('glutes')).length;
   await expect(main.locator('.exlink')).toHaveCount(nMain);
   await expect(also.locator('.exlink')).toHaveCount(nAlso);
   await expect(main.locator('[data-ex="hip_thrust"]')).toHaveCount(1);

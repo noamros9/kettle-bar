@@ -46,3 +46,14 @@ test('the Exercises page points to the Muscles page', async ({ app }) => {
   await app.page.getByRole('button', { name: /Find exercises by muscle/ }).click();
   await expect(app.heading()).toHaveText('Muscles');
 });
+
+// Phase 18 ticket 2: the couple exercises have their own chip and section, each drawn with two figures
+test('Couples: its own chip and section, every card drawn with two figures', async ({ app }) => {
+  await app.open('#exercises');
+  const n = Object.values(EX).filter((e) => e.cat === 'couple').length;
+  await app.page.getByRole('group', { name: 'Filter by category' }).getByRole('button', { name: /^Couples/ }).click();
+  await expect(cards(app)).toHaveCount(n);
+  await expect(app.page.locator('.libcat h2')).toHaveText(['Couples']);
+  expect(await app.page.locator('#exresults .exlink svg.fig').evaluateAll((l) => l.every((s) => s.querySelector('circle[fill="var(--fig2)"]')))).toBe(true);
+  expect(await app.sidewaysScroll()).toBe(0);
+});

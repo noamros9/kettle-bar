@@ -62,7 +62,7 @@ test('the body map has the three new muscles, front or back, and only new exerci
     assert.ok(cat.MUSCLE_NAMES[m], m);
     assert.match(muscleMapSVG({ [m]: 1 }, 'x'), new RegExp(`data-m="${m}" class="mm-l4"`), `${m} is drawn`);
   });
-  Object.values(cat.EX).filter((e) => e.added !== 9).forEach((e) => [...e.muscles.primary, ...e.muscles.secondary]
+  Object.values(cat.EX).filter((e) => (e.added || 0) < 9).forEach((e) => [...e.muscles.primary, ...e.muscles.secondary]
     .forEach((m) => assert.ok(!['neck', 'traps', 'shins'].includes(m), `${e.id} (older) now works ${m}: past stats would move`)));
 });
 

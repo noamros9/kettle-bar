@@ -205,6 +205,21 @@
       pelvic: ['pelvic_floor_hold', 'bridge_hold', 'pelvic_tilt', 'dead_bug'],
       posHold: ['wall_sit', 'bridge_hold', 'bear_hold', 'plank', 'deep_squat_hold', 'copenhagen_plank', 'calf_raise_hold'],
       posLegs: ['sumo_pulse', 'cossack_squat', 'wall_sit', 'reverse_lunge', 'split_squat', 'goblet_squat'],
+      // Phase 18 (catalogue 10): couple sessions. Couple exercises only (category `couple`), new names only
+      partner: ['partner_squat', 'mirror_lunge', 'seesaw_squat', 'highfive_pushup', 'plank_taps', 'wheelbarrow_walk', 'partner_situp', 'leg_throws', 'partner_bridge'],
+      partnerLower: ['partner_squat', 'mirror_lunge', 'seesaw_squat', 'partner_bridge', 'kiss_squat'],
+      partnerUpper: ['highfive_pushup', 'wheelbarrow_walk', 'kiss_pushup', 'plank_taps'],
+      partnerCore: ['partner_situp', 'leg_throws', 'plank_taps'],
+      partnerHold: ['back_to_back_sit', 'partner_carry', 'lift_hold', 'wheelbarrow_walk'],
+      tease: ['slow_dance', 'kiss_squat', 'kiss_pushup', 'strip_round', 'winners_choice'],
+      dare: ['dare_no_hands', 'dare_neck', 'dare_lap_dance', 'dare_undress', 'dare_whisper', 'dare_eyes_closed', 'dare_touch', 'winners_choice'],
+      massage: ['back_massage', 'leg_massage'],
+      positions: ['pos_missionary', 'pos_legs_up', 'pos_cowgirl', 'pos_reverse_cowgirl', 'pos_doggy', 'pos_standing_behind', 'pos_spooning', 'pos_lotus', 'pos_standing_carry', 'pos_edge_of_bed', 'pos_wheelbarrow', 'pos_prone', 'pos_butterfly', 'pos_pretzel'],
+      positionsBed: ['pos_missionary', 'pos_legs_up', 'pos_cowgirl', 'pos_reverse_cowgirl', 'pos_doggy', 'pos_spooning', 'pos_lotus', 'pos_prone', 'pos_pretzel'],
+      positionsStanding: ['pos_standing_behind', 'pos_standing_carry', 'pos_edge_of_bed', 'pos_wheelbarrow', 'pos_butterfly'],
+      positionsHer: ['pos_cowgirl', 'pos_reverse_cowgirl', 'pos_lotus'],
+      positionsSlow: ['pos_spooning', 'pos_lotus', 'pos_missionary', 'pos_prone'],
+      oral: ['pos_oral_her', 'pos_oral_him', 'pos_69'],
     };
     // Pools computed from the catalogue. An exercise marked `added: N` (the phase that added it) joins them only
     // for configs with `catalogue: N` or later, so new exercises can't reshuffle the days of existing programs.
