@@ -334,6 +334,32 @@ became visually messy"):
 40. **Nine groups, ten chips with All** (the finest option): Strength · Muscles · Cardio · Combat · Yoga & Pilates ·
     Mobility & care · Mixed · Variety · After dark.
 41. **Programs page only**: Stats, build your own and random workouts keep the four training families.
+42. **Ticket 2, a bug (4 Oct):** signed in, the tab strip snapped back mid-swipe (every program's first cloud reply
+    redrew the page). Fixed in PR #183.
+
+## The 4 Oct 2026 roadmap (for another day)
+Four issues Noam opened on 4 Oct 2026, grilled the same day. **Order (Noam): architecture review V, then super programs,
+then After dark.** The code review's place in the order isn't set yet. Each gets its own plan, by our method, when it
+starts.
+
+### Architecture review V ([#187](https://github.com/noamros9/kettle-bar/issues/187))
+A fresh review after Phases 13–17: shelf groups, Variety, ~500 programs, the library boot, sync at that scale (one cloud
+listener per program; ticket 17.2 found each first reply redrawing the page).
+
+### Phase 18: super programs ([#186](https://github.com/noamros9/kettle-bar/issues/186))
+One plan that runs days from several programs in a set order (some days from here, some from there).
+43. **Both** (4 Oct): a few ready-made super programs, and I can chain my own from any programs.
+- Still open, for the plan: how progress and pins work across the parts; how it shows on the Programs and day pages.
+
+### Phase 19: After dark, more explicit ([#185](https://github.com/noamros9/kettle-bar/issues/185))
+More subjects, more explicit names, more positions, more programs, and couple workouts (teasing and sex itself as part
+of the session).
+44. **Triple it** (4 Oct): about 60 more programs, in 6 or more new subjects.
+- Still open, for the plan: how a session for two shows on the phone (one screen with two roles, or two linked
+  programs). Noam: decide when planning.
+
+### Code review ([#188](https://github.com/noamros9/kettle-bar/issues/188))
+Correctness, dead code, duplication, tests that no longer earn their keep. Place in the order not set yet.
 
 ## Decided against (don't re-suggest)
 - **Logging weights/reps per set**: Noam wants done / not done only.
