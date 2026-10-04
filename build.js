@@ -1,6 +1,6 @@
 // Builds the app: runs the Program Builder and stitches the modules into one page, index.html, served by GitHub Pages
-// (manifest, service worker, Firebase sync). The page carries only the program list (slim summaries); each program's
-// days go to data/<id>.json, build your own's book and code to data/recipes.json and data/recipes.js, and the exercise
+// (manifest, service worker, Firebase sync). The page carries no programs: the program list (slim summaries) goes to
+// data/library.json (Phase 16), each program's days to data/<id>.json, build your own's book and code to data/recipes.json and data/recipes.js, and the exercise
 // index to data/index.json: loaded when first needed and cached for offline (Program Catalogue, fetched adapter; app/lazy.js).
 // `render()` returns the files without writing them (used by the tests); `node build.js` writes them.
 const fs = require('fs');
@@ -38,7 +38,12 @@ function lean(src) {
 }
 
 function render(programs = buildAll()) {
-  const scripts = SCRIPTS.map((f) => `<script>\n${f ? small(lean(read(f))) : `const PROGRAM_SUMMARIES = ${JSON.stringify(programs.map((p) => slim(summarize(p))))};`}\n</script>`).join('\n');
+  // the program list (Phase 16 ticket 1): data/library.json, not in the page; the page carries only its address, versioned
+  // by its content, so the service worker serves it from the cache at once and a new list is a new address, and the
+  // programs' ids, which the progress store needs from its first line (it reads and syncs progress by program id)
+  const library = JSON.stringify(programs.map((p) => slim(summarize(p))));
+  const libraryUrl = `data/library.json?v=${require('crypto').createHash('sha256').update(library).digest('hex').slice(0, 12)}`;
+  const scripts = SCRIPTS.map((f) => `<script>\n${f ? small(lean(read(f))) : `window.KB_LIBRARY=${JSON.stringify({ url: libraryUrl, ids: programs.map((p) => p.id) })};`}\n</script>`).join('\n');
   const page = read('app/shell.html')
     .replace('/*__STYLES__*/', () => read('app/styles.css'))
     .replace('<!--__SCRIPTS__-->', () => scripts);
@@ -49,7 +54,7 @@ function render(programs = buildAll()) {
   // the build's version (Phase 12): a hash of the page, in the page and in version.json, which the page asks to know
   // when a newer build is out
   const version = require('crypto').createHash('sha256').update(page).digest('hex').slice(0, 12);
-  return { 'index.html': HEAD + page.replace('<!--__VERSION__-->', () => `<script>window.KB_VERSION=${JSON.stringify(version)};</script>`) + TAIL, 'version.json': JSON.stringify({ v: version }), ...data, 'data/recipes.json': JSON.stringify(refresh()), 'data/recipes.js': read('recipes.js'), 'data/finder-model.js': read('app/finder-model.js'), 'data/index.json': JSON.stringify(usageIndex(programs)), 'data/muscles.json': JSON.stringify(focusIndex(programs)), 'data/finder.json': JSON.stringify(finderIndex(programs)) };
+  return { 'index.html': HEAD + page.replace('<!--__VERSION__-->', () => `<script>window.KB_VERSION=${JSON.stringify(version)};</script>`) + TAIL, 'version.json': JSON.stringify({ v: version }), ...data, 'data/library.json': library, 'data/recipes.json': JSON.stringify(refresh()), 'data/recipes.js': read('recipes.js'), 'data/finder-model.js': read('app/finder-model.js'), 'data/index.json': JSON.stringify(usageIndex(programs)), 'data/muscles.json': JSON.stringify(focusIndex(programs)), 'data/finder.json': JSON.stringify(finderIndex(programs)) };
 }
 
 if (require.main === module) {
