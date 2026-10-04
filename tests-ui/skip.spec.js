@@ -60,7 +60,7 @@ test('a day swaps an exercise I skip for a stand-in, says so, and its Swap list 
   const sheet = app.page.getByRole('dialog', { name: `Swap ${standIn}` });
   await expect(sheet).toBeVisible();
   await expect(sheet.getByRole('button', { name: new RegExp(`^${x.name}`) })).toHaveCount(0);
-  await sheet.getByRole('button', { name: /Cancel|Close/ }).first().click();
+  await sheet.getByRole('button', { name: 'Cancel', exact: true }).click(); // exact: "Close-grip …" exercises are in the list too
   // the stats count the day as planned
   expect(await app.data((id) => days.resolved('three-split-60', 1).blocks[0].items[0].ex === id, x.id)).toBe(true);
 

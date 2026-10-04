@@ -23,7 +23,7 @@ test('every button on every page has an action', async ({ app }) => {
   await visit('#programs', async () => { await app.page.getByRole('button', { name: 'Help me pick' }).click(); await app.page.getByRole('group', { name: 'Goal' }).getByRole('button', { name: 'Get stronger' }).click(); await app.page.locator('.pickres').first().waitFor(); });
   await app.page.locator('.picksheet [data-pick-close]').click();
   await visit('#p-three-split-60-d1', async () => { await app.page.locator('[data-swap]').first().click(); });
-  await app.page.locator('[data-swap-cancel]').first().click();
+  await app.page.locator('.sheetclose[data-swap-cancel]').click(); // the sheet's own Cancel: a long swap list covers the backdrop's middle
   await visit('#p-three-split-60', async () => { await app.page.getByRole('button', { name: /Start Round/ }).click(); });
   await app.page.locator('[data-round-cancel]').first().click();
   await visit('#exercises');

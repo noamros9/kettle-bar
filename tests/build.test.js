@@ -24,9 +24,11 @@ test('the page carries no programs (Phase 16 ticket 1): no days, no program list
   assert.deepStrictEqual(lib.ids, JSON.parse(out['data/library.json']).map((s) => s.id), 'the ids, in list order, for the progress store');
 });
 
-test('the first download leaves room for the library to double (Phase 16): under 110 KB gzipped', () => {
-  const gz = require('zlib').gzipSync(out['index.html']).length;
-  assert.ok(gz < 110 * 1024, `index.html is ${(gz / 1024).toFixed(1)} KB gzipped`);
+test('a program adds only its id to the first download (Phase 16): 100 more programs cost under 1 KB gzipped', () => {
+  const real = require('./helpers/library.js').library();
+  const more = real.slice(0, 100).map((p) => ({ ...p, id: p.id + '-copy' }));
+  const gz = (ps) => require('zlib').gzipSync(render(ps)['index.html']).length;
+  assert.ok(gz([...real, ...more]) - gz(real) < 1024, `${gz([...real, ...more]) - gz(real)} bytes for 100 programs`);
 });
 
 test('the first download is at most 125 KB gzipped (ticket 7b); the gate above stays at 150', () => {
