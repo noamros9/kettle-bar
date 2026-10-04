@@ -30,6 +30,9 @@ const SUBJECTS = {
   Back: { count: 8, abs: true, formats: ['straight', 'superset', 'circuit', 'emom', 'ladder'] },
   Shoulders: { count: 8, abs: true, formats: ['straight', 'superset', 'circuit', 'emom', 'ladder'] },
   Arms: { count: 8, abs: true, formats: ['straight', 'superset', 'circuit', 'emom', 'ladder'] },
+  'Hips & adductors': { count: 8, abs: true, formats: ['straight', 'superset', 'circuit', 'emom', 'ladder'] },
+  'Calves & lower legs': { count: 8, abs: true, formats: ['straight', 'superset', 'circuit', 'emom', 'ladder', 'tabata'] },
+  'Neck & traps': { count: 8, abs: true, formats: ['straight', 'superset', 'circuit', 'emom', 'ladder'] },
   'Running prep': { count: 6, abs: true, formats: ['circuit', 'straight', 'emom', 'amrap'] },
   'Court & field sports': { count: 6, abs: true, formats: ['circuit', 'emom', 'straight', 'tabata', 'amrap'] },
   Strength: { count: 12, abs: true, formats: ['straight', 'superset'] },
@@ -130,9 +133,9 @@ test('the core programs opt in to the new catalogue (catalogue: 5): their abs fi
   assert.ok(optIn.some((p) => p.days.some((d) => d.blocks.at(-1).items.some((it) => fresh.has(it.ex)))));
 });
 
-test('the library: 295 programs in 34 subjects', () => {
-  assert.equal(programs.length, 295);
-  assert.equal(new Set(programs.map((p) => p.subject)).size, 34);
+test('the library: 319 programs in 37 subjects', () => {
+  assert.equal(programs.length, 319);
+  assert.equal(new Set(programs.map((p) => p.subject)).size, 37);
 });
 
 test('the Signature shelf has 15 programs: each original, then its Tempo and Harder moves variations', () => {
@@ -390,6 +393,9 @@ const FOCUS = {
   Back: { own: ['lats', 'upper_back'], helpers: ['biceps', 'rear_delts', 'traps'] },
   Shoulders: { own: ['front_delts', 'side_delts', 'rear_delts'], helpers: ['traps', 'triceps', 'upper_back'] },
   Arms: { own: ['biceps', 'triceps'], helpers: ['forearms'] },
+  'Hips & adductors': { own: ['adductors', 'hip_flexors'], helpers: ['glutes'] },
+  'Calves & lower legs': { own: ['calves', 'shins'], helpers: ['quads', 'hip_flexors'] },
+  'Neck & traps': { own: ['neck', 'traps'], helpers: ['upper_back', 'rear_delts', 'forearms'] },
 };
 test('muscle focus: each program\'s own muscle has the largest share (leaving out its helpers and the abs finisher)', () => {
   const { programFocus } = require('../app/stats.js');

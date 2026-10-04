@@ -180,6 +180,25 @@
       biceps2: ['db_curl', 'hammer_curl', 'concentration_curl', 'zottman_curl', 'cross_body_curl'],
       triceps2: ['db_skullcrusher', 'overhead_triceps_ext', 'db_kickback', 'tate_press', 'close_grip_press', 'floor_dip', 'close_grip_pushup'],
       armsBw: ['floor_dip', 'close_grip_pushup', 'diamond_pushup', 'plank_to_pushup', 'pike_pushup'],
+      // Phase 16 ticket 5: Hips & adductors, Calves & lower legs, Neck & traps (ladders use the reps-only pools)
+      adductor: ['side_lying_adduction', 'adductor_rockback', 'frog_pump', 'cossack_squat', 'lateral_lunge', 'copenhagen_plank'],
+      adductorBw: ['side_lying_adduction', 'adductor_rockback', 'frog_pump', 'cossack_squat', 'copenhagen_plank', 'lateral_bounds'],
+      adductorLoad: ['sumo_pulse', 'kb_sumo_deadlift', 'lateral_lunge'],
+      adductorReps: ['side_lying_adduction', 'adductor_rockback', 'frog_pump', 'cossack_squat', 'lateral_lunge', 'sumo_pulse'],
+      hipFlex: ['standing_knee_hold', 'leg_raise', 'hip_cars', 'ninety_ninety', 'a_skip', 'wall_drive', 'knee_tuck'],
+      hipGlute: ['glute_bridge', 'single_leg_bridge', 'clamshell', 'hip_thrust', 'bridge_hold', 'bridge_pulse'],
+      gluteReps: ['glute_bridge', 'single_leg_bridge', 'clamshell', 'hip_thrust', 'bridge_pulse'],
+      calf: ['calf_raise', 'db_calf_raise', 'bent_knee_calf_raise', 'single_leg_calf_raise', 'calf_raise_hold', 'heel_raise'],
+      calfBw: ['calf_raise', 'bent_knee_calf_raise', 'single_leg_calf_raise', 'calf_raise_hold', 'heel_raise'],
+      calfReps: ['calf_raise', 'db_calf_raise', 'bent_knee_calf_raise', 'single_leg_calf_raise', 'heel_raise'],
+      calfPlyo: ['pogo_hops', 'single_leg_hops', 'power_skips', 'a_skip', 'split_step', 'fast_feet'],
+      plyoReps: ['pogo_hops', 'single_leg_hops', 'power_skips', 'a_skip', 'split_step'],
+      shin: ['tibialis_raise', 'heel_walk', 'ankle_rocks', 'heel_to_toe_walk'],
+      neck: ['neck_iso_front', 'neck_iso_back', 'neck_iso_side', 'prone_neck_lift', 'chin_tucks'],
+      neckReps: ['prone_neck_lift', 'chin_tucks'],
+      traps2: ['db_shrug', 'shrug_hold', 'upright_row', 'farmer_carry', 'kb_high_pull', 'prone_y_raise'],
+      trapReps: ['db_shrug', 'upright_row', 'kb_high_pull', 'prone_y_raise'],
+      trapsBw: ['prone_y_raise', 'reverse_snow_angel', 'prone_ytw', 'superman_row', 'wall_slides'],
     };
     // Pools computed from the catalogue. An exercise marked `added: N` (the phase that added it) joins them only
     // for configs with `catalogue: N` or later, so new exercises can't reshuffle the days of existing programs.
