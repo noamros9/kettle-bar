@@ -25,6 +25,11 @@ const SUBJECTS = {
   'Climber / pull strength': { count: 5, abs: true, formats: ['straight', 'ladder', 'circuit', 'emom', 'superset'] },
   'Gentle / low impact': { count: 7, abs: false, formats: ['circuit', 'flow', 'straight', 'emom'] },
   'Back care': { count: 6, abs: false, formats: ['straight', 'flow', 'circuit'] },
+  // Phase 16: muscle focus
+  Chest: { count: 8, abs: true, formats: ['straight', 'superset', 'circuit', 'emom', 'ladder', 'amrap'] },
+  Back: { count: 8, abs: true, formats: ['straight', 'superset', 'circuit', 'emom', 'ladder'] },
+  Shoulders: { count: 8, abs: true, formats: ['straight', 'superset', 'circuit', 'emom', 'ladder'] },
+  Arms: { count: 8, abs: true, formats: ['straight', 'superset', 'circuit', 'emom', 'ladder'] },
   'Running prep': { count: 6, abs: true, formats: ['circuit', 'straight', 'emom', 'amrap'] },
   'Court & field sports': { count: 6, abs: true, formats: ['circuit', 'emom', 'straight', 'tabata', 'amrap'] },
   Strength: { count: 12, abs: true, formats: ['straight', 'superset'] },
@@ -125,9 +130,9 @@ test('the core programs opt in to the new catalogue (catalogue: 5): their abs fi
   assert.ok(optIn.some((p) => p.days.some((d) => d.blocks.at(-1).items.some((it) => fresh.has(it.ex)))));
 });
 
-test('the library: 263 programs in 30 subjects', () => {
-  assert.equal(programs.length, 263);
-  assert.equal(new Set(programs.map((p) => p.subject)).size, 30);
+test('the library: 295 programs in 34 subjects', () => {
+  assert.equal(programs.length, 295);
+  assert.equal(new Set(programs.map((p) => p.subject)).size, 34);
 });
 
 test('the Signature shelf has 15 programs: each original, then its Tempo and Harder moves variations', () => {
@@ -344,11 +349,13 @@ test('no two programs in a subject share their split, main-block formats and lev
 });
 
 // Phase 14 ticket 8: the 30-day programs, two per family
-test('the 30-day programs: two per family, 30 days with levels at 1 / 11 / 21, and the Mixed months mix families every day', () => {
+test('the 30-day programs: two or more per family (Phase 16 adds more), 30 days with levels at 1 / 11 / 21, and the Mixed months mix families every day', () => {
   const { FAMILIES } = require('../app/library.js');
   const famOf = Object.fromEntries(FAMILIES.flatMap(([f, list]) => list.map((s) => [s, f])));
   const months = CONFIGS.filter((c) => c.days === 30);
-  assert.deepEqual(Object.values(months.reduce((m, c) => ({ ...m, [famOf[c.subject]]: (m[famOf[c.subject]] || 0) + 1 }), {})), [2, 2, 2, 2]);
+  const perFamily = months.reduce((m, c) => ({ ...m, [famOf[c.subject]]: (m[famOf[c.subject]] || 0) + 1 }), {});
+  assert.equal(Object.keys(perFamily).length, 4);
+  Object.entries(perFamily).forEach(([f, n]) => assert.ok(n >= 2, `${f}: ${n}`));
   months.forEach((c) => {
     const p = programs.find((x) => x.id === c.id);
     assert.equal(p.days.length, 30, c.id);
@@ -374,4 +381,22 @@ test('Phase 14 Mixed programs: every main block tagged, two families or more eve
     const main = mainOf(d);
     if (main.at(-1).format === 'flow') assert.notEqual(d.blocks.at(-1).kind, 'abs', `${p.id} d${d.day}: abs after a flow`);
   }));
+});
+
+// Phase 16: a muscle-focus program trains its muscle most. The abs finisher ends every library day and the helpers are
+// there by design, so they are left out of the comparison; every other muscle gets less than the subject's own.
+const FOCUS = {
+  Chest: { own: ['chest'], helpers: ['triceps', 'front_delts'] },
+  Back: { own: ['lats', 'upper_back'], helpers: ['biceps', 'rear_delts', 'traps'] },
+  Shoulders: { own: ['front_delts', 'side_delts', 'rear_delts'], helpers: ['traps', 'triceps', 'upper_back'] },
+  Arms: { own: ['biceps', 'triceps'], helpers: ['forearms'] },
+};
+test('muscle focus: each program\'s own muscle has the largest share (leaving out its helpers and the abs finisher)', () => {
+  const { programFocus } = require('../app/stats.js');
+  programs.filter((p) => FOCUS[p.subject]).forEach((p) => {
+    const f = programFocus(p.days, EX), { own, helpers } = FOCUS[p.subject];
+    const mine = own.reduce((t, m) => t + (f[m] || 0), 0);
+    Object.entries(f).filter(([m]) => ![...own, ...helpers, 'abs', 'obliques'].includes(m))
+      .forEach(([m, x]) => assert.ok(mine > x, `${p.id}: ${m} ${x.toFixed(2)} >= ${own.join('+')} ${mine.toFixed(2)}`));
+  });
 });

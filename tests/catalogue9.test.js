@@ -66,10 +66,10 @@ test('the body map has the three new muscles, front or back, and only new exerci
     .forEach((m) => assert.ok(!['neck', 'traps', 'shins'].includes(m), `${e.id} (older) now works ${m}: past stats would move`)));
 });
 
-test('builds at catalogue 8 or older never draw them: every config rebuilt at 8', () => {
+test('builds at catalogue 8 or older never draw them: every config made before catalogue 9, rebuilt at 8', () => {
   const used = (p) => new Set(p.days.flatMap((d) => d.blocks.flatMap((b) => b.items.map((it) => it.ex))));
-  CONFIGS.filter((c) => !c.frozen).forEach((c) => {
-    const u = used(buildConfig({ ...c, catalogue: Math.min(c.catalogue || 0, 8) }));
+  CONFIGS.filter((c) => !c.frozen && (c.catalogue || 0) < 9).forEach((c) => {
+    const u = used(buildConfig({ ...c, catalogue: 8 }));
     NEW.forEach((id) => assert.ok(!u.has(id), `${c.id} draws ${id}`));
   });
 });

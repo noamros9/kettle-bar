@@ -62,6 +62,11 @@ const ORDER = [
   'bodyweight-and-stretch', 'supersets-and-stretch', 'lift-and-move', 'bouts-and-bells', 'kick-and-stretch', 'fighter-25',
   'bodyweight-athlete', 'speed-and-strength', 'court-athlete', 'balanced-25', 'kettlebell-week', 'no-gear-week',
   'calm-bodyweight', 'slow-supersets', 'evening-strength',
+  // Phase 16 ticket 4: muscle focus, Chest, Back, Shoulders, Arms
+  'chest-day', 'push-and-press', 'pushup-chest', 'chest-emom', 'bell-chest', 'chest-ladders', 'chest-30', 'chest-amrap-30',
+  'back-day', 'back-and-biceps', 'floor-back', 'back-emom', 'bell-back', 'back-ladders', 'back-30', 'back-circuit-30',
+  'shoulder-day', 'boulder-shoulders', 'floor-shoulders', 'shoulder-emom', 'bell-shoulders', 'shoulder-ladders', 'shoulders-30', 'shoulder-circuit-30',
+  'arm-day', 'arm-supersets', 'bodyweight-arms', 'arm-emom', 'chinup-arms', 'arm-ladders', 'arms-30', 'arm-circuit-30',
 ];
 
 const byId = new Map(FAMILY_FILES.flat().map((c) => [c.id, c]));
