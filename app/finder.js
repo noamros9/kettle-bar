@@ -93,14 +93,14 @@
   }
 
   const GOALS = [
-    ['strength', 'Get stronger', ['Signature', 'Strength', 'Pull-ups', 'Legs & glutes', 'Kettlebell only', 'Bodyweight', 'Busy week', 'Grip & forearms', 'Kettlebell complexes', 'Climber / pull strength', 'Chest', 'Back', 'Shoulders', 'Arms', 'Hips & adductors', 'Calves & lower legs', 'Neck & traps', 'Beach body', 'Hip power & thrust', 'Carry & hold']],
-    ['fitness', 'Fitness & cardio', ['Conditioning', 'HIIT', 'Plyometrics', 'Running prep', 'Court & field sports', 'Bedroom stamina', 'Endurance & control']],
+    ['strength', 'Get stronger', ['Signature', 'Strength', 'Pull-ups', 'Legs & glutes', 'Kettlebell only', 'Bodyweight', 'Busy week', 'Grip & forearms', 'Kettlebell complexes', 'Climber / pull strength', 'Chest', 'Back', 'Shoulders', 'Arms', 'Hips & adductors', 'Calves & lower legs', 'Neck & traps', 'Beach body', 'Hip power & thrust', 'Carry & hold', 'Strip & show-off']],
+    ['fitness', 'Fitness & cardio', ['Conditioning', 'HIIT', 'Plyometrics', 'Running prep', 'Court & field sports', 'Bedroom stamina', 'Endurance & control', 'Quickie']],
     ['fight', 'Fighting skills', ['Boxing', 'Kickboxing', 'Fighter']],
     ['flex', 'Flexibility & mobility', ['Yoga', 'Pilates', 'Flexibility', 'Mobility & posture', 'Sex positions', 'Flexible & bendy']],
     ['balance', 'Core, balance & sport', ['Core & abs', 'Balance & stability', 'Athlete']],
-    ['gentle', 'Gentle, or a sore back', ['Gentle / low impact', 'Back care', 'Calm strength']],
+    ['gentle', 'Gentle, or a sore back', ['Gentle / low impact', 'Back care', 'Calm strength', 'Back & knees care']],
     ['mix', 'A bit of everything', ['Balanced week', 'Strength & stretch', 'Variety']],
-    ['couple', 'For two, after dark', ['Couples']], // Phase 18
+    ['couple', 'For two, after dark', ['Couples', 'Her pleasure']], // Phase 18: couples, and the solo training that's for her
   ];
   const MINUTES = [['15', 'About 15 min', [0, 18]], ['20', '20–25 min', [18, 26]], ['30', 'About 30 min', [26, 33]], ['35', '35 min or more', [33, 90]]];
   const GEAR = [['bw', 'No equipment'], ['kb', 'A kettlebell'], ['all', 'Dumbbells & kettlebell']];

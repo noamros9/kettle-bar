@@ -114,6 +114,11 @@ const ORDER = [
   'thrust-master', 'pound-it', 'hip-drive-ladders', 'piston', 'thrust-30',
   'hold-her-up', 'against-the-wall', 'carry-me-home', 'grip-it-tight', 'stand-and-deliver-30',
   'bend-me-over', 'open-wide', 'arch-your-back', 'do-the-splits', 'bendy-30',
+  // Phase 18 ticket 5: Strip & show-off, Her pleasure, Quickie, Back & knees care
+  'pump-before-the-date', 'striptease-pump', 'show-off', 'abs-on-show', 'date-night-pump-30',
+  'all-about-her', 'going-down', 'fingers-and-forearms', 'ladies-first', 'her-pleasure-30',
+  'quickie', 'wham-bam', 'nooner', 'hot-and-fast', 'quickie-30',
+  'no-bad-backs', 'kneel-easy', 'strong-wrists', 'the-morning-after', 'back-and-knees-30',
 ];
 
 const byId = new Map(FAMILY_FILES.flat().map((c) => [c.id, c]));
