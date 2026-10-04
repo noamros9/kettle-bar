@@ -321,8 +321,8 @@ Plan: [docs/plans/phase-16-muscles-variety-more.md](docs/plans/phase-16-muscles-
     muscle every day with a different helper).
 37. **Variety: no day repeats** (no two days share day type + format), a new subject; **more than 10** (15).
 38. **After-dark programs** for looks, stamina and positions; **"a lot more" than 12** (3 subjects × 10); **names may
-    be fully explicit** (Noam). Noam wants the repos private; pending his call, since Pages from a private repo needs
-    a paid plan and the site stays public.
+    be fully explicit** (Noam). Decided 4 Oct: the repo stays public and the shelf is a normal
+    shelf (the app is for Noam's own use); no Settings switch.
 39. **More of everything: +50% per family** (+133), on top.
 - 263 → about 497 programs. Ticket 1 first: the page is at 123.8 of its 125 KB first-download gate.
 

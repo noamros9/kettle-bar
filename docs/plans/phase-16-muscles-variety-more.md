@@ -16,8 +16,8 @@ Mixed 47). Grilled the same morning:
 - **After-dark (Noam's sexy programs): 3 subjects × 10 (+30)**, in Mixed: **looks** (beach body: chest, shoulders,
   arms, abs, glutes), **stamina** (hips, glutes, core and conditioning for endurance) and **positions** (hip,
   adductor, hamstring and back mobility with the strength to hold them; pelvic-floor holds). **Names are Noam's call
-  and may be fully explicit** (4 Oct). Their content tickets wait until Noam has decided about the repo's
-  visibility (see Challenge round).
+  and may be fully explicit** (4 Oct). **The repo stays public and the shelf is a normal shelf** (Noam, 4 Oct: the
+  app is for his own use).
 - **Each family +50%** on top of the above (Strength +49, Cardio & combat +28, Mind & body +32, Mixed +24 = +133),
   spread over each family's existing subjects, as in Phase 14.
 - **Total: 263 → about 497 programs.**
@@ -37,7 +37,7 @@ lengths only.
 | 4 | Muscle focus: Chest, Back, Shoulders, Arms (+32) | content | 1, 2 | `content/muscles-upper` | – |
 | 5 | Muscle focus: Hips & adductors, Calves & lower legs, Neck & traps (+24) | content | 1, 2 | `content/muscles-other` | – |
 | 6 | Variety (+15) | content | 1, 3 | `content/variety` | – |
-| 7 | After-dark (+30) | content | 1, 2, repo visibility | `content/after-dark` | – |
+| 7 | After-dark (+30) | content | 1, 2 | `content/after-dark` | – |
 | 8 | Strength +49 | content | 1, 2 | `content/strength-plus-2` | – |
 | 9 | Cardio & combat +28 | content | 1 | `content/cardio-plus-2` | – |
 | 10 | Mind & body +32 | content | 1 | `content/mind-plus-2` | – |
@@ -79,9 +79,8 @@ The page is 123.8 KB gzipped against the 125 KB first-download gate (ticket 7b),
   give their subject's muscle the largest share in `data/muscles.json`.
 
 ## Challenge round
-- **Weakest assumption: the repo going private hides the after-dark names.** GitHub Pages on a private repo needs a
-  paid plan, and the site stays public either way; only the code is hidden. Ticket 7 waits for Noam's call: make the
-  repo private (with Pro), keep it public, or put the after-dark shelf behind a Settings switch (off by default).
+- **Weakest assumption: one look-alike muscle program per subject.** Eight programs on one muscle group risk
+  feeling the same; the split + formats + levers test and the 2:1 / every-day mix are there to stop it.
 - **What I hadn't read:** how much of the page the program list really is; ticket 1 measures before moving anything.
 - **The lazier version:** raise the 125 KB gate to 150 instead of ticket 1. Rejected: the first open on a phone is
   what the gate protects, and the library will keep growing.
