@@ -109,3 +109,59 @@ test('animation frames can carry the same label as the still drawing', () => {
   animationFrames({ name: 'Move', poses: [stand, up] }, { label: 'Move illustration', steps: 2 }).forEach((f) => assert.match(f, /aria-label="Move illustration"/));
   assert.match(animationFrames({ name: 'Hold', poses: [stand] }, { label: 'Hold illustration' })[0], /aria-label="Hold illustration"/);
 });
+
+// Phase 18 ticket 1: two-figure drawings. A pose's `two` is a second figure (the partner), placed by `at` relative to the
+// first one's hip, `flip` facing it the other way, drawn in --fig2 in a wider picture.
+const kneel = { t: [0, -30], hn: [-4, 20], hf: [4, 20], fn: [-22, 18], ff: [-22, 19], mat: 1 };
+const pair = { ...stand, two: { ...kneel, at: [36, 0], flip: 1 } };
+const heads = (svg) => [...svg.matchAll(/<circle cx="([\d.-]+)" cy="([\d.-]+)" r="7" fill="var\(--(fig2?)\)"\/>/g)].map((m) => [Number(m[1]), Number(m[2]), m[3]]);
+
+test('two figures: two heads, the partner in --fig2, both inside a wider picture and on the ground', () => {
+  const svg = draw([pair]);
+  const hs = heads(svg);
+  assert.deepEqual(hs.map((h) => h[2]).sort(), ['fig', 'fig2']);
+  const [, w, ht] = svg.match(/viewBox="0 (-?[\d.]+) ([\d.]+) ([\d.]+)"/).slice(1).map(Number);
+  assert.equal(w, 160);
+  hs.forEach(([x]) => assert.ok(x > 7 && x < 153, `head inside: ${x}`));
+  assert.ok(hs.find((h) => h[2] === 'fig2')[0] > hs.find((h) => h[2] === 'fig')[0], 'the partner is on the side `at` puts it');
+  const limbs = [...svg.matchAll(/points="([^"]+)"/g)].flatMap((m) => m[1].split(' ').map((p) => Number(p.split(',')[1])));
+  assert.ok(Math.max(...limbs) <= 116 + 3.4, 'nothing below the ground');
+  assert.match(svg, /stroke="var\(--fig2-far\)"/);
+  assert.doesNotMatch(svg, /NaN/);
+  assert.ok(ht > 0);
+});
+
+test('a pair spread wider than 160 widens its picture to fit', () => {
+  const plank = { t: [34, -10], hn: [36, 18], hf: [37, 18], fn: [-41, 6], ff: [-41, 7] };
+  const svg = draw([{ ...plank, two: { ...plank, at: [120, 0], flip: 1 } }]);
+  const w = Number(svg.match(/viewBox="0 -?[\d.]+ ([\d.]+) /)[1]);
+  assert.ok(w > 160);
+  heads(svg).forEach(([x]) => assert.ok(x > 7 && x < w - 7));
+});
+
+test('two figures animate together: the partner moves between poses too', () => {
+  const { animationFrames } = require('../figures.js');
+  const a = { ...stand, two: { ...stand, at: [30, 0], flip: 1 } };
+  const b = { ...stand, two: { ...stand, hn: [-4, -50], hf: [4, -50], at: [30, 0], flip: 1 } };
+  const frames = animationFrames({ name: 'x', poses: [a, b] });
+  assert.ok(new Set(frames).size > 2);
+  assert.ok(frames.every((f) => /viewBox="0 -?[\d.]+ 160 /.test(f)));
+});
+
+test('every one-figure exercise draws and animates exactly as before (catalogue 9 and older)', () => {
+  const { EX } = require('../exercises.js');
+  const { animationFrames } = require('../figures.js');
+  const h = require('crypto').createHash('sha256');
+  Object.keys(EX).sort().filter((k) => (EX[k].added || 0) <= 9).forEach((k) => { h.update(figureSVG(EX[k])); h.update(animationFrames(EX[k]).join('')); });
+  assert.equal(h.digest('hex'), '36901727ed24462222f03f9d0d55fdf0226aeebbbe0a440c3c61aef5d2fd06cb');
+});
+
+test('a partner with no `at` or `flip` stands on the same spot facing the same way; front view draws both in full colour', () => {
+  const svg = draw([{ ...stand, two: { ...stand } }]);
+  const hs = heads(svg);
+  assert.equal(hs.length, 2);
+  assert.equal(hs[0][0], hs[1][0]);
+  const front = draw([{ ...stand, two: { ...stand, at: [30, 0] } }], { view: 'front' });
+  assert.doesNotMatch(front, /--fig2-far/);
+  assert.match(front, /stroke="var\(--fig2\)" stroke-width="7"/);
+});
