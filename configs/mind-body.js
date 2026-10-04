@@ -742,6 +742,369 @@ const CONFIGS = [
       rows: { label: 'Rows & trunk', short: 'Rows', blocks: [S('Rows & trunk', ['row2', 'suitcase_march', 'bird_dog', 'mcgill_curl_up', 'side_plank_knee?'])] },
     },
   },
+  // ---------------- PHASE 16 ticket 10: MIND & BODY +50% (catalogue 9) ----------------
+  // Core & abs +5
+  {
+    id: 'core-and-neck', added: 16, catalogue: 9, name: 'Core & Posture', subject: 'Core & abs', minutes: [20, 25], equip: 'bw', levers: [null, 'reps', 'holds'],
+    split: 'Core & upper back / core & neck', blurb: 'A strong middle and an upright top half: core circuits with upper-back and gentle neck work.',
+    about: 'Core strength paired with the muscles that hold you upright. One day joins planks and dead bugs with Y raises and reverse snow angels for the upper back; the other joins hollow holds and twists with gentle neck holds and chin tucks. Good posture starts in the middle. Abs finish every session. Level II adds reps and Level III makes every hold longer.',
+    names: ['Upright', 'Tall', 'Stacked', 'Aligned Core', 'Plumb Line', 'Spine Line', 'Column Core', 'Pillar Core', 'Mast Core', 'Steady Core', 'Proud', 'Poised Core'],
+    cycle: ['back', 'neck'],
+    dayTypes: {
+      back: { label: 'Core & upper back', short: 'Back', blocks: [C('Core & upper back', ['coreAnti', 'trapsBw', 'coreHollow', 'trapsBw', 'coreRot?'], { values: [3, 4] })] },
+      neck: { label: 'Core & neck', short: 'Neck', blocks: [C('Core & neck', ['coreHollow', 'neck', 'coreRot', 'neck', 'coreAnti?'], { values: [3, 4] })] },
+    },
+  },
+  {
+    id: 'weighted-abs', added: 16, catalogue: 9, name: 'Weighted Abs', subject: 'Core & abs', minutes: [20, 25], levers: [null, 'weight', 'reps'],
+    split: 'Weighted front / weighted sides', blurb: 'Abs that grow: weighted crunches, toe touches and side bends in straight sets.',
+    about: 'Abs are a muscle like any other, and they grow with load. One day trains the front with weighted crunches, toe touches and dead bugs; the other the sides with side bends, weighted twists and suitcase carries. Straight sets with real rests. Abs finish every session. Level II asks for heavier weights and Level III adds reps.',
+    names: ['Loaded Abs', 'Heavy Middle', 'Iron Abs', 'Weighted Core', 'Plate Abs', 'Bell Abs', 'Dumbbell Abs', 'Load Up Abs', 'Strong Middle', 'Dense Core', 'Thick Core', 'Solid Core'],
+    cycle: ['front', 'sides'],
+    dayTypes: {
+      front: { label: 'Weighted front', short: 'Front', blocks: [S('Weighted front', ['absW', 'weighted_dead_bug', 'absW', 'coreHollow?'])] },
+      sides: { label: 'Weighted sides', short: 'Sides', blocks: [S('Weighted sides', ['db_side_bend', 'suitcase_march', 'coreRot', 'absW?'])] },
+    },
+  },
+  {
+    id: 'core-30-plus', added: 16, catalogue: 9, days: 30, name: 'Core 30 Plus', subject: 'Core & abs', minutes: [18, 23], equip: 'bw', levers: [null, 'reps', 'holds'],
+    split: 'Core EMOM / core circuit, 30 days', blurb: 'A month of core: an EMOM one day, a circuit the next.',
+    about: 'A month for a stronger middle with no equipment. An EMOM one day and a circuit the next, mixing bracing, twisting and hollow work. Every ten days the level steps up: more reps at Level II, longer holds at Level III. Abs finish every session.',
+    names: ['Core One', 'Core Week', 'Core Ten', 'Core Twenty', 'Core Thirty', 'Core Month', 'Middle Month', 'Brace Month', 'Twist Month', 'Hollow Month', 'Plank Month', 'Six Pack Month'],
+    cycle: ['emom', 'circuit'],
+    dayTypes: {
+      emom: { label: 'Core EMOM', short: 'EMOM', blocks: [E('Core EMOM', ['coreAnti', 'coreRot', 'coreHollow'], { values: [9, 12] })] },
+      circuit: { label: 'Core circuit', short: 'Circuit', blocks: [C('Core circuit', ['coreHollow', 'coreAnti', 'coreRot', 'core2?'], { values: [3, 4] })] },
+    },
+  },
+  {
+    id: 'bell-core', added: 16, catalogue: 9, name: 'Bell Core', subject: 'Core & abs', minutes: [22, 27], equip: 'kb', levers: [null, 'reps', 'weight'],
+    split: 'Bell core EMOM / bell core circuit', blurb: 'Core with one kettlebell: windmills, halos, carries and around-the-body passes.',
+    about: 'Core training with one kettlebell. One day is an EMOM of windmills, halos and around-the-body passes; the other a circuit of carries, bottoms-up holds and Turkish get-ups. The bell makes your middle resist being pulled off line. Abs finish every session. Level II adds reps and Level III asks for a heavier bell.',
+    names: ['Bell Middle', 'Bell Brace', 'Bell Twist', 'Bell Halo Core', 'Bell Windmill Core', 'Bell Carry Core', 'Bell Getup Core', 'Bell Pass', 'Bell Orbit Core', 'Bell Ring Core', 'Bell Spin Core', 'Bell Hold Core'],
+    cycle: ['emom', 'circuit'],
+    dayTypes: {
+      emom: { label: 'Bell core EMOM', short: 'EMOM', blocks: [E('Bell core EMOM', ['kb_windmill', 'kb_halo', 'kb_around_body'], { values: [9, 12, 15] })] },
+      circuit: { label: 'Bell core circuit', short: 'Circuit', blocks: [C('Bell core circuit', ['suitcase_march', 'kb_bottoms_up_hold', 'turkish_getup', 'kbCore2?'], { values: [2, 3, 4] })] },
+    },
+  },
+  {
+    id: 'pilates-core-mix', added: 16, catalogue: 9, name: 'Pilates Core Mix', subject: 'Core & abs', minutes: [22, 27], equip: 'bw', levers: [null, 'reps', 'variation'],
+    split: 'Pilates abs / plank & hollow', blurb: 'Pilates abs one day, planks and hollow holds the next: two schools of core.',
+    about: 'Two schools of core training in turn. One day is a circuit of Pilates abdominal work: the hundred, leg stretches, scissors and roll-ups. The other is the strength-gym version: planks, side planks, hollow holds and dead bugs. Each covers what the other misses. Abs finish every session. Level II adds reps and Level III brings harder moves.',
+    names: ['Two Schools', 'East West', 'Old New', 'Classic Modern', 'Studio Gym', 'Mat Floor', 'Hundred Plank', 'Roll Hold', 'Scissor Brace', 'Curl Plank', 'Stretch Brace', 'Flow Hold'],
+    cycle: ['pilates', 'plank'],
+    dayTypes: {
+      pilates: { label: 'Pilates abs', short: 'Pilates', blocks: [C('Pilates abs', ['hundred', 'plAbs', 'plRoll', 'plAbs'], { values: [2, 3] })] },
+      plank: { label: 'Plank & hollow', short: 'Plank', blocks: [C('Plank & hollow', ['plank', 'side_plank', 'coreHollow', 'dead_bug'], { values: [2, 3, 4] })] },
+    },
+  },
+  // Mobility & posture +4 (flow and circuit, no abs)
+  {
+    id: 'desk-neck-reset', added: 16, catalogue: 9, name: 'Neck & Shoulder Reset', subject: 'Mobility & posture', minutes: [14, 18], equip: 'bw', absSlots: [], levers: [null, 'reps', 'reps'],
+    split: 'Neck & shoulders / upper back & chest', blurb: 'A short reset for screen days: gentle neck and shoulder work, then the upper back and chest.',
+    about: 'A short reset for long screen days. One day is gentle neck and shoulder work: chin tucks, neck holds at half effort and shoulder circles. The other opens the chest and wakes up the upper back with Y raises, wall slides and open books. Fifteen minutes, nothing strenuous. Both later levels add reps.',
+    names: ['Unhunch', 'Screen Break', 'Look Up', 'Roll Out', 'Reset', 'Stretch Break', 'Shoulders Back', 'Chin Up Reset', 'Desk Out', 'Laptop Lid', 'Phone Down', 'Stand Up Reset'],
+    cycle: ['neck', 'back'],
+    dayTypes: {
+      neck: { label: 'Neck & shoulders', short: 'Neck', blocks: [C('Neck & shoulders', ['chin_tucks', 'neck', 'mbShoulder', 'neck', 'mbShoulder?'])] },
+      back: { label: 'Upper back & chest', short: 'Back', blocks: [C('Upper back & chest', ['prone_y_raise', 'wall_slides', 'open_book', 'mbPosture', 'fxUpper?'])] },
+    },
+  },
+  {
+    id: 'ankle-hip-mobility', added: 16, catalogue: 9, name: 'Ankles & Hips', subject: 'Mobility & posture', minutes: [18, 23], equip: 'bw', absSlots: [], levers: [null, 'reps', 'reps'],
+    split: 'Ankles & calves / hips & groin', blurb: 'Mobility from the ground up: ankles and calves one day, hips and inner thighs the next.',
+    about: 'Mobility from the ground up. One day works the ankles and calves: ankle rocks, tibialis raises, heel walks and calf stretches. The other the hips and inner thighs: hip circles, 90/90s and adductor rock-backs. Good ankles and hips make squats, runs and stairs easier. Both later levels add reps.',
+    names: ['Ground Up', 'Ankle Deep', 'Hip Deep', 'Root Mobility', 'Foot Loose', 'Hip Loose', 'Free Ankles', 'Free Hips', 'Open Ankles', 'Open Hips', 'Easy Ankles', 'Easy Hips'],
+    cycle: ['ankles', 'hips'],
+    dayTypes: {
+      ankles: { label: 'Ankles & calves', short: 'Ankles', blocks: [C('Ankles & calves', ['ankle_rocks', 'tibialis_raise', 'heel_walk', 'calf_raise', 'shin?'])] },
+      hips: { label: 'Hips & groin', short: 'Hips', blocks: [C('Hips & groin', ['hip_cars', 'ninety_ninety', 'adductor_rockback', 'mbHip', 'adductorBw?'])] },
+    },
+  },
+  {
+    id: 'mobility-30', added: 16, catalogue: 9, days: 30, name: 'Mobility 30', subject: 'Mobility & posture', minutes: [18, 23], equip: 'bw', absSlots: [], levers: [null, 'reps', 'reps'],
+    split: 'Spine / hips / shoulders, 30 days', blurb: 'A month of mobility: spine, hips and shoulders in turn, a flow each day.',
+    about: 'A month to move better. Three short flows rotate: the spine, the hips and the shoulders, each joint taken slowly through its full range. Every ten days the level steps up with more reps. Fifteen to twenty minutes of calm, useful movement.',
+    names: ['Move One', 'Move Week', 'Move Ten', 'Move Twenty', 'Move Thirty', 'Move Month', 'Supple Month', 'Loose Month', 'Free Month', 'Flow Month', 'Range Month', 'Ease Month'],
+    cycle: ['spine', 'hips', 'shoulders'],
+    dayTypes: {
+      spine: { label: 'Spine', short: 'Spine', blocks: [F('Spine flow', ['cat_cow', 'mbSpine', 'mbSpine', 'fxSpine', 'mbSpine?']), F('Hips & rest', ['mbHip', 'fxSpine', 'childs_pose', 'mbSpine?'])] },
+      hips: { label: 'Hips', short: 'Hips', blocks: [F('Hip flow', ['hip_cars', 'mbHip', 'mbHip', 'fxHips', 'mbHip?']), F('Spine & rest', ['mbSpine', 'fxHips', 'happy_baby', 'mbHip?'])] },
+      shoulders: { label: 'Shoulders', short: 'Shoulders', blocks: [F('Shoulder flow', ['shoulder_cars', 'mbShoulder', 'mbShoulder', 'fxUpper', 'mbShoulder?']), F('Upper back & rest', ['mbPosture', 'fxUpper', 'puppy_pose', 'mbShoulder?'])] },
+    },
+  },
+  {
+    id: 'posture-strength-circuit', added: 16, catalogue: 9, name: 'Posture Circuits', subject: 'Mobility & posture', minutes: [20, 25], equip: 'bw', absSlots: [], levers: [null, 'reps', 'reps'],
+    split: 'Back & neck circuit / hips & spine circuit', blurb: 'Posture you can keep: circuits for the upper back and neck, then the hips and spine.',
+    about: 'Posture is strength as much as stretching. One day is a circuit for the upper back and neck: Y raises, reverse snow angels, chin tucks and prone neck lifts. The other is the hips and spine: glute bridges, bird dogs, open books and hip-flexor holds. Both later levels add reps.',
+    names: ['Stand Tall', 'Sit Tall', 'Shoulders Down', 'Chest Up', 'Head Back', 'Hips Under', 'Long Spine', 'Neutral', 'Centred', 'Even', 'Square', 'Level'],
+    cycle: ['back', 'hips'],
+    dayTypes: {
+      back: { label: 'Back & neck circuit', short: 'Back', blocks: [C('Back & neck', ['prone_y_raise', 'reverse_snow_angel', 'chin_tucks', 'prone_neck_lift', 'trapsBw?'])] },
+      hips: { label: 'Hips & spine circuit', short: 'Hips', blocks: [C('Hips & spine', ['glute_bridge', 'bird_dog', 'open_book', 'standing_knee_hold', 'mbSpine?'])] },
+    },
+  },
+  // Yoga +5 (flows only, no abs)
+  {
+    id: 'yoga-hips-hamstrings', added: 16, catalogue: 9, name: 'Hips & Hamstrings Yoga', subject: 'Yoga', minutes: [28, 32], equip: 'bw', absSlots: [], levers: [null, 'holds', 'holds'],
+    split: 'Hip flow / hamstring flow', blurb: 'Yoga for the tightest places: a long hip-opening flow one day, hamstrings the next.',
+    about: 'Yoga for the two tightest places in most bodies. One day opens the hips: pigeon, lizard, frog and garland. The other the hamstrings: forward folds, half splits and pyramid-style stretches. Each starts with sun salutations and ends with rest. Both later levels make every hold longer.',
+    names: ['Open Hips', 'Long Legs', 'Low Lunge', 'Pigeon Day', 'Lizard Day', 'Fold Day', 'Half Split Day', 'Garland Day', 'Frog Day', 'Happy Hips', 'Soft Hamstrings', 'Deep Fold'],
+    cycle: ['hips', 'hams'],
+    dayTypes: {
+      hips: { label: 'Hip flow', short: 'Hips', blocks: [SUN, F('Hip flow', ['ygHips', 'fxHips', 'ygHips', 'fxHips', 'ygHips?']), F('Rest', ['ygRest', 'ygRest?'])] },
+      hams: { label: 'Hamstring flow', short: 'Hams', blocks: [SUN, F('Hamstring flow', ['fxHam', 'ygStand', 'fxHam', 'fxSplit', 'fxHam?']), F('Rest', ['ygRest', 'ygRest?'])] },
+    },
+  },
+  {
+    id: 'yin-30', added: 16, catalogue: 9, days: 30, name: 'Yin 30', subject: 'Yoga', minutes: [25, 32], equip: 'bw', absSlots: [], levers: [null, 'holds', 'holds'],
+    split: 'Yin hips / yin spine, 30 days', blurb: 'A month of yin: long, quiet holds for the hips and the spine.',
+    about: 'A month of yin yoga: few poses, held for minutes, with the muscles relaxed. One day works the hips and legs, the next the spine and shoulders. It is slow and quiet, the opposite of a workout, and it loosens what fast training tightens. Every ten days the holds grow longer.',
+    names: ['Still', 'Quiet', 'Hush', 'Calm', 'Slow', 'Soft', 'Deep', 'Sink', 'Melt', 'Rest', 'Breathe', 'Settle'],
+    cycle: ['hips', 'spine'],
+    dayTypes: {
+      hips: { label: 'Yin hips', short: 'Hips', blocks: [F('Yin hips', ['ygYinHips', 'ygYinHips', 'ygYinHips', 'ygYinHips?'], { scale: 3, cap: 120 }), F('Rest', ['ygRest'])] },
+      spine: { label: 'Yin spine', short: 'Spine', blocks: [F('Yin spine', ['ygYinSpine', 'ygYinSpine', 'ygYinSpine', 'ygYinSpine?'], { scale: 3, cap: 120 }), F('Rest', ['ygRest'])] },
+    },
+  },
+  {
+    id: 'yoga-balance-core', added: 16, catalogue: 9, name: 'Balance & Core Yoga', subject: 'Yoga', minutes: [28, 32], equip: 'bw', absSlots: [], levers: [null, 'variation', 'holds'],
+    split: 'Standing balance flow / core flow', blurb: 'Steady and strong: standing balances one day, yoga core work the next.',
+    about: 'Yoga for steadiness and strength. One day is standing balances: tree, warrior three, half moon and dancer. The other is core work: boat, plank, side plank and dolphin. Both start with sun salutations and end lying down. Level II brings harder poses and Level III holds every pose longer.',
+    names: ['Tree', 'Eagle', 'Dancer', 'Half Moon', 'Warrior Three', 'Boat', 'Crow', 'Dolphin', 'Side Plank Pose', 'Plank Pose', 'Steady Mind', 'Still Point'],
+    cycle: ['balance', 'core'],
+    dayTypes: {
+      balance: { label: 'Standing balance flow', short: 'Balance', blocks: [SUN, F('Balance flow', ['ygStand', 'ygBalance', 'ygBalance', 'ygStand', 'ygBalance', 'ygStand', 'ygBalance?']), F('Rest', ['ygRest', 'ygRest?'])] },
+      core: { label: 'Core flow', short: 'Core', blocks: [SUN, F('Core flow', ['ygCore', 'ygCore', 'ygStand', 'ygCore', 'ygCore', 'ygBalance', 'ygCore?']), F('Rest', ['ygRest', 'ygRest?'])] },
+    },
+  },
+  {
+    id: 'yoga-backbends', added: 16, catalogue: 9, name: 'Backbend Yoga', subject: 'Yoga', minutes: [28, 32], equip: 'bw', absSlots: [], levers: [null, 'holds', 'variation'],
+    split: 'Backbends & hip flexors / twists & shoulders', blurb: 'An open front body: backbends and hip flexors, then twists and shoulder openers.',
+    about: 'Yoga that opens the front of the body after long days sitting. One day builds toward backbends with low lunges, sphinx, cobra, bridge and camel. The other twists the spine and opens the shoulders. Sun salutations open every session and rest closes it. Level II holds every pose longer and Level III brings deeper versions.',
+    names: ['Bow', 'Camel', 'Cobra', 'Bridge', 'Wheel', 'Locust', 'Sphinx', 'Fish', 'Twist', 'Thread', 'Eagle Arms', 'Cow Face'],
+    cycle: ['back', 'twist'],
+    dayTypes: {
+      back: { label: 'Backbends & hip flexors', short: 'Backbends', blocks: [SUN, F('Backbends', ['low_lunge', 'ygBack', 'ygBack', 'ygHips', 'ygBack', 'ygBack', 'ygBack?']), F('Rest', ['ygRest', 'ygRest?'])] },
+      twist: { label: 'Twists & shoulders', short: 'Twists', blocks: [SUN, F('Twists & shoulders', ['seated_twist', 'fxUpper', 'fxSpine', 'fxUpper', 'fxSpine', 'ygStand', 'fxUpper?']), F('Rest', ['ygRest', 'ygRest?'])] },
+    },
+  },
+  {
+    id: 'yoga-15', added: 16, catalogue: 9, name: 'Yoga 15', subject: 'Yoga', minutes: [13, 17], equip: 'bw', absSlots: [], levers: [null, 'holds', 'holds'],
+    split: 'Morning 15 / evening 15', blurb: 'Fifteen minutes of yoga: an energising morning flow and a calming evening one.',
+    about: 'Yoga that fits a quarter of an hour. The morning flow wakes you up with sun salutations and standing poses; the evening flow winds you down with hips, twists and rest. Do whichever the day needs. Both later levels make every hold longer.',
+    names: ['Sunup', 'Sundown', 'Wake', 'Wind Down', 'Rise', 'Rest Easy', 'Open Eyes', 'Close Eyes', 'First Breath', 'Last Breath', 'Morning Quiet', 'Night Quiet'],
+    cycle: ['morning', 'evening'],
+    dayTypes: {
+      morning: { label: 'Morning 15', short: 'Morning', blocks: [SUN, F('Morning flow', ['ygStand', 'ygStand', 'ygBalance', 'ygRest'])] },
+      evening: { label: 'Evening 15', short: 'Evening', blocks: [F('Evening flow', ['ygHips', 'supine_twist', 'ygYinSpine', 'ygRest', 'ygRest?'])] },
+    },
+  },
+  // Pilates +4 (flows only, no abs)
+  {
+    id: 'pilates-glutes-legs', added: 16, catalogue: 9, name: 'Pilates Legs', subject: 'Pilates', minutes: [24, 29], equip: 'bw', absSlots: [], levers: [null, 'reps', 'reps'],
+    split: 'Glutes & side / legs & inner thighs', blurb: 'Pilates for the lower body: glutes and side kicks one day, legs and inner thighs the next.',
+    about: 'Pilates for the hips and legs. One day is glute work and the side-lying series; the other standing work, plié squats, leg circles and inner-thigh lifts. Every session starts with the hundred and keeps the core switched on throughout. Both later levels add reps.',
+    names: ['Side Kick', 'Leg Circle', 'Plié', 'Shoulder Bridge', 'Clam', 'Inner Thigh', 'Outer Thigh', 'Seat', 'Ballet Legs', 'Barre Legs', 'Long Legs', 'Lean Legs'],
+    cycle: ['glutes', 'legs'],
+    dayTypes: {
+      glutes: { label: 'Glutes & side', short: 'Glutes', blocks: [F('Warm-up', ['hundred'], ONCE), F('Glutes', ['plGlute', 'plGlute', 'shoulder_bridge', 'plGlute?']), F('Side series', ['plSide', 'plSide', 'plSide?'])] },
+      legs: { label: 'Legs & inner thighs', short: 'Legs', blocks: [F('Warm-up', ['hundred'], ONCE), F('Standing legs', ['plie_squat', 'standing_leg_lift', 'heel_raise', 'plGlute?']), F('Inner thighs', ['side_lying_adduction', 'single_leg_circles', 'plSide?'])] },
+    },
+  },
+  {
+    id: 'pilates-30', added: 16, catalogue: 9, days: 30, name: 'Pilates 30', subject: 'Pilates', minutes: [22, 27], equip: 'bw', absSlots: [], levers: [null, 'reps', 'variation'],
+    split: 'Abs & spine / back & sides, 30 days', blurb: 'A month of mat Pilates: abs and spine one day, back and sides the next.',
+    about: 'A month of mat Pilates. One day works the abdominals and the spine with the hundred, the stretches and roll-ups; the next the back and the sides with swan, swimming and side kicks. Every ten days the level steps up: more reps at Level II, harder moves like the teaser at Level III.',
+    names: ['Mat One', 'Mat Week', 'Mat Ten', 'Mat Twenty', 'Mat Thirty', 'Mat Month', 'Centre Month', 'Control Month', 'Breath Month', 'Flow Month Pilates', 'Precision Month', 'Core Month Pilates'],
+    cycle: ['abs', 'back'],
+    dayTypes: {
+      abs: { label: 'Abs & spine', short: 'Abs', blocks: [F('Warm-up', ['hundred', 'roll_up'], ONCE), F('Abs', ['plAbs', 'plAbs', 'plAbs', 'plAbs', 'plRoll?']), F('Spine', ['spine_stretch', 'plRoll', 'saw', 'plBack?'])] },
+      back: { label: 'Back & sides', short: 'Back', blocks: [F('Warm-up', ['hundred'], ONCE), F('Back', ['swan', 'swimming', 'plBack', 'plBack', 'plRoll?']), F('Sides', ['plSide', 'plSide', 'plGlute', 'plSide?'])] },
+    },
+  },
+  {
+    id: 'pilates-posture', added: 16, catalogue: 9, name: 'Pilates Posture', subject: 'Pilates', minutes: [20, 25], equip: 'bw', absSlots: [], levers: [null, 'reps', 'reps'],
+    split: 'Spine & back / shoulders & core', blurb: 'Pilates for standing tall: spine and back extension, then shoulders and deep core.',
+    about: 'Pilates for better posture. One day strengthens the back and lengthens the spine: swan, swimming, spine stretch and saw. The other works the shoulders and the deep core: leg pull front, the hundred and the stretches, with the shoulders kept down. Both later levels add reps.',
+    names: ['Lengthen', 'Lift', 'Lengthen Up', 'Stand Tall Pilates', 'Crown Up', 'Long Neck', 'Wide Collar', 'Open Chest', 'Soft Ribs', 'Neutral Spine', 'Stacked Spine', 'Tall Spine'],
+    cycle: ['spine', 'shoulders'],
+    dayTypes: {
+      spine: { label: 'Spine & back', short: 'Spine', blocks: [F('Warm-up', ['hundred'], ONCE), F('Back', ['swan', 'swimming', 'plBack', 'plBack', 'plSide?']), F('Spine', ['spine_stretch', 'saw', 'plRoll', 'plAbs?'])] },
+      shoulders: { label: 'Shoulders & core', short: 'Shoulders', blocks: [F('Warm-up', ['hundred'], ONCE), F('Shoulders & core', ['leg_pull_front', 'plAbs', 'plAbs', 'plBack', 'plAbs?']), F('Roll down', ['plRoll', 'plRoll', 'spine_stretch?'])] },
+    },
+  },
+  {
+    id: 'pilates-20', added: 16, catalogue: 9, name: 'Pilates 20', subject: 'Pilates', minutes: [15, 21], equip: 'bw', absSlots: [], levers: [null, 'reps', 'variation'],
+    split: 'Short mat A / B / C', blurb: 'Twenty-minute Pilates: three short mat sessions in turn, the classics trimmed down.',
+    about: 'The Pilates mat classics trimmed to twenty minutes. Three short sessions rotate: one leans on the abs, one on the back and spine, one on the hips and sides. Each opens with the hundred. Level II adds reps and Level III brings harder moves.',
+    names: ['Short Mat', 'Quick Mat', 'Twenty Mat', 'Mat Break', 'Mat Snack', 'Mat Dash', 'Mat Minute', 'Mat Moment', 'Mat Pause', 'Mat Pocket', 'Mat Express', 'Mat Lite'],
+    cycle: ['a', 'b', 'c'],
+    dayTypes: {
+      a: { label: 'Short mat A', short: 'A', blocks: [F('Warm-up', ['hundred'], ONCE), F('Abs', ['plAbs', 'plAbs', 'plAbs', 'plRoll']), F('Back', ['plBack', 'spine_stretch?'])] },
+      b: { label: 'Short mat B', short: 'B', blocks: [F('Warm-up', ['hundred'], ONCE), F('Back & spine', ['plBack', 'spine_stretch', 'plBack', 'swan']), F('Abs', ['plAbs', 'plAbs?'])] },
+      c: { label: 'Short mat C', short: 'C', blocks: [F('Warm-up', ['hundred'], ONCE), F('Hips & sides', ['plSide', 'plGlute', 'plSide', 'plGlute']), F('Abs', ['plAbs', 'plRoll?'])] },
+    },
+  },
+  // Flexibility +4 (flow and circuit, no abs)
+  {
+    id: 'flexible-30', added: 16, catalogue: 9, days: 30, name: 'Flexible 30', subject: 'Flexibility', minutes: [18, 24.5], equip: 'bw', absSlots: [], levers: [null, 'holds', 'holds'],
+    split: 'Lower body / upper body & spine, 30 days', blurb: 'A month of stretching: legs and hips one day, shoulders and spine the next.',
+    about: 'A month to become noticeably more flexible. One day stretches the hips, hamstrings and quads; the next the shoulders, chest and spine. Holds grow longer every ten days. A calm twenty minutes that undoes a lot of sitting.',
+    names: ['Stretch One', 'Stretch Week', 'Stretch Ten', 'Stretch Twenty', 'Stretch Thirty', 'Stretch Month', 'Reach Month', 'Bend Month', 'Open Month', 'Long Month', 'Loose Month Flex', 'Free Month Flex'],
+    cycle: ['lower', 'upper'],
+    dayTypes: {
+      lower: { label: 'Lower body', short: 'Lower', blocks: [F('Lower body', ['fxHips', 'fxHam', 'fxQuad', 'fxHips', 'fxHam?'], { scale: 2, cap: 90 })] },
+      upper: { label: 'Upper body & spine', short: 'Upper', blocks: [F('Upper body & spine', ['fxUpper', 'fxSpine', 'fxUpper', 'fxSpine', 'fxUpper?'], { scale: 2, cap: 90 })] },
+    },
+  },
+  {
+    id: 'active-range', added: 16, catalogue: 9, name: 'Active Range', subject: 'Flexibility', minutes: [22, 27], equip: 'bw', absSlots: [], levers: [null, 'holds', 'reps'],
+    split: 'Hip range circuit & stretch / shoulder range circuit & stretch', blurb: 'Flexibility you can use: strength at the end of the range, then a stretch.',
+    about: 'Flexibility you can use, not just reach. Each day starts with a circuit of strength at the end of the range, Cossack squats, Copenhagen planks and standing knee holds one day, Y raises, wall slides and Y-T-Ws the other, then a stretch for the same area. Strength there is what makes new range stay. Level II makes every hold longer and Level III adds reps.',
+    names: ['Own It', 'Use It', 'Hold It', 'Control', 'End Range', 'Active Stretch', 'Loaded Stretch', 'Strong Stretch', 'Range Strength', 'Deep Strength', 'Open Strength', 'Free Strength'],
+    cycle: ['hips', 'shoulders'],
+    dayTypes: {
+      hips: { label: 'Hip range', short: 'Hips', blocks: [C('Hip range', ['cossack_squat', 'copenhagen_plank', 'standing_knee_hold'], { values: [2, 3] }), F('Hip stretch', ['fxHips', 'fxStraddle', 'fxHam', 'fxHips?'])] },
+      shoulders: { label: 'Shoulder range', short: 'Shoulders', blocks: [C('Shoulder range', ['prone_y_raise', 'wall_slides', 'prone_ytw', 'reverse_snow_angel?']), F('Shoulder stretch', ['fxUpper', 'fxSpine', 'fxUpper', 'fxSpine', 'fxUpper?'], { values: [1, 2] })] },
+    },
+  },
+  {
+    id: 'calf-ankle-flex', added: 16, catalogue: 9, name: 'Calves & Ankles Stretch', subject: 'Flexibility', minutes: [14, 18], equip: 'bw', absSlots: [], levers: [null, 'holds', 'holds'],
+    split: 'Calves & feet / ankles & shins', blurb: 'The forgotten stretch: calves, feet, ankles and shins, fifteen minutes.',
+    about: 'The lower legs, which most stretching routines forget. One day stretches the calves and feet; the other works ankle range and the shins with ankle rocks, heel walks and kneeling stretches. Supple calves and ankles help squats, running and sore feet. Both later levels make every hold longer.',
+    names: ['Achilles Ease', 'Calf Ease', 'Foot Ease', 'Ankle Ease', 'Shin Ease', 'Heel Drop', 'Toe Point', 'Toe Flex', 'Arch Release', 'Sole', 'Instep Stretch', 'Ball of Foot'],
+    cycle: ['calves', 'ankles'],
+    dayTypes: {
+      calves: { label: 'Calves & feet', short: 'Calves', blocks: [F('Calves & feet', ['forward_fold', 'ankle_rocks', 'fxHam', 'puppy_pose', 'ankle_rocks?'], { scale: 2, cap: 90 })] },
+      ankles: { label: 'Ankles & shins', short: 'Ankles', blocks: [C('Ankle range', ['ankle_rocks', 'heel_walk', 'tibialis_raise'], { values: [2, 3] }), F('Stretch', ['kneeling_quad', 'childs_pose', 'ankle_rocks?'])] },
+    },
+  },
+  {
+    id: 'splits-30', added: 16, catalogue: 9, days: 30, name: 'Splits 30', subject: 'Flexibility', minutes: [18, 24], equip: 'bw', absSlots: [], levers: [null, 'holds', 'holds'],
+    split: 'Front split / middle split, 30 days', blurb: 'A month toward the splits: front split one day, middle split the next.',
+    about: 'A month toward the splits. One day works the front split with half splits, lizards and lunges; the next the middle split with frog, butterfly and straddle folds. Each day ends with a long hold in the split itself, as far as you can comfortably go. Every ten days the holds grow longer.',
+    names: ['Split Start', 'Split Week', 'Split Ten', 'Split Twenty', 'Split Thirty', 'Split Month', 'Lower Down', 'Closer', 'Nearly', 'Almost', 'Floor Bound', 'Flat'],
+    cycle: ['front', 'middle'],
+    dayTypes: {
+      front: { label: 'Front split', short: 'Front', blocks: [F('Front split', ['fxSplit', 'fxQuad', 'fxSplit', 'fxHam', 'front_split'], { scale: 2, cap: 90 }), F('Hip flexors', ['low_lunge', 'fxQuad', 'fxSplit?'], { scale: 2, cap: 90 })] },
+      middle: { label: 'Middle split', short: 'Middle', blocks: [F('Middle split', ['fxStraddle', 'fxHips', 'fxStraddle', 'butterfly', 'seated_straddle'], { scale: 2, cap: 90 }), F('Inner thighs', ['frog_pose', 'fxStraddle', 'fxHips?'], { scale: 2, cap: 90 })] },
+    },
+  },
+  // Balance & stability +4 (abs finish)
+  {
+    id: 'balance-30', added: 16, catalogue: 9, days: 30, name: 'Balance 30', subject: 'Balance & stability', minutes: [22, 27], equip: 'bw', levers: [null, 'reps', 'variation'],
+    split: 'Static & strength / dynamic & power, 30 days', blurb: 'A month of balance: still holds and single-leg strength, then moving balance and hops.',
+    about: 'A month for steadier balance. One day is still holds and single-leg strength; the next moving balance, reaches and hop-and-stick landings. Every ten days the level steps up: more reps at Level II, harder versions at Level III. Abs finish every session.',
+    names: ['Steady One', 'Steady Week', 'Steady Ten', 'Steady Twenty', 'Steady Thirty', 'Steady Month', 'Poise Month', 'Still Month', 'Firm Month', 'Sure Month', 'Grounded Month', 'Rooted Month'],
+    cycle: ['still', 'moving'],
+    dayTypes: {
+      still: { label: 'Static & strength', short: 'Still', blocks: [C('Static & strength', ['blStatic', 'blStrength', 'blStatic', 'blStrength', 'calf_raise_hold?'], { values: [2, 3] })] },
+      moving: { label: 'Dynamic & power', short: 'Moving', blocks: [C('Dynamic & power', ['blDynamic', 'blPower', 'blDynamic', 'single_leg_hops', 'blPower?'], { values: [2, 3] })] },
+    },
+  },
+  {
+    id: 'balance-calves-feet', added: 16, catalogue: 9, name: 'Feet First', subject: 'Balance & stability', minutes: [22, 27], equip: 'bw', levers: [null, 'reps', 'reps'],
+    split: 'Feet & calves / ankles & shins', blurb: 'Balance from the feet up: calves and feet one day, ankles and shins the next.',
+    about: 'Good balance starts in the feet. One day trains the calves and feet: single-leg calf raises, raises held on the toes and heel-to-toe walks. The other trains the ankles and shins: tibialis raises, heel walks and single-leg stands. Steadier feet, fewer rolled ankles. Abs finish every session. Both later levels add reps.',
+    names: ['Feet First', 'Toe Hold', 'Heel Hold', 'Arch Strength', 'Ankle Strength', 'Foot Strength', 'Sure Foot', 'Steady Foot', 'Firm Foot', 'Grounded Feet', 'Barefoot Balance', 'Foot Notes'],
+    cycle: ['feet', 'ankles'],
+    dayTypes: {
+      feet: { label: 'Feet & calves', short: 'Feet', blocks: [S('Feet & calves', ['single_leg_calf_raise', 'calf_raise_hold', 'heel_to_toe_walk', 'calfBw?'])] },
+      ankles: { label: 'Ankles & shins', short: 'Ankles', blocks: [S('Ankles & shins', ['tibialis_raise', 'heel_walk', 'single_leg_stand', 'shin?'])] },
+    },
+  },
+  {
+    id: 'balance-strength-plus', added: 16, catalogue: 9, name: 'Strong Balance', subject: 'Balance & stability', minutes: [26, 31], levers: [null, 'weight', 'reps'],
+    split: 'Single-leg loaded / hips & adductors', blurb: 'Balance with load: single-leg lifts with dumbbells, then hip and inner-thigh strength.',
+    about: 'Balance that holds up under load. One day is single-leg work with dumbbells: split squats, single-leg deadlifts and step-ups. The other strengthens the hips and inner thighs that keep the knee steady: Copenhagen planks, side-lying adductions and clamshells. Abs finish every session. Level II asks for heavier weights and Level III adds reps.',
+    names: ['Loaded Stance', 'Heavy Balance', 'Iron Stance', 'Strong Stance', 'Firm Stance', 'Planted', 'Anchored', 'Steady Load', 'Load Bearing', 'Weight Bearing', 'Stable', 'Unshakeable Balance'],
+    cycle: ['loaded', 'hips'],
+    dayTypes: {
+      loaded: { label: 'Single-leg loaded', short: 'Loaded', blocks: [S('Single-leg loaded', ['split_squat', 'single_leg_rdl', 'singleLeg', 'blStrength?'])] },
+      hips: { label: 'Hips & adductors', short: 'Hips', blocks: [S('Hips & adductors', ['copenhagen_plank', 'side_lying_adduction', 'clamshell', 'blDynamic?'])] },
+    },
+  },
+  {
+    id: 'balance-flow-emom', added: 16, catalogue: 9, name: 'Balance EMOM Plus', subject: 'Balance & stability', minutes: [20, 25], equip: 'bw', levers: [null, 'reps', 'variation'],
+    split: 'Still EMOM / moving EMOM', blurb: 'Balance on the minute: still holds one day, moving balance the next.',
+    about: 'Balance work on the clock. One day is an EMOM of still holds and single-leg strength; the other of moving balance and hop-and-stick landings. A short, focused session that keeps your feet sharp. Abs finish every session. Level II adds reps and Level III brings harder versions.',
+    names: ['Balance Clock', 'Steady Clock', 'Still Clock', 'Move Clock', 'Poise Clock', 'Sure Clock', 'Firm Clock', 'Even Clock', 'Level Clock', 'True Clock', 'Plumb Clock', 'Centre Clock'],
+    cycle: ['still', 'moving'],
+    dayTypes: {
+      still: { label: 'Still EMOM', short: 'Still', blocks: [E('Still EMOM', ['blStatic', 'blStrength', 'blStatic'], { values: [9, 12] })] },
+      moving: { label: 'Moving EMOM', short: 'Moving', blocks: [E('Moving EMOM', ['blDynamic', 'blPower', 'blDynamic'], { values: [9, 12] })] },
+    },
+  },
+  // Gentle / low impact +3 (no abs)
+  {
+    id: 'gentle-30', added: 16, catalogue: 9, days: 30, name: 'Gentle 30', subject: 'Gentle / low impact', minutes: [18, 23], equip: 'bw', absSlots: [], levers: [null, 'reps', 'reps'],
+    split: 'Gentle strength / gentle flow, 30 days', blurb: 'A gentle month: easy strength circuits one day, a calm flow the next.',
+    about: 'A gentle month to build a habit. One day is an easy strength circuit: sit-to-stands, wall push-ups, bridges and marches. The next is a calm flow of stretches. No jumping, nothing on the floor that is hard to get up from. Every ten days there are a few more reps.',
+    names: ['Easy One', 'Easy Week', 'Easy Ten', 'Easy Twenty', 'Easy Thirty', 'Easy Month', 'Gentle Month', 'Kind Month', 'Soft Month', 'Calm Month Gentle', 'Steady Month Gentle', 'Habit Month'],
+    cycle: ['strength', 'flow'],
+    dayTypes: {
+      strength: { label: 'Gentle strength', short: 'Strength', blocks: [C('Gentle strength', ['gentleStrength', 'gentleCardio', 'gentleStrength', 'gentleBalance', 'gentleStrength?'])] },
+      flow: { label: 'Gentle flow', short: 'Flow', blocks: [F('Gentle flow', ['backMove', 'ygRest', 'backMove', 'mbHip', 'backMove', 'mbSpine', 'ygRest', 'ygRest?'])] },
+    },
+  },
+  {
+    id: 'gentle-legs-balance', added: 16, catalogue: 9, name: 'Steady Legs', subject: 'Gentle / low impact', minutes: [18, 23], equip: 'bw', absSlots: [], levers: [null, 'reps', 'tempo'],
+    split: 'Legs & calves / balance & ankles', blurb: 'Gentle leg strength and balance: legs and calves, then balance and ankles.',
+    about: 'Stronger legs and steadier balance, gently. One day is legs and calves: sit-to-stands, calf raises and standing marches. The other is balance and ankles: single-leg stands, heel-to-toe walks and tibialis raises with a hand on the wall. Good for confidence on stairs and uneven ground. Level II adds reps and Level III slows every rep down.',
+    names: ['Steady Steps', 'Firm Footing', 'Sure Steps', 'Stair Ready', 'Kerb Ready', 'Garden Path', 'Park Walk', 'Town Walk', 'Sunday Stroll', 'Steady Stroll', 'Easy Stride', 'Gentle Stride'],
+    cycle: ['legs', 'balance'],
+    dayTypes: {
+      legs: { label: 'Legs & calves', short: 'Legs', blocks: [S('Legs & calves', ['sit_to_stand', 'calf_raise', 'standing_march', 'gentleStrength?'])] },
+      balance: { label: 'Balance & ankles', short: 'Balance', blocks: [C('Balance & ankles', ['single_leg_stand', 'heel_to_toe_walk', 'tibialis_raise', 'gentleBalance?'])] },
+    },
+  },
+  {
+    id: 'gentle-emom', added: 16, catalogue: 9, name: 'Gentle EMOM', subject: 'Gentle / low impact', minutes: [15, 20], equip: 'bw', absSlots: [], levers: [null, 'reps', 'reps'],
+    split: 'Gentle EMOM A / B', blurb: 'An easy minute at a time: gentle strength and movement on the clock, plenty of rest.',
+    about: 'Gentle exercise in small pieces. Each minute starts a short, easy set, wall push-ups, sit-to-stands, marches, step touches, and the rest of the minute is rest. The clock keeps you moving without ever rushing you. Both later levels add a few reps.',
+    names: ['Easy Minute', 'Gentle Minute', 'Kind Minute', 'Calm Minute Gentle', 'Soft Minute', 'Slow Minute', 'Easy Clock', 'Gentle Clock', 'Kind Clock', 'Calm Clock', 'Soft Clock', 'Slow Clock'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Gentle EMOM A', short: 'A', blocks: [E('Gentle EMOM', ['wall_pushup', 'sit_to_stand', 'standing_march'], { values: [12, 15, 18] })] },
+      b: { label: 'Gentle EMOM B', short: 'B', blocks: [E('Gentle EMOM', ['step_touch', 'glute_bridge', 'gentleBalance'], { values: [12, 15, 18] })] },
+    },
+  },
+  // Back care +3 (no abs)
+  {
+    id: 'back-care-30', added: 16, catalogue: 9, days: 30, name: 'Back Care 30', subject: 'Back care', minutes: [18, 23], equip: 'bw', absSlots: [], levers: [null, 'reps', 'reps'],
+    split: 'Back strength / back movement, 30 days', blurb: 'A month for a happier back: strength one day, gentle movement the next.',
+    about: 'A month for a back that feels better. One day builds the muscles that support it: bird dogs, McGill curl-ups, side planks from the knees and bridges. The next moves it gently through its range with cat-cow, pelvic tilts and open books. Every ten days there are a few more reps. Stop anything that sends pain down a leg.',
+    names: ['Back One', 'Back Week', 'Back Ten', 'Back Twenty', 'Back Thirty', 'Back Month', 'Ease Back', 'Kind Back', 'Calm Back', 'Strong Back Month', 'Free Back', 'Happy Back'],
+    cycle: ['strength', 'move'],
+    dayTypes: {
+      strength: { label: 'Back strength', short: 'Strength', blocks: [S('Back strength', ['backStrength', 'backStrength', 'backStrength', 'backStrength?'])] },
+      move: { label: 'Back movement', short: 'Move', blocks: [C('Back movement', ['backMove', 'backMove', 'backMove', 'mbHip', 'backMove?'])] },
+    },
+  },
+  {
+    id: 'back-hips-glutes', added: 16, catalogue: 9, name: 'Back, Hips & Glutes', subject: 'Back care', minutes: [20, 25], equip: 'bw', absSlots: [], levers: [null, 'reps', 'tempo'],
+    split: 'Glutes & core circuit / hips flow', blurb: 'For a back that aches from sitting: glutes and core, then a hip-opening flow.',
+    about: 'Much back ache comes from weak glutes and stiff hips. One day is a circuit of glute bridges, frog pumps, clamshells and bird dogs. The other is a gentle flow for the hips and lower back. Level II adds reps and Level III slows every rep down. Stop anything that sends pain down a leg.',
+    names: ['Sit Less', 'Stand More', 'Hip Free', 'Glute On', 'Back Ease', 'Desk Hips', 'Chair Back', 'Sofa Back', 'Car Back', 'Long Drive', 'Long Flight', 'Long Day'],
+    cycle: ['glutes', 'hips'],
+    dayTypes: {
+      glutes: { label: 'Glutes & core circuit', short: 'Glutes', blocks: [C('Glutes & core', ['glute_bridge', 'frog_pump', 'clamshell', 'bird_dog', 'backStrength?'])] },
+      hips: { label: 'Hips flow', short: 'Hips', blocks: [F('Hips flow', ['knee_hug', 'mbHip', 'backMove', 'figure_four', 'mbHip?']), F('Lower back', ['backMove', 'happy_baby', 'backMove?'])] },
+    },
+  },
+  {
+    id: 'upper-back-care', added: 16, catalogue: 9, name: 'Upper Back Care', subject: 'Back care', minutes: [18, 23], equip: 'bw', absSlots: [], levers: [null, 'reps', 'reps'],
+    split: 'Upper back strength / neck & shoulder flow', blurb: 'For a stiff upper back and neck: upper-back strength, then a gentle neck and shoulder flow.',
+    about: 'For the upper back and neck that stiffen at a desk. One day strengthens the upper back with Y raises, reverse snow angels and prone neck lifts. The other is a gentle flow for the neck and shoulders: chin tucks, thread the needle and open books. Both later levels add reps. Keep the neck work slow and easy.',
+    names: ['Upper Ease', 'Neck Ease', 'Shoulder Ease', 'Desk Neck Care', 'Screen Neck', 'Text Neck', 'Hunch Fix', 'Stoop Fix', 'Slump Fix', 'Round Fix', 'Tall Back', 'Proud Back'],
+    cycle: ['strength', 'flow'],
+    dayTypes: {
+      strength: { label: 'Upper back strength', short: 'Strength', blocks: [S('Upper back strength', ['prone_y_raise', 'reverse_snow_angel', 'prone_neck_lift', 'trapsBw?'])] },
+      flow: { label: 'Neck & shoulder flow', short: 'Flow', blocks: [F('Neck & shoulder flow', ['chin_tucks', 'thread_the_needle', 'open_book', 'mbShoulder', 'mbShoulder', 'mbSpine', 'childs_pose', 'mbShoulder?'])] },
+    },
+  },
 ];
 
 // Hand-written paragraphs for the older programs (newer ones carry theirs as `about:` in the config).

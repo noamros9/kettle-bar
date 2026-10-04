@@ -95,6 +95,11 @@ const ORDER = [
   'hiit-ladder-tabata', 'hiit-30-plus', 'bell-hiit', 'plyo-power-straight', 'plyo-calves', 'plyo-30', 'plyo-strength-emom',
   'boxing-circuit', 'boxing-power', 'boxing-tabata-plus', 'boxing-30-plus', 'kick-circuit', 'kick-tabata-plus', 'kick-30',
   'kick-flex', 'runner-strength-30', 'trail-legs', 'run-faster', 'court-30', 'racket-ready', 'field-speed',
+  // Phase 16 ticket 10: Mind & body +50%
+  'core-and-neck', 'weighted-abs', 'core-30-plus', 'bell-core', 'pilates-core-mix', 'desk-neck-reset', 'ankle-hip-mobility', 'mobility-30',
+  'posture-strength-circuit', 'yoga-hips-hamstrings', 'yin-30', 'yoga-balance-core', 'yoga-backbends', 'yoga-15', 'pilates-glutes-legs', 'pilates-30',
+  'pilates-posture', 'pilates-20', 'flexible-30', 'active-range', 'calf-ankle-flex', 'splits-30', 'balance-30', 'balance-calves-feet',
+  'balance-strength-plus', 'balance-flow-emom', 'gentle-30', 'gentle-legs-balance', 'gentle-emom', 'back-care-30', 'back-hips-glutes', 'upper-back-care',
 ];
 
 const byId = new Map(FAMILY_FILES.flat().map((c) => [c.id, c]));
