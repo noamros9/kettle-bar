@@ -188,6 +188,8 @@
     quads: 'M64 244 Q59 282 69 330 L84 334 Q93 292 91 246 Z',
     adductors: 'M95 242 L88 250 L88 300 L97 290 L99 244 Z',
     calves: 'M68 348 Q64 366 69 392 L74 392 Q76 368 74 348 Z',
+    shins: 'M78 350 Q81 372 78 398 L85 398 Q88 372 85 350 Z', // Phase 16
+    neck: 'M100 55 L91 56 L92 70 L100 73 Z',
   };
   const BACK = {
     upper_back: 'M100 66 L84 73 L63 81 L76 97 L91 130 L100 134 Z',
@@ -200,6 +202,8 @@
     glutes: 'M100 208 L78 204 Q62 212 62 236 Q70 258 92 256 Q100 252 100 244 Z',
     hamstrings: 'M64 262 L66 320 L80 334 L94 330 L96 262 Z',
     calves: 'M68 346 Q62 366 70 392 L84 392 Q90 366 86 346 Z',
+    neck: 'M100 56 L92 57 L92 66 L100 66 Z', // Phase 16
+    traps: 'M100 64 L92 64 L66 79 L84 75 L100 74 Z',
   };
   // muscleMapSVG(primary[], secondary[], label): an exercise's main and secondary muscles.
   // muscleMapSVG({ muscle: load }, label): a heat map in 4 shades by share of the biggest load.

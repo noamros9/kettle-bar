@@ -32,7 +32,7 @@ lengths only.
 |---|---|---|---|---|---|
 | 0 | This plan | plan | – | `plan/phase-16` | done (PR #168) |
 | 1 | The program list out of the first download | feature | – | `feature/library-index` | done (PR #169) |
-| 2 | Catalogue 9: exercises for the new muscle subjects and after-dark | feature | – | `feature/catalogue-9` | – |
+| 2 | Catalogue 9: exercises for the new muscle subjects and after-dark | feature | – | `feature/catalogue-9` | in review |
 | 3 | Variety programs in the engine (no repeated day) | feature | – | `feature/variety` | – |
 | 4 | Muscle focus: Chest, Back, Shoulders, Arms (+32) | content | 1, 2 | `content/muscles-upper` | – |
 | 5 | Muscle focus: Hips & adductors, Calves & lower legs, Neck & traps (+24) | content | 1, 2 | `content/muscles-other` | – |
@@ -68,6 +68,18 @@ The page is 123.8 KB gzipped against the 125 KB first-download gate (ticket 7b),
   adduction, sumo pulses, adductor rock-backs, frog bridge; pelvic-floor holds, hip thrust holds.
 - **Test first:** every new exercise draws, has muscles and reps; builds at catalogue ≤ 8 never draw them.
 - From this merge catalogue 9 is frozen like 8 (own programs and random workouts build at 9).
+- **As built (4 Oct): 40 exercises.** Chest: wide push-ups, pseudo-planche push-ups, push-up bottom hold, close-grip
+  floor press, squeeze press, one-arm kettlebell floor press. Back: reverse fly, gorilla rows, kettlebell dead-stop
+  rows, prone Y raises. Shoulders: upright rows, lateral raise hold, side-lying external rotation, pike hold. Arms:
+  concentration, Zottman and cross-body curls, Tate press, floor dips, close-grip push-ups. Hips & adductors:
+  side-lying adductions, sumo pulses (kettlebell), adductor rock-backs, frog pumps, standing knee hold. Calves & lower
+  legs: calf raises (bodyweight, dumbbell, bent-knee, hold), tibialis raises, heel walks. Neck & traps: dumbbell shrugs,
+  shrug hold, neck holds (front, back, side; half effort), prone neck lifts. After-dark: pelvic-floor holds, glute
+  bridge hold and pulses. Floor fly, Arnold press, hip thrusts and heel raises already existed, so they aren't new.
+  None is an abs, warm-up or cool-down move (so none lands in an older finisher's pool). **Three new muscles** on the
+  body map: **Neck** (front and back), **Traps** (back), **Shins** (front); only catalogue 9 exercises use them, so
+  past stats don't move. The page grew 3.3 KB (the catalogue is in the page): 110.8 KB gzipped. The 110 KB test became
+  "a program adds only its id" (100 programs < 1 KB).
 
 ### 3. Variety programs in the engine
 - A config may say `variety: true` with a set of day types and allowed formats instead of a `cycle`. The builder
