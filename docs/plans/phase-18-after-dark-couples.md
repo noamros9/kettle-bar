@@ -37,7 +37,7 @@ as Variety), so they are in `skipped` in the recipe book.
 
 | # | Ticket | Tier | Blocked by | Branch | Status |
 |---|---|---|---|---|---|
-| 0 | This plan | plan | – | `plan/phase-18` | – |
+| 0 | This plan | plan | – | `plan/phase-18` | done (PR #192) |
 | 1 | Two-figure drawings | feature | – | `feature/two-figures` | – |
 | 2 | Catalogue 10: partner moves, teasing and positions | feature | 1 | `feature/catalogue-10` | – |
 | 3 | Couples (+20) | content | 2 | `content/couples` | – |

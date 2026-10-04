@@ -1,7 +1,7 @@
 /* Kettle & Bar figure engine: draws exercise stick figures from poses, and the front/back muscle map.
    Pure drawing: knows nothing about which exercises exist. */
 (function (root) {
-  const W = 120, H = 124, G = 116, BAR = 8;
+  const W = 120, W2 = 160, H = 124, G = 116, BAR = 8; // W2: a picture with two figures (Phase 18)
   const add = (a, b) => [a[0] + b[0], a[1] + b[1]];
   const sub = (a, b) => [a[0] - b[0], a[1] - b[1]];
   const mul = (a, k) => [a[0] * k, a[1] * k];
@@ -62,14 +62,23 @@
     };
   }
 
+  // a partner (Phase 18): solved like any figure, mirrored when `flip`, then moved by `at` from the first one's hip
+  function partnerOf(ps, front) {
+    if (!ps.two) return null;
+    const s = solve(ps.two, front), f = ps.two.flip ? -1 : 1, at = ps.two.at || [0, 0];
+    return Object.fromEntries(Object.entries(s).map(([k, p]) => [k, [p[0] * f + at[0], p[1] + at[1]]]));
+  }
+
   function frame(ps, front) {
-    const s = solve(ps, front);
+    const s = solve(ps, front), s2 = partnerOf(ps, front);
+    let wide = W;
     const fore = (el, ha) => nrm(sub(ha, el));
     const props = { far: [], near: [], both: [] };
     const pts = [];
     const P = (p, r) => pts.push([p[0], p[1], r]);
     [s.elN, s.haN, s.elF, s.haF, s.knN, s.ftN, s.knF, s.ftF].forEach((p) => P(p, 3.3));
     P(s.hip, 5); P(s.neck, 5); P(s.head, 7);
+    if (s2) { [s2.elN, s2.haN, s2.elF, s2.haF, s2.knN, s2.ftN, s2.knF, s2.ftF].forEach((p) => P(p, 3.3)); P(s2.hip, 5); P(s2.neck, 5); P(s2.head, 7); }
     const addProp = (slot, pr) => { props[slot].push(...pr.shapes); pr.pts.forEach((q) => pts.push(q)); };
     const db = ps.db || '';
     if (db === 'both') addProp('both', propDB(mid(s.haN, s.haF), add(mid(s.haN, s.haF), mul(nrm(add(fore(s.elN, s.haN), fore(s.elF, s.haF))), -10))));
@@ -88,8 +97,9 @@
     if (ps.wall !== undefined) { minX = Math.min(minX, ps.wall - 6); maxX = Math.max(maxX, ps.wall); }
     let dy = ps.bar ? BAR - (s.haN[1] + s.haF[1]) / 2 : G - maxY;
     dy -= ps.lift || 0;
-    const dx = W / 2 - (minX + maxX) / 2;
-    return { s, props, dx, dy, minX, maxX, minY: minY + dy, ps, front };
+    if (s2) wide = Math.max(W2, Math.ceil(maxX - minX + 8)); // a pair spread out widens its picture
+    const dx = wide / 2 - (minX + maxX) / 2;
+    return { s, s2, w: wide, props, dx, dy, minX, maxX, minY: minY + dy, ps, front };
   }
 
   const f1 = (n) => Math.round(n * 10) / 10;
@@ -116,12 +126,21 @@
         const x0 = f1(fr.minX + fr.dx - 2), x1 = f1(fr.maxX + fr.dx + 2);
         out.push(`<rect x="${x0}" y="${G - 0.5}" width="${f1(x1 - x0)}" height="3.2" rx="1.6" fill="var(--mat)"/>`);
       }
-      out.push(`<line x1="2" y1="${G + 3}" x2="${W - 2}" y2="${G + 3}" stroke="var(--ground)" stroke-width="1.2"/>`);
+      out.push(`<line x1="2" y1="${G + 3}" x2="${fr.w - 2}" y2="${G + 3}" stroke="var(--ground)" stroke-width="1.2"/>`);
     }
     if (ps.wall !== undefined) {
       const x = f1(ps.wall + fr.dx);
       out.push(`<rect x="${f1(x - 6)}" y="6" width="6" height="${G + 2 - 6}" fill="var(--prop)" opacity=".55"/>`);
     }
+    // the partner first, behind (Phase 18)
+    const body = (b, col, far) => {
+      out.push(line([b.hF, b.knF, b.ftF], 6.2, far), line([b.sF, b.elF, b.haF], 6.2, far));
+      if (front) out.push(line([b.sN, b.sF], 7, col), line([b.hN, b.hF], 7, col));
+      out.push(line([b.hip, b.neck], 10, col));
+      const h = pt(b.head, fr);
+      out.push(`<circle cx="${h[0]}" cy="${h[1]}" r="7" fill="${col}"/>`, line([b.hN, b.knN, b.ftN], 6.2, col), line([b.sN, b.elN, b.haN], 6.2, col));
+    };
+    if (fr.s2) body(fr.s2, 'var(--fig2)', front ? 'var(--fig2)' : 'var(--fig2-far)');
     const farCol = front ? 'var(--fig)' : 'var(--fig-far)';
     out.push(line([s.hF, s.knF, s.ftF], 6.2, farCol));
     out.push(line([s.sF, s.elF, s.haF], 6.2, farCol));
@@ -139,9 +158,10 @@
 
   function figureSVG(ex, label) {
     const frames = ex.poses.map((ps) => frame(ps, ex.view === 'front'));
-    const n = frames.length, gap = 6, w = n * W + (n - 1) * gap;
+    const gap = 6, xs = frames.map((f, i) => frames.slice(0, i).reduce((x, g) => x + g.w + gap, 0));
+    const w = xs[xs.length - 1] + frames[frames.length - 1].w;
     const top = Math.floor(Math.min(...frames.map((f) => (f.ps.bar ? Math.min(f.minY, 4) : f.minY) - 4)));
-    const body = frames.map((fr, i) => `<g transform="translate(${i * (W + gap)},0)">${frameSVG(fr)}</g>`).join('');
+    const body = frames.map((fr, i) => `<g transform="translate(${xs[i]},0)">${frameSVG(fr)}</g>`).join('');
     return `<svg class="fig" viewBox="0 ${top} ${w} ${H + 4 - top}" role="img" aria-label="${label || ex.name}">${body}</svg>`;
   }
 
@@ -152,6 +172,7 @@
   function lerpPose(a, b, t) {
     const o = { ...a };
     Object.keys(b).forEach((k) => { if (isPoint(b[k]) && isPoint(a[k])) o[k] = [a[k][0] + (b[k][0] - a[k][0]) * t, a[k][1] + (b[k][1] - a[k][1]) * t]; });
+    if (a.two && b.two) o.two = lerpPose(a.two, b.two, t); // the partner moves too (Phase 18)
     return o;
   }
   function animationFrames(ex, { steps = 14, label } = {}) {
