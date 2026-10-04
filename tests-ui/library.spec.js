@@ -85,7 +85,7 @@ test('Combat, Variety and After dark are their own tabs (Phase 17)', async ({ ap
   await expect(app.page.locator('.pgroup h2')).toHaveText(['Variety']);
   await expect(app.page.locator('[data-open-prog="every-day-different"]')).toHaveCount(1);
   await family(app).getByRole('button', { name: 'After dark' }).click();
-  await expect(app.page.locator('.pgroup h2')).toHaveText(['Beach body', 'Bedroom stamina', 'Sex positions']);
+  await expect(app.page.locator('.pgroup h2')).toHaveText(['Beach body', 'Bedroom stamina', 'Sex positions', 'Couples']);
   await expect(app.page.locator('.eyebrow').first()).toHaveText(`After dark · ${CONFIGS.filter((c) => subjectsOf('After dark').includes(c.subject)).length} programs`);
   expect(await app.sidewaysScroll()).toBe(0);
 });

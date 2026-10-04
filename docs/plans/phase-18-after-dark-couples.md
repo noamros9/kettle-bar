@@ -39,7 +39,7 @@ as Variety), so they are in `skipped` in the recipe book.
 |---|---|---|---|---|---|
 | 0 | This plan | plan | – | `plan/phase-18` | done (PR #192) |
 | 1 | Two-figure drawings | feature | – | `feature/two-figures` | done (PR #193) |
-| 2 | Catalogue 10: partner moves, teasing and positions | feature | 1 | `feature/catalogue-10` | – |
+| 2 | Catalogue 10: partner moves, teasing and positions | feature | 1 | `feature/catalogue-10` | done (PR #194) |
 | 3 | Couples (+20) | content | 2 | `content/couples` | – |
 | 4 | Endurance & control, Hip power & thrust, Carry & hold, Flexible & bendy (+20) | content | 2 | `content/after-dark-a` | – |
 | 5 | Strip & show-off, Her pleasure, Quickie, Back & knees care (+20) | content | 2 | `content/after-dark-b` | – |
@@ -76,8 +76,9 @@ as Variety), so they are in `skipped` in the recipe book.
 - **Done when:** the Exercises page's Couples section draws every figure, light and dark, at 390 px.
 
 ### 3. Couples (+20)
-- A new subject **Couples** (family Mixed, shelf group After dark), 20 programs in `configs/after-dark.js` (After dark
-  moves there from `mixed.js` unchanged; ids and pins stay). Mixed rules hold: every main block tagged with its family,
+- A new subject **Couples** (family Mixed, shelf group After dark), 20 programs in `configs/after-dark.js`. As built:
+  the new After dark programs go in this file and Phase 16's 30 stay in `mixed.js` (moving them gained nothing).
+  Help me pick gets a goal, "For two, after dark". Mixed rules hold: every main block tagged with its family,
   two or more families a day (partner work LIFT or COND; teasing and massage FLOW; positions CARDIO).
 - 14 build up (partner workout, then tease, then positions) and 6 alternate (a partner set, then a position, in rounds).
   Four are 30-day programs. Lengths 20 to 45 minutes.

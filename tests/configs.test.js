@@ -107,6 +107,10 @@ const IDS = [
     'fighter-legs', 'fighter-30', 'fighter-emom', 'fighter-power', 'athlete-30', 'athlete-calves-hips',
     'athlete-supersets', 'athlete-circuit', 'athlete-kb', 'balanced-muscle', 'balanced-fighter', 'balanced-bw-plus',
     'balanced-month-plus', 'balanced-kb-plus', 'calm-muscle', 'calm-30-plus', 'calm-neck-back', 'calm-bell-plus',
+    // Phase 18 ticket 3: Couples (configs/after-dark.js)
+    'sweat-together', 'foreplay-fitness', 'strip-circuit', 'kiss-me-reps', 'lift-me-up', 'date-night-burn', 'partners-in-grime',
+    'take-it-off', 'slow-burn-couples', 'sweaty-sheets', 'dare-night', 'massage-and-mount', 'couples-kama-sutra-30',
+    'thirty-days-of-foreplay', 'ride-along', 'couples-quickie', 'fuck-fit', 'pin-me-down', 'wheelbarrow-race', 'fit-to-fuck-30',
 ];
 
 test('the config ids, in order, are today\'s list', () => {
@@ -115,9 +119,9 @@ test('the config ids, in order, are today\'s list', () => {
 
 test('each family file holds only its own family\'s subjects', () => {
   const { FAMILIES } = require('../app/library.js');
-  const files = { Strength: 'strength', 'Cardio & combat': 'cardio-combat', 'Mind & body': 'mind-body', Mixed: 'mixed' };
+  const files = { Strength: ['strength'], 'Cardio & combat': ['cardio-combat'], 'Mind & body': ['mind-body'], Mixed: ['mixed', 'after-dark'] }; // after-dark (Phase 18): the new After dark subjects
   for (const [family, subjects] of FAMILIES) {
-    const own = require(`../configs/${files[family]}.js`);
+    const own = files[family].flatMap((f) => require(`../configs/${f}.js`));
     assert.ok(own.length > 0);
     assert.deepEqual([...new Set(own.map((c) => c.subject))].filter((s) => !subjects.includes(s)), [], family);
   }

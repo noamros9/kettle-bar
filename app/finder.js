@@ -100,6 +100,7 @@
     ['balance', 'Core, balance & sport', ['Core & abs', 'Balance & stability', 'Athlete']],
     ['gentle', 'Gentle, or a sore back', ['Gentle / low impact', 'Back care', 'Calm strength']],
     ['mix', 'A bit of everything', ['Balanced week', 'Strength & stretch', 'Variety']],
+    ['couple', 'For two, after dark', ['Couples']], // Phase 18
   ];
   const MINUTES = [['15', 'About 15 min', [0, 18]], ['20', '20–25 min', [18, 26]], ['30', 'About 30 min', [26, 33]], ['35', '35 min or more', [33, 90]]];
   const GEAR = [['bw', 'No equipment'], ['kb', 'A kettlebell'], ['all', 'Dumbbells & kettlebell']];
