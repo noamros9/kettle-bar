@@ -281,3 +281,10 @@ only the question.
 **Why line**: the one line under a finder result saying why it fits, made from the program's facts that match what
 was asked ("Back care · 15–20 min · no equipment"), never generated text.
 
+
+**Couple session** (Phase 18): a workout for two, him and her, mostly the same moves for both. It mixes **partner
+moves** (exercises done together), **teasing** (strip rounds, kiss reps, dares, massage) and **positions** (sex
+positions as timed holds). Couple programs stay out of build your own and random workouts.
+
+**Two-figure drawing** (Phase 18): an exercise picture with a second stick figure (the partner, in `--fig2`), described
+by a pose's `two` field.
