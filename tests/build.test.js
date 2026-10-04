@@ -7,17 +7,26 @@ const out = require('./helpers/library.js').rendered();
 
 test('the build produces the page and one data file per program', () => {
   const { CONFIGS } = require('../program-builder.js');
-  assert.deepStrictEqual(Object.keys(out).sort(), ['index.html', 'version.json', 'data/recipes.json', 'data/recipes.js', 'data/index.json', 'data/muscles.json', 'data/finder.json', 'data/finder-model.js', ...CONFIGS.map((c) => `data/${c.id}.json`)].sort());
+  assert.deepStrictEqual(Object.keys(out).sort(), ['index.html', 'version.json', 'data/library.json', 'data/recipes.json', 'data/recipes.js', 'data/index.json', 'data/muscles.json', 'data/finder.json', 'data/finder-model.js', ...CONFIGS.map((c) => `data/${c.id}.json`)].sort());
   const iron = JSON.parse(out['data/iron-ppl.json']);
   assert.equal(iron.days.length, 60);
 });
 
-test('the page carries only the program list: small to download (gzipped, as Pages serves it), no days inside', () => {
+test('the page carries no programs (Phase 16 ticket 1): no days, no program list; only the list\'s versioned address', () => {
   const html = out['index.html'];
   const gz = require('zlib').gzipSync(html).length;
   assert.ok(gz < 150 * 1024, `index.html is ${Math.round(gz / 1024)} KB gzipped`);
   assert.doesNotMatch(html, /"days":/);
-  assert.match(html, /const PROGRAM_SUMMARIES = \[/);
+  assert.doesNotMatch(html, /PROGRAM_SUMMARIES|"dayCount":/);
+  const hash = require('crypto').createHash('sha256').update(out['data/library.json']).digest('hex').slice(0, 12);
+  const lib = JSON.parse(html.match(/window\.KB_LIBRARY=(\{.*?\});/)[1]);
+  assert.equal(lib.url, `data/library.json?v=${hash}`, 'the address changes whenever the list does');
+  assert.deepStrictEqual(lib.ids, JSON.parse(out['data/library.json']).map((s) => s.id), 'the ids, in list order, for the progress store');
+});
+
+test('the first download leaves room for the library to double (Phase 16): under 110 KB gzipped', () => {
+  const gz = require('zlib').gzipSync(out['index.html']).length;
+  assert.ok(gz < 110 * 1024, `index.html is ${(gz / 1024).toFixed(1)} KB gzipped`);
 });
 
 test('the first download is at most 125 KB gzipped (ticket 7b); the gate above stays at 150', () => {
@@ -25,8 +34,8 @@ test('the first download is at most 125 KB gzipped (ticket 7b); the gate above s
   assert.ok(gz <= 125 * 1024, `index.html is ${(gz / 1024).toFixed(1)} KB gzipped`);
 });
 
-test('the summaries in the page carry only what the pages that do not load the program need', () => {
-  const summaries = JSON.parse(out['index.html'].match(/const PROGRAM_SUMMARIES = (\[.*?\]);\n/)[1]);
+test('data/library.json carries only what the pages that do not load the program need', () => {
+  const summaries = JSON.parse(out['data/library.json']);
   const { CONFIGS } = require('../program-builder.js');
   assert.equal(summaries.length, CONFIGS.length);
   const allowed = ['id', 'name', 'subject', 'split', 'minutes', 'formats', 'equip', 'dayCount', 'about'];

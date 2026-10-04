@@ -6,7 +6,8 @@ const localStore = {
   set: (k, v) => { try { localStorage.setItem(k, v); } catch (e) { /* blocked: device copy is best effort */ } },
   remove: (k) => { try { localStorage.removeItem(k); } catch (e) { /* blocked */ } },
 };
-const store = KBStore.createStore({ programIds: programs.ids(), storage: localStore, isOnline: () => navigator.onLine !== false });
+// the library's ids come with the page (the list itself loads at boot): progress is read and synced by program id from the start
+const store = KBStore.createStore({ programIds: [...programs.ids(), ...KB_LIBRARY.ids], storage: localStore, isOnline: () => navigator.onLine !== false });
 // a day as you'll do it: swaps applied, its live Workout Session, swap / undo (app/day.js)
 // your own programs: the store's programs docs -> the catalogue's 'own' source (built from their stored configs),
 // and the catalogue's own ids -> the store (app/own.js)
@@ -263,13 +264,18 @@ function ownDelete(pid) {
 /* ---------------- boot ---------------- */
 store.load(); // before the route: #today needs your progress
 function start() {
+  booted = true;
+  route = { view: 'program', pid: firstPid(), day: null }; // what an exercise page opened cold comes back to
   route = parseHash();
   render();
   // then every program, quietly, for offline use: the open one and the ones with progress first
   programs.loadEverything([route.pid, ...programs.ids().filter((pid) => store.count(pid) > 0)], () => {}).then(() => Promise.all([programs.loadUsage(), fetchBuildFiles(), focusFile.load()])).catch(() => {});
 }
 ownLink.refresh(); // your own programs are built from their stored configs: no recipe book, no wait
-start();
+// the program list first (Phase 16): from the cache at once after the first visit, else the network
+libraryFile.load().then((list) => { programs.setSource('library', librarySource(list)); start(); }, (e) => {
+  $('#app').innerHTML = `<div class="empty"><h1>No programs yet</h1><p>${esc(e.message)}</p><button class="btn" onclick="location.reload()">Try again</button></div>`;
+});
 T.paint();
 if (!store.remote) paintSync(store.auth ? 'signin' : 'local');
 

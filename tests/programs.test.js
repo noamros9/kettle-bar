@@ -53,7 +53,8 @@ test('programsUsing agrees with scanning every day of every real program', () =>
 test('the page modules read programs only through the catalogue', () => {
   const src = [...require('../build.js').PAGES, 'app/main.js'].map((f) => fs.readFileSync(path.join(__dirname, '..', f), 'utf8')).join('\n');
   assert.doesNotMatch(src, /\bPROGRAMS\b/);
-  assert.equal((src.match(/\bPROGRAM_SUMMARIES\b/g) || []).length, 1, 'only where the catalogue is created');
+  assert.doesNotMatch(src, /\bPROGRAM_SUMMARIES\b/, 'the list is data/library.json, not in the page');
+  assert.equal((src.match(/setSource\('library'/g) || []).length, 1, 'the library source is set once, when the list arrives');
   assert.doesNotMatch(src, /\bPBYID\b/);
 });
 

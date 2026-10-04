@@ -19,7 +19,7 @@ let rerenderQueued = false;
 // a redraw from the background (sync from another device, a program arriving) keeps the scroll and, when a text field
 // with an id has the focus, its focus and cursor: typing a name isn't cut off by an update arriving
 function rerender() {
-  if (rerenderQueued) return; rerenderQueued = true;
+  if (!booted || rerenderQueued) return; rerenderQueued = true;
   requestAnimationFrame(() => {
     rerenderQueued = false;
     const y = window.scrollY, a = document.activeElement, typing = a && a.id && a.matches('input[type="text"], input[type="search"]') ? { id: a.id, s: a.selectionStart, e: a.selectionEnd } : null;

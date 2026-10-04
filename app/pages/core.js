@@ -14,7 +14,12 @@ const fetchText = (url) => fetch(url).then((r) => { if (!r.ok) throw new Error(u
 const usageFile = KBLazy.lazyFile({ fetch: fetchJson, cache: offlineCache, url: 'data/index.json', unavailable: "Which programs use this exercise isn't available offline yet. Open an exercise once while online." });
 // the library programs' muscle focus (data/muscles.json): fetched when the muscle map is first used, kept for offline
 const focusFile = KBLazy.lazyFile({ fetch: fetchJson, cache: offlineCache, url: 'data/muscles.json', unavailable: "Programs for these muscles aren't available offline yet. Pick a muscle once while online." });
-const programs = KBPrograms.createProgramCatalogue(KBPrograms.fetched(PROGRAM_SUMMARIES, { fetchJson, cache: offlineCache, name: 'library', usage: usageFile }));
+// the program list (data/library.json, Phase 16): not in the page. The catalogue starts with an empty library and boot
+// (main.js) waits for the list, which the service worker hands over from the cache at once after the first visit
+const libraryFile = KBLazy.lazyFile({ fetch: fetchJson, cache: offlineCache, url: KB_LIBRARY.url, unavailable: "The program list isn't available offline yet. Open the app once while online." });
+const librarySource = (summaries) => KBPrograms.fetched(summaries, { fetchJson, cache: offlineCache, name: 'library', usage: usageFile });
+const programs = KBPrograms.createProgramCatalogue(librarySource([]));
+let booted = false; // true once the program list is here and the first page has drawn; nothing draws before
 // build your own and the random workout: the recipe book (data/recipes.json) and the code that reads it (data/recipes.js),
 // fetched when first asked for, kept for offline; neither is in the page
 const BUILD_OFFLINE = "Build your own isn't available offline yet. Open it once while online.";
@@ -39,7 +44,7 @@ const lastDonePid = () => {
   return last && last.pid;
 };
 const rememberPid = (pid) => { try { localStorage.setItem('kb-last-program', pid); } catch (e) {} };
-let route = { view: 'program', pid: firstPid(), day: null };
+let route = { view: 'program', pid: null, day: null }; // set at boot, once the program list is here
 function parseHash() {
   const h = location.hash.replace('#', '');
   if (h === 'programs') return { view: 'programs' };
@@ -70,7 +75,7 @@ function parseHash() {
 }
 function go(hash) { if (location.hash === '#' + hash) { route = parseHash(); render(true); } else location.hash = hash; }
 let navDepth = 0; // exercise pages opened from inside the app go back with history.back()
-window.addEventListener('hashchange', () => { route = parseHash(); render(true); });
+window.addEventListener('hashchange', () => { if (!booted) return; route = parseHash(); render(true); });
 const dayHash = (pid, n) => `p-${pid}-d${n}`;
 
 

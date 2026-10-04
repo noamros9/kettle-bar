@@ -31,7 +31,7 @@ lengths only.
 | # | Ticket | Tier | Blocked by | Branch | Status |
 |---|---|---|---|---|---|
 | 0 | This plan | plan | – | `plan/phase-16` | done (PR #168) |
-| 1 | The program list out of the first download | feature | – | `feature/library-index` | – |
+| 1 | The program list out of the first download | feature | – | `feature/library-index` | done (PR #169) |
 | 2 | Catalogue 9: exercises for the new muscle subjects and after-dark | feature | – | `feature/catalogue-9` | – |
 | 3 | Variety programs in the engine (no repeated day) | feature | – | `feature/variety` | – |
 | 4 | Muscle focus: Chest, Back, Shoulders, Arms (+32) | content | 1, 2 | `content/muscles-upper` | – |
@@ -51,6 +51,13 @@ The page is 123.8 KB gzipped against the 125 KB first-download gate (ticket 7b),
 - **Test first:** the first download is under 110 KB gzipped; the Programs page, Favourites, the finder and Stats
   show every program from `library.json`, offline too; a test library of 500 programs keeps the gate.
 - **Done when:** both gates pass with room for ~250 more programs; no page draws empty for longer than the cache read.
+- **As built (4 Oct):** the list is `data/library.json`; the page carries `KB_LIBRARY = { url, ids }`: the address is
+  versioned by the list's content (`?v=<hash>`), so the service worker serves it from the cache at once and a new
+  build is a new address; the **ids stay in the page** because the progress store reads and syncs progress by
+  program id from its first line (without them a cold open lost your progress, and sync could have dropped waiting
+  changes). Boot waits for the list (`booted`; rerender and hashchange do nothing before), then draws. Offline with
+  no list cached: "No programs yet" and Try again. **123.8 → 107.6 KB gzipped**; each new program now adds only its
+  id to the page (~7 bytes gzipped).
 
 ### 2. Catalogue 9
 - New exercises with drawings, muscles, cues and reps, `added: 9`, in **new pools** only. Settled at the start of the
