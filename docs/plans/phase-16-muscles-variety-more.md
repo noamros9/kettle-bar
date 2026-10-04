@@ -40,7 +40,7 @@ lengths only.
 | 7 | After-dark (+30) | content | 1, 2 | `content/after-dark` | done (PR #175) |
 | 8 | Strength +49 | content | 1, 2 | `content/strength-plus-2` | done (PR #176) |
 | 9 | Cardio & combat +28 | content | 1 | `content/cardio-plus-2` | done (PR #177) |
-| 10 | Mind & body +32 | content | 1 | `content/mind-plus-2` | – |
+| 10 | Mind & body +32 | content | 1 | `content/mind-plus-2` | done (PR #178) |
 | 11 | Mixed +24 | content | 1 | `content/mixed-plus-2` | – |
 
 ### 1. The program list out of the first download
@@ -163,6 +163,11 @@ The page is 123.8 KB gzipped against the 125 KB first-download gate (ticket 7b),
   one-lever subject** (bouts get harder by longer combinations at both levels): build your own counts on it, so the new
   Boxing programs use `variation` twice. Combat sessions keep bouts to two or three, since each is three minutes plus
   rest.
+- **Ticket 10 as built (4 Oct): Mind & body +32, 441 → 473.** Core & abs +5, Mobility & posture +4, Yoga +5, Pilates
+  +4, Flexibility +4, Balance & stability +4, Gentle / low impact +3, Back care +3, each within its formats; the
+  no-abs subjects keep `absSlots: []`. The new neck, calf, shin and adductor moves reach the posture, mobility,
+  balance and back-care programs. **Flows fit in steps** (one pass, two or three), so a day that must land in a narrow
+  range gets two shorter flows rather than one long one.
 
 ## Challenge round
 - **Weakest assumption: one look-alike muscle program per subject.** Eight programs on one muscle group risk
