@@ -39,7 +39,7 @@ lengths only.
 | 6 | Variety (+15) | content | 1, 3 | `content/variety` | done (PR #174) |
 | 7 | After-dark (+30) | content | 1, 2 | `content/after-dark` | done (PR #175) |
 | 8 | Strength +49 | content | 1, 2 | `content/strength-plus-2` | done (PR #176) |
-| 9 | Cardio & combat +28 | content | 1 | `content/cardio-plus-2` | – |
+| 9 | Cardio & combat +28 | content | 1 | `content/cardio-plus-2` | in review |
 | 10 | Mind & body +32 | content | 1 | `content/mind-plus-2` | – |
 | 11 | Mixed +24 | content | 1 | `content/mixed-plus-2` | – |
 
@@ -158,6 +158,11 @@ The page is 123.8 KB gzipped against the 125 KB first-download gate (ticket 7b),
   random-skip unit test now picks the first exercise with a stand-in (as the phone test did in ticket 6), and the build
   spec's "greyed out" check moved to its own test with Strength + Pull-ups, since every subject now fits next to
   Strength + Yoga.
+- **Ticket 9 as built (4 Oct): Cardio & combat +28, 413 → 441.** Conditioning +5, HIIT +5, Plyometrics +4 (long rests
+  as the subject's others), Boxing +4, Kickboxing +4, Running prep +3, Court & field sports +3. **Boxing stays a
+  one-lever subject** (bouts get harder by longer combinations at both levels): build your own counts on it, so the new
+  Boxing programs use `variation` twice. Combat sessions keep bouts to two or three, since each is three minutes plus
+  rest.
 
 ## Challenge round
 - **Weakest assumption: one look-alike muscle program per subject.** Eight programs on one muscle group risk

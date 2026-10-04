@@ -619,6 +619,323 @@ const CONFIGS = [
       emom: { label: 'Reaction EMOM', short: 'EMOM', blocks: [E('Reaction EMOM', ['split_step', 'courtMove', 'courtPower', 'courtMove'], { values: [12, 14, 16] })] },
     },
   },
+  // ---------------- PHASE 16 ticket 9: CARDIO & COMBAT +50% (catalogue 9) ----------------
+  // Conditioning +5
+  {
+    id: 'engine-builder', added: 16, catalogue: 9, name: 'Engine Builder', subject: 'Conditioning', minutes: [23, 27], levers: [null, 'reps', 'weight'],
+    split: 'Long circuit / long EMOM', blurb: 'A bigger engine from long, steady work: a long circuit one day, a long EMOM the next.',
+    about: 'Conditioning from long, steady efforts rather than all-out bursts. One day is a long circuit of a squat, a pull, a push, a swing and a cardio move; the other a long EMOM of the same kinds. You should be able to keep going the whole time. Abs finish every session. Level II adds reps and Level III asks for heavier weights.',
+    names: ['Diesel', 'Long Haul', 'Cruise Control', 'Steady State', 'Tempo Run', 'Endurance', 'Engine Room', 'Boiler Room', 'Steam Engine', 'Locomotive', 'Freight Train', 'Iron Horse'],
+    cycle: ['circuit', 'emom'],
+    dayTypes: {
+      circuit: { label: 'Long circuit', short: 'Circuit', blocks: [C('Long circuit', ['squat2', 'backRow', 'chestBw', 'kbBallistic', 'cardio'], { values: [3, 4] })] },
+      emom: { label: 'Long EMOM', short: 'EMOM', blocks: [E('Long EMOM', ['hinge2', 'cardio', 'pushLoad2', 'hiit', 'row2'], { values: [12, 15, 18] })] },
+    },
+  },
+  {
+    id: 'death-by', added: 16, catalogue: 9, name: 'Death By', subject: 'Conditioning', minutes: [23, 27], levers: [null, 'reps', 'reps'],
+    split: 'Ladder & Tabata / ladder & AMRAP', blurb: 'Climbing ladders that get harder every minute, then a Tabata or an AMRAP to finish.',
+    about: 'Ladders that climb until they are hard: one rep, then two, then three, alternating two moves, until the time is up. A Tabata finishes one day and a short AMRAP the other. It feels easy at first and honest by the end. Abs finish every session. Both later levels add reps.',
+    names: ['Death by Burpee', 'Death by Squat', 'Slow Climb', 'Creep Up', 'Build', 'Ramp', 'Escalate', 'Stack', 'Pile Up', 'Mount', 'Tower', 'Summit Push'],
+    cycle: ['tabata', 'amrap'],
+    dayTypes: {
+      tabata: { label: 'Ladder & Tabata', short: 'Tabata', blocks: [L('Ladder', ['cardio', 'squat2']), T('Tabata', ['hiit', 'cardio'], { values: [1, 2] })] },
+      amrap: { label: 'Ladder & AMRAP', short: 'AMRAP', blocks: [L('Ladder', ['hiit', 'pushLoad2']), A('AMRAP', ['kbBallistic', 'chestBw'], { values: [4, 5, 6] })] },
+    },
+  },
+  {
+    id: 'conditioning-30', added: 16, catalogue: 9, days: 30, name: 'Conditioning 30', subject: 'Conditioning', minutes: [23, 27], levers: [null, 'reps', 'weight'],
+    split: 'Circuit / EMOM / Tabata, 30 days', blurb: 'A month of conditioning: a circuit, an EMOM and Tabatas in turn.',
+    about: 'A month to build your fitness. Three days rotate: a full-body circuit, an EMOM and a set of Tabatas. Every ten days the level steps up: more reps at Level II, heavier weights at Level III. Abs finish every session.',
+    names: ['Cardio One', 'Cardio Week', 'Cardio Ten', 'Cardio Twenty', 'Cardio Thirty', 'Fit Month', 'Wind', 'Lungs', 'Heart', 'Breath', 'Pulse Month', 'Beat Month'],
+    cycle: ['circuit', 'emom', 'tabata'],
+    dayTypes: {
+      circuit: { label: 'Circuit', short: 'Circuit', blocks: [C('Circuit', ['cardio', 'squat2', 'chestBw', 'kbBallistic', 'hiit'], { values: [3, 4] })] },
+      emom: { label: 'EMOM', short: 'EMOM', blocks: [E('EMOM', ['hiit', 'hinge2', 'cardio', 'pushLoad2'], { values: [14, 16, 18] })] },
+      tabata: { label: 'Tabatas', short: 'Tabata', blocks: [T('Tabatas', ['hiit', 'cardio', 'legsBw', 'hiit'], { values: [3, 4] })] },
+    },
+  },
+  {
+    id: 'bell-and-burpee', added: 16, catalogue: 9, name: 'Bell & Burpee', subject: 'Conditioning', minutes: [23, 27], levers: [null, 'reps', 'weight'],
+    split: 'Bell AMRAP / bodyweight AMRAP', blurb: 'Two AMRAPs: kettlebell work one day, bodyweight burpees and jumps the next.',
+    about: 'As many rounds as you can, two ways. One day is a kettlebell AMRAP of swings, cleans and goblet squats; the other a bodyweight AMRAP of burpees, jumps and push-ups. Write down your rounds and try to beat them. Abs finish every session. Level II adds reps and Level III asks for a heavier bell.',
+    names: ['Bell Burn', 'Burpee Burn', 'Swing Burn', 'Jump Burn', 'Bell Rush', 'Burpee Rush', 'Bell Blitz', 'Burpee Blitz', 'Bell Storm', 'Burpee Storm', 'Bell Fire', 'Burpee Fire'],
+    cycle: ['bell', 'bw'],
+    dayTypes: {
+      bell: { label: 'Bell AMRAP', short: 'Bell', blocks: [A('Bell AMRAP', ['kb_swing', 'kb_clean', 'goblet_squat', 'kb_push_press'], { values: [12, 15] })] },
+      bw: { label: 'Bodyweight AMRAP', short: 'Bodyweight', blocks: [A('Bodyweight AMRAP', ['burpee', 'plyoLow', 'chestBw', 'hiit'], { values: [12, 15] })] },
+    },
+  },
+  {
+    id: 'dumbbell-tabata', added: 16, catalogue: 9, name: 'Dumbbell Tabata', subject: 'Conditioning', minutes: [23, 27], levers: [null, 'weight', 'reps'],
+    split: 'Upper Tabatas / lower Tabatas', blurb: 'Tabatas with light dumbbells: upper-body moves one day, lower-body the next.',
+    about: 'Tabatas with light dumbbells: twenty seconds of work, ten seconds of rest, eight times per Tabata. One day uses upper-body moves, thrusters, presses and rows; the other lower-body moves, squats, lunges and swings. The weight makes every interval count. Abs finish every session. Level II asks for heavier weights and Level III adds reps.',
+    names: ['Weighted Twenty', 'Iron Interval', 'Loaded Tabata', 'Heavy Eight', 'Dumbbell Dash', 'Weighted Wind', 'Iron Eight', 'Load Rush', 'Bell Eight', 'Weighted Burst', 'Iron Burst', 'Heavy Burst'],
+    cycle: ['upper', 'lower'],
+    dayTypes: {
+      upper: { label: 'Upper Tabatas', short: 'Upper', blocks: [T('Upper Tabatas', ['db_thruster', 'pushLoad2', 'row2', 'shoulderRaise'], { values: [2, 3, 4] })] },
+      lower: { label: 'Lower Tabatas', short: 'Lower', blocks: [T('Lower Tabatas', ['squat2', 'lunge2', 'kb_swing', 'thrust'], { values: [2, 3, 4] })] },
+    },
+  },
+  // HIIT +5 (no equipment unless named)
+  {
+    id: 'hiit-legs', added: 16, catalogue: 9, name: 'HIIT Legs', subject: 'HIIT', minutes: [22, 27], equip: 'bw', levers: [null, 'reps', 'variation'],
+    split: 'Leg Tabatas / leg EMOM', blurb: 'HIIT for the legs: jump squats, lunges and skaters in Tabatas and EMOMs.',
+    about: 'High-intensity intervals built around the legs. One day is Tabatas of jump squats, jump lunges, skaters and calf hops; the other an EMOM of the same kinds of moves. Strong, springy legs and a big heart. Abs finish every session. Level II adds reps and Level III brings harder moves.',
+    names: ['Leg Fire', 'Quad Burn', 'Calf Burn', 'Jump Burn Legs', 'Skate', 'Glide', 'Leap', 'Bound Legs', 'Spring Legs', 'Pop Legs', 'Snap Legs', 'Fast Legs'],
+    cycle: ['tabata', 'emom'],
+    dayTypes: {
+      tabata: { label: 'Leg Tabatas', short: 'Tabata', blocks: [T('Leg Tabatas', ['plyoLow', 'jump_lunge', 'skater_jumps', 'calfPlyo'], { values: [3, 4] })] },
+      emom: { label: 'Leg EMOM', short: 'EMOM', blocks: [E('Leg EMOM', ['plyoLow', 'legsBw2', 'plyoLat', 'calfPlyo'], { values: [14, 16, 18] })] },
+    },
+  },
+  {
+    id: 'hiit-upper', added: 16, catalogue: 9, name: 'HIIT Upper', subject: 'HIIT', minutes: [22, 27], equip: 'bw', levers: [null, 'reps', 'variation'],
+    split: 'Upper circuit / upper AMRAP', blurb: 'HIIT that works the upper body: push-ups, plank jacks and burpees in circuits and AMRAPs.',
+    about: 'Intervals with the upper body doing the work. One day is a circuit of push-up variations, plank jacks, mountain climbers and burpees; the other an AMRAP of the same kinds. Your arms and shoulders work while your heart races. Abs finish every session. Level II adds reps and Level III brings harder moves.',
+    names: ['Arm Fire', 'Push Burn', 'Shoulder Burn', 'Plank Rush', 'Climber Rush', 'Burpee Rush Upper', 'Upper Storm', 'Arm Storm', 'Push Storm', 'Upper Blaze', 'Arm Blaze', 'Push Blaze'],
+    cycle: ['circuit', 'amrap'],
+    dayTypes: {
+      circuit: { label: 'Upper circuit', short: 'Circuit', blocks: [C('Upper circuit', ['chestBw', 'plank_jacks', 'mountain_climber', 'burpee', 'shoulderBw?'], { values: [3, 4, 5] })] },
+      amrap: { label: 'Upper AMRAP', short: 'AMRAP', blocks: [A('Upper AMRAP', ['chestBw', 'plyoUp', 'hiit'], { values: [12, 15] })] },
+    },
+  },
+  {
+    id: 'hiit-ladder-tabata', added: 16, catalogue: 9, name: 'HIIT Mix', subject: 'HIIT', minutes: [22, 27], equip: 'bw', levers: [null, 'reps', 'reps'],
+    split: 'EMOM & Tabata / circuit & ladder', blurb: 'Two HIIT formats each day: an EMOM then a Tabata, or a circuit then a ladder.',
+    about: 'Each day joins two formats so the effort changes halfway. One day is an EMOM followed by a Tabata; the other a circuit followed by a ladder. Your body never quite settles into a rhythm, which is the point. Abs finish every session. Both later levels add reps.',
+    names: ['Two Step HIIT', 'Double Feature', 'Combo HIIT', 'Mix Tape HIIT', 'Shuffle HIIT', 'Switch HIIT', 'Change Up HIIT', 'Half and Half', 'Split HIIT', 'Duo HIIT', 'Pair HIIT', 'Twin HIIT'],
+    cycle: ['et', 'cl'],
+    dayTypes: {
+      et: { label: 'EMOM & Tabata', short: 'EMOM', blocks: [E('EMOM', ['hiit', 'legsBw', 'hiitSec'], { values: [8, 10] }), T('Tabata', ['hiit', 'cardio'], { values: [1, 2] })] },
+      cl: { label: 'Circuit & ladder', short: 'Circuit', blocks: [C('Circuit', ['hiit', 'push', 'cardio'], { values: [2, 3] }), L('Ladder', ['plyoLow', 'push'])] },
+    },
+  },
+  {
+    id: 'hiit-30-plus', added: 16, catalogue: 9, days: 30, name: 'HIIT 30 Plus', subject: 'HIIT', minutes: [20, 25], equip: 'bw', levers: [null, 'reps', 'reps'],
+    split: 'Circuit / ladder, 30 days', blurb: 'A month of HIIT with no equipment: circuits one day, ladders the next.',
+    about: 'A month of high-intensity training with nothing but the floor. Circuits and ladders alternate. Every ten days the level steps up with more reps. Hard but short, and over before it gets boring. Abs finish every session.',
+    names: ['HIIT One', 'HIIT Week', 'HIIT Ten', 'HIIT Twenty', 'HIIT Thirty', 'HIIT Month', 'Spark Month', 'Fire Month', 'Burn Month', 'Blaze Month', 'Flame Month', 'Heat Month'],
+    cycle: ['circuit', 'ladder'],
+    dayTypes: {
+      circuit: { label: 'Circuit', short: 'Circuit', blocks: [C('Circuit', ['hiit', 'legsBw', 'hiit', 'push', 'hiitSec?'], { values: [3, 4] })] },
+      ladder: { label: 'Ladder', short: 'Ladder', blocks: [L('Ladder', ['hiit', 'push']), L('Ladder', ['plyoLow', 'core'])] },
+    },
+  },
+  {
+    id: 'bell-hiit', added: 16, catalogue: 9, name: 'Bell HIIT', subject: 'HIIT', minutes: [22, 27], equip: 'kb', levers: [null, 'reps', 'weight'],
+    split: 'Bell circuit / bell AMRAP', blurb: 'HIIT with one kettlebell: swing circuits and AMRAPs that leave you breathless.',
+    about: 'High-intensity training with one kettlebell. One day is a circuit of swings, snatches, goblet squats and bodyweight bursts; the other an AMRAP of swings, cleans and burpees. Fast, powerful hips and a heart that works hard. Abs finish every session. Level II adds reps and Level III asks for a heavier bell.',
+    names: ['Bell Blast', 'Swing Blast', 'Snatch Blast', 'Bell Rush HIIT', 'Bell Fury', 'Swing Fury', 'Bell Frenzy', 'Bell Riot', 'Bell Rampage', 'Bell Stampede', 'Bell Thunder', 'Bell Lightning'],
+    cycle: ['circuit', 'amrap'],
+    dayTypes: {
+      circuit: { label: 'Bell circuit', short: 'Circuit', blocks: [C('Bell circuit', ['kb_swing', 'hiit', 'kb_snatch', 'goblet_squat', 'hiit?'], { values: [3, 4, 5] })] },
+      amrap: { label: 'Bell AMRAP', short: 'AMRAP', blocks: [A('Bell AMRAP', ['kb_swing', 'kb_clean', 'burpee'], { values: [12, 15] })] },
+    },
+  },
+  // Plyometrics +4
+  {
+    id: 'plyo-power-straight', added: 16, catalogue: 9, name: 'Plyo Power', subject: 'Plyometrics', minutes: [25, 30], equip: 'bw', rests: { set: 60, exercise: 90 }, levers: [null, 'reps', 'variation'],
+    split: 'Vertical & upper / horizontal & lateral', blurb: 'Explosive power in straight sets: vertical jumps and push power, then broad jumps and bounds.',
+    about: 'Explosive power trained the right way: few reps, full rests, maximum effort each rep. One day is vertical jumps and upper-body power; the other broad jumps, bounds and lateral jumps. Every rep should be as fast and high as you can make it. Abs finish every session. Level II adds reps and Level III brings harder jumps.',
+    names: ['Launch', 'Lift Off Power', 'Rocket', 'Catapult', 'Trebuchet', 'Slingshot', 'Spring', 'Jack in the Box', 'Pogo Power', 'Kangaroo Power', 'Frog Power', 'Hare Power'],
+    cycle: ['up', 'out'],
+    dayTypes: {
+      up: { label: 'Vertical & upper', short: 'Up', blocks: [S('Vertical & upper', ['plyoVert', 'plyoUp', 'plyoVert', 'plyoUp?'])] },
+      out: { label: 'Horizontal & lateral', short: 'Out', blocks: [S('Horizontal & lateral', ['broad_jump', 'plyoLat', 'bounding', 'plyoLat?'])] },
+    },
+  },
+  {
+    id: 'plyo-calves', added: 16, catalogue: 9, name: 'Plyo Calves', subject: 'Plyometrics', minutes: [24, 29], equip: 'bw', rests: { set: 60, exercise: 90 }, levers: [null, 'reps', 'reps'],
+    split: 'Hop circuit / bound circuit', blurb: 'Springy feet and calves: pogo hops, single-leg hops and skips in circuits.',
+    about: 'Plyometrics for the feet, ankles and calves. One day is a circuit of pogo hops, single-leg hops and calf raises; the other of skips, bounds and split steps. Elastic lower legs make you quicker and protect the Achilles. Abs finish every session. Both later levels add reps.',
+    names: ['Pogo', 'Bounce', 'Boing', 'Spring Step', 'Hop Skip', 'Jump Rope', 'Skip Along', 'Hopscotch', 'Bunny', 'Cricket Hop', 'Flea', 'Grasshopper Hop'],
+    cycle: ['hop', 'bound'],
+    dayTypes: {
+      hop: { label: 'Hop circuit', short: 'Hop', blocks: [C('Hop circuit', ['pogo_hops', 'single_leg_hops', 'calf_raise', 'plyoVert', 'calfPlyo?'], { values: [3, 4] })] },
+      bound: { label: 'Bound circuit', short: 'Bound', blocks: [C('Bound circuit', ['power_skips', 'bounding', 'split_step', 'plyoLat', 'calfPlyo?'], { values: [3, 4] })] },
+    },
+  },
+  {
+    id: 'plyo-30', added: 16, catalogue: 9, days: 30, name: 'Plyo 30', subject: 'Plyometrics', minutes: [24, 29], equip: 'bw', rests: { set: 60, exercise: 90 }, levers: [null, 'reps', 'variation'],
+    split: 'Jumps / hops & bounds, 30 days', blurb: 'A month of jumping: vertical and broad jumps, then hops and bounds.',
+    about: 'A month of jump training. One day is vertical and broad jumps in straight sets with full rests; the next is hops and bounds. Every ten days the level steps up: more reps at Level II, harder jumps at Level III. Abs finish every session. Land softly every time.',
+    names: ['Jump One', 'Jump Week', 'Jump Ten', 'Jump Twenty', 'Jump Thirty', 'Jump Month', 'Air Month', 'Sky Month', 'Spring Month', 'Bounce Month', 'Hop Month', 'Leap Month'],
+    cycle: ['jumps', 'hops'],
+    dayTypes: {
+      jumps: { label: 'Jumps', short: 'Jumps', blocks: [S('Jumps', ['plyoVert', 'broad_jump', 'plyoLow', 'plyoUp?'])] },
+      hops: { label: 'Hops & bounds', short: 'Hops', blocks: [S('Hops & bounds', ['plyoLat', 'single_leg_hops', 'bounding', 'pogo_hops?'])] },
+    },
+  },
+  {
+    id: 'plyo-strength-emom', added: 16, catalogue: 9, name: 'Jump & Lift', subject: 'Plyometrics', minutes: [26, 31], rests: { set: 60, exercise: 90 }, levers: [null, 'reps', 'weight'],
+    split: 'Jump & squat EMOM / jump & hinge EMOM', blurb: 'Jumps paired with a heavy lift on the minute: power and strength together.',
+    about: 'Power and strength together. Each EMOM pairs a jump with a heavy lift: jump squats with goblet squats one day, broad jumps with deadlifts the other. Lifting heavy then jumping fast trains the legs to produce force quickly. Abs finish every session. Level II adds reps and Level III asks for heavier weights.',
+    names: ['Jump Lift', 'Power Pair', 'Lift Jump', 'Force', 'Drive', 'Thrust', 'Punch Up', 'Burst Lift', 'Pop Lift', 'Snap Lift', 'Bang', 'Boom'],
+    cycle: ['squat', 'hinge'],
+    dayTypes: {
+      squat: { label: 'Jump & squat EMOM', short: 'Squat', blocks: [E('Jump & squat EMOM', ['plyoVert', 'squat2', 'plyoUp', 'pushLoad2'], { values: [12, 14, 16] })] },
+      hinge: { label: 'Jump & hinge EMOM', short: 'Hinge', blocks: [E('Jump & hinge EMOM', ['broad_jump', 'hinge2', 'plyoLat', 'row2'], { values: [12, 14, 16] })] },
+    },
+  },
+  // Boxing +4
+  {
+    id: 'boxing-circuit', added: 16, catalogue: 9, name: 'Boxing Circuit', subject: 'Boxing', minutes: [27, 32], equip: 'bw', levers: [null, 'variation', 'variation'],
+    split: 'Bouts & circuit A / B', blurb: 'Shadowboxing bouts, then a boxer\'s circuit of push-ups, squats and core.',
+    about: 'Shadowboxing bouts first, then a boxer\'s circuit. The bouts drill combinations, defence and footwork; the circuit builds the strength behind them with push-ups, squats, burpees and core. Two versions alternate. Abs finish every session. Both later levels bring longer combinations and harder circuit moves.',
+    names: ['Gym Rat', 'Bag Work', 'Mitt Work', 'Road Runner', 'Skip Rope', 'Speed Bag', 'Heavy Bag', 'Double End', 'Medicine Ball', 'Sit-up Board', 'Ring Work', 'Shadow Work'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Bouts & circuit A', short: 'A', blocks: [B('Bouts', ['bxBasic', 'bxPower', 'bxDefense?']), C('Boxer circuit', ['chestBw', 'legsBw', 'burpee', 'coreRot'], { values: [1, 2, 3] })] },
+      b: { label: 'Bouts & circuit B', short: 'B', blocks: [B('Bouts', ['bxMove', 'bxPower', 'bxBasic?']), C('Boxer circuit', ['push', 'plyoLat', 'cardio', 'coreAnti'], { values: [1, 2, 3] })] },
+    },
+  },
+  {
+    id: 'boxing-power', added: 16, catalogue: 9, name: 'Knockout Power', subject: 'Boxing', minutes: [28, 33], levers: [null, 'variation', 'variation'],
+    split: 'Power bouts & straight sets A / B', blurb: 'Hit harder: power bouts, then rotational strength and plyo push-ups in straight sets.',
+    about: 'For punches that land with weight behind them. Power bouts drill hooks, uppercuts and crosses; then straight sets build the rotation and push behind them: Russian twists, kettlebell swings, clap push-ups and presses. Abs finish every session. Both later levels bring longer combinations and harder moves.',
+    names: ['Knockout', 'Haymaker Power', 'One Punch', 'Lights Out', 'Sleeper', 'Glass Jaw', 'Iron Fist Power', 'Sledgehammer', 'Thunder Fist', 'Dynamite', 'TNT', 'Kaboom'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Power A', short: 'A', blocks: [B('Power bouts', ['bxPower', 'bxPower', 'bxBasic?']), S('Rotation & push', ['russian_twist', 'clap_pushup', 'kb_swing'])] },
+      b: { label: 'Power B', short: 'B', blocks: [B('Power bouts', ['bxPower', 'bxDefense', 'bxPower?']), S('Rotation & push', ['windshield_wipers', 'explosive_pushup', 'kb_press'])] },
+    },
+  },
+  {
+    id: 'boxing-tabata-plus', added: 16, catalogue: 9, name: 'Boxing Tabatas', subject: 'Boxing', minutes: [22, 27], equip: 'bw', levers: [null, 'variation', 'variation'],
+    split: 'Punch Tabatas / footwork Tabatas', blurb: 'Boxing in Tabatas: fast punches one day, footwork and defence the next.',
+    about: 'Boxing at Tabata pace: twenty seconds as fast as you can, ten seconds rest. One day is punch Tabatas, straight shots, hooks and uppercuts; the other footwork and defence, shuffles, slips and rolls. Short, hard and great for hand speed. Abs finish every session. Both later levels bring longer combinations.',
+    names: ['Flurry', 'Barrage', 'Combination Rush', 'Hand Speed', 'Fast Hands', 'Quick Fists', 'Blur', 'Machine Gun Hands', 'Rat-a-tat', 'Drum Roll', 'Rapid Fire Hands', 'Speed Demon'],
+    cycle: ['punch', 'feet'],
+    dayTypes: {
+      punch: { label: 'Punch Tabatas', short: 'Punch', blocks: [T('Punch Tabatas', ['bxBasic', 'bxPower', 'bxBasic', 'bxPower'], { values: [2, 3, 4] })] },
+      feet: { label: 'Footwork Tabatas', short: 'Feet', blocks: [T('Footwork Tabatas', ['bxMove', 'bxDefense', 'bxMove', 'bxDefense'], { values: [2, 3, 4] })] },
+    },
+  },
+  {
+    id: 'boxing-30-plus', added: 16, catalogue: 9, days: 30, name: 'Boxing 30 Plus', subject: 'Boxing', minutes: [26, 31], equip: 'bw', levers: [null, 'variation', 'variation'],
+    split: 'Bouts & EMOM / bouts & straight sets, 30 days', blurb: 'A month of boxing: bouts every day, then an EMOM or straight sets for strength.',
+    about: 'A month of boxing training. Every day starts with shadowboxing bouts, then either an EMOM of conditioning or straight sets of push-ups, squats and core. Every ten days the level steps up, with longer combinations and harder moves. Abs finish every session.',
+    names: ['Fight Month', 'Camp One', 'Camp Ten', 'Camp Twenty', 'Camp Thirty', 'Fight Week', 'Weigh-in Week', 'Fight Night', 'Ring Walk', 'Opening Round', 'Middle Rounds', 'Final Bell'],
+    cycle: ['emom', 'straight'],
+    dayTypes: {
+      emom: { label: 'Bouts & EMOM', short: 'EMOM', blocks: [B('Bouts', ['bxBasic', 'bxPower', 'bxDefense?']), E('EMOM', ['burpee', 'chestBw', 'coreRot'], { values: [6, 8] })] },
+      straight: { label: 'Bouts & strength', short: 'Strength', blocks: [B('Bouts', ['bxPower', 'bxBasic', 'bxDefense?']), S('Strength', ['chestBw', 'legsBw2', 'coreAnti?'])] },
+    },
+  },
+  // Kickboxing +4
+  {
+    id: 'kick-circuit', added: 16, catalogue: 9, name: 'Kick Circuit', subject: 'Kickboxing', minutes: [27, 32], equip: 'bw', levers: [null, 'variation', 'reps'],
+    split: 'Bouts & kick circuit A / B', blurb: 'Kickboxing bouts, then a circuit of kicks, knees and leg strength.',
+    about: 'Kickboxing bouts, then a circuit for the legs and hips behind every kick: knees, squats, lunges and core. Two versions alternate. Strong, mobile hips make kicks higher and harder. Abs finish every session. Level II brings longer combinations and Level III adds reps.',
+    names: ['Kick Gym', 'Pad Work', 'Thai Pads', 'Shin Kick', 'Kick Bag', 'Kick Drill', 'Knee Drill', 'Leg Work', 'Hip Work', 'Kick Rounds', 'Kick Session', 'Kick Class'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Bouts & circuit A', short: 'A', blocks: [B('Bouts', ['kkKick', 'kkCombo', 'kkKnee?']), C('Kick circuit', ['legsBw2', 'kkKnee', 'coreRot'], { values: [1, 2, 3] })] },
+      b: { label: 'Bouts & circuit B', short: 'B', blocks: [B('Bouts', ['kkCombo', 'kkKick', 'kkKnee?']), C('Kick circuit', ['adductorBw', 'kkKnee', 'coreAnti'], { values: [1, 2, 3] })] },
+    },
+  },
+  {
+    id: 'kick-tabata-plus', added: 16, catalogue: 9, name: 'Kick Tabatas', subject: 'Kickboxing', minutes: [22, 27], equip: 'bw', levers: [null, 'variation', 'variation'],
+    split: 'Kick Tabatas / knee & punch Tabatas', blurb: 'Kickboxing in Tabatas: kicks one day, knees and punches the next.',
+    about: 'Kickboxing at Tabata pace. One day is kick Tabatas, teeps, roundhouses and switch kicks; the other knees and punches. Twenty seconds as fast as clean technique allows, ten seconds rest. Great for speed and stamina. Abs finish every session. Both later levels bring longer combinations.',
+    names: ['Kick Flurry', 'Knee Flurry', 'Kick Rush', 'Knee Rush', 'Kick Blitz', 'Knee Blitz', 'Kick Storm', 'Knee Storm', 'Kick Fire', 'Knee Fire', 'Kick Fury', 'Knee Fury'],
+    cycle: ['kick', 'knee'],
+    dayTypes: {
+      kick: { label: 'Kick Tabatas', short: 'Kick', blocks: [T('Kick Tabatas', ['kkKick', 'kkKick', 'kkCombo', 'kkKick'], { values: [3, 4] })] },
+      knee: { label: 'Knee & punch Tabatas', short: 'Knee', blocks: [T('Knee & punch Tabatas', ['kkKnee', 'bxBasic', 'kkKnee', 'bxPower'], { values: [3, 4] })] },
+    },
+  },
+  {
+    id: 'kick-30', added: 16, catalogue: 9, days: 30, name: 'Kickboxing 30', subject: 'Kickboxing', minutes: [24, 29], equip: 'bw', levers: [null, 'variation', 'reps'],
+    split: 'Kick bouts / combo bouts, 30 days', blurb: 'A month of kickboxing: kick bouts one day, combination bouts the next.',
+    about: 'A month of kickboxing bouts. One day drills kicks and knees, the next full combinations of punches and kicks. Every ten days the level steps up: longer combinations at Level II, more reps at Level III. Abs finish every session.',
+    names: ['Kick One', 'Kick Week', 'Kick Ten', 'Kick Twenty', 'Kick Thirty', 'Kick Month', 'Thai Month', 'Knee Month', 'Shin Month', 'Combo Month', 'Clinch Month', 'Ring Month'],
+    cycle: ['kick', 'combo'],
+    dayTypes: {
+      kick: { label: 'Kick bouts', short: 'Kick', blocks: [B('Kick bouts', ['kkKick', 'kkKnee', 'kkKick', 'kkSpin', 'kkKick?'])] },
+      combo: { label: 'Combo bouts', short: 'Combo', blocks: [B('Combo bouts', ['kkCombo', 'bxBasic', 'kkCombo', 'kkKnee', 'kkCombo?'])] },
+    },
+  },
+  {
+    id: 'kick-flex', added: 16, catalogue: 9, name: 'High Kicks', subject: 'Kickboxing', minutes: [26, 31], equip: 'bw', levers: [null, 'variation', 'reps'],
+    split: 'Kick bouts & hip strength / kick bouts & balance', blurb: 'Higher kicks: bouts, then hip strength and balance work that lifts the leg higher.',
+    about: 'For higher, cleaner kicks. Kick bouts come first, then straight sets that build the hip strength and balance a high kick needs: standing knee holds, Cossack squats, single-leg work and side-lying adductions. Abs finish every session. Level II brings longer combinations and Level III adds reps.',
+    names: ['High Kick', 'Head Kick', 'Axe Kick', 'Crescent', 'Hook Kick', 'Spinning Hook', 'Question Mark', 'Tornado', 'Butterfly Kick', 'Jump Kick', 'Flying Knee', 'Superman Punch'],
+    cycle: ['hips', 'balance'],
+    dayTypes: {
+      hips: { label: 'Bouts & hip strength', short: 'Hips', blocks: [B('Kick bouts', ['kkKick', 'kkCombo', 'kkKick?']), S('Hip strength', ['standing_knee_hold', 'cossack_squat', 'side_lying_adduction'])] },
+      balance: { label: 'Bouts & balance', short: 'Balance', blocks: [B('Kick bouts', ['kkKick', 'kkSpin?']), S('Balance', ['blStrength', 'single_leg_rdl_bw', 'blDynamic?'])] },
+    },
+  },
+  // Running prep +3
+  {
+    id: 'runner-strength-30', added: 16, catalogue: 9, days: 30, name: 'Runner Strength 30', subject: 'Running prep', minutes: [24, 29], equip: 'bw', levers: [null, 'reps', 'tempo'],
+    split: 'Drills & legs / calves & core, 30 days', blurb: 'A month of strength for runners: drills and legs, then calves, shins and core.',
+    about: 'A month to make running feel easier. One day is running drills and single-leg strength; the next calves, shins and core, the parts that hold up a running stride. Every ten days the level steps up: more reps at Level II, slower reps at Level III. Abs finish every session.',
+    names: ['Run One', 'Run Week', 'Run Ten', 'Run Twenty', 'Run Thirty', 'Run Month', 'Stride Month', 'Pace Month', 'Mile Month', 'Lap Month', 'Track Month', 'Trail Month'],
+    cycle: ['legs', 'calves'],
+    dayTypes: {
+      legs: { label: 'Drills & legs', short: 'Legs', blocks: [S('Drills & legs', ['runDrill', 'runLegs', 'singleLeg', 'runLegs?'])] },
+      calves: { label: 'Calves & core', short: 'Calves', blocks: [S('Calves & core', ['calfBw', 'shin', 'coreAnti', 'calfBw?'])] },
+    },
+  },
+  {
+    id: 'trail-legs', added: 16, catalogue: 9, name: 'Trail Legs', subject: 'Running prep', minutes: [24, 29], equip: 'bw', levers: [null, 'reps', 'reps'],
+    split: 'Ankles & balance / hills & core', blurb: 'For trail runners: strong ankles and balance, then hill strength and core.',
+    about: 'For running on uneven ground. One day is a circuit of ankle strength and balance: single-leg holds, hops, heel walks and calf raises. The other is hill strength: lunges, squats, wall sits and core. Steadier feet on rocks and roots. Abs finish every session. Both later levels add reps.',
+    names: ['Trail Head', 'Switchback', 'Ridge Run', 'Fell Run', 'Scree', 'Root', 'Rock', 'Mud', 'Creek', 'Ford', 'Summit Run', 'Descent'],
+    cycle: ['ankles', 'hills'],
+    dayTypes: {
+      ankles: { label: 'Ankles & balance', short: 'Ankles', blocks: [C('Ankles & balance', ['blStatic', 'single_leg_hops', 'shin', 'calfBw', 'blDynamic?'], { values: [3, 4] })] },
+      hills: { label: 'Hills & core', short: 'Hills', blocks: [C('Hills & core', ['runLegs', 'legsBw2', 'wall_sit', 'coreAnti', 'runLegs?'], { values: [3, 4] })] },
+    },
+  },
+  {
+    id: 'run-faster', added: 16, catalogue: 9, name: 'Run Faster', subject: 'Running prep', minutes: [22, 27], equip: 'bw', levers: [null, 'reps', 'reps'],
+    split: 'Speed EMOM / power AMRAP', blurb: 'Speed for runners: sprint-drill EMOMs and power AMRAPs.',
+    about: 'Training for a faster stride. One day is an EMOM of sprint drills, A-skips, wall drives and fast feet; the other an AMRAP of bounds, pogo hops and skips. Fast, springy legs, and a stronger kick at the end of a run. Abs finish every session. Both later levels add reps.',
+    names: ['Kick', 'Sprint Finish', 'Final Straight', 'Burn Up', 'Fast Twitch', 'Turnover', 'Cadence', 'Stride Rate', 'Quick Feet', 'Fleet Foot', 'Swift Foot', 'Light Foot'],
+    cycle: ['emom', 'amrap'],
+    dayTypes: {
+      emom: { label: 'Speed EMOM', short: 'EMOM', blocks: [E('Speed EMOM', ['runDrill', 'runFast', 'runDrill', 'calfPlyo'], { values: [12, 14, 16] })] },
+      amrap: { label: 'Power AMRAP', short: 'AMRAP', blocks: [A('Power AMRAP', ['runPlyo', 'pogo_hops', 'power_skips'], { values: [10, 12, 15] })] },
+    },
+  },
+  // Court & field sports +3
+  {
+    id: 'court-30', added: 16, catalogue: 9, days: 30, name: 'Court 30', subject: 'Court & field sports', minutes: [24, 29], equip: 'bw', levers: [null, 'reps', 'variation'],
+    split: 'Agility circuit / power EMOM, 30 days', blurb: 'A month of game fitness: agility circuits and power EMOMs.',
+    about: 'A month to get game fit. One day is an agility circuit of shuffles, carioca and shuttles; the next a power EMOM of split steps, bounds and jumps. Every ten days the level steps up: more reps at Level II, harder moves at Level III. Abs finish every session.',
+    names: ['Game One', 'Game Week', 'Game Ten', 'Game Twenty', 'Game Thirty', 'Game Month', 'Season Start', 'Mid Season', 'Playoffs', 'Semis', 'Final', 'Trophy'],
+    cycle: ['agility', 'power'],
+    dayTypes: {
+      agility: { label: 'Agility circuit', short: 'Agility', blocks: [C('Agility circuit', ['courtMove', 'courtLegs', 'courtMove', 'coreRot', 'courtMove?'], { values: [3, 4] })] },
+      power: { label: 'Power EMOM', short: 'Power', blocks: [E('Power EMOM', ['courtPower', 'courtMove', 'courtPower', 'plyoLat'], { values: [12, 14, 16] })] },
+    },
+  },
+  {
+    id: 'racket-ready', added: 16, catalogue: 9, name: 'Racket Ready', subject: 'Court & field sports', minutes: [24, 29], levers: [null, 'reps', 'weight'],
+    split: 'Footwork & shoulders / rotation & legs', blurb: 'For tennis, padel and squash: footwork and shoulder health, then rotation and legs.',
+    about: 'For racket sports. One day is footwork drills with shoulder health work, external rotations and Y raises, to keep the hitting shoulder strong. The other is rotational power and legs: twists, lunges and lateral moves. Abs finish every session. Level II adds reps and Level III asks for heavier weights.',
+    names: ['Ace', 'Deuce', 'Advantage', 'Love', 'Rally', 'Volley', 'Smash', 'Lob', 'Drop Shot', 'Backhand', 'Forehand', 'Match Point'],
+    cycle: ['feet', 'rotation'],
+    dayTypes: {
+      feet: { label: 'Footwork & shoulders', short: 'Feet', blocks: [C('Footwork', ['courtMove', 'split_step', 'courtMove'], { values: [2, 3] }), S('Shoulder health', ['external_rotation', 'prone_y_raise', 'shoulderHealth'])] },
+      rotation: { label: 'Rotation & legs', short: 'Rotation', blocks: [S('Rotation & legs', ['coreRot', 'lateral_lunge', 'courtLegs', 'coreRot?']), C('Lateral power', ['lateral_bounds', 'courtMove'], { values: [2, 3] })] },
+    },
+  },
+  {
+    id: 'field-speed', added: 16, catalogue: 9, name: 'Field Speed', subject: 'Court & field sports', minutes: [24, 29], equip: 'bw', levers: [null, 'reps', 'reps'],
+    split: 'Sprint Tabatas / change-of-direction AMRAP', blurb: 'For football and rugby: sprint Tabatas, then change-of-direction AMRAPs.',
+    about: 'For field sports. One day is sprint Tabatas: sprints in place, fast feet and high knees, twenty seconds at a time. The other is an AMRAP of shuttles, backpedals and lateral bounds. Repeated sprints and sharp turns are what a match asks of you. Abs finish every session. Both later levels add reps.',
+    names: ['Kick-off Speed', 'Breakaway', 'Wing', 'Fullback', 'Striker', 'Winger', 'Sweeper', 'Libero', 'Scrum', 'Lineout', 'Try Line', 'Goal Line'],
+    cycle: ['tabata', 'amrap'],
+    dayTypes: {
+      tabata: { label: 'Sprint Tabatas', short: 'Tabata', blocks: [T('Sprint Tabatas', ['runFast', 'hiitSec', 'runFast', 'high_knees'], { values: [3, 4] })] },
+      amrap: { label: 'Change-of-direction AMRAP', short: 'AMRAP', blocks: [A('Change-of-direction AMRAP', ['shuttle_touch', 'backpedal', 'lateral_bounds'], { values: [10, 12, 15] })] },
+    },
+  },
 ];
 
 // Hand-written paragraphs for the older programs (newer ones carry theirs as `about:` in the config).

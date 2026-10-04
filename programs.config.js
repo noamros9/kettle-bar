@@ -90,6 +90,11 @@ const ORDER = [
   'bodyweight-30', 'calisthenics-skills', 'travel-strength', 'pushup-and-squat', 'twenty-muscle', 'fifteen-emom', 'twenty-arms-abs',
   'twenty-tabata-plus', 'busy-30', 'no-gear-twenty', 'grip-emom', 'grip-and-pull', 'forearm-circuit', 'grip-30',
   'complex-straight', 'complex-ladder-emom', 'complex-30', 'complex-hips', 'climber-30', 'climber-emom', 'climber-antagonist',
+  // Phase 16 ticket 9: Cardio & combat +50%
+  'engine-builder', 'death-by', 'conditioning-30', 'bell-and-burpee', 'dumbbell-tabata', 'hiit-legs', 'hiit-upper',
+  'hiit-ladder-tabata', 'hiit-30-plus', 'bell-hiit', 'plyo-power-straight', 'plyo-calves', 'plyo-30', 'plyo-strength-emom',
+  'boxing-circuit', 'boxing-power', 'boxing-tabata-plus', 'boxing-30-plus', 'kick-circuit', 'kick-tabata-plus', 'kick-30',
+  'kick-flex', 'runner-strength-30', 'trail-legs', 'run-faster', 'court-30', 'racket-ready', 'field-speed',
 ];
 
 const byId = new Map(FAMILY_FILES.flat().map((c) => [c.id, c]));
