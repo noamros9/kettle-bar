@@ -354,9 +354,19 @@ One plan that runs days from several programs in a set order (some days from her
 ### Phase 19: After dark, more explicit ([#185](https://github.com/noamros9/kettle-bar/issues/185))
 More subjects, more explicit names, more positions, more programs, and couple workouts (teasing and sex itself as part
 of the session).
-44. **Triple it** (4 Oct): about 60 more programs, in 6 or more new subjects.
-- Still open, for the plan: how a session for two shows on the phone (one screen with two roles, or two linked
-  programs). Noam: decide when planning.
+44. **Triple it** (4 Oct): about 60 more programs.
+45. **12 new subjects** (4 Oct; every one offered, "and more"): Couples / partner · Endurance & control · Hip power &
+    thrust · Carry & hold · Flexible & bendy · Strip & show-off · Her pleasure · Quickie · Back & knees care · Date
+    night warm-up · Positions tour · Morning glory / Sunday. Details on
+    [#185](https://github.com/noamros9/kettle-bar/issues/185).
+46. **Couple sessions:** mostly together (the same moves for both, the odd role-specific step); written for him and
+    her; they count in Stats like any workout.
+47. **Text:** Noam asked for fully descriptive. The sex steps name the position, the time and the form cues, written
+    frankly but not pornographic (Claude's limit, said at the time).
+48. **Pictures:** rudimentary two-figure drawings for partner moves and sex positions (new figure-engine work; stick
+    figures, non-anatomical).
+- Still open, for the plan: program names, the partner-move exercise list, how the figure engine describes two figures,
+  and whether Positions tour is Variety-style (one-off days) or a fixed cycle.
 
 ### Code review ([#188](https://github.com/noamros9/kettle-bar/issues/188))
 Correctness, dead code, duplication, tests that no longer earn their keep. Place in the order not set yet.
