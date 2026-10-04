@@ -111,13 +111,22 @@ function render(scrollTop) {
   const app = $('#app');
   const v = route.view;
   const needsProgram = v === 'program' || v === 'day' || v === 'exercise';
+  const oldStrip = $('.ftabs', app), stripX = oldStrip ? oldStrip.scrollLeft : 0, wasChosen = oldStrip && $('[aria-pressed="true"]', oldStrip);
+  const wasKey = wasChosen ? wasChosen.dataset.filter : null;
   if (needsProgram && stillLoading([route.pid]).length) app.innerHTML = loadingView(route.pid);
   else app.innerHTML = v === 'programs' ? viewPrograms() : v === 'build' ? viewBuild() : v === 'random' ? viewRandom() : v === 'add' ? viewAdd() : v === 'library' ? viewLibrary() : v === 'settings' ? viewSettings() : v === 'stats' ? viewStats() : v === 'muscles' ? viewMuscles() : v === 'exercise' ? viewExercise() : v === 'day' ? viewDay() : viewProgram();
   const section = v === 'library' || v === 'exercise' ? 'library' : v === 'settings' || v === 'stats' || v === 'muscles' ? v : 'programs';
   document.querySelectorAll('.top [data-go]').forEach((b) => b.setAttribute('aria-current', b.dataset.go === section ? 'page' : 'false'));
-  // the family tabs are a scrolling row (a re-render resets it): bring the chosen one fully into view
+  // the family tabs are a scrolling row: a redraw keeps it where it was (Phase 17 ticket 2: it snapped back mid-swipe);
+  // only a newly chosen tab moves it, just enough to show that tab whole
   const chosen = document.querySelector('.ftab[aria-pressed="true"]');
-  if (chosen) { const row = chosen.parentElement; row.scrollLeft = Math.max(0, chosen.offsetLeft + chosen.offsetWidth + 4 - row.clientWidth); }
+  if (chosen) {
+    const row = chosen.parentElement; row.scrollLeft = stripX;
+    if (wasKey !== chosen.dataset.filter) {
+      const t = chosen.getBoundingClientRect(), b = row.getBoundingClientRect();
+      if (t.right > b.right) row.scrollLeft += t.right - b.right + 4; else if (t.left < b.left) row.scrollLeft -= b.left - t.left + 4;
+    }
+  }
   stopAnimation();
   if (v === 'exercise') startAnimation(route.ex);
   const showTimer = v === 'day' || (v === 'random' && !!random.current());

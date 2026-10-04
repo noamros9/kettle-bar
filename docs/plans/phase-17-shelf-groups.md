@@ -26,6 +26,7 @@ visually messy"). Grilled the same day:
 |---|---|---|---|---|---|
 | 0 | This plan | plan | – | `plan/phase-17` | done (PR #180) |
 | 1 | Shelf groups on the Programs page | feature | – | `feature/shelf-groups` | done (PR #181) |
+| 2 | The tab strip swipes on a signed-in phone (bug, Noam 4 Oct) | fix | 1 | `fix/tab-strip-scroll` | – |
 
 ### 1. Shelf groups on the Programs page
 - `SHELVES` in `app/library.js` (the table above); the Programs page's tabs, chips, shelves and counter use it instead
@@ -34,6 +35,17 @@ visually messy"). Grilled the same day:
   Programs page shows the ten chips in order and each group's shelves; Stats still list the three training families.
 - **Done when:** a 390 px screenshot in both themes shows the tabs fitting (they scroll sideways in their own row, the
   page does not).
+
+### 2. The tab strip swipes on a signed-in phone
+Noam's recording (4 Oct): a swipe moved the strip, then it snapped back. Signed in, every program's first cloud reply
+was a change event, so ~500 programs redrew the page for seconds, and each redraw put the strip back on the chosen tab.
+- `app/store.js`: a cloud reply that leaves this device's copy as it was is not a change event.
+- `app/pages/core.js`: a redraw keeps the strip's sideways position; only a newly chosen tab moves it (just enough to
+  show it whole).
+- `app/ui.js`: a background redraw waits while a finger is on the screen and runs when it lifts.
+- **Test first:** a store unit test (no change event for an unchanged reply; one for a real change); a phone test (a
+  redraw keeps the strip at 200 px; no redraw under a held finger; a tab out of view is brought into view when picked).
+- **Done when:** the strip stays where it's swiped to on Noam's signed-in phone.
 
 ## Challenge round
 - **Weakest assumption:** that ten chips fit a phone. The family row already scrolls on its own; checked at 360 px.

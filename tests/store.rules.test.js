@@ -197,3 +197,18 @@ test('replaceAll without an account, or view-only, stays on the device', async (
   assert.equal(r.writes.length, 1);
   assert.ok(ro.isDone('p', 9));
 });
+
+// Phase 17 ticket 2: signed in, every program's first cloud reply arrived as a change event, so ~500 programs redrew the
+// page for seconds after it opened (the tab strip kept jumping back). A reply that leaves this device's copy as it was
+// says nothing; one that changes it still does.
+test('a cloud reply that changes nothing here is not a change event', async () => {
+  const remote = createMemoryRemote({ q: { done: { 2: 'b' } } });
+  const store = make(); const changed = []; store.on('change', (pid) => changed.push(pid));
+  store.attach(remote); await tick();
+  assert.deepEqual(changed, ['q']); // p: nothing in the cloud, nothing here; q: the cloud's day arrives
+  changed.length = 0;
+  await remote.write('progress', 'q', { done: { 2: 'b' } }); await tick(); // the same again (an echo)
+  assert.deepEqual(changed, []);
+  await remote.write('progress', 'q', { done: { 2: 'b', 3: 'c' } }); await tick();
+  assert.deepEqual(changed, ['q']);
+});
