@@ -4,7 +4,7 @@
 // Mixed rules hold: every main block tagged with its family, two families or more a day, no abs after a flow.
 // Partner work is Strength or Cardio & combat; teasing, dares and massage are Mind & body flows; positions are a
 // Cardio & combat flow of timed holds, held longer at Levels II and III.
-const { S, SS, C, E, A, T, F } = require('./shared.js');
+const { S, SS, C, E, A, T, L, F } = require('./shared.js');
 
 const LIFT = { family: 'Strength' };
 const COND = { family: 'Cardio & combat' };
@@ -12,6 +12,13 @@ const CORE = { family: 'Mind & body', lever: [null, 'reps', 'reps'] };
 const TEASE = { family: 'Mind & body', lever: [null, 'holds', 'holds'] };
 const POS = { family: 'Cardio & combat', lever: [null, 'holds', 'holds'] };
 const COUPLE = { added: 18, catalogue: 10, couple: true, equip: 'bw' };
+const SOLO = { added: 18, catalogue: 10 }; // the solo After dark subjects: training for it, alone
+// flows of the solo subjects: held longer at Level II and III; scaled: short stretches held twice as long (as in mixed.js)
+const FLOW = { family: 'Mind & body', lever: [null, 'holds', 'holds'] };
+const FLOW_SCALED = { ...FLOW, scale: 2, cap: 90 };
+const YIN = { ...FLOW, scale: 3, cap: 120, values: [1] };
+const CORE_S = { family: 'Strength', lever: [null, 'reps', 'reps'] }; // core as strength work, on a day whose other block is a flow
+const HOLDS = { family: 'Mind & body' }; // isometric holds as body control, on a day whose other block is strength
 
 // a build-up day: partner work, then teasing, then positions (no abs after them)
 const buildUp = (label, short, work, tease, positions) => ({ label, short, absSlots: [], blocks: [work, F('Tease', tease, TEASE), F('Positions', positions, POS)] });
@@ -242,6 +249,235 @@ module.exports = [
       upper: rounds('Upper rounds', 'Upper', ['partnerUpper', 'positionsBed', 'partnerCore', 'positionsBed'], [2, 3, 4, 5]),
       lower: rounds('Lower rounds', 'Lower', ['partnerLower', 'positionsHer', 'partnerLower', 'positionsHer'], [2, 3, 4, 5], ['leg_massage']),
       standing: rounds('Standing rounds', 'Standing', ['partnerHold', 'positionsStanding', 'partnerLower', 'positionsStanding', 'partnerCore?'], [2, 3, 4, 5]),
+    },
+  },
+  // ---- Endurance & control (ticket 4): lasting longer. Pelvic-floor holds, breath and tempo, interval conditioning ----
+  {
+    id: 'last-all-night', ...SOLO, name: 'Last All Night', subject: 'Endurance & control', minutes: [28, 33], levers: [null, 'reps', 'holds'],
+    split: 'Hip-drive circuit / control & breath', blurb: 'Stamina and control: hip-drive circuits one day, pelvic-floor holds and slow breathing the next.',
+    about: 'Two halves of lasting longer. One day is a hip-drive circuit, bridges, swings and core round after round with short rests, so the hips and lungs keep going. The other trains control: pelvic-floor holds and their release, slow tempo bridges, and a long stretch where you practise slow breathing under tension. Level II adds reps, Level III holds everything longer.',
+    names: ['Dusk', 'Nightfall', 'Late Show', 'Second Wind', 'Third Wind', 'Slow Down', 'Breathe', 'Steady', 'Easy Now', 'Hold Back', 'Not Yet', 'Pace Yourself', 'Long Game', 'Distance', 'Overtime', 'Extra Innings', 'After Hours', 'Small Hours', 'Dawn', 'Breakfast in Bed'],
+    cycle: ['drive', 'control'],
+    dayTypes: {
+      drive: { label: 'Hip-drive circuit', short: 'Drive', blocks: [C('Hip drive', ['thrust', 'kbBallistic', 'coreAnti', 'thrust', 'hiit?'], { ...COND, values: [2, 3, 4, 5] }), C('Control', ['pelvic_floor_hold', 'pelvic'], { ...CORE, values: [2] })] },
+      control: { label: 'Control & breath', short: 'Control', absSlots: [], blocks: [S('Slow hips', ['bridge_hold', 'thrust', 'pelvic_floor_hold', 'pelvic'], { ...LIFT, lever: [null, 'tempo', 'holds'] }), F('Breathe', ['ygHips', 'ygYinHips', 'ygRest', 'ygRest?'], FLOW)] },
+    },
+  },
+  {
+    id: 'edge-control', ...SOLO, name: 'Edge Control', subject: 'Endurance & control', minutes: [26, 31], levers: [null, 'tempo', 'holds'],
+    split: 'Tempo strength / holds & yin', blurb: 'Learn to ride the edge: slow tempo strength and long holds that teach you to stay calm under pressure.',
+    about: 'Control is a skill, and this trains it. Everything is slow: five-second lowerings on squats, thrusts and push-ups, long holds at the hardest point, pelvic-floor holds between sets. The other day finishes with a long yin stretch where the only job is to breathe slowly while it burns. Level II slows the tempo further, Level III holds longer.',
+    names: ['On the Edge', 'Brink', 'Close Call', 'Hold It', 'Breathe Out', 'Count to Ten', 'Slow Burn', 'Cool Head', 'Steady Hands', 'Tension', 'Release', 'Again', 'Just Wait', 'Patience', 'Discipline', 'Mind Over', 'Ride It', 'Stay There', 'Almost', 'Then Go'],
+    cycle: ['tempo', 'holds'],
+    dayTypes: {
+      tempo: { label: 'Tempo strength', short: 'Tempo', blocks: [S('Slow strength', ['squat2', 'thrust', 'push', 'pelvic_floor_hold'], LIFT), C('Core holds', ['coreAnti', 'pelvic'], { ...CORE, values: [2, 3] })] },
+      holds: { label: 'Holds & yin', short: 'Holds', absSlots: [], blocks: [C('Holds', ['posHold', 'bridge_hold', 'posHold', 'pelvic_floor_hold', 'posHold?'], { ...LIFT, values: [2, 3, 4, 5] }), F('Yin', ['ygYinHips', 'ygYinSpine', 'ygRest?'], YIN)] },
+    },
+  },
+  {
+    id: 'stamina-intervals', ...SOLO, name: 'Stamina Intervals', subject: 'Endurance & control', minutes: [24, 29], levers: [null, 'reps', 'reps'],
+    split: 'Tabata & core / EMOM & pelvic floor', blurb: 'Intervals for the long session: hard bursts, short rests, and the core and pelvic floor to keep control.',
+    about: 'Heart and lungs for going the distance. A Tabata of hip drive and burpee-type work one day, a long EMOM the next, each followed by core and pelvic-floor work done while you\'re still breathing hard, which is exactly when control matters. Both later levels add reps.',
+    names: ['Sprint', 'Interval', 'Burst', 'Recover', 'Go Again', 'Twenty On', 'Ten Off', 'Every Minute', 'Heartbeat', 'Pulse', 'Racing', 'Breathless', 'Catch Your Breath', 'Hold On', 'Keep Up', 'Stay With Me', 'Final Round', 'Last Push', 'Done', 'Not Done'],
+    cycle: ['tabata', 'emom'],
+    dayTypes: {
+      tabata: { label: 'Tabata & core', short: 'Tabata', blocks: [T('Tabata', ['hiit', 'thrustBw'], { ...COND, values: [1, 2, 3] }), C('Core & control', ['coreHollow', 'pelvic', 'coreAnti'], { ...CORE, values: [2, 3] })] },
+      emom: { label: 'EMOM & pelvic floor', short: 'EMOM', blocks: [E('Stamina EMOM', ['thrust', 'cardio', 'kbBallistic', 'hiit'], { ...COND, values: [8, 10, 12] }), C('Control', ['pelvic_floor_hold', 'pelvic', 'coreRot'], { ...CORE, values: [2] })] },
+    },
+  },
+  {
+    id: 'slow-and-steady', ...SOLO, name: 'Slow and Steady', subject: 'Endurance & control', minutes: [30, 35], levers: [null, 'tempo', 'reps'],
+    split: 'Slow lower / slow upper / breath flow', blurb: 'Strength at a crawl, then a breathing flow: the patience that makes a long night longer.',
+    about: 'Three slow days. Lower body at a three-second tempo, upper body the same, and a breath-led flow day with pelvic-floor holds. Nothing is fast and nothing is rushed: the goal is to feel every rep and stay relaxed while you work, which is what control in bed actually is. Level II slows the tempo, Level III adds reps.',
+    names: ['Tortoise', 'Easy Does It', 'Gently', 'Measured', 'Deliberate', 'Unhurried', 'Even Keel', 'Calm', 'Composed', 'Quiet', 'Deep Breath', 'Long Exhale', 'Low Gear', 'Cruise', 'Coast', 'Glide', 'Drift', 'Float', 'Still', 'Steady On'],
+    cycle: ['lower', 'upper', 'flow'],
+    dayTypes: {
+      lower: { label: 'Slow lower', short: 'Lower', blocks: [S('Slow legs and hips', ['squat2', 'hinge2', 'thrust', 'adductor'], LIFT), C('Control', ['pelvic_floor_hold', 'pelvic'], { ...CORE, values: [2] })] },
+      upper: { label: 'Slow upper', short: 'Upper', blocks: [S('Slow upper', ['push', 'row2', 'shoulders2', 'pushBw2?'], LIFT), C('Control', ['coreAnti', 'pelvic_floor_hold'], { ...CORE, values: [2] })] },
+      flow: { label: 'Breath flow', short: 'Flow', absSlots: [], blocks: [C('Pelvic floor', ['pelvic_floor_hold', 'bridge_hold', 'dead_bug', 'pelvic'], { ...CORE_S, values: [3, 4] }), F('Breath flow', ['ygHips', 'ygBack', 'ygRest', 'ygYinHips', 'ygBack?', 'ygHips?', 'ygRest?'], FLOW_SCALED)] },
+    },
+  },
+  {
+    id: 'control-30', ...SOLO, days: 30, name: 'Control 30', subject: 'Endurance & control', minutes: [24, 29], levers: [null, 'reps', 'holds'],
+    split: 'Drive / hold / breathe, 30 days', blurb: 'Thirty days to last longer: hip drive, long holds and breathing, harder every ten days.',
+    about: 'A month on staying power. Three days turn: hip drive with a short conditioning finish, long holds with pelvic-floor work, and a breathing stretch. Every ten days the level goes up, more reps first and then longer holds, so by the end you\'re fitter and calmer under pressure.',
+    names: ['Day One', 'Hold', 'Breathe', 'Drive', 'Steady', 'Slow', 'Strong', 'Calm', 'Longer', 'Day Ten', 'Deeper', 'Again', 'Still', 'Control', 'Patience', 'Stamina', 'Power', 'Easy', 'Endless', 'Day Thirty'],
+    cycle: ['drive', 'hold', 'breathe'],
+    dayTypes: {
+      drive: { label: 'Drive', short: 'Drive', blocks: [S('Hip drive', ['thrust', 'kbBallistic', 'glute2'], LIFT), T('Finisher', ['hiit', 'thrustBw'], { ...COND, values: [1, 2] })] },
+      hold: { label: 'Hold', short: 'Hold', blocks: [C('Holds', ['bridge_hold', 'posHold', 'posHold'], { ...LIFT, values: [2, 3, 4] }), C('Pelvic floor', ['pelvic_floor_hold', 'pelvic'], { ...CORE, values: [2, 3] })] },
+      breathe: { label: 'Breathe', short: 'Breathe', absSlots: [], blocks: [C('Control', ['pelvic', 'coreHollow', 'pelvic_floor_hold', 'coreAnti?'], { ...CORE_S, values: [3, 4] }), F('Breathe', ['ygHips', 'ygYinHips', 'ygRest', 'ygBack?', 'ygRest?'], FLOW_SCALED)] },
+    },
+  },
+  // ---- Hip power & thrust (ticket 4) ----
+  {
+    id: 'thrust-master', ...SOLO, name: 'Thrust Master', subject: 'Hip power & thrust', minutes: [28, 33], levers: [null, 'weight', 'reps'],
+    split: 'Heavy thrusts / thrust conditioning', blurb: 'Heavy hip thrusts and swings for drive, then thrust intervals for the stamina to keep it up.',
+    about: 'All about the hips. One day is heavy: hip thrusts, Romanian deadlifts and swings in straight sets, the glutes doing the work. The other turns the same movements into conditioning, thrust and swing intervals that keep the hips moving when the lungs want to stop. Level II asks for heavier weights, Level III adds reps.',
+    names: ['Drive', 'Power', 'Piston', 'Pump', 'Hammer', 'Engine', 'Torque', 'Horsepower', 'Momentum', 'Impact', 'Force', 'Thrust', 'Launch', 'Lift Off', 'Full Throttle', 'Redline', 'Turbo', 'Overdrive', 'Top Gear', 'Master'],
+    cycle: ['heavy', 'cond'],
+    dayTypes: {
+      heavy: { label: 'Heavy thrusts', short: 'Heavy', blocks: [S('Heavy hips', ['hip_thrust', 'hinge2', 'kb_swing', 'glute2?'], LIFT), C('Core', ['coreAnti', 'pelvic'], { ...CORE, values: [2] })] },
+      cond: { label: 'Thrust conditioning', short: 'Cond', blocks: [C('Thrust circuit', ['thrust', 'kbBallistic', 'thrustBw', 'hiit'], { ...COND, values: [2, 3, 4, 5] }), C('Core', ['coreHollow', 'pelvic_floor_hold'], { ...CORE, values: [2] })] },
+    },
+  },
+  {
+    id: 'pound-it', ...SOLO, name: 'Pound It', subject: 'Hip power & thrust', minutes: [24, 29], levers: [null, 'reps', 'reps'],
+    split: 'Swing EMOM / thrust Tabata', blurb: 'Fast, hard hips: kettlebell swings every minute, thrust Tabatas, and a hip stretch after.',
+    about: 'Speed and power from the hips. One day is a swing EMOM, a set of swings and a thrust at the top of every minute; the other is thrust and bridge-pulse Tabatas. Both end with a short hip-flexor stretch so the hips stay as loose as they are strong. Both later levels add reps.',
+    names: ['Pound', 'Bang', 'Slam', 'Hammer Time', 'Pile Driver', 'Jackhammer', 'Drum', 'Beat', 'Rhythm', 'Tempo', 'Pulse', 'Throb', 'Knock', 'Rattle', 'Shake', 'Bounce', 'Rock', 'Roll', 'Grind', 'Pound Again'],
+    cycle: ['swing', 'tabata'],
+    dayTypes: {
+      swing: { label: 'Swing EMOM', short: 'Swing', absSlots: [], blocks: [E('Swing EMOM', ['kbBallistic', 'thrust', 'kbBallistic', 'thrustBw'], { ...COND, values: [12, 14, 16] }), F('Hip stretch', ['fxHips', 'ygHips', 'ygRest?'], FLOW)] },
+      tabata: { label: 'Thrust Tabata', short: 'Tabata', absSlots: [], blocks: [T('Thrust Tabata', ['thrustBw', 'hiit'], { ...COND, values: [2, 3] }), S('Glutes', ['hip_thrust', 'glute2'], LIFT), F('Hip stretch', ['fxHips', 'ygRest'], FLOW)] },
+    },
+  },
+  {
+    id: 'hip-drive-ladders', ...SOLO, name: 'Hip Drive Ladders', subject: 'Hip power & thrust', minutes: [26, 31], levers: [null, 'reps', 'weight'],
+    split: 'Thrust ladders / single-leg power', blurb: 'Ladders of thrusts and swings, then single-leg hip work for drive on either side.',
+    about: 'Volume for the hips. Ladders climb from one rep to ten on hip thrusts and swings, so you do a lot of work without noticing; the other day trains each side alone with single-leg thrusts, step-ups and lunges, because no position keeps both hips square. Level II adds reps, Level III heavier weights.',
+    names: ['First Rung', 'Climb', 'Step Up', 'Higher', 'Halfway', 'Summit', 'Back Down', 'Ladder Up', 'Ladder Down', 'One More', 'Ten', 'Left', 'Right', 'Both', 'Even', 'Square', 'Balanced', 'Level', 'Top Rung', 'View From Up Here'],
+    cycle: ['ladder', 'single'],
+    dayTypes: {
+      ladder: { label: 'Thrust ladders', short: 'Ladder', blocks: [L('Thrust ladder', ['hip_thrust', 'kbBallistic'], LIFT), C('Core', ['coreAnti', 'pelvic'], { ...CORE, values: [2, 3] })] },
+      single: { label: 'Single-leg power', short: 'Single', blocks: [S('Single-leg hips', ['single_leg_bridge', 'singleLeg', 'lunge2', 'hipGlute'], LIFT), T('Finisher', ['thrustBw', 'plyoLow'], { ...COND, values: [1, 2] })] },
+    },
+  },
+  {
+    id: 'piston', ...SOLO, name: 'Piston', subject: 'Hip power & thrust', minutes: [24, 29], equip: 'bw', levers: [null, 'reps', 'variation'],
+    split: 'Bodyweight thrust circuit / hip plyos, then stretch', blurb: 'No equipment, all hips: bridge circuits, jumps and a long hip-flexor stretch.',
+    about: 'Hip power anywhere. A bodyweight circuit of bridge pulses, frog pumps and single-leg bridges one day; hip-driven jumps and plyometrics the next. Both end with a hip-flexor and glute stretch, because tight hip flexors steal drive. Level II adds reps, Level III moves on to harder variations.',
+    names: ['Cylinder', 'Stroke', 'Compression', 'Ignition', 'Combustion', 'Exhaust', 'Rev', 'Idle', 'Spark', 'Firing', 'Pistons Pumping', 'Crank', 'Camshaft', 'Valve', 'Pressure', 'Release', 'Cycle', 'Revolution', 'Running Hot', 'Piston'],
+    cycle: ['circuit', 'plyo'],
+    dayTypes: {
+      circuit: { label: 'Thrust circuit', short: 'Circuit', absSlots: [], blocks: [C('Thrust circuit', ['thrustBw', 'gluteReps', 'thrustBw', 'coreAnti'], { ...LIFT, values: [2, 3, 4] }), F('Hip stretch', ['fxHips', 'ygHips', 'fxQuad', 'ygRest?'], FLOW)] },
+      plyo: { label: 'Hip plyos', short: 'Plyo', absSlots: [], blocks: [S('Hip plyos', ['plyoVert', 'plyoLow', 'thrustBw'], COND), F('Hip stretch', ['fxHips', 'fxQuad', 'ygRest'], FLOW)] },
+    },
+  },
+  {
+    id: 'thrust-30', ...SOLO, days: 30, name: 'Thrust 30', subject: 'Hip power & thrust', minutes: [26, 31], levers: [null, 'weight', 'reps'],
+    split: 'Heavy / fast / single-leg, 30 days', blurb: 'Thirty days of hip power: heavy thrusts, fast swings and single-leg drive, harder every ten days.',
+    about: 'A month for the hips. Three days turn: heavy hip thrusts and hinges, a fast swing-and-thrust EMOM, and single-leg work with a stretch after. Every ten days it gets harder, heavier weights first and then more reps.',
+    names: ['Day One', 'Heavy', 'Fast', 'Single', 'Drive', 'Snap', 'Squeeze', 'Lockout', 'Hinge', 'Day Ten', 'Heavier', 'Faster', 'Stronger', 'Power', 'Speed', 'Balance', 'Grind', 'Explode', 'Finish', 'Day Thirty'],
+    cycle: ['heavy', 'fast', 'single'],
+    dayTypes: {
+      heavy: { label: 'Heavy', short: 'Heavy', blocks: [S('Heavy hips', ['hip_thrust', 'hinge2', 'glute2'], LIFT), C('Core', ['coreAnti', 'pelvic'], { ...CORE, values: [2] })] },
+      fast: { label: 'Fast', short: 'Fast', blocks: [E('Swing EMOM', ['kbBallistic', 'thrust', 'hiit'], { ...COND, values: [10, 12, 14] }), C('Core', ['coreHollow', 'pelvic_floor_hold'], { ...CORE, values: [2] })] },
+      single: { label: 'Single-leg', short: 'Single', absSlots: [], blocks: [S('Single-leg', ['single_leg_bridge', 'singleLeg', 'hipGlute'], LIFT), F('Stretch', ['fxHips', 'ygRest', 'ygRest?'], FLOW)] },
+    },
+  },
+  // ---- Carry & hold (ticket 4): legs, grip and core to hold her up ----
+  {
+    id: 'hold-her-up', ...SOLO, name: 'Hold Her Up', subject: 'Carry & hold', minutes: [28, 33], levers: [null, 'weight', 'holds'],
+    split: 'Carries & grip / legs & holds', blurb: 'Grip, legs and a strong back: the strength to hold her up for longer than a minute.',
+    about: 'For the standing positions. One day is carries and grip, farmer carries, holds and dead hangs; the other is legs and holds, squats, wall sits and isometric holds at the angle you\'ll be holding her. Core work finishes both. Level II asks for heavier weights, Level III holds longer.',
+    names: ['Pick Up', 'Lift', 'Hold', 'Carry', 'Strong Arms', 'Iron Grip', 'Steady Legs', 'Planted', 'Rooted', 'Pillar', 'Column', 'Atlas', 'Heavy Lifting', 'Load', 'Bear It', 'Hold Tight', 'Don\'t Let Go', 'Still Standing', 'Up Against', 'Put Her Down'],
+    cycle: ['carry', 'legs'],
+    dayTypes: {
+      carry: { label: 'Carries & grip', short: 'Carry', blocks: [S('Carries & grip', ['carry', 'gripHold', 'row2', 'gripCurl'], LIFT), C('Core', ['coreAnti', 'coreRot'], { ...CORE, values: [2] })] },
+      legs: { label: 'Legs & holds', short: 'Legs', blocks: [S('Legs', ['squat2', 'lunge2'], LIFT), C('Holds', ['wall_sit', 'posHold', 'posHold'], { ...HOLDS, values: [2, 3] })] },
+    },
+  },
+  {
+    id: 'against-the-wall', ...SOLO, name: 'Against the Wall', subject: 'Carry & hold', minutes: [24, 29], equip: 'bw', levers: [null, 'holds', 'reps'],
+    split: 'Wall holds / leg circuit', blurb: 'Wall sits, holds and leg circuits: the legs for every position that ends against a wall.',
+    about: 'No equipment, just a wall and your legs. Wall sits, split-squat holds and calf-raise holds at the angles the standing positions use one day; a bodyweight leg circuit for endurance the other. Both finish with core work for a back that doesn\'t complain. Level II holds longer, Level III adds reps.',
+    names: ['Wall', 'Brick', 'Plaster', 'Corner', 'Doorframe', 'Hallway', 'Shower Wall', 'Back to the Wall', 'Pinned', 'Leaning', 'Pressed', 'Braced', 'Squat Down', 'Hold Still', 'Thighs on Fire', 'Shaking', 'Hold It', 'Burning', 'Still Here', 'Down the Wall'],
+    cycle: ['holds', 'circuit'],
+    dayTypes: {
+      holds: { label: 'Wall holds', short: 'Holds', blocks: [C('Wall holds', ['wall_sit', 'posHold', 'calf_raise_hold', 'posHold'], { ...LIFT, values: [2, 3, 4] }), C('Core', ['coreAnti', 'coreHollow'], { ...CORE, values: [2] })] },
+      circuit: { label: 'Leg circuit', short: 'Circuit', blocks: [C('Leg circuit', ['legsBw2', 'posLegs', 'thrustBw', 'legsBw2'], { ...COND, values: [2, 3, 4] }), C('Core', ['coreRot', 'pelvic'], { ...CORE, values: [2] })] },
+    },
+  },
+  {
+    id: 'carry-me-home', ...SOLO, name: 'Carry Me Home', subject: 'Carry & hold', minutes: [26, 31], levers: [null, 'weight', 'reps'],
+    split: 'Carry EMOM / pull & grip', blurb: 'Carries every minute, then rows, curls and grip: arms and back for carrying her to bed.',
+    about: 'Carrying is a whole-body job. A carry EMOM with squats and swings one day, the arms, back and grip the next: rows, curls, holds and hangs. Your forearms will know about it. Level II asks for heavier weights, Level III adds reps.',
+    names: ['Front Door', 'Hallway', 'Stairs', 'Landing', 'Bedroom Door', 'Threshold', 'Over the Shoulder', 'Fireman\'s Carry', 'Bridal Carry', 'Piggyback', 'All the Way', 'Up the Stairs', 'No Lift', 'Strong Back', 'Big Arms', 'Grip Strength', 'Forearms', 'Biceps', 'Long Way Round', 'Home'],
+    cycle: ['emom', 'pull'],
+    dayTypes: {
+      emom: { label: 'Carry EMOM', short: 'EMOM', blocks: [E('Carry EMOM', ['carry', 'squat2', 'kbBallistic', 'carry'], { ...COND, values: [10, 12] }), C('Core', ['coreAnti', 'coreRot'], { ...CORE, values: [2] })] },
+      pull: { label: 'Pull & grip', short: 'Pull', blocks: [S('Pull & grip', ['row2', 'biceps2', 'gripHold', 'gripCurl'], LIFT), C('Core', ['coreHollow', 'pelvic'], { ...CORE, values: [2] })] },
+    },
+  },
+  {
+    id: 'grip-it-tight', ...SOLO, name: 'Grip It Tight', subject: 'Carry & hold', minutes: [24, 29], levers: [null, 'holds', 'weight'],
+    split: 'Grip & legs / holds & core', blurb: 'Grip and legs in supersets, then holds and core: hold on tight and keep holding.',
+    about: 'Grip and legs, worked together. Supersets pair a squat with a carry and a lunge with a hold, so the hands work while the legs do; the other day is isometric holds and core, planks, wall sits and hangs. Hold her up and keep her there. Level II holds longer, Level III asks for heavier weights.',
+    names: ['Squeeze', 'Clench', 'Clasp', 'Clutch', 'Grasp', 'Hang On', 'Locked', 'Vice', 'Clamp', 'White Knuckles', 'Tight', 'Tighter', 'Grip', 'Hold Fast', 'Never Let Go', 'Firm', 'Steady', 'Strong Hands', 'Holding On', 'Let Go'],
+    cycle: ['super', 'holds'],
+    dayTypes: {
+      super: { label: 'Grip & legs', short: 'Super', blocks: [SS('Grip & legs', ['squat2', 'carry', 'lunge2', 'gripHold'], LIFT), C('Core', ['coreAnti', 'pelvic'], { ...CORE, values: [2] })] },
+      holds: { label: 'Holds & core', short: 'Holds', blocks: [C('Holds', ['gripHold', 'posHold', 'climbHold', 'posHold'], { ...LIFT, values: [2, 3, 4] }), C('Core', ['coreHollow', 'coreAnti'], { ...CORE, values: [2, 3] })] },
+    },
+  },
+  {
+    id: 'stand-and-deliver-30', ...SOLO, days: 30, name: 'Stand and Deliver 30', subject: 'Carry & hold', minutes: [26, 31], levers: [null, 'weight', 'holds'],
+    split: 'Carry / legs / holds, 30 days', blurb: 'Thirty days to the standing positions: carries, legs and holds, harder every ten days.',
+    about: 'A month for holding her up. Carries and grip, legs and lunges, and isometric holds turn in that order, each with core work. Every ten days it gets harder, heavier first and then longer holds, until a minute against the wall is easy.',
+    names: ['Day One', 'Lift', 'Carry', 'Hold', 'Squat', 'Brace', 'Grip', 'Stand', 'Steady', 'Day Ten', 'Heavier', 'Longer', 'Stronger', 'Deeper', 'Higher', 'Firmer', 'Tighter', 'Taller', 'Deliver', 'Day Thirty'],
+    cycle: ['carry', 'legs', 'holds'],
+    dayTypes: {
+      carry: { label: 'Carry', short: 'Carry', blocks: [S('Carry & grip', ['carry', 'gripHold', 'row2'], LIFT), C('Core', ['coreAnti', 'pelvic'], { ...CORE, values: [2] })] },
+      legs: { label: 'Legs', short: 'Legs', blocks: [S('Legs', ['squat2', 'lunge2', 'singleLeg'], LIFT), C('Core', ['coreRot', 'coreHollow'], { ...CORE, values: [2] })] },
+      holds: { label: 'Holds', short: 'Holds', blocks: [C('Holds', ['wall_sit', 'posHold', 'gripHold', 'posHold'], { ...LIFT, values: [2, 3, 4] }), T('Finisher', ['hiit', 'posLegs'], { ...COND, values: [1] })] },
+    },
+  },
+  // ---- Flexible & bendy (ticket 4): splits, hips, hamstrings, back bends, held long ----
+  {
+    id: 'bend-me-over', ...SOLO, name: 'Bend Me Over', subject: 'Flexible & bendy', minutes: [26, 31], levers: [null, 'holds', 'reps'],
+    split: 'Hamstrings & hinge / forward fold flow', blurb: 'Hamstrings and hips for bending all the way over: hinges for strength, folds held long.',
+    about: 'For the positions that start bent over. One day strengthens the hinge, Romanian deadlifts, good mornings and back extensions, then stretches the hamstrings; the other is a long forward-fold flow, pyramid, wide-leg fold and half splits, held until they let go. Level II holds longer, Level III adds reps.',
+    names: ['Bend', 'Fold', 'Over', 'Further', 'Touch Your Toes', 'Palms Down', 'Ragdoll', 'Hang', 'Hinge', 'Deep Fold', 'Forward', 'Bow', 'Curtsy', 'Reach', 'Long Legs', 'Hamstrings', 'All the Way', 'Head to Knees', 'Flat Back', 'Bent Over'],
+    cycle: ['hinge', 'fold'],
+    dayTypes: {
+      hinge: { label: 'Hamstrings & hinge', short: 'Hinge', absSlots: [], blocks: [S('Hinge', ['hinge2', 'backStrength', 'hinge2'], LIFT), F('Hamstrings', ['fxHam', 'fxHam', 'ygRest?'], FLOW_SCALED)] },
+      fold: { label: 'Forward fold flow', short: 'Fold', absSlots: [], blocks: [C('Strong at the angle', ['hinge2', 'coreHollow', 'thrustBw'], { ...LIFT, values: [2] }), F('Fold flow', ['fxHam', 'fxStraddle', 'fxSplit', 'ygRest', 'ygRest?'], FLOW_SCALED)] },
+    },
+  },
+  {
+    id: 'open-wide', ...SOLO, name: 'Open Wide', subject: 'Flexible & bendy', minutes: [24, 29], equip: 'bw', levers: [null, 'holds', 'holds'],
+    split: 'Adductor strength / straddle flow', blurb: 'Inner thighs strong and open: Cossack squats and Copenhagen planks, then the straddle held long.',
+    about: 'Wide is a strength as well as a stretch. One day builds the inner thighs with Cossack squats, Copenhagen planks and side-lying adductions, then opens them; the other is a long straddle, frog and butterfly flow. No equipment needed. Level II and III hold everything longer.',
+    names: ['Wide', 'Wider', 'Open', 'Straddle', 'Frog', 'Butterfly', 'Pancake', 'Side Split', 'Spread', 'Stretch', 'Inner Thighs', 'Open Hips', 'Wide Open', 'Arms Wide', 'Legs Apart', 'Gate', 'Doors Open', 'Splay', 'Flat', 'Wide Awake'],
+    cycle: ['strength', 'flow'],
+    dayTypes: {
+      strength: { label: 'Adductor strength', short: 'Strength', absSlots: [], blocks: [C('Adductors', ['cossack_squat', 'copenhagen_plank', 'adductorBw', 'adductorBw'], { ...LIFT, values: [2, 3] }), F('Open', ['fxStraddle', 'fxHips', 'ygRest?'], FLOW_SCALED)] },
+      flow: { label: 'Straddle flow', short: 'Flow', absSlots: [], blocks: [C('Warm hips', ['adductorBw', 'mbHip', 'adductorBw?'], { ...LIFT, values: [2, 3] }), F('Straddle flow', ['fxStraddle', 'fxHips', 'fxStraddle', 'ygYinHips', 'ygRest?'], FLOW_SCALED)] },
+    },
+  },
+  {
+    id: 'arch-your-back', ...SOLO, name: 'Arch Your Back', subject: 'Flexible & bendy', minutes: [24, 29], levers: [null, 'holds', 'reps'],
+    split: 'Back strength / backbend flow', blurb: 'A strong, bendy spine: back extensions and bridges, then backbends held long.',
+    about: 'For arching, from doggy to the bridge. One day strengthens the back and glutes, supermans, bridges and back extensions; the other is a backbend flow, cobra, camel, bridge and wheel if you have it, with hip-flexor stretches that let the arch happen. Level II holds longer, Level III adds reps.',
+    names: ['Arch', 'Curve', 'Bow', 'Cobra', 'Camel', 'Bridge', 'Wheel', 'Crescent', 'Swan', 'Cat', 'Cow', 'Sway', 'Spine', 'Bend Back', 'Open Chest', 'Heart Open', 'Lift', 'Rise', 'Arc', 'Arched'],
+    cycle: ['strength', 'flow'],
+    dayTypes: {
+      strength: { label: 'Back strength', short: 'Strength', absSlots: [], blocks: [C('Back & glutes', ['backStrength', 'glute2', 'backBw', 'thrustBw'], { ...LIFT, values: [2, 3, 4] }), F('Open', ['ygBack', 'fxQuad', 'ygRest?'], FLOW)] },
+      flow: { label: 'Backbend flow', short: 'Flow', absSlots: [], blocks: [C('Warm spine', ['backStrength', 'mbSpine'], { ...LIFT, values: [2] }), F('Backbend flow', ['ygBack', 'fxSpine', 'fxQuad', 'ygBack', 'ygRest?'], FLOW_SCALED)] },
+    },
+  },
+  {
+    id: 'do-the-splits', ...SOLO, name: 'Do the Splits', subject: 'Flexible & bendy', minutes: [26, 31], equip: 'bw', levers: [null, 'holds', 'holds'],
+    split: 'Splits strength / splits flow', blurb: 'Front splits and side splits, strong at the end range and held long.',
+    about: 'Splits, both kinds. One day builds strength at the end range, split-squat holds, Cossacks and active leg lifts, then stretches; the other is a long splits flow, lizard, half splits and the splits themselves, held long. Level II and III hold everything longer.',
+    names: ['Split', 'Half Split', 'Lizard', 'Runner\'s Lunge', 'Pigeon', 'Hanuman', 'Side Split', 'Middle Split', 'Center', 'Slide', 'Lower', 'Floor', 'Almost There', 'Closer', 'Touchdown', 'Flat', 'Showgirl', 'Gymnast', 'Dancer', 'Splits'],
+    cycle: ['strength', 'flow'],
+    dayTypes: {
+      strength: { label: 'Splits strength', short: 'Strength', absSlots: [], blocks: [C('End range', ['posLegs', 'adductorBw', 'hipFlex', 'mbHip'], { ...LIFT, values: [2, 3] }), F('Splits', ['fxSplit', 'fxHam', 'ygRest?'], FLOW_SCALED)] },
+      flow: { label: 'Splits flow', short: 'Flow', absSlots: [], blocks: [C('Warm hips', ['hipFlex', 'mbHip'], { ...LIFT, values: [2] }), F('Splits flow', ['fxSplit', 'fxQuad', 'fxHam', 'fxStraddle', 'ygRest?'], FLOW_SCALED)] },
+    },
+  },
+  {
+    id: 'bendy-30', ...SOLO, days: 30, name: 'Bendy 30', subject: 'Flexible & bendy', minutes: [24, 29], equip: 'bw', levers: [null, 'holds', 'holds'],
+    split: 'Hips / hamstrings / back, 30 days', blurb: 'Thirty days to bend any way she likes: hips, hamstrings and back, held longer every ten days.',
+    about: 'A month of range. Hips, hamstrings and back turn day by day, each with a short strength circuit at the angle it opens, then a long flow. Every ten days every hold gets longer.',
+    names: ['Day One', 'Hips', 'Hamstrings', 'Back', 'Open', 'Fold', 'Arch', 'Twist', 'Reach', 'Day Ten', 'Deeper', 'Further', 'Wider', 'Lower', 'Longer', 'Softer', 'Looser', 'Freer', 'Bendy', 'Day Thirty'],
+    cycle: ['hips', 'ham', 'back'],
+    dayTypes: {
+      hips: { label: 'Hips', short: 'Hips', absSlots: [], blocks: [C('Strong hips', ['adductorBw', 'hipFlex', 'mbHip'], { ...LIFT, values: [2] }), F('Hip flow', ['fxHips', 'fxStraddle', 'ygYinHips', 'ygRest?'], FLOW_SCALED)] },
+      ham: { label: 'Hamstrings', short: 'Ham', absSlots: [], blocks: [C('Strong hinge', ['thrustBw', 'backStrength', 'coreHollow'], { ...LIFT, values: [2] }), F('Hamstring flow', ['fxHam', 'fxSplit', 'fxHam', 'ygRest?'], FLOW_SCALED)] },
+      back: { label: 'Back', short: 'Back', absSlots: [], blocks: [C('Strong back', ['backStrength', 'backBw', 'thrustBw?'], { ...LIFT, values: [2, 3] }), F('Back flow', ['ygBack', 'fxSpine', 'fxQuad', 'ygRest?'], FLOW_SCALED)] },
     },
   },
 ];
