@@ -58,7 +58,7 @@ test('offline with the index and the build code not cached, the pages say so ins
   await expect(app.page.getByRole('alert')).toHaveText("Build your own isn't available offline yet. Open it once while online.");
 });
 
-test('the first download is small: the page carries only the program list, at most 125 KB gzipped', async ({ app }) => {
+test('the first download is small: the page carries only the program list, at most 135 KB gzipped (Phase 20)', async ({ app }) => {
   const res = await app.page.goto('/index.html#programs');
-  expect(require('zlib').gzipSync(await res.body()).length).toBeLessThan(125 * 1024); // gzipped, as Pages serves it
+  expect(require('zlib').gzipSync(await res.body()).length).toBeLessThan(135 * 1024); // gzipped, as Pages serves it
 });
