@@ -55,7 +55,7 @@ PR and merges on green CI.
 | # | Ticket | Tier | Blocked by | Branch | Status |
 |---|---|---|---|---|---|
 | 0 | This plan | plan | – | `plan/phase-20-explicit` | done (PR #205) |
-| 1 | The pelvic mark | feature | – | `feature/pelvic-mark` | todo |
+| 1 | The pelvic mark | feature | – | `feature/pelvic-mark` | done (PR #207) |
 | 2 | Rewrite the position and dare cues | content | – | `content/explicit-cues` | todo |
 | 3 | Rewrite the Phase 16 After dark text (30) | content | – | `content/after-dark-text-16` | todo |
 | 4 | Rewrite the Phase 18 After dark text (75) | content | – | `content/after-dark-text-18` | todo |
