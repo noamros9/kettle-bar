@@ -12,7 +12,7 @@ const cat = require('../exercises.js');
 const CONFIGS = require('../programs.config.js');
 const { FAMILIES } = require('../app/library.js');
 
-const SUBJECTS = FAMILIES.flatMap(([, list]) => list).filter((s) => s !== 'Variety' && !['Couples', 'Date night warm-up', 'Positions tour', 'Morning glory / Sunday'].includes(s)); // Variety (Phase 16) is not in build your own: 60 one-off day types are not a subject to pick; nor Couples (Phase 18): sessions for two
+const SUBJECTS = FAMILIES.flatMap(([, list]) => list).filter((s) => s !== 'Variety' && !['Couples', 'Date night warm-up', 'Positions tour', 'Morning glory / Sunday', 'Explicit'].includes(s)); // Variety (Phase 16) is not in build your own: 60 one-off day types are not a subject to pick; nor Couples (Phase 18) or Explicit (Phase 20): sessions for two
 const MINUTES = [20, 25, 30, 35, 40];
 const EQUIPS = ['all', 'kb', 'bw'];
 const GEAR = { all: 'all equipment', kb: 'a kettlebell only', bw: 'no equipment' };

@@ -24,8 +24,8 @@ const IDS = [
 ];
 
 test('the 75 Phase 18 After dark programs keep their ids, cycle and dayTypes', () => {
-  assert.deepEqual(configs.map((c) => c.id), IDS);
-  const slice = configs.map((c) => ({ id: c.id, cycle: c.cycle, dayTypes: c.dayTypes }));
+  assert.deepEqual(configs.slice(0, IDS.length).map((c) => c.id), IDS);
+  const slice = configs.slice(0, IDS.length).map((c) => ({ id: c.id, cycle: c.cycle, dayTypes: c.dayTypes }));
   const hash = crypto.createHash('sha256').update(JSON.stringify(slice)).digest('hex');
   assert.equal(hash, 'd364051c2acd8fd3fbb056f59a8c4029c4a1fc99e9f382bff768cbbee42ba313');
 });

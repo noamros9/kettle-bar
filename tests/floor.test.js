@@ -42,7 +42,8 @@ test('a build at catalogue 6 can draw them; library programs at catalogue 5 and 
   const used = (p) => new Set(p.days.flatMap((d) => d.blocks.flatMap((b) => b.items.map((it) => it.ex))));
   const cfg = Object.fromEntries(CONFIGS.map((c) => [c.id, c]));
   all.filter((p) => (cfg[p.id].catalogue || 0) < 6).forEach((p) => NEW.forEach((id) => assert.ok(!used(p).has(id), `${p.id} draws ${id}`)));
-  const fresh = CONFIGS.filter((c) => c.equip === 'bw' && !c.frozen).map((c) => buildConfig({ ...c, catalogue: 6 }));
+  // A program already on a later catalogue is not rebuilt here: Explicit draws `explicit`, empty below catalogue 11.
+  const fresh = CONFIGS.filter((c) => c.equip === 'bw' && !c.frozen && (c.catalogue || 0) <= 6).map((c) => buildConfig({ ...c, catalogue: 6 }));
   assert.ok(fresh.some((p) => NEW.some((id) => used(p).has(id))), 'some bodyweight program at catalogue 6 uses one');
 });
 
@@ -57,5 +58,5 @@ test('reverse snow angels: floor only, upper-back led, added in catalogue 7 (cat
   const used = (p) => new Set(p.days.flatMap((d) => d.blocks.flatMap((b) => b.items.map((it) => it.ex))));
   const bw = CONFIGS.filter((c) => c.equip === 'bw' && !c.frozen);
   bw.filter((c) => (c.catalogue || 0) < 7).map((c) => buildConfig({ ...c, catalogue: 6 })).forEach((p) => assert.ok(!used(p).has('reverse_snow_angel'), p.id)); // the configs made before it
-  assert.ok(bw.map((c) => buildConfig({ ...c, catalogue: 7 })).some((p) => used(p).has('reverse_snow_angel')), 'some bodyweight program at catalogue 7 uses it');
+  assert.ok(bw.filter((c) => (c.catalogue || 0) <= 7).map((c) => buildConfig({ ...c, catalogue: 7 })).some((p) => used(p).has('reverse_snow_angel')), 'some bodyweight program at catalogue 7 uses it');
 });

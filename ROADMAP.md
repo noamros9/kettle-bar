@@ -371,8 +371,9 @@ Plan: [docs/plans/phase-20-after-dark-explicit.md](docs/plans/phase-20-after-dar
 58. **A pelvic mark on the stick figures** (5 Oct), on every position: rendered pictures were refused by the image tool.
 59. **Catalogue 11: 88 exercises** (5 Oct): 24 intercourse, 24 oral, 24 anal, 8 toys, 8 hands.
 60. **+200 programs, all 60 days, all couple** (5 Oct): Explicit (a subject chip on the After dark shelf, 65: 20, then
-    45 more that are mainly sex only and use the new positions) and 9 in each of the 15 After dark subjects; three
+    45 more that are mainly sex only) and 9 in each of the 15 After dark subjects; three
     session shapes (gym then sex, sex then sex, positions only). Minutes 20% longer than each band (Noam, 5 Oct).
+    They use the 88 new exercises alongside catalogue 10's couple exercises, not instead of them (Noam, 5 Oct).
 61. **Page cap 125 → 135 KB gzipped** (5 Oct); the 150 gate stays.
 62. **Swap unchanged** (5 Oct): older couple programs may offer catalogue-11 exercises in Swap.
 63. **Grok writes the explicit text** (5 Oct); a text failure gets a second Grok round.
@@ -380,6 +381,45 @@ Plan: [docs/plans/phase-20-after-dark-explicit.md](docs/plans/phase-20-after-dar
     straight couple's POV, depending on the program, never hers. The app is Noam's. Just as explicit, or hotter.
     Applies to the 105 rewritten in tickets 3–4, to every new program in tickets 8–13, and to every couple program
     in any later phase: a standing rule in CLAUDE.md, and a test over every `couple: true` program (5 Oct).
+
+65. **Equal odds, basics about 1.5×** (5 Oct, ticket 8): in a sex block every couple exercise, old or new, has about the
+    same chance of being drawn; basics (`basic: 1`: the 17 classics and 10 plain new ones) come up about 1.5× as often.
+    Code, not a habit: the builder's merged pools (`sexPositions`, `sexWarm`, `sexFuck`, from `mergedAt`) and a
+    standing test over every couple program on catalogue 11 or later (`tests/couple-odds.test.js`).
+66. **Descriptions describe the session** (5 Oct, ticket 8): a blurb or about says what he does to her, never how the
+    builder made it (no slots, catalogues, old or new positions); a standing test over every couple and After dark
+    program (`tests/his-pov.test.js`).
+67. **Phase 20 pauses after ticket 8** (5 Oct): Phases 21 and 22 come first; tickets 9–15 resume after them.
+
+### Phase 21: exercise families and subjects, and more warm-ups and cool-downs ([#220](https://github.com/noamros9/kettle-bar/issues/220))
+Grilled 5 Oct 2026 (Noam); next after Phase 20 ticket 8, before ticket 9. Claude plans, Grok builds. A plan file
+(`docs/plans/phase-21-exercise-families.md`) lands first, as Phase 20's did.
+68. **A grouping, not a new `cat`** (5 Oct): exercises get a family → subject map, like `FAMILIES` for programs. `cat`
+    stays as it is (nine places in the builders depend on it), so no program's days change and no pin moves.
+69. **Six families** (5 Oct): Warm-up · Stretch & cool-down · Muscles · Cardio & combat (cardio, boxing, kickboxing) ·
+    Mind & body (yoga, pilates, balance, mobility) · Couples (subjects by act: intercourse, oral, hands, anal, toys,
+    partner work, tease, dares, massage, and Phase 22's new ones).
+70. **Muscles by primary muscle** (5 Oct): Chest, Back, Shoulders, Arms, Legs & glutes, Core & abs, Full body, as on
+    the Programs page's Muscles shelf. Each exercise sits under its primary muscle.
+71. **30 warm-ups and 30 cool-downs** (5 Oct): +24 warm-ups (dynamic moves, joint circles, activation), +18 cool-downs
+    (static stretches, breathing). New ones carry `added: N`, so only programs built from then on draw them.
+
+### Phase 22: catalogue 12, the sex catalogue doubled and four new kinds
+Grilled 5 Oct 2026 (Noam); after Phase 21, before Phase 20 ticket 9. Claude plans, Grok builds and writes the text.
+72. **Doubled, intercourse tripled** (5 Oct): intercourse 24 → 72, oral 24 → 48, anal 24 → 48, toys 8 → 16,
+    hands 8 → 24.
+73. **Four new kinds, 24 each** (5 Oct): **Rough** (spanking, hair-pulling, pinning her wrists, holding her down; no
+    choking), **Kink-lite** (blindfold, ties or cuffs, a gag, ice or wax, him on her), **Body play** (titfuck,
+    grinding and dry humping, thigh-fucking, cumming on her as an act, no orgasm script), **Rimming** (him on her,
+    and her on him).
+74. **One exception to "nothing receiving about him"** (5 Oct): she may rim him. Nothing goes in him: no pegging, no
+    fingers or toys in his ass. CLAUDE.md's rule and the tests get this exception and nothing more.
+75. **216 new exercises, `added: 12`, all `couple`** (5 Oct), with poses and the pelvic mark, in the Phase 20 cue
+    register.
+76. **Page cap 135 → 250 KB gzipped** (5 Oct, Noam: "250 KB easy"), and the gate in CLAUDE.md with
+    it. Phases 21–22 land the page near 144 KB.
+77. **Phase 20 tickets 9–15 build at `catalogue: 12`** (5 Oct): their 180 programs mix catalogue 10, 11 and 12
+    exercises. Ticket 8's 20 Explicit programs stay at catalogue 11.
 
 ### Architecture review V ([#187](https://github.com/noamros9/kettle-bar/issues/187))
 A fresh review after Phases 13–18: shelf groups, Variety, ~580 programs, the library boot, sync at that scale (one

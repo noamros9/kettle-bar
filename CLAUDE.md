@@ -57,6 +57,11 @@ How Noam wants work done in this repo. Words: [CONTEXT.md](CONTEXT.md). Decision
 - `tests/his-pov.test.js` (from Phase 20 ticket 5.5) checks every `couple: true` program for her-side phrasings; a
   new program never gets an exception just to pass. The test catches the obvious ones; Claude's review reads each new
   blurb and about for POV and heat before merging, and sends softer or her-side text back.
+- **Describe the session, not the builder** (Noam, 5 Oct 2026): no slots, catalogues, old or new positions, exercises
+  being dealt. `tests/his-pov.test.js` checks every couple and After dark program.
+- **Equal odds in sex blocks** (Noam, 5 Oct 2026): a couple program on catalogue 11 or later names the merged pools
+  (`sexPositions`, `sexWarm`, `sexFuck`), never a hand-weighted mix of pools; basics (`basic: 1`) come up about 1.5×.
+  `tests/couple-odds.test.js` checks every such program.
 
 ## Mechanics
 - Use `gh` (installed and signed in on Noam's machine; from Git Bash it's `"/c/Program Files/GitHub CLI/gh.exe"`
