@@ -1182,8 +1182,8 @@ const CONFIGS = [
   // ---- Beach body ----
   {
     id: 'beach-body', added: 16, catalogue: 9, name: 'Beach Body', subject: 'Beach body', minutes: [30, 35], levers: [null, 'weight', 'reps'],
-    split: 'Upper & burn / glutes & abs', blurb: 'Chest, shoulders and arms one day, ass and abs the next, a burn after each so you look ready to fuck.',
-    about: 'For the body you want seen naked, cock out or ass up. One day is chest, shoulders and arms in straight sets, then a short Tabata to burn; the other is glutes and abs, then the same. The muscles that show get the volume, and the cardio keeps you lean. Level II asks for heavier weights and Level III adds reps.',
+    split: 'Upper & burn / glutes & abs', blurb: 'Upper body one day, ass and abs the next, each with a burn so you look like you should be inside her.',
+    about: 'The body she sees when your clothes come off, cock out, ready to fuck. One day is chest, shoulders and arms in straight sets, then a short Tabata to burn; the other is glutes and abs, then the same. The muscles that show get the volume, and the cardio keeps you lean so she can see all of it. Level II asks for heavier weights and Level III adds reps.',
     names: ['Sunscreen', 'Lifeguard', 'Speedo', 'Sandbar', 'Tan Lines', 'Beach Towel Flex', 'Riviera', 'Ibiza', 'Malibu', 'Bondi', 'Copacabana', 'Mykonos', 'Cabo', 'Miami Vice', 'Pool Party', 'Cabana', 'Sun Lounger', 'Oiled Up', 'Golden Hour Glow', 'Last Swim'],
     cycle: ['upper', 'lower'],
     dayTypes: {
@@ -1193,8 +1193,8 @@ const CONFIGS = [
   },
   {
     id: 'v-taper', added: 16, catalogue: 9, name: 'V-Taper', subject: 'Beach body', minutes: [28, 33], levers: [null, 'reps', 'tempo'],
-    split: 'Wide back & shoulders / waist & legs', blurb: 'Lats and side shoulders for width, a smaller waist from core work: the V she grabs while you fuck.',
-    about: 'The V: wide shoulders and lats over a waist narrow enough to grab while you fuck. One day pairs pull-ups and rows with lateral raises in supersets for width. The other works the waist with anti-rotation core and the legs so nothing looks skipped, then a short cardio circuit. Level II adds reps and Level III slows every rep down.',
+    split: 'Wide back & shoulders / waist & legs', blurb: 'Lats and side shoulders for width, a smaller waist from core: the V she grabs while you fuck her.',
+    about: 'The V: wide shoulders and lats over a waist she can grab while you bury your cock in her. One day pairs pull-ups and rows with lateral raises in supersets for width. The other works the waist with anti-rotation core and the legs so nothing looks skipped, then a short cardio circuit. Level II adds reps and Level III slows every rep down.',
     names: ['Wingspan', 'Cobra Hood', 'Delta Wing', 'Stingray Back', 'Hourglass', 'Wasp Waist', 'Coat Hanger', 'Arrowhead', 'Kite Shape', 'Swimmer', 'Diver', 'Rower', 'Paddler', 'Butterfly Stroke', 'Lat Spread', 'Front Double', 'Back Double', 'Vacuum', 'Stage Ready', 'Spotlight'],
     cycle: ['wide', 'waist'],
     dayTypes: {
@@ -1204,8 +1204,8 @@ const CONFIGS = [
   },
   {
     id: 'booty-call', added: 16, catalogue: 9, name: 'Booty Call', subject: 'Beach body', minutes: [28, 33], levers: [null, 'weight', 'tempo'],
-    split: 'Glutes heavy / glutes pump / upper & abs', blurb: 'A rounder ass to grab and fuck: heavy hip thrusts and hinges, a pump day, then upper body and abs.',
-    about: 'All about the ass you want clapped, grabbed and fucked. One day is heavy: hip thrusts, Romanian deadlifts and lunges with full rests. The next is a pump: bridges, frog pumps, clamshells and pulses in a circuit. The third trains the upper body and abs so the whole picture works. Level II asks for heavier weights and Level III slows every rep down.',
+    split: 'Glutes heavy / glutes pump / upper & abs', blurb: 'A rounder ass for drive and for her to grab: heavy hip thrusts, a pump day, then upper body and abs.',
+    about: 'Your glutes, built to drive your cock into her and for her to grab and admire. One day is heavy: hip thrusts, Romanian deadlifts and lunges with full rests. The next is a pump: bridges, frog pumps, clamshells and pulses in a circuit. The third trains the upper body and abs so the whole picture works. Level II asks for heavier weights and Level III slows every rep down.',
     names: ['Peach', 'Bubble', 'Badonkadonk', 'Junk in the Trunk', 'Back That Up', 'Baby Got Back', 'Shake It', 'Twerk Ready', 'Cheeky', 'Bum Day', 'Rear View', 'Caboose', 'Bottoms Up', 'Booty Shorts', 'Squat Booty', 'Glute Gains', 'Round Two Cheeks', 'Seat of Power', 'Derriere', 'Behind Closed Doors'],
     cycle: ['heavy', 'pump', 'upper'],
     dayTypes: {
@@ -1216,8 +1216,8 @@ const CONFIGS = [
   },
   {
     id: 'abs-out', added: 16, catalogue: 9, name: 'Abs Out', subject: 'Beach body', minutes: [24, 29], levers: [null, 'reps', 'variation'],
-    split: 'Abs & HIIT / obliques & HIIT', blurb: 'Abs she can lick down to your cock: core every day, then HIIT to strip the fat over them.',
-    about: 'A six-pack she wants her tongue on takes strong abs and a thin layer of fat, so every day does both. One day trains the front of the abs with hollow holds, crunches and leg raises; the other the obliques with twists and side planks. A HIIT block follows each, hard enough to sweat. Level II adds reps and Level III brings harder moves.',
+    split: 'Abs & HIIT / obliques & HIIT', blurb: 'Abs she can lick from your chest down to your cock: core every day, then HIIT to strip the fat over them.',
+    about: 'A six-pack she wants her tongue on, down to your cock, takes strong abs and a thin layer of fat, so every day does both. One day trains the front of the abs with hollow holds, crunches and leg raises; the other the obliques with twists and side planks. A HIIT block follows each, hard enough to sweat. Level II adds reps and Level III brings harder moves.',
     names: ['Six Pack', 'Washboard', 'Shredded', 'Cut', 'Ripped', 'Chiselled', 'Etched', 'Carved', 'Sculpted', 'Grated Cheese', 'Ab Crack', 'V-Line', 'Adonis Belt', 'Sex Lines', 'Obliques Out', 'Ab Flash', 'Crop Top', 'Lift the Shirt', 'Show Off', 'Abs for Days'],
     cycle: ['front', 'side'],
     dayTypes: {
@@ -1227,8 +1227,8 @@ const CONFIGS = [
   },
   {
     id: 'gun-show-tonight', added: 16, catalogue: 9, name: 'Gun Show Tonight', subject: 'Beach body', minutes: [26, 31], levers: [null, 'reps', 'weight'],
-    split: 'Arms & chest / arms & shoulders', blurb: 'Arms that look obscene in a tight shirt: biceps and triceps every day, chest or shoulders, then a pump.',
-    about: 'For arms that look filthy holding her up or pinning her down. Every day is biceps and triceps in supersets, paired with the chest one day and the shoulders the next, then a short AMRAP of push-ups and HIIT for the pump and a sweat. Plenty of reps, moderate weights and short rests. Level II adds reps and Level III asks for heavier dumbbells.',
+    split: 'Arms & chest / arms & shoulders', blurb: 'Arms that look filthy pinning her down: biceps and triceps every day, chest or shoulders, then a pump.',
+    about: 'For arms that look obscene holding her up against the wall or pinning her wrists while you fuck her. Every day is biceps and triceps in supersets, paired with the chest one day and the shoulders the next, then a short AMRAP of push-ups and HIIT for the pump and a sweat. Plenty of reps, moderate weights and short rests. Level II adds reps and Level III asks for heavier dumbbells.',
     names: ['Sleeve Buster', 'Tickets Please', 'Show Time', 'Front Row', 'Flex Friday', 'Pythons Out', 'Bicep Kiss', 'Arm Day Date', 'Tight Tee', 'Muscle Shirt', 'Tank Season', 'Rolled Sleeves', 'Peak Show', 'Curl Up', 'Pump Cover', 'Vein Train', 'Swole Patrol', 'Big Guns', 'Loaded', 'Encore Arms'],
     cycle: ['chest', 'delts'],
     dayTypes: {
@@ -1238,8 +1238,8 @@ const CONFIGS = [
   },
   {
     id: 'shirt-off', added: 16, catalogue: 9, name: 'Shirt Off', subject: 'Beach body', minutes: [28, 33], equip: 'bw', levers: [null, 'reps', 'holds'],
-    split: 'Push & abs / pull & legs', blurb: 'Shirt off, no equipment: push-up and floor-pull circuits, abs and legs, a burn so you stay fuckable.',
-    about: 'The body you fuck in, with no gym. One day is a circuit of push-up variations, pike push-ups and abs; the other is floor pulls, legs and glutes. A short Tabata finishes both so you stay lean. Everything happens on the floor, so it travels well. Level II adds reps and Level III makes every hold longer.',
+    split: 'Push & abs / pull & legs', blurb: 'Shirt off, no equipment: push-up and floor-pull circuits, abs and legs, a burn so you stay ready to fuck her.',
+    about: 'The body you fuck her in, with no gym. One day is a circuit of push-up variations, pike push-ups and abs; the other is floor pulls, legs and glutes. A short Tabata finishes both so you stay lean. Everything happens on the floor, so it travels well. Level II adds reps and Level III makes every hold longer.',
     names: ['No Shirt', 'Shirtless', 'Bare Chest', 'Skin Deep', 'Body Heat', 'Sweat Glow', 'Hot Room', 'Steam', 'Flushed', 'Heat Wave', 'Summer Body', 'Hot Stuff', 'Sizzle', 'Simmer', 'Slow Burn Body', 'Afterglow', 'Fire Starter', 'Spark', 'Kindle', 'Ember'],
     cycle: ['push', 'pull'],
     dayTypes: {
@@ -1249,8 +1249,8 @@ const CONFIGS = [
   },
   {
     id: 'bikini-ready', added: 16, catalogue: 9, name: 'Bikini Ready', subject: 'Beach body', minutes: [28, 33], levers: [null, 'reps', 'weight'],
-    split: 'Glutes & shoulders / abs & legs / burn & stretch', blurb: 'Shoulders, ass and abs that look good in nothing: lifts, a burn, and a stretch before you get naked.',
-    about: 'For what shows in a bikini or trunks when they come off: toned shoulders, a round ass and a flat stomach. One day pairs glute work with shoulder raises; the next is abs and legs; the third is a HIIT circuit with a long stretch after it. Level II adds reps and Level III asks for heavier weights.',
+    split: 'Glutes & shoulders / abs & legs / burn & stretch', blurb: 'Shoulders, ass and abs that look good with nothing on: lifts, a burn, then a stretch before you fuck her.',
+    about: 'For what shows when her hands pull your clothes off: toned shoulders, a round ass and a flat stomach she can run her mouth down. One day pairs glute work with shoulder raises; the next is abs and legs; the third is a HIIT circuit with a long stretch after it. Level II adds reps and Level III asks for heavier weights.',
     names: ['String Bikini', 'Triangle Top', 'High Cut', 'Thong Season', 'Trunks', 'Sarong', 'Kaftan', 'Sun Hat', 'Flip Flops', 'Beach Bag', 'Shades', 'Poolside', 'Swim-up Bar', 'Piña Colada', 'Mojito', 'Daiquiri', 'Margarita', 'Aperol', 'Sundowner', 'Skinny Dip'],
     cycle: ['glutes', 'abs', 'burn'],
     dayTypes: {
@@ -1261,8 +1261,8 @@ const CONFIGS = [
   },
   {
     id: 'thirst-trap', added: 16, catalogue: 9, name: 'Thirst Trap', subject: 'Beach body', minutes: [26, 31], levers: [null, 'reps', 'reps'],
-    split: 'Pump upper / pump lower', blurb: 'High-rep pump supersets, upper then lower, so you look full and tight in the hours before you fuck.',
-    about: 'A pump so you look full and tight when the clothes come off to fuck. Every day is supersets with short rests and plenty of reps, the upper body one day and glutes and legs the next, then an EMOM of abs. Blood fills the muscles and they look their best for a few hours, good before a night out, or a photo. Both later levels add reps.',
+    split: 'Pump upper / pump lower', blurb: 'High-rep pump supersets, upper then lower, so you look full and tight in the hours before you fuck her.',
+    about: 'A pump so you look full and tight when she gets your clothes off so you can fuck her. Every day is supersets with short rests and plenty of reps, the upper body one day and glutes and legs the next, then an EMOM of abs. Blood fills the muscles and they look their best for a few hours, good before a night out, or before she sees you naked. Both later levels add reps.',
     names: ['Mirror Selfie', 'Gym Pic', 'Golden Light', 'Filter Free', 'Angles', 'Good Side', 'Thirst', 'Swipe Right', 'Super Like', 'Its a Match', 'DM Slide', 'Story Post', 'Close Friends', 'Link in Bio', 'Hashtag', 'Viral', 'Likes', 'Followers', 'Notifications On', 'Read Receipts'],
     cycle: ['upper', 'lower'],
     dayTypes: {
@@ -1273,7 +1273,7 @@ const CONFIGS = [
   {
     id: 'beach-body-30', added: 16, catalogue: 9, days: 30, name: 'Beach Body 30', subject: 'Beach body', minutes: [30, 35], levers: [null, 'weight', 'tempo'],
     split: 'Lift & burn / lift & stretch, 30 days', blurb: 'Thirty days to get naked on holiday: the muscles that show, a burn or a stretch after every lift.',
-    about: 'A month before the holiday, for a body you want fucked in the sun. Every day lifts the muscles that show, chest and arms, shoulders and back, or glutes and legs, then either burns with a short Tabata or stretches with a short flow. Every ten days the level steps up: heavier weights at Level II and slower reps at Level III. Abs finish the burn days.',
+    about: 'A month before the holiday, for a body she wants naked in the sun, so you can fuck her there. Every day lifts the muscles that show, chest and arms, shoulders and back, or glutes and legs, then either burns with a short Tabata or stretches with a short flow. Every ten days the level steps up: heavier weights at Level II and slower reps at Level III. Abs finish the burn days.',
     names: ['Countdown', 'Booked', 'Passport Ready', 'Packed', 'Departure Lounge', 'In Flight', 'Touchdown', 'Check-in', 'Room Key', 'Ocean View', 'First Dip', 'Day Bed', 'Snorkel', 'Jet Ski', 'Banana Boat', 'Beach Club', 'Sunset Drinks', 'Night Swim', 'Last Night', 'Home Tanned'],
     cycle: ['chest', 'back', 'glutes'],
     dayTypes: {
@@ -1284,8 +1284,8 @@ const CONFIGS = [
   },
   {
     id: 'naked-mirror-30', added: 16, catalogue: 9, days: 30, name: 'Naked in the Mirror 30', subject: 'Beach body', minutes: [26, 31], levers: [null, 'reps', 'weight'],
-    split: 'Upper & HIIT / lower & core, 30 days', blurb: 'A month for the mirror after the shower: upper body and HIIT, then ass, legs and core.',
-    about: 'A month for liking the naked body in the mirror after the shower, ass and all. One day lifts the upper body and finishes with an AMRAP of HIIT; the next lifts glutes and legs and finishes with a core circuit. Every day mixes strength with something else, and every ten days it gets harder: more reps at Level II, heavier weights at Level III.',
+    split: 'Upper & HIIT / lower & core, 30 days', blurb: 'A month for the naked mirror after the shower: upper body and HIIT, then ass, legs and core.',
+    about: 'A month for liking the naked body in the mirror after the shower, cock and all, the one she gets her hands on. One day lifts the upper body and finishes with an AMRAP of HIIT; the next lifts glutes and legs and finishes with a core circuit. Every day mixes strength with something else, and every ten days it gets harder: more reps at Level II, heavier weights at Level III.',
     names: ['Steamed Up', 'Towel Drop', 'Bathroom Light', 'Full Length', 'Reflection', 'Double Take', 'Second Look', 'Turn Around', 'Side View', 'Bare', 'Unwrapped', 'Au Naturel', 'Birthday Suit', 'Nothing On', 'Lights On', 'Candlelit', 'Silk Sheets', 'Robe Off', 'Strip Down', 'Bare All'],
     cycle: ['upper', 'lower'],
     dayTypes: {
@@ -1296,8 +1296,8 @@ const CONFIGS = [
   // ---- Bedroom stamina ----
   {
     id: 'all-night-long', added: 16, catalogue: 9, name: 'All Night Long', subject: 'Bedroom stamina', minutes: [28, 33], levers: [null, 'reps', 'reps'],
-    split: 'Hip-drive circuit / stamina EMOM', blurb: 'Endurance to keep fucking: hip-drive circuits and long EMOMs that teach you to keep going.',
-    about: 'Stamina for the long fuck. One day is a hip-drive circuit, bridges, swings, frog pumps and core, round after round with short rests. The other is a long EMOM that keeps the heart rate up without stopping. You learn to breathe, pace yourself and keep going when you want to quit. Both later levels add reps.',
+    split: 'Hip-drive circuit / stamina EMOM', blurb: 'Endurance to keep fucking her: hip-drive circuits and long EMOMs that teach you to keep going.',
+    about: 'Stamina for the long fuck, your cock in her for as long as the night lasts. One day is a hip-drive circuit, bridges, swings, frog pumps and core, round after round with short rests. The other is a long EMOM that keeps the heart rate up without stopping. You learn to breathe, pace yourself and keep going when you want to quit. Both later levels add reps.',
     names: ['Midnight', 'One AM', 'Two AM', 'Three AM', 'Night Owl', 'Insomnia', 'Wide Awake', 'Lights Low', 'Do Not Disturb', 'Until Dawn', 'Sunrise Again', 'No Sleep', 'Encore', 'Again', 'One More Time', 'Keep Going', 'Don\'t Stop', 'Still Going', 'Endless', 'Marathon Man'],
     cycle: ['circuit', 'emom'],
     dayTypes: {
@@ -1308,7 +1308,7 @@ const CONFIGS = [
   {
     id: 'your-ladys-favorite', added: 16, catalogue: 9, name: 'Your Lady\'s Favorite Fuck', subject: 'Bedroom stamina', minutes: [28, 33], levers: [null, 'weight', 'reps'],
     split: 'Thrust power / core & control / stretch & stamina', blurb: 'The fuck she asks for twice: hip thrusts and swings, core control, then a stamina circuit and a stretch.',
-    about: 'Noam named this one. It builds what makes you better in bed: powerful hips, a strong core, endurance and the control to fuck her properly. One day is heavy hip thrusts, swings and bridge pulses for drive; the next is core and pelvic-floor control; the third is a stamina circuit with a long hip stretch after it. Level II asks for heavier weights and Level III adds reps.',
+    about: 'Noam named this one. It builds what makes you better in bed: powerful hips, a strong core, endurance and the control to fuck her properly, cock deep, without fading. One day is heavy hip thrusts, swings and bridge pulses for drive; the next is core and pelvic-floor control; the third is a stamina circuit with a long hip stretch after it. Level II asks for heavier weights and Level III adds reps.',
     names: ['Her Favorite', 'Repeat Customer', 'Five Stars', 'Rave Reviews', 'Tell Her Friends', 'Legend', 'Word of Mouth', 'Fan Favorite', 'Crowd Pleaser', 'Standing Ovation', 'Curtain Call', 'Bravo', 'Request Line', 'By Popular Demand', 'Main Event', 'Headliner', 'Top Billing', 'Signature Move', 'Hall of Fame', 'Lifetime Achievement'],
     cycle: ['thrust', 'core', 'stamina'],
     dayTypes: {
@@ -1319,8 +1319,8 @@ const CONFIGS = [
   },
   {
     id: 'pound-town', added: 16, catalogue: 9, name: 'Pound Town', subject: 'Bedroom stamina', minutes: [26, 31], levers: [null, 'reps', 'weight'],
-    split: 'Hip drive AMRAP / swings & thrusters', blurb: 'Fast, powerful hips for pounding: AMRAPs of bridge pulses and frog pumps, swings, thrusters and core.',
-    about: 'Speed and power from the hips, so you can pound her and not slow down. One day is an AMRAP of bridge pulses, frog pumps and squats, as many rounds as you can; the other is kettlebell swings and thrusters in straight sets, with core after. Fast hip extension, repeated without slowing down, is the whole point. Level II adds reps and Level III asks for heavier weights.',
+    split: 'Hip drive AMRAP / swings & thrusters', blurb: 'Fast, powerful hips for pounding her: AMRAPs of bridge pulses and frog pumps, swings, thrusters and core.',
+    about: 'Speed and power from the hips, so you can pound her pussy and not slow down. One day is an AMRAP of bridge pulses, frog pumps and squats, as many rounds as you can; the other is kettlebell swings and thrusters in straight sets, with core after. Fast hip extension, repeated without slowing down, is the whole point. Level II adds reps and Level III asks for heavier weights.',
     names: ['Pound It', 'Drill Sergeant', 'Jackhammer', 'Piston', 'Pile Driver', 'Battering Ram', 'Sledge', 'Hammer Down', 'Full Throttle', 'Express Train', 'Bump and Grind', 'Rhythm Section', 'Drum Solo', 'Beat It', 'Pump Action Hips', 'Rapid Fire', 'Machine Gun', 'Turbo Hips', 'Overdrive Hips', 'Last Stop'],
     cycle: ['amrap', 'swing'],
     dayTypes: {
@@ -1330,8 +1330,8 @@ const CONFIGS = [
   },
   {
     id: 'round-two', added: 16, catalogue: 9, name: 'Round Two', subject: 'Bedroom stamina', minutes: [24, 29], levers: [null, 'reps', 'variation'],
-    split: 'Intervals & recovery / Tabatas & core', blurb: 'Recover fast and fuck again: hard intervals with short rests, Tabatas and core.',
-    about: 'Training how fast you recover, so round two is a real fuck and not a lie-down. One day is hard EMOM intervals, the next Tabatas, both with rests short enough that you start again before you feel ready. A core block follows each. Over sixty days your heart learns to settle quickly. Level II adds reps and Level III brings harder moves.',
+    split: 'Intervals & recovery / Tabatas & core', blurb: 'Recover fast and fuck her again: hard intervals with short rests, Tabatas and core.',
+    about: 'Training how fast you recover, so round two is a real fuck, your cock hard again, and not a lie-down. One day is hard EMOM intervals, the next Tabatas, both with rests short enough that you start again before you feel ready. A core block follows each. Over sixty days your heart learns to settle quickly. Level II adds reps and Level III brings harder moves.',
     names: ['Ding Ding', 'Second Bell', 'Back for More', 'Seconds', 'Refill', 'Top Up', 'Reload', 'Recharge', 'Reboot', 'Restart', 'Second Wind', 'Revival', 'Comeback', 'Rematch', 'Sequel', 'Part Two', 'Return Visit', 'Again Please', 'Round Three', 'Overtime Round'],
     cycle: ['emom', 'tabata'],
     dayTypes: {
@@ -1341,8 +1341,8 @@ const CONFIGS = [
   },
   {
     id: 'deep-stroke', added: 16, catalogue: 9, name: 'Deep Stroke', subject: 'Bedroom stamina', minutes: [26, 31], levers: [null, 'tempo', 'holds'],
-    split: 'Slow hips / pelvic control & stretch', blurb: 'Slow control, cock deep on purpose: tempo hip work, pelvic-floor holds and core, then a deep hip stretch.',
-    about: 'Control over speed, so you can stay deep and fuck her slowly. One day is slow-tempo hip work: hip thrusts, bridges and single-leg bridges with long pauses at the top. The other is pelvic-floor holds, core and a long, deep stretch for the hips and inner thighs. A strong, controllable pelvic floor helps with stamina and control for every body. Level II slows every rep down and Level III makes every hold longer.',
+    split: 'Slow hips / pelvic control & stretch', blurb: 'Slow control, cock deep in her on purpose: tempo hip work, pelvic-floor holds, then a deep hip stretch.',
+    about: 'Control over speed, so you can stay buried in her pussy and fuck her slowly. One day is slow-tempo hip work: hip thrusts, bridges and single-leg bridges with long pauses at the top. The other is pelvic-floor holds, core and a long, deep stretch for the hips and inner thighs. A strong, controllable pelvic floor helps with stamina and control. Level II slows every rep down and Level III makes every hold longer.',
     names: ['Slow Hand', 'Easy Does It', 'Take Your Time', 'Savour', 'Linger', 'Lazy Sunday', 'Slow Dance', 'Smooth Operator', 'Velvet', 'Silk', 'Honey', 'Molasses', 'Treacle', 'Slow Jam', 'Quiet Storm', 'Late Night Jazz', 'Low Lights', 'Soft Focus', 'Deep End', 'Long Exhale'],
     cycle: ['slow', 'control'],
     dayTypes: {
@@ -1352,8 +1352,8 @@ const CONFIGS = [
   },
   {
     id: 'hold-me-up', added: 16, catalogue: 9, name: 'Hold Me Up', subject: 'Bedroom stamina', minutes: [28, 33], levers: [null, 'weight', 'holds'],
-    split: 'Lift & carry / squat & hold', blurb: 'Strong enough to hold your partner up and keep fucking: deadlifts, carries, grip, squats and long holds.',
-    about: 'For the positions where you take your partner\'s weight and keep fucking. One day is lifting and carrying: deadlifts, farmer carries, rows and grip holds. The other is squats, wall sits and other long holds that keep your legs steady under load. Strong legs, back and grip make it easy, not a strain. Level II asks for heavier weights and Level III makes every hold longer.',
+    split: 'Lift & carry / squat & hold', blurb: 'Strong enough to hold her up and keep fucking: deadlifts, carries, grip, squats and long holds.',
+    about: 'For the positions where you take her weight, her legs around you, and keep fucking. One day is lifting and carrying: deadlifts, farmer carries, rows and grip holds. The other is squats, wall sits and other long holds that keep your legs steady under load. Strong legs, back and grip make holding her easy, not a strain. Level II asks for heavier weights and Level III makes every hold longer.',
     names: ['Pick Me Up', 'Up Against the Wall', 'Carry Me', 'Lift Off', 'Sweep Off Your Feet', 'Over the Threshold', 'Fireman\'s Lift', 'Piggyback', 'Koala', 'Wrapped Around', 'Legs Locked', 'Hold Tight', 'Don\'t Let Go', 'Steady Now', 'Strong Arms', 'Iron Legs', 'Pillar', 'Foundation', 'Rock Solid', 'Unshakeable'],
     cycle: ['carry', 'hold'],
     dayTypes: {
@@ -1363,8 +1363,8 @@ const CONFIGS = [
   },
   {
     id: 'marathon-session', added: 16, catalogue: 9, name: 'Marathon Session', subject: 'Bedroom stamina', minutes: [36, 42], levers: [null, 'reps', 'tempo'],
-    split: 'Long circuit / long EMOM', blurb: 'About forty minutes so the night can be long: circuits and EMOMs of hips and core, built for lasting.',
-    about: 'Long sessions for long nights of fucking. Each day is about forty minutes of steady work: a long circuit of hip drive, legs, push-ups and core one day, a long EMOM the next, with core to finish. Nothing is all-out; it is about lasting. Level II adds reps and Level III slows every rep down.',
+    split: 'Long circuit / long EMOM', blurb: 'About forty minutes so the night with her can be long: circuits and EMOMs of hips and core, built for lasting.',
+    about: 'Long sessions for long nights of fucking her. Each day is about forty minutes of steady work: a long circuit of hip drive, legs, push-ups and core one day, a long EMOM the next, with core to finish. Nothing is all-out; it is about lasting with your cock in her. Level II adds reps and Level III slows every rep down.',
     names: ['The Long Run', 'Distance', 'Endurance Night', 'Iron Man', 'Ultra', 'Long Haul Hips', 'Overnight', 'Red-eye', 'Night Shift', 'Graveyard Shift', 'Double Header', 'Extra Innings', 'Five Setter', 'Tie Break', 'Penalties', 'Sudden Death', 'Golden Goal', 'Last Man Standing', 'Survivor', 'Finisher'],
     cycle: ['circuit', 'emom'],
     dayTypes: {
@@ -1374,8 +1374,8 @@ const CONFIGS = [
   },
   {
     id: 'on-top', added: 16, catalogue: 9, name: 'On Top', subject: 'Bedroom stamina', minutes: [26, 31], levers: [null, 'reps', 'holds'],
-    split: 'Quads & hips / pulses & holds / stretch', blurb: 'For riding on top of his cock: quads, inner thighs and hips that last, pulses, holds, then a hip stretch.',
-    about: 'For the one on top, riding his cock. Riding asks for quads, inner thighs and hips that keep working for a long time, and a core that holds you up. One day is squats, sumo pulses and lunges; the next pulses, wall sits and bridge holds; the third a gentle circuit with a long hip stretch. Level II adds reps and Level III makes every hold longer.',
+    split: 'Quads & hips / pulses & holds / stretch', blurb: 'On your back with her on your cock: hips that thrust up into her, a core that lasts, then a hip stretch.',
+    about: 'For the nights she sits on your cock and you fuck her from below. Thrusting up asks for hips, quads and inner thighs that keep working, and a core that holds you steady while she bounces. One day is squats, sumo pulses and lunges; the next pulses, wall sits and bridge holds; the third a gentle circuit with a long hip stretch. Level II adds reps and Level III makes every hold longer.',
     names: ['Cowgirl', 'Rodeo', 'Saddle Up', 'Ride On', 'Giddy Up', 'Bareback', 'Bronco', 'Trot', 'Canter', 'Gallop', 'Rein In', 'Spurs', 'Stirrups', 'Bucking Bronco', 'Mechanical Bull', 'Eight Seconds', 'Yee-haw', 'Wild West', 'High Noon Ride', 'Sunset Ride'],
     cycle: ['quads', 'pulses', 'stretch'],
     dayTypes: {
@@ -1386,8 +1386,8 @@ const CONFIGS = [
   },
   {
     id: 'last-longer-30', added: 16, catalogue: 9, days: 30, name: 'Last Longer 30', subject: 'Bedroom stamina', minutes: [28, 33], levers: [null, 'reps', 'weight'],
-    split: 'Hips & stamina / control & stretch, 30 days', blurb: 'Thirty days of stamina so you last longer inside her: hip drive and a sweat, then control and a stretch.',
-    about: 'A month to last longer inside her. One day is hip drive, thrusts, swings and squats, followed by a stamina Tabata; the next is slow glute work and pelvic-floor control, followed by a long hip stretch. Every day mixes strength with cardio or flexibility. Every ten days the level steps up: more reps at Level II, heavier weights at Level III.',
+    split: 'Hips & stamina / control & stretch, 30 days', blurb: 'Thirty days of stamina so you last longer inside her: hip drive and a sweat, then control and a long stretch.',
+    about: 'A month to last longer with your cock inside her. One day is hip drive, thrusts, swings and squats, followed by a stamina Tabata; the next is slow glute work and pelvic-floor control, followed by a long hip stretch. Every day mixes strength with cardio or flexibility. Every ten days the level steps up: more reps at Level II, heavier weights at Level III.',
     names: ['Day One Stamina', 'Warming Up', 'Pace Yourself', 'Breathe', 'Slow Down', 'Edge', 'Hold Back', 'Ride the Wave', 'Build Up', 'Plateau', 'Peak', 'Hold It', 'Control', 'Patience Pays', 'Longer', 'Longer Still', 'Staying Power', 'Endurance Test', 'Go the Distance', 'Thirty Strong'],
     cycle: ['hips', 'core'],
     dayTypes: {
@@ -1397,8 +1397,8 @@ const CONFIGS = [
   },
   {
     id: 'pelvic-power-30', added: 16, catalogue: 9, days: 30, name: 'Pelvic Power 30', subject: 'Bedroom stamina', minutes: [24, 29], levers: [null, 'holds', 'reps'],
-    split: 'Glutes & pelvic floor / hips & HIIT, 30 days', blurb: 'A month for the muscles under a good fuck: glutes and pelvic floor, then hips with a short HIIT burst.',
-    about: 'A month for the deep muscles that change how you fuck. One day trains the glutes and the pelvic floor together: bridges, holds and gentle pelvic-floor squeezes. The next works the hips and inner thighs, then a short HIIT burst. Every day mixes two kinds of work, and every ten days it gets harder: longer holds at Level II, more reps at Level III.',
+    split: 'Glutes & pelvic floor / hips & HIIT, 30 days', blurb: 'A month for the muscles under a good fuck: glutes and pelvic floor, then hips with a short HIIT to finish.',
+    about: 'A month for the deep muscles that change how you fuck her. One day trains the glutes and the pelvic floor together: bridges, holds and gentle pelvic-floor squeezes. The next works the hips and inner thighs, then a short HIIT burst. Every day mixes two kinds of work, and every ten days it gets harder: longer holds at Level II, more reps at Level III.',
     names: ['Root', 'Core Deep', 'Foundation Floor', 'Basin', 'Bowl', 'Cradle', 'Hammock', 'Sling', 'Trampoline Floor', 'Lift and Hold', 'Squeeze', 'Release', 'Pulse', 'Elevator', 'Ground Floor Up', 'Top Floor', 'Hold the Lift', 'Gentle Squeeze', 'Strong Base', 'Power Up'],
     cycle: ['floor', 'hips'],
     dayTypes: {
@@ -1409,8 +1409,8 @@ const CONFIGS = [
   // ---- Sex positions ----
   {
     id: 'the-pretzel', added: 16, catalogue: 9, name: 'The Pretzel', subject: 'Sex positions', minutes: [26, 31], levers: [null, 'holds', 'reps'],
-    split: 'Hip opening / inner-thigh strength', blurb: 'Bend into the positions that knot you: deep hip-opening flows, then inner-thigh and hip strength to hold them.',
-    about: 'For the positions that tie you in a knot while you fuck. One day is a long hip-opening flow: pigeon, frog, lizard and happy baby, held long. The next builds strength at those same angles: Cossack squats, Copenhagen planks, side-lying adductions and frog pumps, so the range is yours to use, not just to reach. Level II makes every hold longer and Level III adds reps.',
+    split: 'Hip opening / inner-thigh strength', blurb: 'Hip-opening flows so you can get into the knotted positions and stay there, then strength at those angles.',
+    about: 'For the pretzel and the other knotted holds, which ask your hips to open and stay. One day is a long hip-opening flow: pigeon, frog, lizard and happy baby, held long. The next builds strength at those same angles: Cossack squats, Copenhagen planks, side-lying adductions and frog pumps, so the range is yours to fuck in, not just to reach. Level II makes every hold longer and Level III adds reps.',
     names: ['Pretzel', 'Twist', 'Knot', 'Reef Knot', 'Granny Knot', 'Figure of Eight', 'Bowline Hips', 'Tangle', 'Twister', 'Contortionist', 'Gumby', 'Rubber Band', 'Elastic Girl', 'Origami', 'Folded', 'Bent Over Backwards', 'Lotus', 'Pigeon', 'Lizard', 'Happy Baby'],
     cycle: ['open', 'strong'],
     dayTypes: {
@@ -1420,8 +1420,8 @@ const CONFIGS = [
   },
   {
     id: 'legs-over-shoulders', added: 16, catalogue: 9, name: 'Legs Over Shoulders', subject: 'Sex positions', minutes: [26, 31], levers: [null, 'holds', 'variation'],
-    split: 'Hamstrings & core / hamstring flow', blurb: 'Legs high and comfortable while you fuck: hamstring and hip flexibility, and the core to stay there.',
-    about: 'For fucking with legs up high and hips curled in. Lying hamstring stretches, half splits and forward folds open the back of the legs; leg raises, hollow holds and dead bugs build the core that keeps the hips curled and steady. One day leads with strength, the other with a long flow. Level II makes every hold longer and Level III brings harder moves.',
+    split: 'Hamstrings & core / hamstring flow', blurb: 'Hamstring and hip flexibility so you can fold over her with her legs high, and the core to keep driving.',
+    about: 'For missionary with her legs up, you folded over her and still driving. Lying hamstring stretches, half splits and forward folds open the back of your legs; leg raises, hollow holds and dead bugs build the core that keeps you thrusting in that close fold. One day leads with strength, the other with a long flow. Level II makes every hold longer and Level III brings harder moves.',
     names: ['Ankles Up', 'Sky High', 'Feet to Ceiling', 'Legs Up', 'Over the Top', 'Deep Fold', 'Candlestick', 'Plough', 'Jackknife', 'Folding Chair', 'Pike', 'Butterfly Up', 'High Kick', 'Can-can', 'Ballerina Legs', 'Rockette', 'Showgirl', 'Leg Lift', 'Hamstring Heaven', 'Toes to Nose'],
     cycle: ['core', 'flow'],
     dayTypes: {
@@ -1431,8 +1431,8 @@ const CONFIGS = [
   },
   {
     id: 'doggy-style-ready', added: 16, catalogue: 9, name: 'Doggy Style Ready', subject: 'Sex positions', minutes: [26, 31], levers: [null, 'reps', 'holds'],
-    split: 'Hips & back / knees & core', blurb: 'Doggy on all fours or behind: hip drive and back care one day, knees, core and holds the next.',
-    about: 'For positions on all fours, from either side. One day trains hip drive and keeps the lower back happy: hip thrusts, bird dogs, cat-cow and back-care moves. The other builds steady knees, hips and core in a kneeling and table position: rock-backs, bear holds and planks. A happy back and strong hips make it comfortable for a longer fuck. Level II adds reps and Level III makes every hold longer.',
+    split: 'Hips & back / knees & core', blurb: 'Doggy from behind: hip drive and back care one day, knees, core and holds the next, so you can pound her.',
+    about: 'For putting her on all fours and fucking her from behind. One day trains hip drive and keeps the lower back happy: hip thrusts, bird dogs, cat-cow and back-care moves. The other builds steady knees, hips and core in a kneeling position: rock-backs, bear holds and planks. A happy back and strong hips let you pound her without folding. Level II adds reps and Level III makes every hold longer.',
     names: ['All Fours', 'Table Top', 'Bird Dog', 'Puppy Pose', 'Cat Cow', 'Downward Dog', 'Good Boy', 'Fetch', 'Sit Stay', 'Roll Over', 'Play Dead', 'Wag', 'Howl', 'Bark', 'Leash', 'Collar', 'Treat', 'Best in Show', 'Top Dog', 'Dog Days'],
     cycle: ['hips', 'knees'],
     dayTypes: {
@@ -1442,8 +1442,8 @@ const CONFIGS = [
   },
   {
     id: 'reverse-cowgirl', added: 16, catalogue: 9, name: 'Reverse Cowgirl', subject: 'Sex positions', minutes: [26, 31], levers: [null, 'reps', 'holds'],
-    split: 'Quads & balance / thighs & hips', blurb: 'Quads, gripping inner thighs and balance for riding his cock facing away, plus hips that sit deep.',
-    about: 'Facing away and on top asks for strong quads, inner thighs that grip, balance and hips that let you sit deep on his cock. One day is quads and balance: split squats, wall sits and single-leg work. The next is inner thighs and hip mobility with a deep squat flow. Level II adds reps and Level III makes every hold longer.',
+    split: 'Quads & balance / thighs & hips', blurb: 'When she sits on your cock facing away: hips that thrust up, a core that lasts, and the range to stay deep.',
+    about: 'She faces away and sits on your cock; you hold her hips and fuck up into her. That asks for strong quads and hips, inner thighs, balance, and the range in your own hips to stay deep while she moves. One day is quads and balance: split squats, wall sits and single-leg work. The next is inner thighs and hip mobility with a deep squat flow. Level II adds reps and Level III makes every hold longer.',
     names: ['Facing Away', 'Rear View Ride', 'Back to Front', 'Reverse Gear', 'Rewind', 'Turnaround', 'About Face', 'U-turn', 'Backspin', 'Flip Side', 'Mirror Image', 'Over the Shoulder', 'Look Back', 'Glance Back', 'Throwback', 'Rearview', 'Hindsight', 'Back Seat', 'Rumble Seat', 'Saddle Back'],
     cycle: ['quads', 'thighs'],
     dayTypes: {
@@ -1453,8 +1453,8 @@ const CONFIGS = [
   },
   {
     id: 'wheelbarrow', added: 16, catalogue: 9, name: 'Wheelbarrow', subject: 'Sex positions', minutes: [26, 31], equip: 'bw', levers: [null, 'holds', 'reps'],
-    split: 'Arms & core holds / push & bridge', blurb: 'Hold yourself up on your hands while you get fucked: plank, bear and push-up holds, bridges, no equipment.',
-    about: 'For positions where you hold yourself up on your hands and get fucked. One day is long holds: planks, push-up bottom holds, bear holds and pike holds. The other builds push-up strength and the bridges and glutes for the other half of the move. No equipment needed. Level II makes every hold longer and Level III adds reps.',
+    split: 'Arms & core holds / push & bridge', blurb: 'Hold her up by the hips and fuck her like a wheelbarrow: plank, bear and push-up holds, bridges, no gear.',
+    about: 'For the positions where you hold her off the floor by the hips or thighs and fuck her while she is on her hands. One day is long holds: planks, push-up bottom holds, bear holds and pike holds, so your shoulders and core last. The other builds push-up strength and the bridges and glutes that drive into her. No equipment needed. Level II makes every hold longer and Level III adds reps.',
     names: ['Wheelbarrow', 'Handstand', 'Hand Walk', 'Bear Walk', 'Crab Walk', 'Plank Up', 'Hold Position', 'Brace Yourself', 'Arms Locked', 'Steady Hands', 'Strong Wrists', 'Upper Hand Hold', 'Push Back', 'Lean In', 'Ground Control', 'Grounded', 'Rooted Hands', 'Table Hold', 'Bridge Over', 'Arch Up'],
     cycle: ['holds', 'push'],
     dayTypes: {
@@ -1464,8 +1464,8 @@ const CONFIGS = [
   },
   {
     id: 'standing-o', added: 16, catalogue: 9, name: 'Standing O', subject: 'Sex positions', minutes: [28, 33], levers: [null, 'weight', 'holds'],
-    split: 'Legs & lift / balance & holds', blurb: 'For standing sex: legs and back to lift and hold, calves and balance so you stay steady on your feet.',
-    about: 'For fucking on your feet without folding into a wobble. One day builds the legs and back to lift and hold: squats, deadlifts and carries. The other trains balance and endurance on your feet: calf raises and holds, single-leg work and wall sits. Steady feet and strong legs keep it going instead of wobbling. Level II asks for heavier weights and Level III makes every hold longer.',
+    split: 'Legs & lift / balance & holds', blurb: 'For standing sex: legs and back to lift her and hold, calves and balance so you stay steady while you fuck.',
+    about: 'For fucking her on your feet without folding into a wobble. One day builds the legs and back to lift and hold her: squats, deadlifts and carries. The other trains balance and endurance on your feet: calf raises and holds, single-leg work and wall sits. Steady feet and strong legs keep your cock in her instead of wobbling. Level II asks for heavier weights and Level III makes every hold longer.',
     names: ['Standing Ovation', 'On Your Feet', 'Stand and Deliver', 'Upright', 'Tall Order', 'Up Against It', 'Wall Flower', 'Tiptoe Up', 'Stand Firm', 'Take a Stand', 'Stand Tall', 'Stand By Me', 'Stand Up Guy', 'Grandstand', 'Bandstand', 'Stand Easy', 'Last Stand', 'Stand Off', 'Kickstand', 'Nightstand'],
     cycle: ['lift', 'balance'],
     dayTypes: {
@@ -1475,8 +1475,8 @@ const CONFIGS = [
   },
   {
     id: 'splits-in-bed', added: 16, catalogue: 9, name: 'Splits in Bed', subject: 'Sex positions', minutes: [24, 29], levers: [null, 'holds', 'holds'],
-    split: 'Front split / straddle', blurb: 'Toward a front split and a wide straddle you can fuck in: long flows with strength at the end of the range.',
-    about: 'Working toward the splits, front and side, wide enough to fuck in. One day is a front-split flow, half splits, lizards and lunges held long; the other a straddle flow, frog, butterfly and wide-leg folds. Each starts with a short strength circuit at the end of the range, which is what makes new flexibility stick. Both later levels make every hold longer.',
+    split: 'Front split / straddle', blurb: 'Toward a front split and a wide straddle so you can get deeper: long flows with strength at the end of the range.',
+    about: 'Working toward the splits, front and side, so your hips can drop close and stay there. One day is a front-split flow, half splits, lizards and lunges held long; the other a straddle flow, frog, butterfly and wide-leg folds. Each starts with a short strength circuit at the end of the range, which is what makes new flexibility stick. Both later levels make every hold longer.',
     names: ['Split Second', 'Full Split', 'Half Split', 'Middle Split', 'Side Split', 'Straddle', 'Pancake', 'Frog Legs', 'Butterfly Wings', 'Wide Open', 'Spread Eagle', 'Starfish Legs', 'Ballet Barre', 'Gymnast Split', 'Cheerleader', 'Dancer', 'Ice Skater', 'Grand Jeté', 'Splits Pending', 'Flat to the Floor'],
     cycle: ['front', 'side'],
     dayTypes: {
@@ -1486,8 +1486,8 @@ const CONFIGS = [
   },
   {
     id: 'bendy-body', added: 16, catalogue: 9, name: 'Bendy Body', subject: 'Sex positions', minutes: [24, 29], levers: [null, 'holds', 'variation'],
-    split: 'Backbends & hips / twists & shoulders', blurb: 'A body that bends every way you fuck: backbends, hip openers, twists and shoulder openers, with core between.',
-    about: 'Flexible all over, not just in the hips, for positions that bend you while you fuck. One day is backbends and hip openers: bridge, camel, cobra and pigeon. The other is twists and shoulder openers, for the positions where you turn or reach back. A short strength circuit for the back starts each day so the new range comes with control. Level II makes every hold longer and Level III brings deeper poses.',
+    split: 'Backbends & hips / twists & shoulders', blurb: 'A body that bends so you can fold over her, arch, and hold the angle: backbends, hip openers, twists, core.',
+    about: 'Flexible all over, not just in the hips, so you can fold over her, arch, and twist without your back complaining. One day is backbends and hip openers: bridge, camel, cobra and pigeon. The other is twists and shoulder openers, for the positions where you reach or turn. A short strength circuit for the back starts each day so the new range comes with control. Level II makes every hold longer and Level III brings deeper poses.',
     names: ['Bendy', 'Willow', 'Reed', 'Bamboo Bend', 'Rubber', 'Flex Appeal', 'Limber', 'Supple', 'Lithe', 'Loose', 'Fluid', 'Liquid', 'Wave', 'Ripple', 'Serpent', 'Cobra', 'Camel', 'Bow', 'Wheel', 'Scorpion'],
     cycle: ['back', 'twist'],
     dayTypes: {
@@ -1497,8 +1497,8 @@ const CONFIGS = [
   },
   {
     id: 'kama-sutra-30', added: 16, catalogue: 9, days: 30, name: 'Kama Sutra 30', subject: 'Sex positions', minutes: [28, 33], levers: [null, 'reps', 'holds'],
-    split: 'Hips strong / hips open / hold it, 30 days', blurb: 'Thirty days of positions: hip strength, hip range and the holds that keep you there while you fuck.',
-    about: 'A month that works through what the classics ask of a body you fuck in. One day builds hip and inner-thigh strength with a short stretch after; the next opens the hips and hamstrings with a long flow after a short strength circuit at the same angles; the third trains the holds, wall sits, bridges and planks, with a stamina burst. Every day mixes two kinds of work, and every ten days it gets harder.',
+    split: 'Hips strong / hips open / hold it, 30 days', blurb: 'Thirty days of positions: hip strength, hip range and the holds that keep you driving while you fuck her.',
+    about: 'A month that works through what the classics ask of your hips, hamstrings and core. One day builds hip and inner-thigh strength with a short stretch after; the next opens your hips and hamstrings with a long flow after a short strength circuit at the same angles; the third trains the holds, wall sits, bridges and planks, with a stamina burst. Every day mixes two kinds of work, and every ten days it gets harder.',
     names: ['Chapter One', 'The Lotus', 'The Bridge', 'The Swan', 'The Lion', 'The Tiger', 'The Crab', 'The Elephant', 'The Mare', 'The Cobra', 'The Butterfly', 'The Peacock', 'The Bow', 'The Wheel', 'The Plough', 'The Fan', 'The Moon', 'The Star', 'The Scissors', 'The Last Page'],
     cycle: ['strong', 'open', 'hold'],
     dayTypes: {
@@ -1509,8 +1509,8 @@ const CONFIGS = [
   },
   {
     id: 'flexible-lover-30', added: 16, catalogue: 9, days: 30, name: 'Flexible Lover 30', subject: 'Sex positions', minutes: [24, 29], equip: 'bw', levers: [null, 'holds', 'reps'],
-    split: 'Open & strong / bend & hold, 30 days', blurb: 'A month of flexibility you can fuck with: open hips and hamstrings, then bend and hold, no equipment.',
-    about: 'A month of flexibility you can actually use while you fuck, on the floor with nothing else. One day pairs a hip-opening flow with bodyweight strength at the same angles; the next pairs backbends and twists with holds that keep you steady. Every day mixes flexibility with strength, and every ten days it gets harder: longer holds at Level II, more reps at Level III.',
+    split: 'Open & strong / bend & hold, 30 days', blurb: 'A month of flexibility you can fuck her with: open hips and hamstrings so you get deeper, then bend and hold.',
+    about: 'A month of flexibility you can actually use while you fuck her, on the floor with nothing else. One day pairs a hip-opening flow with bodyweight strength at the same angles, so you can fold over her and stay; the next pairs backbends and twists with holds that keep you driving. Every day mixes flexibility with strength, and every ten days it gets harder: longer holds at Level II, more reps at Level III.',
     names: ['Open Up', 'Loosen Up', 'Bend Over', 'Stretch Out', 'Reach', 'Unfold', 'Unwind Hips', 'Melt', 'Soften', 'Sink', 'Deepen', 'Open Wide', 'Arch', 'Curl', 'Twist and Shout', 'Roll With It', 'Let Go', 'Give In', 'Surrender', 'Bliss'],
     cycle: ['open', 'bend'],
     dayTypes: {
