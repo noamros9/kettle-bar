@@ -317,8 +317,16 @@
       const cp = computed(recipe.catalogue);
       const allow = (id) => allowedIn(recipe.equip, EX[id]);
       const { used, count } = memory;
+      // Explicit sex blocks name one of these. Kept off POOLS: catalogue 11 may live only in fuck, anal, toy, oralSex, hands and explicit.
+      // Basics (basic: 1) weigh 5 against 3. A sex day draws two pools at different rates, and 5:3 is what lands the
+      // combined mean near 1.5x. Every other pool sorts as it always has.
+      const merged = {
+        sexPositions: [...new Set([...cp.explicit, ...POOLS.positions])],
+        sexWarm: [...new Set([...POOLS.oralSex, ...POOLS.hands, ...POOLS.oral, ...POOLS.tease, ...POOLS.massage])],
+        sexFuck: [...new Set([...POOLS.fuck, ...POOLS.anal, ...POOLS.toy, ...POOLS.positions])],
+      };
       const pool = (name) => {
-        const p = cp[name] || POOLS[name] || [name];
+        const p = merged[name] || cp[name] || POOLS[name] || [name];
         const list = p.filter((id) => EX[id] && allow(id));
         if (!list.length) throw new Error(`${recipe.program}: pool ${name} is empty`);
         return list;
@@ -326,7 +334,10 @@
       const candidate = (name, taken) => {
         const opts = pool(name).filter((id) => !taken.has(id));
         const list = opts.length ? opts : pool(name);
-        list.sort((a, b) => ((used[a] || -99) - (used[b] || -99)) || ((count[a] || 0) - (count[b] || 0)) || (rnd() - 0.5));
+        if (merged[name]) {
+          const w = (id) => (EX[id].basic ? 5 : 3);
+          list.sort((a, b) => ((count[a] || 0) * w(b) - (count[b] || 0) * w(a)) || ((used[a] || -99) - (used[b] || -99)) || (rnd() - 0.5));
+        } else list.sort((a, b) => ((used[a] || -99) - (used[b] || -99)) || ((count[a] || 0) - (count[b] || 0)) || (rnd() - 0.5));
         taken.add(list[0]);
         return list[0];
       };

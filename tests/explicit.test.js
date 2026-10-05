@@ -1,5 +1,5 @@
-// Phase 20 ticket 8: Explicit, 20 programs, three session shapes. Catalogue 11 exercises sit alongside catalogue 10's
-// couple exercises. A positions-only day is one family, marked `oneFamily` so the two-families rule skips it, and only it.
+// Phase 20 ticket 8: Explicit, 20 programs, three session shapes. Each sex block draws one merged pool (old and new
+// together), basics about 1.5x. A positions-only day is one family, marked `oneFamily`, and only it.
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const { EX } = require('../exercises.js');
@@ -18,11 +18,24 @@ const WARM = ['oralSex', 'hands', 'oral', 'tease', 'massage'];
 const FUCK = ['fuck', 'anal', 'toy', 'positions'];
 const explicit = new Set(poolsAt(11).explicit);
 const inPool = (name, id) => (name === 'explicit' ? explicit.has(id) : POOLS[name].includes(id));
+// Same unions the builder merges for sexPositions, sexWarm and sexFuck. Not on POOLS (catalogue 11 stays in its own pools).
+const MERGE = {
+  sexPositions: ['explicit', 'positions'],
+  sexWarm: ['oralSex', 'hands', 'oral', 'tease', 'massage'],
+  sexFuck: ['fuck', 'anal', 'toy', 'positions'],
+};
+const idsIn = (name) => (MERGE[name] ? [...new Set(MERGE[name].flatMap(idsIn))] : (name === 'explicit' ? [...explicit] : (POOLS[name] || [name])));
+const sexBlocks = (id) => Object.values(cfgOf(id).dayTypes).flatMap((t) => (SHAPE[id] === 'gym' ? t.blocks.slice(1) : t.blocks));
+const usable = (id) => [...new Set(sexBlocks(id).flatMap((b) => b.slots.map((s) => s.replace('?', '')).flatMap(idsIn)))].filter((ex) => EX[ex] && EX[ex].cat === 'couple');
+const median = (ns) => {
+  const s = [...ns].sort((a, b) => a - b);
+  const m = Math.floor(s.length / 2);
+  return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2;
+};
 const cfgOf = (id) => CONFIGS.find((c) => c.id === id);
 const mains = (d) => d.blocks.filter((b) => b.kind !== 'abs' && b.kind !== 'warmup' && b.kind !== 'cooldown');
 const programs = CONFIGS.filter((c) => IDS.includes(c.id)).map((c) => Builder.build(c, cat));
 const prog = (id) => programs.find((p) => p.id === id);
-const addedOf = (items) => new Set(items.map((it) => EX[it.ex].added));
 
 test('Explicit: the 20 programs, for two, catalogue 11, 60 days, out of build your own', () => {
   assert.deepEqual(programs.map((p) => p.id), IDS);
@@ -48,46 +61,41 @@ test('Explicit: the 20 programs, for two, catalogue 11, 60 days, out of build yo
   assert.deepEqual(R.pick({ subjects: ['Explicit'] }), []);
 });
 
-test('every day is its shape, and every sex block draws catalogue 10 and catalogue 11', () => {
-  IDS.forEach((id) => prog(id).days.forEach((d) => {
-    const m = mains(d);
-    const where = `${id} d${d.day}`;
-    assert.ok(m.every((b) => TAGS.includes(b.family)), `${where}: untagged`);
-    assert.ok(!d.blocks.some((b) => b.kind === 'abs'), `${where}: abs`);
-    m.forEach((b) => {
-      const ids = b.items.map((it) => it.ex);
-      assert.equal(new Set(ids).size, ids.length, `${where} ${b.title}`);
-      assert.ok(ids.every((ex) => EX[ex].cat === 'couple'), `${where}: a solo exercise`);
-    });
-    const dayAdded = addedOf(m.flatMap((b) => b.items));
-    assert.ok(dayAdded.has(10) && dayAdded.has(11), `${where}: both catalogues`);
-    if (SHAPE[id] === 'gym') {
-      assert.equal(m.length, 2, where);
-      assert.equal(m[1].title, 'Positions', where);
-      assert.equal(m[1].format, 'flow', where);
-      assert.ok(m[0].items.every((it) => EX[it.ex].added === 10 && !inPool('explicit', it.ex) && !inPool('positions', it.ex)), `${where}: gym block`);
-      assert.ok(m[1].items.every((it) => inPool('explicit', it.ex) || inPool('positions', it.ex)), `${where}: positions`);
-      const sex = addedOf(m[1].items);
-      assert.ok(sex.has(10) && sex.has(11), `${where}: positions block mixes both catalogues`);
-    } else if (SHAPE[id] === 'sex') {
-      assert.equal(m.length, 2, where);
-      assert.equal(m[0].title, 'Warm-up', where);
-      assert.equal(m[1].title, 'Fuck', where);
-      assert.ok(m[0].items.every((it) => WARM.some((n) => inPool(n, it.ex))), `${where}: warm-up`);
-      assert.ok(m[1].items.every((it) => FUCK.some((n) => inPool(n, it.ex))), `${where}: fuck`);
-      [0, 1].forEach((i) => {
-        const a = addedOf(m[i].items);
-        assert.ok(a.has(10) && a.has(11), `${where}: ${m[i].title} mixes both catalogues`);
+test('every day is its shape, and both catalogues appear in every program', () => {
+  IDS.forEach((id) => {
+    const added = new Set();
+    prog(id).days.forEach((d) => {
+      const m = mains(d);
+      const where = `${id} d${d.day}`;
+      assert.ok(m.every((b) => TAGS.includes(b.family)), `${where}: untagged`);
+      assert.ok(!d.blocks.some((b) => b.kind === 'abs'), `${where}: abs`);
+      m.forEach((b) => {
+        const ids = b.items.map((it) => it.ex);
+        assert.equal(new Set(ids).size, ids.length, `${where} ${b.title}`);
+        assert.ok(ids.every((ex) => EX[ex].cat === 'couple'), `${where}: a solo exercise`);
+        ids.forEach((ex) => added.add(EX[ex].added));
       });
-    } else {
-      assert.equal(m.length, 1, where);
-      assert.equal(m[0].title, 'Positions', where);
-      assert.equal(m[0].format, 'flow', where);
-      assert.ok(m[0].items.every((it) => inPool('explicit', it.ex) || inPool('positions', it.ex)), `${where}: positions`);
-      const a = addedOf(m[0].items);
-      assert.ok(a.has(10) && a.has(11), `${where}: the flow mixes both catalogues`);
-    }
-  }));
+      if (SHAPE[id] === 'gym') {
+        assert.equal(m.length, 2, where);
+        assert.equal(m[1].title, 'Positions', where);
+        assert.equal(m[1].format, 'flow', where);
+        assert.ok(m[0].items.every((it) => EX[it.ex].added === 10 && !inPool('explicit', it.ex) && !inPool('positions', it.ex)), `${where}: gym block`);
+        assert.ok(m[1].items.every((it) => inPool('explicit', it.ex) || inPool('positions', it.ex)), `${where}: positions`);
+      } else if (SHAPE[id] === 'sex') {
+        assert.equal(m.length, 2, where);
+        assert.equal(m[0].title, 'Warm-up', where);
+        assert.equal(m[1].title, 'Fuck', where);
+        assert.ok(m[0].items.every((it) => WARM.some((n) => inPool(n, it.ex))), `${where}: warm-up`);
+        assert.ok(m[1].items.every((it) => FUCK.some((n) => inPool(n, it.ex))), `${where}: fuck`);
+      } else {
+        assert.equal(m.length, 1, where);
+        assert.equal(m[0].title, 'Positions', where);
+        assert.equal(m[0].format, 'flow', where);
+        assert.ok(m[0].items.every((it) => inPool('explicit', it.ex) || inPool('positions', it.ex)), `${where}: positions`);
+      }
+    });
+    assert.ok(added.has(10) && added.has(11), `${id}: both catalogues`);
+  });
 });
 
 test('two families a day, except a day marked oneFamily, and only positions-only days are marked', () => {
@@ -116,4 +124,31 @@ test('minutes: most about 31–40, a few shorter, a few toward 54, and every day
   assert.ok(mids.filter((m) => m >= 31 && m <= 40).length >= 14, 'most programs about 31–40');
   assert.ok(mids.filter((m) => m < 31).length >= 2, 'a few shorter');
   assert.ok(mids.filter((m) => m > 40).length >= 2 && IDS.filter((id) => cfgOf(id).minutes[1] >= 50).length >= 2, 'a few toward 54');
+});
+
+test('each sex block draws its exercises at equal odds, basics about 1.5x', () => {
+  IDS.forEach((id) => {
+    const pool = usable(id);
+    const counts = Object.fromEntries(pool.map((ex) => [ex, 0]));
+    const sexOf = (d) => (SHAPE[id] === 'gym' ? [mains(d)[1]] : mains(d));
+    prog(id).days.forEach((d) => sexOf(d).forEach((b) => b.items.forEach((it) => { if (counts[it.ex] !== undefined) counts[it.ex]++; })));
+    pool.forEach((ex) => assert.ok(counts[ex] >= 1, `${id}: ${ex} never appears`));
+    const basics = pool.filter((ex) => EX[ex].basic === 1);
+    const rest = pool.filter((ex) => EX[ex].basic !== 1);
+    assert.ok(basics.length && rest.length, `${id}: basics ${basics.length}, others ${rest.length}`);
+    const mean = (xs) => xs.reduce((s, ex) => s + counts[ex], 0) / xs.length;
+    const ratio = mean(basics) / mean(rest);
+    assert.ok(ratio >= 1.2 && ratio <= 2, `${id}: basics are ${ratio.toFixed(2)}x the others`);
+    const med = median(rest.map((ex) => counts[ex]));
+    rest.forEach((ex) => assert.ok(counts[ex] <= 3 * med, `${id}: ${ex} appears ${counts[ex]}, median ${med}`));
+  });
+});
+
+test('abouts and blurbs describe the session, not the builder', () => {
+  const banned = /\b(slot|dealt|deals|deal|catalogue|old ones|new ones|old positions|new positions|positions you (already )?know|the new exercises)\b/i;
+  IDS.forEach((id) => {
+    const c = cfgOf(id);
+    assert.doesNotMatch(c.blurb, banned, `${id} blurb`);
+    assert.doesNotMatch(c.about, banned, `${id} about`);
+  });
 });

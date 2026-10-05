@@ -26,36 +26,36 @@ const buildUp = (label, short, work, tease, positions) => ({ label, short, absSl
 // an alternating day: partner sets and positions in turn, round after round, then a massage to finish
 const rounds = (label, short, slots, values, finish = ['back_massage']) => ({ label, short, absSlots: [], blocks: [C('Rounds', slots, { ...COND, values }), F('Massage', finish, TEASE)] });
 
-// Phase 20 ticket 8: Explicit. Catalogue 11 exercises alongside catalogue 10's couple exercises, in every sex block.
+// Phase 20 ticket 8: Explicit. Each sex block draws one merged pool, so every exercise it can use has the same chance, basics about 1.5x.
 const EXPLICIT = { added: 20, catalogue: 11, couple: true, equip: 'bw' };
-// partner work, then a positions block from `explicit` and catalogue 10's `positions`
+// partner work, then positions from sexPositions (explicit and positions together)
 const gymThenSex = (label, short, work, positions, flow) => ({ label, short, absSlots: [], blocks: [work, F('Positions', positions, { ...POS, ...flow })] });
-// warm-up from oralSex/hands with oral/tease/massage, then intercourse from fuck/anal/toy with positions
+// warm-up from sexWarm, then intercourse from sexFuck
 const sexThenSex = (label, short, warmup, fuck, warm, intercourse) => ({ label, short, absSlots: [], blocks: [F('Warm-up', warmup, { ...TEASE, ...warm }), F('Fuck', fuck, { ...POS, ...intercourse })] });
-// one positions flow from `explicit` and `positions`. One family. `oneFamily` marks it so the two-families test skips it, and only it.
+// one positions flow from sexPositions. One family. oneFamily marks it so the two-families test skips it, and only it.
 const positionsOnly = (label, short, positions, flow) => ({ label, short, absSlots: [], oneFamily: true, blocks: [F('Positions', positions, { ...POS, ...flow })] });
+const poses = (pool, keep, drop) => [...Array(keep).fill(pool), ...Array(drop).fill(pool + '?')];
 const GYM_WORK = ['partnerLower', 'partnerUpper', 'partnerCore', 'partnerHold?'];
 const GYM_STRONG = ['partnerLower', 'partnerUpper', 'partnerHold', 'partnerCore?'];
 const GYM_LIFT = ['partnerHold', 'partnerLower', 'partnerUpper', 'partnerCore?'];
 const GYM_KISS = ['kiss_squat', 'kiss_pushup', 'partnerCore', 'partnerLower?'];
 const GYM_LONG_WORK = ['partnerLower', 'partnerUpper', 'partnerCore', 'partnerHold', 'partner?'];
-const GYM_POS = ['explicit', 'positions', 'explicit', 'positions', 'explicit?', 'positions?'];
-const GYM_POS_B = ['positions', 'explicit', 'positions', 'explicit', 'positions?', 'explicit?'];
-const GYM_SHORT_POS = ['explicit', 'positions', 'explicit?', 'positions?'];
-const GYM_LONG_POS = ['positions', 'explicit', 'positions', 'explicit', 'positions', 'positions?', 'explicit?', 'positions?'];
-const SEX_WARM = ['oralSex', 'hands', 'oral', 'massage', 'tease', 'oralSex?', 'hands?'];
-const SEX_MOUTH = ['oralSex', 'oral', 'oralSex', 'massage', 'tease?', 'hands?'];
-const SEX_HANDS = ['hands', 'oralSex', 'oral', 'tease', 'massage?', 'hands?'];
-const SEX_TEASE = ['massage', 'tease', 'oralSex', 'oral', 'hands?', 'massage?'];
-const SEX_SHORT_WARM = ['oralSex', 'oral', 'hands', 'massage', 'tease?'];
-const SEX_LONG_WARM = ['oralSex', 'oral', 'massage', 'hands', 'oralSex', 'tease?', 'oral?', 'massage?'];
-const SEX_FUCK = ['fuck', 'positions', 'anal', 'positions', 'toy?', 'fuck?'];
-const SEX_DEEP = ['fuck', 'anal', 'positions', 'toy', 'positions?', 'anal?'];
-const SEX_SHORT_FUCK = ['fuck', 'positions', 'anal', 'toy?'];
-const SEX_LONG_FUCK = ['fuck', 'positions', 'anal', 'positions', 'toy', 'fuck?', 'positions?', 'anal?'];
-// enough catalogue-10 positions that a short catalogue-11 draw can still reach the band, and enough optionals to drop when Level III runs long
-const ONLY_FLOW = ['positions', 'explicit', 'positions', 'positions', 'explicit', 'positions', 'positions', 'positions', 'positions?', 'positions?', 'explicit?', 'positions?', 'explicit?', 'positions?'];
-const ONLY_ALT = ['explicit', 'positions', 'positions', 'explicit', 'positions', 'positions', 'positions', 'positions', 'explicit?', 'positions?', 'positions?', 'explicit?', 'positions?', 'positions?'];
+const GYM_POS = poses('sexPositions', 4, 2);
+const GYM_POS_B = poses('sexPositions', 4, 2);
+const GYM_SHORT_POS = poses('sexPositions', 2, 2);
+const GYM_LONG_POS = poses('sexPositions', 5, 3);
+const SEX_WARM = poses('sexWarm', 5, 2);
+const SEX_MOUTH = poses('sexWarm', 4, 2);
+const SEX_HANDS = poses('sexWarm', 4, 2);
+const SEX_TEASE = poses('sexWarm', 4, 2);
+const SEX_SHORT_WARM = poses('sexWarm', 4, 1);
+const SEX_LONG_WARM = poses('sexWarm', 5, 3);
+const SEX_FUCK = poses('sexFuck', 4, 2);
+const SEX_DEEP = poses('sexFuck', 4, 2);
+const SEX_SHORT_FUCK = poses('sexFuck', 3, 1);
+const SEX_LONG_FUCK = poses('sexFuck', 5, 4);
+const ONLY_FLOW = poses('sexPositions', 8, 6);
+const ONLY_ALT = poses('sexPositions', 8, 6);
 
 // Positions tour (Phase 18 ticket 6): 30 one-off days. tour(...) pairs each position with each way to prepare for it
 // (positions × ways = 30 day types), dealt way by way so the same position never comes two days running; each day
@@ -906,7 +906,7 @@ module.exports = [
   {
     id: 'set-then-fuck', ...EXPLICIT, name: 'Set Then Fuck', subject: 'Explicit', minutes: [31, 40], levers: [null, 'reps', 'holds'],
     split: 'Partner circuit or strength, then positions', blurb: 'You train with her first, a partner circuit, then you lay her down and fuck her through the positions.',
-    about: 'One day is a partner circuit, squats and push-ups and core with her, and the other is slower partner strength. Then you put her on her back or turn her over and fuck her through a run of positions, the old ones and the new ones in the same block, your cock in her pussy. Level II adds reps to the partner work. Level III holds every position longer.',
+    about: 'One day you run a partner circuit with her, squats and push-ups and core, and the next day the strength sets are slower. Then you put her on her back, turn her over, or stand her up and fuck her, your cock in her pussy, one position after another. You stay in the hold long enough to feel it. Level II adds reps to the partner work. Level III holds every position longer.',
     names: ['First Set', 'Her on the Mat', 'After Reps', 'On Her Back', 'Her Legs Up', 'From Behind', 'Standing Fuck', 'Deep Hold', 'Second Set', 'Sweat on Her', 'Kiss the Rep', 'Spread Her', 'Long Stroke', 'Her Hips', 'Pin the Hold', 'Last Set', 'Cock In', 'Slow Grind', 'Her Thighs', 'Bed After'],
     cycle: ['circuit', 'strength'],
     dayTypes: {
@@ -917,7 +917,7 @@ module.exports = [
   {
     id: 'sweat-then-spread', ...EXPLICIT, name: 'Sweat Then Spread', subject: 'Explicit', minutes: [31, 40], levers: [null, 'reps', 'holds'],
     split: 'Partner strength or circuit, then positions', blurb: 'Partner strength until the sweat starts, then you spread her open and fuck her in long holds.',
-    about: 'You get the sweat on first. Partner strength one day and a circuit the next, then you spread her and fuck her. Long holds, your cock buried, her legs where you put them, mixing the positions you already know with the new ones. Level II adds reps to the partner work. Level III holds every position longer.',
+    about: 'You get the sweat on first. Partner strength one day and a circuit the next, then you spread her thighs and fuck her with your cock buried. Her legs stay where you put them, on your shoulders or open on the bed, and you hold there instead of racing the stroke. Level II adds reps to the partner work. Level III holds every position longer.',
     names: ['Sweat', 'Open Her', 'Thighs Wide', 'Hold It', 'Buried', 'Her Knees', 'Work First', 'Spread', 'Long Fuck', 'Dripping', 'Hips Up', 'Stay Deep', 'Second Round', 'Her Calves', 'Press In', 'Slow Spread', 'After Sweat', 'Wide', 'In Her', 'Last Hold'],
     cycle: ['strength', 'circuit'],
     dayTypes: {
@@ -928,7 +928,7 @@ module.exports = [
   {
     id: 'earn-the-pussy', ...EXPLICIT, name: 'Earn the Pussy', subject: 'Explicit', minutes: [31, 40], levers: [null, 'reps', 'holds'],
     split: 'Hard partner work, then positions', blurb: 'You do the hard partner work beside her, then you get your cock in her pussy and keep it there.',
-    about: 'The partner work is the price of the second block. You squat, push and carry beside her, then you get your cock in her pussy and you keep it there, moving through positions instead of rushing the hold. Both the positions you know and the new ones sit in that fucking block. Level II adds reps to the partner work. Level III holds every position longer.',
+    about: 'You pay for her pussy with the work. You squat, push and carry beside her until the set is done, then you get your cock in her and you keep it there. You move her through one position after another instead of rushing the hold, her cunt around you the whole time. Level II adds reps to the partner work. Level III holds every position longer.',
     names: ['Earn It', 'Pay For It', 'In Her Pussy', 'Keep It', 'Hard Set', 'After the Carry', 'Yours', 'Deep Enough', 'Worked For', 'Stay In', 'Her Pussy', 'No Rush', 'Long Enough', 'Taken', 'Held Open', 'The Price', 'Cock Deep', 'Still In', 'Last Rep', 'Kept'],
     cycle: ['circuit', 'carry'],
     dayTypes: {
@@ -939,7 +939,7 @@ module.exports = [
   {
     id: 'lift-her-then-fuck', ...EXPLICIT, name: 'Lift Her Then Fuck', subject: 'Explicit', minutes: [31, 40], levers: [null, 'reps', 'holds'],
     split: 'Carries and holds, then positions', blurb: 'You squat, carry and hold her, then you fuck her standing and on the bed, her legs where you put them.',
-    about: 'You spend the first block picking her up: carries, holds, squats with her weight on you. Then you fuck her, standing when the position says so and on the bed when it does not, her legs on your shoulders or around your waist, your cock in her. The new positions sit next to the ones you already fuck her in. Level II adds reps to the partner work. Level III holds every position longer.',
+    about: 'You spend the first part picking her up. Carries, holds and squats, her weight on you, and then you fuck her standing with her legs around your waist. On the bed her calves go on your shoulders, your cock in her, and you stay in the hold you put her in. Level II adds reps to the partner work. Level III holds every position longer.',
     names: ['Lift Her', 'On Your Hip', 'Carry', 'Hold Her Up', 'Then Fuck', 'Standing', 'Her Legs', 'Waist', 'Bed', 'Shoulders', 'Picked Up', 'Still Holding', 'Deep Stand', 'Her Weight', 'Put Her Down', 'Fuck Her There', 'Arms Full', 'Up', 'Down on the Bed', 'Last Carry'],
     cycle: ['carry', 'circuit'],
     dayTypes: {
@@ -950,7 +950,7 @@ module.exports = [
   {
     id: 'grind-after-reps', ...EXPLICIT, name: 'Grind After Reps', subject: 'Explicit', minutes: [31, 40], levers: [null, 'reps', 'holds'],
     split: 'Kiss squats and pushes, then positions', blurb: 'Kiss squats and partner pushes first, then a slow grind with your cock buried in her pussy.',
-    about: 'Kiss squats and partner pushes to start, close enough that you are already hard, then a slow grind with your cock in her pussy. One day leans on the circuit, the other on strength, and both end in the same kind of positions block, old and new, held rather than raced. Level II adds reps to the partner work. Level III holds every position longer.',
+    about: 'Kiss squats and partner pushes start you close enough that you are already hard. Then you grind with your cock buried in her pussy, slow circles from your hips, not a race. One day leans on the kissing circuit and the other on strength sets, and both end with you inside her. Level II adds reps to the partner work. Level III holds every position longer.',
     names: ['Kiss Squat', 'Then Grind', 'Buried', 'Slow Hip', 'After the Push', 'In Her', 'Close', 'Grind', 'Her Mouth Near', 'Reps Done', 'Stay Buried', 'Circle', 'Deep Grind', 'Hands on Her', 'Long One', 'No Rush', 'Hips', 'Second Grind', 'Still Hard', 'Last Kiss'],
     cycle: ['kiss', 'strength'],
     dayTypes: {
@@ -961,18 +961,18 @@ module.exports = [
   {
     id: 'short-and-dirty', ...EXPLICIT, name: 'Short and Dirty', subject: 'Explicit', minutes: [22, 30], levers: [null, 'reps', 'holds'],
     split: 'Short partner blast, then a short positions block', blurb: 'A short partner blast, then you bend her over and fuck her before either of you has cooled off.',
-    about: 'A short partner blast, not a full workout, and then you bend her over and fuck her while you are both still warm. Fewer positions, shorter holds, still a mix of the ones you know and the new ones, your cock in her pussy or her ass. It stays a short session on purpose. Level II adds reps to the partner work. Level III holds every position a little longer.',
+    about: 'A short partner blast, not a full workout, and then you bend her over while you are both still warm. You fuck her before either of you cools off, your cock in her pussy or her ass, fewer positions and shorter holds. It stays a short session on purpose. Level II adds reps to the partner work. Level III holds every position a little longer.',
     names: ['Short', 'Dirty', 'Bend Her', 'Quick Fuck', 'Still Warm', 'From Behind', 'No Cool-Down', 'Fast and Deep', 'Her Ass', 'Two Blocks', 'Blast', 'In Her', 'Before You Cool', 'Short Hold', 'Over', 'Hard and Brief', 'Sweat Left', 'Now', 'Deep Enough', 'Done Dirty'],
     cycle: ['blast', 'push'],
     dayTypes: {
       blast: gymThenSex('Short blast, then fuck', 'Blast', C('Short circuit', ['partnerLower', 'partnerUpper', 'partnerCore'], { ...LIFT, values: [2, 3, 4], pref: 3 }), GYM_SHORT_POS, { values: [1, 2, 3], pref: 1 }),
-      push: gymThenSex('Short strength, then fuck', 'Push', S('Short strength', ['partnerLower', 'partnerHold', 'partnerUpper'], { ...LIFT, values: [2, 3, 4], pref: 3 }), ['positions', 'explicit', 'positions?', 'explicit?'], { values: [1, 2, 3], pref: 1 }),
+      push: gymThenSex('Short strength, then fuck', 'Push', S('Short strength', ['partnerLower', 'partnerHold', 'partnerUpper'], { ...LIFT, values: [2, 3, 4], pref: 3 }), GYM_SHORT_POS, { values: [1, 2, 3], pref: 1 }),
     },
   },
   {
     id: 'long-afternoon', ...EXPLICIT, name: 'Long Afternoon', subject: 'Explicit', minutes: [46, 54], levers: [null, 'reps', 'holds'],
     split: 'Long partner workout, then a long positions block', blurb: 'A long partner workout together, then you fuck her through position after position for the rest of the afternoon.',
-    about: 'This one takes the afternoon. A long partner workout together, rounds enough to matter, then you fuck her through position after position until the session is the long one. The fucking block mixes the positions you already use with the new ones, and you stay in each hold. Level II adds reps to the partner work. Level III holds every position longer.',
+    about: 'This one takes the afternoon. A long partner workout together, rounds enough to matter, then you fuck her through position after position. You stay in each hold, on her back, from behind and standing, your cock in her until the session is the long one. Level II adds reps to the partner work. Level III holds every position longer.',
     names: ['Afternoon', 'No Rush', 'Long Work', 'Then Her', 'Position One', 'Stay', 'Hours', 'Deep Afternoon', 'Another Hold', 'Still Going', 'Her Again', 'Long Fuck', 'Unhurried', 'Round After', 'In Her Still', 'The Long One', 'Sun Low', 'Not Done', 'Keep Fucking', 'Last of the Day'],
     cycle: ['long', 'longer'],
     dayTypes: {
@@ -983,7 +983,7 @@ module.exports = [
   {
     id: 'mouth-then-cock', ...EXPLICIT, name: 'Mouth Then Cock', subject: 'Explicit', minutes: [31, 40], levers: [null, 'holds', 'holds'],
     split: 'Mouths and hands, then fucking', blurb: 'You eat her pussy and she sucks your cock, then you fuck her, in her pussy or her ass, for the rest of the session.',
-    about: 'The first block is mouths and hands: you eat her pussy, she sucks your cock, a tease and a massage in the mix. The second block is fucking, her pussy or her ass, with a toy if the slot deals one, and the older positions in the same run. Nothing here is a race to the end. Level II and Level III hold both blocks longer.',
+    about: 'You start with your mouth on her pussy and her mouth on your cock. Hands, a tease and a massage sit in that first stretch, and then you fuck her for the rest of the session. Her pussy or her ass, and a toy on her when you put one there, and you do not race it. Level II and Level III hold every part longer.',
     names: ['Eat Her', 'She Sucks', 'Then Cock', 'Her Mouth', 'Your Tongue', 'In After', 'Pussy or Ass', 'Deep After', 'Oral First', 'Fuck Second', 'Her Clit', 'Down Her Throat', 'Then In', 'Hold Deep', 'Both', 'Massage In', 'Slow Mouth', 'Hard After', 'Stay In', 'Last Thrust'],
     cycle: ['mouth', 'hands'],
     dayTypes: {
@@ -994,7 +994,7 @@ module.exports = [
   {
     id: 'tongue-then-thrust', ...EXPLICIT, name: 'Tongue Then Thrust', subject: 'Explicit', minutes: [31, 40], levers: [null, 'holds', 'holds'],
     split: 'Tongue on her, then a deep fuck', blurb: 'Your tongue works her clit until she is soaked, then you thrust your cock into her and hold it deep.',
-    about: 'You start with your tongue on her clit. Her mouth or her hand stays on your cock until she is soaked, and then you thrust in and hold deep. One day stays on oral, the other brings hands in harder, and the fuck block still mixes pussy, ass and the positions you already know. Level II and Level III hold both blocks longer.',
+    about: 'You start with your tongue on her clit. Her mouth or her hand stays on your cock until she is soaked, and then you thrust in and hold deep. One day stays on your tongue, the other works your fingers in harder, and then your cock goes in her pussy or her ass. Level II and Level III hold every part longer.',
     names: ['Tongue', 'Her Clit', 'Soaked', 'Then Thrust', 'Hold Deep', 'In Her', 'Slow Lick', 'Hard After', 'Open', 'Cock In', 'Wet', 'Drive', 'Stay Deep', 'Her Taste', 'Second Thrust', 'Buried', 'Long Lick', 'Fuck', 'Deeper', 'Held'],
     cycle: ['tongue', 'hands'],
     dayTypes: {
@@ -1004,19 +1004,19 @@ module.exports = [
   },
   {
     id: 'fingers-then-fuck', ...EXPLICIT, name: 'Fingers Then Fuck', subject: 'Explicit', minutes: [31, 40], levers: [null, 'holds', 'holds'],
-    split: 'Fingers and her hand, then fucking', blurb: 'You finger her while she strokes your cock, then you put it in and fuck her for the second block.',
-    about: 'Hands first. You finger her while she strokes your cock, with her mouth in the mix when the block deals it, and a little massage so it is not only speed. Then you put your cock in her and fuck her, pussy or ass, through the positions. Level II and Level III hold both blocks longer.',
+    split: 'Fingers and her hand, then fucking', blurb: 'You finger her while she strokes your cock, then you put it in and fuck her pussy.',
+    about: 'Hands first. You finger her cunt while she strokes your cock, and her mouth joins when you pull her down, with a little massage so it is not only speed. Then you put your cock in and fuck her, pussy or ass, and you keep it deep. Level II and Level III hold every part longer.',
     names: ['Fingers', 'Her Hand', 'Stroke', 'Then In', 'Two Fingers', 'Her Cunt', 'Slow Hand', 'Put It In', 'Fuck Her', 'Wet Fingers', 'Mutual', 'After Hands', 'Deep', 'In Her Pussy', 'Thumb', 'Second Block', 'Open Her', 'Cock', 'Hold', 'Fucked'],
     cycle: ['fingers', 'mouth'],
     dayTypes: {
-      fingers: sexThenSex('Fingers, then fuck', 'Fingers', SEX_HANDS, SEX_FUCK, { pref: 2 }, { pref: 2 }),
-      mouth: sexThenSex('Mouth and fingers, then fuck', 'Mouth', SEX_WARM, SEX_DEEP, { pref: 2 }, { pref: 2 }),
+      fingers: sexThenSex('Fingers, then fuck', 'Fingers', poses('sexWarm', 4, 3), SEX_FUCK, { pref: 2 }, { pref: 2 }),
+      mouth: sexThenSex('Mouth and fingers, then fuck', 'Mouth', poses('sexWarm', 5, 3), SEX_DEEP, { pref: 2 }, { pref: 2 }),
     },
   },
   {
     id: 'eat-then-pound', ...EXPLICIT, name: 'Eat Then Pound', subject: 'Explicit', minutes: [31, 40], levers: [null, 'holds', 'holds'],
-    split: 'Going down, then a hard fuck', blurb: 'You go down on her, fingers in it too, then you pound her pussy in the positions the second block deals.',
-    about: 'You go down on her to open the session, fingers in her too, her mouth on you if the warm-up deals it. Then you pound her pussy in the second block, your cock in deep, with anal and the older positions in the same run so the day is not one note. Level II and Level III hold both blocks longer.',
+    split: 'Going down, then a hard fuck', blurb: 'You go down on her, fingers in it too, then you pound her pussy hard and deep.',
+    about: 'You go down on her to open the session, fingers in her too, and her mouth on your cock while you are still between her legs. Then you pound her pussy, your cock in deep, and you take her ass in the same session so the day is not one note. You do not rush the holds just because the strokes are hard. Level II and Level III hold every part longer.',
     names: ['Go Down', 'Eat', 'Fingers Too', 'Then Pound', 'Her Pussy', 'Hard', 'Face In', 'Cock After', 'Deep Pound', 'Open', 'Tongue First', 'Hips', 'In Hard', 'Second', 'Ass Too', 'Stay', 'Rough Enough', 'Her Taste', 'Buried', 'Last Pound'],
     cycle: ['eat', 'hands'],
     dayTypes: {
@@ -1027,7 +1027,7 @@ module.exports = [
   {
     id: 'tease-then-bury', ...EXPLICIT, name: 'Tease Then Bury', subject: 'Explicit', minutes: [31, 40], levers: [null, 'holds', 'holds'],
     split: 'Massage and tease, then a deep hold', blurb: 'Massage, a slow tease and her mouth on your cock, then you bury it in her and hold deep.',
-    about: 'Massage, a slow tease, and her mouth on your cock before you bury it. The warm-up is the long part of the tease, hands and tongue included, and the second block is you inside her, holding deep in her pussy or her ass, old positions beside the new ones. Level II and Level III hold both blocks longer.',
+    about: 'You rub her down, tease her, and get her mouth on your cock before you bury it. Your hands and your tongue take their time on her cunt, and then you are inside her, holding deep in her pussy or her ass. You stay at the base instead of pulling out to chase a faster stroke. Level II and Level III hold every part longer.',
     names: ['Tease', 'Massage', 'Her Mouth', 'Bury It', 'Slow', 'Hold Deep', 'Hands First', 'Then In', 'Keep It', 'Deep', 'Rub', 'Suck', 'Inside', 'Stay Buried', 'Her Ass', 'Pussy', 'Long Tease', 'No Hurry', 'In to the Base', 'Held There'],
     cycle: ['tease', 'mouth'],
     dayTypes: {
@@ -1038,29 +1038,29 @@ module.exports = [
   {
     id: 'quick-and-deep', ...EXPLICIT, name: 'Quick and Deep', subject: 'Explicit', minutes: [22, 30], levers: [null, 'holds', 'holds'],
     split: 'Short mouths and hands, then a short fuck', blurb: 'A fast turn with mouths and hands, then you fuck her deep while the session is still a short one.',
-    about: 'A fast turn. Mouths and hands, not a long tease, then you fuck her deep while the session is still a short one. The fuck block keeps a position you already know next to the new ones, so even the short day uses both. Level II and Level III hold both blocks a little longer, and it still ends sooner than the rest.',
+    about: 'A fast turn with mouths and hands, then a short fuck that is still deep. You do not linger on the tease. Your cock goes in her pussy or her ass and you hold it there, and the session still ends sooner than the rest. Level II and Level III hold every part a little longer.',
     names: ['Quick', 'Deep', 'Fast Mouth', 'Then In', 'Short Fuck', 'Her Lips', 'Hard In', 'Brief', 'Deep Enough', 'No Linger', 'Hands Fast', 'Cock In', 'Short Hold', 'Pussy', 'Now', 'In and Hold', 'Quick Grind', 'Done Deep', 'Warm Enough', 'Out'],
     cycle: ['quick', 'hands'],
     dayTypes: {
       quick: sexThenSex('Quick mouth, then deep', 'Quick', SEX_SHORT_WARM, SEX_SHORT_FUCK, { values: [1, 2, 3], pref: 1 }, { values: [1, 2, 3], pref: 1 }),
-      hands: sexThenSex('Quick hands, then deep', 'Hands', ['hands', 'oral', 'oralSex', 'massage', 'tease?'], ['positions', 'fuck', 'anal', 'toy?'], { values: [1, 2, 3], pref: 1 }, { values: [1, 2, 3], pref: 1 }),
+      hands: sexThenSex('Quick hands, then deep', 'Hands', SEX_SHORT_WARM, SEX_SHORT_FUCK, { values: [1, 2, 3], pref: 1 }, { values: [1, 2, 3], pref: 1 }),
     },
   },
   {
     id: 'slow-deep-fuck', ...EXPLICIT, name: 'Slow Deep Fuck', subject: 'Explicit', minutes: [46, 54], levers: [null, 'holds', 'holds'],
     split: 'Long warm-up, then a long fuck', blurb: 'A long warm-up, your mouth and hands all over her cunt and her ass, then you fuck her slowly with your cock kept deep.',
-    about: 'A long warm-up, your mouth and hands on her cunt and her ass. Her mouth is on your cock, with a massage when the block deals one. Then you fuck her slowly with your cock kept deep, pussy and ass and the older positions in one long second block. This is the long sex session. Level II and Level III hold both blocks longer.',
+    about: 'A long warm-up, your mouth and hands on her cunt and her ass. Her mouth is on your cock, and you rub her down before you fuck her. Then you fuck her slowly with your cock kept deep, in her pussy and in her ass, for the long sex session. Level II and Level III hold every part longer.',
     names: ['Slow', 'Deep', 'All Over Her', 'Her Cunt', 'Her Ass', 'Mouth Long', 'Hands Long', 'Then Fuck', 'Kept Deep', 'Unhurried', 'In Her', 'Long Hold', 'Base', 'Slow Stroke', 'Stay', 'Deeper', 'No Clock', 'Still In', 'Afternoon Fuck', 'Last Deep'],
     cycle: ['slow', 'deeper'],
     dayTypes: {
       slow: sexThenSex('Long warm-up, then fuck', 'Slow', SEX_LONG_WARM, SEX_LONG_FUCK, { values: [2, 3], pref: 3 }, { values: [2, 3], pref: 3 }),
-      deeper: sexThenSex('Longer, then deeper', 'Deeper', SEX_LONG_WARM, ['positions', 'fuck', 'anal', 'positions', 'toy', 'anal', 'fuck?', 'positions?'], { values: [2, 3], pref: 3 }, { values: [2, 3], pref: 3 }),
+      deeper: sexThenSex('Longer, then deeper', 'Deeper', SEX_LONG_WARM, SEX_LONG_FUCK, { values: [2, 3], pref: 3 }, { values: [2, 3], pref: 3 }),
     },
   },
   {
     id: 'stay-inside-her', ...EXPLICIT, name: 'Stay Inside Her', subject: 'Explicit', minutes: [31, 40], levers: [null, 'holds', 'holds'],
-    split: 'One positions flow', blurb: 'No gym block: you stay inside her and move from position to position, one long hold after another.',
-    about: 'No gym block and no separate warm-up. You stay inside her and move from position to position, one long hold after another, your cock in her pussy or her ass. The flow mixes the positions you already fuck her in with the new ones, so the session is one piece. Level II and Level III hold every position longer.',
+    split: 'One positions flow', blurb: 'You stay inside her and move from position to position, one long hold after another.',
+    about: 'You stay inside her and move from position to position, one long hold after another, your cock in her pussy or her ass. There is no workout in front of it and no separate teasing. You change the angle when the hold ends, and you do not pull out between them. Level II and Level III hold every position longer.',
     names: ['Stay', 'Inside', 'Next Position', 'Hold', 'Still In', 'Move', 'Her Pussy', 'Her Ass', 'Another', 'Do Not Pull Out', 'Long', 'Change', 'Deep', 'Keep It', 'Flow', 'In Her', 'Next Hold', 'Same Cock', 'Through', 'Last Position'],
     cycle: ['flow', 'again'],
     dayTypes: {
@@ -1071,7 +1071,7 @@ module.exports = [
   {
     id: 'hold-after-hold', ...EXPLICIT, name: 'Hold After Hold', subject: 'Explicit', minutes: [31, 40], levers: [null, 'holds', 'holds'],
     split: 'One positions flow, holds getting longer', blurb: 'One flow of positions, your cock in her pussy or her ass, the holds getting longer as the levels climb.',
-    about: 'One flow, and the work is the holds. Your cock stays in her, pussy or ass, and you change position when the hold ends, not before. Old and new positions share the same run. There is no partner circuit in front of it. Level II and Level III hold every position longer.',
+    about: 'One session, and the work is the holds. Your cock stays in her, pussy or ass, and you change position when the hold ends, not before. You are not training beside her first. Level II and Level III hold every position longer.',
     names: ['Hold', 'After', 'Longer', 'In Her', 'Count It', 'Next', 'Pussy', 'Ass', 'Stay Through', 'The Hold', 'Again', 'Deeper Hold', 'Do Not Rush', 'Change Late', 'Old One', 'New One', 'Still', 'Clock', 'Full Hold', 'Last Count'],
     cycle: ['hold', 'longer'],
     dayTypes: {
@@ -1082,7 +1082,7 @@ module.exports = [
   {
     id: 'deeper-every-hold', ...EXPLICIT, name: 'Deeper Every Hold', subject: 'Explicit', minutes: [31, 40], levers: [null, 'holds', 'holds'],
     split: 'One positions flow, deeper each hold', blurb: 'You fuck her through a single run of positions, working your cock deeper into her on every new hold.',
-    about: 'A single run of positions, and each new hold is a chance to get your cock deeper into her. You fuck her on her back, from behind and standing, whatever the flow deals, the ones you know beside the new ones. No gym, no separate oral block. Level II and Level III hold every position longer.',
+    about: 'Each new hold is a chance to get your cock deeper into her. You fuck her on her back, from behind and standing, pressing in a little further every time you set her hips. There is no workout before it and no separate oral. Level II and Level III hold every position longer.',
     names: ['Deeper', 'Every Hold', 'On Her Back', 'From Behind', 'Standing', 'Further In', 'Base', 'Her Hips', 'Again Deeper', 'Press', 'In More', 'Next Inch', 'Hold It There', 'Cock Deep', 'Her Legs', 'Behind', 'Open', 'All the Way', 'Stay Deep', 'Deepest'],
     cycle: ['deep', 'deeper'],
     dayTypes: {
@@ -1092,8 +1092,8 @@ module.exports = [
   },
   {
     id: 'all-the-positions', ...EXPLICIT, name: 'All the Positions', subject: 'Explicit', minutes: [31, 40], levers: [null, 'holds', 'holds'],
-    split: 'One positions flow, old and new', blurb: 'Just positions: you fuck her on her back, from behind and standing, the old ones mixed with the new.',
-    about: 'Just positions. You fuck her on her back, from behind and standing, and the flow keeps the old menu in the same session as the new one, including her ass when that exercise is dealt and a toy when one is. One block, your cock in her the whole way. Level II and Level III hold every position longer.',
+    split: 'One positions flow, old and new', blurb: 'Just positions: you fuck her on her back, from behind and standing, your cock in her the whole way.',
+    about: 'Just positions. You fuck her on her back, from behind and standing, your cock in her the whole way, including her ass and the strap-on buckled on you and used in her. You do not stop to train, and you do not warm her up apart from the fucking. Level II and Level III hold every position longer.',
     names: ['All of Them', 'On Her Back', 'From Behind', 'Standing', 'Old One', 'New One', 'Mix', 'Her Ass', 'Toy', 'Mission', 'Legs Up', 'Prone', 'Edge', 'Chair', 'Wall', 'Spoon', 'Deep Mix', 'Another', 'The Lot', 'Last One'],
     cycle: ['all', 'rest'],
     dayTypes: {
@@ -1103,8 +1103,8 @@ module.exports = [
   },
   {
     id: 'cock-in-her', ...EXPLICIT, name: 'Cock in Her', subject: 'Explicit', minutes: [31, 40], levers: [null, 'holds', 'holds'],
-    split: 'One positions flow, nothing else', blurb: 'Sixty days of fucking and nothing else: one flow, your cock in her, a fresh mix of positions every time.',
-    about: 'Sixty days of fucking and nothing else. One flow, your cock in her, a fresh mix each time because the positions and the new exercises share the block. You are not training for it first and you are not warming her up in a separate block. Level II and Level III hold every position longer.',
+    split: 'One positions flow, nothing else', blurb: 'Sixty days of fucking and nothing else, your cock in her for a different run of positions every time.',
+    about: 'Sixty days of fucking and nothing else. Your cock stays in her, and each day you move her through another run of positions, on her back, from behind and standing. You are not training for it first, and you are not spending the session only on her mouth. Level II and Level III hold every position longer.',
     names: ['Cock In', 'In Her', 'Nothing Else', 'Just Fuck', 'Fresh Mix', 'Today', 'Her', 'Deep', 'Again', 'This Position', 'Next', 'Stay', 'Pussy', 'Ass', 'Hold', 'Through', 'Only This', 'In', 'Keep Fucking', 'Day of It'],
     cycle: ['in', 'mix'],
     dayTypes: {
@@ -1115,7 +1115,7 @@ module.exports = [
   {
     id: 'nothing-but-fucking', ...EXPLICIT, name: 'Nothing but Fucking', subject: 'Explicit', minutes: [31, 40], levers: [null, 'holds', 'holds'],
     split: 'One positions flow, no gym and no foreplay block', blurb: 'You skip the workout and the foreplay and just fuck her, position after position, for the whole session.',
-    about: 'You skip the workout and the foreplay block and just fuck her, position after position, for the whole session. Her pussy, her ass, the strap-on buckled on you and used in her when that exercise is dealt, and the positions you already know folded into the same flow. Level II and Level III hold every position longer.',
+    about: 'You skip the workout and the foreplay and just fuck her, position after position, for the whole session. Her pussy, her ass, and the strap-on buckled on you and used in her, your hands on her hips while you hold each one. You change her angle and you stay inside. Level II and Level III hold every position longer.',
     names: ['Nothing Else', 'Just Fuck', 'Position', 'After', 'Her Pussy', 'Her Ass', 'Strap on You', 'In Her', 'Whole Session', 'Skip the Gym', 'No Foreplay', 'Next', 'Hold', 'From Behind', 'On Her Back', 'Standing', 'Toy on Her', 'Keep Going', 'All Session', 'Still Fucking'],
     cycle: ['fuck', 'more'],
     dayTypes: {
