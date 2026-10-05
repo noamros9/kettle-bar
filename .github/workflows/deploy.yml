@@ -1,9 +1,12 @@
 # Build, test, and deploy to GitHub Pages only when every test passes (ADR 4).
 name: Test and deploy
+# Markdown-only changes (plans, docs, roadmap) ship nothing and no test reads them: no run, no deploy
 on:
   push:
     branches: [main]
+    paths-ignore: ['**.md', 'docs/**']
   pull_request:
+    paths-ignore: ['**.md', 'docs/**']
   workflow_dispatch:
 
 permissions:

@@ -53,6 +53,9 @@ How Noam wants work done in this repo. Words: [CONTEXT.md](CONTEXT.md). Decision
 - Give commands a time limit close to how long they really take (the affected UI tests: a minute or two; CI: ~4 min).
 - Committed tests never write outside the repo (screenshots go to `test-results/`); review screenshots for Noam go to
   `/home/claude/kettle-bar-shots/` from a throwaway script or spec that isn't committed. CI (the deploy) must stay green:
-  after merging, check the Test and deploy run and fix a red one before starting new tickets.
+  after merging, don't wait on main's Test and deploy run; start the next ticket, and check that run is green before
+  merging the next PR (fix a red one first).
+- Markdown-only PRs (plans, docs, ROADMAP, CLAUDE.md) get no CI run (`paths-ignore` in `deploy.yml`, 5 Oct 2026):
+  merge them without waiting for CI.
 - Firestore rules changes need Noam to publish them in the Firebase console: say so at the top of the PR and
   message him after merging.
