@@ -1,11 +1,11 @@
 # Working on Kettle & Bar
 
-How Noam wants work done in this repo. Words: [CONTEXT.md](CONTEXT.md). Decisions: [ROADMAP.md](ROADMAP.md),
-[docs/adr/](docs/adr/). Plans and tickets: [docs/plans/](docs/plans/).
+How Noam wants work done in this repo. Words: [CONTEXT.md](CONTEXT.md). Decisions: [ROADMAP.md](ROADMAP.md) (open
+work; finished phases in [docs/roadmap-archive.md](docs/roadmap-archive.md), read only when needed), [docs/adr/](docs/adr/). Plans and tickets: [docs/plans/](docs/plans/).
 
 ## Planning ("plan it by our method")
 - Grill Noam first (short multiple-choice questions) on anything open; record every decision, dated, in ROADMAP.md
-  under its phase so it's never re-asked. "Decided against" items are never re-suggested.
+  under its phase so it's never re-asked. When a phase is done, move its section to `docs/roadmap-archive.md`. "Decided against" items are never re-suggested.
 - One plan per phase in `docs/plans/<name>.md`: a ticket table `| # | Ticket | Tier | Blocked by | Branch | Status |`
   (ticket 0 is the plan itself), then per ticket: what to build, files, **Test first**, **Done when**; and a
   **Challenge round** at the end (weakest assumption, what I hadn't read, the lazier version).
