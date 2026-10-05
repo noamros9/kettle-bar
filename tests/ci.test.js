@@ -44,3 +44,10 @@ test('the Firebase library: the deploy copies the version firebase-sync.js pins,
   assert.ok(yml.includes('node scripts/vendor-firebase.js _site'));
   assert.match(yml, /cp -r [^\n]*\bfonts\b[^\n]*_site\//, 'the fonts are deployed');
 });
+
+// 5 Oct 2026: a Markdown-only PR or push runs nothing (Noam: CI is long, and docs ship nothing)
+test('Test and deploy skips Markdown-only changes, on PRs and on main', () => {
+  const yml = fs.readFileSync(path.join(__dirname, '..', '.github', 'workflows', 'deploy.yml'), 'utf8');
+  const ignores = [...yml.matchAll(/paths-ignore: \[(.*)\]/g)].map((m) => m[1]);
+  assert.deepEqual(ignores, ["'**.md', 'docs/**'", "'**.md', 'docs/**'"]);
+});
