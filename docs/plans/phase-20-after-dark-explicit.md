@@ -15,19 +15,26 @@ Locked on the issue (5 Oct):
 - **Drawings:** a pelvic mark on the existing stick figures (the image tool refused rendered scenes, so no pictures and
   no prefetch). Drawn only when a pose asks for it: the 17 `pos_*` and every new position. Dares, massages, partner
   moves and one-figure exercises don't ask.
-- **Catalogue 11:** 24 intercourse, 24 oral, 24 anal, 8 toys (wand, plug, strap-on with pegging, cock ring, each in more
-  than one position). Anal is him fucking her; pegging is the strap-on. All category `couple`, `added: 11`.
-- **Explicit:** a subject chip on the After dark shelf (family Mixed, not a new family or tab), 20 programs: 7
-  gym-then-sex, 7 sex-then-sex, 6 positions-only. Minutes in the Couples band (about 26–33, a few shorter, a few
-  toward 45).
-- **9 more in each of the 15 After dark subjects (135):** 3 gym-then-sex, 3 sex-then-sex, 3 positions-only. Minutes
-  follow the subject (Quickie about 16–20, Morning glory about 40–48, Beach body about 26–35). About text hand-written.
-- **All 155 new programs are 60 days** (levels at days 1–20, 21–40, 41–60), `catalogue: 11`, `couple: true` (so the
+- **Catalogue 11:** 24 intercourse, 24 oral, 24 anal, 8 toys (wand, plug, strap-on, cock ring, each in more
+  than one position). Anal is him fucking her ass. The strap-on is worn by him and used on her, never pegging
+  (Noam, 5 Oct 2026). All category `couple`, `added: 11`.
+- **Explicit:** a subject chip on the After dark shelf (family Mixed, not a new family or tab), 65 programs: 12
+  gym-then-sex, 27 sex-then-sex, 26 positions-only (20 in ticket 8, 45 more in tickets 14–15, see below).
+- **9 more in each of the 15 After dark subjects (135):** 3 gym-then-sex, 3 sex-then-sex, 3 positions-only. About text
+  hand-written.
+- **Minutes, 20% longer** (Noam, 5 Oct 2026): every new program's minutes are its band ×1.2. Explicit: the Couples
+  band, about 31–40, a few shorter, a few toward 54. The 15 subjects: the range of that subject's existing programs,
+  each end ×1.2 (Quickie about 19–24, Morning glory about 48–58, Beach body about 31–42).
+- **All 200 new programs are 60 days** (levels at days 1–20, 21–40, 41–60), `catalogue: 11`, `couple: true` (so the
   recipe book skips them from build your own and random), dealt from the pools and pinned.
 - **Session shapes:** gym work then sex; sex then sex (a warm-up sex block, then intercourse); positions only. A
   positions-only day is the one exception to two families a day.
 
 Decided while planning (5 Oct, Noam):
+- **+45 Explicit, mainly sex only** (added after ticket 6 merged): 40 with no gym block (20 sex-then-sex, 20
+  positions-only) and 5 gym-then-sex. They use the catalogue-11 positions: every sex block draws only the new pools
+  (`fuck`, `oralSex`, `hands`, `anal`, `toy`, `explicit`). The phase grows from 155 to 200 new programs. The 45 are
+  tickets 14–15 (two tickets, because 27 programs is the most one ticket keeps reviewable).
 - **+8 hands exercises** (fingering, handjob, and the like), pool `hands`: the "oral or hands" block of sex-then-sex
   draws `oralSex` and `hands`. Catalogue 11 is 88, not 80.
 - **The page cap goes from 125 to 135 KB gzipped** (the gate in CLAUDE.md stays 150). Today's page is 119 KB; the 43
@@ -69,6 +76,8 @@ PR and merges on green CI.
 | 11 | Carry & hold, Flexible & bendy, Strip & show-off (+27) | content | 8 | `content/explicit-more-c` | todo |
 | 12 | Her pleasure, Quickie, Back & knees care (+27) | content | 8 | `content/explicit-more-d` | todo |
 | 13 | Date night warm-up, Positions tour, Morning glory / Sunday (+27) | content | 8 | `content/explicit-more-e` | todo |
+| 14 | Explicit, sex only (+23) | content | 8 | `content/explicit-sex-a` | todo |
+| 15 | Explicit, sex only (+22) | content | 8 | `content/explicit-sex-b` | todo |
 
 ### 1. The pelvic mark
 - `figures.js`: a pose (and its `two`) may carry `mark: 1`; the figure then draws a small filled mark at its hip, in
@@ -131,10 +140,13 @@ he's a man, so the descriptions speak to him.
 - **Done when:** as ticket 5.
 
 ### 7. Catalogue 11: anal (24) and toys (8)
-- As ticket 5: 24 anal (him fucking her) in `anal`, 8 toys in `toy`: wand, plug, strap-on (pegging), cock ring, each
-  in more than one position. Add `explicit`: all 88.
+- As ticket 5: 24 anal (him fucking her ass) in `anal`, 8 toys in `toy`: wand, plug, strap-on, cock ring, each
+  in more than one position. The strap-on is worn by him and used on her, never pegging (Noam, 5 Oct 2026).
+  `explicit` is computed from `added: 11`, not a list (`explicit: has((e) => e.added === 11)`), so tickets 6 and
+  7 can be built in parallel and the set stays right whichever merges first. Empty for a config below catalogue 11.
+  With both tickets it is 88.
 - **Test first:** extend `catalogue11.test.js`: `anal` 24, `toy` 8, each toy named in at least two of the 8,
-  `explicit` is exactly the 88.
+  no pegging and nothing in him, `explicit` at catalogue 11 is exactly every `added: 11` id.
 - **Done when:** as ticket 5.
 
 ### 8. Explicit (+20), and the three session shapes
@@ -156,8 +168,17 @@ he's a man, so the descriptions speak to him.
 - Positions tour (ticket 13): `tour()` grows to 60 one-off days (positions × ways = 60, the shapes among the ways).
 - **Test first** (each): the 27 ids pinned in the tests, shapes, Mixed rules, `couple` and `skipped`, minutes in band.
 - **Done when:** as ticket 8.
-- **Point of view** (tickets 8–13): every new blurb and about follows ticket 5.5's rule, his POV or a straight
+- **Point of view** (tickets 8–15): every new blurb and about follows ticket 5.5's rule, his POV or a straight
   couple's, never hers, and ticket 5.5's her-side test covers them without any change (it reads every couple program).
+
+### 14–15. Explicit, sex only (+45)
+- 45 more Explicit programs, with ticket 8's `EXPLICIT` settings and day builders, 60 days each: ticket 14 has 10
+  sex-then-sex, 10 positions-only and 3 gym-then-sex; ticket 15 has 10, 10 and 2. Every sex block draws only the
+  catalogue-11 pools, so the 88 new positions get used. Minutes as Explicit's (×1.2, above). Names, blurbs and about
+  text hand-written, from his side.
+- **Test first** (each): in `tests/explicit.test.js`, the new ids pinned; shapes; Mixed rules; `couple`, `catalogue:
+  11`, 60 days, `skipped`; minutes in Explicit's band; every sex block's exercises are `added: 11`.
+- **Done when:** as ticket 8.
 
 ## Challenge round
 - **Weakest assumption:** that 88 exercises fit in 135 KB. Verified only by scale: the 43 couple exercises gzip to
@@ -172,3 +193,7 @@ he's a man, so the descriptions speak to him.
   reviewable.
 - **Text I won't write:** the explicit wording is Grok's. If Grok refuses or softens it, that shows in ticket 2
   first (the smallest text ticket); ticket 2 is the test of whether this phase works as planned.
+- **The +45 (5 Oct):** weakest assumption, that 45 more programs don't push the page past 135 KB. Checked against
+  `tests/build.test.js`: a program adds only its id to the first download (100 programs < 1 KB), so 45 cost well
+  under 0.5 KB. Plan edits: tickets 14–15, the 65 Explicit split, minutes ×1.2. The lazier version, folding the 45
+  into ticket 8, isn't taken: 65 programs in one ticket can't be reviewed.
