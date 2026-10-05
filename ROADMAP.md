@@ -454,6 +454,12 @@ Noam, 4 Oct 2026: a button for dead time that hands you one exercise to do right
 equipment, 20–30 seconds. Still open: where the button lives, how it picks, whether it times itself and counts in
 Stats, and whether it stays quiet and office-friendly.
 
+### After dark: a story per workout, by Grok ([#225](https://github.com/noamros9/kettle-bar/issues/225))
+Noam, 5 Oct 2026: automate creating an erotic story with Grok for every After dark workout.
+78. **Last in the order** (5 Oct): after all other open issues are done. To be grilled when it starts.
+- Still open, for the grill: one story per program or per day; generated at build time or on demand; where it shows;
+  couple vs solo programs; stored in the repo or fetched; how Grok runs (`grok -p` headless vs the API).
+
 ## Decided against (don't re-suggest)
 - **Logging weights/reps per set**: Noam wants done / not done only.
 - **Adaptive plans**: no test days, no too-easy/too-hard nudging, no deload suggestions. Plans stay as written.
