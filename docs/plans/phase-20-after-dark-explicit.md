@@ -56,7 +56,7 @@ PR and merges on green CI.
 |---|---|---|---|---|---|
 | 0 | This plan | plan | – | `plan/phase-20-explicit` | done (PR #205) |
 | 1 | The pelvic mark | feature | – | `feature/pelvic-mark` | done (PR #207) |
-| 2 | Rewrite the position and dare cues | content | – | `content/explicit-cues` | todo |
+| 2 | Rewrite the position and dare cues | content | – | `content/explicit-cues` | done (PR #209) |
 | 3 | Rewrite the Phase 16 After dark text (30) | content | – | `content/after-dark-text-16` | todo |
 | 4 | Rewrite the Phase 18 After dark text (75) | content | – | `content/after-dark-text-18` | todo |
 | 5 | Catalogue 11: intercourse (24) | feature | 1 | `feature/catalogue-11` | todo |
