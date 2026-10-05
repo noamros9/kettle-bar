@@ -288,3 +288,6 @@ positions as timed holds). Couple programs stay out of build your own and random
 
 **Two-figure drawing** (Phase 18): an exercise picture with a second stick figure (the partner, in `--fig2`), described
 by a pose's `two` field.
+
+**Pelvic mark** (Phase 20): a small filled mark at a stick figure's hip, drawn only when that figure's pose carries
+`mark: 1`, in `--mark`.

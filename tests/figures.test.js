@@ -165,3 +165,52 @@ test('a partner with no `at` or `flip` stands on the same spot facing the same w
   assert.doesNotMatch(front, /--fig2-far/);
   assert.match(front, /stroke="var\(--fig2\)" stroke-width="7"/);
 });
+
+// Phase 20: a pose (and its partner) may carry `mark: 1`. The drawing then puts a small filled mark on that
+// figure's hip — the start of its torso line — in var(--mark), and the animation keeps the mark on the hip.
+test('pos_missionary draws one pelvic mark per figure, on the hip and inside the viewBox', () => {
+  const { EX } = require('../exercises.js');
+  const { animationFrames } = require('../figures.js');
+  const ex = EX.pos_missionary;
+  const svg = figureSVG(ex);
+  const [top, width, height] = svg.match(/viewBox="0 (-?[\d.]+) ([\d.]+) ([\d.]+)"/).slice(1).map(Number);
+  const frames = [...svg.matchAll(/<g transform="translate\(([\d.]+),0\)">([\s\S]*?)<\/g>/g)];
+  assert.equal(frames.length, ex.poses.length);
+  frames.forEach((frame) => {
+    const tx = Number(frame[1]);
+    const body = frame[2];
+    const hips = [...body.matchAll(/<polyline points="([\d.-]+),([\d.-]+) [\d.-]+,[\d.-]+" fill="none" stroke="var\(--fig2?\)" stroke-width="10"/g)]
+      .map((m) => [Number(m[1]), Number(m[2])]);
+    const marks = [...body.matchAll(/<circle cx="([\d.-]+)" cy="([\d.-]+)" r="4" fill="var\(--mark\)"\/>/g)]
+      .map((m) => [Number(m[1]), Number(m[2])]);
+    assert.equal(hips.length, 2, 'one torso per figure');
+    assert.equal(marks.length, 2, 'one mark per figure');
+    hips.forEach((hip) => assert.ok(marks.some((mk) => mk[0] === hip[0] && mk[1] === hip[1]), `mark at hip ${hip}`));
+    marks.forEach(([x, y]) => {
+      const X = x + tx;
+      assert.ok(X - 4 >= 0 && X + 4 <= width, `mark inside the viewBox, x: ${X}`);
+      assert.ok(y - 4 >= top && y + 4 <= top + height, `mark inside the viewBox, y: ${y}`);
+    });
+  });
+  Object.keys(EX).filter((k) => k.startsWith('pos_')).forEach((k) => {
+    const e = EX[k];
+    assert.equal(count(figureSVG(e), /fill="var\(--mark\)"/g), e.poses.length * 2, k);
+  });
+  const anim = animationFrames(ex);
+  assert.ok(anim.length > 1);
+  const spots = new Set();
+  anim.forEach((f) => {
+    const found = [...f.matchAll(/<circle cx="([\d.-]+)" cy="([\d.-]+)" r="4" fill="var\(--mark\)"\/>/g)];
+    assert.equal(found.length, 2, 'the mark stays on both figures in every frame');
+    found.forEach((m) => spots.add(`${m[1]},${m[2]}`));
+  });
+  assert.ok(spots.size > 4, 'the mark moves with the hips');
+});
+
+test('every exercise without a pelvic mark draws exactly as before', () => {
+  const { EX } = require('../exercises.js');
+  const h = require('crypto').createHash('sha256');
+  Object.keys(EX).sort().filter((k) => !EX[k].poses.some((p) => p.mark || (p.two && p.two.mark)))
+    .forEach((k) => h.update(figureSVG(EX[k])));
+  assert.equal(h.digest('hex'), '714eb4acea0d7c2b8731b9411f0eaea8f1bf0bca1a8ac4f93ff89f2edb126991');
+});
