@@ -39,3 +39,13 @@ test('no couple or After dark program addresses her as you', () => {
   });
   assert.deepEqual(hits, []);
 });
+
+// Phase 20 ticket 8 (Noam): a description says what he does to her, never how the builder made it.
+const BUILDER_TALK = /\b(slot|slots|dealt|deals|deal|catalogue|old ones|new ones|old positions|new positions|positions you (already )?know|the new exercises)\b/i;
+
+test('no couple or After dark description talks about the builder (slots, catalogues, old or new positions)', () => {
+  const hits = CONFIGS.filter((c) => c.couple || AFTER_DARK.has(c.subject))
+    .filter((c) => BUILDER_TALK.test(`${c.blurb}\n${c.about}`))
+    .map((c) => `${c.id}: ${`${c.blurb}\n${c.about}`.match(BUILDER_TALK)[0]}`);
+  assert.deepEqual(hits, []);
+});

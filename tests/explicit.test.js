@@ -18,13 +18,9 @@ const WARM = ['oralSex', 'hands', 'oral', 'tease', 'massage'];
 const FUCK = ['fuck', 'anal', 'toy', 'positions'];
 const explicit = new Set(poolsAt(11).explicit);
 const inPool = (name, id) => (name === 'explicit' ? explicit.has(id) : POOLS[name].includes(id));
-// Same unions the builder merges for sexPositions, sexWarm and sexFuck. Not on POOLS (catalogue 11 stays in its own pools).
-const MERGE = {
-  sexPositions: ['explicit', 'positions'],
-  sexWarm: ['oralSex', 'hands', 'oral', 'tease', 'massage'],
-  sexFuck: ['fuck', 'anal', 'toy', 'positions'],
-};
-const idsIn = (name) => (MERGE[name] ? [...new Set(MERGE[name].flatMap(idsIn))] : (name === 'explicit' ? [...explicit] : (POOLS[name] || [name])));
+// The builder's merged pools (sexPositions, sexWarm, sexFuck), at catalogue 11.
+const MERGED = Builder.mergedAt(11);
+const idsIn = (name) => MERGED[name] || (name === 'explicit' ? [...explicit] : (POOLS[name] || [name]));
 const sexBlocks = (id) => Object.values(cfgOf(id).dayTypes).flatMap((t) => (SHAPE[id] === 'gym' ? t.blocks.slice(1) : t.blocks));
 const usable = (id) => [...new Set(sexBlocks(id).flatMap((b) => b.slots.map((s) => s.replace('?', '')).flatMap(idsIn)))].filter((ex) => EX[ex] && EX[ex].cat === 'couple');
 const median = (ns) => {

@@ -248,6 +248,16 @@
         explicit: has((e) => e.added === 11),
       };
     };
+    // Sex blocks of catalogue-11 programs draw one of these: old and new exercises in one pool, so each has about the
+    // same chance (the picker weighs `basic: 1` exercises 5 to 3). Kept off POOLS, which existing programs read.
+    const mergedAt = (upTo) => {
+      const cp = computed(upTo);
+      return {
+        sexPositions: [...new Set([...cp.explicit, ...POOLS.positions])],
+        sexWarm: [...new Set([...POOLS.oralSex, ...POOLS.hands, ...POOLS.oral, ...POOLS.tease, ...POOLS.massage])],
+        sexFuck: [...new Set([...POOLS.fuck, ...POOLS.anal, ...POOLS.toy, ...POOLS.positions])],
+      };
+    };
     const COMPUTED = new Map();
     const computed = (upTo) => COMPUTED.get(upTo) || COMPUTED.set(upTo, computedPools(upTo)).get(upTo);
     Object.assign(POOLS, computed(0)); // the pools as existing programs see them
@@ -320,11 +330,7 @@
       // Explicit sex blocks name one of these. Kept off POOLS: catalogue 11 may live only in fuck, anal, toy, oralSex, hands and explicit.
       // Basics (basic: 1) weigh 5 against 3. A sex day draws two pools at different rates, and 5:3 is what lands the
       // combined mean near 1.5x. Every other pool sorts as it always has.
-      const merged = {
-        sexPositions: [...new Set([...cp.explicit, ...POOLS.positions])],
-        sexWarm: [...new Set([...POOLS.oralSex, ...POOLS.hands, ...POOLS.oral, ...POOLS.tease, ...POOLS.massage])],
-        sexFuck: [...new Set([...POOLS.fuck, ...POOLS.anal, ...POOLS.toy, ...POOLS.positions])],
-      };
+      const merged = mergedAt(recipe.catalogue);
       const pool = (name) => {
         const p = merged[name] || cp[name] || POOLS[name] || [name];
         const list = p.filter((id) => EX[id] && allow(id));
@@ -491,7 +497,7 @@
     }
     // frozen programs: generated once, then kept byte-for-byte; only their description comes from the config
 
-    return { build, buildDay, blockTimes, dayTypesOf, POOLS, poolsAt: computed, REST, timing: { blockTime, dayTime } };
+    return { build, buildDay, blockTimes, dayTypesOf, POOLS, poolsAt: computed, mergedAt, REST, timing: { blockTime, dayTime } };
   }
 
   const builders = new Map(); // one per catalogue (pools are computed from it)
@@ -513,7 +519,7 @@
     return { ...saved, subject: cfg.subject, about: cfg.about, split: cfg.split, minutes: cfg.minutes, equip: cfg.equip || 'all', formats: ['straight'], dayTypes: b.dayTypesOf(cfg) };
   }
   const buildConfig = (cfg) => (cfg.frozen ? buildFrozen(cfg) : b.build(cfg));
-  module.exports = { ...api, buildConfig, buildAll: () => CONFIGS.map(buildConfig), CONFIGS, POOLS: b.POOLS, poolsAt: b.poolsAt, REST: b.REST, timing: b.timing };
+  module.exports = { ...api, buildConfig, buildAll: () => CONFIGS.map(buildConfig), CONFIGS, POOLS: b.POOLS, poolsAt: b.poolsAt, mergedAt: b.mergedAt, REST: b.REST, timing: b.timing };
   /* node:coverage ignore next 2 */
 })(typeof window !== 'undefined' ? window : globalThis, typeof module !== 'undefined' && module.exports ? require('./formats.js') : window.KBFormats,
   typeof module !== 'undefined' && module.exports ? require('./app/length.js') : window.KBLength);
