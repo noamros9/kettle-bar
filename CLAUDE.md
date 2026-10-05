@@ -50,6 +50,10 @@ How Noam wants work done in this repo. Words: [CONTEXT.md](CONTEXT.md). Decision
 - **His side, always:** the app is Noam's. The blurb and about of every After dark or couple program, in any phase,
   are written from his POV ("you" is him, she is "her") or a straight couple's ("you two"), picked per program, never
   hers. Just as explicit as what's there, or hotter, never toned down. Whoever writes it (Claude or Grok) follows this.
+- **A straight man training his own body:** the workout trains *his* body, and the text says what that does for him:
+  what he does to her, how long he lasts, how she sees and enjoys him. His ass is for drive, and for her to grab or
+  admire; never fucked, never "ass up" or bent over. His flexibility lets *him* get deeper, kneel, fold over her; it
+  never bends her. Nothing receiving is said about him (riding, taking it, being held up).
 - `tests/his-pov.test.js` (from Phase 20 ticket 5.5) checks every `couple: true` program for her-side phrasings; a
   new program never gets an exception just to pass. The test catches the obvious ones; Claude's review reads each new
   blurb and about for POV and heat before merging, and sends softer or her-side text back.
