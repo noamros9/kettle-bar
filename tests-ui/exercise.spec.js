@@ -32,9 +32,11 @@ test('with reduce motion on, the drawing stays still', async ({ app }) => {
 test('every exercise added in Phase 5 draws its figure on its page, and moves when it has several positions', async ({ app }) => {
   test.skip(test.info().project.name !== 'phone-light', 'theme-independent');
   const { EX } = require('../exercises.js');
+  const added = Object.values(EX).filter((x) => x.added);
+  test.setTimeout(30000 + added.length * 200); // the catalogue grows each phase; a moving figure takes longer than a still one
   await app.page.clock.install();
   await app.open('#exercises');
-  for (const e of Object.values(EX).filter((x) => x.added)) {
+  for (const e of added) {
     await app.go(`#ex-${e.id}`);
     await expect(drawing(app).locator('svg.fig'), e.id).toHaveAttribute('aria-label', `${e.name} illustration`);
     const first = await snapshot(app);

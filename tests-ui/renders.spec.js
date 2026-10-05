@@ -45,6 +45,7 @@ for (const cfg of sample) {
 }
 
 test('every exercise page', async ({ app }, testInfo) => {
+  test.setTimeout(30000 + Object.keys(EX).length * 150); // ~70 ms a page in CI: the catalogue grows each phase (466 in Phase 20)
   await app.open('#exercises');
   for (const e of Object.values(EX)) {
     await app.go(`#ex-${e.id}`);
