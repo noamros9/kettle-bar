@@ -28,6 +28,8 @@
   const HANDS_HIPS = { hn: [3, -4], hf: [2, -4], eh: [-1, -0.2] };
   // Phase 18: two figures. DUO(him, her, at, flip): her placed by `at` from his hip (`flip` 1: facing him)
   const DUO = (him, her, at, flip) => ({ ...him, two: { ...her, at, flip } });
+  // Phase 20: a pelvic mark on both figures. Only the positions ask for it.
+  const marked = (him, her, at, flip) => DUO({ ...him, mark: 1 }, { ...her, mark: 1 }, at, flip);
   const DARE = DUO(P(STAND, { hn: [12, -14], hf: [12, -14] }), P(STAND, { hn: [12, -14], hf: [12, -14] }), [20, 0], 1); // close, face to face
   const FSTAND = { t: [0, -34], hn: [-12, 0], hf: [12, 0], fn: [-8, 41], ff: [8, 41] };
 
@@ -834,39 +836,39 @@
     winners_choice: { name: 'Winner\'s choice', cat: 'couple', added: 10, u: 'sec', r: [20, 20, 20], mus: 'abs |', cue: 'Whoever won the last round picks the next position, or anything else they want, for the rest of the block.', poses: [DARE] },
     // positions: timed holds; the man is the main figure, the woman the partner
     pos_missionary: { name: 'Missionary', cat: 'couple', added: 10, u: 'sec', r: [60, 90, 120], mus: 'glutes abs chest | triceps hamstrings', cue: 'Her on her back, knees bent and open; him between her legs on his hands (or forearms) and knees. Move from the hips, not the shoulders: belly braced, glutes doing the driving. She lifts her hips to meet him.', poses: [
-      DUO({ t: [32, -12], hn: [30, 14], hf: [32, 14], fn: [-24, 14], ff: [-25, 14], kh: [1, 0.6], mat: 1 }, P(SUP, { t: [34, 0], hn: [30, -12], hf: [32, -12] }), [0, 14], 0), DUO({ t: [32, -6], hn: [30, 14], hf: [32, 14], fn: [-24, 14], ff: [-25, 14], kh: [1, 0.6], mat: 1 }, P(SUP, { t: [34, 0], hn: [30, -10], hf: [32, -10] }), [2, 14], 0)] },
+      marked({ t: [32, -12], hn: [30, 14], hf: [32, 14], fn: [-24, 14], ff: [-25, 14], kh: [1, 0.6], mat: 1 }, P(SUP, { t: [34, 0], hn: [30, -12], hf: [32, -12] }), [0, 14], 0), marked({ t: [32, -6], hn: [30, 14], hf: [32, 14], fn: [-24, 14], ff: [-25, 14], kh: [1, 0.6], mat: 1 }, P(SUP, { t: [34, 0], hn: [30, -10], hf: [32, -10] }), [2, 14], 0)] },
     pos_legs_up: { name: 'Legs over shoulders', cat: 'couple', added: 10, u: 'sec', r: [60, 90, 120], mus: 'glutes quads | abs hip_flexors', cue: 'Her on her back, legs straight up and resting on his shoulders; him kneeling upright, hands on her thighs. Short, deep movements from his hips; she keeps her lower back on the bed and breathes.', poses: [
-      DUO(P(KNEEL, { t: [4, -34], hn: [12, -24], hf: [12, -24] }), { t: [34, 0], fn: [-16, -38], ff: [-18, -38], hn: [10, 4], hf: [10, 4], mat: 1 }, [-20, 21], 1)] },
+      marked(P(KNEEL, { t: [4, -34], hn: [12, -24], hf: [12, -24] }), { t: [34, 0], fn: [-16, -38], ff: [-18, -38], hn: [10, 4], hf: [10, 4], mat: 1 }, [-20, 21], 1)] },
     pos_cowgirl: { name: 'Cowgirl', cat: 'couple', added: 10, u: 'sec', r: [60, 90, 120], mus: 'glutes | abs hamstrings', cue: 'Him on his back; her kneeling astride his hips, hands on his chest. She rides by rocking her hips forward and back and rising on her thighs; he bridges up to meet her, glutes and core working.', poses: [
-      DUO(P(SUP, { t: [-34, 0], fn: [24, 0], ff: [22, 0], kh: [-0.2, -1], hn: [-6, 2], hf: [-6, 2] }), P(KNEEL, { t: [6, -34], hn: [-22, 6], hf: [-22, 6] }), [0, -18], 1)] },
+      marked(P(SUP, { t: [-34, 0], fn: [24, 0], ff: [22, 0], kh: [-0.2, -1], hn: [-6, 2], hf: [-6, 2] }), P(KNEEL, { t: [6, -34], hn: [-22, 6], hf: [-22, 6] }), [0, -18], 1)] },
     pos_reverse_cowgirl: { name: 'Reverse cowgirl', cat: 'couple', added: 10, u: 'sec', r: [60, 90, 120], mus: 'quads glutes | adductors abs', cue: 'Him on his back; her astride facing his feet, hands on his thighs or knees. She moves up and down from her thighs like a slow squat; he holds her hips and helps.', poses: [
-      DUO(P(SUP, { t: [-34, 0], fn: [24, 0], ff: [22, 0], kh: [-0.2, -1], hn: [-6, 2], hf: [-6, 2] }), P(KNEEL, { t: [-6, -34], hn: [22, 6], hf: [22, 6] }), [0, -18], 0)] },
+      marked(P(SUP, { t: [-34, 0], fn: [24, 0], ff: [22, 0], kh: [-0.2, -1], hn: [-6, 2], hf: [-6, 2] }), P(KNEEL, { t: [-6, -34], hn: [22, 6], hf: [22, 6] }), [0, -18], 0)] },
     pos_doggy: { name: 'Doggy style', cat: 'couple', added: 10, u: 'sec', r: [60, 90, 120], mus: 'glutes hamstrings | abs adductors', cue: 'Her on hands and knees, back flat or arched; him kneeling upright behind her, hands on her hips. He drives from the glutes, belly braced; she can push back to meet him or drop to her forearms.', poses: [
-      DUO(P(KNEEL, { t: [4, -34], hn: [16, -4], hf: [16, -4] }), TABLE, [18, -2], 0), DUO(P(KNEEL, { t: [8, -33], hn: [18, -4], hf: [18, -4] }), TABLE, [20, -2], 0)] },
+      marked(P(KNEEL, { t: [4, -34], hn: [16, -4], hf: [16, -4] }), TABLE, [18, -2], 0), marked(P(KNEEL, { t: [8, -33], hn: [18, -4], hf: [18, -4] }), TABLE, [20, -2], 0)] },
     pos_standing_behind: { name: 'Standing from behind', cat: 'couple', added: 10, u: 'sec', r: [60, 90, 120], mus: 'glutes quads | hamstrings abs', cue: 'Her bent forward, hands on the bed or a wall, feet hip-width; him standing behind, knees soft, hands on her hips. Hips do the work: he squats a little to match heights, she keeps her back long.', poses: [
-      DUO(P(STAND, { t: [2, -34], hn: [14, -2], hf: [14, -2], fn: [-2, 41], ff: [-6, 41] }), P(HINGE, { t: [33, -8], hn: [44, 12], hf: [46, 12] }), [16, 0], 0)] },
+      marked(P(STAND, { t: [2, -34], hn: [14, -2], hf: [14, -2], fn: [-2, 41], ff: [-6, 41] }), P(HINGE, { t: [33, -8], hn: [44, 12], hf: [46, 12] }), [16, 0], 0)] },
     pos_spooning: { name: 'Spooning', cat: 'couple', added: 10, u: 'sec', r: [90, 120, 150], mus: 'glutes | obliques adductors', cue: 'Both on your sides, him behind her, her top knee drawn up. Slow, close and easy on the back: small movements from his hips, his top arm free to wander.', poses: [
-      DUO(P(LIE, { fn: [-38, 6], ff: [-38, 7] }), P(LIE, { fn: [-30, -6], ff: [-38, 1], hn: [14, -2], hf: [16, -2] }), [6, -8], 0)] },
+      marked(P(LIE, { fn: [-38, 6], ff: [-38, 7] }), P(LIE, { fn: [-30, -6], ff: [-38, 1], hn: [14, -2], hf: [16, -2] }), [6, -8], 0)] },
     pos_lotus: { name: 'Lotus', cat: 'couple', added: 10, u: 'sec', r: [60, 90, 120], mus: 'abs hip_flexors | adductors lower_back', cue: 'Him sitting cross-legged, back tall; her in his lap facing him, legs wrapped round his waist, arms round his neck. Rock together, chest to chest, slow and close: a core and hip-mobility hold for both.', poses: [
-      DUO({ t: [0, -34], fn: [24, 4], ff: [22, 4], kh: [1, -0.5], hn: [12, -24], hf: [12, -24], mat: 1 }, { t: [-2, -34], hn: [-8, -40], hf: [-8, -40], fn: [-22, 2], ff: [-22, 2], kh: [-1, -0.4] }, [16, -6], 1)] },
+      marked({ t: [0, -34], fn: [24, 4], ff: [22, 4], kh: [1, -0.5], hn: [12, -24], hf: [12, -24], mat: 1 }, { t: [-2, -34], hn: [-8, -40], hf: [-8, -40], fn: [-22, 2], ff: [-22, 2], kh: [-1, -0.4] }, [16, -6], 1)] },
     pos_standing_carry: { name: 'Standing carry', cat: 'couple', added: 10, u: 'sec', r: [30, 45, 60], mus: 'quads forearms biceps | abs lower_back glutes', cue: 'He stands holding her, her legs round his waist and arms round his neck, as in the lift-and-hold. Knees soft, back straight; he moves her with his arms and hips, she squeezes with her thighs. Put her down (or against a wall) before your back complains.', poses: [
-      DUO(P(STAND, { t: [-4, -34], hn: [12, -10], hf: [12, -10] }), { t: [-8, -30], hd: [-0.2, -1], hn: [14, -28], hf: [14, -28], fn: [22, 8], ff: [22, 8], kh: [1, 0.4] }, [14, -12], 1)] },
+      marked(P(STAND, { t: [-4, -34], hn: [12, -10], hf: [12, -10] }), { t: [-8, -30], hd: [-0.2, -1], hn: [14, -28], hf: [14, -28], fn: [22, 8], ff: [22, 8], kh: [1, 0.4] }, [14, -12], 1)] },
     pos_edge_of_bed: { name: 'Edge of the bed', cat: 'couple', added: 10, u: 'sec', r: [60, 90, 120], mus: 'glutes quads | abs calves', cue: 'Her on her back at the edge of the bed, hips at the edge, feet up on his chest or round him; him standing, holding her thighs. Feet wide, knees soft, power from the glutes.', poses: [
-      DUO(P(STAND, { t: [2, -34], hn: [16, -14], hf: [16, -14], fn: [-2, 41], ff: [-6, 41] }), { t: [34, 0], fn: [-12, -24], ff: [-12, -24], kh: [-0.4, -1], hn: [14, 2], hf: [14, 2] }, [22, -4], 0)] },
+      marked(P(STAND, { t: [2, -34], hn: [16, -14], hf: [16, -14], fn: [-2, 41], ff: [-6, 41] }), { t: [34, 0], fn: [-12, -24], ff: [-12, -24], kh: [-0.4, -1], hn: [14, 2], hf: [14, 2] }, [22, -4], 0)] },
     pos_wheelbarrow: { name: 'Wheelbarrow', cat: 'couple', added: 10, u: 'sec', r: [20, 30, 45], mus: 'quads glutes forearms | front_delts triceps abs', cue: 'Her on her hands as in the wheelbarrow walk; him standing behind holding her thighs at his hips. Advanced: short and strong, then lower her legs down together. She keeps her body straight and shoulders over her hands.', poses: [
-      DUO(P(STAND, { hn: [12, 2], hf: [12, 2], t: [2, -34] }), { t: [34, 4], hn: [36, 30], hf: [38, 30], fn: [-36, -4], ff: [-36, -4] }, [32, 11], 0)] },
+      marked(P(STAND, { hn: [12, 2], hf: [12, 2], t: [2, -34] }), { t: [34, 4], hn: [36, 30], hf: [38, 30], fn: [-36, -4], ff: [-36, -4] }, [32, 11], 0)] },
     pos_prone: { name: 'Lying flat from behind', cat: 'couple', added: 10, u: 'sec', r: [60, 90, 120], mus: 'glutes | abs triceps', cue: 'Her lying face down, a pillow under her hips; him on top on his hands or forearms, legs outside hers. Small, deep movements from the glutes; she squeezes her thighs together.', poses: [
-      DUO({ t: [34, -10], hn: [34, 14], hf: [36, 14], fn: [-40, 8], ff: [-41, 8], mat: 1 }, PRONE, [0, 10], 0)] },
+      marked({ t: [34, -10], hn: [34, 14], hf: [36, 14], fn: [-40, 8], ff: [-41, 8], mat: 1 }, PRONE, [0, 10], 0)] },
     pos_butterfly: { name: 'Butterfly', cat: 'couple', added: 10, u: 'sec', r: [45, 60, 90], mus: 'glutes quads | forearms abs', cue: 'Her on her back at the edge of the bed, legs resting up on his shoulders; him standing, holding her hips a little off the bed. He leans in, she keeps her core soft and breathes.', poses: [
-      DUO(P(STAND, { t: [4, -34], hn: [16, -10], hf: [16, -10] }), { t: [34, 2], fn: [-4, -46], ff: [-6, -46], hn: [12, 4], hf: [12, 4] }, [24, -10], 0)] },
+      marked(P(STAND, { t: [4, -34], hn: [16, -10], hf: [16, -10] }), { t: [34, 2], fn: [-4, -46], ff: [-6, -46], hn: [12, 4], hf: [12, 4] }, [24, -10], 0)] },
     pos_pretzel: { name: 'The pretzel', cat: 'couple', added: 10, u: 'sec', r: [60, 90, 120], mus: 'adductors glutes | obliques hip_flexors', cue: 'Her on her side, top leg pulled up toward her chest; him kneeling, straddling her bottom leg, her top leg against his side. A deep hip-opening angle for her, so the Pretzel and Flexible programs pay off here.', poses: [
-      DUO(P(KNEEL, { t: [4, -34], hn: [14, -8], hf: [14, -8] }), P(LIE, { fn: [-30, -24], kh: [0, -1], ff: [-40, 1] }), [14, 21], 0)] },
+      marked(P(KNEEL, { t: [4, -34], hn: [14, -8], hf: [14, -8] }), P(LIE, { fn: [-30, -24], kh: [0, -1], ff: [-40, 1] }), [14, 21], 0)] },
     pos_oral_her: { name: 'Going down on her', cat: 'couple', added: 10, u: 'sec', r: [90, 120, 180], mus: 'neck | forearms abs', cue: 'Her on her back at the edge of the bed, knees open; him kneeling on a pillow, forearms resting on the bed. Neck long, jaw relaxed; slow and steady beats fast, and let her direct you.', poses: [
-      DUO(P(KNEEL, { t: [22, -26], hn: [30, -12], hf: [32, -12], hd: [1, 0] }), { t: [34, 0], fn: [-14, -18], ff: [-16, -18], kh: [-0.4, -1], hn: [14, 2], hf: [14, 2] }, [36, -14], 0)] },
+      marked(P(KNEEL, { t: [22, -26], hn: [30, -12], hf: [32, -12], hd: [1, 0] }), { t: [34, 0], fn: [-14, -18], ff: [-16, -18], kh: [-0.4, -1], hn: [14, 2], hf: [14, 2] }, [36, -14], 0)] },
     pos_oral_him: { name: 'Going down on him', cat: 'couple', added: 10, u: 'sec', r: [90, 120, 180], mus: 'neck | forearms abs', cue: 'Him standing (or sitting on the edge of the bed); her kneeling on a pillow in front of him, hands on his thighs. Knees cushioned, neck long, breathe through the nose, take breaks when you like.', poses: [
-      DUO(P(STAND, { hn: [2, -20], hf: [2, -20] }), P(KNEEL, { t: [-4, -34], hn: [-16, -12], hf: [-16, -12], hd: [-1, -0.5] }), [20, 0], 1)] },
+      marked(P(STAND, { hn: [2, -20], hf: [2, -20] }), P(KNEEL, { t: [-4, -34], hn: [-16, -12], hf: [-16, -12], hd: [-1, -0.5] }), [20, 0], 1)] },
     pos_69: { name: '69', cat: 'couple', added: 10, u: 'sec', r: [60, 90, 120], mus: 'neck | abs forearms', cue: 'Him on his back; her on top on hands and knees facing his feet, so each has the other at mouth level. Lying side by side is easier on the neck. Take turns or go together.', poses: [
-      DUO(P(SUP, { t: [-34, 0], fn: [24, 0], ff: [22, 0], kh: [-0.2, -1], hn: [-6, 2], hf: [-6, 2] }), { t: [-34, 0], hn: [-34, 22], hf: [-36, 22], fn: [20, 18], ff: [21, 18], kh: [-1, 0.6] }, [10, -22], 0)] },
+      marked(P(SUP, { t: [-34, 0], fn: [24, 0], ff: [22, 0], kh: [-0.2, -1], hn: [-6, 2], hf: [-6, 2] }), { t: [-34, 0], hn: [-34, 22], hf: [-36, 22], fn: [20, 18], ff: [21, 18], kh: [-1, 0.6] }, [10, -22], 0)] },
   };
 
 

@@ -140,7 +140,12 @@
       const h = pt(b.head, fr);
       out.push(`<circle cx="${h[0]}" cy="${h[1]}" r="7" fill="${col}"/>`, line([b.hN, b.knN, b.ftN], 6.2, col), line([b.sN, b.elN, b.haN], 6.2, col));
     };
-    if (fr.s2) body(fr.s2, 'var(--fig2)', front ? 'var(--fig2)' : 'var(--fig2-far)');
+    // a pelvic mark sits on the hip, on top of that figure's own lines (Phase 20). Small enough to stay inside the hip's existing bounds.
+    const pelvic = (b) => { const c = pt(b.hip, fr); out.push(`<circle cx="${c[0]}" cy="${c[1]}" r="4" fill="var(--mark)"/>`); };
+    if (fr.s2) {
+      body(fr.s2, 'var(--fig2)', front ? 'var(--fig2)' : 'var(--fig2-far)');
+      if (ps.two.mark) pelvic(fr.s2);
+    }
     const farCol = front ? 'var(--fig)' : 'var(--fig-far)';
     out.push(line([s.hF, s.knF, s.ftF], 6.2, farCol));
     out.push(line([s.sF, s.elF, s.haF], 6.2, farCol));
@@ -153,6 +158,7 @@
     out.push(line([s.sN, s.elN, s.haN], 6.2, 'var(--fig)'));
     fr.props.near.forEach((sh) => out.push(shapeSVG(sh, fr)));
     fr.props.both.forEach((sh) => out.push(shapeSVG(sh, fr)));
+    if (ps.mark) pelvic(s);
     return out.join('');
   }
 
