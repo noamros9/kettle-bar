@@ -422,7 +422,9 @@ Grilled 5 Oct 2026 (Noam); after Phase 21, before Phase 20 ticket 9. Claude plan
     exercises. Ticket 8's 20 Explicit programs stay at catalogue 11.
 79. **The fitness library grows too, in this phase** (5 Oct):
     catalogue 12 also adds fitness exercises, not only sex ones.
-- Still open, for the grill: how many fitness exercises, which kinds or muscle areas, which equipment.
+80. **+50% in every fitness category** (5 Oct): every non-couple `cat` grows by half, counted after Phase 21 lands
+    (today ~335 → ~500, about 168 new), using all his equipment: dumbbells, kettlebell, pull-up bar, bodyweight and
+    mat.
 
 ### Architecture review V ([#187](https://github.com/noamros9/kettle-bar/issues/187))
 A fresh review after Phases 13–18: shelf groups, Variety, ~580 programs, the library boot, sync at that scale (one
