@@ -61,8 +61,8 @@ module.exports = [
   // ---- Couples (ticket 3): 14 build up, 6 alternate; 4 are 30-day programs ----
   {
     id: 'sweat-together', ...COUPLE, name: 'Sweat Together', subject: 'Couples', minutes: [28, 33], levers: [null, 'reps', 'holds'],
-    split: 'Partner circuit / partner strength, then tease and positions', blurb: 'Your first couple workout: a partner circuit, a slow dance, then into bed with his cock in her.',
-    about: 'The way in, and you two finish by fucking. One day is a partner circuit, squats holding hands, high-five push-ups and sit-up claps, round after round; the other is partner strength done slowly together. Every session then slows down: a slow dance or a dare, and a few positions held long enough to count as work, his cock in her pussy. Level II adds reps, Level III makes every hold longer.',
+    split: 'Partner circuit / partner strength, then tease and positions', blurb: 'Your first couple workout: a partner circuit, a slow dance, then into bed so you can fuck her.',
+    about: 'The way in, and you two finish with you inside her. One day is a partner circuit, squats holding hands, high-five push-ups and sit-up claps, round after round; the other is partner strength done slowly together. Every session then slows down: a slow dance or a dare, and a few positions held long enough to count as work, your cock in her pussy. Level II adds reps, Level III makes every hold longer.',
     names: ['First Date', 'Second Date', 'Third Date', 'Hand in Hand', 'Side by Side', 'Face to Face', 'Heart Rate Up', 'Breathless', 'Warm Bodies', 'Sweat Equity', 'Steamed Up', 'Glow', 'Flushed', 'Heated', 'Melting', 'Dripping', 'Afterglow', 'Lights Out', 'Sheets', 'Together'],
     cycle: ['circuit', 'strength'],
     dayTypes: {
@@ -73,7 +73,7 @@ module.exports = [
   {
     id: 'foreplay-fitness', ...COUPLE, name: 'Foreplay Fitness', subject: 'Couples', minutes: [28, 33], levers: [null, 'reps', 'holds'],
     split: 'Kiss reps / dares, then positions', blurb: 'Every rep is foreplay: kiss squats and kiss push-ups, dirty dares between rounds, then you two fuck.',
-    about: 'A workout that never quite lets you two forget you are about to fuck. Kiss squats and kiss push-ups put your faces together every rep; a dare drawn by the timer comes between rounds. The tease block slows things right down, and the session ends in positions held as long as the legs allow, his cock deep in her pussy. Level II adds reps and Level III holds everything longer.',
+    about: 'A workout that never quite lets you two forget you are about to fuck. Kiss squats and kiss push-ups put your faces together every rep; a dare drawn by the timer comes between rounds. The tease block slows things right down, and the session ends in positions held as long as the legs allow, your cock deep in her pussy. Level II adds reps and Level III holds everything longer.',
     names: ['Warm-up Act', 'Opening Move', 'First Kiss', 'Lip Service', 'Slow Hands', 'Close Call', 'Almost', 'Not Yet', 'Wait for It', 'Patience', 'Getting Warmer', 'Hot and Cold', 'Tease', 'Under the Skin', 'Simmer', 'Boil Over', 'Can\'t Wait', 'Now', 'Finally', 'Encore'],
     cycle: ['kiss', 'dares'],
     dayTypes: {
@@ -84,7 +84,7 @@ module.exports = [
   {
     id: 'strip-circuit', ...COUPLE, name: 'Strip Circuit', subject: 'Couples', minutes: [28, 33], levers: [null, 'reps', 'reps'],
     split: 'Strip circuit / strip EMOM, then positions', blurb: 'Lose the round, lose a layer: a partner circuit with a strip forfeit, until you two are naked and fucking.',
-    about: 'Every round ends in a forfeit: whoever did fewer reps or broke the hold first takes off one layer of the winner\'s choosing. One day is a circuit of partner squats, push-ups and holds, the other an EMOM where you race each other inside each minute. By the end nobody is wearing much, and the positions block is the two of you fucking, cock in pussy. Both later levels add reps.',
+    about: 'Every round ends in a forfeit: whoever did fewer reps or broke the hold first takes off one layer of the winner\'s choosing. One day is a circuit of partner squats, push-ups and holds, the other an EMOM where you race each other inside each minute. By the end nobody is wearing much, and the positions block is you fucking her, your cock in her pussy. Both later levels add reps.',
     names: ['Coat Check', 'Shoes Off', 'Socks Too', 'Top Button', 'Unzipped', 'Belt Loose', 'Off the Shoulder', 'Shirtless', 'Down to This', 'Lace', 'Straps', 'Last Layer', 'Birthday Suit', 'Bare', 'Nothing On', 'Skin', 'Exposed', 'Full Monty', 'In the Buff', 'Dressed Down'],
     cycle: ['circuit', 'emom'],
     dayTypes: {
@@ -95,7 +95,7 @@ module.exports = [
   {
     id: 'kiss-me-reps', ...COUPLE, name: 'Kiss Me Reps', subject: 'Couples', minutes: [26, 31], levers: [null, 'reps', 'holds'],
     split: 'Kiss squats / kiss push-ups, then positions', blurb: 'A kiss at the bottom of every squat and every push-up, then a slow face-to-face fuck together.',
-    about: 'Built around the kiss reps, mouth to mouth. One day leads with kiss squats and mirror lunges for the legs, the other with kiss push-ups and wheelbarrow walks for the upper body, both in straight sets so you two can take your time at the bottom. Then a slow dance, and positions chosen for being face to face while he fucks her. Level II adds reps, Level III holds everything longer.',
+    about: 'Built around the kiss reps, mouth to mouth. One day leads with kiss squats and mirror lunges for the legs, the other with kiss push-ups and wheelbarrow walks for the upper body, both in straight sets so you two can take your time at the bottom. Then a slow dance, and positions chosen for being face to face while you fuck her. Level II adds reps, Level III holds everything longer.',
     names: ['Peck', 'Smooch', 'Kiss Me Quick', 'Kiss Me Slow', 'Pucker Up', 'Lip Lock', 'French', 'Butterfly Kiss', 'Eskimo Kiss', 'Neck Kiss', 'Collarbone', 'Earlobe', 'Bite', 'Breath', 'Linger', 'Mouth to Mouth', 'Kiss Chase', 'Sealed', 'Kissed All Over', 'Goodnight Kiss'],
     cycle: ['legs', 'upper'],
     dayTypes: {
@@ -117,7 +117,7 @@ module.exports = [
   {
     id: 'date-night-burn', ...COUPLE, days: 30, name: 'Date Night Burn', subject: 'Couples', minutes: [26, 31], levers: [null, 'reps', 'holds'],
     split: 'Tabata for two / partner circuit, then positions, 30 days', blurb: 'Date nights that end in a fuck: a hard partner burn, a tease, and the rest of the night spent in bed.',
-    about: 'Thirty date nights, and they end with him inside her. One day is a partner Tabata, twenty seconds hard and ten seconds off, side by side; the next a partner circuit that ends every round with a dare. Both slow down into a tease and finish in positions, cock in pussy. Every ten days the level goes up: more reps first, then longer holds.',
+    about: 'Thirty date nights, and they end with you inside her. One day is a partner Tabata, twenty seconds hard and ten seconds off, side by side; the next a partner circuit that ends every round with a dare. Both slow down into a tease and finish in positions, your cock in her pussy. Every ten days the level goes up: more reps first, then longer holds.',
     names: ['Reservation', 'Table for Two', 'Candlelight', 'Wine List', 'Appetizer', 'Main Course', 'Dessert', 'Nightcap', 'Your Place', 'My Place', 'Valet', 'Taxi Home', 'Doorstep', 'Come In', 'Coat Off', 'Music On', 'Lights Down', 'Couch', 'Bedroom', 'Breakfast'],
     cycle: ['tabata', 'circuit'],
     dayTypes: {
@@ -128,7 +128,7 @@ module.exports = [
   {
     id: 'partners-in-grime', ...COUPLE, name: 'Partners in Grime', subject: 'Couples', minutes: [28, 33], levers: [null, 'reps', 'reps'],
     split: 'Partner AMRAP / partner EMOM, then shower-ready positions', blurb: 'Get filthy together: a sweaty partner AMRAP, then fuck while you two are still dripping, before the shower.',
-    about: 'The sweatiest fuck on the list. One day is a partner AMRAP, as many rounds as you can of squats, push-ups and sit-up claps; the other an EMOM that never lets the heart rate settle. Afterwards a quick dare and a run of positions while you two are still breathing hard, cock in her, then the shower together. Both later levels add reps.',
+    about: 'The sweatiest fuck on the list. One day is a partner AMRAP, as many rounds as you can of squats, push-ups and sit-up claps; the other an EMOM that never lets the heart rate settle. Afterwards a quick dare and a run of positions while you two are still breathing hard, your cock in her, then the shower together. Both later levels add reps.',
     names: ['Dirty', 'Grubby', 'Mud', 'Sweatbox', 'Wet Look', 'Grimy', 'Messy', 'Soaked', 'Damp', 'Sticky', 'Slick', 'Glisten', 'Puddle', 'Steam Room', 'Rinse', 'Lather', 'Shower Together', 'Towel Off', 'Clean Again', 'Dirty Again'],
     cycle: ['amrap', 'emom'],
     dayTypes: {
@@ -139,7 +139,7 @@ module.exports = [
   {
     id: 'take-it-off', ...COUPLE, name: 'Take It Off', subject: 'Couples', minutes: [26, 31], levers: [null, 'reps', 'holds'],
     split: 'Strip forfeits / undress me, then positions', blurb: 'Strip forfeits and the undress-me dare, then everything else comes off and you two fuck in full view.',
-    about: 'A slower, dirtier cousin of Strip Circuit. Partner strength sets with a strip forfeit after each exercise; the other day a circuit where the dare is always to undress your partner, slowly. The tease is long and the positions are the ones where you two can see his cock in her. Level II adds reps, Level III holds everything longer.',
+    about: 'A slower, dirtier cousin of Strip Circuit. Partner strength sets with a strip forfeit after each exercise; the other day a circuit where the dare is always to undress your partner, slowly. The tease is long and the positions are the ones where you can see your cock in her. Level II adds reps, Level III holds everything longer.',
     names: ['Button Up', 'Unbutton', 'Zip Down', 'Hook and Eye', 'Slip Off', 'Shrug Off', 'Kick Off', 'Peel', 'Unwrap', 'Gift', 'Ribbon', 'Reveal', 'Curtain Up', 'Undone', 'Loose', 'Stripped', 'Bare Back', 'Shown', 'All Off', 'Leave It On'],
     cycle: ['forfeit', 'undress'],
     dayTypes: {
@@ -149,8 +149,8 @@ module.exports = [
   },
   {
     id: 'slow-burn-couples', ...COUPLE, name: 'Slow Burn Couples', subject: 'Couples', minutes: [36, 44], levers: [null, 'holds', 'holds'],
-    split: 'Slow strength / long tease, then long positions', blurb: 'Nothing rushed: slow partner strength, a long tease, and positions held a long time with his cock in her.',
-    about: 'The long, slow fuck, for an evening with nowhere to be. Partner strength at a slow pace with long holds, back-to-back wall sits and bridges; then a slow dance, a massage and a dare; then the slow positions, spooning, lotus, missionary, held long and breathed through with his cock buried in her. Level II and III make every hold longer.',
+    split: 'Slow strength / long tease, then long positions', blurb: 'Nothing rushed: slow partner strength, a long tease, and positions held a long time with your cock in her.',
+    about: 'The long, slow fuck, for an evening with nowhere to be. Partner strength at a slow pace with long holds, back-to-back wall sits and bridges; then a slow dance, a massage and a dare; then the slow positions, spooning, lotus, missionary, held long and breathed through with your cock buried in her. Level II and III make every hold longer.',
     names: ['Slow Down', 'Low Light', 'Simmer', 'Smoulder', 'Embers', 'Candle', 'Wax', 'Velvet', 'Silk', 'Honey', 'Molasses', 'Long Night', 'No Hurry', 'Unhurried', 'Lazy', 'Languid', 'Drawn Out', 'Lingering', 'All Night', 'Sunrise'],
     cycle: ['strength', 'tease'],
     dayTypes: {
@@ -160,8 +160,8 @@ module.exports = [
   },
   {
     id: 'sweaty-sheets', ...COUPLE, name: 'Sweaty Sheets', subject: 'Couples', minutes: [28, 33], levers: [null, 'reps', 'holds'],
-    split: 'Bed-ready strength / partner Tabata, then a long positions block', blurb: 'The workout ends in bed: a long run of positions, fucking on the sheets, him inside her.',
-    about: 'The positions block is the fuck, and it is the main event here. A shorter partner warm-up, strength one day and a Tabata the other, gets you two warm; a dare gets you closer; then a long block of positions in bed, one after another, each held for a minute or more with his cock in her. Level II adds reps to the partner work, Level III holds the positions longer.',
+    split: 'Bed-ready strength / partner Tabata, then a long positions block', blurb: 'The workout ends in bed: a long run of positions, fucking on the sheets, you inside her.',
+    about: 'The positions block is the fuck, and it is the main event here. A shorter partner warm-up, strength one day and a Tabata the other, gets you two warm; a dare gets you closer; then a long block of positions in bed, one after another, each held for a minute or more with your cock in her. Level II adds reps to the partner work, Level III holds the positions longer.',
     names: ['Fresh Sheets', 'Turned Down', 'Pillow Talk', 'Duvet', 'Under Covers', 'Thread Count', 'Satin', 'Cotton', 'Linen', 'Bedspring', 'Headboard', 'Footboard', 'Mattress', 'Bedhead', 'Rumpled', 'Tangled', 'Twisted Sheets', 'Laundry Day', 'Change the Sheets', 'Again'],
     cycle: ['strength', 'tabata'],
     dayTypes: {
@@ -172,7 +172,7 @@ module.exports = [
   {
     id: 'dare-night', ...COUPLE, name: 'Dare Night', subject: 'Couples', minutes: [28, 33], levers: [null, 'reps', 'holds'],
     split: 'Dare circuit / winner\'s choice, then positions', blurb: 'Win the round, call the dare: a partner circuit where the timer hands out filthy dares, then you two fuck.',
-    about: 'Competitive and a bit wicked, and it ends with him inside her. Every round of the partner circuit ends with a dare drawn by the timer, and whoever won the round decides who does it. The other day is all about winner\'s choice: win a round, pick the next position. The tease block is dares only. Level II adds reps, Level III holds everything longer.',
+    about: 'Competitive and a bit wicked, and it ends with you inside her. Every round of the partner circuit ends with a dare drawn by the timer, and whoever won the round decides who does it. The other day is all about winner\'s choice: win a round, pick the next position. The tease block is dares only. Level II adds reps, Level III holds everything longer.',
     names: ['Truth', 'Dare', 'Double Dare', 'Triple Dare', 'Chicken', 'Call Your Bluff', 'All In', 'Raise', 'Fold', 'Wild Card', 'Joker', 'Ace', 'Spin the Bottle', 'Seven Minutes', 'Never Have I Ever', 'Forfeit', 'Loser Pays', 'Winner Takes All', 'Rematch', 'Sudden Death'],
     cycle: ['dares', 'choice'],
     dayTypes: {
@@ -182,8 +182,8 @@ module.exports = [
   },
   {
     id: 'massage-and-mount', ...COUPLE, name: 'Massage & Mount', subject: 'Couples', minutes: [36, 42], levers: [null, 'reps', 'holds'],
-    split: 'Partner strength, massage, then her on top', blurb: 'Work hard, get rubbed down, then she gets on top and takes him: cowgirl, reverse and lotus.',
-    about: 'Three parts every time, and the last is her on top with his cock in her. A partner strength or circuit block for both of you; a proper massage, back and then legs and glutes; and positions where she is on top and in charge, cowgirl, reverse cowgirl and lotus. The massage block is long enough to be the point. Level II adds reps, Level III holds everything longer.',
+    split: 'Partner strength, massage, then her on top', blurb: 'Work hard, get rubbed down, then she gets on top of your cock: cowgirl, reverse and lotus.',
+    about: 'Three parts every time, and the last is her on top of your cock. A partner strength or circuit block for both of you; a proper massage, back and then legs and glutes; and positions where she is on top, cowgirl, reverse cowgirl and lotus. The massage block is long enough to be the point. Level II adds reps, Level III holds everything longer.',
     names: ['Knots', 'Kneading', 'Pressure Points', 'Warm Oil', 'Long Strokes', 'Thumbs', 'Shoulder Rub', 'Back Rub', 'Foot Rub', 'Deep Tissue', 'Hot Stone', 'Spa Night', 'Rub Down', 'Loosened Up', 'Melted', 'Saddle Up', 'Giddy Up', 'Ride', 'Rodeo', 'Cowgirl Up'],
     cycle: ['strength', 'circuit'],
     dayTypes: {
@@ -194,7 +194,7 @@ module.exports = [
   {
     id: 'couples-kama-sutra-30', ...COUPLE, days: 30, name: 'Couple\'s Kama Sutra 30', subject: 'Couples', minutes: [28, 33], levers: [null, 'reps', 'holds'],
     split: 'Floor / standing / her on top, 30 days', blurb: 'Thirty days fucking through the positions together, each day warming up for the ones you two end inside.',
-    about: 'The together version of Kama Sutra 30, and you two fuck your way through it. Three kinds of day turn: floor positions after partner core and bridges; standing positions after carries and wall sits; her-on-top positions after squats and lunges. Each session warms up exactly what its positions ask for, teases, then works through them with him inside her. Every ten days it gets harder, reps first, then longer holds.',
+    about: 'The together version of Kama Sutra 30: thirty days of you inside her, position after position. Three kinds of day turn: floor positions after partner core and bridges; standing positions after carries and wall sits; her-on-top positions after squats and lunges. Each session warms up exactly what its positions ask for, teases, then works through them. Every ten days it gets harder, reps first, then longer holds.',
     names: ['Chapter One', 'The Lotus', 'The Bridge', 'The Swan', 'The Lion', 'The Tiger', 'The Crab', 'The Elephant', 'The Mare', 'The Cobra', 'The Butterfly', 'The Peacock', 'The Bow', 'The Wheel', 'The Plough', 'The Fan', 'The Moon', 'The Star', 'The Scissors', 'The Last Page'],
     cycle: ['floor', 'standing', 'top'],
     dayTypes: {
@@ -205,8 +205,8 @@ module.exports = [
   },
   {
     id: 'thirty-days-of-foreplay', ...COUPLE, days: 30, name: '30 Days of Foreplay', subject: 'Couples', minutes: [26, 31], levers: [null, 'reps', 'holds'],
-    split: 'Kiss circuit / dare circuit / massage, 30 days', blurb: 'A month that takes its time before the fuck: kisses, dares and massages, then him inside her at the end.',
-    about: 'Thirty days where the tease is the main event and the fuck waits at the end. Kiss reps one day, a dare circuit the next, a massage day the third, each with a partner block to get you two breathing first and a few positions at the end, his cock in her pussy. Every ten days it gets harder: more reps, then longer holds and longer teases.',
+    split: 'Kiss circuit / dare circuit / massage, 30 days', blurb: 'A month that takes its time before the fuck: kisses, dares and massages, then you inside her at the end.',
+    about: 'Thirty days where the tease is the main event and the fuck waits at the end. Kiss reps one day, a dare circuit the next, a massage day the third, each with a partner block to get you two breathing first and a few positions at the end, your cock in her pussy. Every ten days it gets harder: more reps, then longer holds and longer teases.',
     names: ['Day One', 'Glance', 'Smile', 'Brush', 'Graze', 'Whisper', 'Lean In', 'Close', 'Closer', 'Lips', 'Neck', 'Shoulders', 'Hands', 'Hips', 'Thighs', 'Slowly', 'Softly', 'Barely', 'Almost', 'Day Thirty'],
     cycle: ['kiss', 'dares', 'massage'],
     dayTypes: {
@@ -240,8 +240,8 @@ module.exports = [
   },
   {
     id: 'fuck-fit', ...COUPLE, name: 'Fuck Fit', subject: 'Couples', minutes: [28, 33], levers: [null, 'reps', 'holds'],
-    split: 'Push and positions / legs and positions, in rounds', blurb: 'No pretending: partner sets, then his cock in her, turn by turn, the workout and the fuck as one thing.',
-    about: 'No pretending this one is about anything but the two of you fucking. Every round is a partner set followed by a position held as a set: push-ups then missionary, squats then standing from behind, bridges then cowgirl, his cock in her pussy the whole hold. The positions are timed like any exercise and get longer as you level up. A massage to close. Level II adds reps, Level III holds every position longer.',
+    split: 'Push and positions / legs and positions, in rounds', blurb: 'No pretending: partner sets, then your cock in her, turn by turn, the workout and the fuck as one thing.',
+    about: 'No pretending this one is about anything but the two of you fucking. Every round is a partner set followed by a position held as a set: push-ups then missionary, squats then standing from behind, bridges then cowgirl, your cock in her pussy the whole hold. The positions are timed like any exercise and get longer as you level up. A massage to close. Level II adds reps, Level III holds every position longer.',
     names: ['Rep One', 'Set Two', 'Superset', 'Drop Set', 'Burnout', 'Failure', 'Pump', 'Power', 'Grind', 'Max Effort', 'Personal Best', 'New Record', 'Spotter', 'Form Check', 'Full Range', 'Time Under Tension', 'Rest Day', 'Deload', 'Gains', 'Fit'],
     cycle: ['push', 'legs'],
     dayTypes: {
@@ -273,8 +273,8 @@ module.exports = [
   },
   {
     id: 'fit-to-fuck-30', ...COUPLE, days: 30, name: 'Fit to Fuck 30', subject: 'Couples', minutes: [28, 33], levers: [null, 'reps', 'holds'],
-    split: 'Upper rounds / lower rounds / standing rounds, 30 days', blurb: 'Thirty days of partner sets and fucking in turn, a little harder every ten days, always together.',
-    about: 'Fuck Fit, stretched over a month of fucking together. Three kinds of round turn: upper-body partner work with floor positions, legs with her-on-top positions, and carries with standing positions. Every session finishes with a massage. Every ten days it gets harder, more reps first and then longer holds.',
+    split: 'Upper rounds / lower rounds / standing rounds, 30 days', blurb: 'Thirty days of partner sets and fucking in turn, a little harder every ten days.',
+    about: 'Fuck Fit, stretched over a month of you inside her. Three kinds of round turn: upper-body partner work with floor positions, legs with her-on-top positions, and carries with standing positions. Every session finishes with a massage. Every ten days it gets harder, more reps first and then longer holds.',
     names: ['Day One', 'Warming Up', 'Getting There', 'Rhythm', 'Tempo', 'Stamina', 'Endurance', 'Drive', 'Power', 'Grip', 'Balance', 'Range', 'Flex', 'Hold', 'Push', 'Pull', 'Lift', 'Carry', 'Finish Strong', 'Day Thirty'],
     cycle: ['upper', 'lower', 'standing'],
     dayTypes: {
@@ -458,8 +458,8 @@ module.exports = [
   // ---- Flexible & bendy (ticket 4): splits, hips, hamstrings, back bends, held long ----
   {
     id: 'bend-me-over', ...SOLO, name: 'Bend Me Over', subject: 'Flexible & bendy', minutes: [26, 31], levers: [null, 'holds', 'reps'],
-    split: 'Hamstrings & hinge / forward fold flow', blurb: 'Hamstrings and hips for bending her all the way over and fucking her: hinges for strength, folds held long.',
-    about: 'For the fucks that start with her bent over, your cock in her from behind. One day strengthens the hinge, Romanian deadlifts, good mornings and back extensions, then stretches the hamstrings; the other is a long forward-fold flow, pyramid, wide-leg fold and half splits, held until they let go. Level II holds longer, Level III adds reps.',
+    split: 'Hamstrings & hinge / forward fold flow', blurb: 'Hamstrings and hips so you can fold over her and stay there: hinges for strength, forward folds held long.',
+    about: 'For folding at the hips over her, from behind, and keeping the angle without your hamstrings pulling you out. One day strengthens the hinge, Romanian deadlifts, good mornings and back extensions, then stretches the hamstrings; the other is a long forward-fold flow, pyramid, wide-leg fold and half splits, held until they let go. Level II holds longer, Level III adds reps.',
     names: ['Bend', 'Fold', 'Over', 'Further', 'Touch Your Toes', 'Palms Down', 'Ragdoll', 'Hang', 'Hinge', 'Deep Fold', 'Forward', 'Bow', 'Curtsy', 'Reach', 'Long Legs', 'Hamstrings', 'All the Way', 'Head to Knees', 'Flat Back', 'Bent Over'],
     cycle: ['hinge', 'fold'],
     dayTypes: {
@@ -469,8 +469,8 @@ module.exports = [
   },
   {
     id: 'open-wide', ...SOLO, name: 'Open Wide', subject: 'Flexible & bendy', minutes: [24, 29], equip: 'bw', levers: [null, 'holds', 'holds'],
-    split: 'Adductor strength / straddle flow', blurb: 'Inner thighs strong and open: Cossack squats and Copenhagen planks, then a straddle you can fuck her in.',
-    about: 'Wide is a strength as well as a stretch, and these fucks need both so you can open her and stay in. One day builds the inner thighs with Cossack squats, Copenhagen planks and side-lying adductions, then opens them; the other is a long straddle, frog and butterfly flow. No equipment needed. Level II and III hold everything longer.',
+    split: 'Adductor strength / straddle flow', blurb: 'Inner thighs strong and open: Cossack squats and Copenhagen planks, then a straddle you can fuck from.',
+    about: 'Wide is a strength as well as a stretch, and a wide stance while you fuck her needs both. One day builds your inner thighs with Cossack squats, Copenhagen planks and side-lying adductions, then opens them; the other is a long straddle, frog and butterfly flow. No equipment needed. Level II and III hold everything longer.',
     names: ['Wide', 'Wider', 'Open', 'Straddle', 'Frog', 'Butterfly', 'Pancake', 'Side Split', 'Spread', 'Stretch', 'Inner Thighs', 'Open Hips', 'Wide Open', 'Arms Wide', 'Legs Apart', 'Gate', 'Doors Open', 'Splay', 'Flat', 'Wide Awake'],
     cycle: ['strength', 'flow'],
     dayTypes: {
@@ -480,8 +480,8 @@ module.exports = [
   },
   {
     id: 'arch-your-back', ...SOLO, name: 'Arch Your Back', subject: 'Flexible & bendy', minutes: [24, 29], levers: [null, 'holds', 'reps'],
-    split: 'Back strength / backbend flow', blurb: 'A strong, bendy spine for the arch you fuck her in: back extensions and bridges, then backbends held long.',
-    about: 'For arching her while you fuck, from doggy to the bridge. One day strengthens the back and glutes, supermans, bridges and back extensions; the other is a backbend flow, cobra, camel, bridge and wheel if you have it, with hip-flexor stretches that let the arch happen. Level II holds longer, Level III adds reps.',
+    split: 'Back strength / backbend flow', blurb: 'A strong, bendy spine so you can arch over her: back extensions and bridges, then backbends held long.',
+    about: 'For arching over her while you fuck, from doggy to a bridge. One day strengthens your back and glutes, supermans, bridges and back extensions; the other is a backbend flow, cobra, camel, bridge and wheel if you have it, with hip-flexor stretches that let your arch happen. Level II holds longer, Level III adds reps.',
     names: ['Arch', 'Curve', 'Bow', 'Cobra', 'Camel', 'Bridge', 'Wheel', 'Crescent', 'Swan', 'Cat', 'Cow', 'Sway', 'Spine', 'Bend Back', 'Open Chest', 'Heart Open', 'Lift', 'Rise', 'Arc', 'Arched'],
     cycle: ['strength', 'flow'],
     dayTypes: {
@@ -491,8 +491,8 @@ module.exports = [
   },
   {
     id: 'do-the-splits', ...SOLO, name: 'Do the Splits', subject: 'Flexible & bendy', minutes: [26, 31], equip: 'bw', levers: [null, 'holds', 'holds'],
-    split: 'Splits strength / splits flow', blurb: 'Front splits and side splits you can put her in and fuck, strong at the end range and held long.',
-    about: 'Splits, both kinds, so you can open her up and still fuck her. One day builds strength at the end range, split-squat holds, Cossacks and active leg lifts, then stretches; the other is a long splits flow, lizard, half splits and the splits themselves, held long. Level II and III hold everything longer.',
+    split: 'Splits strength / splits flow', blurb: 'Front splits and side splits so you can drop your hips and get deeper, strong at the end range and held long.',
+    about: 'Splits, both kinds, so your hips can drop close and you can still drive. One day builds strength at the end range, split-squat holds, Cossacks and active leg lifts, then stretches; the other is a long splits flow, lizard, half splits and the splits themselves, held long. Level II and III hold everything longer.',
     names: ['Split', 'Half Split', 'Lizard', 'Runner\'s Lunge', 'Pigeon', 'Hanuman', 'Side Split', 'Middle Split', 'Center', 'Slide', 'Lower', 'Floor', 'Almost There', 'Closer', 'Touchdown', 'Flat', 'Showgirl', 'Gymnast', 'Dancer', 'Splits'],
     cycle: ['strength', 'flow'],
     dayTypes: {
@@ -502,8 +502,8 @@ module.exports = [
   },
   {
     id: 'bendy-30', ...SOLO, days: 30, name: 'Bendy 30', subject: 'Flexible & bendy', minutes: [24, 29], equip: 'bw', levers: [null, 'holds', 'holds'],
-    split: 'Hips / hamstrings / back, 30 days', blurb: 'Thirty days to bend her any filthy way she likes: hips, hamstrings and back, held longer every ten days.',
-    about: 'A month of range, so you can bend her whichever way the fuck asks. Hips, hamstrings and back turn day by day, each with a short strength circuit at the angle it opens, then a long flow. Every ten days every hold gets longer.',
+    split: 'Hips / hamstrings / back, 30 days', blurb: 'Thirty days of range so you can fold, kneel and hold any angle: hips, hamstrings and back, longer every ten days.',
+    about: 'A month of range, so you can get into whichever angle the fuck asks and stay comfortable. Hips, hamstrings and back turn day by day, each with a short strength circuit at the angle it opens, then a long flow. Every ten days every hold gets longer.',
     names: ['Day One', 'Hips', 'Hamstrings', 'Back', 'Open', 'Fold', 'Arch', 'Twist', 'Reach', 'Day Ten', 'Deeper', 'Further', 'Wider', 'Lower', 'Longer', 'Softer', 'Looser', 'Freer', 'Bendy', 'Day Thirty'],
     cycle: ['hips', 'ham', 'back'],
     dayTypes: {
@@ -515,7 +515,7 @@ module.exports = [
   // ---- Strip & show-off (ticket 5): a pump before a date, short and sweaty ----
   {
     id: 'pump-before-the-date', ...SOLO, name: 'Pump Before the Date', subject: 'Strip & show-off', minutes: [22, 26], levers: [null, 'reps', 'weight'],
-    split: 'Upper pump / arms & abs', blurb: 'Twenty minutes before you go out: chest, shoulders and arms full of blood, abs lit, a body she wants to fuck.',
+    split: 'Upper pump / arms & abs', blurb: 'Twenty minutes before you go out: chest, shoulders and arms full of blood, abs lit, a body built to fuck her in.',
     about: 'A pump, not a workout to recover from, so you look worth her hands and her mouth when your clothes come off. Supersets of presses, flies, raises and curls with short rests fill the muscles that show, and a fast abs finisher tightens the middle. Do it an hour before the date, shower, and walk in looking your best. Level II adds reps, Level III asks for heavier weights.',
     names: ['Getting Ready', 'Shower After', 'Cologne', 'Good Shirt', 'Mirror Check', 'Pumped', 'Filled Out', 'Veins', 'Sleeves Tight', 'Buttons Strain', 'Fresh', 'Sharp', 'Dressed Up', 'Out the Door', 'Fashionably Late', 'Walk In', 'Heads Turn', 'Looking Good', 'Feeling Good', 'Showtime'],
     cycle: ['upper', 'arms'],
@@ -526,8 +526,8 @@ module.exports = [
   },
   {
     id: 'striptease-pump', ...SOLO, name: 'Striptease Pump', subject: 'Strip & show-off', minutes: [21, 25], equip: 'bw', levers: [null, 'reps', 'variation'],
-    split: 'Push-up pump / core & glutes', blurb: 'No equipment, maximum show: push-up pumps, glute pumps and abs, for when she takes your clothes off to fuck.',
-    about: 'A bodyweight pump for anywhere she might strip you and fuck, a hotel room included. One day is push-up variations in a circuit until the chest and arms are full; the other is glutes and abs, bridges, frog pumps and hollow holds. Short, sweaty and ready for her to take the rest off. Level II adds reps, Level III moves to harder variations.',
+    split: 'Push-up pump / core & glutes', blurb: 'No equipment, maximum show: push-up pumps, glute pumps and abs, for when the clothes come off and you fuck her.',
+    about: 'A bodyweight pump for anywhere you might strip and fuck her, a hotel room included. One day is push-up variations in a circuit until the chest and arms are full; the other is glutes and abs, bridges, frog pumps and hollow holds. Short, sweaty and ready for her to take the rest off. Level II adds reps, Level III moves to harder variations.',
     names: ['Lights Down', 'Music On', 'Slow Song', 'First Button', 'Shirt Off', 'Belt', 'Shoes', 'Socks', 'Down to Briefs', 'Spotlight', 'Stage', 'Pole', 'Chair', 'Hips', 'Shimmy', 'Grind', 'Tease', 'Reveal', 'Encore', 'Curtain'],
     cycle: ['push', 'core'],
     dayTypes: {
@@ -537,7 +537,7 @@ module.exports = [
   },
   {
     id: 'show-off', ...SOLO, name: 'Show Off', subject: 'Strip & show-off', minutes: [24, 29], levers: [null, 'weight', 'reps'],
-    split: 'Shoulders & arms / chest & back', blurb: 'Shoulders, arms, chest and back in quick supersets: the muscles that look good naked in a doorway for her.',
+    split: 'Shoulders & arms / chest & back', blurb: 'Shoulders, arms, chest and back in quick supersets: the muscles that look good naked in a doorway.',
     about: 'For a V-shape and arms that fill a sleeve, and look better naked when she undresses you. Shoulders and arms one day, chest and back the next, all in supersets so it\'s over fast, and a short abs block to finish. Nothing heavy enough to leave you sore for the evening. Level II asks for heavier weights, Level III adds reps.',
     names: ['Doorway', 'Silhouette', 'Shoulders Back', 'Chest Out', 'Wide', 'Tall', 'Broad', 'Strut', 'Swagger', 'Peacock', 'Flex', 'Pose', 'Look at Me', 'Spotlight', 'Center Stage', 'Main Character', 'Showstopper', 'Head Turner', 'Eye Candy', 'Show Off'],
     cycle: ['shoulders', 'chest'],
@@ -630,7 +630,7 @@ module.exports = [
   // ---- Quickie (ticket 5): 15 to 20 minutes, intense ----
   {
     id: 'quickie', ...SOLO, name: 'Quickie', subject: 'Quickie', minutes: [16, 20], levers: [null, 'reps', 'reps'],
-    split: 'Tabata & strength / EMOM', blurb: 'In and out in under twenty minutes: a Tabata and a strength block, or one fast EMOM, like a quick fuck with her.',
+    split: 'Tabata & strength / EMOM', blurb: 'In and out in under twenty minutes: a Tabata and a strength block, or one fast EMOM, like a quick fuck.',
     about: 'For days with no time, trained like a quick fuck: in, hard, done. One day pairs a Tabata with a short strength circuit; the other is a single EMOM that works the whole body. Under twenty minutes, done. Both later levels add reps.',
     names: ['Quick', 'Fast', 'Brief', 'Short', 'Snappy', 'Hurry', 'Rush', 'Dash', 'Blitz', 'Flash', 'Zip', 'Zoom', 'Express', 'Instant', 'Rapid', 'Speedy', 'Swift', 'On the Clock', 'Ten to Go', 'Done'],
     cycle: ['tabata', 'emom'],
@@ -641,8 +641,8 @@ module.exports = [
   },
   {
     id: 'wham-bam', ...SOLO, name: 'Wham Bam', subject: 'Quickie', minutes: [16, 20], equip: 'bw', levers: [null, 'reps', 'variation'],
-    split: 'Bodyweight blast / hip blast', blurb: 'No equipment and no warm-up chat: a bodyweight blast, then you\'re done, thank you ma\'am, like the fuck.',
-    about: 'Bodyweight only, over as fast as a wham-bam fuck with her. A full-body circuit as fast as you can move one day, a hip and glute blast the other, each with a quick Tabata. Level II adds reps, Level III moves to harder variations.',
+    split: 'Bodyweight blast / hip blast', blurb: 'No equipment and no warm-up chat: a bodyweight blast, then you\'re done, thank you ma\'am.',
+    about: 'Bodyweight only, over as fast as a wham-bam fuck. A full-body circuit as fast as you can move one day, a hip and glute blast the other, each with a quick Tabata. Level II adds reps, Level III moves to harder variations.',
     names: ['Wham', 'Bam', 'Thank You', 'Ma\'am', 'Slam', 'Bang', 'Pow', 'Boom', 'Crash', 'Smash', 'Whack', 'Thud', 'Kapow', 'Zap', 'Pop', 'Snap', 'Crackle', 'Sizzle', 'Fizz', 'Done Already'],
     cycle: ['blast', 'hips'],
     dayTypes: {
@@ -652,7 +652,7 @@ module.exports = [
   },
   {
     id: 'nooner', ...SOLO, name: 'Nooner', subject: 'Quickie', minutes: [18, 22], levers: [null, 'reps', 'weight'],
-    split: 'AMRAP & core / strength & finisher', blurb: 'A lunchtime quickie: an AMRAP or a strength block, a finisher, and back at your desk by one, half hard.',
+    split: 'AMRAP & core / strength & finisher', blurb: 'A lunchtime quickie: an AMRAP or a strength block, a finisher, and back at your desk by one.',
     about: 'Midday, quick, and dirty enough to leave you half hard thinking about her. An AMRAP of swings, presses and squats with a core finisher one day; a short strength superset with a Tabata after the other. Back to work with a grin. Level II adds reps, Level III asks for heavier weights.',
     names: ['Noon', 'Lunch Hour', 'Midday', 'Twelve Sharp', 'High Noon', 'Siesta', 'Long Lunch', 'Back by One', 'Desk Break', 'Quick Bite', 'Out to Lunch', 'Meeting', 'Busy', 'Do Not Disturb', 'Lunch Date', 'Afternoon Delight', 'Sneak Out', 'Back Soon', 'Grinning', 'Nooner'],
     cycle: ['amrap', 'strength'],
@@ -664,7 +664,7 @@ module.exports = [
   {
     id: 'hot-and-fast', ...SOLO, name: 'Hot and Fast', subject: 'Quickie', minutes: [16, 20], levers: [null, 'reps', 'reps'],
     split: 'Hot circuit / fast EMOM', blurb: 'Hot circuits and fast EMOMs, under twenty minutes, and you finish drenched like you just fucked her.',
-    about: 'Fast and hard, like the quick fuck with her it is named for. A hot circuit of swings, burpees and squats one day; a quick EMOM of swings and presses with a Tabata after the next. A minute of core to close. Both later levels add reps.',
+    about: 'Fast and hard, like the quick fuck it is named for. A hot circuit of swings, burpees and squats one day; a quick EMOM of swings and presses with a Tabata after the next. A minute of core to close. Both later levels add reps.',
     names: ['Hot', 'Hotter', 'Fast', 'Faster', 'Fire', 'Blaze', 'Scorch', 'Sizzle', 'Steam', 'Sweat', 'Drench', 'Pour', 'Flood', 'Boil', 'Fever', 'Heatwave', 'Sauna', 'Furnace', 'Inferno', 'Cool Off'],
     cycle: ['circuit', 'ladder'],
     dayTypes: {
@@ -674,7 +674,7 @@ module.exports = [
   },
   {
     id: 'quickie-30', ...SOLO, days: 30, name: 'Quickie 30', subject: 'Quickie', minutes: [16, 20], levers: [null, 'reps', 'weight'],
-    split: 'Tabata / EMOM / AMRAP, 30 days', blurb: 'Thirty quick ones: Tabata, EMOM and AMRAP in turn, each under twenty minutes and none of them polite or slow.',
+    split: 'Tabata / EMOM / AMRAP, 30 days', blurb: 'Thirty quick ones: Tabata, EMOM and AMRAP in turn, each under twenty minutes and none of them polite.',
     about: 'A month of quickies, short and filthy, the way a fast fuck with her is. Tabata, EMOM and AMRAP days turn, each with a short second block so every session mixes kinds of work. Under twenty minutes a day, harder every ten days.',
     names: ['Day One', 'Quick', 'Fast', 'Sharp', 'Snap', 'Flash', 'Dash', 'Zip', 'Blitz', 'Day Ten', 'Quicker', 'Faster', 'Sharper', 'Snappier', 'Hotter', 'Harder', 'Sweatier', 'Fitter', 'Done', 'Day Thirty'],
     cycle: ['tabata', 'emom', 'amrap'],
@@ -745,7 +745,7 @@ module.exports = [
   {
     id: 'pre-game', ...COUPLE, name: 'Pre-Game', subject: 'Date night warm-up', minutes: [16, 20], levers: [null, 'reps', 'holds'],
     split: 'Partner warm-up / tease', blurb: 'Before you two go out: a quick partner warm-up and a tease that leaves you both wanting a fuck all evening.',
-    about: 'Twenty minutes before the date, to get him hard and her wet. A short partner circuit to get the blood moving, squats holding hands and high-five push-ups, then a tease that\'s meant to stay unfinished: a slow dance and a dare. You two go out warm and come home in a hurry to fuck. Level II adds reps, Level III holds the tease longer.',
+    about: 'Twenty minutes before the date, to get you hard and her wet. A short partner circuit to get the blood moving, squats holding hands and high-five push-ups, then a tease that\'s meant to stay unfinished: a slow dance and a dare. You two go out warm and come home in a hurry to fuck. Level II adds reps, Level III holds the tease longer.',
     names: ['Kick-off', 'Warm-up', 'Pre-Drinks', 'Getting Ready', 'Mirror', 'Lipstick', 'Cologne', 'Taxi\'s Here', 'Five Minutes', 'Coat On', 'Not Now', 'Later', 'Hold That Thought', 'To Be Continued', 'Promise', 'Rain Check', 'Tonight', 'Can\'t Wait', 'Hurry Home', 'Kick-on'],
     cycle: ['circuit', 'stretch'],
     dayTypes: {
@@ -767,7 +767,7 @@ module.exports = [
   {
     id: 'appetizer', ...COUPLE, name: 'Appetizer', subject: 'Date night warm-up', minutes: [15, 19], levers: [null, 'reps', 'holds'],
     split: 'Partner Tabata / slow dance', blurb: 'A taste of the fuck coming later: a quick partner Tabata, then a slow dance that leaves you two aching.',
-    about: 'Small and spicy, foreplay for the fuck later, him hard and her wet. A partner Tabata, side by side, twenty seconds on and ten off, then a slow dance and a massage to bring the heart rate down and the mood up. Level II adds reps, Level III holds longer.',
+    about: 'Small and spicy, foreplay for the fuck later, you hard and her wet. A partner Tabata, side by side, twenty seconds on and ten off, then a slow dance and a massage to bring the heart rate down and the mood up. Level II adds reps, Level III holds longer.',
     names: ['Amuse-Bouche', 'Starter', 'Bite', 'Nibble', 'Taste', 'Sample', 'Morsel', 'Tapas', 'Canapé', 'Oysters', 'Champagne', 'Olives', 'Bread', 'Small Plate', 'Sharing', 'Tasting Menu', 'Second Course', 'Palate', 'Appetite', 'Main Course Later'],
     cycle: ['tabata', 'dance'],
     dayTypes: {
@@ -777,8 +777,8 @@ module.exports = [
   },
   {
     id: 'warm-me-up', ...COUPLE, name: 'Warm Me Up', subject: 'Date night warm-up', minutes: [16, 20], levers: [null, 'holds', 'holds'],
-    split: 'Stretch together / massage', blurb: 'A partner stretch and a hands-on massage: warm, loose, and horny before anybody has fucked yet.',
-    about: 'The gentle one, hands on skin, and nobody has fucked yet, on purpose. Stretch side by side through the hips and hamstrings, then trade a massage, back one day and legs the next, with a dare to close. Nothing sweaty, everything warm. Both later levels hold longer.',
+    split: 'Stretch together / massage', blurb: 'A partner stretch and a hands-on massage: warm, loose, and horny before anybody has fucked.',
+    about: 'The gentle one, hands on skin, and nobody has fucked yet. Stretch side by side through the hips and hamstrings, then trade a massage, back one day and legs the next, with a dare to close. Nothing sweaty, everything warm. Both later levels hold longer.',
     names: ['Cold Hands', 'Warm Hands', 'Rub', 'Knead', 'Loosen', 'Soften', 'Melt', 'Thaw', 'Heat', 'Glow', 'Toasty', 'Cosy', 'Blanket', 'Fireplace', 'Candle', 'Bath', 'Steam', 'Ember', 'Kindle', 'Warmed Up'],
     cycle: ['back', 'legs'],
     dayTypes: {
@@ -800,25 +800,25 @@ module.exports = [
   },
   // ---- Positions tour (ticket 6, couple): 30 one-off days, each a position and a way to prepare for it ----
   tour('floor-tour-30', 'Positions Tour: Floor', 'Ten positions on the bed, each prepared three ways: strength, range and stamina, then you two fuck in them.',
-    'Thirty different days, and on every one of them you two fuck on the bed. Each day takes one of ten floor positions and prepares for it one of three ways: the strength it asks for, the range it needs, or the stamina to keep it going. Then you do it, for real, his cock in her pussy, and a couple more after. No day repeats. Every ten days the holds get longer.',
+    'Thirty different days, and on every one of them you two fuck on the bed. Each day takes one of ten floor positions and prepares for it one of three ways: the strength it asks for, the range it needs, or the stamina to keep it going. Then you do it, for real, your cock in her pussy, and a couple more after. No day repeats. Every ten days the holds get longer.',
     ['pos_missionary', 'pos_legs_up', 'pos_cowgirl', 'pos_reverse_cowgirl', 'pos_doggy', 'pos_spooning', 'pos_lotus', 'pos_prone', 'pos_pretzel', 'pos_69'], ['strong', 'open', 'stamina']),
   tour('standing-tour-30', 'Positions Tour: Standing', 'The five standing positions, each prepared six ways over thirty days, then you two fuck in them on your feet.',
-    'Thirty days on your feet, fucking. The standing positions, from behind, the carry, the edge of the bed, the wheelbarrow and the butterfly, each prepared six ways: strength, range, stamina, grip and holds, legs, and core. Then you two do it. No day repeats. Every ten days the holds get longer.',
+    'Thirty days on your feet, fucking her standing. The standing positions, from behind, the carry, the edge of the bed, the wheelbarrow and the butterfly, each prepared six ways: strength, range, stamina, grip and holds, legs, and core. Then you fuck her in them. No day repeats. Every ten days the holds get longer.',
     ['pos_standing_behind', 'pos_standing_carry', 'pos_edge_of_bed', 'pos_wheelbarrow', 'pos_butterfly'], ['strong', 'open', 'stamina', 'grip', 'legs', 'core']),
-  tour('bendy-tour-30', 'Positions Tour: Bendy', 'The positions that ask for range, each opened five ways over thirty days, then you two fuck in them.',
-    'Thirty days for the bendy fucks, the ones that ask for range. Legs over shoulders, the pretzel, the butterfly, the lotus, the wheelbarrow and standing from behind: each is prepared five ways, mostly about range, hips, hamstrings and back, then done together with him inside her. No day repeats. Every ten days the holds get longer.',
+  tour('bendy-tour-30', 'Positions Tour: Bendy', 'The positions that ask for your range, each prepared five ways over thirty days, then you fuck her in them.',
+    'Thirty days for the fucks that ask your hips, hamstrings and back for range. Legs over shoulders, the pretzel, the butterfly, the lotus, the wheelbarrow and standing from behind: each is prepared five ways, mostly about your range, then you fuck her in them. No day repeats. Every ten days the holds get longer.',
     ['pos_legs_up', 'pos_pretzel', 'pos_butterfly', 'pos_lotus', 'pos_wheelbarrow', 'pos_standing_behind'], ['open', 'strong', 'core', 'legs', 'stamina']),
-  tour('strong-tour-30', 'Positions Tour: Strong', 'The positions that take strength to fuck in, each built five ways over thirty days, then done together.',
-    'Thirty days for the fucks that take strength to hold. The standing carry, the wheelbarrow, missionary, cowgirl, reverse cowgirl and doggy: each is built five ways, strength, grip and holds, legs, core and stamina, then done together with him inside her. No day repeats. Every ten days the holds get longer.',
+  tour('strong-tour-30', 'Positions Tour: Strong', 'The positions that take strength to fuck in, each built five ways over thirty days.',
+    'Thirty days for the fucks that take strength to hold. The standing carry, the wheelbarrow, missionary, cowgirl, reverse cowgirl and doggy: each is built five ways, strength, grip and holds, legs, core and stamina, then you fuck her in them. No day repeats. Every ten days the holds get longer.',
     ['pos_standing_carry', 'pos_wheelbarrow', 'pos_missionary', 'pos_cowgirl', 'pos_reverse_cowgirl', 'pos_doggy'], ['strong', 'grip', 'legs', 'core', 'stamina']),
   tour('grand-tour-30', 'The Grand Tour', 'Fifteen positions, each prepared two ways: thirty days of fucking together, and never the same night twice.',
-    'The whole menu, and you two fuck your way down it. Fifteen positions from missionary to the wheelbarrow, each prepared two ways, its strength and its range, over thirty days, then done together, his cock in her, with a couple more after. No day repeats. Every ten days the holds get longer.',
+    'The whole menu, and you fuck her in a different position every night. Fifteen positions from missionary to the wheelbarrow, each prepared two ways, its strength and its range, over thirty days, then you fuck her in them, your cock in her, with a couple more after. No day repeats. Every ten days the holds get longer.',
     ['pos_missionary', 'pos_legs_up', 'pos_cowgirl', 'pos_reverse_cowgirl', 'pos_doggy', 'pos_standing_behind', 'pos_spooning', 'pos_lotus', 'pos_standing_carry', 'pos_edge_of_bed', 'pos_wheelbarrow', 'pos_prone', 'pos_butterfly', 'pos_pretzel', 'pos_69'], ['strong', 'open']),
   // ---- Morning glory / Sunday (ticket 6, couple): slow and long, stretch, partner work, positions ----
   {
     id: 'morning-glory', ...COUPLE, name: 'Morning Glory', subject: 'Morning glory / Sunday', minutes: [40, 48], levers: [null, 'holds', 'holds'],
     split: 'Wake-up flow, partner work, slow positions', blurb: 'A slow weekend morning: a wake-up stretch, easy partner work, a massage, then slow fucking in bed together.',
-    about: 'For mornings with nowhere to be but in bed fucking, slow and deep. A wake-up flow side by side in bed, easy partner work to get the blood moving, a massage and a slow dance, then the slow positions, spooning, lotus, missionary, held long. Coffee after. Both later levels hold longer.',
+    about: 'For mornings with nowhere to be but in bed fucking, slow and deep. A wake-up flow side by side in bed, easy partner work to get the blood moving, a massage and a slow dance, then the slow positions, spooning, lotus, missionary, held long with you inside her. Coffee after. Both later levels hold longer.',
     names: ['Sunrise', 'Alarm Off', 'Snooze', 'Five More Minutes', 'Bed Head', 'Morning Breath', 'Coffee Later', 'Sunlight', 'Curtains Closed', 'Lazy', 'Slow', 'Warm Sheets', 'Spoon', 'Stretch', 'Yawn', 'Good Morning', 'Breakfast Later', 'Brunch', 'Afternoon Already', 'Morning Glory'],
     cycle: ['wake', 'easy'],
     dayTypes: {
@@ -829,7 +829,7 @@ module.exports = [
   {
     id: 'lazy-sunday', ...COUPLE, name: 'Lazy Sunday', subject: 'Morning glory / Sunday', minutes: [45, 55], levers: [null, 'holds', 'holds'],
     split: 'Long stretch, partner holds, long positions', blurb: 'The longest, slowest one: a long stretch, partner holds, a massage each, then positions held while you two fuck.',
-    about: 'Sunday, the whole morning, spent loosening up and then fucking slowly, him inside her. A long stretch flow, partner holds that take their time, a massage for each of you, then a long block of slow positions. Fifty minutes that don\'t feel like exercise. Both later levels hold longer.',
+    about: 'Sunday, the whole morning, spent loosening up and then fucking slowly, you inside her. A long stretch flow, partner holds that take their time, a massage for each of you, then a long block of slow positions. Fifty minutes that don\'t feel like exercise. Both later levels hold longer.',
     names: ['Sunday', 'No Plans', 'Pyjamas', 'Newspaper', 'Croissants', 'Pancakes', 'Rain Outside', 'Duvet Day', 'Slow Jams', 'Long Bath', 'Nap', 'Second Nap', 'Late Lunch', 'Afternoon', 'Golden Hour', 'Sunday Best', 'Sunday Roast', 'Sunday Night', 'Monday Tomorrow', 'Lazy'],
     cycle: ['long', 'longer'],
     dayTypes: {
@@ -839,8 +839,8 @@ module.exports = [
   },
   {
     id: 'breakfast-in-bed', ...COUPLE, name: 'Breakfast in Bed', subject: 'Morning glory / Sunday', minutes: [40, 48], levers: [null, 'reps', 'holds'],
-    split: 'Partner circuit, tease, her on top', blurb: 'Work up an appetite: a partner circuit, a long tease, then cowgirl before breakfast, his cock in her.',
-    about: 'A livelier morning: get sweaty, then she takes him before breakfast. A partner circuit to wake up properly, a stretch, a long tease with dares, then positions where she is on top, cowgirl, reverse and lotus, his cock in her. Breakfast after, in bed. Level II adds reps, Level III holds longer.',
+    split: 'Partner circuit, tease, her on top', blurb: 'Work up an appetite: a partner circuit, a long tease, then cowgirl before breakfast, your cock in her.',
+    about: 'A livelier morning: get sweaty, then she sits on your cock before breakfast. A partner circuit to wake up properly, a stretch, a long tease with dares, then positions where she is on top, cowgirl, reverse and lotus, your cock in her. Breakfast after, in bed. Level II adds reps, Level III holds longer.',
     names: ['Toast', 'Butter', 'Jam', 'Honey', 'Eggs', 'Bacon', 'Coffee', 'Orange Juice', 'Tray', 'Crumbs', 'Sticky Fingers', 'Syrup', 'Whipped Cream', 'Strawberries', 'Second Helping', 'Seconds', 'Full', 'Satisfied', 'Brunch', 'Breakfast in Bed'],
     cycle: ['circuit', 'stretch'],
     dayTypes: {
@@ -851,7 +851,7 @@ module.exports = [
   {
     id: 'sleep-in', ...COUPLE, name: 'Sleep In', subject: 'Morning glory / Sunday', minutes: [40, 48], levers: [null, 'holds', 'holds'],
     split: 'Bed stretch, massage, slow positions', blurb: 'Never leave the bed: stretch, massage and a slow fuck, all of it under the covers together.',
-    about: 'Everything here happens in bed, under the covers, and it ends with his cock in her. A gentle stretch lying down, partner bridges and core, a long massage, and the positions that suit a lazy morning, spooning, lying flat, missionary. Both later levels hold longer.',
+    about: 'Everything here happens in bed, under the covers, and it ends with your cock in her. A gentle stretch lying down, partner bridges and core, a long massage, and the positions that suit a lazy morning, spooning, lying flat, missionary. Both later levels hold longer.',
     names: ['Stay', 'Don\'t Get Up', 'Under Covers', 'Pillow Fort', 'Blanket', 'Cocoon', 'Nest', 'Burrow', 'Hibernate', 'Snuggle', 'Cuddle', 'Spoon', 'Big Spoon', 'Little Spoon', 'Tangle', 'Warm', 'Drowsy', 'Dozing', 'Half Awake', 'Sleep In'],
     cycle: ['stretch', 'massage'],
     dayTypes: {
@@ -862,7 +862,7 @@ module.exports = [
   {
     id: 'morning-glory-30', ...COUPLE, days: 30, name: 'Morning Glory 30', subject: 'Morning glory / Sunday', minutes: [40, 48], levers: [null, 'reps', 'holds'],
     split: 'Slow / lively / lazy, 30 days', blurb: 'Thirty slow mornings: a stretch, partner work, a tease and positions you two fuck in, longer every ten days.',
-    about: 'A month of mornings, or weekends if that\'s more realistic, with a fuck before anyone gets dressed. Slow, lively and lazy mornings turn, each with a stretch, partner work, a tease and a block of positions to match, him inside her. Every ten days it gets harder, more reps and then longer holds.',
+    about: 'A month of mornings, or weekends if that\'s more realistic, with a fuck before anyone gets dressed. Slow, lively and lazy mornings turn, each with a stretch, partner work, a tease and a block of positions to match, you inside her. Every ten days it gets harder, more reps and then longer holds.',
     names: ['Day One', 'Dawn', 'Daybreak', 'First Light', 'Sunup', 'Morning', 'Rise', 'Shine', 'Stir', 'Day Ten', 'Wake', 'Linger', 'Laze', 'Lounge', 'Loll', 'Bask', 'Rest', 'Doze', 'Glory', 'Day Thirty'],
     cycle: ['slow', 'lively', 'lazy'],
     dayTypes: {

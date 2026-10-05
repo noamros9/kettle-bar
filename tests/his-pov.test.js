@@ -16,6 +16,9 @@ const HER_SIDE = [
   'your pussy', 'your clit', 'your tits', 'your breasts', 'your nipples', 'your cunt',
   'his cock in you', 'on his cock', 'ride him', 'he fucks you', 'you ride', 'you get fucked',
   'he pounds you', 'straddle him', 'sit on his',
+  'your ass up', 'ass up', 'you get bent', 'bend you over', 'take a fuck', 'fuck you',
+  'to be fucked', 'get bent over', 'open you up', 'arch you', 'pin you', 'hold you up',
+  'in a bikini', 'your bikini',
 ];
 // id -> phrases that are genuine false positives in that program's wording
 const ALLOW = {};
