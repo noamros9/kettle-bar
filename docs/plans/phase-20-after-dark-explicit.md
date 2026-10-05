@@ -83,7 +83,7 @@ PR and merges on green CI.
 | 5.5 | The 105 After dark descriptions, his POV | content | 3, 4 | `content/after-dark-his-pov` | done (PR #218) |
 | 6 | Catalogue 11: oral (24) and hands (8) | content | 5 | `content/catalogue-11-oral` | done (PR #219) |
 | 7 | Catalogue 11: anal (24) and toys (8) | content | 5 | `content/catalogue-11-anal` | done (PR #221) |
-| 8 | Explicit (+20), and the three session shapes | feature | 6, 7 | `content/explicit` | todo |
+| 8 | Explicit (+20), and the three session shapes | feature | 6, 7 | `content/explicit` | done (PR #223) |
 | 9 | Beach body, Bedroom stamina, Sex positions (+27) | content | 8, Ph 21–22 | `content/explicit-more-a` | todo |
 | 10 | Couples, Endurance & control, Hip power & thrust (+27) | content | 8, Ph 21–22 | `content/explicit-more-b` | todo |
 | 11 | Carry & hold, Flexible & bendy, Strip & show-off (+27) | content | 8, Ph 21–22 | `content/explicit-more-c` | todo |
