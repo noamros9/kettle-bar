@@ -375,6 +375,9 @@ Plan: [docs/plans/phase-20-after-dark-explicit.md](docs/plans/phase-20-after-dar
 61. **Page cap 125 → 135 KB gzipped** (5 Oct); the 150 gate stays.
 62. **Swap unchanged** (5 Oct): older couple programs may offer catalogue-11 exercises in Swap.
 63. **Grok writes the explicit text** (5 Oct); a text failure gets a second Grok round.
+64. **Program descriptions from his side** (5 Oct, ticket 5.5): blurbs and about text are written from his POV or a
+    straight couple's POV, depending on the program, never hers. The app is Noam's. Just as explicit, or hotter.
+    Applies to the 105 rewritten in tickets 3–4 and to every new program in tickets 8–13.
 
 ### Architecture review V ([#187](https://github.com/noamros9/kettle-bar/issues/187))
 A fresh review after Phases 13–18: shelf groups, Variety, ~580 programs, the library boot, sync at that scale (one

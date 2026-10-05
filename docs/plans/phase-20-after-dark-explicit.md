@@ -60,6 +60,7 @@ PR and merges on green CI.
 | 3 | Rewrite the Phase 16 After dark text (30) | content | – | `content/after-dark-text-16` | done (PR #210) |
 | 4 | Rewrite the Phase 18 After dark text (75) | content | – | `content/after-dark-text-18` | done (PR #211) |
 | 5 | Catalogue 11: intercourse (24) | feature | 1 | `feature/catalogue-11` | todo |
+| 5.5 | The 105 After dark descriptions, his POV | content | 3, 4 | `content/after-dark-his-pov` | todo |
 | 6 | Catalogue 11: oral (24) and hands (8) | content | 5 | `content/catalogue-11-oral` | todo |
 | 7 | Catalogue 11: anal (24) and toys (8) | content | 5 | `content/catalogue-11-anal` | todo |
 | 8 | Explicit (+20), and the three session shapes | feature | 6, 7 | `content/explicit` | todo |
@@ -105,6 +106,24 @@ PR and merges on green CI.
   contains an `added: 11` exercise; `rm -rf data && node build.js` on main and the branch differ only in new files.
 - **Done when:** page under 135 KB; the 24 draw at 390 px, light and dark.
 
+### 5.5. The 105 After dark descriptions, his POV
+Added 5 Oct 2026 (Noam): much of the text Grok wrote in tickets 3 and 4 reads from her side. The app is Noam's, and
+he's a man, so the descriptions speak to him.
+- `blurb` (the line on the Programs page) and `about` (the paragraph inside the program) of the 105 After dark
+  programs, 30 in `configs/mixed.js` and 75 in `configs/after-dark.js`. Grok writes it, as decision 63.
+- **Point of view, per program:** his POV ("you" is him; she is "her") or a straight couple's POV ("you two", him
+  and her). Grok picks per program: his for programs built around what he does (carries, thrust, stamina, control),
+  the couple's for ones done together (partner circuits, dares, strip, date night). Never her POV.
+- **Heat:** as explicit as tickets 3 and 4, or hotter. Never toned down. Same register: explicit words, dirty slang,
+  no orgasm script.
+- Names, ids, days, cycles and `split` stay. Exercise cues are not part of this ticket.
+- **Test first:** as ticket 3, for all 105: ids, `cycle` and `dayTypes` deep-equal; blurb one sentence of at most 140
+  characters, about one paragraph. Plus: no blurb or about addresses her as "you" (a list of her-side phrasings, such
+  as "your pussy", "your clit", "his cock in you", "ride him", checked case-insensitively, with any real false positive
+  allowed by id).
+- **Done when:** no pin changes; `rm -rf data && node build.js` differs from main only in those 105 library entries;
+  Claude reads all 105 for POV and heat (a blurb that reads softer than what it replaces goes back to Grok).
+
 ### 6. Catalogue 11: oral (24) and hands (8)
 - As ticket 5: 24 oral (going down on her, on him, 69s, face-sitting and the like) in `oralSex`, 8 hands in `hands`.
 - **Test first:** extend `catalogue11.test.js`: the two pools hold exactly their 24 and 8.
@@ -136,6 +155,8 @@ PR and merges on green CI.
 - Positions tour (ticket 13): `tour()` grows to 60 one-off days (positions × ways = 60, the shapes among the ways).
 - **Test first** (each): the 27 ids pinned in the tests, shapes, Mixed rules, `couple` and `skipped`, minutes in band.
 - **Done when:** as ticket 8.
+- **Point of view** (tickets 8–13): every new blurb and about follows ticket 5.5's rule, his POV or a straight
+  couple's, never hers, and ticket 5.5's her-side test covers them.
 
 ## Challenge round
 - **Weakest assumption:** that 88 exercises fit in 135 KB. Verified only by scale: the 43 couple exercises gzip to
