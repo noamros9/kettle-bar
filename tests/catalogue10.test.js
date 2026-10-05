@@ -8,7 +8,8 @@ const { figureSVG } = require('../figures.js');
 const { POOLS } = require('../program-builder.js');
 const Swaps = require('../app/swaps.js');
 
-const COUPLE = Object.values(cat.EX).filter((e) => e.cat === 'couple');
+// Catalogue 10 only. Catalogue 11 couple exercises (added: 11) are catalogue11.test.js.
+const COUPLE = Object.values(cat.EX).filter((e) => e.cat === 'couple' && e.added === 10);
 const ids = new Set(COUPLE.map((e) => e.id));
 const NEW_POOLS = ['partner', 'partnerLower', 'partnerUpper', 'partnerCore', 'partnerHold', 'tease', 'dare', 'massage', 'positions', 'positionsBed', 'positionsStanding', 'positionsHer', 'positionsSlow', 'oral'];
 
