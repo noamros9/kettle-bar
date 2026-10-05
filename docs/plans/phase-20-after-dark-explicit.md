@@ -32,9 +32,13 @@ Locked on the issue (5 Oct):
 
 Decided while planning (5 Oct, Noam):
 - **+45 Explicit, mainly sex only** (added after ticket 6 merged): 40 with no gym block (20 sex-then-sex, 20
-  positions-only) and 5 gym-then-sex. They use the catalogue-11 positions: every sex block draws only the new pools
-  (`fuck`, `oralSex`, `hands`, `anal`, `toy`, `explicit`). The phase grows from 155 to 200 new programs. The 45 are
+  positions-only) and 5 gym-then-sex. The phase grows from 155 to 200 new programs. The 45 are
   tickets 14–15 (two tickets, because 27 programs is the most one ticket keeps reviewable).
+- **Old and new exercises together** (Noam, 5 Oct, correcting Claude's "only the new pools"): every new program
+  (tickets 8–15) uses the catalogue-11 exercises *alongside* catalogue 10's couple exercises, not instead of them.
+  Each sex block draws from both: the new pools (`fuck`, `oralSex`, `hands`, `anal`, `toy`, `explicit`) and the
+  catalogue-10 couple pools (`positions` and its splits, `oral`, `tease`, `dare`, `massage`). Every new program's
+  days hold exercises from both catalogues.
 - **+8 hands exercises** (fingering, handjob, and the like), pool `hands`: the "oral or hands" block of sex-then-sex
   draws `oralSex` and `hands`. Catalogue 11 is 88, not 80.
 - **The page cap goes from 125 to 135 KB gzipped** (the gate in CLAUDE.md stays 150). Today's page is 119 KB; the 43
@@ -151,19 +155,22 @@ he's a man, so the descriptions speak to him.
 
 ### 8. Explicit (+20), and the three session shapes
 - In `configs/after-dark.js`: `EXPLICIT = { added: 20, catalogue: 11, couple: true, equip: 'bw' }` and three day
-  builders: `gymThenSex` (partner work, then a positions block from the new pools), `sexThenSex` (`oralSex`/`hands`,
-  then `fuck`/`anal`/`toy`), `positionsOnly` (a single positions flow from `explicit`, one family: marked so the
-  two-families test skips it, and only it).
+  builders: `gymThenSex` (partner work, then a positions block), `sexThenSex` (a warm-up sex block from
+  `oralSex`/`hands` with catalogue 10's `oral`/`tease`/`massage`, then intercourse from `fuck`/`anal`/`toy` with
+  catalogue 10's `positions`), `positionsOnly` (a single positions flow from `explicit` and `positions`, one family:
+  marked so the two-families test skips it, and only it). Every sex block mixes old and new exercises (above).
 - Subject **Explicit** in `SHELVES` (After dark) and `FAMILIES` (Mixed); 20 programs, 60 days, 7/7/6 by shape,
   hand-written blurb and about, explicit names.
 - **Test first:** in a new `tests/explicit.test.js`: the 20 ids; every day of each is its shape; Mixed rules (two
   families a day except positions-only days); every program is `couple`, `catalogue: 11`, 60 days, and in the recipe
-  book's `skipped`; the configs test keeps every subject in one family and one group.
+  book's `skipped`; every program's days hold both catalogue-10 and catalogue-11 couple exercises; the configs test
+  keeps every subject in one family and one group.
 - **Done when:** pins added, no existing pin changes, recipe book and page under their gates, 390 px screenshots
   of an Explicit day of each shape, light and dark.
 
 ### 9–13. Nine more in each of the 15 subjects (+135)
-- Each subject gets 9 programs, 3 of each shape, 60 days, `EXPLICIT`, minutes in that subject's band, names and about
+- Each subject gets 9 programs, 3 of each shape, 60 days, `EXPLICIT`, ticket 8's builders (old and new exercises
+  together), minutes in that subject's band, names and about
   hand-written for that subject. Each ticket covers the 3 subjects in its row.
 - Positions tour (ticket 13): `tour()` grows to 60 one-off days (positions × ways = 60, the shapes among the ways).
 - **Test first** (each): the 27 ids pinned in the tests, shapes, Mixed rules, `couple` and `skipped`, minutes in band.
@@ -173,11 +180,11 @@ he's a man, so the descriptions speak to him.
 
 ### 14–15. Explicit, sex only (+45)
 - 45 more Explicit programs, with ticket 8's `EXPLICIT` settings and day builders, 60 days each: ticket 14 has 10
-  sex-then-sex, 10 positions-only and 3 gym-then-sex; ticket 15 has 10, 10 and 2. Every sex block draws only the
-  catalogue-11 pools, so the 88 new positions get used. Minutes as Explicit's (×1.2, above). Names, blurbs and about
+  sex-then-sex, 10 positions-only and 3 gym-then-sex; ticket 15 has 10, 10 and 2. Sex blocks mix old and new
+  exercises, as ticket 8's builders do. Minutes as Explicit's (×1.2, above). Names, blurbs and about
   text hand-written, from his side.
 - **Test first** (each): in `tests/explicit.test.js`, the new ids pinned; shapes; Mixed rules; `couple`, `catalogue:
-  11`, 60 days, `skipped`; minutes in Explicit's band; every sex block's exercises are `added: 11`.
+  11`, 60 days, `skipped`; minutes in Explicit's band; every program uses both catalogue-10 and catalogue-11 couple exercises.
 - **Done when:** as ticket 8.
 
 ## Challenge round

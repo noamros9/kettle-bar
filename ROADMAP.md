@@ -371,8 +371,9 @@ Plan: [docs/plans/phase-20-after-dark-explicit.md](docs/plans/phase-20-after-dar
 58. **A pelvic mark on the stick figures** (5 Oct), on every position: rendered pictures were refused by the image tool.
 59. **Catalogue 11: 88 exercises** (5 Oct): 24 intercourse, 24 oral, 24 anal, 8 toys, 8 hands.
 60. **+200 programs, all 60 days, all couple** (5 Oct): Explicit (a subject chip on the After dark shelf, 65: 20, then
-    45 more that are mainly sex only and use the new positions) and 9 in each of the 15 After dark subjects; three
+    45 more that are mainly sex only) and 9 in each of the 15 After dark subjects; three
     session shapes (gym then sex, sex then sex, positions only). Minutes 20% longer than each band (Noam, 5 Oct).
+    They use the 88 new exercises alongside catalogue 10's couple exercises, not instead of them (Noam, 5 Oct).
 61. **Page cap 125 → 135 KB gzipped** (5 Oct); the 150 gate stays.
 62. **Swap unchanged** (5 Oct): older couple programs may offer catalogue-11 exercises in Swap.
 63. **Grok writes the explicit text** (5 Oct); a text failure gets a second Grok round.
