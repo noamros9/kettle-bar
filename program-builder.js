@@ -225,6 +225,10 @@
       // Phase 20 ticket 6: oral and hands. New names only, so the catalogue-10 pool `oral` is not touched.
       oralSex: ['oral_edge', 'oral_knees_up', 'oral_pillow', 'oral_behind', 'oral_standing', 'oral_chair', 'oral_counter', 'oral_wall', 'oral_bridge', 'oral_side', 'oral_face_sit', 'oral_face_back', 'oral_face_edge', 'oral_face_hover', 'oral_kneel_him', 'oral_sit_him', 'oral_lie_him', 'oral_chair_him', 'oral_edge_down', 'oral_side_him', 'oral_69', 'oral_69_side', 'oral_69_over', 'oral_69_flat'],
       hands: ['hands_finger_edge', 'hands_finger_behind', 'hands_finger_side', 'hands_finger_chair', 'hands_stroke_kneel', 'hands_stroke_lie', 'hands_stroke_chair', 'hands_mutual'],
+      // Phase 20 ticket 7: anal (him fucking her ass) and toys (on her, or worn by him). New names only.
+      // The strap-on is worn by him and used on her, never pegging. `explicit` is computed below, not listed.
+      anal: ['anal_ankles_locked', 'anal_mating_press', 'anal_piledriver', 'anal_face_down', 'anal_bed_edge', 'anal_frog', 'anal_spoon', 'anal_scissors', 'anal_chair', 'anal_chair_back', 'anal_standing', 'anal_wall', 'anal_feet_down', 'anal_counter', 'anal_lunge', 'anal_flat', 'anal_shoulder', 'anal_bridge', 'anal_sit_edge', 'anal_split', 'anal_leapfrog', 'anal_cowgirl', 'anal_reverse', 'anal_knees_up'],
+      toy: ['toy_wand_back', 'toy_wand_doggy', 'toy_plug_back', 'toy_plug_frog', 'toy_strapon_doggy', 'toy_strapon_prone', 'toy_ring_back', 'toy_ring_stand'],
     };
     // Pools computed from the catalogue. An exercise marked `added: N` (the phase that added it) joins them only
     // for configs with `catalogue: N` or later, so new exercises can't reshuffle the days of existing programs.
@@ -240,6 +244,8 @@
         absW: has((e) => e.cat === 'abs' && e.load && !(e.equip || []).includes('bar')),
         warmups: has((e) => e.cat === 'warmup'),
         cooldowns: has((e) => e.cat === 'cooldown'),
+        // Every catalogue-11 exercise, whatever order tickets 6 and 7 merge. Empty below catalogue 11.
+        explicit: has((e) => e.added === 11),
       };
     };
     const COMPUTED = new Map();
@@ -474,7 +480,7 @@
     }
     // frozen programs: generated once, then kept byte-for-byte; only their description comes from the config
 
-    return { build, buildDay, blockTimes, dayTypesOf, POOLS, REST, timing: { blockTime, dayTime } };
+    return { build, buildDay, blockTimes, dayTypesOf, POOLS, poolsAt: computed, REST, timing: { blockTime, dayTime } };
   }
 
   const builders = new Map(); // one per catalogue (pools are computed from it)
@@ -496,7 +502,7 @@
     return { ...saved, subject: cfg.subject, about: cfg.about, split: cfg.split, minutes: cfg.minutes, equip: cfg.equip || 'all', formats: ['straight'], dayTypes: b.dayTypesOf(cfg) };
   }
   const buildConfig = (cfg) => (cfg.frozen ? buildFrozen(cfg) : b.build(cfg));
-  module.exports = { ...api, buildConfig, buildAll: () => CONFIGS.map(buildConfig), CONFIGS, POOLS: b.POOLS, REST: b.REST, timing: b.timing };
+  module.exports = { ...api, buildConfig, buildAll: () => CONFIGS.map(buildConfig), CONFIGS, POOLS: b.POOLS, poolsAt: b.poolsAt, REST: b.REST, timing: b.timing };
   /* node:coverage ignore next 2 */
 })(typeof window !== 'undefined' ? window : globalThis, typeof module !== 'undefined' && module.exports ? require('./formats.js') : window.KBFormats,
   typeof module !== 'undefined' && module.exports ? require('./app/length.js') : window.KBLength);
