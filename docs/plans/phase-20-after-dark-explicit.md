@@ -39,6 +39,15 @@ Decided while planning (5 Oct, Noam):
   Each sex block draws from both: the new pools (`fuck`, `oralSex`, `hands`, `anal`, `toy`, `explicit`) and the
   catalogue-10 couple pools (`positions` and its splits, `oral`, `tease`, `dare`, `massage`). Every new program's
   days hold exercises from both catalogues.
+- **Equal odds, basics about 1.5×** (Noam, 5 Oct, ticket 8; replaces any per-pool share): in a sex block every couple
+  exercise, old or new, has about the same chance of being drawn, and basics (`basic: 1`: the 17 `pos_*` classics and
+  10 plain catalogue-11 ones) about 1.5× as often. Built into the builder: sex blocks name the merged pools
+  `sexPositions`, `sexWarm`, `sexFuck` (`mergedAt`), whose picker weighs basics 5 to 3. Standing test:
+  `tests/couple-odds.test.js`, every couple program on catalogue 11 or later. Tickets 9–15 use the merged pools.
+- **Descriptions describe the session** (Noam, 5 Oct, ticket 8): what he does to her and how it builds, never the
+  builder (slots, catalogues, old or new positions, exercises being dealt). Standing test in `tests/his-pov.test.js`.
+- **Phase 20 pauses after ticket 8** (Noam, 5 Oct): Phases 21 (exercise families, #220) and 22 (catalogue 12) come
+  first. Tickets 9–15 then build at `catalogue: 12`, so their merged pools hold catalogues 10–12. See ROADMAP.md.
 - **+8 hands exercises** (fingering, handjob, and the like), pool `hands`: the "oral or hands" block of sex-then-sex
   draws `oralSex` and `hands`. Catalogue 11 is 88, not 80.
 - **The page cap goes from 125 to 135 KB gzipped** (the gate in CLAUDE.md stays 150). Today's page is 119 KB; the 43
@@ -75,13 +84,13 @@ PR and merges on green CI.
 | 6 | Catalogue 11: oral (24) and hands (8) | content | 5 | `content/catalogue-11-oral` | done (PR #219) |
 | 7 | Catalogue 11: anal (24) and toys (8) | content | 5 | `content/catalogue-11-anal` | done (PR #221) |
 | 8 | Explicit (+20), and the three session shapes | feature | 6, 7 | `content/explicit` | todo |
-| 9 | Beach body, Bedroom stamina, Sex positions (+27) | content | 8 | `content/explicit-more-a` | todo |
-| 10 | Couples, Endurance & control, Hip power & thrust (+27) | content | 8 | `content/explicit-more-b` | todo |
-| 11 | Carry & hold, Flexible & bendy, Strip & show-off (+27) | content | 8 | `content/explicit-more-c` | todo |
-| 12 | Her pleasure, Quickie, Back & knees care (+27) | content | 8 | `content/explicit-more-d` | todo |
-| 13 | Date night warm-up, Positions tour, Morning glory / Sunday (+27) | content | 8 | `content/explicit-more-e` | todo |
-| 14 | Explicit, sex only (+23) | content | 8 | `content/explicit-sex-a` | todo |
-| 15 | Explicit, sex only (+22) | content | 8 | `content/explicit-sex-b` | todo |
+| 9 | Beach body, Bedroom stamina, Sex positions (+27) | content | 8, Ph 21–22 | `content/explicit-more-a` | todo |
+| 10 | Couples, Endurance & control, Hip power & thrust (+27) | content | 8, Ph 21–22 | `content/explicit-more-b` | todo |
+| 11 | Carry & hold, Flexible & bendy, Strip & show-off (+27) | content | 8, Ph 21–22 | `content/explicit-more-c` | todo |
+| 12 | Her pleasure, Quickie, Back & knees care (+27) | content | 8, Ph 21–22 | `content/explicit-more-d` | todo |
+| 13 | Date night warm-up, Positions tour, Morning glory / Sunday (+27) | content | 8, Ph 21–22 | `content/explicit-more-e` | todo |
+| 14 | Explicit, sex only (+23) | content | 8, Ph 21–22 | `content/explicit-sex-a` | todo |
+| 15 | Explicit, sex only (+22) | content | 8, Ph 21–22 | `content/explicit-sex-b` | todo |
 
 ### 1. The pelvic mark
 - `figures.js`: a pose (and its `two`) may carry `mark: 1`; the figure then draws a small filled mark at its hip, in
@@ -169,6 +178,9 @@ he's a man, so the descriptions speak to him.
   of an Explicit day of each shape, light and dark.
 
 ### 9–13. Nine more in each of the 15 subjects (+135)
+**Resume here (5 Oct 2026):** tickets 1–8 are done; Phase 20 waits for Phases 21 and 22 (ROADMAP.md items 68–77).
+Next session: write `docs/plans/phase-21-exercise-families.md` from ROADMAP items 68–71 (grilled 5 Oct), land it as its
+own PR, then build it; then Phase 22's plan. Ticket 9 resumes after Phase 22, at `catalogue: 12`, with the merged pools.
 - Each subject gets 9 programs, 3 of each shape, 60 days, `EXPLICIT`, ticket 8's builders (old and new exercises
   together), minutes in that subject's band, names and about
   hand-written for that subject. Each ticket covers the 3 subjects in its row.
