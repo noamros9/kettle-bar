@@ -55,8 +55,10 @@ How Noam wants work done in this repo. Words: [CONTEXT.md](CONTEXT.md). Decision
   blurb and about for POV and heat before merging, and sends softer or her-side text back.
 
 ## Mechanics
-- `gh` isn't installed; use the GitHub REST API with curl (auth comes from the proxy). Send
-  `-H "Content-Type: application/json"` on every POST/PUT.
+- Use `gh` (installed and signed in on Noam's machine; from Git Bash it's `"/c/Program Files/GitHub CLI/gh.exe"`
+  if not on PATH): `gh pr create`, `gh pr checks`, `gh pr merge`, `gh api` for the rest. Plain curl to the REST API
+  has no auth locally (the proxy auth is cloud sessions only); there, send `-H "Content-Type: application/json"` on
+  every POST/PUT.
 - `npm install` rewrites `package-lock.json`; don't commit that.
 - Give commands a time limit close to how long they really take (the affected UI tests: a minute or two; CI: ~4 min).
 - Committed tests never write outside the repo (screenshots go to `test-results/`); review screenshots for Noam go to
