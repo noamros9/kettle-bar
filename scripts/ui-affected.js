@@ -75,8 +75,10 @@ if (require.main === module) {
   console.log(`Phone UI tests for this branch: ${specs.join(', ')}${args.includes('--dark') ? ' (light and dark)' : ' (light)'}`);
   if (args.includes('--list')) process.exit(0);
   const projects = args.includes('--dark') ? [] : ['--project=phone-light'];
-  const r = spawnSync('npx', ['playwright', 'test', ...projects, ...specs.map((s) => `tests-ui/${s}.spec.js`)], { stdio: 'inherit' });
-  process.exit(r.status);
+  // Windows can only start npx (npx.cmd) through a shell; a launch that fails has no status, which must not pass
+  const r = spawnSync('npx', ['playwright', 'test', ...projects, ...specs.map((s) => `tests-ui/${s}.spec.js`)], { stdio: 'inherit', shell: process.platform === 'win32' });
+  if (r.error) console.error(r.error.message);
+  process.exit(r.status === null ? 1 : r.status);
 }
 
 module.exports = { choose, SMOKE, MAP };
