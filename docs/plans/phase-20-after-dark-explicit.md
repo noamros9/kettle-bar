@@ -59,7 +59,7 @@ PR and merges on green CI.
 | 2 | Rewrite the position and dare cues | content | – | `content/explicit-cues` | done (PR #209) |
 | 3 | Rewrite the Phase 16 After dark text (30) | content | – | `content/after-dark-text-16` | done (PR #210) |
 | 4 | Rewrite the Phase 18 After dark text (75) | content | – | `content/after-dark-text-18` | done (PR #211) |
-| 5 | Catalogue 11: intercourse (24) | feature | 1 | `feature/catalogue-11` | todo |
+| 5 | Catalogue 11: intercourse (24) | feature | 1 | `feature/catalogue-11` | in-progress |
 | 5.5 | The 105 After dark descriptions, his POV | content | 3, 4 | `content/after-dark-his-pov` | todo |
 | 6 | Catalogue 11: oral (24) and hands (8) | content | 5 | `content/catalogue-11-oral` | todo |
 | 7 | Catalogue 11: anal (24) and toys (8) | content | 5 | `content/catalogue-11-anal` | todo |

@@ -220,6 +220,8 @@
       positionsHer: ['pos_cowgirl', 'pos_reverse_cowgirl', 'pos_lotus'],
       positionsSlow: ['pos_spooning', 'pos_lotus', 'pos_missionary', 'pos_prone'],
       oral: ['pos_oral_her', 'pos_oral_him', 'pos_69'],
+      // Phase 20 ticket 5: intercourse. A new name only, so no catalogue-10 pool changes.
+      fuck: ['fuck_ankles_locked', 'fuck_mating_press', 'fuck_piledriver', 'fuck_amazon', 'fuck_cowgirl_grind', 'fuck_reverse_lean', 'fuck_face_down', 'fuck_bed_edge', 'fuck_frog', 'fuck_spoon_leg', 'fuck_scissors', 'fuck_chair', 'fuck_chair_back', 'fuck_standing_leg', 'fuck_wall', 'fuck_feet_down', 'fuck_counter', 'fuck_lunge_doggy', 'fuck_flat', 'fuck_half_shoulder', 'fuck_bridge', 'fuck_sit_edge', 'fuck_standing_split', 'fuck_leapfrog'],
     };
     // Pools computed from the catalogue. An exercise marked `added: N` (the phase that added it) joins them only
     // for configs with `catalogue: N` or later, so new exercises can't reshuffle the days of existing programs.
