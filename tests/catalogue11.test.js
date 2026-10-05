@@ -1,5 +1,6 @@
-// Phase 20 ticket 5: catalogue 11 intercourse. Category `couple`, added: 11, pelvic mark on both figures,
-// pool `fuck` only (a new name, so no catalogue-10 pool is reshuffled).
+// Phase 20 tickets 5–6: catalogue 11. Every added: 11 exercise is category `couple`, timed, marked on
+// both figures. Pools `fuck`, `oralSex` and `hands` are new names. Ticket 7 extends CATALOGUE_11_POOLS
+// with `anal`, `toy` and `explicit`.
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const cat = require('../exercises.js');
@@ -7,12 +8,13 @@ const { figureSVG } = require('../figures.js');
 const { POOLS } = require('../program-builder.js');
 
 const ADDED = Object.values(cat.EX).filter((e) => e.added === 11);
+const idsOf = (prefix) => ADDED.filter((e) => e.id.startsWith(prefix)).map((e) => e.id).sort();
+// Ticket 7 adds anal, toy and explicit to this list.
+const CATALOGUE_11_POOLS = ['fuck', 'oralSex', 'hands'];
 
-test('24 intercourse positions, all couple, marked on both figures, with muscles and a one-paragraph cue', () => {
-  assert.equal(ADDED.length, 24);
+test('every catalogue 11 exercise is couple, timed, marked on both figures, with muscles and a one-paragraph cue', () => {
   ADDED.forEach((e) => {
     assert.equal(e.cat, 'couple', e.id);
-    assert.equal(e.id.startsWith('fuck_'), true, e.id);
     assert.equal(e.u, 'sec', e.id);
     assert.equal(e.r.length, 3, e.id);
     e.r.forEach((n) => assert.ok(Number.isInteger(n) && n > 0, e.id));
@@ -33,10 +35,14 @@ test('24 intercourse positions, all couple, marked on both figures, with muscles
   });
 });
 
-test('fuck holds exactly the 24, and no earlier pool holds an added: 11 exercise', () => {
-  assert.deepEqual([...POOLS.fuck].sort(), ADDED.map((e) => e.id).sort());
+test('fuck, oralSex and hands hold exactly their ids, and no other pool holds an added: 11 exercise', () => {
+  assert.deepEqual([...POOLS.fuck].sort(), idsOf('fuck_'));
   assert.equal(new Set(POOLS.fuck).size, 24);
-  Object.entries(POOLS).filter(([name]) => name !== 'fuck').forEach(([name, list]) => {
+  assert.deepEqual([...POOLS.oralSex].sort(), idsOf('oral_'));
+  assert.equal(new Set(POOLS.oralSex).size, 24);
+  assert.deepEqual([...POOLS.hands].sort(), idsOf('hands_'));
+  assert.equal(new Set(POOLS.hands).size, 8);
+  Object.entries(POOLS).filter(([name]) => !CATALOGUE_11_POOLS.includes(name)).forEach(([name, list]) => {
     list.forEach((id) => assert.notEqual(cat.EX[id] && cat.EX[id].added, 11, `${name} holds ${id}`));
   });
 });

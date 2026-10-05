@@ -222,6 +222,9 @@
       oral: ['pos_oral_her', 'pos_oral_him', 'pos_69'],
       // Phase 20 ticket 5: intercourse. A new name only, so no catalogue-10 pool changes.
       fuck: ['fuck_ankles_locked', 'fuck_mating_press', 'fuck_piledriver', 'fuck_amazon', 'fuck_cowgirl_grind', 'fuck_reverse_lean', 'fuck_face_down', 'fuck_bed_edge', 'fuck_frog', 'fuck_spoon_leg', 'fuck_scissors', 'fuck_chair', 'fuck_chair_back', 'fuck_standing_leg', 'fuck_wall', 'fuck_feet_down', 'fuck_counter', 'fuck_lunge_doggy', 'fuck_flat', 'fuck_half_shoulder', 'fuck_bridge', 'fuck_sit_edge', 'fuck_standing_split', 'fuck_leapfrog'],
+      // Phase 20 ticket 6: oral and hands. New names only, so the catalogue-10 pool `oral` is not touched.
+      oralSex: ['oral_edge', 'oral_knees_up', 'oral_pillow', 'oral_behind', 'oral_standing', 'oral_chair', 'oral_counter', 'oral_wall', 'oral_bridge', 'oral_side', 'oral_face_sit', 'oral_face_back', 'oral_face_edge', 'oral_face_hover', 'oral_kneel_him', 'oral_sit_him', 'oral_lie_him', 'oral_chair_him', 'oral_edge_down', 'oral_side_him', 'oral_69', 'oral_69_side', 'oral_69_over', 'oral_69_flat'],
+      hands: ['hands_finger_edge', 'hands_finger_behind', 'hands_finger_side', 'hands_finger_chair', 'hands_stroke_kneel', 'hands_stroke_lie', 'hands_stroke_chair', 'hands_mutual'],
     };
     // Pools computed from the catalogue. An exercise marked `added: N` (the phase that added it) joins them only
     // for configs with `catalogue: N` or later, so new exercises can't reshuffle the days of existing programs.
