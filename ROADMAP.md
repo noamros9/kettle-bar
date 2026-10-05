@@ -363,6 +363,19 @@ Plan: [docs/plans/phase-18-after-dark-couples.md](docs/plans/phase-18-after-dark
     the timer, winner's choice, eyes-closed rounds.
 52. **Positions tour: one-off days** (4 Oct).
 
+### Phase 20: After dark, refined, and an Explicit set ([#202](https://github.com/noamros9/kettle-bar/issues/202))
+Plan: [docs/plans/phase-20-after-dark-explicit.md](docs/plans/phase-20-after-dark-explicit.md). Grilled on the issue
+5 Oct 2026; Noam put it next (5 Oct), built by Grok and reviewed by Claude. Numbered 20 because 19 is super programs.
+57. **Refine in place** (5 Oct): the 17 position cues, the 7 dare cues, and the 105 programs' blurbs and about text;
+    same ids and days, no re-pins. Explicit words and dirty slang, one paragraph, no orgasm script.
+58. **A pelvic mark on the stick figures** (5 Oct), on every position: rendered pictures were refused by the image tool.
+59. **Catalogue 11: 88 exercises** (5 Oct): 24 intercourse, 24 oral, 24 anal, 8 toys, 8 hands.
+60. **+155 programs, all 60 days, all couple** (5 Oct): Explicit (a subject chip on the After dark shelf, 20) and 9 in
+    each of the 15 After dark subjects; three session shapes (gym then sex, sex then sex, positions only).
+61. **Page cap 125 → 135 KB gzipped** (5 Oct); the 150 gate stays.
+62. **Swap unchanged** (5 Oct): older couple programs may offer catalogue-11 exercises in Swap.
+63. **Grok writes the explicit text** (5 Oct); a text failure gets a second Grok round.
+
 ### Architecture review V ([#187](https://github.com/noamros9/kettle-bar/issues/187))
 A fresh review after Phases 13–18: shelf groups, Variety, ~580 programs, the library boot, sync at that scale (one
 cloud listener per program; ticket 17.2 found each first reply redrawing the page).
