@@ -118,9 +118,10 @@ he's a man, so the descriptions speak to him.
   no orgasm script.
 - Names, ids, days, cycles and `split` stay. Exercise cues are not part of this ticket.
 - **Test first:** as ticket 3, for all 105: ids, `cycle` and `dayTypes` deep-equal; blurb one sentence of at most 140
-  characters, about one paragraph. Plus: no blurb or about addresses her as "you" (a list of her-side phrasings, such
-  as "your pussy", "your clit", "his cock in you", "ride him", checked case-insensitively, with any real false positive
-  allowed by id).
+  characters, about one paragraph. Plus a standing test, `tests/his-pov.test.js`, over **every** program with
+  `couple: true` (found at test time, never a list of ids, so programs added in any later phase are checked too): no
+  blurb or about addresses her as "you" (a list of her-side phrasings, such as "your pussy", "your clit", "his cock in
+  you", "ride him", checked case-insensitively, with any real false positive allowed by id).
 - **Done when:** no pin changes; `rm -rf data && node build.js` differs from main only in those 105 library entries;
   Claude reads all 105 for POV and heat (a blurb that reads softer than what it replaces goes back to Grok).
 
@@ -156,7 +157,7 @@ he's a man, so the descriptions speak to him.
 - **Test first** (each): the 27 ids pinned in the tests, shapes, Mixed rules, `couple` and `skipped`, minutes in band.
 - **Done when:** as ticket 8.
 - **Point of view** (tickets 8–13): every new blurb and about follows ticket 5.5's rule, his POV or a straight
-  couple's, never hers, and ticket 5.5's her-side test covers them.
+  couple's, never hers, and ticket 5.5's her-side test covers them without any change (it reads every couple program).
 
 ## Challenge round
 - **Weakest assumption:** that 88 exercises fit in 135 KB. Verified only by scale: the 43 couple exercises gzip to

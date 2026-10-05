@@ -46,6 +46,14 @@ How Noam wants work done in this repo. Words: [CONTEXT.md](CONTEXT.md). Decision
 - One ticket = one branch = one PR, starting from its Test first. Mark the ticket `done (PR #n)` in its plan.
 - A stopped hand-off can leave partial work in the tree: commit it as WIP on the ticket's branch, keep `main` clean.
 
+## Writing program text (Noam, 5 Oct 2026)
+- **His side, always:** the app is Noam's. The blurb and about of every After dark or couple program, in any phase,
+  are written from his POV ("you" is him, she is "her") or a straight couple's ("you two"), picked per program, never
+  hers. Just as explicit as what's there, or hotter, never toned down. Whoever writes it (Claude or Grok) follows this.
+- `tests/his-pov.test.js` (from Phase 20 ticket 5.5) checks every `couple: true` program for her-side phrasings; a
+  new program never gets an exception just to pass. The test catches the obvious ones; Claude's review reads each new
+  blurb and about for POV and heat before merging, and sends softer or her-side text back.
+
 ## Mechanics
 - `gh` isn't installed; use the GitHub REST API with curl (auth comes from the proxy). Send
   `-H "Content-Type: application/json"` on every POST/PUT.

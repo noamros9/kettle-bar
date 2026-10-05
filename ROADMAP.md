@@ -377,7 +377,8 @@ Plan: [docs/plans/phase-20-after-dark-explicit.md](docs/plans/phase-20-after-dar
 63. **Grok writes the explicit text** (5 Oct); a text failure gets a second Grok round.
 64. **Program descriptions from his side** (5 Oct, ticket 5.5): blurbs and about text are written from his POV or a
     straight couple's POV, depending on the program, never hers. The app is Noam's. Just as explicit, or hotter.
-    Applies to the 105 rewritten in tickets 3–4 and to every new program in tickets 8–13.
+    Applies to the 105 rewritten in tickets 3–4, to every new program in tickets 8–13, and to every couple program
+    in any later phase: a standing rule in CLAUDE.md, and a test over every `couple: true` program (5 Oct).
 
 ### Architecture review V ([#187](https://github.com/noamros9/kettle-bar/issues/187))
 A fresh review after Phases 13–18: shelf groups, Variety, ~580 programs, the library boot, sync at that scale (one
