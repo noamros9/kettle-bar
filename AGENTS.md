@@ -4,4 +4,4 @@ Follow [CLAUDE.md](CLAUDE.md) — it is the single source of rules for this repo
 
 Also, always:
 - Never work on `main`; use the branch you are given.
-- Never commit or push unless explicitly asked.
+- When handed a ticket, commit your work on its branch. Never push, open PRs, or merge — Claude does that.

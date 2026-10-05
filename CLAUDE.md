@@ -14,8 +14,17 @@ How Noam wants work done in this repo. Words: [CONTEXT.md](CONTEXT.md). Decision
 - The plan ships as its own `plan/...` PR.
 
 ## Building (standing permission from Noam, 29 Sep 2026; Opus only since 30 Sep 2026)
-- **Who builds:** Claude on Opus builds every ticket itself. No Sonnet, no sub-agents for building (Noam, 30 Sep:
-  Sonnet's work wasn't to his liking on this project).
+- **Who builds:** Claude on Opus by default. No Sonnet, no sub-agents for building (Noam, 30 Sep: Sonnet's work
+  wasn't to his liking on this project).
+- **Grok tickets (Noam, 5 Oct 2026):** Noam picks them at hand-off ("Grok takes ticket N"); nothing in the plan
+  marks them. Grok Build builds, Claude reviews and merges:
+  - Claude creates the ticket's branch, then runs `grok -p` headless with the plan file and ticket number, asking
+    for a short summary back; Grok's full output goes to a scratch file, not Claude's context.
+  - Grok builds from the ticket's **Test first** and commits on that branch. It never pushes, opens PRs or merges.
+  - Claude runs the review checks below, pushes, opens the PR, marks the ticket `done (PR #n)`, and merges on green
+    CI — the same bar as Claude's own tickets.
+  - Review fails → Grok gets the findings for one fix round. Still failing → Claude finishes the ticket and says so
+    in the PR.
 - **One at a time:** work the roadmap ticket by ticket, in plan order. Finish, merge and check CI before starting
   the next one.
 - **Merge without asking:** when a ticket passes the review checks below and the PR's CI run is green, Claude merges
