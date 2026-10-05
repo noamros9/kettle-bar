@@ -125,6 +125,10 @@ const IDS = [
     'pre-game', 'before-we-go-out', 'appetizer', 'warm-me-up', 'date-night-warm-up-30',
     'floor-tour-30', 'standing-tour-30', 'bendy-tour-30', 'strong-tour-30', 'grand-tour-30',
     'morning-glory', 'lazy-sunday', 'breakfast-in-bed', 'sleep-in', 'morning-glory-30',
+    // Phase 20 ticket 8: Explicit (+20)
+    'set-then-fuck', 'sweat-then-spread', 'earn-the-pussy', 'lift-her-then-fuck', 'grind-after-reps', 'short-and-dirty', 'long-afternoon',
+    'mouth-then-cock', 'tongue-then-thrust', 'fingers-then-fuck', 'eat-then-pound', 'tease-then-bury', 'quick-and-deep', 'slow-deep-fuck',
+    'stay-inside-her', 'hold-after-hold', 'deeper-every-hold', 'all-the-positions', 'cock-in-her', 'nothing-but-fucking',
 ];
 
 test('the config ids, in order, are today\'s list', () => {
