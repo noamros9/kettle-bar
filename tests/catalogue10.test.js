@@ -2,6 +2,7 @@
 // two-figure drawings, never in a solo pool, swapped only for another couple exercise.
 const test = require('node:test');
 const assert = require('node:assert/strict');
+const { createHash } = require('node:crypto');
 const cat = require('../exercises.js');
 const { figureSVG } = require('../figures.js');
 const { POOLS } = require('../program-builder.js');
@@ -49,4 +50,20 @@ test('the Swap list: never a couple exercise for a solo one; only couple ones fo
     const alts = Swaps.alternatives(id, { items: [{ ex: id }] }, program, cat, null, 2);
     alts.forEach((o) => assert.equal(cat.EX[o].cat, 'couple', `${id} -> ${o}`));
   });
+});
+
+// Phase 20 ticket 2. Hash is sha256 of every non-couple cue, sorted by id, JSON-encoded, pinned before the rewrite.
+const NON_COUPLE_CUES = 'c3134b2e04221ff520e0b1d1465d3df2843ee2647738e0dfe1d27ed992a63d08';
+
+test('position and dare cues are one paragraph of at most 400 characters; every non-couple cue is unchanged', () => {
+  const pos = Object.values(cat.EX).filter((e) => e.id.startsWith('pos_'));
+  const dare = Object.values(cat.EX).filter((e) => e.id.startsWith('dare_'));
+  assert.equal(pos.length, 17);
+  assert.equal(dare.length, 7);
+  [...pos, ...dare].forEach((e) => {
+    assert.equal(e.cue.includes('\n') || e.cue.includes('\r'), false, e.id);
+    assert.ok(e.cue.length <= 400, `${e.id} is ${e.cue.length}`);
+  });
+  const cues = Object.values(cat.EX).filter((e) => e.cat !== 'couple').sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0)).map((e) => e.cue);
+  assert.equal(createHash('sha256').update(JSON.stringify(cues)).digest('hex'), NON_COUPLE_CUES);
 });
