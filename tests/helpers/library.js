@@ -19,16 +19,20 @@ function hash(root = ROOT) {
   return h.digest('hex').slice(0, 16);
 }
 // what(name) -> the cached value of make(), made and stored the first time for these sources
-function cached(name, make) {
-  const file = path.join(CACHE, `${name}-${hash()}.json`);
+function cached(name, make, dir = CACHE) {
+  const file = path.join(dir, `${name}-${hash()}.json`);
   try { return JSON.parse(fs.readFileSync(file, 'utf8')); } catch (e) { /* not made yet */ }
   const value = make();
-  fs.mkdirSync(CACHE, { recursive: true });
+  fs.mkdirSync(dir, { recursive: true });
   const tmp = `${file}.${process.pid}.tmp`; // another test file may be writing it too: write aside, then move in
   fs.writeFileSync(tmp, JSON.stringify(value)); fs.renameSync(tmp, file);
+  // drop copies left by older sources (and their crashed writes), or every source change adds ~30MB for good;
+  // anything for this hash stays, since another test file may be mid-write on it
+  fs.readdirSync(dir).filter((f) => f.startsWith(`${name}-`) && !f.startsWith(path.basename(file)))
+    .forEach((f) => fs.rmSync(path.join(dir, f), { force: true }));
   return JSON.parse(JSON.stringify(value));
 }
 
 const library = () => cached('library', () => require('../../program-builder.js').buildAll());
 const rendered = () => cached('rendered', () => require('../../build.js').render());
-module.exports = { library, rendered, hash, sources };
+module.exports = { library, rendered, hash, sources, cached };
