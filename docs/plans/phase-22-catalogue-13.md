@@ -5,7 +5,7 @@ Noam picks Grok tickets at hand-off (CLAUDE.md, "Grok tickets"); Grok writes the
 Today: 508 exercises, 131 couple, the page at 130.6 KB gzipped.
 
 ## What lands
-- **715 couple exercises, `added: 13`** (120, 122–126): intercourse +91 (4b shipped 19 of 24), oral +30 and anal +30, toys
+- **715 couple exercises, `added: 13`** (120, 122–126): intercourse +91 (4b shipped 19 of 24), oral +23 (5 shipped 23 of 30) and anal +30, toys
   +36 and hands +36, Kink-lite and Body play 66 each, eight more kinds 36 each (Edging, Massage, Strip and tease, Shower
   and bath, Pool, Hot tub, Balcony, Doorframe; 123), and four new kinds, 36 each: Rough (`sub: 'rough'`), Kink-lite (`kink`), Body play (`body`), Rimming (`rim`). Poses with the
   pelvic mark, in the Phase 20 cue register (75). Rough and Kink-lite are mostly a position with the act in it, a
@@ -56,7 +56,7 @@ goes unused this phase (CLAUDE.md: tickets that edit the same files wait).
 | 3 | Intercourse +24 (b) | content | 2 | `content/c13-fuck-b` | done (PR #261) |
 | 4 | Intercourse +24 (c) | content | 3 | `content/c13-fuck-c` | done (PR #263) |
 | 4b | Intercourse +19 (d) | content | 4 | `content/c13-fuck-d` | done (PR #264) |
-| 5 | Oral +30 | content | 1 | `content/c13-oral` | todo |
+| 5 | Oral +23 | content | 1 | `content/c13-oral` | done (PR #267) |
 | 5b | ~~Oral +30 (b)~~ | content | 5 | – | dropped (122) |
 | 6 | Anal +30 | content | 1 | `content/c13-anal` | todo |
 | 6b | ~~Anal +30 (b)~~ | content | 6 | – | dropped (122) |
@@ -133,7 +133,8 @@ pelvic mark (Phase 20 ticket 1), a cue in the Phase 20 register (one paragraph, 
 script; who is where, the hold, what to brace), his muscles. Written from his side (CLAUDE.md, "Writing program
 text"). Ids are new (`fuck_*`, `oral_*`, `anal_*`, `toy_*`, `hands_*`, `rough_*`, `kink_*`, `body_*`, `rim_*`), never
 reusing a catalogue-11 position with a new name: each is a position or act not already in the catalogue.
-- 5, 6: oral and anal, 30 each (122): oral both ways; anal on her only, never him.
+- 5, 6: oral and anal, 30 each (122): oral both ways; anal on her only, never him. Oral shipped 23 (124: after a fix
+  round 7 still failed, and Noam chose to ship; 6 Oct).
 - 2–4b: intercourse, 24, 24, 24 and 19 (91: after two Grok fix rounds the last 5 were still copies; Noam, 6 Oct), new positions and angles (no repeat of the 38 already in `fuck`).
 - 7: toys stay on her or worn by him (the strap-on is used on her, never pegging, Phase 20).
 - 9: Rough: spanking, hair-pulling, pinning her wrists, holding her down; no choking, anywhere in the text.
