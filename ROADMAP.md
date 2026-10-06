@@ -141,6 +141,13 @@ Noam, 4 Oct 2026: a button for dead time that hands you one exercise to do right
 equipment, 20–30 seconds. Still open: where the button lives, how it picks, whether it times itself and counts in
 Stats, and whether it stays quiet and office-friendly.
 
+### Muscle chips link to a filtered Exercises page ([#234](https://github.com/noamros9/kettle-bar/issues/234))
+Noam, 6 Oct 2026: on an exercise's page, tapping a muscle chip opens the Exercises page filtered by that muscle.
+The Exercises page filters only by category and equipment today, so it gains a muscle filter. Place in the order
+not set yet.
+- Still open, for the grill: a visible muscle chip row on the Exercises page or only via the link; primary or also
+  secondary muscles; combining with the category and equipment filters.
+
 ### After dark: a story per workout, by Grok ([#225](https://github.com/noamros9/kettle-bar/issues/225))
 Noam, 5 Oct 2026: automate creating an erotic story with Grok for every After dark workout.
 78. **Last in the order** (5 Oct): after all other open issues are done. To be grilled when it starts.
