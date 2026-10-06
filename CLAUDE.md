@@ -25,15 +25,19 @@ work; finished phases in [docs/roadmap-archive.md](docs/roadmap-archive.md), rea
     CI — the same bar as Claude's own tickets.
   - Review fails → Grok gets the findings for one fix round. Still failing → Claude finishes the ticket and says so
     in the PR.
-- **In parallel only if possible (Noam, 6 Oct 2026):** work the roadmap in plan order. Start the next ticket while
-  one is still in review or CI only when all of these hold; otherwise one at a time (finish, merge, check CI, then
-  the next):
+- **Look for the next ticket at every checkpoint (Noam, 6 Oct 2026):** after each hand-off, each PR opened and each
+  merge, read the plan's ticket table and start the next `todo` ticket that can run now. **At most 2 tickets
+  building at once** (Grok runs or Claude's own builds; PRs only waiting on CI don't count): the machine has 2 cores
+  and every Grok ticket ends in Claude's review. Running one at a time when a second could start is the exception;
+  say why. A ticket can run alongside another only when all of these hold:
   - both tickets are in the same phase: never two phases at once (a new phase starts only when the last one's
     tickets are merged);
   - its blockers are done, or its one blocker is the ticket in flight and the new branch starts from that ticket's
     branch (stacked), rebased onto `main` once the blocker squash-merges;
-  - each ticket has its own working folder: Grok in the main checkout, any other in a `git worktree`, never two
-    builders in one tree;
+  - it doesn't edit the same files as the ticket in flight (those wait; a Grok one then continues that session);
+  - each ticket has its own working folder: the main checkout or a `git worktree` (`npm ci` once in a new one),
+    never two builders in one tree; UI tests in a worktree run with `UI_PORT=4174`, so two checkouts never share
+    a test server;
   - merges still go in plan order, each on its own green CI, and main's run is checked green before the next merge;
   - a fix the earlier ticket needs is made on its branch (in its worktree), then carried into the stacked one.
 - **Merge without asking:** when a ticket passes the review checks below and the PR's CI run is green, Claude merges
