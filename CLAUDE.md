@@ -92,7 +92,10 @@ work; finished phases in [docs/roadmap-archive.md](docs/roadmap-archive.md), rea
   has no auth locally (the proxy auth is cloud sessions only); there, send `-H "Content-Type: application/json"` on
   every POST/PUT.
 - `npm install` rewrites `package-lock.json`; don't commit that.
-- Give commands a time limit close to how long they really take (the affected UI tests: a minute or two; CI: ~4 min).
+- Give commands generous time limits, about twice what they take on a busy machine (Noam, 6 Oct 2026: a tight
+  `timeout` cut a UI run short and cost a rerun): `npm run test:coverage` and the affected UI tests 10 min each, a
+  chain of them the tool's maximum (or run it in the background); CI 20 min (the PR test job took 15 min on 6 Oct).
+  Never wrap a test command in a shell `timeout` shorter than that.
 - Committed tests never write outside the repo (screenshots go to `test-results/`); review screenshots for Noam go to
   `/home/claude/kettle-bar-shots/` from a throwaway script or spec that isn't committed. CI (the deploy) must stay green:
   after merging, don't wait on main's Test and deploy run; start the next ticket, and check that run is green before
