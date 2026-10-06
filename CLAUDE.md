@@ -25,8 +25,15 @@ work; finished phases in [docs/roadmap-archive.md](docs/roadmap-archive.md), rea
     CI — the same bar as Claude's own tickets.
   - Review fails → Grok gets the findings for one fix round. Still failing → Claude finishes the ticket and says so
     in the PR.
-- **One at a time:** work the roadmap ticket by ticket, in plan order. Finish, merge and check CI before starting
-  the next one.
+- **In parallel only if possible (Noam, 6 Oct 2026):** work the roadmap in plan order. Start the next ticket while
+  one is still in review or CI only when all of these hold; otherwise one at a time (finish, merge, check CI, then
+  the next):
+  - its blockers are done, or its one blocker is the ticket in flight and the new branch starts from that ticket's
+    branch (stacked), rebased onto `main` once the blocker squash-merges;
+  - each ticket has its own working folder: Grok in the main checkout, any other in a `git worktree`, never two
+    builders in one tree;
+  - merges still go in plan order, each on its own green CI, and main's run is checked green before the next merge;
+  - a fix the earlier ticket needs is made on its branch (in its worktree), then carried into the stacked one.
 - **Merge without asking:** when a ticket passes the review checks below and the PR's CI run is green, Claude merges
   its PR itself (squash).
   Tell Noam what was merged, briefly.
