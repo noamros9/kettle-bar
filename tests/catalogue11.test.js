@@ -9,7 +9,7 @@ const { POOLS, poolsAt } = require('../program-builder.js');
 
 const ADDED = Object.values(cat.EX).filter((e) => e.added === 11);
 const CATALOGUE11 = ['fuck', 'anal', 'toy', 'explicit', 'oralSex', 'hands'];
-const idsStarting = (prefix) => Object.keys(cat.EX).filter((id) => id.startsWith(prefix)).sort();
+const idsStarting = (prefix) => Object.keys(cat.EX).filter((id) => id.startsWith(prefix) && cat.EX[id].added === 11).sort();
 
 test('every catalogue 11 exercise is couple, timed, marked on both figures, with muscles and a one-paragraph cue', () => {
   assert.equal(ADDED.length, 88);

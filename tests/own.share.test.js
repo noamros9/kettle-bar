@@ -110,7 +110,8 @@ test('the days you did (frozen days) stay yours: the link carries the program as
 test('newestCatalogue is the newest exercise batch this app knows', () => {
   assert.equal(Own.newestCatalogue({ a: {}, b: { added: 3 }, c: { added: 5 } }), 5);
   assert.equal(Own.newestCatalogue({}), 0);
-  assert.equal(newest, recipes.book().catalogue, 'the recipe book is made with the same number');
+  assert.equal(newest, Math.max(0, ...Object.values(cat.EX).map((e) => e.added || 0)));
+  assert.equal(recipes.book().catalogue, require('../recipe-book.js').NEWEST, 'the recipe book stays at NEWEST while later catalogues land');
 });
 
 test('shareLink puts the code after #add= on the page address', async () => {
