@@ -3,8 +3,22 @@
 Built from a grilling session with Noam on 28 Sep 2026. Decisions are recorded under each item so
 future work doesn't re-ask them. Order within a phase is the build order.
 
+## Resume here (6 Oct 2026, end of session)
+- **Done today:** #234 muscle chip links (PR #240) and **Phase 21 complete** (PRs #243, #248, #251, #254). Main is
+  green, no PR open, no ticket in progress.
+- **Next: Phase 22** (catalogue **13**, decision 105; section below). Start with ticket 0: grill anything still open,
+  then write `docs/plans/phase-22-catalogue-13.md` as a `plan/...` PR. Then Phase 20 tickets 9–15 (at catalogue 13),
+  then Phase 23.
+- **Working rules set today (CLAUDE.md):** never more than 2 tickets building at once; look for the next ticket at
+  every checkpoint; parallel only within one phase. If Claude goes sequential when a second ticket could run, it
+  proposes a hook to Noam.
+- **Parked:** #249 explicit drawings and loops (decisions 106–115; Grok finds them online, signed-in only, Firebase
+  Storage). Place in the order not set; open points are listed in its section.
+- **Worktrees:** `../kettle-bar-docs` is the spare (detached, `npm ci` done; UI tests there use `UI_PORT=4174`).
+  `../kettle-bar-cachefix` is Noam's #253 branch.
+
 ## Done
-Phases 1–18, architecture reviews III–IV and their decisions (1–52): [docs/roadmap-archive.md](docs/roadmap-archive.md).
+Phases 1–18 and 21, #234, architecture reviews III–IV and their decisions: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
 ## Backlog
 - **Test a restore from the nightly backup** on the phone ([#16](https://github.com/noamros9/kettle-bar/issues/16)).
