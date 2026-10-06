@@ -51,7 +51,7 @@ goes unused this phase (CLAUDE.md: tickets that edit the same files wait).
 | 2 | Intercourse +24 (a) | content | 1 | `content/c13-fuck-a` | done (PR #258) |
 | 3 | Intercourse +24 (b) | content | 2 | `content/c13-fuck-b` | done (PR #261) |
 | 4 | Intercourse +24 (c) | content | 3 | `content/c13-fuck-c` | done (PR #263) |
-| 4b | Intercourse +24 (d) | content | 4 | `content/c13-fuck-d` | todo |
+| 4b | Intercourse +24 (d) | content | 4 | `content/c13-fuck-d` | in-progress |
 | 5 | Oral +30 (a) | content | 1 | `content/c13-oral` | todo |
 | 5b | Oral +30 (b) | content | 5 | `content/c13-oral-b` | todo |
 | 6 | Anal +30 (a) | content | 1 | `content/c13-anal` | todo |
@@ -90,6 +90,23 @@ Order: plan order. 19–20 need only 9–12, so they may go before 13–18 if th
   changing; no pin moves.
 
 ### 2–12. The sex exercises (432)
+
+**Resume here (6 Oct 2026, end of session):** tickets 1–4 merged (PRs #257, #258, #261, #263); main green. Ticket
+4b is committed on local branch `content/c13-fuck-d` (rebased on main, not pushed, no PR yet) and **failed review**.
+Next: one Grok fix round on it with `--continue`, then the review checks, mark it done with the predicted PR number,
+push, open the PR; while it's in CI start ticket 5 (oral +30) in a **fresh** Grok session (new group), stacked on
+`content/c13-fuck-d`. Noam wants 4b and 5 done today, then stop.
+The 10 to replace in 4b (the other 14 pass):
+- Don't work for real bodies (her pelvis on the bed, or no angle that lines up): `fuck_sit_kneel_behind`,
+  `fuck_straddle_fold_behind`, `fuck_sit_side_by_side`, `fuck_sit_side_kneel`, `fuck_her_on_his_side`, `fuck_cossack`.
+- Near-duplicates: `fuck_planted_shoulder` = `fuck_half_shoulder`; `fuck_twist_supine` = `fuck_tbone`;
+  `fuck_prone_edge_kneel` = `fuck_bed_edge`; `fuck_squat_kneel_behind` = `fuck_squat_behind`.
+- Tell Grok: a seated woman (pelvis on the bed) can't be entered from behind or the side; after 110 positions,
+  prefer real variations of lying, kneeling and standing arrangements over untried seated combinations.
+Review lessons from tickets 2–4b, for every sex ticket's prompt: (1) different = a different body arrangement, not
+the same one on other furniture or with a leg held another way; (2) it must work for real bodies (hip heights meet,
+no unsafe holds); (3) Grok checks against all existing exercises of its `sub` with a script before writing. Status
+updates only on change, in words; CI runs named by run number.
 Each: the ticket's exercises in `exercises.js`, `cat: 'couple'`, its `sub`, `added: 13`, two-figure poses with the
 pelvic mark (Phase 20 ticket 1), a cue in the Phase 20 register (one paragraph, explicit, dirty slang, no orgasm
 script; who is where, the hold, what to brace), his muscles. Written from his side (CLAUDE.md, "Writing program
