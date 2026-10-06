@@ -142,7 +142,8 @@ const ACTIONS = [
   ['mgear', (v) => { musclePick.gear = v; muscleRefresh(); }],
   ['exmuscle', (v) => exMuscle(v)],
   ['exmuscleClear', () => exMuscle(null)],
-  ['exmuscleLink', (v) => go('exercises?muscle=' + v)],
+  ['exMenu', (v) => { toggleExMenu(v); exRefresh(); }],
+  ['exmuscleLink', (v) => { exMenu = null; go('exercises?muscle=' + v); }], // a muscle link lands with the menu closed
   ['exClear', () => exClear()],
   ['exf', (v) => { const [k, x] = v.split(':'); exFilter(k, x); }],
   ['filter', (v) => { const [k, x] = v.split(':'); setFilter(k, x); render(); }],
