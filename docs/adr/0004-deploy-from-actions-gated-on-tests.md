@@ -19,3 +19,6 @@ backup code. Page modules (views, clock, main) are covered by the UI tests inste
 - A red test means the live app stays on the last good version.
 - Pages must be switched to "GitHub Actions" as its source (a one-time manual step).
 - Diffs show source changes only.
+
+**Amended 6 Oct 2026 (Noam):** the branch gate is 95%, not 100% (lines and functions stay at 100%); keep
+branches as high as they go.

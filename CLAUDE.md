@@ -37,7 +37,10 @@ work; finished phases in [docs/roadmap-archive.md](docs/roadmap-archive.md), rea
     tickets are merged);
   - its blockers are done, or its one blocker is the ticket in flight and the new branch starts from that ticket's
     branch (stacked), rebased onto `main` once the blocker squash-merges;
-  - it doesn't edit the same files as the ticket in flight (those wait; a Grok one then continues that session);
+  - it doesn't edit the same files as a ticket still *building* (those wait; a Grok one then continues that
+    session). Once a ticket's PR is open and in CI, it isn't building: the next ticket starts right away, even on
+    the same files, stacked on that branch (Noam, 6 Oct 2026). If the PR then needs a change, make it there and
+    resolve the conflicts in the stacked branch (merge or rebase, never revert the stacked work);
   - each ticket has its own working folder: the main checkout or a `git worktree` (`npm ci` once in a new one),
     never two builders in one tree; UI tests in a worktree run with `UI_PORT=4174`, so two checkouts never share
     a test server;
@@ -47,7 +50,8 @@ work; finished phases in [docs/roadmap-archive.md](docs/roadmap-archive.md), rea
   its PR itself (squash).
   Tell Noam what was merged, briefly.
 - **Review checks:**
-  - `npm test` and `npm run test:coverage` (100% on the gated modules);
+  - `npm test` and `npm run test:coverage` (gated modules: 100% lines and functions, branches at least 95%, kept as
+    high as it goes; Noam, 6 Oct 2026);
   - locally, only the phone UI tests the branch touches: `npm run test:ui:affected -- <pages the ticket's UI work
     touched>` (a fresh build, then the changed specs, the specs mapped to the changed modules, the pages named, and a
     smoke check that every page draws; light theme, `--dark` adds dark). The **full suite, light and dark, runs in CI

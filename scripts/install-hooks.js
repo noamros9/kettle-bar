@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Installs the pre-commit hook (runs on `npm install` via "prepare"): no commit unless the unit tests pass
-// with 100% coverage on the core modules, the same gate CI uses (ADR 4).
+// with the coverage gate on the core modules (100% lines and functions, 95% branches), the same gate CI uses (ADR 4).
 const fs = require('fs');
 const path = require('path');
 
@@ -15,7 +15,7 @@ if [ -z "$(git diff --cached --name-only | grep -v '\\.md$')" ]; then echo "Pre-
 echo "Pre-commit: unit tests with the coverage gate..."
 if ! npm run -s test:coverage > /tmp/kettle-bar-precommit.log 2>&1; then
   grep -E "^not ok|coverage threshold|does not meet" /tmp/kettle-bar-precommit.log | head -20
-  echo "BLOCKED: tests failing or core coverage below 100%. Full log: /tmp/kettle-bar-precommit.log"
+  echo "BLOCKED: tests failing or core coverage below the gate (100% lines and functions, 95% branches). Full log: /tmp/kettle-bar-precommit.log"
   exit 1
 fi
 echo "Tests and coverage OK."
