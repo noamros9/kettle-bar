@@ -84,9 +84,9 @@ test('catalogue 13 adds 91 intercourse exercises (tickets 2–4b)', () => {
   });
 });
 
-test('catalogue 13 adds 30 oral exercises (ticket 5)', () => {
+test('catalogue 13 adds 23 oral exercises (ticket 5)', () => {
   const added = Object.values(cat.EX).filter((e) => e.added === 13 && e.sub === 'oral');
-  assert.equal(added.length, 30);
+  assert.equal(added.length, 23);
   const at12 = mergedAt(12), at13 = mergedAt(13);
   added.forEach((e) => {
     assert.equal(e.cat, 'couple', e.id);

@@ -111,7 +111,8 @@ Grilled 5 Oct 2026 (Noam); after Phase 21, before Phase 20 ticket 9. Claude plan
      today); the other six are new `sub`s (`edging`, `shower`, `pool`, `hottub`, `balcony`, `doorframe`). Each is
      an After dark subject with **8 programs** (3/3/2 as 119): +64 programs. Phase 22 totals: **715 sex exercises**
      (91 intercourse, 30 oral, 30 anal, 36 toys, 36 hands, 36 Rough, 66 Kink-lite, 66 Body play, 36 Rimming, 8 × 36),
-     162 fitness, **96 programs** (12 subjects × 8).
+     162 fitness, **96 programs** (12 subjects × 8). Oral shipped **+23** (6 Oct, Noam: after a fix round 7 of 30
+     still failed; 708 sex exercises).
 124. **Hitting the wall** (6 Oct, Noam): a sex ticket gets Grok's build and two fix rounds. If it still writes copies
      or positions that don't work, it ships what passed and we move on; the count is recorded here and in the plan.
 125. **Places count by what the place changes** (6 Oct, Noam): in Shower and bath, Pool, Hot tub, Balcony and
