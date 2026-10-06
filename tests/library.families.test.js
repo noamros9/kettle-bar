@@ -28,10 +28,6 @@ test('every exercise has exactly one family and one subject from the table', () 
     used.add(`${family}:${subject}`);
   });
   EX_FAMILIES.forEach(([fam, , list]) => list.forEach(([sk, sn]) => {
-    if (fam === 'stretch' && sk === 'breath') {
-      assert.ok(!used.has(`${fam}:${sk}`), 'Breathing stays empty until ticket 4');
-      return;
-    }
     assert.ok(used.has(`${fam}:${sk}`), `${sn} of ${famName[fam]} has no exercises`);
   }));
 });
@@ -66,14 +62,16 @@ test('searchExercises with muscles / chest returns chest exercises only, with co
   assert.ok(!r.subjects.some((c) => c.key === 'breath'));
 });
 
-test('a picked family or subject with nothing left falls back to All; Breathing is not offered', () => {
+test('a picked family with nothing left falls back to All; Breathing is offered', () => {
   const emptyFam = find({ family: 'warmup', gear: 'bar' });
   assert.equal(emptyFam.families.find((c) => c.pressed).key, 'all');
   assert.deepEqual(emptyFam.subjects, []);
   const stretch = find({ family: 'stretch', sub: 'breath' });
   assert.equal(stretch.families.find((c) => c.pressed).key, 'stretch');
-  assert.equal(stretch.subjects.find((c) => c.pressed).key, 'all');
-  assert.ok(!stretch.subjects.some((c) => c.key === 'breath'));
+  assert.equal(stretch.subjects.find((c) => c.pressed).key, 'breath');
+  assert.ok(stretch.subjects.some((c) => c.key === 'breath'));
+  assert.equal(stretch.list.length, 6);
+  assert.ok(stretch.list.every((e) => familyOf(e).subject === 'breath'));
   const all = find();
   assert.deepEqual(all.families.map((c) => c.key), ['all', ...EX_FAMILIES.map(([k]) => k)]);
   assert.deepEqual(all.subjects, []);

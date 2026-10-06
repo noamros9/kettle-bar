@@ -363,6 +363,50 @@
       { t: [28.7, 18.3], hn: [56.5, 36], hf: [58, 36], fn: [-19.6, 36], ff: [-21, 36], mat: 1 }] },
     standing_side_stretch: { name: 'Standing side stretch', cat: 'cooldown', sub: 'static', view: 'front', u: 'sec', r: [15, 15, 15], side: 1, mus: 'obliques lats |', cue: 'Reach one arm overhead and lean to the opposite side, hips steady. Switch.', poses: [
       { t: [-7, -33], hn: [-10, -4], ehn: [-1, 0.3], hf: [-22, -60], fn: [-8, 41], ff: [8, 41] }] },
+    // Phase 21 ticket 4: catalogue 12 cool-downs (added: 12). Twelve static stretches, six breathing.
+    neck_side: { name: 'Neck side stretch', cat: 'cooldown', sub: 'static', added: 12, view: 'front', u: 'sec', r: [20, 25, 30], side: 1, mus: 'neck | traps', cue: 'Sit or stand tall and drop one ear toward that shoulder, the other shoulder staying down. Hold, then switch.', poses: [
+      P(FSTAND, { hd: [-0.4, -1] }), P(FSTAND, { hd: [-1, -0.15], t: [0, -35] })] },
+    neck_turn: { name: 'Neck turn stretch', cat: 'cooldown', sub: 'static', added: 12, view: 'front', u: 'sec', r: [20, 25, 30], side: 1, mus: 'neck | upper_back', cue: 'Sit or stand tall and turn your head to look over one shoulder, chin level. Hold, then switch.', poses: [
+      P(FSTAND, { hd: [0.2, -1] }), P(FSTAND, { hd: [1, -0.15] })] },
+    chin_to_chest: { name: 'Chin-to-chest stretch', cat: 'cooldown', sub: 'static', added: 12, u: 'sec', r: [30, 40, 45], mus: 'neck | upper_back', cue: 'Sit or stand tall and draw your chin toward your chest until the back of the neck stretches. Keep the shoulders soft.', poses: [
+      P(STAND, { hd: [0.15, -1] }), P(STAND, { hd: [0.3, 1], t: [6, -33] })] },
+    wrist_flexor: { name: 'Wrist flexor stretch', cat: 'cooldown', sub: 'static', added: 12, view: 'front', u: 'sec', r: [15, 20, 25], side: 1, mus: 'forearms |', cue: 'Straighten one arm, palm up, and gently pull the fingers back with the other hand. Hold, then switch.', poses: [
+      P(FSTAND, { hn: [-8, -48], hf: [6, -42] }), P(FSTAND, { hn: [-2, -54], hf: [16, -36] })] },
+    wrist_extensor: { name: 'Wrist extensor stretch', cat: 'cooldown', sub: 'static', added: 12, view: 'front', u: 'sec', r: [15, 20, 25], side: 1, mus: 'forearms |', cue: 'Straighten one arm, palm down, and gently pull the back of the hand toward you. Hold, then switch.', poses: [
+      P(FSTAND, { hn: [-10, -46], hf: [8, -44] }), P(FSTAND, { hn: [2, -50], hf: [18, -32] })] },
+    wall_calf: { name: 'Wall calf stretch', cat: 'cooldown', sub: 'static', added: 12, u: 'sec', r: [20, 25, 30], side: 1, mus: 'calves | hamstrings', cue: 'Hands on a wall, one leg straight behind you, heel down. Lean in until the calf stretches. Switch legs.', poses: [
+      { t: [8, -33], fn: [-22, 40], ff: [16, 38], hn: [28, -20], hf: [30, -18], wall: -8 },
+      { t: [14, -31], fn: [-30, 40], ff: [18, 34], khf: [1, -0.5], hn: [36, -14], hf: [38, -12], wall: -8 }] },
+    bent_calf: { name: 'Bent-knee calf stretch', cat: 'cooldown', sub: 'static', added: 12, u: 'sec', r: [20, 25, 30], side: 1, mus: 'calves |', cue: 'Hands on a wall, the back knee softly bent and the heel down. Lean in until the lower calf stretches. Switch legs.', poses: [
+      { t: [10, -32], fn: [-14, 36], khn: [1, -0.6], ff: [16, 36], khf: [1, -0.7], hn: [26, -18], hf: [28, -16], wall: -8 },
+      { t: [16, -29], fn: [-8, 30], khn: [1, -0.9], ff: [18, 32], khf: [1, -0.9], hn: [34, -12], hf: [36, -10], wall: -8 }] },
+    wall_pec: { name: 'Wall chest stretch', cat: 'cooldown', sub: 'static', added: 12, view: 'front', u: 'sec', r: [20, 25, 30], side: 1, mus: 'chest | front_delts', cue: 'Set one forearm on a wall at shoulder height and turn your chest away until the front of the shoulder stretches. Switch arms.', poses: [
+      P(FSTAND, { hn: [-34, -30], hf: [10, -16], wall: -22 }),
+      P(FSTAND, { hn: [-44, -18], hf: [16, -10], t: [6, -34], wall: -22 })] },
+    sleeper_stretch: { name: 'Sleeper stretch', cat: 'cooldown', sub: 'static', added: 12, u: 'sec', r: [20, 25, 30], side: 1, mus: 'rear_delts | upper_back', cue: 'Lie on your side, the bottom arm out and the elbow bent. Gently press that forearm toward the floor. Switch sides.', poses: [
+      { t: [34, -4], hd: [1, -0.3], hn: [22, -10], hf: [46, -2], fn: [-38, 4], ff: [-38, 2], kh: [0.2, 1], mat: 1 },
+      { t: [34, -4], hd: [1, -0.3], hn: [6, 8], hf: [46, -2], fn: [-38, 4], ff: [-38, 2], kh: [0.2, 1], mat: 1 }] },
+    toe_tuck: { name: 'Toe tuck stretch', cat: 'cooldown', sub: 'static', added: 12, u: 'sec', r: [40, 45, 60], mus: 'shins | calves', cue: 'Kneel with your toes tucked under, then sit your hips back toward your heels until the tops of the feet stretch.', poses: [
+      P(KNEEL, { hn: [6, -6], hf: [4, -6] }),
+      { t: [4, -26], fn: [-16, 24], ff: [-14, 24], kh: [1, 0.5], hn: [8, 2], hf: [6, 2], mat: 1 }] },
+    seated_glute: { name: 'Seated glute stretch', cat: 'cooldown', sub: 'static', added: 12, u: 'sec', r: [20, 25, 30], side: 1, mus: 'glutes | hamstrings', cue: 'Sit tall, one ankle on the opposite knee, and hinge forward from the hips until that glute stretches. Switch sides.', poses: [
+      P(SEAT, { fn: [26, 10], khn: [1, -0.5], ff: [36, 4] }),
+      P(SEAT, { t: [10, -28], fn: [22, 12], khn: [1, -0.8], ff: [34, 6], hn: [24, 8], hf: [22, 10] })] },
+    standing_hamstring: { name: 'Standing hamstring stretch', cat: 'cooldown', sub: 'static', added: 12, u: 'sec', r: [20, 25, 30], side: 1, mus: 'hamstrings | calves', cue: 'Stand on one leg with the other heel forward and the toes up. Hinge from the hips until the back of that thigh stretches. Switch.', poses: [
+      { t: [6, -33], fn: [24, 14], ff: [0, 41], hn: [14, -6], hf: [12, -4] },
+      { t: [18, -22], fn: [32, 10], ff: [-2, 41], hn: [30, 10], hf: [28, 12] }] },
+    box_breath: { name: 'Box breathing', cat: 'cooldown', sub: 'breath', added: 12, u: 'sec', r: [60, 75, 90], mus: 'abs | obliques', cue: 'Sit tall. Breathe in for four, hold for four, out for four, and hold for four. Keep the shoulders soft.', poses: [
+      P(SEAT, { hn: [2, -6], hf: [1, -6] })] },
+    four_seven_eight: { name: '4-7-8 breathing', cat: 'cooldown', sub: 'breath', added: 12, u: 'sec', r: [60, 75, 90], mus: 'abs | obliques', cue: 'Sit tall. Breathe in through the nose for four, hold for seven, and breathe out slowly for eight.', poses: [
+      P(SEAT, { hd: [0.2, -1], hn: [-4, 2], hf: [-2, 2] })] },
+    belly_breath: { name: 'Belly breathing', cat: 'cooldown', sub: 'breath', added: 12, u: 'sec', r: [60, 75, 90], mus: 'abs | obliques', cue: 'Lie on your back, knees bent, one hand on your belly. Breathe in so the belly rises, then let it fall. The chest stays quiet.', poses: [
+      GB_DOWN] },
+    seated_breath: { name: 'Seated belly breath', cat: 'cooldown', sub: 'breath', added: 12, u: 'sec', r: [60, 75, 90], mus: 'abs | obliques', cue: 'Sit tall, hands on your belly. Breathe in through the nose so the belly pushes the hands out, then breathe out slowly.', poses: [
+      P(SEAT, { hn: [-8, 6], hf: [10, 6], eh: [0, 1] })] },
+    long_exhale: { name: 'Long exhale', cat: 'cooldown', sub: 'breath', added: 12, u: 'sec', r: [60, 75, 90], mus: 'abs | obliques', cue: 'Sit tall. Breathe in for a count of four, then breathe out for a count of eight. Let the exhale be the long one.', poses: [
+      P(SEAT, { hd: [0.4, -1], t: [2, -34] })] },
+    equal_breath: { name: 'Equal breathing', cat: 'cooldown', sub: 'breath', added: 12, u: 'sec', r: [60, 75, 90], mus: 'abs | obliques', cue: 'Sit tall. Breathe in for four and out for four, matching the counts. Keep the jaw soft and the ribs easy.', poses: [
+      P(STAND, { hn: [4, -4], hf: [2, -4] })] },
 
     // ---------------- YOGA (Phase 5: guided flows; holds in seconds, sides in turn) ----------------
     mountain_pose: { name: 'Mountain pose', cat: 'yoga', added: 5, u: 'sec', r: [20, 25, 30], mus: 'upper_back abs | glutes calves', cue: 'Stand tall, feet together and grounded, then sweep your arms overhead on a slow breath in.', poses: [
