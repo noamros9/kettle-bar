@@ -33,7 +33,7 @@ mostly are. The builder never reads `sub`, so no program's days change.
 | 1 | Families and subjects on the Exercises page | feature | – | `feature/exercise-families` | done (PR #243) |
 | 2 | Equipment and Muscle as one-line menus | feature | 1 | `feature/exercise-filter-menus` | done (PR #248) |
 | 3 | +24 warm-ups (`added: 12`) | content | 1 | `content/more-warmups` | done (PR #251) |
-| 4 | +18 cool-downs (`added: 12`) | content | 1 | `content/more-cooldowns` | todo |
+| 4 | +18 cool-downs (`added: 12`) | content | 1 | `content/more-cooldowns` | done (PR #254) |
 
 ### 1. Families and subjects on the Exercises page
 - `exercises.js`: `sub` on the 6 warm-ups, the 12 cool-downs and every couple exercise (131 today).
