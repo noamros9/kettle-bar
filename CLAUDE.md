@@ -28,6 +28,8 @@ work; finished phases in [docs/roadmap-archive.md](docs/roadmap-archive.md), rea
 - **In parallel only if possible (Noam, 6 Oct 2026):** work the roadmap in plan order. Start the next ticket while
   one is still in review or CI only when all of these hold; otherwise one at a time (finish, merge, check CI, then
   the next):
+  - both tickets are in the same phase: never two phases at once (a new phase starts only when the last one's
+    tickets are merged);
   - its blockers are done, or its one blocker is the ticket in flight and the new branch starts from that ticket's
     branch (stacked), rebased onto `main` once the blocker squash-merges;
   - each ticket has its own working folder: Grok in the main checkout, any other in a `git worktree`, never two
