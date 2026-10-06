@@ -25,11 +25,14 @@ work; finished phases in [docs/roadmap-archive.md](docs/roadmap-archive.md), rea
     CI — the same bar as Claude's own tickets.
   - Review fails → Grok gets the findings for one fix round. Still failing → Claude finishes the ticket and says so
     in the PR.
+- **NEVER MORE THAN 2 TICKETS BUILDING AT ONCE (Noam, 6 Oct 2026). A hard cap, not a target.** Building = a Grok
+  run or Claude's own build; a PR only waiting on CI doesn't count. Before starting any ticket, count what is
+  building; at 2, the next one waits. Why: the machine has 2 cores (a third checkout slows every test run), and
+  every Grok ticket ends in Claude's review, so a third builder only queues finished work.
 - **Look for the next ticket at every checkpoint (Noam, 6 Oct 2026):** after each hand-off, each PR opened and each
-  merge, read the plan's ticket table and start the next `todo` ticket that can run now. **At most 2 tickets
-  building at once** (Grok runs or Claude's own builds; PRs only waiting on CI don't count): the machine has 2 cores
-  and every Grok ticket ends in Claude's review. Running one at a time when a second could start is the exception;
-  say why. A ticket can run alongside another only when all of these hold:
+  merge, read the plan's ticket table and start the next `todo` ticket that can run now, up to the cap of 2.
+  Running one at a time when a second could start is the exception; say why. A ticket can run alongside another
+  only when all of these hold:
   - both tickets are in the same phase: never two phases at once (a new phase starts only when the last one's
     tickets are merged);
   - its blockers are done, or its one blocker is the ticket in flight and the new branch starts from that ticket's
