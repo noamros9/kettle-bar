@@ -359,3 +359,32 @@ Noam, 6 Oct 2026: on an exercise's page, tapping a muscle chip opens the Exercis
 - Noted for the plan: `KBLibrary.searchExercises` already takes `filters.muscles` (Phase 9, primary and secondary,
   ranked), so this is mostly the chip row, `exSearch.muscles`, the URL, Clear all, and the exercise page's chips
   becoming buttons.
+
+### Phase 21: exercise families and subjects, and more warm-ups and cool-downs ([#220](https://github.com/noamros9/kettle-bar/issues/220)) (done, PRs #243, #248, #251, #254, Oct 2026)
+Grilled 5 Oct 2026 (Noam); next after Phase 20 ticket 8, before ticket 9. Claude plans, Grok builds. Plan:
+[docs/plans/phase-21-exercise-families.md](docs/plans/phase-21-exercise-families.md).
+68. **A grouping, not a new `cat`** (5 Oct): exercises get a family → subject map, like `FAMILIES` for programs. `cat`
+    stays as it is (nine places in the builders depend on it), so no program's days change and no pin moves.
+69. **Six families** (5 Oct): Warm-up · Stretch & cool-down · Muscles · Cardio & combat (cardio, boxing, kickboxing) ·
+    Mind & body (yoga, pilates, balance, mobility) · Couples (subjects by act: intercourse, oral, hands, anal, toys,
+    partner work, tease, dares, massage, and Phase 22's new ones).
+70. **Muscles by primary muscle** (5 Oct): Chest, Back, Shoulders, Arms, Legs & glutes, Core & abs, Full body, as on
+    the Programs page's Muscles shelf. Each exercise sits under its primary muscle.
+71. **30 warm-ups and 30 cool-downs** (5 Oct): +24 warm-ups (dynamic moves, joint circles, activation), +18 cool-downs
+    (static stretches, breathing). New ones carry `added: N`, so only programs built from then on draw them.
+98. **The Exercises page's filters, laid out again** (6 Oct, after #234 added a 21-chip muscle row): one row of family
+    chips (All + the six); picking a family shows its subjects as chips below. Equipment and Muscle become one-line
+    menus like the Programs page's Length and Equipment ("Equipment: Any ▾", "Muscle: Glutes ▾") that open into chips.
+99. **Built in Phase 21** (6 Oct), a ticket after the family map; #234 ships with the wrapped muscle row meanwhile.
+100. **A muscle link lands with the Muscle menu closed** (6 Oct): the label says the muscle ("Muscle: Glutes ▾") and
+     the results follow right below.
+101. **Flexibility goes in Stretch & cool-down** (6 Oct), as its own subject; Mind & body keeps yoga, pilates, balance,
+     mobility.
+102. **Warm-up and Stretch & cool-down subjects by kind** (6 Oct): Dynamic moves · Joint circles · Activation; Static
+     stretches · Breathing · Flexibility.
+103. **The list's sections follow the pick** (6 Oct): All → a section per family; a family → a section per subject; a
+     subject → one section.
+104. **Grok builds every Phase 21 ticket** (6 Oct); Claude reviews and merges.
+105. **Phase 21's new exercises are `added: 12`, so Phase 22 becomes catalogue 13** (6 Oct, technical): own programs
+     and random workouts store the newest catalogue, so catalogue 12 must not grow after Phase 21 lands. Where
+     decisions 75, 77, 82 and Phase 23 say catalogue 12, read 13.
