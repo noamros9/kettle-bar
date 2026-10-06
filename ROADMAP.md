@@ -95,8 +95,15 @@ Grilled 6 Oct 2026 (Noam); right after Phase 22.
 84. **A "II" of every Signature program, on top** (6 Oct): 15 more. Same shape as the original (days, blocks, length),
     a step harder (more sets or rounds, or harder variants), and built at catalogue 12 so it brings new exercises.
     The originals never change.
-- Still open, for the plan: what "a step harder" means per format; names and blurbs; the library size at ~1,000
-  programs (with Phase 20's 180); whether these are built straight to the Longer programs spread (decision 53).
+85. **"A step harder" = a level up** (6 Oct): a II's Level I is the original's Level II, and each level climbs on from
+    there, so its Level III goes past the original's.
+86. **All 15 get a II** (6 Oct): each of the five splits and each Tempo and Harder Moves variation (Three-Split 60 II,
+    Three-Split 60 Tempo II, ...), on the Signature shelf after their originals.
+87. **Built to the Longer programs spread** (6 Oct): the new programs are made at decision 53's spread from the start
+    (half 35–38 min, a quarter 31–35, a quarter shorter), so they never need re-timing.
+88. **Names and blurbs in today's style** (6 Oct), no separate review.
+- Left to the plan (technical): the library's size at ~1,000 programs (with Phase 20's 180): measure the index and
+  finder data, and split them if the Programs page slows.
 
 ### Architecture review V ([#187](https://github.com/noamros9/kettle-bar/issues/187))
 A fresh review after Phases 13–18: shelf groups, Variety, ~580 programs, the library boot, sync at that scale (one
