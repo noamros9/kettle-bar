@@ -5,8 +5,8 @@ Noam picks Grok tickets at hand-off (CLAUDE.md, "Grok tickets"); Grok writes the
 Today: 508 exercises, 131 couple, the page at 130.6 KB gzipped.
 
 ## What lands
-- **344 couple exercises, `added: 13`** (120): intercourse +72 (→ 96), oral +36 and anal +36 (→ 60 each), toys
-  +28 and hands +28 (→ 36 each), and four new kinds, 36 each: Rough (`sub: 'rough'`), Kink-lite (`kink`), Body play (`body`), Rimming (`rim`). Poses with the
+- **432 couple exercises, `added: 13`** (120): intercourse +96 (→ 120), oral +60 and anal +60 (→ 84 each), toys
+  +36 and hands +36 (→ 44 each), and four new kinds, 36 each: Rough (`sub: 'rough'`), Kink-lite (`kink`), Body play (`body`), Rimming (`rim`). Poses with the
   pelvic mark, in the Phase 20 cue register (75). Rough and Kink-lite are mostly a position with the act in it, a
   few stand alone (118). No choking (73). Rimming: him on her and her on him, the one exception to "nothing receiving
   about him"; nothing goes in him (74).
@@ -29,7 +29,7 @@ Today: 508 exercises, 131 couple, the page at 130.6 KB gzipped.
 ## How catalogue 13 reaches the pools
 - **Couple** (no named lists to edit): computed pools in `program-builder.js`, empty below 13 —
   `sexRough`, `sexKink`, `sexBody`, `sexRim` (by `sub`), and `mergedAt(upTo)` for `upTo >= 13` adds (117):
-  `sexPositions` += all 344; `sexFuck` += new `fuck`, `anal`, `toys`, `rough`, `body`; `sexWarm` += new `oral`,
+  `sexPositions` += all 432; `sexFuck` += new `fuck`, `anal`, `toys`, `rough`, `body`; `sexWarm` += new `oral`,
   `hands`, `kink`, `rim`. None is `basic: 1`, so the 1.5× basics weighting (65) is unchanged.
 - **Fitness**: the builder's fitness pools are hand-named lists (`push`, `hiit`, `fxHips`, …). Each new exercise
   joins the named pools it fits through `POOL_ADDS` at key `13` (the Phase 10/13 pattern); `abs`, `absW` pick it up
@@ -51,10 +51,13 @@ goes unused this phase (CLAUDE.md: tickets that edit the same files wait).
 | 2 | Intercourse +24 (a) | content | 1 | `content/c13-fuck-a` | done (PR #258) |
 | 3 | Intercourse +24 (b) | content | 2 | `content/c13-fuck-b` | todo |
 | 4 | Intercourse +24 (c) | content | 3 | `content/c13-fuck-c` | todo |
-| 5 | Oral +36 | content | 1 | `content/c13-oral` | todo |
-| 6 | Anal +36 | content | 1 | `content/c13-anal` | todo |
-| 7 | Toys +28 | content | 1 | `content/c13-toys` | todo |
-| 8 | Hands +28 | content | 1 | `content/c13-hands` | todo |
+| 4b | Intercourse +24 (d) | content | 4 | `content/c13-fuck-d` | todo |
+| 5 | Oral +30 (a) | content | 1 | `content/c13-oral` | todo |
+| 5b | Oral +30 (b) | content | 5 | `content/c13-oral-b` | todo |
+| 6 | Anal +30 (a) | content | 1 | `content/c13-anal` | todo |
+| 6b | Anal +30 (b) | content | 6 | `content/c13-anal-b` | todo |
+| 7 | Toys +36 | content | 1 | `content/c13-toys` | todo |
+| 8 | Hands +36 | content | 1 | `content/c13-hands` | todo |
 | 9 | Rough +36 | content | 1 | `content/c13-rough` | todo |
 | 10 | Kink-lite +36 | content | 1 | `content/c13-kink` | todo |
 | 11 | Body play +36 | content | 1 | `content/c13-body` | todo |
@@ -86,13 +89,13 @@ Order: plan order. 19–20 need only 9–12, so they may go before 13–18 if th
 - **Done when:** `rm -rf data && node build.js` on main and on the branch: `diff -r` shows no program file
   changing; no pin moves.
 
-### 2–12. The sex exercises (344)
+### 2–12. The sex exercises (432)
 Each: the ticket's exercises in `exercises.js`, `cat: 'couple'`, its `sub`, `added: 13`, two-figure poses with the
 pelvic mark (Phase 20 ticket 1), a cue in the Phase 20 register (one paragraph, explicit, dirty slang, no orgasm
 script; who is where, the hold, what to brace), his muscles. Written from his side (CLAUDE.md, "Writing program
 text"). Ids are new (`fuck_*`, `oral_*`, `anal_*`, `toy_*`, `hands_*`, `rough_*`, `kink_*`, `body_*`, `rim_*`), never
 reusing a catalogue-11 position with a new name: each is a position or act not already in the catalogue.
-- 2–4: intercourse, 24 each, new positions and angles (no repeat of the 38 already in `fuck`).
+- 2–4b: intercourse, 24 each (96), new positions and angles (no repeat of the 38 already in `fuck`).
 - 7: toys stay on her or worn by him (the strap-on is used on her, never pegging, Phase 20).
 - 9: Rough: spanking, hair-pulling, pinning her wrists, holding her down; no choking, anywhere in the text.
 - 10: Kink-lite: blindfold, ties or cuffs, a gag, ice or wax, him doing it to her.
@@ -153,10 +156,13 @@ the PR. No duplicate of an existing exercise under a new name.
     off `mergedAt(11)`/`(12)`. **Plan edit:** ticket 1, pinned by test.
   - `tests/build.test.js` still gates at 135 KB with the page at 130.6: the first content ticket would fail it.
     **Plan edit:** the 350 gate is in ticket 1, not later. 88 exercises cost ~11.5 KB, so 506 land near 200 KB.
-- **The lazier version:** the 344 couple exercises in 5 tickets of ~70, and the fitness in 2. Not proposed: 24–36
+- **The lazier version:** the 432 couple exercises in 5 tickets of ~85, and the fitness in 2. Not proposed: 24–36
   cues is what one review of heat and POV can read properly (Phase 20 tickets 5–7),
   and every ticket edits `exercises.js`, so bigger tickets don't buy parallelism, only longer reviews. Also not
   proposed: splitting `exercises.js` so couple and fitness tickets could build two at a time; poses and helpers live
   in its closure, and the split is a refactor this phase doesn't need.
 - **Noam's counts (6 Oct, after the first draft):** 344 sex exercises instead of 216 and 32 programs instead of 20.
   **Plan edit:** intercourse 3 tickets of 24, every other kind one ticket of 28–36; the programs in two tickets of 16.
+- **Noam's counts, read again (6 Oct, after ticket 3):** his numbers are what each kind adds, not totals: 432 sex
+  exercises. **Plan edit:** ticket 4b (intercourse +24), oral and anal split into two tickets of 30 (5/5b, 6/6b),
+  toys and hands +36 each.
