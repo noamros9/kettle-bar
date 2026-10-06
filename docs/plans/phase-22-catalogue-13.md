@@ -50,7 +50,7 @@ goes unused this phase (CLAUDE.md: tickets that edit the same files wait).
 | 1 | Catalogue-13 plumbing: page cap 350, pools, held newest, four subjects in `EX_FAMILIES` | feature | – | `feature/catalogue-13` | done (PR #257) |
 | 2 | Intercourse +24 (a) | content | 1 | `content/c13-fuck-a` | done (PR #258) |
 | 3 | Intercourse +24 (b) | content | 2 | `content/c13-fuck-b` | done (PR #261) |
-| 4 | Intercourse +24 (c) | content | 3 | `content/c13-fuck-c` | todo |
+| 4 | Intercourse +24 (c) | content | 3 | `content/c13-fuck-c` | done (PR #263) |
 | 4b | Intercourse +24 (d) | content | 4 | `content/c13-fuck-d` | todo |
 | 5 | Oral +30 (a) | content | 1 | `content/c13-oral` | todo |
 | 5b | Oral +30 (b) | content | 5 | `content/c13-oral-b` | todo |
