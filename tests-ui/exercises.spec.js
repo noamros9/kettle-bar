@@ -30,7 +30,7 @@ test('the Kettlebell chip keeps only kettlebell exercises; a category narrows fu
   await app.page.getByRole('group', { name: 'Filter by equipment' }).getByRole('button', { name: 'Kettlebell' }).click();
   const kb = Object.values(EX).filter((e) => e.load === 'kb');
   await expect(cards(app)).toHaveCount(kb.length);
-  const cat = app.page.getByRole('group', { name: 'Filter by category' });
+  const cat = app.page.getByRole('group', { name: 'Filter by family' });
   await expect(cat.getByRole('button', { name: /^All/ })).toContainText(String(kb.length));
   const first = cat.locator('.fchip').nth(1);
   await first.click();
@@ -47,14 +47,26 @@ test('the Exercises page points to the Muscles page', async ({ app }) => {
   await expect(app.heading()).toHaveText('Muscles');
 });
 
-// Phase 18 ticket 2: the couple exercises have their own chip and section, each drawn with two figures
-test('Couples: its own chip and section, every card drawn with two figures', async ({ app }) => {
+// Phase 18 ticket 2 / Phase 21 ticket 1: Couples is a family; its subjects are the sections
+test('Couples: its own chip and subject sections, every card drawn with two figures', async ({ app }) => {
   await app.open('#exercises');
   const n = Object.values(EX).filter((e) => e.cat === 'couple').length;
-  await app.page.getByRole('group', { name: 'Filter by category' }).getByRole('button', { name: /^Couples/ }).click();
+  await app.page.getByRole('group', { name: 'Filter by family' }).getByRole('button', { name: /^Couples/ }).click();
   await expect(cards(app)).toHaveCount(n);
-  await expect(app.page.locator('.libcat h2')).toHaveText(['Couples']);
+  await expect(app.page.locator('.libcat h2')).toHaveText(['Intercourse', 'Oral', 'Hands', 'Anal', 'Toys', 'Partner work', 'Tease', 'Dares', 'Massage']);
   expect(await app.page.locator('#exresults .exlink svg.fig').evaluateAll((l) => l.every((s) => s.querySelector('circle[fill="var(--fig2)"]')))).toBe(true);
+  expect(await app.sidewaysScroll()).toBe(0);
+});
+
+test('All shows six family sections; Muscles shows its seven subjects; Chest leaves one section', async ({ app }) => {
+  await app.open('#exercises');
+  await expect(app.page.locator('.libcat h2')).toHaveText(['Warm-up', 'Stretch & cool-down', 'Muscles', 'Cardio & combat', 'Mind & body', 'Couples']);
+  await expect(app.page.getByRole('group', { name: 'Filter by subject' })).toHaveCount(0);
+  await app.page.getByRole('group', { name: 'Filter by family' }).getByRole('button', { name: /^Muscles/ }).click();
+  await expect(app.page.getByRole('group', { name: 'Filter by subject' }).getByRole('button')).toHaveCount(8);
+  await expect(app.page.locator('.libcat h2')).toHaveText(['Chest', 'Back', 'Shoulders', 'Arms', 'Legs & glutes', 'Core & abs', 'Full body']);
+  await app.page.getByRole('group', { name: 'Filter by subject' }).getByRole('button', { name: /^Chest/ }).click();
+  await expect(app.page.locator('.libcat h2')).toHaveText(['Chest']);
   expect(await app.sidewaysScroll()).toBe(0);
 });
 
@@ -105,11 +117,15 @@ test('Clear all resets the search and every filter', async ({ app }) => {
   await expect(app.page.getByRole('button', { name: 'Clear all' })).toBeVisible();
   await app.page.getByRole('searchbox', { name: 'Search exercises' }).fill('squat');
   await app.page.getByRole('group', { name: 'Filter by equipment' }).getByRole('button', { name: 'Kettlebell' }).click();
+  await app.page.getByRole('group', { name: 'Filter by family' }).getByRole('button', { name: /^Muscles/ }).click();
+  await app.page.getByRole('group', { name: 'Filter by subject' }).getByRole('button', { name: /^Legs/ }).click();
   await app.page.getByRole('button', { name: 'Clear all' }).click();
   await expect(app.page.getByRole('searchbox', { name: 'Search exercises' })).toHaveValue('');
   await expect(app.page.locator('#excount')).toHaveText(`${total} exercises`);
   await expect(muscleRow(app).locator('[aria-pressed="true"]')).toHaveCount(0);
   await expect(app.page.getByRole('group', { name: 'Filter by equipment' }).getByRole('button', { name: 'Any equipment' })).toHaveAttribute('aria-pressed', 'true');
+  await expect(app.page.getByRole('group', { name: 'Filter by family' }).getByRole('button', { name: /^All/ })).toHaveAttribute('aria-pressed', 'true');
+  await expect(app.page.getByRole('group', { name: 'Filter by subject' })).toHaveCount(0);
   await expect(app.page.getByRole('button', { name: 'Clear all' })).toHaveCount(0);
   expect(new URL(app.page.url()).hash).toBe('#exercises');
 });

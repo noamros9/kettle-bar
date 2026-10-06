@@ -118,12 +118,14 @@
     };
   }
 
-  /* The Exercises page (Phase 8 ticket 3): searchExercises(EX, query, { cat, gear }, { names, cats? }) ->
-       { list: [exercise], count, total, cats: [{ key, count, pressed }] }
-     filters.muscles (Phase 9): only exercises working a picked muscle, in byMuscles order. The query matches the name, the muscles (their names) and the cue, every word somewhere, ignoring case. Name matches
-     come first, then the rest, each in catalogue order. Gear is what the exercise uses (gearOf): a kettlebell, dumbbells,
-     the pull-up bar, or nothing. Category chips count what the query and gear leave (All first, then each category in
-     `cats` order, else as they first appear, only those with exercises); a picked category with none falls back to All. */
+  /* Exercise families (Phase 21): familyOf(e) -> { family, subject } from EX_FAMILIES. cat stays for the builders.
+     searchExercises(EX, query, { family, sub, gear }, { names }) ->
+       { list, count, total, families: [{ key, count, pressed }], subjects: [{ key, count, pressed }] }
+     Family chips count what the query, gear and muscles leave (All first, then each family with exercises).
+     When a family is picked, subjects are its subjects that have exercises (All first). A picked family or subject
+     with none falls back to All. filters.muscles (Phase 9): only exercises working a picked muscle, in byMuscles order.
+     The query matches the name, the muscles (their names) and the cue, every word somewhere, ignoring case. Name matches
+     come first, then the rest, each in catalogue order. Gear is what the exercise uses (gearOf). */
   /* byMuscles(list, picked) (Phase 9): the exercises working any picked muscle, those working more of them first, then
      by weight (main 1, secondary ½), then list order; nothing picked -> the list as it is. */
   function byMuscles(list, picked) {
@@ -148,19 +150,51 @@
   }
   const GEAR = [['all', 'Any equipment'], ['kb', 'Kettlebell'], ['db', 'Dumbbells'], ['bar', 'Pull-up bar'], ['none', 'No equipment']];
   const gearOf = (e) => (e.load === 'kb' ? 'kb' : e.load ? 'db' : (e.equip || []).includes('bar') ? 'bar' : 'none');
-  function searchExercises(EX, query, filters, { names, cats: order } = {}) {
+  const EX_FAMILIES = [
+    ['warmup', 'Warm-up', [['dynamic', 'Dynamic moves'], ['joints', 'Joint circles'], ['activation', 'Activation']]],
+    ['stretch', 'Stretch & cool-down', [['static', 'Static stretches'], ['breath', 'Breathing'], ['flex', 'Flexibility']]],
+    ['muscles', 'Muscles', [['chest', 'Chest'], ['back', 'Back'], ['shoulders', 'Shoulders'], ['arms', 'Arms'], ['legs', 'Legs & glutes'], ['core', 'Core & abs'], ['full', 'Full body']]],
+    ['cardio', 'Cardio & combat', [['cardio', 'Cardio'], ['boxing', 'Boxing'], ['kick', 'Kickboxing']]],
+    ['mind', 'Mind & body', [['yoga', 'Yoga'], ['pilates', 'Pilates'], ['balance', 'Balance'], ['mobility', 'Mobility']]],
+    ['couples', 'Couples', [['fuck', 'Intercourse'], ['oral', 'Oral'], ['hands', 'Hands'], ['anal', 'Anal'], ['toys', 'Toys'], ['partner', 'Partner work'], ['tease', 'Tease'], ['dare', 'Dares'], ['massage', 'Massage']]],
+  ];
+  const MUSCLE_SUB = {
+    chest: 'chest', lats: 'back', upper_back: 'back', lower_back: 'back', traps: 'back', neck: 'back',
+    front_delts: 'shoulders', side_delts: 'shoulders', rear_delts: 'shoulders',
+    triceps: 'arms', biceps: 'arms', forearms: 'arms',
+    glutes: 'legs', quads: 'legs', hamstrings: 'legs', adductors: 'legs', calves: 'legs', shins: 'legs', hip_flexors: 'legs',
+    abs: 'core', obliques: 'core',
+  };
+  const CAT_TO_FAM = {
+    warmup: 'warmup', cooldown: 'stretch', flex: 'stretch', couple: 'couples', full: 'muscles',
+    cardio: 'cardio', boxing: 'cardio', kick: 'cardio',
+    yoga: 'mind', pilates: 'mind', balance: 'mind', mobility: 'mind',
+  };
+  function familyOf(e) {
+    const family = CAT_TO_FAM[e.cat] || 'muscles';
+    const subject = e.cat === 'warmup' || e.cat === 'cooldown' || e.cat === 'couple' ? e.sub
+      : e.cat === 'flex' ? 'flex'
+      : e.cat === 'full' ? 'full'
+      : family === 'cardio' || family === 'mind' ? e.cat
+      : MUSCLE_SUB[e.muscles.primary[0]];
+    return { family, subject };
+  }
+  function searchExercises(EX, query, filters, { names } = {}) {
     const words = query.toLowerCase().split(/\s+/).filter(Boolean);
     const all = Object.values(EX);
     const text = (e) => [e.name, e.cue, ...[...e.muscles.primary, ...e.muscles.secondary].map((m) => names[m])].join(' ').toLowerCase();
     const hits = byMuscles(all.filter((e) => (filters.gear === 'all' || gearOf(e) === filters.gear) && words.every((w) => text(e).includes(w))), filters.muscles || []);
     const inName = (e) => words.length > 0 && words.every((w) => e.name.toLowerCase().includes(w));
-    const keys = order || [...new Set(all.map((e) => e.cat))];
-    const counts = keys.map((key) => ({ key, count: hits.filter((e) => e.cat === key).length })).filter((c) => c.count);
-    const cat = counts.some((c) => c.key === filters.cat) ? filters.cat : 'all';
-    const shown = hits.filter((e) => cat === 'all' || e.cat === cat);
+    const famCounts = EX_FAMILIES.map(([key]) => ({ key, count: hits.filter((e) => familyOf(e).family === key).length })).filter((c) => c.count);
+    const family = famCounts.some((c) => c.key === filters.family) ? filters.family : 'all';
+    const inFam = family === 'all' ? hits : hits.filter((e) => familyOf(e).family === family);
+    const subCounts = family === 'all' ? [] : EX_FAMILIES.find(([key]) => key === family)[2].map(([key]) => ({ key, count: inFam.filter((e) => familyOf(e).subject === key).length })).filter((c) => c.count);
+    const sub = subCounts.some((c) => c.key === filters.sub) ? filters.sub : 'all';
+    const shown = sub === 'all' ? inFam : inFam.filter((e) => familyOf(e).subject === sub);
     const list = filters.muscles && filters.muscles.length ? shown : [...shown.filter(inName), ...shown.filter((e) => !inName(e))]; // picked muscles: their order
-    const cats = [{ key: 'all', count: hits.length }, ...counts].map((c) => ({ ...c, pressed: c.key === cat }));
-    return { list, count: list.length, total: all.length, cats };
+    const families = [{ key: 'all', count: hits.length }, ...famCounts].map((c) => ({ ...c, pressed: c.key === family }));
+    const subjects = family === 'all' ? [] : [{ key: 'all', count: inFam.length }, ...subCounts].map((c) => ({ ...c, pressed: c.key === sub }));
+    return { list, count: list.length, total: all.length, families, subjects };
   }
 
   // What next: up to three library programs of the family of `pid`'s first subject (a mix: its first subject) that train
@@ -178,7 +212,7 @@
       .slice(0, 3).map(({ p }) => p.id);
   }
 
-  const api = { SHELF, searchPrograms, suggestNext, libraryView, searchExercises, byMuscles, splitByMuscles, rankPrograms, gearOf, GEAR, subjectsOf, toggleIn, skipped, setFilter, counterText, lengthOf, FAMILIES, SHELVES, LENGTHS, EQUIPS };
+  const api = { SHELF, searchPrograms, suggestNext, libraryView, searchExercises, familyOf, byMuscles, splitByMuscles, rankPrograms, gearOf, GEAR, subjectsOf, toggleIn, skipped, setFilter, counterText, lengthOf, FAMILIES, EX_FAMILIES, SHELVES, LENGTHS, EQUIPS };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBLibrary = api;
 })(typeof window !== 'undefined' ? window : globalThis);
