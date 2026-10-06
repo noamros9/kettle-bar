@@ -161,6 +161,23 @@ Noam, 4 Oct 2026: a button for dead time that hands you one exercise to do right
 equipment, 20–30 seconds. Still open: where the button lives, how it picks, whether it times itself and counts in
 Stats, and whether it stays quiet and office-friendly.
 
+### Explicit drawings and loops for the explicit exercises ([#249](https://github.com/noamros9/kettle-bar/issues/249))
+Noam, 6 Oct 2026; grilled the same day. Place in the order not set yet.
+106. **Drawn, never photos of real people** (6 Oct): explicit drawings and short animated loops.
+107. **Every explicit exercise, any catalogue** (6 Oct): catalogue 10's positions and oral, catalogue 11, Phase 22's,
+     and later ones; a ticket that adds an explicit exercise also adds its drawing and loop.
+108. **Three ways to show it** (6 Oct): Figure · Drawing · Animation. The drawing replaces the stick figure by default.
+109. **The switch is in Settings and on each exercise page** (6 Oct): Settings sets the default; the page switch
+     overrides it there.
+110. **Signed-in only, stored in Firebase Storage, never in the public repo** (6 Oct): Storage rules let only Noam's
+     account read them (Noam publishes the rules in the console). **No caching:** not in the service worker, not
+     offline; fetched each time the page shows one.
+111. **Noam reviews each before it ships** (6 Oct): Claude can't review explicit images.
+- **Open, blocking:** can Grok Imagine (`image_gen`, `image_to_video` in the Grok CLI) make explicit drawings? Noam
+  tests one prompt in `grok`. If not, the source must be decided again.
+- Still open, for the plan: drawing style (one consistent style for all); loop length and size (Imagine makes
+  6–15 s mp4 at 480p/720p); how Grok runs (headless with the image tools allowed, or Noam interactive).
+
 ### After dark: a story per workout, by Grok ([#225](https://github.com/noamros9/kettle-bar/issues/225))
 Noam, 5 Oct 2026: automate creating an erotic story with Grok for every After dark workout.
 78. **Last in the order** (5 Oct): after all other open issues are done. To be grilled when it starts.
