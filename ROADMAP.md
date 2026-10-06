@@ -50,8 +50,8 @@ Plan: [docs/plans/phase-20-after-dark-explicit.md](docs/plans/phase-20-after-dar
 67. **Phase 20 pauses after ticket 8** (5 Oct): Phases 21 and 22 come first; tickets 9–15 resume after them.
 
 ### Phase 21: exercise families and subjects, and more warm-ups and cool-downs ([#220](https://github.com/noamros9/kettle-bar/issues/220))
-Grilled 5 Oct 2026 (Noam); next after Phase 20 ticket 8, before ticket 9. Claude plans, Grok builds. A plan file
-(`docs/plans/phase-21-exercise-families.md`) lands first, as Phase 20's did.
+Grilled 5 Oct 2026 (Noam); next after Phase 20 ticket 8, before ticket 9. Claude plans, Grok builds. Plan:
+[docs/plans/phase-21-exercise-families.md](docs/plans/phase-21-exercise-families.md).
 68. **A grouping, not a new `cat`** (5 Oct): exercises get a family → subject map, like `FAMILIES` for programs. `cat`
     stays as it is (nine places in the builders depend on it), so no program's days change and no pin moves.
 69. **Six families** (5 Oct): Warm-up · Stretch & cool-down · Muscles · Cardio & combat (cardio, boxing, kickboxing) ·
@@ -67,8 +67,18 @@ Grilled 5 Oct 2026 (Noam); next after Phase 20 ticket 8, before ticket 9. Claude
 99. **Built in Phase 21** (6 Oct), a ticket after the family map; #234 ships with the wrapped muscle row meanwhile.
 100. **A muscle link lands with the Muscle menu closed** (6 Oct): the label says the muscle ("Muscle: Glutes ▾") and
      the results follow right below.
+101. **Flexibility goes in Stretch & cool-down** (6 Oct), as its own subject; Mind & body keeps yoga, pilates, balance,
+     mobility.
+102. **Warm-up and Stretch & cool-down subjects by kind** (6 Oct): Dynamic moves · Joint circles · Activation; Static
+     stretches · Breathing · Flexibility.
+103. **The list's sections follow the pick** (6 Oct): All → a section per family; a family → a section per subject; a
+     subject → one section.
+104. **Grok builds every Phase 21 ticket** (6 Oct); Claude reviews and merges.
+105. **Phase 21's new exercises are `added: 12`, so Phase 22 becomes catalogue 13** (6 Oct, technical): own programs
+     and random workouts store the newest catalogue, so catalogue 12 must not grow after Phase 21 lands. Where
+     decisions 75, 77, 82 and Phase 23 say catalogue 12, read 13.
 
-### Phase 22: catalogue 12, the sex catalogue doubled and four new kinds
+### Phase 22: catalogue 13 (was 12, decision 105), the sex catalogue doubled and four new kinds
 Grilled 5 Oct 2026 (Noam); after Phase 21, before Phase 20 ticket 9. Claude plans, Grok builds and writes the text.
 72. **Doubled, intercourse tripled** (5 Oct): intercourse 24 → 72, oral 24 → 48, anal 24 → 48, toys 8 → 16,
     hands 8 → 24.
@@ -150,21 +160,6 @@ front lever and pistol), more programs alongside Calisthenics Base and Skills, o
 Noam, 4 Oct 2026: a button for dead time that hands you one exercise to do right now: anywhere, anytime, no
 equipment, 20–30 seconds. Still open: where the button lives, how it picks, whether it times itself and counts in
 Stats, and whether it stays quiet and office-friendly.
-
-### Muscle chips link to a filtered Exercises page ([#234](https://github.com/noamros9/kettle-bar/issues/234))
-Noam, 6 Oct 2026: on an exercise's page, tapping a muscle chip opens the Exercises page filtered by that muscle.
-89. **Next, before Phase 20 continues** (6 Oct): small, one or two tickets.
-97. **Claude builds it** (6 Oct), not Grok.
-90. **A visible muscle filter on the Exercises page** (6 Oct): a row of muscle chips you can use without coming from an
-    exercise; the chip link lands with that muscle picked.
-91. **Main and secondary both count** (6 Oct): an exercise matches if the muscle is one of its main or secondary ones.
-92. **One muscle at a time** (6 Oct): picking a muscle replaces the one picked; tapping it again unpicks it.
-93. **The link keeps the other filters** (6 Oct): it sets the muscle on top of the search, category and equipment you
-    had. The Exercises page gets a **Clear all** button that resets every filter and the search.
-94. **The muscle is in the URL** (6 Oct), e.g. `#exercises?muscle=glutes`, so Back and a shared link keep it.
-- Noted for the plan: `KBLibrary.searchExercises` already takes `filters.muscles` (Phase 9, primary and secondary,
-  ranked), so this is mostly the chip row, `exSearch.muscles`, the URL, Clear all, and the exercise page's chips
-  becoming buttons.
 
 ### After dark: a story per workout, by Grok ([#225](https://github.com/noamros9/kettle-bar/issues/225))
 Noam, 5 Oct 2026: automate creating an erotic story with Grok for every After dark workout.

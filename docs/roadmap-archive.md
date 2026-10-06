@@ -344,3 +344,18 @@ Plan: [docs/plans/phase-18-after-dark-couples.md](docs/plans/phase-18-after-dark
 51. **Teasing, all of it "and more"** (4 Oct): strip forfeits, kiss-and-touch reps, slow dance and massage, dares by
     the timer, winner's choice, eyes-closed rounds.
 52. **Positions tour: one-off days** (4 Oct).
+
+### Muscle chips link to a filtered Exercises page ([#234](https://github.com/noamros9/kettle-bar/issues/234)) (done, PR #240, Oct 2026)
+Noam, 6 Oct 2026: on an exercise's page, tapping a muscle chip opens the Exercises page filtered by that muscle.
+89. **Next, before Phase 20 continues** (6 Oct): small, one or two tickets.
+97. **Claude builds it** (6 Oct), not Grok.
+90. **A visible muscle filter on the Exercises page** (6 Oct): a row of muscle chips you can use without coming from an
+    exercise; the chip link lands with that muscle picked.
+91. **Main and secondary both count** (6 Oct): an exercise matches if the muscle is one of its main or secondary ones.
+92. **One muscle at a time** (6 Oct): picking a muscle replaces the one picked; tapping it again unpicks it.
+93. **The link keeps the other filters** (6 Oct): it sets the muscle on top of the search, category and equipment you
+    had. The Exercises page gets a **Clear all** button that resets every filter and the search.
+94. **The muscle is in the URL** (6 Oct), e.g. `#exercises?muscle=glutes`, so Back and a shared link keep it.
+- Noted for the plan: `KBLibrary.searchExercises` already takes `filters.muscles` (Phase 9, primary and secondary,
+  ranked), so this is mostly the chip row, `exSearch.muscles`, the URL, Clear all, and the exercise page's chips
+  becoming buttons.
