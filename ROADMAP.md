@@ -99,7 +99,8 @@ Grilled 5 Oct 2026 (Noam); after Phase 21, before Phase 20 ticket 9. Claude plan
      catalogue 13, in this phase, each subject 3 gym then sex, 3 sex then sex, 2 positions only (Noam).
 120. **The sex exercises, new per kind** (6 Oct, Noam; replaces 72–73's numbers; his numbers are what's added, not
      totals): intercourse **+96** (24 → 120), oral and anal **+60** each (24 → 84), toys and hands **+36** each
-     (8 → 44), and Rough, Kink-lite, Body play, Rimming **36** each (+144): **432** new.
+     (8 → 44), and Rough, Kink-lite, Body play, Rimming **36** each (+144): **432** new. Intercourse ended at **+91**
+     (6 Oct, Noam): after ~115 positions the last 5 of ticket 4b were still copies, so it shipped 19 (427 new).
 121. **Own programs and random workouts move to catalogue 13 only in the phase's last ticket** (6 Oct, technical):
      the newest catalogue they store is held at 12 while Phase 22's tickets land, so an own program saved mid-phase
      never reshuffles when the next ticket adds to its pools.

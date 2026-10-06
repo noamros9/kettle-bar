@@ -5,7 +5,7 @@ Noam picks Grok tickets at hand-off (CLAUDE.md, "Grok tickets"); Grok writes the
 Today: 508 exercises, 131 couple, the page at 130.6 KB gzipped.
 
 ## What lands
-- **432 couple exercises, `added: 13`** (120): intercourse +96 (→ 120), oral +60 and anal +60 (→ 84 each), toys
+- **432 couple exercises, `added: 13`** (120): intercourse +91 (→ 115; 4b shipped 19 of 24, 6 Oct), oral +60 and anal +60 (→ 84 each), toys
   +36 and hands +36 (→ 44 each), and four new kinds, 36 each: Rough (`sub: 'rough'`), Kink-lite (`kink`), Body play (`body`), Rimming (`rim`). Poses with the
   pelvic mark, in the Phase 20 cue register (75). Rough and Kink-lite are mostly a position with the act in it, a
   few stand alone (118). No choking (73). Rimming: him on her and her on him, the one exception to "nothing receiving
@@ -51,7 +51,7 @@ goes unused this phase (CLAUDE.md: tickets that edit the same files wait).
 | 2 | Intercourse +24 (a) | content | 1 | `content/c13-fuck-a` | done (PR #258) |
 | 3 | Intercourse +24 (b) | content | 2 | `content/c13-fuck-b` | done (PR #261) |
 | 4 | Intercourse +24 (c) | content | 3 | `content/c13-fuck-c` | done (PR #263) |
-| 4b | Intercourse +24 (d) | content | 4 | `content/c13-fuck-d` | in-progress |
+| 4b | Intercourse +19 (d) | content | 4 | `content/c13-fuck-d` | done (PR #264) |
 | 5 | Oral +30 (a) | content | 1 | `content/c13-oral` | todo |
 | 5b | Oral +30 (b) | content | 5 | `content/c13-oral-b` | todo |
 | 6 | Anal +30 (a) | content | 1 | `content/c13-anal` | todo |
@@ -91,28 +91,16 @@ Order: plan order. 19–20 need only 9–12, so they may go before 13–18 if th
 
 ### 2–12. The sex exercises (432)
 
-**Resume here (6 Oct 2026, end of session):** tickets 1–4 merged (PRs #257, #258, #261, #263); main green. Ticket
-4b is committed on local branch `content/c13-fuck-d` (rebased on main, not pushed, no PR yet) and **failed review**.
-Next: one Grok fix round on it with `--continue`, then the review checks, mark it done with the predicted PR number,
-push, open the PR; while it's in CI start ticket 5 (oral +30) in a **fresh** Grok session (new group), stacked on
-`content/c13-fuck-d`. Noam wants 4b and 5 done today, then stop.
-The 10 to replace in 4b (the other 14 pass):
-- Don't work for real bodies (her pelvis on the bed, or no angle that lines up): `fuck_sit_kneel_behind`,
-  `fuck_straddle_fold_behind`, `fuck_sit_side_by_side`, `fuck_sit_side_kneel`, `fuck_her_on_his_side`, `fuck_cossack`.
-- Near-duplicates: `fuck_planted_shoulder` = `fuck_half_shoulder`; `fuck_twist_supine` = `fuck_tbone`;
-  `fuck_prone_edge_kneel` = `fuck_bed_edge`; `fuck_squat_kneel_behind` = `fuck_squat_behind`.
-- Tell Grok: a seated woman (pelvis on the bed) can't be entered from behind or the side; after 110 positions,
-  prefer real variations of lying, kneeling and standing arrangements over untried seated combinations.
-Review lessons from tickets 2–4b, for every sex ticket's prompt: (1) different = a different body arrangement, not
+**Review lessons from tickets 2–4b, for every sex ticket's prompt:** (1) different = a different body arrangement, not
 the same one on other furniture or with a leg held another way; (2) it must work for real bodies (hip heights meet,
-no unsafe holds); (3) Grok checks against all existing exercises of its `sub` with a script before writing. Status
+no unsafe holds); (3) Grok checks against all existing exercises of its `sub` with a script before writing (`node test-results/list-sub.js <sub>`, a scratch file); (4) a seated woman (pelvis on the bed) can't be entered from behind or the side. Status
 updates only on change, in words; CI runs named by run number.
 Each: the ticket's exercises in `exercises.js`, `cat: 'couple'`, its `sub`, `added: 13`, two-figure poses with the
 pelvic mark (Phase 20 ticket 1), a cue in the Phase 20 register (one paragraph, explicit, dirty slang, no orgasm
 script; who is where, the hold, what to brace), his muscles. Written from his side (CLAUDE.md, "Writing program
 text"). Ids are new (`fuck_*`, `oral_*`, `anal_*`, `toy_*`, `hands_*`, `rough_*`, `kink_*`, `body_*`, `rim_*`), never
 reusing a catalogue-11 position with a new name: each is a position or act not already in the catalogue.
-- 2–4b: intercourse, 24 each (96), new positions and angles (no repeat of the 38 already in `fuck`).
+- 2–4b: intercourse, 24, 24, 24 and 19 (91: after two Grok fix rounds the last 5 were still copies; Noam, 6 Oct), new positions and angles (no repeat of the 38 already in `fuck`).
 - 7: toys stay on her or worn by him (the strap-on is used on her, never pegging, Phase 20).
 - 9: Rough: spanking, hair-pulling, pinning her wrists, holding her down; no choking, anywhere in the text.
 - 10: Kink-lite: blindfold, ties or cuffs, a gag, ice or wax, him doing it to her.
