@@ -5,8 +5,9 @@ Noam picks Grok tickets at hand-off (CLAUDE.md, "Grok tickets"); Grok writes the
 Today: 508 exercises, 131 couple, the page at 130.6 KB gzipped.
 
 ## What lands
-- **432 couple exercises, `added: 13`** (120): intercourse +91 (→ 115; 4b shipped 19 of 24, 6 Oct), oral +60 and anal +60 (→ 84 each), toys
-  +36 and hands +36 (→ 44 each), and four new kinds, 36 each: Rough (`sub: 'rough'`), Kink-lite (`kink`), Body play (`body`), Rimming (`rim`). Poses with the
+- **715 couple exercises, `added: 13`** (120, 122–126): intercourse +91 (4b shipped 19 of 24), oral +30 and anal +30, toys
+  +36 and hands +36, Kink-lite and Body play 66 each, eight more kinds 36 each (Edging, Massage, Strip and tease, Shower
+  and bath, Pool, Hot tub, Balcony, Doorframe; 123), and four new kinds, 36 each: Rough (`sub: 'rough'`), Kink-lite (`kink`), Body play (`body`), Rimming (`rim`). Poses with the
   pelvic mark, in the Phase 20 cue register (75). Rough and Kink-lite are mostly a position with the act in it, a
   few stand alone (118). No choking (73). Rimming: him on her and her on him, the one exception to "nothing receiving
   about him"; nothing goes in him (74).
@@ -23,7 +24,9 @@ Today: 508 exercises, 131 couple, the page at 130.6 KB gzipped.
   | abs | 41 | +21 | boxing | 14 | +7 |
   | cardio | 31 | +16 | kick | 12 | +6 |
 
-- **Four After dark subjects, 8 programs each** (119): Rough, Kink-lite, Body play, Rimming, at `catalogue: 13`.
+- **Twelve After dark subjects, 8 programs each** (119, 123): Rough, Kink-lite, Body play, Rimming and the eight
+  kinds above, at `catalogue: 13`: 96 programs.
+- **A ticket that hits the wall moves on** (124): Grok's build and two fix rounds, then it ships what passed.
 - **No existing program changes** (81): every pool a catalogue-12-or-older config reads stays as it is.
 
 ## How catalogue 13 reaches the pools
@@ -48,31 +51,47 @@ goes unused this phase (CLAUDE.md: tickets that edit the same files wait).
 |---|---|---|---|---|---|
 | 0 | This plan | plan | – | `plan/phase-22-catalogue-13` | done (PR #256) |
 | 1 | Catalogue-13 plumbing: page cap 350, pools, held newest, four subjects in `EX_FAMILIES` | feature | – | `feature/catalogue-13` | done (PR #257) |
+| 1b | More kinds plumbing: page gate 1 MB, longer UI timeouts, eight more pools, six subjects in `EX_FAMILIES` | feature | 1 | `feature/c13-more-kinds` | todo |
 | 2 | Intercourse +24 (a) | content | 1 | `content/c13-fuck-a` | done (PR #258) |
 | 3 | Intercourse +24 (b) | content | 2 | `content/c13-fuck-b` | done (PR #261) |
 | 4 | Intercourse +24 (c) | content | 3 | `content/c13-fuck-c` | done (PR #263) |
 | 4b | Intercourse +19 (d) | content | 4 | `content/c13-fuck-d` | done (PR #264) |
-| 5 | Oral +30 (a) | content | 1 | `content/c13-oral` | todo |
-| 5b | Oral +30 (b) | content | 5 | `content/c13-oral-b` | todo |
-| 6 | Anal +30 (a) | content | 1 | `content/c13-anal` | todo |
-| 6b | Anal +30 (b) | content | 6 | `content/c13-anal-b` | todo |
+| 5 | Oral +30 | content | 1 | `content/c13-oral` | todo |
+| 5b | ~~Oral +30 (b)~~ | content | 5 | – | dropped (122) |
+| 6 | Anal +30 | content | 1 | `content/c13-anal` | todo |
+| 6b | ~~Anal +30 (b)~~ | content | 6 | – | dropped (122) |
 | 7 | Toys +36 | content | 1 | `content/c13-toys` | todo |
 | 8 | Hands +36 | content | 1 | `content/c13-hands` | todo |
 | 9 | Rough +36 | content | 1 | `content/c13-rough` | todo |
-| 10 | Kink-lite +36 | content | 1 | `content/c13-kink` | todo |
-| 11 | Body play +36 | content | 1 | `content/c13-body` | todo |
+| 10 | Kink-lite +36 (a), him on her | content | 1 | `content/c13-kink` | todo |
+| 10b | Kink-lite +30 (b), her on him (~16), and the rule's exception | content | 10 | `content/c13-kink-b` | todo |
+| 11 | Body play +36 (a) | content | 1 | `content/c13-body` | todo |
+| 11b | Body play +30 (b) | content | 11 | `content/c13-body-b` | todo |
 | 12 | Rimming +36, and the rule's exception | content | 1 | `content/c13-rim` | todo |
+| 12b | Edging +36 | content | 1b | `content/c13-edging` | todo |
+| 12c | Massage +36 | content | 1b | `content/c13-massage` | todo |
+| 12d | Strip and tease +36 | content | 1b | `content/c13-tease` | todo |
+| 12e | Shower and bath +36 | content | 1b | `content/c13-shower` | todo |
+| 12f | Pool +36 | content | 1b | `content/c13-pool` | todo |
+| 12g | Hot tub +36 | content | 1b | `content/c13-hottub` | todo |
+| 12h | Balcony +36 | content | 1b | `content/c13-balcony` | todo |
+| 12i | Doorframe +36 | content | 1b | `content/c13-doorframe` | todo |
 | 13 | Chest +9, back +12, full +5 | content | 1 | `content/c13-chest-back` | todo |
 | 14 | Upper +17 | content | 1 | `content/c13-upper` | todo |
 | 15 | Lower +22 | content | 1 | `content/c13-lower` | todo |
 | 16 | Abs +21 | content | 1 | `content/c13-abs` | todo |
 | 17 | Cardio +16, boxing +7, kick +6 | content | 1 | `content/c13-cardio-combat` | todo |
 | 18 | Yoga +15, pilates +11, flex +7, mobility +8, balance +6 | content | 1 | `content/c13-mind-body` | todo |
-| 19 | Rough and Kink-lite: 16 programs | content | 9, 10 | `content/c13-rough-kink-programs` | todo |
-| 20 | Body play and Rimming: 16 programs | content | 11, 12 | `content/c13-body-rim-programs` | todo |
-| 21 | Open catalogue 13 to own programs and random workouts | feature | 2–18 | `feature/open-catalogue-13` | todo |
+| 19 | Rough and Kink-lite: 16 programs | content | 9, 10b | `content/c13-rough-kink-programs` | todo |
+| 20 | Body play and Rimming: 16 programs | content | 11b, 12 | `content/c13-body-rim-programs` | todo |
+| 20b | Edging and Massage: 16 programs | content | 12b, 12c | `content/c13-edging-massage-programs` | todo |
+| 20c | Strip and tease, Shower and bath: 16 programs | content | 12d, 12e | `content/c13-tease-shower-programs` | todo |
+| 20d | Pool and Hot tub: 16 programs | content | 12f, 12g | `content/c13-pool-hottub-programs` | todo |
+| 20e | Balcony and Doorframe: 16 programs | content | 12h, 12i | `content/c13-balcony-doorframe-programs` | todo |
+| 21 | Open catalogue 13 to own programs and random workouts | feature | 2–18, 12b–12i | `feature/open-catalogue-13` | todo |
 
-Order: plan order. 19–20 need only 9–12, so they may go before 13–18 if those wait on Grok.
+Order: plan order; 1b goes right after 5. 19–20e need only their kinds, so they may go before 13–18 if those wait
+on Grok.
 
 ### 1. Catalogue-13 plumbing
 - `tests/build.test.js`: the 135 KB caps (lines 34–36, 112–114) and the 150 gate become one 350 KB gate (95).
@@ -89,7 +108,21 @@ Order: plan order. 19–20 need only 9–12, so they may go before 13–18 if th
 - **Done when:** `rm -rf data && node build.js` on main and on the branch: `diff -r` shows no program file
   changing; no pin moves.
 
-### 2–12. The sex exercises (432)
+### 1b. More kinds plumbing
+- `tests/build.test.js`: the 350 KB gate becomes 1 MB (127); CLAUDE.md already says so.
+- `playwright.config.js`: a per-test `timeout` twice the slowest test's time today (the every-exercise loop, ~1.2 min
+  in a one-page run); `expect` timeouts stay. CI's job has no `timeout-minutes`, so nothing to raise there.
+- `program-builder.js`: computed pools `sexEdging`, `sexMassage`, `sexTease`, `sexShower`, `sexPool`, `sexHottub`,
+  `sexBalcony`, `sexDoorframe` (`added === 13` and the `sub`, so the 2 old massage and 4 old tease stay out);
+  `mergedAt(13)` adds Edging and the five places to `sexFuck`, Massage and Strip and tease to `sexWarm`, all to
+  `sexPositions` (117's split: penetration in `sexFuck`, warm-up acts in `sexWarm`).
+- `app/library.js`: Couples in `EX_FAMILIES` gets Edging, Shower and bath, Pool, Hot tub, Balcony, Doorframe; Tease
+  shows as "Strip and tease". The "no empty subject" test allows the six until their tickets fill them.
+- **Test first:** `tests/catalogue13.test.js`: the eight pools exist and are empty, `mergedAt(12)` unchanged; the
+  page gate is 1 MB.
+- **Done when:** the build diff shows no program change; the Exercises page lists the six new subjects.
+
+### 2–12i. The sex exercises (715)
 
 **Review lessons from tickets 2–4b, for every sex ticket's prompt:** (1) different = a different body arrangement, not
 the same one on other furniture or with a leg held another way; (2) it must work for real bodies (hip heights meet,
@@ -100,10 +133,23 @@ pelvic mark (Phase 20 ticket 1), a cue in the Phase 20 register (one paragraph, 
 script; who is where, the hold, what to brace), his muscles. Written from his side (CLAUDE.md, "Writing program
 text"). Ids are new (`fuck_*`, `oral_*`, `anal_*`, `toy_*`, `hands_*`, `rough_*`, `kink_*`, `body_*`, `rim_*`), never
 reusing a catalogue-11 position with a new name: each is a position or act not already in the catalogue.
+- 5, 6: oral and anal, 30 each (122): oral both ways; anal on her only, never him.
 - 2–4b: intercourse, 24, 24, 24 and 19 (91: after two Grok fix rounds the last 5 were still copies; Noam, 6 Oct), new positions and angles (no repeat of the 38 already in `fuck`).
 - 7: toys stay on her or worn by him (the strap-on is used on her, never pegging, Phase 20).
 - 9: Rough: spanking, hair-pulling, pinning her wrists, holding her down; no choking, anywhere in the text.
-- 10: Kink-lite: blindfold, ties or cuffs, a gag, ice or wax, him doing it to her.
+- 10, 10b: Kink-lite: blindfold, ties or cuffs, a gag, ice or wax. 10 is him doing it to her; 10b is ~16 of her
+  doing it to him and 14 more of him on her (126). **The exception** goes into CLAUDE.md's "A straight man training
+  his own body" and `tests/his-pov.test.js`, worded so her blindfolding, tying, gagging or using ice or wax on him
+  passes, and anything in him (pegging, fingers, toys) still fails.
+- 11, 11b: Body play, 36 then 30.
+- 12b Edging: stop-start, pulling out, slowing down, from his side: what he holds back and braces; no orgasm script.
+- 12c Massage: oil on her, his hands and forearms, working down her body into sex; the position he holds while he
+  does it.
+- 12d Strip and tease: undressing her, dry teasing, the slow build; his stance and hands.
+- 12e–12i, the places (125): Shower and bath, Pool, Hot tub, Balcony, Doorframe. A bed position counts again when the
+  water, tiles, tub, rail or frame changes what he holds or braces; no two in a kind the same; play counts too
+  (washing her, touching under the water). Real bodies still: no holds in deep water, nothing slippery held aloft,
+  balconies private and railings only braced against, never leaned over.
 - 11: Body play: titfuck, grinding and dry humping, thigh-fucking, cumming on her as an act (no orgasm script).
 - 12: Rimming: him on her (most), and her on him. **The exception (74)** goes into CLAUDE.md's "A straight man
   training his own body" and into `tests/his-pov.test.js`, worded so only her rimming him passes: pegging, fingers
@@ -125,7 +171,10 @@ the PR. No duplicate of an existing exercise under a new name.
 - **Done when:** every new exercise's figure moves (the every-exercise UI loop); the build diff shows no program
   change; the Exercises page counts match.
 
-### 19–20. Four new subjects, 32 programs
+### 19–20e. Twelve new subjects, 96 programs
+- 20b–20e as 19–20, two subjects each (123): their pools are `sexEdging`, `sexMassage`, `sexTease`, `sexShower`,
+  `sexPool`, `sexHottub`, `sexBalcony`, `sexDoorframe`. Subject names: Edging, Massage, Strip and tease, Shower and
+  bath, Pool, Hot tub, Balcony, Doorframe.
 - `configs/after-dark.js`: 8 programs in each of Rough, Kink-lite (ticket 19), Body play, Rimming (ticket 20);
   `EXPLICIT` but `catalogue: 13`, 60 days, ticket 8's three shapes split 3 gym then sex, 3 sex then sex, 2 positions
   only (119), minutes as Explicit's. Each subject's sex blocks name its own pool (`sexRough`, …) for one block and
@@ -171,3 +220,11 @@ the PR. No duplicate of an existing exercise under a new name.
 - **Noam's counts, read again (6 Oct, after ticket 3):** his numbers are what each kind adds, not totals: 432 sex
   exercises. **Plan edit:** ticket 4b (intercourse +24), oral and anal split into two tickets of 30 (5/5b, 6/6b),
   toys and hands +36 each.
+- **Noam's counts, third pass (6 Oct, during ticket 5):** oral and anal were too many. **Plan edit:** 5b and 6b
+  dropped; Kink-lite and Body play +30 each (10b, 11b); eight more kinds of 36 (12b–12i) with 8 programs each
+  (20b–20e); ticket 1b for their pools, the 1 MB gate and longer timeouts; the hitting-the-wall rule (124).
+  - Weakest assumption: that 36 real, different exercises exist for each place. Doorframe and Balcony may hit the
+    wall as intercourse did; 124 lets them ship short instead of padding. Not verifiable ahead: the review finds it.
+  - What I hadn't read: `app/library.js`'s Couples list already has `massage` (2) and `tease` (4). **Plan edit:**
+    Massage and Strip and tease grow those kinds, no new `sub`s, and their pools take `added === 13` only.
+  - The lazier version: one "Places" kind instead of five; offered, Noam chose five of 36 with the wall rule.

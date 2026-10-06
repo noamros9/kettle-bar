@@ -59,7 +59,7 @@ work; finished phases in [docs/roadmap-archive.md](docs/roadmap-archive.md), rea
     on 2 cores and repeated CI). A new spec or module gets its line in `scripts/ui-affected.js`'s MAP;
   - when programs could be affected: `rm -rf data && node build.js` on main and on the branch, `diff -r` shows only
     new program files, and no existing pin in `tests/fixtures/program-days.json` changes (never re-pin);
-  - `index.html` stays under the 350 KB gzip gate (Noam, 6 Oct 2026; the build's check moves to it in Phase 22);
+  - `index.html` stays under the 1 MB gzip gate (Noam, 6 Oct 2026: Phase 22 ticket 1b moves the build's check to it);
   - for UI work, look at a 390 px screenshot (light and dark) and check 360 px has no sideways scroll.
 - **Rules that never bend:** a program you're halfway through never reshuffles (pins; own programs build only from
   their stored config); progress sync and stored shapes stay compatible; old backups still import.
@@ -94,7 +94,8 @@ work; finished phases in [docs/roadmap-archive.md](docs/roadmap-archive.md), rea
 - `npm install` rewrites `package-lock.json`; don't commit that.
 - Give commands generous time limits, about twice what they take on a busy machine (Noam, 6 Oct 2026: a tight
   `timeout` cut a UI run short and cost a rerun): `npm run test:coverage` and the affected UI tests 10 min each, a
-  chain of them the tool's maximum (or run it in the background); CI 20 min (the PR test job took 15 min on 6 Oct).
+  chain of them in the background with a 30 min wait (Noam, 6 Oct 2026: the catalogue grows in Phase 22); CI 30 min
+  (the PR test job took 15 min on 6 Oct). Cutting the times: #265.
   Never wrap a test command in a shell `timeout` shorter than that.
 - Committed tests never write outside the repo (screenshots go to `test-results/`); review screenshots for Noam go to
   `/home/claude/kettle-bar-shots/` from a throwaway script or spec that isn't committed. CI (the deploy) must stay green:
