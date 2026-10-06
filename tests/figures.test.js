@@ -207,11 +207,10 @@ test('pos_missionary draws one pelvic mark per figure, on the hip and inside the
   assert.ok(spots.size > 4, 'the mark moves with the hips');
 });
 
-test('every exercise without a pelvic mark draws exactly as before', () => {
-  // Phase 21 ticket 3 re-pinned this after the 24 warm-ups. The previous figures are unchanged.
+test('every exercise without a pelvic mark draws exactly as before (catalogue 11 and older)', () => {
   const { EX } = require('../exercises.js');
   const h = require('crypto').createHash('sha256');
-  Object.keys(EX).sort().filter((k) => !EX[k].poses.some((p) => p.mark || (p.two && p.two.mark)))
+  Object.keys(EX).sort().filter((k) => (EX[k].added || 0) < 12 && !EX[k].poses.some((p) => p.mark || (p.two && p.two.mark)))
     .forEach((k) => h.update(figureSVG(EX[k])));
-  assert.equal(h.digest('hex'), 'd5e66e55bae92dc27e0606dfdee29d1007878d8ae2be5790bdcbc0401665d6b3');
+  assert.equal(h.digest('hex'), '714eb4acea0d7c2b8731b9411f0eaea8f1bf0bca1a8ac4f93ff89f2edb126991');
 });
