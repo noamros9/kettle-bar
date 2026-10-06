@@ -83,10 +83,20 @@ Grilled 5 Oct 2026 (Noam); after Phase 21, before Phase 20 ticket 9. Claude plan
 80. **+50% in every fitness category** (5 Oct): every non-couple `cat` grows by half, counted after Phase 21 lands
     (today ~335 → ~500, about 168 new), using all his equipment: dumbbells, kettlebell, pull-up bar, bodyweight and
     mat.
-81. **Existing programs stay as built; new fitness programs use catalogue 12** (6 Oct): no program moves up a catalogue
-    (that would re-deal every day). Phase 22 adds new fitness programs across the subjects, built at catalogue 12, and
-    a favourite can get a new "II" version instead of being changed. Build your own, random workouts, Variety and the
-    Swap list pick up the new exercises as they are.
+81. **Existing programs stay as built** (6 Oct): no program moves up a catalogue (that would re-deal every day).
+    Build your own, random workouts, Variety and the Swap list pick up the new exercises as they are. The new fitness
+    programs come in Phase 23.
+
+### Phase 23: new fitness programs at catalogue 12
+Grilled 6 Oct 2026 (Noam); right after Phase 22.
+83. **+50% programs in every fitness subject** (6 Oct): each fitness shelf (not After dark or couple) grows by half,
+    rounded, the same as the exercises did (Strength 19 → ~29, Chest 8 → 12): about 240 new programs, all built at
+    `catalogue: 12`, mixing old and new exercises.
+84. **A "II" of every Signature program, on top** (6 Oct): 15 more. Same shape as the original (days, blocks, length),
+    a step harder (more sets or rounds, or harder variants), and built at catalogue 12 so it brings new exercises.
+    The originals never change.
+- Still open, for the plan: what "a step harder" means per format; names and blurbs; the library size at ~1,000
+  programs (with Phase 20's 180); whether these are built straight to the Longer programs spread (decision 53).
 
 ### Architecture review V ([#187](https://github.com/noamros9/kettle-bar/issues/187))
 A fresh review after Phases 13–18: shelf groups, Variety, ~580 programs, the library boot, sync at that scale (one
@@ -109,8 +119,9 @@ Noam, 4 Oct 2026: only about 1/6 of the programs run 33 min or more (of 557: 13%
     **but they shouldn't change much: just add compatible exercises** (keep the blocks and picks, add sets, rounds or
     slots of the same kind).
 56. **The shorter quarter has no target:** whatever stays under 31.
-82. **The added slots draw from catalogue 12** (6 Oct): when a program is re-timed longer, what it gains may be new
-    catalogue-12 exercises of the same kind. Within the same one-time exception, nothing more.
+82. **The added slots prefer catalogue 12** (6 Oct): when a program is re-timed longer, each slot it gains takes a
+    new catalogue-12 exercise where one of the same kind exists, else an older one. Within the same one-time
+    exception, nothing more.
 - Still open, for the plan: programs already started (leave them, or add only to the days ahead); which programs move
   up (by subject, so every shelf has long ones, or by family); how the builder adds without reshuffling.
 
