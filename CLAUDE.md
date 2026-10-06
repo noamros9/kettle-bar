@@ -63,7 +63,10 @@ work; finished phases in [docs/roadmap-archive.md](docs/roadmap-archive.md), rea
   - for UI work, look at a 390 px screenshot (light and dark) and check 360 px has no sideways scroll.
 - **Rules that never bend:** a program you're halfway through never reshuffles (pins; own programs build only from
   their stored config); progress sync and stored shapes stay compatible; old backups still import.
-- One ticket = one branch = one PR, starting from its Test first. Mark the ticket `done (PR #n)` in its plan.
+- One ticket = one branch = one PR, starting from its Test first. Mark the ticket `done (PR #n)` in its plan **in
+  the ticket's last commit, before the first push** (Noam, 6 Oct 2026: a later status push cancels the PR's CI run).
+  `n` is the repo's newest issue or PR number + 1 (`gh api "repos/{owner}/{repo}/issues?state=all&per_page=1" --jq
+  '.[0].number'`); if the PR gets another number, fix it in the next ticket's branch, never with a push to this one.
 - A stopped hand-off can leave partial work in the tree: commit it as WIP on the ticket's branch, keep `main` clean.
 
 ## Writing program text (Noam, 5 Oct 2026)
