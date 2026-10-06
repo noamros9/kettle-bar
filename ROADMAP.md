@@ -61,6 +61,12 @@ Grilled 5 Oct 2026 (Noam); next after Phase 20 ticket 8, before ticket 9. Claude
     the Programs page's Muscles shelf. Each exercise sits under its primary muscle.
 71. **30 warm-ups and 30 cool-downs** (5 Oct): +24 warm-ups (dynamic moves, joint circles, activation), +18 cool-downs
     (static stretches, breathing). New ones carry `added: N`, so only programs built from then on draw them.
+98. **The Exercises page's filters, laid out again** (6 Oct, after #234 added a 21-chip muscle row): one row of family
+    chips (All + the six); picking a family shows its subjects as chips below. Equipment and Muscle become one-line
+    menus like the Programs page's Length and Equipment ("Equipment: Any ▾", "Muscle: Glutes ▾") that open into chips.
+99. **Built in Phase 21** (6 Oct), a ticket after the family map; #234 ships with the wrapped muscle row meanwhile.
+100. **A muscle link lands with the Muscle menu closed** (6 Oct): the label says the muscle ("Muscle: Glutes ▾") and
+     the results follow right below.
 
 ### Phase 22: catalogue 12, the sex catalogue doubled and four new kinds
 Grilled 5 Oct 2026 (Noam); after Phase 21, before Phase 20 ticket 9. Claude plans, Grok builds and writes the text.
