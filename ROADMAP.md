@@ -75,7 +75,9 @@ Grilled 5 Oct 2026 (Noam); after Phase 21, before Phase 20 ticket 9. Claude plan
 75. **216 new exercises, `added: 12`, all `couple`** (5 Oct), with poses and the pelvic mark, in the Phase 20 cue
     register.
 76. **Page cap 135 → 250 KB gzipped** (5 Oct, Noam: "250 KB easy"), and the gate in CLAUDE.md with
-    it. Phases 21–22 land the page near 144 KB.
+    it. Phases 21–22 land the page near 144 KB. **Raised to 350 KB by decision 95.**
+95. **Page cap 350 KB gzipped** (6 Oct), replacing 76's 250; CLAUDE.md's gate says 350 now, the build's check moves
+    to it in a Phase 22 ticket.
 77. **Phase 20 tickets 9–15 build at `catalogue: 12`** (5 Oct): their 180 programs mix catalogue 10, 11 and 12
     exercises. Ticket 8's 20 Explicit programs stay at catalogue 11.
 79. **The fitness library grows too, in this phase** (5 Oct):
@@ -88,7 +90,9 @@ Grilled 5 Oct 2026 (Noam); after Phase 21, before Phase 20 ticket 9. Claude plan
     programs come in Phase 23.
 
 ### Phase 23: new fitness programs at catalogue 12
-Grilled 6 Oct 2026 (Noam); right after Phase 22.
+Grilled 6 Oct 2026 (Noam).
+96. **After Phase 20 is complete** (6 Oct): the order is #234 → Phase 21 → Phase 22 → Phase 20 tickets 9–15 →
+    Phase 23. Phase 20's programs draw on catalogues 10, 11 and 12 together (decision 77), not 12 alone.
 83. **+50% programs in every fitness subject** (6 Oct): each fitness shelf (not After dark or couple) grows by half,
     rounded, the same as the exercises did (Strength 19 → ~29, Chest 8 → 12): about 240 new programs, all built at
     `catalogue: 12`, mixing old and new exercises.
@@ -144,6 +148,7 @@ Stats, and whether it stays quiet and office-friendly.
 ### Muscle chips link to a filtered Exercises page ([#234](https://github.com/noamros9/kettle-bar/issues/234))
 Noam, 6 Oct 2026: on an exercise's page, tapping a muscle chip opens the Exercises page filtered by that muscle.
 89. **Next, before Phase 20 continues** (6 Oct): small, one or two tickets.
+97. **Claude builds it** (6 Oct), not Grok.
 90. **A visible muscle filter on the Exercises page** (6 Oct): a row of muscle chips you can use without coming from an
     exercise; the chip link lands with that muscle picked.
 91. **Main and secondary both count** (6 Oct): an exercise matches if the muscle is one of its main or secondary ones.

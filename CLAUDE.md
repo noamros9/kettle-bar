@@ -39,7 +39,7 @@ work; finished phases in [docs/roadmap-archive.md](docs/roadmap-archive.md), rea
     on 2 cores and repeated CI). A new spec or module gets its line in `scripts/ui-affected.js`'s MAP;
   - when programs could be affected: `rm -rf data && node build.js` on main and on the branch, `diff -r` shows only
     new program files, and no existing pin in `tests/fixtures/program-days.json` changes (never re-pin);
-  - `index.html` stays under the 150 KB gzip gate;
+  - `index.html` stays under the 350 KB gzip gate (Noam, 6 Oct 2026; the build's check moves to it in Phase 22);
   - for UI work, look at a 390 px screenshot (light and dark) and check 360 px has no sideways scroll.
 - **Rules that never bend:** a program you're halfway through never reshuffles (pins; own programs build only from
   their stored config); progress sync and stored shapes stay compatible; old backups still import.
