@@ -147,10 +147,13 @@ Noam, 6 Oct 2026: on an exercise's page, tapping a muscle chip opens the Exercis
 90. **A visible muscle filter on the Exercises page** (6 Oct): a row of muscle chips you can use without coming from an
     exercise; the chip link lands with that muscle picked.
 91. **Main and secondary both count** (6 Oct): an exercise matches if the muscle is one of its main or secondary ones.
+92. **One muscle at a time** (6 Oct): picking a muscle replaces the one picked; tapping it again unpicks it.
+93. **The link keeps the other filters** (6 Oct): it sets the muscle on top of the search, category and equipment you
+    had. The Exercises page gets a **Clear all** button that resets every filter and the search.
+94. **The muscle is in the URL** (6 Oct), e.g. `#exercises?muscle=glutes`, so Back and a shared link keep it.
 - Noted for the plan: `KBLibrary.searchExercises` already takes `filters.muscles` (Phase 9, primary and secondary,
-  ranked), so this is mostly the chip row, `exSearch.muscles`, and the exercise page's chips becoming buttons. Still
-  open, for the plan: several muscles at once (as on the Muscles page) or one; whether the link clears the search,
-  category and equipment first; whether it shows in the URL so Back and a shared link keep it.
+  ranked), so this is mostly the chip row, `exSearch.muscles`, the URL, Clear all, and the exercise page's chips
+  becoming buttons.
 
 ### After dark: a story per workout, by Grok ([#225](https://github.com/noamros9/kettle-bar/issues/225))
 Noam, 5 Oct 2026: automate creating an erotic story with Grok for every After dark workout.
