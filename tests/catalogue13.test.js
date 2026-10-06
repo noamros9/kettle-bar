@@ -4,6 +4,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const crypto = require('crypto');
 const cat = require('../exercises.js');
+const { figureSVG } = require('../figures.js');
 const { poolsAt, mergedAt } = require('../program-builder.js');
 const { generate, NEWEST } = require('../recipe-book.js');
 const { EX_FAMILIES } = require('../app/library.js');
@@ -48,4 +49,37 @@ test('own programs and random workouts stay at catalogue 12 while Phase 22 lands
 test('the four new kinds are Couples subjects on the Exercises page', () => {
   const couples = EX_FAMILIES.find(([k]) => k === 'couples')[2].map(([k]) => k);
   ['rough', 'kink', 'body', 'rim'].forEach((k) => assert.ok(couples.includes(k), k));
+});
+
+test('catalogue 13 adds 24 intercourse exercises (ticket 2)', () => {
+  const added = Object.values(cat.EX).filter((e) => e.added === 13 && e.sub === 'fuck');
+  assert.equal(added.length, 24);
+  const at12 = mergedAt(12), at13 = mergedAt(13);
+  added.forEach((e) => {
+    assert.equal(e.cat, 'couple', e.id);
+    assert.ok(e.id.startsWith('fuck_'), e.id);
+    assert.equal('basic' in e, false, e.id);
+    assert.equal(e.u, 'sec', e.id);
+    assert.equal(e.r.length, 3, e.id);
+    e.r.forEach((n) => assert.ok(Number.isInteger(n) && n > 0, e.id));
+    assert.equal(e.cue.includes('\n') || e.cue.includes('\r'), false, e.id);
+    assert.ok(e.cue.length > 40 && e.cue.length <= 400, `${e.id} is ${e.cue.length}`);
+    assert.ok(e.mus, e.id);
+    assert.ok(e.muscles.primary.length >= 1, e.id);
+    [...e.muscles.primary, ...e.muscles.secondary].forEach((m) => assert.ok(cat.MUSCLE_NAMES[m], `${e.id}: ${m}`));
+    assert.ok(e.poses.length >= 1, e.id);
+    e.poses.forEach((p) => {
+      assert.equal(p.mark, 1, e.id);
+      assert.ok(p.two, `${e.id}: both figures`);
+      assert.equal(p.two.mark, 1, e.id);
+    });
+    const svg = figureSVG(e);
+    assert.equal((svg.match(/fill="var\(--mark\)"/g) || []).length, e.poses.length * 2, `${e.id}: mark on both`);
+    assert.equal((svg.match(/fill="var\(--fig2\)"/g) || []).length, e.poses.length, e.id);
+    assert.doesNotMatch(svg, /NaN/, e.id);
+    assert.ok(at13.sexFuck.includes(e.id), `${e.id} in sexFuck`);
+    assert.ok(at13.sexPositions.includes(e.id), `${e.id} in sexPositions`);
+    assert.equal(at12.sexFuck.includes(e.id), false, e.id);
+    assert.equal(at12.sexPositions.includes(e.id), false, e.id);
+  });
 });
