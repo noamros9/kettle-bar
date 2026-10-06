@@ -41,25 +41,34 @@ function viewExercise() {
       <div class="daychips">${days.map((d) => `<button class="num" data-day="${d}" aria-label="Open day ${d}">${d}</button>`).join('')}</div></div>` : ''}
     ${others.length ? `<div class="card" style="margin-top:16px"><h2>Also in</h2><div class="daychips">${others.map((q) => `<button class="progchip" data-open-prog="${q.id}">${esc(q.name)}</button>`).join('')}</div></div>` : usageError ? `<div class="card" style="margin-top:16px"><h2>Also in</h2><p class="muted" role="status">${esc(usageError.message)}</p></div>` : ''}`;
 }
-/* Exercises page: a search (name, muscle, cue) and chips by category and equipment, through KBLibrary.searchExercises.
+/* Exercises page: a search (name, muscle, cue) and chips by family and equipment, through KBLibrary.searchExercises.
    Typing redraws only the results, so the field keeps focus; the search stays while you look at an exercise and come back.
-   #234: one muscle at a time (main or secondary), from the route: the URL holds it, so Back and a shared link keep it. */
-const exSearch = { q: '', cat: 'all', gear: 'all', muscle: null };
-const exFound = () => KBLibrary.searchExercises(EX, exSearch.q, { ...exSearch, muscles: exSearch.muscle ? [exSearch.muscle] : [] }, { names: MUSCLE_NAMES, cats: Object.keys(CAT) });
+   #234: one muscle at a time (main or secondary), from the route: the URL holds it, so Back and a shared link keep it.
+   Phase 21: family chips, then the picked family's subjects; sections follow the pick (all / family / subject). */
+const exFamName = Object.fromEntries(KBLibrary.EX_FAMILIES.map(([k, n]) => [k, n]));
+const exSubName = Object.fromEntries(KBLibrary.EX_FAMILIES.flatMap(([, , list]) => list));
+const exSearch = { q: '', family: 'all', sub: 'all', gear: 'all', muscle: null };
+const exFound = () => KBLibrary.searchExercises(EX, exSearch.q, { ...exSearch, muscles: exSearch.muscle ? [exSearch.muscle] : [] }, { names: MUSCLE_NAMES });
 const exCounter = (r) => (r.count === r.total ? `${r.total} exercises` : `${r.count} of ${r.total} exercises`);
 function exResults() {
   const r = exFound();
   const chip = (k, key, label, on, count) => `<button class="fchip acc" data-exf="${k}:${key}" aria-pressed="${on}">${esc(label)}${count === undefined ? '' : ` <span class="fcount">${count}</span>`}</button>`;
   const card = (e) => `<article class="ex"><button class="exlink" data-ex="${e.id}" aria-label="${esc(e.name)}: how to and muscles worked"><div class="figbox">${fig(e.id)}</div><div class="nm">${esc(e.name)}</div></button>${e.load ? `<div class="ld">${esc(LOAD[e.load])}</div>` : ''}<p class="cue">${esc(e.cue)}</p></article>`;
-  const sections = r.cats.slice(1).map((c) => { const list = r.list.filter((e) => e.cat === c.key); return list.length ? `<section class="libcat"><h2>${CAT[c.key]}</h2><div class="exgrid">${list.map(card).join('')}</div></section>` : ''; }).join('');
+  const fam = r.families.find((c) => c.pressed).key;
+  const sub = (r.subjects.find((c) => c.pressed) || { key: 'all' }).key;
+  const groupOf = (e) => { const x = KBLibrary.familyOf(e); return fam === 'all' ? x.family : x.subject; };
+  const keys = fam === 'all' ? r.families.slice(1).map((c) => c.key) : sub !== 'all' ? [sub] : r.subjects.slice(1).map((c) => c.key);
+  const title = (k) => (fam === 'all' ? exFamName[k] : exSubName[k]);
+  const sections = keys.map((k) => { const list = r.list.filter((e) => groupOf(e) === k); return list.length ? `<section class="libcat"><h2>${esc(title(k))}</h2><div class="exgrid">${list.map(card).join('')}</div></section>` : ''; }).join('');
   return `${chipsHTML(r, chip)}
     ${sections || '<p class="lede" style="margin-top:24px">No exercises match. Try another word or fewer filters.</p>'}`;
 }
 function chipsHTML(r, chip) {
-  return `<div class="filters" role="group" aria-label="Filter by category">${r.cats.map((c) => chip('cat', c.key, c.key === 'all' ? 'All' : CAT[c.key], c.pressed, c.count)).join('')}</div>
+  return `<div class="filters" role="group" aria-label="Filter by family">${r.families.map((c) => chip('family', c.key, c.key === 'all' ? 'All' : exFamName[c.key], c.pressed, c.count)).join('')}</div>
+    ${r.subjects.length ? `<div class="filters" role="group" aria-label="Filter by subject">${r.subjects.map((c) => chip('sub', c.key, c.key === 'all' ? 'All' : exSubName[c.key], c.pressed, c.count)).join('')}</div>` : ''}
     <div class="filters" role="group" aria-label="Filter by equipment">${KBLibrary.GEAR.map(([k, label]) => chip('gear', k, label, exSearch.gear === k)).join('')}</div>
     <div class="filters" role="group" aria-label="Filter by muscle">${Object.entries(MUSCLE_NAMES).map(([k, label]) => chip('muscle', k, label, exSearch.muscle === k)).join('')}</div>
-    ${exSearch.q || exSearch.cat !== 'all' || exSearch.gear !== 'all' || exSearch.muscle ? '<button class="fchip" data-ex-clear="1">Clear all</button>' : ''}`;
+    ${exSearch.q || exSearch.family !== 'all' || exSearch.sub !== 'all' || exSearch.gear !== 'all' || exSearch.muscle ? '<button class="fchip" data-ex-clear="1">Clear all</button>' : ''}`;
 }
 // the Exercises page points to the Muscles page (2 Oct: the map has its own page)
 const exMap = () => '<button class="lenline" data-go="muscles">Find exercises by muscle <span aria-hidden="true">→</span></button>';
@@ -116,11 +125,11 @@ function exRefresh() { const box = $('#exresults'), n = $('#excount'); if (box) 
 // a muscle pick replaces the one picked (tapping it again unpicks it) and replaces the URL, so it adds no Back step
 function exFilter(k, v) {
   if (k === 'muscle') { exSearch.muscle = exSearch.muscle === v ? null : v; history.replaceState(null, '', '#exercises' + (exSearch.muscle ? '?muscle=' + exSearch.muscle : '')); }
-  else exSearch[k] = v;
+  else { exSearch[k] = v; if (k === 'family') exSearch.sub = 'all'; }
   exRefresh();
 }
 function exClear() {
-  Object.assign(exSearch, { q: '', cat: 'all', gear: 'all', muscle: null });
+  Object.assign(exSearch, { q: '', family: 'all', sub: 'all', gear: 'all', muscle: null });
   history.replaceState(null, '', '#exercises');
   const field = $('#ex-search'); if (field) field.value = '';
   exRefresh();

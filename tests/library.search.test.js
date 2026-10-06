@@ -1,10 +1,10 @@
 // Phase 8 ticket 3: the Exercises page's search and filters, searchExercises(EX, query, filters, { names }).
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { searchExercises, gearOf, GEAR } = require('../app/library.js');
+const { searchExercises, gearOf, GEAR, familyOf } = require('../app/library.js');
 const { EX, MUSCLE_NAMES } = require('../exercises.js');
 
-const find = (q, f = {}) => searchExercises(EX, q, { cat: 'all', gear: 'all', ...f }, { names: MUSCLE_NAMES });
+const find = (q, f = {}) => searchExercises(EX, q, { family: 'all', sub: 'all', gear: 'all', ...f }, { names: MUSCLE_NAMES });
 const ids = (r) => r.list.map((e) => e.id);
 
 test('"hip" finds hip thrusts, hip CARs and hip airplanes, name matches first', () => {
@@ -43,20 +43,20 @@ test('the cue is searched too', () => {
   assert.ok(ids(find(word)).includes('pushup'));
 });
 
-test('category: chips list each category with its count for the query and gear; the list keeps category order', () => {
-  const r = find('', { cat: 'chest' });
-  assert.ok(r.list.every((e) => e.cat === 'chest'));
-  const chips = find('').cats;
+test('family: chips list each family with its count for the query and gear; the list keeps family order', () => {
+  const r = find('', { family: 'muscles', sub: 'chest' });
+  assert.ok(r.list.every((e) => familyOf(e).family === 'muscles' && familyOf(e).subject === 'chest'));
+  const chips = find('').families;
   assert.equal(chips[0].key, 'all'); assert.equal(chips[0].count, Object.keys(EX).length);
-  assert.equal(chips.find((c) => c.key === 'chest').count, Object.values(EX).filter((e) => e.cat === 'chest').length);
-  const kb = find('', { gear: 'kb' }).cats;
-  assert.ok(kb.every((c) => c.count > 0), 'a category with nothing left is not offered');
-  assert.equal(find('', { cat: 'chest' }).total, Object.keys(EX).length, 'total: every exercise');
+  assert.equal(chips.find((c) => c.key === 'muscles').count, Object.values(EX).filter((e) => familyOf(e).family === 'muscles').length);
+  const kb = find('', { gear: 'kb' }).families;
+  assert.ok(kb.every((c) => c.count > 0), 'a family with nothing left is not offered');
+  assert.equal(find('', { family: 'muscles', sub: 'chest' }).total, Object.keys(EX).length, 'total: every exercise');
 });
 
-test('a picked category with nothing left falls back to All', () => {
-  const r = find('', { cat: 'yoga', gear: 'bar' });
-  assert.equal(r.cats.find((c) => c.pressed).key, 'all');
+test('a picked family with nothing left falls back to All', () => {
+  const r = find('', { family: 'warmup', gear: 'bar' });
+  assert.equal(r.families.find((c) => c.pressed).key, 'all');
   assert.ok(r.list.every((e) => (e.equip || []).includes('bar')));
 });
 

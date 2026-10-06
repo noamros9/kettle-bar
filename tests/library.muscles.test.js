@@ -32,12 +32,12 @@ test('same muscles worked: more weight first (main 1, secondary ½), then catalo
 });
 
 test('searchExercises: picked muscles and a search word both apply, in muscle order, counts follow', () => {
-  const r = searchExercises(EX, 'deadlift', { cat: 'all', gear: 'all', muscles: ['glutes', 'hamstrings'] }, { names: MUSCLE_NAMES });
+  const r = searchExercises(EX, 'deadlift', { family: 'all', sub: 'all', gear: 'all', muscles: ['glutes', 'hamstrings'] }, { names: MUSCLE_NAMES });
   assert.ok(r.list.length > 0);
   assert.ok(r.list.every((e) => works(e, 'glutes') || works(e, 'hamstrings')));
   assert.equal(r.list[0].id, 'db_rdl');
-  assert.equal(r.cats[0].count, r.count);
-  const none = searchExercises(EX, '', { cat: 'all', gear: 'all', muscles: [] }, { names: MUSCLE_NAMES });
+  assert.equal(r.families[0].count, r.count);
+  const none = searchExercises(EX, '', { family: 'all', sub: 'all', gear: 'all', muscles: [] }, { names: MUSCLE_NAMES });
   assert.equal(none.count, all.length);
 });
 
