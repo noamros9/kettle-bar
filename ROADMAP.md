@@ -83,6 +83,10 @@ Grilled 5 Oct 2026 (Noam); after Phase 21, before Phase 20 ticket 9. Claude plan
 80. **+50% in every fitness category** (5 Oct): every non-couple `cat` grows by half, counted after Phase 21 lands
     (today ~335 → ~500, about 168 new), using all his equipment: dumbbells, kettlebell, pull-up bar, bodyweight and
     mat.
+81. **Existing programs stay as built; new fitness programs use catalogue 12** (6 Oct): no program moves up a catalogue
+    (that would re-deal every day). Phase 22 adds new fitness programs across the subjects, built at catalogue 12, and
+    a favourite can get a new "II" version instead of being changed. Build your own, random workouts, Variety and the
+    Swap list pick up the new exercises as they are.
 
 ### Architecture review V ([#187](https://github.com/noamros9/kettle-bar/issues/187))
 A fresh review after Phases 13–18: shelf groups, Variety, ~580 programs, the library boot, sync at that scale (one
@@ -105,6 +109,8 @@ Noam, 4 Oct 2026: only about 1/6 of the programs run 33 min or more (of 557: 13%
     **but they shouldn't change much: just add compatible exercises** (keep the blocks and picks, add sets, rounds or
     slots of the same kind).
 56. **The shorter quarter has no target:** whatever stays under 31.
+82. **The added slots draw from catalogue 12** (6 Oct): when a program is re-timed longer, what it gains may be new
+    catalogue-12 exercises of the same kind. Within the same one-time exception, nothing more.
 - Still open, for the plan: programs already started (leave them, or add only to the days ahead); which programs move
   up (by subject, so every shelf has long ones, or by family); how the builder adds without reshuffling.
 
