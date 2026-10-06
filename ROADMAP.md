@@ -104,6 +104,26 @@ Grilled 5 Oct 2026 (Noam); after Phase 21, before Phase 20 ticket 9. Claude plan
 121. **Own programs and random workouts move to catalogue 13 only in the phase's last ticket** (6 Oct, technical):
      the newest catalogue they store is held at 12 while Phase 22's tickets land, so an own program saved mid-phase
      never reshuffles when the next ticket adds to its pools.
+122. **Oral and anal +30 each, not +60** (6 Oct, Noam): too many; tickets 5b and 6b are dropped. The 60 freed go to
+     Kink-lite and Body play, +30 each (→ 66 each).
+123. **Eight more kinds, 36 each** (6 Oct, Noam): Edging, Massage, Strip and tease, Shower and bath, Pool, Hot tub,
+     Balcony, Doorframe (+288). Massage and Strip and tease grow the existing `massage` and `tease` kinds (2 and 4
+     today); the other six are new `sub`s (`edging`, `shower`, `pool`, `hottub`, `balcony`, `doorframe`). Each is
+     an After dark subject with **8 programs** (3/3/2 as 119): +64 programs. Phase 22 totals: **715 sex exercises**
+     (91 intercourse, 30 oral, 30 anal, 36 toys, 36 hands, 36 Rough, 66 Kink-lite, 66 Body play, 36 Rimming, 8 × 36),
+     162 fitness, **96 programs** (12 subjects × 8).
+124. **Hitting the wall** (6 Oct, Noam): a sex ticket gets Grok's build and two fix rounds. If it still writes copies
+     or positions that don't work, it ships what passed and we move on; the count is recorded here and in the plan.
+125. **Places count by what the place changes** (6 Oct, Noam): in Shower and bath, Pool, Hot tub, Balcony and
+     Doorframe, a version of a bed position counts as new when the water, tiles, tub, rail or frame changes what he
+     holds or braces; no two in one kind the same. Places include play (washing her, touching under the water), not
+     only sex.
+126. **Kink-lite goes both ways** (6 Oct, Noam): about a quarter of the 66 is her doing it to him, anything Kink-lite
+     (blindfold, ties or cuffs, a gag, ice or wax on him). Nothing goes in him, no pegging. The exception goes into
+     CLAUDE.md's "A straight man training his own body" and `tests/his-pov.test.js`, like Rimming's (74).
+127. **Room to grow** (6 Oct, Noam): the page gate is **1 MB** gzipped (was 350 KB, 95); the UI test timeouts and
+     Claude's command limits are raised, CI's job has no limit set (GitHub's 6 h). Cutting the times is
+     [#265](https://github.com/noamros9/kettle-bar/issues/265).
 - Plan: [docs/plans/phase-22-catalogue-13.md](docs/plans/phase-22-catalogue-13.md).
 
 ### Phase 23: new fitness programs at catalogue 12
