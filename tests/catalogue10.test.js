@@ -53,7 +53,8 @@ test('the Swap list: never a couple exercise for a solo one; only couple ones fo
   });
 });
 
-// Phase 20 ticket 2. Hash is sha256 of every non-couple cue, sorted by id, JSON-encoded, pinned before the rewrite.
+// Phase 20 ticket 2. Hash is sha256 of every non-couple cue, sorted by id, JSON-encoded, pinned before the rewrite;
+// exercises from catalogue 12 on are left out, so new ones don't move it.
 const NON_COUPLE_CUES = 'c3134b2e04221ff520e0b1d1465d3df2843ee2647738e0dfe1d27ed992a63d08';
 
 test('position and dare cues are one paragraph of at most 400 characters; every non-couple cue is unchanged', () => {
@@ -65,6 +66,6 @@ test('position and dare cues are one paragraph of at most 400 characters; every 
     assert.equal(e.cue.includes('\n') || e.cue.includes('\r'), false, e.id);
     assert.ok(e.cue.length <= 400, `${e.id} is ${e.cue.length}`);
   });
-  const cues = Object.values(cat.EX).filter((e) => e.cat !== 'couple').sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0)).map((e) => e.cue);
+  const cues = Object.values(cat.EX).filter((e) => e.cat !== 'couple' && (e.added || 0) < 12).sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0)).map((e) => e.cue);
   assert.equal(createHash('sha256').update(JSON.stringify(cues)).digest('hex'), NON_COUPLE_CUES);
 });

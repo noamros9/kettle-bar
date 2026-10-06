@@ -276,6 +276,68 @@
     worlds_greatest: { name: "World's greatest stretch", cat: 'warmup', sub: 'activation', u: 'sec', r: [15, 15, 15], side: 1, mus: 'hip_flexors hamstrings glutes | upper_back adductors', cue: 'Step into a deep lunge, both hands down inside the front foot, then open the inside arm up to the ceiling.', poses: [
       { t: [31, -15], fn: [21, 20], khn: [1, -1], ff: [-27, 17], khf: [0.3, 1], hn: [30, 18], hf: [32, 18] },
       { t: [31, -15], fn: [21, 20], khn: [1, -1], ff: [-27, 17], khf: [0.3, 1], hf: [32, 18], hn: [31, -48], ehn: [-1, 0] }] },
+    // Phase 21 ticket 3: catalogue 12 warm-ups (added: 12). Eight dynamic, eight joint circles, eight activation.
+    high_knee_march: { name: 'High-knee march', cat: 'warmup', sub: 'dynamic', added: 12, u: 'sec', r: [30, 30, 30], mus: 'hip_flexors quads | calves abs', cue: 'March on the spot, lifting each knee to hip height and swinging the opposite arm. Stay tall and keep it easy.', poses: [
+      { t: [0, -34], fn: [0, 41], ff: [18, 22], khf: [1, -1], hn: [8, -16], ehn: [0, 1], hf: [-4, -2] },
+      { t: [0, -34], ff: [0, 41], fn: [18, 22], khn: [1, -1], hf: [8, -16], ehf: [0, 1], hn: [-4, -2] }] },
+    heel_flicks: { name: 'Heel flicks', cat: 'warmup', sub: 'dynamic', added: 12, u: 'sec', r: [30, 30, 30], mus: 'hamstrings calves | quads', cue: 'Jog lightly on the spot and flick each heel up toward your glute, arms loose. Keep the bounce small.', poses: [
+      { t: [2, -34], fn: [-7, 7], khn: [0.2, 1], ff: [0, 41], hn: [10, -14], ehn: [0, 1], hf: [-8, -8] },
+      { t: [2, -34], ff: [-7, 7], khf: [0.2, 1], fn: [0, 41], hf: [10, -14], ehf: [0, 1], hn: [-8, -8] }] },
+    lunge_reach: { name: 'Lunge with a reach', cat: 'warmup', sub: 'dynamic', added: 12, u: 'sec', r: [20, 25, 30], side: 1, mus: 'hip_flexors quads | glutes front_delts', cue: 'Step into a lunge and reach both arms overhead, then step back and stand tall. Switch legs.', poses: [
+      P(LUNGE_N, ARMS_UP), P(STAND, ARMS_UP)] },
+    skater_hops: { name: 'Skater hops', cat: 'warmup', sub: 'dynamic', added: 12, u: 'sec', r: [20, 25, 30], mus: 'glutes quads | calves adductors', cue: 'Hop softly from one foot to the other, the free leg sweeping behind and the arms swinging with you. Stay low and light.', poses: [
+      { t: [14, -31], fn: [4, 36], khn: [1, -0.4], ff: [-26, 34], khf: [0.3, 1], hn: [-16, -8], hf: [26, -18] },
+      { t: [14, -31], ff: [4, 36], khf: [1, -0.4], fn: [-26, 34], khn: [0.3, 1], hf: [-16, -8], hn: [26, -18] }] },
+    step_jacks: { name: 'Step jacks', cat: 'warmup', sub: 'dynamic', added: 12, view: 'front', u: 'sec', r: [30, 30, 30], mus: 'calves side_delts | glutes adductors', cue: 'Step one foot out as your arms rise to shoulder height, then step back in. Alternate sides, no jump.', poses: [
+      FSTAND, { t: [0, -34], hn: [-28, -48], hf: [28, -48], fn: [-18, 41], ff: [18, 41] }] },
+    side_shuffle: { name: 'Side shuffle', cat: 'warmup', sub: 'dynamic', added: 12, view: 'front', u: 'sec', r: [25, 30, 30], mus: 'glutes adductors | calves quads', cue: 'Soft knees, shuffle a few steps to one side, then back the other way. Stay low and light on your feet.', poses: [
+      { t: [0, -34], fn: [-22, 36], khn: [-1, -0.3], ff: [6, 38], hn: [-20, -10], hf: [8, -16] },
+      { t: [0, -34], fn: [-6, 38], ff: [22, 36], khf: [1, -0.3], hn: [-8, -16], hf: [20, -10] }] },
+    soldier_march: { name: 'Toy soldiers', cat: 'warmup', sub: 'dynamic', added: 12, u: 'sec', r: [25, 30, 30], mus: 'hamstrings hip_flexors | abs', cue: 'Walk on the spot, kicking one straight leg up as the opposite hand reaches toward the toe. Keep the standing leg soft.', poses: [
+      { t: [2, -34], fn: [28, 8], ff: [0, 41], hn: [22, 6], hf: [-4, -8] },
+      { t: [2, -34], ff: [28, 8], fn: [0, 41], hf: [22, 6], hn: [-4, -8] }] },
+    squat_reach: { name: 'Squat to reach', cat: 'warmup', sub: 'dynamic', added: 12, u: 'sec', r: [30, 30, 30], mus: 'quads glutes | front_delts', cue: 'Sit into an easy squat with your arms forward, then stand and reach both arms overhead. Move smoothly.', poses: [
+      { t: [15, -30], fn: [14, 26], ff: [12, 26], kh: [1, -0.8], hn: [46, -26], hf: [46, -24] }, P(STAND, ARMS_UP)] },
+    neck_circles: { name: 'Neck circles', cat: 'warmup', sub: 'joints', added: 12, view: 'front', u: 'sec', r: [20, 25, 30], mus: 'neck | upper_back traps', cue: 'Stand tall, chin level. Draw slow circles with your head, then switch direction halfway. Keep the shoulders still.', poses: [
+      P(FSTAND, { hd: [-1, -0.3] }), P(FSTAND, { hd: [1, -0.3] })] },
+    wrist_circles: { name: 'Wrist circles', cat: 'warmup', sub: 'joints', added: 12, view: 'front', u: 'sec', r: [20, 25, 30], mus: 'forearms | biceps', cue: 'Arms forward, hands in loose fists. Circle the wrists slowly, then switch direction halfway.', poses: [
+      P(FSTAND, { hn: [-6, -50], hf: [10, -50] }), P(FSTAND, { hn: [-16, -40], hf: [20, -40] })] },
+    hip_circles: { name: 'Hip circles', cat: 'warmup', sub: 'joints', added: 12, u: 'sec', r: [20, 25, 30], side: 1, mus: 'hip_flexors glutes | adductors abs', cue: 'Stand on one leg, a hand on a wall if you need it. Lift the other knee and draw a slow circle with it. Switch legs.', poses: [
+      { t: [0, -34], fn: [18, 6], khn: [1, -1], ff: [0, 41], hn: [10, -6], hf: [-8, -4] },
+      { t: [0, -34], fn: [-8, 18], khn: [-1, -0.2], ff: [0, 41], hn: [10, -6], hf: [-8, -4] }] },
+    ankle_circles: { name: 'Ankle circles', cat: 'warmup', sub: 'joints', added: 12, u: 'sec', r: [20, 20, 25], side: 1, mus: 'calves | shins', cue: 'Stand on one leg and circle the lifted ankle slowly. Switch direction, then switch legs.', poses: [
+      { t: [0, -34], fn: [18, 30], ff: [0, 41], hn: [4, -2], hf: [2, -2] },
+      { t: [0, -34], fn: [8, 18], khn: [1, -1], ff: [0, 41], hn: [4, -2], hf: [2, -2] }] },
+    thoracic_rotations: { name: 'Thoracic rotations', cat: 'warmup', sub: 'joints', added: 12, u: 'sec', r: [20, 25, 30], side: 1, mus: 'upper_back obliques | chest', cue: 'Split stance, hands together at your chest. Open one arm out to the side, then bring it back. Switch sides.', poses: [
+      { t: [6, -33], fn: [20, 26], khn: [1, -0.8], ff: [-14, 38], hn: [18, -16], hf: [14, -18] },
+      { t: [6, -33], fn: [20, 26], khn: [1, -0.8], ff: [-14, 38], hf: [14, -18], hn: [4, -56], ehn: [-1, 0.2] }] },
+    knee_circles: { name: 'Knee circles', cat: 'warmup', sub: 'joints', added: 12, u: 'sec', r: [20, 25, 30], side: 1, mus: 'quads | hip_flexors calves', cue: 'Stand on one leg with a soft knee. Circle the other knee gently, then switch direction and switch legs.', poses: [
+      { t: [0, -34], fn: [16, 14], khn: [1, -1], ff: [0, 41], hn: [12, -4], hf: [8, -6] },
+      { t: [0, -34], fn: [4, 20], khn: [-0.4, -1], ff: [0, 41], hn: [12, -4], hf: [8, -6] }] },
+    shoulder_rolls: { name: 'Shoulder rolls', cat: 'warmup', sub: 'joints', added: 12, view: 'front', u: 'sec', r: [20, 25, 30], mus: 'upper_back traps | front_delts', cue: 'Arms relaxed. Roll both shoulders up, back and down in a slow circle, then reverse.', poses: [
+      FSTAND, P(FSTAND, { t: [0, -37], hn: [-18, -16], hf: [18, -16] })] },
+    trunk_rotations: { name: 'Trunk rotations', cat: 'warmup', sub: 'joints', added: 12, view: 'front', u: 'sec', r: [25, 30, 30], mus: 'obliques | upper_back abs', cue: 'Feet shoulder-width, arms out at shoulder height. Rotate your chest from side to side, hips staying forward.', poses: [
+      P(FSTAND, { hn: [-40, -30], hf: [20, -42] }), P(FSTAND, { hn: [-20, -42], hf: [40, -30] })] },
+    bridge_march: { name: 'Bridge march', cat: 'warmup', sub: 'activation', added: 12, u: 'sec', r: [30, 30, 30], mus: 'glutes | hamstrings abs', cue: 'Hold a glute bridge and lift one knee toward your chest, then the other. Keep the hips high and level.', poses: [
+      GB_UP, P(GB_UP, { fn: [8, -14], khn: [1, -1] })] },
+    dead_bug_hold: { name: 'Dead bug hold', cat: 'warmup', sub: 'activation', added: 12, u: 'sec', r: [30, 30, 30], mus: 'abs | hip_flexors', cue: 'On your back, arms up and knees over your hips. Lower one arm and the opposite leg to hover, then switch. Keep your back flat.', poses: [
+      { t: [34, 0], hn: [64, -8], hf: [35, -33], fn: [-20, -21], khn: [0.3, -1], ff: [-40, -7], mat: 1 },
+      { t: [34, 0], hn: [35, -33], hf: [64, -8], fn: [-40, -7], ff: [-20, -21], khf: [0.3, -1], mat: 1 }] },
+    arm_openers: { name: 'Arm openers', cat: 'warmup', sub: 'activation', added: 12, view: 'front', u: 'sec', r: [25, 30, 30], mus: 'rear_delts upper_back | chest', cue: 'Arms straight in front at shoulder height. Open them out to the sides, squeeze the shoulder blades, then bring them back.', poses: [
+      P(FSTAND, { hn: [-4, -52], hf: [8, -52] }), P(FSTAND, { hn: [-41, -32], hf: [41, -32] })] },
+    scap_pushup: { name: 'Scapular push-ups', cat: 'warmup', sub: 'activation', added: 12, u: 'sec', r: [25, 30, 35], mus: 'upper_back | chest front_delts', cue: 'High plank, arms straight. Let the chest sink between the shoulders, then push the floor away to spread the shoulder blades.', poses: [
+      PLANK, P(PLANK, { t: [30, -10], hn: [28, 20], hf: [31, 20] })] },
+    clam_opens: { name: 'Clam opens', cat: 'warmup', sub: 'activation', added: 12, u: 'sec', r: [20, 25, 30], side: 1, mus: 'glutes | adductors', cue: 'Lie on your side, knees bent and feet together. Lift the top knee without rolling back, then lower. Switch sides.', poses: [
+      { t: [34, -4], hd: [1, -0.3], hn: [46, -3], hf: [14, -6], fn: [-38, 4], ff: [-38, 2], kh: [0.2, 1], mat: 1 },
+      { t: [34, -4], hd: [1, -0.3], hn: [46, -3], hf: [14, -6], fn: [-38, 4], ff: [-30, 0], khn: [0.2, 1], khf: [0.2, -1], mat: 1 }] },
+    bird_dog_hold: { name: 'Bird dog hold', cat: 'warmup', sub: 'activation', added: 12, u: 'sec', r: [20, 25, 30], side: 1, mus: 'lower_back glutes | abs rear_delts', cue: 'On all fours, reach one arm forward and the opposite leg back. Hold, then switch sides. Keep the hips square.', poses: [
+      { t: [32, -12], hn: [32, 21], hf: [34, 21], fn: [-20, 21], ff: [-21, 21], kh: [0.5, 1], mat: 1 },
+      { t: [32, -12], hn: [65, -15], hf: [34, 21], fn: [-20, 21], ff: [-41, -3], kh: [0.5, 1], mat: 1 }] },
+    fire_hydrant: { name: 'Fire hydrants', cat: 'warmup', sub: 'activation', added: 12, u: 'sec', r: [20, 25, 30], side: 1, mus: 'glutes | hip_flexors abs', cue: 'On all fours, lift one bent knee out to the side, then lower it. Keep your hips still. Switch sides.', poses: [
+      { t: [32, -12], hn: [32, 21], hf: [34, 21], fn: [-20, 21], ff: [-21, 21], kh: [0.5, 1], mat: 1 },
+      { t: [32, -12], hn: [32, 21], hf: [34, 21], fn: [-8, 8], khn: [0.2, -1], ff: [-21, 21], khf: [0.5, 1], mat: 1 }] },
+    elbow_rotations: { name: 'Elbow rotations', cat: 'warmup', sub: 'activation', added: 12, view: 'front', u: 'sec', r: [20, 25, 30], mus: 'rear_delts | upper_back biceps', cue: 'Elbows pinned to your sides, bent at a right angle. Rotate the forearms out, then back in. Keep the elbows still.', poses: [
+      P(FSTAND, { hn: [-12, -14], hf: [12, -14], eh: [0, 1] }), P(FSTAND, { hn: [-26, -30], hf: [26, -30], ehn: [0, -1], ehf: [0, -1] })] },
     // ---------------- COOL-DOWN (static stretches, after the workout) ----------------
     chest_opener: { name: 'Chest opener', cat: 'cooldown', sub: 'static', u: 'sec', r: [30, 30, 30], mus: 'chest front_delts | biceps', cue: 'Clasp your hands behind your back, straighten your arms and lift your chest.', poses: [
       { t: [2, -34], hd: [0.4, -1], hn: [-14, -4], hf: [-14, -4], fn: [2, 41], ff: [-2, 41] }] },
