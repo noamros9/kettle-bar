@@ -18,7 +18,7 @@ function viewExercise() {
     programs.loadUsage().then(() => { usageLoading = false; rerender(); }, (err) => { usageLoading = false; usageError = { ex: e.id, message: err.message }; rerender(); });
   }
   const others = programs.usageReady() ? programs.programsUsing(e.id).filter((id) => id !== p.id).map((id) => programs.summary(id)) : [];
-  const names = (arr) => arr.map((k) => `<span class="chip">${MUSCLE_NAMES[k]}</span>`).join(' ');
+  const names = (arr) => arr.map((k) => `<button class="chip" data-exmuscle-link="${k}" aria-label="Exercises that work ${MUSCLE_NAMES[k]}">${MUSCLE_NAMES[k]}</button>`).join(' '); // #234
   const r = e.r, stretch = e.cat === 'warmup' || e.cat === 'cooldown';
   const dose = stretch ? `${r[0]} s${e.side ? ' each side' : ''}` : e.u === 'sec' ? `${r.join(' / ')} s${e.side ? ' each side' : ''} (Level I / II / III)` : `${r.join(' / ')} ${unitText(e)} (Level I / II / III)`;
   return `<div class="crumbs"><button class="back" data-back="1">← Back</button></div>
@@ -42,9 +42,10 @@ function viewExercise() {
     ${others.length ? `<div class="card" style="margin-top:16px"><h2>Also in</h2><div class="daychips">${others.map((q) => `<button class="progchip" data-open-prog="${q.id}">${esc(q.name)}</button>`).join('')}</div></div>` : usageError ? `<div class="card" style="margin-top:16px"><h2>Also in</h2><p class="muted" role="status">${esc(usageError.message)}</p></div>` : ''}`;
 }
 /* Exercises page: a search (name, muscle, cue) and chips by category and equipment, through KBLibrary.searchExercises.
-   Typing redraws only the results, so the field keeps focus; the search stays while you look at an exercise and come back. */
-const exSearch = { q: '', cat: 'all', gear: 'all' };
-const exFound = () => KBLibrary.searchExercises(EX, exSearch.q, exSearch, { names: MUSCLE_NAMES, cats: Object.keys(CAT) });
+   Typing redraws only the results, so the field keeps focus; the search stays while you look at an exercise and come back.
+   #234: one muscle at a time (main or secondary), from the route: the URL holds it, so Back and a shared link keep it. */
+const exSearch = { q: '', cat: 'all', gear: 'all', muscle: null };
+const exFound = () => KBLibrary.searchExercises(EX, exSearch.q, { ...exSearch, muscles: exSearch.muscle ? [exSearch.muscle] : [] }, { names: MUSCLE_NAMES, cats: Object.keys(CAT) });
 const exCounter = (r) => (r.count === r.total ? `${r.total} exercises` : `${r.count} of ${r.total} exercises`);
 function exResults() {
   const r = exFound();
@@ -56,7 +57,9 @@ function exResults() {
 }
 function chipsHTML(r, chip) {
   return `<div class="filters" role="group" aria-label="Filter by category">${r.cats.map((c) => chip('cat', c.key, c.key === 'all' ? 'All' : CAT[c.key], c.pressed, c.count)).join('')}</div>
-    <div class="filters" role="group" aria-label="Filter by equipment">${KBLibrary.GEAR.map(([k, label]) => chip('gear', k, label, exSearch.gear === k)).join('')}</div>`;
+    <div class="filters" role="group" aria-label="Filter by equipment">${KBLibrary.GEAR.map(([k, label]) => chip('gear', k, label, exSearch.gear === k)).join('')}</div>
+    <div class="filters" role="group" aria-label="Filter by muscle">${Object.entries(MUSCLE_NAMES).map(([k, label]) => chip('muscle', k, label, exSearch.muscle === k)).join('')}</div>
+    ${exSearch.q || exSearch.cat !== 'all' || exSearch.gear !== 'all' || exSearch.muscle ? '<button class="fchip" data-ex-clear="1">Clear all</button>' : ''}`;
 }
 // the Exercises page points to the Muscles page (2 Oct: the map has its own page)
 const exMap = () => '<button class="lenline" data-go="muscles">Find exercises by muscle <span aria-hidden="true">→</span></button>';
@@ -110,8 +113,20 @@ function muscleRefresh() { const a = $('#mmap'), b = $('#mresults'), e = $('#app
 function exMuscle(m) { musclePick.muscles = m === null ? [] : KBLibrary.toggleIn(musclePick.muscles, m); muscleRefresh(); }
 // redraw the counter, the map and the results only (typing in the search field keeps its focus)
 function exRefresh() { const box = $('#exresults'), n = $('#excount'); if (box) box.innerHTML = exResults(); if (n) n.textContent = exCounter(exFound()); }
-function exFilter(k, v) { exSearch[k] = v; exRefresh(); }
+// a muscle pick replaces the one picked (tapping it again unpicks it) and replaces the URL, so it adds no Back step
+function exFilter(k, v) {
+  if (k === 'muscle') { exSearch.muscle = exSearch.muscle === v ? null : v; history.replaceState(null, '', '#exercises' + (exSearch.muscle ? '?muscle=' + exSearch.muscle : '')); }
+  else exSearch[k] = v;
+  exRefresh();
+}
+function exClear() {
+  Object.assign(exSearch, { q: '', cat: 'all', gear: 'all', muscle: null });
+  history.replaceState(null, '', '#exercises');
+  const field = $('#ex-search'); if (field) field.value = '';
+  exRefresh();
+}
 function viewLibrary() {
+  exSearch.muscle = route.muscle || null;
   return `<div class="eyebrow" id="excount">${exCounter(exFound())}</div><h1>Exercises</h1><p class="lede">Every movement and stretch used in the programs, with the equipment you have: dumbbells, one kettlebell, a pull-up bar and a mat. Tap one to see the muscles it works.</p>
   <label class="exsearch"><span class="sr">Search exercises</span><input id="ex-search" type="search" placeholder="Search by name, muscle or cue" value="${esc(exSearch.q)}" autocomplete="off" enterkeyhint="search"></label>
   <div id="exmap">${exMap()}</div>

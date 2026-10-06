@@ -198,6 +198,7 @@ main{padding-block:24px 64px}
 .legend .key{width:14px;height:14px;border-radius:4px;flex:none}
 .legend .lab{font-size:13px;font-weight:700;color:var(--muted);min-width:44px}
 .chip{display:inline-block;padding:4px 10px;border-radius:999px;background:var(--soft);font-size:13px;font-weight:600}
+button.chip{border:0}
 .daychips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
 .daychips button{border:1px solid var(--line);background:var(--bg);border-radius:8px;min-width:40px;height:34px;font:700 15px/1 var(--display)}
 .libcat h2{margin-bottom:12px}

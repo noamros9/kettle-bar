@@ -57,3 +57,59 @@ test('Couples: its own chip and section, every card drawn with two figures', asy
   expect(await app.page.locator('#exresults .exlink svg.fig').evaluateAll((l) => l.every((s) => s.querySelector('circle[fill="var(--fig2)"]')))).toBe(true);
   expect(await app.sidewaysScroll()).toBe(0);
 });
+
+// #234: an exercise page's muscle chips open the Exercises page filtered by that muscle; one muscle at a time, in the URL
+const works = (m) => (e) => [...e.muscles.primary, ...e.muscles.secondary].includes(m);
+const muscleRow = (app) => app.page.getByRole('group', { name: 'Filter by muscle' });
+
+test('a muscle chip on an exercise page filters the Exercises page, keeping the search and equipment', async ({ app }) => {
+  await app.open('#exercises');
+  await app.page.getByRole('searchbox', { name: 'Search exercises' }).fill('squat');
+  await app.page.getByRole('group', { name: 'Filter by equipment' }).getByRole('button', { name: 'Kettlebell' }).click();
+  const kbSquats = await cards(app).count();
+  await app.page.locator('#exresults [data-ex="goblet_squat"]').click();
+  await app.page.getByRole('button', { name: 'Exercises that work Glutes' }).click();
+  await expect(app.heading()).toHaveText('Exercises');
+  expect(new URL(app.page.url()).hash).toBe('#exercises?muscle=glutes');
+  await expect(muscleRow(app).getByRole('button', { name: 'Glutes' })).toHaveAttribute('aria-pressed', 'true');
+  await expect(app.page.getByRole('searchbox', { name: 'Search exercises' })).toHaveValue('squat');
+  await expect(app.page.getByRole('group', { name: 'Filter by equipment' }).getByRole('button', { name: 'Kettlebell' })).toHaveAttribute('aria-pressed', 'true');
+  const ids = await cards(app).evaluateAll((l) => l.map((b) => b.dataset.ex));
+  expect(ids.length).toBeGreaterThan(0);
+  expect(ids.every((id) => works('glutes')(EX[id]))).toBe(true);
+
+  // one at a time: Hamstrings replaces Glutes (no kettlebell squat works them), tapping it again unpicks it
+  await muscleRow(app).getByRole('button', { name: 'Hamstrings' }).click();
+  await expect(muscleRow(app).getByRole('button', { name: 'Glutes' })).toHaveAttribute('aria-pressed', 'false');
+  await expect(app.page.getByText('No exercises match.')).toBeVisible();
+  expect(new URL(app.page.url()).hash).toBe('#exercises?muscle=hamstrings');
+  await muscleRow(app).getByRole('button', { name: 'Hamstrings' }).click();
+  await expect(cards(app)).toHaveCount(kbSquats);
+  expect(new URL(app.page.url()).hash).toBe('#exercises');
+
+  await app.page.goBack(); await app.loaded(); // the picks replaced the URL: Back goes to the exercise
+  await expect(app.heading()).toHaveText(EX.goblet_squat.name);
+});
+
+test('#exercises?muscle= opened cold shows that muscle; an unknown one shows everything', async ({ app }) => {
+  await app.open('#exercises?muscle=glutes');
+  await expect(cards(app)).toHaveCount(Object.values(EX).filter(works('glutes')).length);
+  await expect(muscleRow(app).getByRole('button', { name: 'Glutes' })).toHaveAttribute('aria-pressed', 'true');
+  await app.open('#exercises?muscle=nope');
+  await expect(app.page.locator('#excount')).toHaveText(`${total} exercises`);
+  expect(await app.sidewaysScroll()).toBe(0);
+});
+
+test('Clear all resets the search and every filter', async ({ app }) => {
+  await app.open('#exercises?muscle=glutes');
+  await expect(app.page.getByRole('button', { name: 'Clear all' })).toBeVisible();
+  await app.page.getByRole('searchbox', { name: 'Search exercises' }).fill('squat');
+  await app.page.getByRole('group', { name: 'Filter by equipment' }).getByRole('button', { name: 'Kettlebell' }).click();
+  await app.page.getByRole('button', { name: 'Clear all' }).click();
+  await expect(app.page.getByRole('searchbox', { name: 'Search exercises' })).toHaveValue('');
+  await expect(app.page.locator('#excount')).toHaveText(`${total} exercises`);
+  await expect(muscleRow(app).locator('[aria-pressed="true"]')).toHaveCount(0);
+  await expect(app.page.getByRole('group', { name: 'Filter by equipment' }).getByRole('button', { name: 'Any equipment' })).toHaveAttribute('aria-pressed', 'true');
+  await expect(app.page.getByRole('button', { name: 'Clear all' })).toHaveCount(0);
+  expect(new URL(app.page.url()).hash).toBe('#exercises');
+});

@@ -50,7 +50,8 @@ function parseHash() {
   if (h === 'programs') return { view: 'programs' };
   if (h === 'build') return { view: 'build' };
   if (h === 'random') return { view: 'random' };
-  if (h === 'exercises') return { view: 'library' };
+  const lib = h.match(/^exercises(?:\?muscle=([a-z_]+))?$/); // #234: the muscle picked rides in the URL; an unknown one is none
+  if (lib) return { view: 'library', muscle: lib[1] && MUSCLE_NAMES[lib[1]] ? lib[1] : null };
   if (h === 'settings') return { view: 'settings' };
   // home (the logo) and the home-screen shortcut: the next day not done in the program of the workout marked done last
   // (before any, the program opened last); the program page once every day is done
