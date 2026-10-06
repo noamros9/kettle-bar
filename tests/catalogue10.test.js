@@ -54,7 +54,8 @@ test('the Swap list: never a couple exercise for a solo one; only couple ones fo
 });
 
 // Phase 20 ticket 2. Hash is sha256 of every non-couple cue, sorted by id, JSON-encoded, pinned before the rewrite.
-const NON_COUPLE_CUES = 'c3134b2e04221ff520e0b1d1465d3df2843ee2647738e0dfe1d27ed992a63d08';
+// Phase 21 ticket 3 re-pinned it after the 24 catalogue-12 warm-ups (the previous cues are unchanged).
+const NON_COUPLE_CUES = '96dc56e36cbf81a6f14d7e5706bb33159e1dde58bd6c78a2d6ad58ceafa91fc5';
 
 test('position and dare cues are one paragraph of at most 400 characters; every non-couple cue is unchanged', () => {
   const pos = Object.values(cat.EX).filter((e) => e.id.startsWith('pos_'));
