@@ -6,9 +6,9 @@ future work doesn't re-ask them. Order within a phase is the build order.
 ## Resume here (6 Oct 2026, end of session)
 - **Done today:** #234 muscle chip links (PR #240) and **Phase 21 complete** (PRs #243, #248, #251, #254). Main is
   green, no PR open, no ticket in progress.
-- **Next: Phase 22** (catalogue **13**, decision 105; section below). Start with ticket 0: grill anything still open,
-  then write `docs/plans/phase-22-catalogue-13.md` as a `plan/...` PR. Then Phase 20 tickets 9–15 (at catalogue 13),
-  then Phase 23.
+- **Next: Phase 22** (catalogue **13**, decision 105; section below), planned 6 Oct (decisions 116–121): build from
+  [docs/plans/phase-22-catalogue-13.md](docs/plans/phase-22-catalogue-13.md), ticket 1 first. Then Phase 20 tickets
+  9–15 (at catalogue 13), then Phase 23.
 - **Working rules set today (CLAUDE.md):** never more than 2 tickets building at once; look for the next ticket at
   every checkpoint; parallel only within one phase. If Claude goes sequential when a second ticket could run, it
   proposes a hook to Noam.
@@ -89,6 +89,21 @@ Grilled 5 Oct 2026 (Noam); after Phase 21, before Phase 20 ticket 9. Claude plan
 81. **Existing programs stay as built** (6 Oct): no program moves up a catalogue (that would re-deal every day).
     Build your own, random workouts, Variety and the Swap list pick up the new exercises as they are. The new fitness
     programs come in Phase 23.
+116. **Warm-ups and cool-downs don't grow again** (6 Oct): they went to 30 each in Phase 21. Decision 80's +50% is
+     the other 14 fitness categories: 317 → 479, **+162**.
+117. **The new kinds in the merged pools, by role** (6 Oct): at catalogue 13, Rough and Body play join `sexFuck`,
+     Kink-lite and Rimming join `sexWarm`, and all 344 join `sexPositions`. Each kind also has a pool of its own.
+118. **Rough and Kink-lite mostly during sex** (6 Oct): most are a position with the act in it (doggy pulling her
+     hair, missionary with her wrists pinned, cowgirl blindfolded); a few stand alone (a spanking round, ice on her).
+119. **Four new After dark subjects, 8 programs each** (6 Oct): Rough, Kink-lite, Body play, Rimming: 32 programs at
+     catalogue 13, in this phase, each subject 3 gym then sex, 3 sex then sex, 2 positions only (Noam).
+120. **The sex exercises, final counts** (6 Oct, Noam; replaces 72–73's numbers): intercourse 24 → **96** (+72), oral
+     and anal 24 → **60** (+36 each), toys 8 → **36** (+28), hands 8 → **36** (+28), and Rough, Kink-lite, Body play,
+     Rimming **36** each (+144): **344** new.
+121. **Own programs and random workouts move to catalogue 13 only in the phase's last ticket** (6 Oct, technical):
+     the newest catalogue they store is held at 12 while Phase 22's tickets land, so an own program saved mid-phase
+     never reshuffles when the next ticket adds to its pools.
+- Plan: [docs/plans/phase-22-catalogue-13.md](docs/plans/phase-22-catalogue-13.md).
 
 ### Phase 23: new fitness programs at catalogue 12
 Grilled 6 Oct 2026 (Noam).
