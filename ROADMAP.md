@@ -163,7 +163,7 @@ Stats, and whether it stays quiet and office-friendly.
 
 ### Explicit drawings and loops for the explicit exercises ([#249](https://github.com/noamros9/kettle-bar/issues/249))
 Noam, 6 Oct 2026; grilled the same day. Place in the order not set yet.
-106. **Drawn, never photos of real people** (6 Oct): explicit drawings and short animated loops.
+106. **Drawn, never photos of real people** (6 Oct): explicit drawings and short animated loops (source: 112).
 107. **Every explicit exercise, any catalogue** (6 Oct): catalogue 10's positions and oral, catalogue 11, Phase 22's,
      and later ones; a ticket that adds an explicit exercise also adds its drawing and loop.
 108. **Three ways to show it** (6 Oct): Figure · Drawing · Animation. The drawing replaces the stick figure by default.
@@ -173,10 +173,17 @@ Noam, 6 Oct 2026; grilled the same day. Place in the order not set yet.
      account read them (Noam publishes the rules in the console). **No caching:** not in the service worker, not
      offline; fetched each time the page shows one.
 111. **Noam reviews each before it ships** (6 Oct): Claude can't review explicit images.
-- **Open, blocking:** can Grok Imagine (`image_gen`, `image_to_video` in the Grok CLI) make explicit drawings? Noam
-  tests one prompt in `grok`. If not, the source must be decided again.
-- Still open, for the plan: drawing style (one consistent style for all); loop length and size (Imagine makes
-  6–15 s mp4 at 480p/720p); how Grok runs (headless with the image tools allowed, or Noam interactive).
+112. **Found online by Grok, not generated** (6 Oct, Noam's test): Grok's image tool refuses these scenes, so Grok
+     searches the web and checks each file is a drawing of two adults (no photos, medical cross-sections or old
+     fine-art prints). Stills: the flat two-colour vector diagrams (thin outline, blank background) from the site
+     Noam's first pick came from. Loops: the shaded cartoon GIFs from a second site; a mislabeled file is skipped.
+113. **Private use, no licence check** (6 Oct, Noam): taken as found, since they're signed-in only and for Noam.
+     Claude raised that it's still copying and re-hosting others' artwork (a copyright risk); Noam chose this anyway.
+     Each file still records its source URL.
+114. **Two styles are fine** (6 Oct): Drawing and Animation are separate views, each consistent in itself.
+115. **Loops stored as MP4/WebM** (6 Oct): each GIF converted with ffmpeg, played muted, looped, inline.
+- Still open, for the plan: how Grok runs (headless with web tools allowed, or Noam interactive); where files wait
+  for Noam's review before upload; what an exercise with no match shows (the stick figure).
 
 ### After dark: a story per workout, by Grok ([#225](https://github.com/noamros9/kettle-bar/issues/225))
 Noam, 5 Oct 2026: automate creating an erotic story with Grok for every After dark workout.
