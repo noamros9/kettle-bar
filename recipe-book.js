@@ -113,7 +113,11 @@ const intern = (list, keyOf, value) => {
 };
 const json = JSON.stringify;
 
-function generate({ configs = require('./programs.config.js'), families = FAMILIES, catalogue = Math.max(0, ...Object.values(cat.EX).map((e) => e.added || 0)) } = {}) {
+// The newest catalogue own programs and random workouts are made at. Held while a phase adds to it, so a program saved
+// mid-phase never reshuffles when the next ticket grows its pools (Phase 22, decision 121); moved when the phase is in.
+const NEWEST = 12;
+
+function generate({ configs = require('./programs.config.js'), families = FAMILIES, catalogue = NEWEST } = {}) {
   const familyOf = new Map(families.flatMap(([f, list]) => list.map((s) => [s, f])));
   // the levers a subject's programs use at Level II and III: what a choice for that subject may pick
   const levers = {};
@@ -197,4 +201,4 @@ const book = () => (cached = cached || load(FILE, generate, false));
 const refresh = ({ file = FILE, make = generate } = {}) => load(file, make, true);
 /* node:coverage ignore next 2 */ // npm run recipes
 if (require.main === module) { refresh(); console.log('recipes/book.json is fresh'); }
-module.exports = { generate, book, hash, refresh, stored, FILE, INPUTS };
+module.exports = { generate, book, hash, refresh, stored, FILE, INPUTS, NEWEST };

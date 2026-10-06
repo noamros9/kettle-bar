@@ -246,16 +246,23 @@
         cooldowns: has((e) => e.cat === 'cooldown'),
         // Every catalogue-11 exercise, whatever order tickets 6 and 7 merge. Empty below catalogue 11.
         explicit: has((e) => e.added === 11),
+        // Phase 22 (catalogue 13): a pool per new kind. Empty below catalogue 13.
+        sexRough: has((e) => e.added === 13 && e.sub === 'rough'),
+        sexKink: has((e) => e.added === 13 && e.sub === 'kink'),
+        sexBody: has((e) => e.added === 13 && e.sub === 'body'),
+        sexRim: has((e) => e.added === 13 && e.sub === 'rim'),
       };
     };
     // Sex blocks of catalogue-11 programs draw one of these: old and new exercises in one pool, so each has about the
     // same chance (the picker weighs `basic: 1` exercises 5 to 3). Kept off POOLS, which existing programs read.
+    // Catalogue 13 (Phase 22) adds its couple exercises at the end, by role (decision 117), so older catalogues draw as before.
     const mergedAt = (upTo) => {
       const cp = computed(upTo);
+      const new13 = (subs) => (upTo >= 13 ? ids((e) => e.added === 13 && e.cat === 'couple' && (!subs || subs.includes(e.sub))) : []);
       return {
-        sexPositions: [...new Set([...cp.explicit, ...POOLS.positions])],
-        sexWarm: [...new Set([...POOLS.oralSex, ...POOLS.hands, ...POOLS.oral, ...POOLS.tease, ...POOLS.massage])],
-        sexFuck: [...new Set([...POOLS.fuck, ...POOLS.anal, ...POOLS.toy, ...POOLS.positions])],
+        sexPositions: [...new Set([...cp.explicit, ...POOLS.positions, ...new13()])],
+        sexWarm: [...new Set([...POOLS.oralSex, ...POOLS.hands, ...POOLS.oral, ...POOLS.tease, ...POOLS.massage, ...new13(['oral', 'hands', 'kink', 'rim'])])],
+        sexFuck: [...new Set([...POOLS.fuck, ...POOLS.anal, ...POOLS.toy, ...POOLS.positions, ...new13(['fuck', 'anal', 'toys', 'rough', 'body'])])],
       };
     };
     const COMPUTED = new Map();

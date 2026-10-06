@@ -46,7 +46,7 @@ goes unused this phase (CLAUDE.md: tickets that edit the same files wait).
 
 | # | Ticket | Tier | Blocked by | Branch | Status |
 |---|---|---|---|---|---|
-| 0 | This plan | plan | – | `plan/phase-22-catalogue-13` | done (this PR) |
+| 0 | This plan | plan | – | `plan/phase-22-catalogue-13` | done (PR #256) |
 | 1 | Catalogue-13 plumbing: page cap 350, pools, held newest, four subjects in `EX_FAMILIES` | feature | – | `feature/catalogue-13` | todo |
 | 2 | Intercourse +24 (a) | content | 1 | `content/c13-fuck-a` | todo |
 | 3 | Intercourse +24 (b) | content | 2 | `content/c13-fuck-b` | todo |
@@ -78,8 +78,8 @@ Order: plan order. 19–20 need only 9–12, so they may go before 13–18 if th
 - `recipe-book.js`: `generate`'s default `catalogue` is a pinned `NEWEST = 12`, not the highest `added`.
 - `app/library.js`: Couples in `EX_FAMILIES` gets Rough, Kink-lite, Body play, Rimming (`rough`, `kink`, `body`,
   `rim`). Phase 21's "no empty subject" test allows these four until tickets 9–12 fill them.
-- `app/library.js` `FAMILIES`: the four new After dark subjects, after the existing ones (empty until tickets 19–20;
-  the shelf hides an empty subject — check, and if it doesn't, add each with its programs instead).
+- The four After dark subjects go into `FAMILIES` and `SHELVES` with their programs (tickets 19–20), not here: the
+  recipe tests want every listed subject to have programs.
 - **Test first:** `tests/couple-odds.test.js`/a new `tests/catalogue-13.test.js`: `mergedAt(11)` and `mergedAt(12)`
   are deep-equal to today's (pinned); `poolsAt(13).sexRough` etc. exist and are empty; the book's catalogue is 12
   even with a fake `added: 13` exercise in `EX`; the page gate is 350 KB.
@@ -122,6 +122,8 @@ the PR. No duplicate of an existing exercise under a new name.
   `EXPLICIT` but `catalogue: 13`, 60 days, ticket 8's three shapes split 3 gym then sex, 3 sex then sex, 2 positions
   only (119), minutes as Explicit's. Each subject's sex blocks name its own pool (`sexRough`, …) for one block and
   the merged pools for the rest, so the subject's kind leads without being the whole session.
+- The two subjects join `FAMILIES` (Mixed) and `SHELVES` (After dark) in `app/library.js`, after Explicit, and the
+  couple-subject exclusions in `tests/recipes.test.js` (`SUBJECTS`) and `recipe-book.js` (couple configs are skipped).
 - Names, blurbs and about text from his side (CLAUDE.md), describing the session, not the builder.
 - **Test first:** in a new `tests/c13-programs.test.js`: the 16 ids pinned; the 3/3/2 shapes per subject; `couple`,
   `catalogue: 13`, 60 days, `skipped`; minutes in band; every program draws its subject's kind; the his-pov,
