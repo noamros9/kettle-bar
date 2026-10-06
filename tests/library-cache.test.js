@@ -3,7 +3,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('fs');
 const path = require('path');
-const { library, hash, sources } = require('./helpers/library.js');
+const { library, hash, sources, cached } = require('./helpers/library.js');
 
 test('the cached library is what buildAll() makes, and each call is a fresh copy', () => {
   const a = library(), b = library();
@@ -26,4 +26,14 @@ test('the cache is named by a hash of every source, so a changed source is never
     fs.writeFileSync(path.join(root, 'configs/b.js'), 'configs/b.js');
     assert.equal(hash(root), h);
   } finally { fs.rmSync(root, { recursive: true, force: true }); }
+});
+
+test('storing a new cache drops the copies (and crashed writes) left by older sources, so the cache does not grow forever', () => {
+  const dir = path.join(__dirname, '..', 'test-results', '.cache', `evict-${process.pid}`);
+  fs.mkdirSync(dir, { recursive: true });
+  ['library-old.json', 'library-old.json.123.tmp', 'rendered-old.json'].forEach((f) => fs.writeFileSync(path.join(dir, f), '[]'));
+  try {
+    assert.deepEqual(cached('library', () => [1], dir), [1]);
+    assert.deepEqual(fs.readdirSync(dir).sort(), [`library-${hash()}.json`, 'rendered-old.json']);
+  } finally { fs.rmSync(dir, { recursive: true, force: true }); }
 });
