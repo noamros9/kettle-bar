@@ -124,6 +124,8 @@ on Grok.
 
 ### 2–12i. The sex exercises (715)
 
+**Resume here (6 Oct 2026, end of session):** tickets 1–5 merged (last: #267); main green. Next: ticket 1b (`feature/c13-more-kinds`), Claude builds it (plumbing); then 6 (anal +30) for Grok, in a **fresh** session. Grok was stopped twice on 6 Oct for low memory: check free memory first, and commit WIP if a run stops.
+
 **Review lessons from tickets 2–4b, for every sex ticket's prompt:** (1) different = a different body arrangement, not
 the same one on other furniture or with a leg held another way; (2) it must work for real bodies (hip heights meet,
 no unsafe holds); (3) Grok checks against all existing exercises of its `sub` with a script before writing (`node test-results/list-sub.js <sub>`, a scratch file); (4) a seated woman (pelvis on the bed) can't be entered from behind or the side. Status
