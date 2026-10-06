@@ -142,6 +142,8 @@ const ACTIONS = [
   ['mgear', (v) => { musclePick.gear = v; muscleRefresh(); }],
   ['exmuscle', (v) => exMuscle(v)],
   ['exmuscleClear', () => exMuscle(null)],
+  ['exmuscleLink', (v) => go('exercises?muscle=' + v)],
+  ['exClear', () => exClear()],
   ['exf', (v) => { const [k, x] = v.split(':'); exFilter(k, x); }],
   ['filter', (v) => { const [k, x] = v.split(':'); setFilter(k, x); render(); }],
   ['short', () => { const D = openDay(); D.setShort(!D.short()); }], // the store's change event redraws

@@ -14,8 +14,8 @@ Grilled the same day; decisions 89–94 and 97 in [ROADMAP.md](../../ROADMAP.md)
 
 | # | Ticket | Tier | Blocked by | Branch | Status |
 |---|---|---|---|---|---|
-| 0 | This plan | plan | – | `plan/muscle-chip-links` | in review |
-| 1 | Muscle chips, the URL and Clear all | feature | – | `feature/muscle-chip-links` | todo |
+| 0 | This plan | plan | – | `plan/muscle-chip-links` | done (PR #239) |
+| 1 | Muscle chips, the URL and Clear all | feature | – | `feature/muscle-chip-links` | done (PR #240) |
 
 ### 1. Muscle chips, the URL and Clear all
 - `app/pages/core.js`: `parseHash` reads `exercises?muscle=<key>` (a known key of `MUSCLE_NAMES`, else ignored) as
