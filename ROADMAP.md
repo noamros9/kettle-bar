@@ -143,10 +143,14 @@ Stats, and whether it stays quiet and office-friendly.
 
 ### Muscle chips link to a filtered Exercises page ([#234](https://github.com/noamros9/kettle-bar/issues/234))
 Noam, 6 Oct 2026: on an exercise's page, tapping a muscle chip opens the Exercises page filtered by that muscle.
-The Exercises page filters only by category and equipment today, so it gains a muscle filter. Place in the order
-not set yet.
-- Still open, for the grill: a visible muscle chip row on the Exercises page or only via the link; primary or also
-  secondary muscles; combining with the category and equipment filters.
+89. **Next, before Phase 20 continues** (6 Oct): small, one or two tickets.
+90. **A visible muscle filter on the Exercises page** (6 Oct): a row of muscle chips you can use without coming from an
+    exercise; the chip link lands with that muscle picked.
+91. **Main and secondary both count** (6 Oct): an exercise matches if the muscle is one of its main or secondary ones.
+- Noted for the plan: `KBLibrary.searchExercises` already takes `filters.muscles` (Phase 9, primary and secondary,
+  ranked), so this is mostly the chip row, `exSearch.muscles`, and the exercise page's chips becoming buttons. Still
+  open, for the plan: several muscles at once (as on the Muscles page) or one; whether the link clears the search,
+  category and equipment first; whether it shows in the URL so Back and a shared link keep it.
 
 ### After dark: a story per workout, by Grok ([#225](https://github.com/noamros9/kettle-bar/issues/225))
 Noam, 5 Oct 2026: automate creating an erotic story with Grok for every After dark workout.
