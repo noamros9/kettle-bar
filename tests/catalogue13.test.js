@@ -51,9 +51,9 @@ test('the four new kinds are Couples subjects on the Exercises page', () => {
   ['rough', 'kink', 'body', 'rim'].forEach((k) => assert.ok(couples.includes(k), k));
 });
 
-test('catalogue 13 adds 72 intercourse exercises (tickets 2–4)', () => {
+test('catalogue 13 adds 96 intercourse exercises (tickets 2–4b)', () => {
   const added = Object.values(cat.EX).filter((e) => e.added === 13 && e.sub === 'fuck');
-  assert.equal(added.length, 72);
+  assert.equal(added.length, 96);
   const at12 = mergedAt(12), at13 = mergedAt(13);
   added.forEach((e) => {
     assert.equal(e.cat, 'couple', e.id);
