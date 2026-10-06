@@ -27,12 +27,15 @@ test('type "hip": hip thrusts, hip CARs and hip airplanes show, the field keeps 
 
 test('the Kettlebell chip keeps only kettlebell exercises; a category narrows further; nothing found says so', async ({ app }) => {
   await app.open('#exercises');
+  await app.page.getByRole('button', { name: /^Equipment:/ }).click();
   await app.page.getByRole('group', { name: 'Filter by equipment' }).getByRole('button', { name: 'Kettlebell' }).click();
+  await expect(app.page.getByRole('button', { name: /^Equipment:/ })).toHaveText(/Equipment:\s*Kettlebell\s*▾/);
+  await expect(app.page.getByRole('group', { name: 'Filter by equipment' })).toHaveCount(0);
   const kb = Object.values(EX).filter((e) => e.load === 'kb');
   await expect(cards(app)).toHaveCount(kb.length);
   const cat = app.page.getByRole('group', { name: 'Filter by family' });
   await expect(cat.getByRole('button', { name: /^All/ })).toContainText(String(kb.length));
-  const first = cat.locator('.fchip').nth(1);
+  const first = cat.locator('.ftab').nth(1);
   await first.click();
   await expect(first).toHaveAttribute('aria-pressed', 'true');
   expect(await cards(app).count()).toBeLessThanOrEqual(kb.length);
@@ -70,28 +73,77 @@ test('All shows six family sections; Muscles shows its seven subjects; Chest lea
   expect(await app.sidewaysScroll()).toBe(0);
 });
 
-// #234: an exercise page's muscle chips open the Exercises page filtered by that muscle; one muscle at a time, in the URL
+// #234: an exercise page's muscle chips open the Exercises page filtered by that muscle; one muscle at a time, in the URL.
+// Phase 21 ticket 2: the chips sit behind "Muscle: Any ▾"; the open menu is page state and never the URL.
 const works = (m) => (e) => [...e.muscles.primary, ...e.muscles.secondary].includes(m);
 const muscleRow = (app) => app.page.getByRole('group', { name: 'Filter by muscle' });
+const muscleLine = (app) => app.page.getByRole('button', { name: /^Muscle:/ });
+const equipLine = (app) => app.page.getByRole('button', { name: /^Equipment:/ });
+
+test('Muscle chips stay hidden until the line is opened; picking Glutes closes it, names it and filters', async ({ app }) => {
+  await app.open('#exercises');
+  await expect(muscleLine(app)).toHaveText(/Muscle:\s*Any\s*▾/);
+  await expect(equipLine(app)).toHaveText(/Equipment:\s*Any\s*▾/);
+  await expect(muscleLine(app)).toHaveAttribute('aria-expanded', 'false');
+  await expect(muscleRow(app)).toHaveCount(0);
+  await expect(app.page.getByRole('group', { name: 'Filter by equipment' })).toHaveCount(0);
+  await expect(app.page.locator('#exresults .ftabs')).toHaveAttribute('aria-label', 'Filter by family');
+
+  await muscleLine(app).click();
+  await expect(muscleLine(app)).toHaveAttribute('aria-expanded', 'true');
+  await expect(muscleRow(app).getByRole('button', { name: 'Glutes' })).toBeVisible();
+  expect(new URL(app.page.url()).hash).toBe('#exercises');
+
+  await equipLine(app).click(); // one menu at a time
+  await expect(muscleRow(app)).toHaveCount(0);
+  await expect(app.page.getByRole('group', { name: 'Filter by equipment' })).toBeVisible();
+  await equipLine(app).click(); // the line again closes it
+  await expect(app.page.getByRole('group', { name: 'Filter by equipment' })).toHaveCount(0);
+  expect(new URL(app.page.url()).hash).toBe('#exercises');
+
+  await muscleLine(app).click();
+  await muscleRow(app).getByRole('button', { name: 'Glutes' }).click();
+  await expect(muscleRow(app)).toHaveCount(0);
+  await expect(muscleLine(app)).toHaveText(/Muscle:\s*Glutes\s*▾/);
+  await expect(muscleLine(app)).toHaveAttribute('aria-expanded', 'false');
+  await expect(cards(app)).toHaveCount(Object.values(EX).filter(works('glutes')).length);
+  expect(new URL(app.page.url()).hash).toBe('#exercises?muscle=glutes');
+
+  await muscleLine(app).click();
+  await muscleRow(app).getByRole('button', { name: 'Glutes' }).click(); // tapping the pick again unpicks it
+  await expect(muscleLine(app)).toHaveText(/Muscle:\s*Any\s*▾/);
+  await expect(cards(app)).toHaveCount(total);
+  expect(new URL(app.page.url()).hash).toBe('#exercises');
+});
 
 test('a muscle chip on an exercise page filters the Exercises page, keeping the search and equipment', async ({ app }) => {
   await app.open('#exercises');
   await app.page.getByRole('searchbox', { name: 'Search exercises' }).fill('squat');
+  await equipLine(app).click();
   await app.page.getByRole('group', { name: 'Filter by equipment' }).getByRole('button', { name: 'Kettlebell' }).click();
   const kbSquats = await cards(app).count();
+  await muscleLine(app).click(); // open as we leave: the link must land with the menu closed
   await app.page.locator('#exresults [data-ex="goblet_squat"]').click();
   await app.page.getByRole('button', { name: 'Exercises that work Glutes' }).click();
   await expect(app.heading()).toHaveText('Exercises');
   expect(new URL(app.page.url()).hash).toBe('#exercises?muscle=glutes');
+  await expect(muscleLine(app)).toHaveText(/Muscle:\s*Glutes\s*▾/);
+  await expect(muscleLine(app)).toHaveAttribute('aria-expanded', 'false');
+  await expect(muscleRow(app)).toHaveCount(0);
+  await muscleLine(app).click();
   await expect(muscleRow(app).getByRole('button', { name: 'Glutes' })).toHaveAttribute('aria-pressed', 'true');
   await expect(app.page.getByRole('searchbox', { name: 'Search exercises' })).toHaveValue('squat');
+  await equipLine(app).click();
   await expect(app.page.getByRole('group', { name: 'Filter by equipment' }).getByRole('button', { name: 'Kettlebell' })).toHaveAttribute('aria-pressed', 'true');
   const ids = await cards(app).evaluateAll((l) => l.map((b) => b.dataset.ex));
   expect(ids.length).toBeGreaterThan(0);
   expect(ids.every((id) => works('glutes')(EX[id]))).toBe(true);
 
   // one at a time: Hamstrings replaces Glutes (no kettlebell squat works them), tapping it again unpicks it
+  await muscleLine(app).click();
   await muscleRow(app).getByRole('button', { name: 'Hamstrings' }).click();
+  await expect(muscleRow(app)).toHaveCount(0);
+  await muscleLine(app).click();
   await expect(muscleRow(app).getByRole('button', { name: 'Glutes' })).toHaveAttribute('aria-pressed', 'false');
   await expect(app.page.getByText('No exercises match.')).toBeVisible();
   expect(new URL(app.page.url()).hash).toBe('#exercises?muscle=hamstrings');
@@ -106,6 +158,10 @@ test('a muscle chip on an exercise page filters the Exercises page, keeping the 
 test('#exercises?muscle= opened cold shows that muscle; an unknown one shows everything', async ({ app }) => {
   await app.open('#exercises?muscle=glutes');
   await expect(cards(app)).toHaveCount(Object.values(EX).filter(works('glutes')).length);
+  await expect(muscleLine(app)).toHaveText(/Muscle:\s*Glutes\s*▾/);
+  await expect(muscleLine(app)).toHaveAttribute('aria-expanded', 'false');
+  await expect(muscleRow(app)).toHaveCount(0);
+  await muscleLine(app).click();
   await expect(muscleRow(app).getByRole('button', { name: 'Glutes' })).toHaveAttribute('aria-pressed', 'true');
   await app.open('#exercises?muscle=nope');
   await expect(app.page.locator('#excount')).toHaveText(`${total} exercises`);
@@ -116,13 +172,21 @@ test('Clear all resets the search and every filter', async ({ app }) => {
   await app.open('#exercises?muscle=glutes');
   await expect(app.page.getByRole('button', { name: 'Clear all' })).toBeVisible();
   await app.page.getByRole('searchbox', { name: 'Search exercises' }).fill('squat');
+  await equipLine(app).click();
   await app.page.getByRole('group', { name: 'Filter by equipment' }).getByRole('button', { name: 'Kettlebell' }).click();
   await app.page.getByRole('group', { name: 'Filter by family' }).getByRole('button', { name: /^Muscles/ }).click();
   await app.page.getByRole('group', { name: 'Filter by subject' }).getByRole('button', { name: /^Legs/ }).click();
+  await muscleLine(app).click();
+  await expect(muscleRow(app)).toBeVisible();
   await app.page.getByRole('button', { name: 'Clear all' }).click();
   await expect(app.page.getByRole('searchbox', { name: 'Search exercises' })).toHaveValue('');
   await expect(app.page.locator('#excount')).toHaveText(`${total} exercises`);
+  await expect(muscleRow(app)).toHaveCount(0);
+  await expect(muscleLine(app)).toHaveText(/Muscle:\s*Any\s*▾/);
+  await expect(equipLine(app)).toHaveText(/Equipment:\s*Any\s*▾/);
+  await muscleLine(app).click();
   await expect(muscleRow(app).locator('[aria-pressed="true"]')).toHaveCount(0);
+  await equipLine(app).click();
   await expect(app.page.getByRole('group', { name: 'Filter by equipment' }).getByRole('button', { name: 'Any equipment' })).toHaveAttribute('aria-pressed', 'true');
   await expect(app.page.getByRole('group', { name: 'Filter by family' }).getByRole('button', { name: /^All/ })).toHaveAttribute('aria-pressed', 'true');
   await expect(app.page.getByRole('group', { name: 'Filter by subject' })).toHaveCount(0);

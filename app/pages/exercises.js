@@ -44,10 +44,13 @@ function viewExercise() {
 /* Exercises page: a search (name, muscle, cue) and chips by family and equipment, through KBLibrary.searchExercises.
    Typing redraws only the results, so the field keeps focus; the search stays while you look at an exercise and come back.
    #234: one muscle at a time (main or secondary), from the route: the URL holds it, so Back and a shared link keep it.
-   Phase 21: family chips, then the picked family's subjects; sections follow the pick (all / family / subject). */
+   Phase 21: one row of family tabs, then the picked family's subjects; sections follow the pick (all / family / subject).
+   Equipment and Muscle are one-line menus, like Programs' Length and Equipment. Which menu is open is page state only, never the URL. */
 const exFamName = Object.fromEntries(KBLibrary.EX_FAMILIES.map(([k, n]) => [k, n]));
 const exSubName = Object.fromEntries(KBLibrary.EX_FAMILIES.flatMap(([, , list]) => list));
 const exSearch = { q: '', family: 'all', sub: 'all', gear: 'all', muscle: null };
+let exMenu = null; // 'gear' | 'muscle': which of "Equipment: Any" and "Muscle: Any" is open
+const toggleExMenu = (which) => { exMenu = exMenu === which ? null : which; };
 const exFound = () => KBLibrary.searchExercises(EX, exSearch.q, { ...exSearch, muscles: exSearch.muscle ? [exSearch.muscle] : [] }, { names: MUSCLE_NAMES });
 const exCounter = (r) => (r.count === r.total ? `${r.total} exercises` : `${r.count} of ${r.total} exercises`);
 function exResults() {
@@ -64,10 +67,17 @@ function exResults() {
     ${sections || '<p class="lede" style="margin-top:24px">No exercises match. Try another word or fewer filters.</p>'}`;
 }
 function chipsHTML(r, chip) {
-  return `<div class="filters" role="group" aria-label="Filter by family">${r.families.map((c) => chip('family', c.key, c.key === 'all' ? 'All' : exFamName[c.key], c.pressed, c.count)).join('')}</div>
+  const gearLabel = exSearch.gear === 'all' ? 'Any' : KBLibrary.GEAR.find(([k]) => k === exSearch.gear)[1];
+  const muscleLabel = MUSCLE_NAMES[exSearch.muscle] || 'Any';
+  const menuLine = (k, name, label) => `<button class="lenline" data-ex-menu="${k}" aria-expanded="${exMenu === k}">${name}: <b>${esc(label)}</b> <span aria-hidden="true">${exMenu === k ? '▴' : '▾'}</span></button>`;
+  const menuChips = (k, what, list) => `<div class="filters" role="group" aria-label="Filter by ${what}">${list.map((l) => `<button class="fchip acc" data-exf="${k}:${l.key}" aria-pressed="${l.pressed}">${esc(l.label)}</button>`).join('')}</div>`;
+  const tab = (c) => `<button class="ftab" data-exf="family:${c.key}" aria-pressed="${c.pressed}">${esc(c.key === 'all' ? 'All' : exFamName[c.key])} <span class="fcount">${c.count}</span></button>`;
+  const gears = KBLibrary.GEAR.map(([key, label]) => ({ key, label, pressed: exSearch.gear === key }));
+  const muscles = Object.entries(MUSCLE_NAMES).map(([key, label]) => ({ key, label, pressed: exSearch.muscle === key }));
+  return `<div class="ftabs" role="group" aria-label="Filter by family">${r.families.map(tab).join('')}</div>
     ${r.subjects.length ? `<div class="filters" role="group" aria-label="Filter by subject">${r.subjects.map((c) => chip('sub', c.key, c.key === 'all' ? 'All' : exSubName[c.key], c.pressed, c.count)).join('')}</div>` : ''}
-    <div class="filters" role="group" aria-label="Filter by equipment">${KBLibrary.GEAR.map(([k, label]) => chip('gear', k, label, exSearch.gear === k)).join('')}</div>
-    <div class="filters" role="group" aria-label="Filter by muscle">${Object.entries(MUSCLE_NAMES).map(([k, label]) => chip('muscle', k, label, exSearch.muscle === k)).join('')}</div>
+    <div class="lenlines">${menuLine('gear', 'Equipment', gearLabel)}${menuLine('muscle', 'Muscle', muscleLabel)}</div>
+    ${exMenu === 'gear' ? menuChips('gear', 'equipment', gears) : exMenu === 'muscle' ? menuChips('muscle', 'muscle', muscles) : ''}
     ${exSearch.q || exSearch.family !== 'all' || exSearch.sub !== 'all' || exSearch.gear !== 'all' || exSearch.muscle ? '<button class="fchip" data-ex-clear="1">Clear all</button>' : ''}`;
 }
 // the Exercises page points to the Muscles page (2 Oct: the map has its own page)
@@ -126,10 +136,12 @@ function exRefresh() { const box = $('#exresults'), n = $('#excount'); if (box) 
 function exFilter(k, v) {
   if (k === 'muscle') { exSearch.muscle = exSearch.muscle === v ? null : v; history.replaceState(null, '', '#exercises' + (exSearch.muscle ? '?muscle=' + exSearch.muscle : '')); }
   else { exSearch[k] = v; if (k === 'family') exSearch.sub = 'all'; }
+  if (k === 'gear' || k === 'muscle') exMenu = null; // picking a chip closes its menu
   exRefresh();
 }
 function exClear() {
   Object.assign(exSearch, { q: '', family: 'all', sub: 'all', gear: 'all', muscle: null });
+  exMenu = null;
   history.replaceState(null, '', '#exercises');
   const field = $('#ex-search'); if (field) field.value = '';
   exRefresh();
