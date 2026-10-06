@@ -30,7 +30,7 @@ mostly are. The builder never reads `sub`, so no program's days change.
 | # | Ticket | Tier | Blocked by | Branch | Status |
 |---|---|---|---|---|---|
 | 0 | This plan | plan | – | `plan/phase-21-exercise-families` | done (PR #242) |
-| 1 | Families and subjects on the Exercises page | feature | – | `feature/exercise-families` | todo |
+| 1 | Families and subjects on the Exercises page | feature | – | `feature/exercise-families` | done (PR #243) |
 | 2 | Equipment and Muscle as one-line menus | feature | 1 | `feature/exercise-filter-menus` | todo |
 | 3 | +24 warm-ups (`added: 12`) | content | 1 | `content/more-warmups` | todo |
 | 4 | +18 cool-downs (`added: 12`) | content | 1 | `content/more-cooldowns` | todo |
