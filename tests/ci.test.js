@@ -51,3 +51,15 @@ test('Test and deploy skips Markdown-only changes, on PRs and on main', () => {
   const ignores = [...yml.matchAll(/paths-ignore: \[(.*)\]/g)].map((m) => m[1]);
   assert.deepEqual(ignores, ["'**.md', 'docs/**'", "'**.md', 'docs/**'"]);
 });
+
+// Decision 131 (Phase 22 ticket 1e): light and dark phone tests run as two parallel jobs; deploy waits for all
+test('the phone UI tests run as a light and a dark job beside the unit tests; deploy needs both', () => {
+  const yml = fs.readFileSync(path.join(__dirname, '..', '.github', 'workflows', 'deploy.yml'), 'utf8').replace(/\r/g, '');
+  const job = (name) => yml.slice(yml.indexOf(`\n  ${name}:\n`)).split(/\n  [a-z]+:\n/)[1] || '';
+  const ui = yml.slice(yml.indexOf('\n  ui:\n'), yml.indexOf('\n  deploy:\n'));
+  assert.match(ui, /theme: \[light, dark\]/);
+  assert.match(ui, /npx playwright test --project=phone-\$\{\{ matrix\.theme \}\}/);
+  assert.match(ui, /name: phone-screenshots-\$\{\{ matrix\.theme \}\}/);
+  assert.doesNotMatch(yml.slice(0, yml.indexOf('\n  ui:\n')), /test:ui|playwright test/, 'the unit job runs no UI tests');
+  assert.match(yml, /needs: \[test, ui\]/);
+});
