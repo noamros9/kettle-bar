@@ -50,8 +50,13 @@ goes unused this phase (CLAUDE.md: tickets that edit the same files wait).
 | # | Ticket | Tier | Blocked by | Branch | Status |
 |---|---|---|---|---|---|
 | 0 | This plan | plan | – | `plan/phase-22-catalogue-13` | done (PR #256) |
+| 0b | Shorter test runs (decisions 128–132) | plan | – | `plan/shorter-test-runs` | done (PR #270) |
 | 1 | Catalogue-13 plumbing: page cap 350, pools, held newest, four subjects in `EX_FAMILIES` | feature | – | `feature/catalogue-13` | done (PR #257) |
 | 1b | More kinds plumbing: page gate 1 MB, longer UI timeouts, eight more pools, six subjects in `EX_FAMILIES` | feature | 1 | `feature/c13-more-kinds` | done (PR #269) |
+| 1c | The unit suite once per tree; review, Grok and UI rules | feature | – | `feature/test-once-per-tree` | todo |
+| 1d | Main's CI skips tests on a tree a PR tested | feature | – | `feature/main-skips-tested` | todo |
+| 1e | CI: light and dark UI as parallel jobs | feature | 1d | `feature/ci-parallel-themes` | todo |
+| 1f | Every-exercise UI loops in one page load | feature | – | `feature/one-load-figures` | todo |
 | 2 | Intercourse +24 (a) | content | 1 | `content/c13-fuck-a` | done (PR #258) |
 | 3 | Intercourse +24 (b) | content | 2 | `content/c13-fuck-b` | done (PR #261) |
 | 4 | Intercourse +24 (c) | content | 3 | `content/c13-fuck-c` | done (PR #263) |
@@ -90,7 +95,8 @@ goes unused this phase (CLAUDE.md: tickets that edit the same files wait).
 | 20e | Balcony and Doorframe: 16 programs | content | 12h, 12i | `content/c13-balcony-doorframe-programs` | todo |
 | 21 | Open catalogue 13 to own programs and random workouts | feature | 2–18, 12b–12i | `feature/open-catalogue-13` | todo |
 
-Order: plan order; 1b goes right after 5. 19–20e need only their kinds, so they may go before 13–18 if those wait
+Order: plan order; 1b goes right after 5. 1c–1f (decisions 128–132) go next, beside the sex tickets: they touch no
+exercise file, so one can build while Grok writes a sex ticket. 19–20e need only their kinds, so they may go before 13–18 if those wait
 on Grok.
 
 ### 1. Catalogue-13 plumbing
@@ -122,9 +128,57 @@ on Grok.
   page gate is 1 MB.
 - **Done when:** the build diff shows no program change; the Exercises page lists the six new subjects.
 
+### 1c. The unit suite once per tree (129, 130, 132)
+- `scripts/tree-mark.js` (new): `write` records the tree id of everything in the working tree (a temporary index:
+  `GIT_INDEX_FILE=… git add -A && git write-tree`) in `.git/kb-tested-tree`; `check` exits 0 when the staged tree
+  (`git write-tree`) is that tree. A pure `same(staged, marked)` for the unit test.
+- `package.json`: `test:coverage` ends `&& node scripts/tree-mark.js write`.
+- `scripts/install-hooks.js`: the hook runs `node scripts/tree-mark.js check` first and skips the suite on a match
+  ("Pre-commit: this tree passed test:coverage already").
+- CLAUDE.md: review checks drop `npm test`; local UI only when the ticket touched `app/`, `index.html`, styles or a
+  spec (130); Grok prompts run the ticket's test files, never the full suite (the hook does it); sex tickets get the
+  outline step (132) in the Grok tickets rules.
+- Outside the repo: the grok-handoff skill's prompt template gets the same lines.
+- **Test first:** `tests/tree-mark.test.js`: in a scratch repo under `test-results/`, `write` then `check` passes;
+  an edit after `write` fails `check`; staging only part of the changes fails `check`.
+- **Done when:** `npm run test:coverage` then `git commit` prints the skip line and commits in seconds; a commit
+  after a further edit runs the suite.
+
+### 1d. Main's CI skips tests on a tree a PR tested (128)
+- `scripts/tested-tree.js` (new): given the pushed commit, finds its PR (`GET commits/{sha}/pulls`), compares the
+  commit's tree with the PR head's tree, and checks the PR head's Test and deploy run succeeded; writes
+  `tested=true|false` to `$GITHUB_OUTPUT`. A pure `decide({ tree, prTree, prRunGreen })` for the unit test.
+- `deploy.yml`: on `push` to main, a first step runs it (`GITHUB_TOKEN`, `actions: read`, `pull-requests: read`);
+  the unit and UI steps run only when `tested != 'true'`. Build, the site, the finder smoke and deploy always run.
+  PRs and `workflow_dispatch` always test.
+- CLAUDE.md, merging: if the PR is behind main, `gh pr update-branch`, and merge on that run's green.
+- **Test first:** `tests/tested-tree.test.js`: same tree and green run → tested; another tree, a red or missing
+  run, or no PR → not tested. `tests/ci.test.js`: the unit and UI steps carry the `tested` condition; deploy doesn't.
+- **Done when:** the next merge's main run skips both test steps and deploys (its time noted here).
+
+### 1e. CI: light and dark UI as parallel jobs (131)
+- `deploy.yml`: job `test` (unit, build, site, Pages artifact) and job `ui` with `matrix: theme: [light, dark]`
+  running `npx playwright test --project=phone-<theme>`, each uploading its screenshots under its own name; `deploy`
+  needs both. 1d's `tested` gate applies to both jobs.
+- **Test first:** `tests/ci.test.js`: a `ui` job with a light and dark matrix; `deploy` needs `test` and `ui`.
+- **Done when:** a PR run's wall time is noted against today's 10–15 min.
+
+### 1f. Every-exercise UI loops in one page load (131)
+- `tests-ui/exercise.spec.js` (every catalogue-5+ figure) and `tests-ui/renders.spec.js` (every exercise page):
+  open the app once and check each exercise's page in the page itself (`page.evaluate` over the ids, through the
+  app's router), instead of one navigation each. Same assertions: the figure draws, no NaN, the mark.
+- **Test first:** break one figure on purpose (scratch, not committed): both specs still fail on it.
+- **Done when:** both specs' times in a one-page run are noted, before and after; their per-exercise `setTimeout`
+  shrinks to match.
+
 ### 2–12i. The sex exercises (715)
 
 **Resume here (7 Oct 2026):** tickets 1–5 and 1b merged (last: #269). Next: 6 (anal +30) for Grok. Grok was stopped twice on 6 Oct for low memory: check free memory first, and commit WIP if a run stops.
+
+**Outline first (132), from ticket 7:** Grok's first run writes only `test-results/tN-outline.md`, one line per
+exercise (id, who lies, kneels, sits or stands where, where her legs are, what he braces), checked against
+`list-sub.js`, and stops. Claude reviews the list for copies and bodies that don't fit; Grok continues (`--continue`)
+with the cues from the approved list.
 
 **Review lessons from tickets 2–4b, for every sex ticket's prompt:** (1) different = a different body arrangement, not
 the same one on other furniture or with a leg held another way; (2) it must work for real bodies (hip heights meet,
@@ -202,6 +256,14 @@ the PR. No duplicate of an existing exercise under a new name.
   saved before the ticket is unchanged.
 
 ## Challenge round
+- **Shorter test runs (0b, 7 Oct).** Weakest assumption: a squash merge leaves main on the exact tree the PR
+  tested. Verified: #269's head `88c0014` and main's `219ce39` share tree `897a71a`. Branch protection is off, so
+  nothing forces a PR to be up to date. **Plan edit:** 1d compares trees itself and runs the full tests on any
+  mismatch, rather than trusting a merge rule.
+  What I hadn't read: the hook is written by `scripts/install-hooks.js` on `npm install`, so an edit to
+  `.git/hooks/pre-commit` would be lost. **Plan edit:** 1c changes the installer.
+  The lazier version: delete the tests from main's run outright. Not proposed: a direct push or an out-of-date PR
+  would then deploy untested code; the tree check costs one API call.
 - **Weakest assumption: that the phase can grow catalogue 13 ticket by ticket.** It can't as built: `generate`
   takes the newest catalogue from the highest `added`, so the first `added: 13` exercise would move own programs and
   random workouts to 13, and an own program saved after ticket 2 would reshuffle when ticket 13 adds to its pools
