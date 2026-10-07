@@ -8,14 +8,21 @@ Issue [#186](https://github.com/noamros9/kettle-bar/issues/186). Grilled 4 and 7
   programs** that **take turns day by day**, **weighted per super** (149, 152): Iron PPL 2 days for every 1 of Yoga
   Flow. Days 41–80 are Level II, so each part gives its Level II days there (150); a part gives its days of a level
   **evenly spaced across its 20** (152). Ticking a super's day never touches the programs it is made of.
-- **12 ready-made supers on a Super shelf** (148), and **your own** in Build your own (43, 148), stored like an own
+- **36 ready-made supers on a Super shelf** (148), in today's style with no review first (189), and **your own** in Build your own (43, 148), stored like an own
   program.
 - **Each day says where it comes from** ("from Iron PPL"), and the program page shows the parts and their weights as
   a strip (151).
 
+## Also settled (7 Oct, evening)
+- **Parts:** solo After dark programs may be parts, couple ones never (179); parts of any lengths, the card shows the
+  range (182). A 30-day part (185) has 10 days a level, so it gives at most 10 days per super level.
+- **Swaps, Round 2 and Short on time** work as in any program, in the super's own progress (190).
+- **Your own:** weights 1–3 and a share link (175).
+
 ## How a super is built (164)
 - In each level (days 1–40, 41–80, 81–120), part *i* with weight *w* of total *W* gets *n* = round(40·*w*/*W*) days
-  (rounding fixed so the level holds 40), at most 20; the creator refuses weights that would give a part more than 20.
+  (rounding fixed so the level holds 40), at most the part's days in that level (20, or 10 for a 30-day part); the creator refuses weights that would
+  ask for more.
 - Its *n* days are the part's days of that level (`levelOf(60, d)`), every (20/*n*)-th, starting from the first.
 - The order inside a level is a smooth weighted round-robin (each turn goes to the part furthest behind its share),
   so a weight-2 part comes up twice as often, spread out, never in a run.
@@ -29,12 +36,14 @@ Issue [#186](https://github.com/noamros9/kettle-bar/issues/186). Grilled 4 and 7
 |---|---|---|---|---|---|
 | 0 | This plan | plan | – | `plan/unplanned-phases` | done (PR #281) |
 | 1 | The composer and 120-day programs | feature | – | `feature/super-compose` | todo |
-| 2 | The 12 ready-made supers and the Super shelf | content | 1 | `content/super-library` | todo |
+| 2 | Ready-made supers 1–12 and the Super shelf | content | 1 | `content/super-library-a` | todo |
+| 2b | Ready-made supers 13–24 | content | 2 | `content/super-library-b` | todo |
+| 2c | Ready-made supers 25–36 | content | 2b | `content/super-library-c` | todo |
 | 3 | The pages: "from" line, parts strip, 120-day levels | feature | 1 | `feature/super-pages` | todo |
-| 4 | Your own super in Build your own | feature | 3 | `feature/super-own` | todo |
+| 4 | Your own super in Build your own | feature | 2c, 3 | `feature/super-own` | todo |
 | 5 | Close the phase: CONTEXT.md, archive | plan | 4 | `plan/p19-close` | todo |
 
-Ticket 3 can build alongside ticket 2 (stacked on 1; 2 edits configs and pins, 3 the pages).
+Ticket 3 can build alongside tickets 2–2c (stacked on 1; those edit configs and pins, 3 the pages).
 
 ### 1. The composer and 120-day programs
 - **Build:** `app/super.js` (pure, Node and page, `KBSuper`): `compose(parts: [[id, weight]], daysOf: id -> days)`
@@ -49,17 +58,19 @@ Ticket 3 can build alongside ticket 2 (stacked on 1; 2 edits configs and pins, 3
   and the super's level; 2 parts or a part at 25 days a level is refused.
 - **Done when:** 100% lines and functions on `app/super.js`; no pin changes.
 
-### 2. The 12 ready-made supers
-- **Build:** `configs/super.js`: 12 configs (`super: [[id, weight], …]`, id, name, subject `Super`, blurb, about,
+### 2–2c. The 36 ready-made supers, 12 a ticket
+- **Build:** `configs/super.js`: 12 configs a ticket (`super: [[id, weight], …]`, id, name, subject `Super`, blurb, about,
   `added: 19`), across goals: strength + mobility, strength + conditioning, a fighter's year, kettlebell + yoga, a
-  muscle-focus rotation, calisthenics + strength, a balanced 120, and so on, each of 3–6 programs with weights that
+  muscle-focus rotation, calisthenics + strength, a balanced 120, a solo After dark + strength (179), and so on, no two
+  with the same parts, each of 3–6 programs with weights that
   say the goal (a strength-led super 2:1:1). Minutes on the card: the parts' range. `Super` in `FAMILIES` (Mixed)
-  and `SHELVES` (its own tab, after Variety). Names and blurbs in today's style. No couple programs (couple programs
+  and `SHELVES` (its own tab, after Variety). Ticket 2 also adds the shelf. Names and blurbs in today's style. No couple programs (couple programs
   stay out of builders and mixes).
 - **Files:** `configs/super.js`, `programs.config.js`, `app/library.js`, `tests/fixtures/program-days.json`,
   `tests/programs.test.js`.
-- **Test first:** 12 supers, each 120 days, each 3–6 library programs, none couple; the Super shelf lists them.
-- **Done when:** pinned; Noam has seen the 12 (names, parts, weights) in the PR description.
+- **Test first:** 12 more supers a ticket (36 at the end), each 120 days, each 3–6 library programs, none couple, no two
+  with the same parts; the Super shelf lists them.
+- **Done when:** pinned; the PR description lists each super's name, parts and weights (no review first, 189).
 
 ### 3. The pages
 - **Build:** the day page shows "from Iron PPL · day 12" under the title (tap opens that program); the program page

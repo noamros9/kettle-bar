@@ -12,6 +12,10 @@ findings first, so nothing already decided is re-raised.
 - **The fixes, in this phase** (141): Claude triages every finding (fix now / issue / drop, with a one-line why),
   adds the fix-now ones as tickets 4 onward to this plan, and builds them straight after.
 
+## Also settled (7 Oct, evening)
+- **Tests that don't earn their keep are deleted in the fix tickets** (186), each PR saying what still covers them.
+- **A stored shape or sync rule that should change goes to Noam and becomes an issue** (187), never a fix ticket here.
+
 ## Tickets
 
 | # | Ticket | Tier | Blocked by | Branch | Status |

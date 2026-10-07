@@ -15,6 +15,11 @@ phase starts (136).
 - **Names and blurbs in today's style** (88), no separate review. Fitness text, so the After dark POV rules don't apply.
 - **The library at ~1,060 programs is measured** (137); split only if the Programs page slows.
 
+## Also settled (7 Oct, evening)
+- **Gear like each subject's today** (184): the same share of full gear, kettlebell-only and no-equipment.
+- **A fifth are 30 days** (185): about 47 of the 233 (`days: 30`), spread over the subjects; the IIs stay 60. Each
+  content ticket's test checks its fifth (rounded) and that the spread (87) holds for 30-day ones too.
+
 ## Per subject (today → new)
 
 | Ticket | Subjects (+new) | New |
