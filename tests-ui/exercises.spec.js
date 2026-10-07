@@ -56,7 +56,13 @@ test('Couples: its own chip and subject sections, every card drawn with two figu
   const n = Object.values(EX).filter((e) => e.cat === 'couple').length;
   await app.page.getByRole('group', { name: 'Filter by family' }).getByRole('button', { name: /^Couples/ }).click();
   await expect(cards(app)).toHaveCount(n);
-  await expect(app.page.locator('.libcat h2')).toHaveText(['Intercourse', 'Oral', 'Hands', 'Anal', 'Toys', 'Partner work', 'Strip and tease', 'Dares', 'Massage']);
+  // Every kind with exercises, in app/library.js's order: catalogue 13 adds kinds ticket by ticket.
+  const order = [['fuck', 'Intercourse'], ['oral', 'Oral'], ['hands', 'Hands'], ['anal', 'Anal'], ['toys', 'Toys'], ['partner', 'Partner work'],
+    ['tease', 'Strip and tease'], ['dare', 'Dares'], ['massage', 'Massage'], ['rough', 'Rough'], ['kink', 'Kink-lite'], ['body', 'Body play'],
+    ['rim', 'Rimming'], ['edging', 'Edging'], ['shower', 'Shower and bath'], ['pool', 'Pool'], ['hottub', 'Hot tub'], ['balcony', 'Balcony'],
+    ['doorframe', 'Doorframe']];
+  const subs = new Set(Object.values(EX).filter((e) => e.cat === 'couple').map((e) => e.sub));
+  await expect(app.page.locator('.libcat h2')).toHaveText(order.filter(([k]) => subs.has(k)).map(([, name]) => name));
   expect(await app.page.locator('#exresults .exlink svg.fig').evaluateAll((l) => l.every((s) => s.querySelector('circle[fill="var(--fig2)"]')))).toBe(true);
   expect(await app.sidewaysScroll()).toBe(0);
 });

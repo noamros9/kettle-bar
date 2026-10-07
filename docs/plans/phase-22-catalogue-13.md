@@ -68,7 +68,7 @@ goes unused this phase (CLAUDE.md: tickets that edit the same files wait).
 | 6b | ~~Anal +30 (b)~~ | content | 6 | – | dropped (122) |
 | 7 | Toys +36 | content | 1 | `content/c13-toys` | done (PR #278) |
 | 8 | Hands +36 | content | 1 | `content/c13-hands` | done (PR #279) |
-| 9 | Rough +36 | content | 1 | `content/c13-rough` | todo |
+| 9 | Rough +36 | content | 1 | `content/c13-rough` | done (PR #280) |
 | 10 | Kink-lite +36 (a), him on her | content | 1 | `content/c13-kink` | todo |
 | 10b | Kink-lite +30 (b), her on him (~16), and the rule's exception | content | 10 | `content/c13-kink-b` | todo |
 | 11 | Body play +36 (a) | content | 1 | `content/c13-body` | todo |
@@ -178,9 +178,9 @@ on Grok.
 
 ### 2–12i. The sex exercises (715)
 
-**Resume here (7 Oct 2026):** tickets 1–8 and 1b–1f merged (last: #279, hands: plan first, two plan lines fixed, one cue fixed by Claude). Next: ticket 9
-(rough +36) for Grok, plan first (132): a plan-only run writes `test-results/t9-plan.md`, Claude reviews it,
-then Grok builds and commits. Check free memory before each Grok run; commit WIP if one stops. Grok was stopped twice on 6 Oct for low memory: check free memory first, and commit WIP if a run stops.
+**Resume here (7 Oct 2026, end of session):** tickets 1–9 and 1b–1f merged or in CI (last: #280, rough). Next: ticket 10
+(kink-lite +36, him on her) for Grok, plan first (132): a plan-only run writes `test-results/t10-plan.md`, Claude reviews it,
+Prompts to adapt (local, gitignored): `test-results/t9-plan-prompt.md`, `t9-plan-fix.md`, `t9-build.md`, `t9-fix.md`; progress watch: the grok-handoff skill's `grok-monitor.sh`. then Grok builds and commits. Check free memory before each Grok run; commit WIP if one stops. Grok was stopped twice on 6 Oct for low memory: check free memory first, and commit WIP if a run stops.
 
 **Plan first (132), every Grok ticket from 7 on:** Grok's first run writes only `test-results/tN-plan.md`, one line
 per exercise (id, who lies, kneels, sits or stands where, where her legs are, what he braces), checked against
