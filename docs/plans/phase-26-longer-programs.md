@@ -60,8 +60,8 @@ Tickets 3–6 edit the same list (`configs/long.js`) and the pins file, so they 
 - **Files:** `scripts/long-list.js`, `tests/long-list.test.js`, `package.json`.
 - **Test first:** on a made-up library and backup: started and frozen ones never move; each subject ends at the
   spread; two programs of the same split and formats aren't both picked while another split has none.
-- **Done when:** the list is in this plan's "The list" with counts per subject, and Noam has seen it in the PR (he may
-  strike any program off before ticket 3).
+- **Done when:** the list is in this plan's "The list" with counts per subject; it goes straight to ticket 3, no
+  review (169).
 
 ### 3–6. Re-timed, by family
 - **Build:** add the family's ids to `configs/long.js`; `npm run pin -- --long`; check every changed day with
@@ -80,8 +80,8 @@ _(ticket 2)_
 - **Weakest assumption: that adding sets and slots gets a 24-minute day to 35 without it feeling padded.** A yoga or
   mobility flow has `repeat` 1–3 and scaled holds; a boxing day has bouts of fixed length. For some short shapes the
   pass may need two extra slots per block, which is a different workout. **Plan edit:** ticket 1 caps the pass at one
-  added slot per block and, past that, the program is off the list (ticket 3–6 rule); if a whole subject can't reach
-  half, Noam is asked whether that subject keeps its length (like Busy week), not padded.
+  added slot per block and, past that, the program is off the list (ticket 3–6 rule); a subject that can't reach
+  half ends with fewer long programs, recorded in "The list", never padded (170).
 - **What I hadn't read:** `formats.js`'s per-format growth rules (whether EMOM and Tabata grow by minutes or by
   rounds), and how `recipe-book.js` records time ranges: a re-timed library day type would change what Build your own
   and random workouts offer for 35 minutes. Ticket 1 reads both; if the recipe book changes, own programs are safe

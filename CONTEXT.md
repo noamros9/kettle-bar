@@ -311,5 +311,5 @@ exercise's `skill` and `step` fields, and a pool per skill in step order.
 **Explicit view** (Phase 28): Figure, Drawing or Animation for an explicit exercise; drawings and loops are approved by
 Noam on the review page and kept in Firebase Storage, signed-in only.
 
-**Story seed** (Phase 29): a couple day as plain text (program, blocks, exercises) that Grok writes a story from; the
-story goes to Noam's Google Drive, never into the app.
+**Story seed** (Phase 29): a couple day's page as a full-length screenshot at phone width, which Grok writes a story
+from with Noam's prompt; the story goes to Noam's Google Drive (a folder per program), never into the app.

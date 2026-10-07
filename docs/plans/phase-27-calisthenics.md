@@ -8,7 +8,8 @@ Issue [#199](https://github.com/noamros9/kettle-bar/issues/199). Grilled 7 Oct 2
   Calisthenics Base and Calisthenics Skills stay in Bodyweight.
 - **72 skill exercises, `added: 14`** (159): twelve skills, six steps each, from the first progression to the skill
   (or its last step this home can hold), with poses and cues: muscle-up, handstand, handstand push-up, front lever,
-  back lever, planche, L-sit to V-sit, pistol, one-arm push-up, dragon flag, human flag, one-arm pull-up (Noam, 7 Oct).
+  back lever, planche, L-sit to V-sit, pistol, one-arm push-up, dragon flag, archer / typewriter pull-up, one-arm pull-up (Noam, 7 Oct; the archer
+  pull-up replaces the human flag, which needs a vertical pole, 165).
   Equipment: pull-up bar, floor, a wall; no rings or parallettes.
   A step that already exists (pike push-up, pseudo-planche push-up, pistol to a box, archer push-up) is reused, not
   copied: the skill gets a new step in its place.
@@ -26,7 +27,7 @@ Issue [#199](https://github.com/noamros9/kettle-bar/issues/199). Grilled 7 Oct 2
 | 1 | Plumbing: the subject, skill pools, newest held at 13 | feature | – | `feature/calisthenics-plumbing` | todo |
 | 2 | Muscle-up, handstand, handstand push-up, front lever (24) | content | 1 | `content/skills-a` | todo |
 | 3 | Back lever, planche, L-sit to V-sit, pistol (24) | content | 2 | `content/skills-b` | todo |
-| 4 | One-arm push-up, dragon flag, human flag, one-arm pull-up (24); catalogue 14 opens | content | 3 | `content/skills-c` | todo |
+| 4 | One-arm push-up, dragon flag, archer / typewriter pull-up, one-arm pull-up (24); catalogue 14 opens | content | 3 | `content/skills-c` | todo |
 | 5 | Programs 1–13 | content | 4 | `content/calisthenics-programs-a` | todo |
 | 6 | Programs 14–25 | content | 5 | `content/calisthenics-programs-b` | todo |
 | 7 | Close the phase: CONTEXT.md, archive | plan | 6 | `plan/p27-close` | todo |
@@ -77,6 +78,6 @@ Tickets 2–4 all edit `exercises.js`, 5–6 `configs/strength.js`: one at a tim
   new pool rule.
 - **The lazier version:** Calisthenics programs from today's exercises only, no new steps. Not proposed: Noam chose
   72 new exercises (159), and without the steps there's nothing to progress through.
-- **The human flag needs a vertical pole or a frame to grip:** a pull-up bar alone doesn't hold one. Ticket 4 asks
-  Noam what he has before writing its steps; with nothing vertical, its last steps are the side-plank and
-  bar-hanging progressions toward it, recorded here.
+- **Archer pull-up and one-arm pull-up overlap:** both climb toward one arm on the bar. Ticket 4 keeps them apart:
+  the archer ladder ends at the typewriter pull-up (both arms, side to side), the one-arm ladder starts from an
+  assisted one-arm hang and negative; no step in both.

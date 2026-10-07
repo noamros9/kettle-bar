@@ -37,7 +37,7 @@ Wednesday"). Added the same evening: longer programs (#198), calisthenics (#199)
 the order isn't set yet. The code review's place in the order isn't set yet. Each gets its own plan, by our method, when it starts.
 
 **Every open item planned, 7 Oct 2026** (grilled the same day; the last session before the weekly reset). Decisions
-134–164.
+134–171.
 134. **The order** (7 Oct): Phase 22 → Phase 20 tickets 9–15 → Phase 23 → **Phase 24** review → **Phase 25** "Do
      now" → **Phase 26** longer programs → **Phase 27** calisthenics → **Phase 19** super programs → **Phase 28**
      explicit drawings (#249) → **Phase 29** stories (#225). Noam put "Do now" right after the review and left the rest to
@@ -182,6 +182,8 @@ Grilled 6 Oct 2026 (Noam). "Catalogue 12" in the decisions below is Phase 22's c
 87. **Built to the Longer programs spread** (6 Oct): the new programs are made at decision 53's spread from the start
     (half 35–38 min, a quarter 31–35, a quarter shorter), so they never need re-timing.
 88. **Names and blurbs in today's style** (6 Oct), no separate review.
+171. **A II's Level III may run up to 3 min long** (7 Oct, Noam): its extra set past the catalogue's top stays; a day
+     may end up to 3 min over its range.
 137. **The library's size is measured, then split only if it slows** (7 Oct, technical): at ~1,060 programs the
      ticket measures `data/library.json`, the finder data and the Programs page's first draw on a throttled phone
      profile; a split (index first, days per program on demand) is its own ticket only if the page gets slower than
@@ -262,6 +264,10 @@ Noam, 4 Oct 2026: only about 1/6 of the programs run 33 min or more (of 557: 13%
      block's format allows, then slots of the same pool at the end of a block (decision 82: catalogue 13 first),
      until each day lands in the new range. Existing picks never move. The config says `long: [lo, hi]`; the old
      `minutes` stay for the pin's history.
+169. **No review of the list** (7 Oct, Noam): ticket 2's list goes straight to tickets 3–6.
+170. **A shelf that can't reach half stays shorter** (7 Oct, Noam): at most one added exercise per block; every
+     program that reaches its band that way gets longer, one that can't keeps its minutes, and the shelf ends with
+     fewer than half long. Recorded per shelf, never padded.
 
 ### Calisthenics: Phase 27 ([#199](https://github.com/noamros9/kettle-bar/issues/199))
 Noam, 4 Oct 2026: calisthenics programs. Plan: [docs/plans/phase-27-calisthenics.md](docs/plans/phase-27-calisthenics.md).
@@ -269,8 +275,11 @@ Noam, 4 Oct 2026: calisthenics programs. Plan: [docs/plans/phase-27-calisthenics
      pistol and more) with bar and floor progressions. Calisthenics Base and Skills stay in Bodyweight.
 159. **Twelve skills, six steps each: 72 new exercises** (7 Oct, Noam: "about 60", then all twelve skills offered),
      `added: 14` (catalogue 14), with poses: muscle-up, handstand, front lever, pistol, handstand push-up, back lever,
-     planche, L-sit to V-sit, one-arm push-up, dragon flag, human flag, one-arm pull-up. The 25 programs are built to
+     planche, L-sit to V-sit, one-arm push-up, dragon flag, archer / typewriter pull-up (in place of the human flag, 165),
+     one-arm pull-up. The 25 programs are built to
      decision 53's spread from the start (they come after Phase 26).
+165. **No human flag** (7 Oct, Noam): it needs a vertical pole or frame he doesn't have; the **archer / typewriter
+     pull-up** (on the bar, toward the one-arm pull-up) takes its place.
 
 ### Explicit drawings and loops for the explicit exercises: Phase 28 ([#249](https://github.com/noamros9/kettle-bar/issues/249))
 Noam, 6 Oct 2026; grilled the same day. Plan:
@@ -298,6 +307,9 @@ Noam, 6 Oct 2026; grilled the same day. Plan:
      fetch allowed for these tickets only. Each find waits as pending in Storage; a signed-in review page shows the
      exercise's stick figure and the found drawing (or loop) side by side, and Noam approves or rejects each.
 161. **The stick figure until approved** (7 Oct, Noam): an exercise with no match, or none approved, shows its figure.
+166. **Headless first, interactive as the fallback** (7 Oct, Noam): ticket 3 finds whether `grok -p` can allow web
+     search and fetch without approval prompts; if not, Noam runs Grok interactively per batch and the script takes
+     over from its `found.json`.
 
 ### Stories from the couple workouts: Phase 29 ([#225](https://github.com/noamros9/kettle-bar/issues/225))
 Noam, 5 Oct 2026: automate creating an erotic story with Grok for every After dark workout. Plan:
@@ -311,6 +323,10 @@ Noam, 5 Oct 2026: automate creating an erotic story with Grok for every After da
      a Drive key uploads it, so the text never passes through Claude. A Doc per story; the exact Drive layout is
      settled with Noam before the first run. Written ahead was dropped: per day is ~24,000 stories, 400–800 hours of
      Grok, almost all never read.
+167. **A folder per program** (7 Oct, Noam): "Kettle & Bar stories / <program> / Day 12 — <title>", a Doc each.
+168. **The seed is a screenshot of the day** (7 Oct, Noam: his prompt asks for a story based on a screenshot of the
+     workout, and he wants to keep that): the script renders the day page full length at phone width (every block
+     and drawing) and gives Grok the image with his prompt. Replaces a text seed.
 
 ## Decided against (don't re-suggest)
 - **Logging weights/reps per set**: Noam wants done / not done only.
