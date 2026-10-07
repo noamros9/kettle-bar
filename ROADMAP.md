@@ -125,6 +125,20 @@ Grilled 5 Oct 2026 (Noam); after Phase 21, before Phase 20 ticket 9. Claude plan
 127. **Room to grow** (6 Oct, Noam): the page gate is **1 MB** gzipped (was 350 KB, 95); the UI test timeouts and
      Claude's command limits are raised, CI's job has no limit set (GitHub's 6 h). Cutting the times is
      [#265](https://github.com/noamros9/kettle-bar/issues/265).
+128. **Main's CI builds and deploys without retesting** (7 Oct, Noam): when the tree pushed to main is the tree a green
+     PR run tested (a squash merge of an up-to-date PR is byte-identical; verified on #269), main skips the unit and UI
+     tests. Any other tree gets the full run. Claude updates a PR that is behind main before merging it.
+129. **The unit suite runs once per tree locally, and Claude's review still runs it** (7 Oct, Noam): a passing
+     `test:coverage` records the tree; the pre-commit hook skips that tree. Grok runs only the ticket's test files while
+     writing (the hook runs the full suite once, at its commit). Claude's review runs `test:coverage` itself, and no
+     longer also `npm test`.
+130. **Local phone UI tests for UI tickets only** (7 Oct, Noam): content tickets (exercises, programs) rely on the PR's
+     CI, which runs the full suite.
+131. **CI itself gets faster in this phase** (7 Oct, Noam): light and dark run as parallel jobs, and the every-exercise
+     loops check every figure in one page load ([#265](https://github.com/noamros9/kettle-bar/issues/265)).
+132. **Sex tickets: outline first** (7 Oct, Noam): Grok first writes one line per exercise (who lies, kneels, sits or
+     stands where, where her legs are, what he braces) and stops; Claude reviews the list for copies and bodies that
+     don't fit; then Grok writes the cues. A fix round on the outline costs minutes, not a full run.
 - Plan: [docs/plans/phase-22-catalogue-13.md](docs/plans/phase-22-catalogue-13.md).
 
 ### Phase 23: new fitness programs at catalogue 12
