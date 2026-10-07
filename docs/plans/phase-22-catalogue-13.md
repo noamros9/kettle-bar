@@ -51,9 +51,10 @@ goes unused this phase (CLAUDE.md: tickets that edit the same files wait).
 |---|---|---|---|---|---|
 | 0 | This plan | plan | – | `plan/phase-22-catalogue-13` | done (PR #256) |
 | 0b | Shorter test runs (decisions 128–132) | plan | – | `plan/shorter-test-runs` | done (PR #270) |
+| 0c | Every Grok ticket plans first (132 widened) | plan | – | `plan/grok-plans-first` | done (PR #271) |
 | 1 | Catalogue-13 plumbing: page cap 350, pools, held newest, four subjects in `EX_FAMILIES` | feature | – | `feature/catalogue-13` | done (PR #257) |
 | 1b | More kinds plumbing: page gate 1 MB, longer UI timeouts, eight more pools, six subjects in `EX_FAMILIES` | feature | 1 | `feature/c13-more-kinds` | done (PR #269) |
-| 1c | The unit suite once per tree; review, Grok and UI rules | feature | – | `feature/test-once-per-tree` | todo |
+| 1c | The unit suite once per tree; review and UI rules | feature | – | `feature/test-once-per-tree` | todo |
 | 1d | Main's CI skips tests on a tree a PR tested | feature | – | `feature/main-skips-tested` | todo |
 | 1e | CI: light and dark UI as parallel jobs | feature | 1d | `feature/ci-parallel-themes` | todo |
 | 1f | Every-exercise UI loops in one page load | feature | – | `feature/one-load-figures` | todo |
@@ -137,7 +138,7 @@ on Grok.
   ("Pre-commit: this tree passed test:coverage already").
 - CLAUDE.md: review checks drop `npm test`; local UI only when the ticket touched `app/`, `index.html`, styles or a
   spec (130); Grok prompts run the ticket's test files, never the full suite (the hook does it); sex tickets get the
-  outline step (132) in the Grok tickets rules.
+  plan-first step (132) is in CLAUDE.md's Grok tickets rules already.
 - Outside the repo: the grok-handoff skill's prompt template gets the same lines.
 - **Test first:** `tests/tree-mark.test.js`: in a scratch repo under `test-results/`, `write` then `check` passes;
   an edit after `write` fails `check`; staging only part of the changes fails `check`.
@@ -173,12 +174,13 @@ on Grok.
 
 ### 2–12i. The sex exercises (715)
 
-**Resume here (7 Oct 2026):** tickets 1–5 and 1b merged (last: #269). Next: 6 (anal +30) for Grok. Grok was stopped twice on 6 Oct for low memory: check free memory first, and commit WIP if a run stops.
+**Resume here (7 Oct 2026):** tickets 1–5 and 1b merged (last: #269). 6 (anal +30) is in Grok's fix round. Then 1c–1f
+(shorter test runs), all of them, before any other sex or fitness ticket (Noam, 7 Oct 2026). Grok was stopped twice on 6 Oct for low memory: check free memory first, and commit WIP if a run stops.
 
-**Outline first (132), from ticket 7:** Grok's first run writes only `test-results/tN-outline.md`, one line per
-exercise (id, who lies, kneels, sits or stands where, where her legs are, what he braces), checked against
+**Plan first (132), every Grok ticket from 7 on:** Grok's first run writes only `test-results/tN-plan.md`, one line
+per exercise (id, who lies, kneels, sits or stands where, where her legs are, what he braces), checked against
 `list-sub.js`, and stops. Claude reviews the list for copies and bodies that don't fit; Grok continues (`--continue`)
-with the cues from the approved list.
+with the cues from the approved list, commits, and Claude reviews the build.
 
 **Review lessons from tickets 2–4b, for every sex ticket's prompt:** (1) different = a different body arrangement, not
 the same one on other furniture or with a leg held another way; (2) it must work for real bodies (hip heights meet,
