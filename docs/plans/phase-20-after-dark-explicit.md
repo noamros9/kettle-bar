@@ -46,11 +46,12 @@ Decided while planning (5 Oct, Noam):
   `tests/couple-odds.test.js`, every couple program on catalogue 11 or later. Tickets 9–15 use the merged pools.
 - **Descriptions describe the session** (Noam, 5 Oct, ticket 8): what he does to her and how it builds, never the
   builder (slots, catalogues, old or new positions, exercises being dealt). Standing test in `tests/his-pov.test.js`.
-- **Phase 20 pauses after ticket 8** (Noam, 5 Oct): Phases 21 (exercise families, #220) and 22 (catalogue 12) come
-  first. Tickets 9–15 then build at `catalogue: 12`, so their merged pools hold catalogues 10–12. See ROADMAP.md.
+- **Phase 20 pauses after ticket 8** (Noam, 5 Oct): Phases 21, 22 and 30 come first (30: decision 216). Tickets 9–15
+  then build at `catalogue: 13` (77; catalogue 12 was renumbered 13 by 105), **all seven, the 45 Explicit too**
+  (218, 7 Oct).
 - **+8 hands exercises** (fingering, handjob, and the like), pool `hands`: the "oral or hands" block of sex-then-sex
   draws `oralSex` and `hands`. Catalogue 11 is 88, not 80.
-- **The page cap goes from 125 to 135 KB gzipped** (the gate in CLAUDE.md stays 150). Today's page is 119 KB; the 43
+- **The page cap went from 125 to 135 KB gzipped** (since raised to 1 MB, decision 127). Today's page is 119 KB; the 43
   couple exercises cost ~5.6 KB, so 88 more and longer cues add ~11–12 KB.
 - **Swap stays as it is:** any couple exercise swaps for any couple one, so older couple programs' Swap lists will
   offer catalogue-11 exercises too.
@@ -65,10 +66,17 @@ Decided by Claude while planning (correct any):
 - **Positions tour keeps one-off days.** Its 9 new programs are 60 one-off days each (`tour()` takes positions × ways
   = 60, the session shapes among the ways), because one-off days is what that subject is (Phase 18, decision 52).
 
+Caught up 7 Oct 2026 (Noam), against the decisions made since:
+- **219 · Sex blocks draw everything but the places**: catalogues 10–13 at equal odds (65), minus Phase 22's Shower and
+  bath, Pool, Hot tub, Balcony and Doorframe, which stay in their own subjects. Ticket 8b adds the pools.
+- **218 · Tickets 14–15 build at catalogue 13** like 9–13 (was 11 in this plan).
+- **220 · All 180 stay 60 days** (60); Phase 23's "a fifth at 30" (185) doesn't apply here.
+
 ## Who builds
 Noam handed Claude the hand-offs for this phase (5 Oct): **every ticket goes to Grok**, by the Grok-tickets rule in
 CLAUDE.md. Claude creates the ticket's branch, runs `grok -p` with this file and the ticket number, reviews, opens the
-PR and merges on green CI.
+PR and merges on green CI. Since 7 Oct every Grok ticket plans first (132): one line per program (name, shape,
+minutes, pools) for Claude to review before Grok builds.
 
 ## Tickets
 
@@ -84,13 +92,14 @@ PR and merges on green CI.
 | 6 | Catalogue 11: oral (24) and hands (8) | content | 5 | `content/catalogue-11-oral` | done (PR #219) |
 | 7 | Catalogue 11: anal (24) and toys (8) | content | 5 | `content/catalogue-11-anal` | done (PR #221) |
 | 8 | Explicit (+20), and the three session shapes | feature | 6, 7 | `content/explicit` | done (PR #223) |
-| 9 | Beach body, Bedroom stamina, Sex positions (+27) | content | 8, Ph 21–22 | `content/explicit-more-a` | todo |
-| 10 | Couples, Endurance & control, Hip power & thrust (+27) | content | 8, Ph 21–22 | `content/explicit-more-b` | todo |
-| 11 | Carry & hold, Flexible & bendy, Strip & show-off (+27) | content | 8, Ph 21–22 | `content/explicit-more-c` | todo |
-| 12 | Her pleasure, Quickie, Back & knees care (+27) | content | 8, Ph 21–22 | `content/explicit-more-d` | todo |
-| 13 | Date night warm-up, Positions tour, Morning glory / Sunday (+27) | content | 8, Ph 21–22 | `content/explicit-more-e` | todo |
-| 14 | Explicit, sex only (+23) | content | 8, Ph 21–22 | `content/explicit-sex-a` | todo |
-| 15 | Explicit, sex only (+22) | content | 8, Ph 21–22 | `content/explicit-sex-b` | todo |
+| 8b | Merged pools without the places, at catalogue 13 | feature | 8, Ph 22, Ph 30 | `feature/home-pools` | todo |
+| 9 | Beach body, Bedroom stamina, Sex positions (+27) | content | 8b | `content/explicit-more-a` | todo |
+| 10 | Couples, Endurance & control, Hip power & thrust (+27) | content | 8b | `content/explicit-more-b` | todo |
+| 11 | Carry & hold, Flexible & bendy, Strip & show-off (+27) | content | 8b | `content/explicit-more-c` | todo |
+| 12 | Her pleasure, Quickie, Back & knees care (+27) | content | 8b | `content/explicit-more-d` | todo |
+| 13 | Date night warm-up, Positions tour, Morning glory / Sunday (+27) | content | 8b | `content/explicit-more-e` | todo |
+| 14 | Explicit, sex only (+23) | content | 8b | `content/explicit-sex-a` | todo |
+| 15 | Explicit, sex only (+22) | content | 8b | `content/explicit-sex-b` | todo |
 
 ### 1. The pelvic mark
 - `figures.js`: a pose (and its `two`) may carry `mark: 1`; the figure then draws a small filled mark at its hip, in
@@ -177,12 +186,23 @@ he's a man, so the descriptions speak to him.
 - **Done when:** pins added, no existing pin changes, recipe book and page under their gates, 390 px screenshots
   of an Explicit day of each shape, light and dark.
 
+### 8b. Merged pools without the places
+- **Build:** in `program-builder.js`'s `mergedAt`, from catalogue 13, two new names: `sexPositionsHome` and
+  `sexFuckHome`, the same as `sexPositions` and `sexFuck` minus the `shower`, `pool`, `hottub`, `balcony` and
+  `doorframe` subs (219). `sexWarm` holds no places, so it serves as is. New names only, so no pinned program moves.
+  Ticket 8's builders take the pool names as a setting, so tickets 9–15 pass the home pools.
+  `tests/couple-odds.test.js` accepts the home pools as merged pools (equal odds and basics 1.5× hold inside them).
+- **Files:** `program-builder.js`, `configs/after-dark.js` (the builders' pool setting), `tests/couple-odds.test.js`,
+  `tests/catalogue13.test.js`.
+- **Test first:** at catalogue 13 the home pools hold every couple exercise of `sexPositions` / `sexFuck` except the
+  five place subs, and none of them; below 13 they equal the plain pools; no pin changes.
+- **Done when:** 100% lines and functions on the new code.
+
 ### 9–13. Nine more in each of the 15 subjects (+135)
-**Resume here (5 Oct 2026):** tickets 1–8 are done; Phase 20 waits for Phases 21 and 22 (ROADMAP.md items 68–77).
-Next session: write `docs/plans/phase-21-exercise-families.md` from ROADMAP items 68–71 (grilled 5 Oct), land it as its
-own PR, then build it; then Phase 22's plan. Ticket 9 resumes after Phase 22, at `catalogue: 12`, with the merged pools.
-- Each subject gets 9 programs, 3 of each shape, 60 days, `EXPLICIT`, ticket 8's builders (old and new exercises
-  together), minutes in that subject's band, names and about
+**Resume here (7 Oct 2026):** tickets 1–8 are done; Phase 20 resumes after Phases 22 and 30 with ticket 8b, then 9,
+at `catalogue: 13`, with the home pools (219).
+- Each subject gets 9 programs, 3 of each shape, 60 days, `EXPLICIT` with `catalogue: 13`, ticket 8's builders on
+  the home pools (8b, 219), minutes in that subject's band, names and about
   hand-written for that subject. Each ticket covers the 3 subjects in its row.
 - Positions tour (ticket 13): `tour()` grows to 60 one-off days (positions × ways = 60, the shapes among the ways).
 - **Test first** (each): the 27 ids pinned in the tests, shapes, Mixed rules, `couple` and `skipped`, minutes in band.
@@ -191,12 +211,13 @@ own PR, then build it; then Phase 22's plan. Ticket 9 resumes after Phase 22, at
   couple's, never hers, and ticket 5.5's her-side test covers them without any change (it reads every couple program).
 
 ### 14–15. Explicit, sex only (+45)
-- 45 more Explicit programs, with ticket 8's `EXPLICIT` settings and day builders, 60 days each: ticket 14 has 10
+- 45 more Explicit programs, with ticket 8's `EXPLICIT` settings at `catalogue: 13` (218) and day builders on the
+  home pools (219), 60 days each: ticket 14 has 10
   sex-then-sex, 10 positions-only and 3 gym-then-sex; ticket 15 has 10, 10 and 2. Sex blocks mix old and new
   exercises, as ticket 8's builders do. Minutes as Explicit's (×1.2, above). Names, blurbs and about
   text hand-written, from his side.
 - **Test first** (each): in `tests/explicit.test.js`, the new ids pinned; shapes; Mixed rules; `couple`, `catalogue:
-  11`, 60 days, `skipped`; minutes in Explicit's band; every program uses both catalogue-10 and catalogue-11 couple exercises.
+  13`, 60 days, `skipped`, no place exercise; minutes in Explicit's band; every program uses both catalogue-10 and catalogue-11 couple exercises.
 - **Done when:** as ticket 8.
 
 ## Challenge round

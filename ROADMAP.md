@@ -2,7 +2,7 @@
 
 The index: where we are, what comes next, and the two phases being built now. Every other phase's decisions live at the
 top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase comes up. Decision numbers are global
-(the next one is **218**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
+(the next one is **221**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
 ## Resume here (7 Oct 2026, end of session)
 - **Next: Phase 22 ticket 10** (Kink-lite +36, him on her) for Grok. Plan first (132); every Grok review so far caught
@@ -21,7 +21,7 @@ right after Phase 22 (216).
 |---|---|---|---|---|
 | 1 | 22 · Catalogue 13: the sex catalogue doubled, 12 new kinds, +50% fitness exercises | – | [plan](docs/plans/phase-22-catalogue-13.md) | **building** |
 | 2 | 30 · Muscle groups on three levels, and doing a day again | [#287](https://github.com/noamros9/kettle-bar/issues/287) | [plan](docs/plans/phase-30-muscle-groups-and-again.md) | planned |
-| 3 | 20 · After dark refined, the Explicit set (tickets 9–15 left) | [#202](https://github.com/noamros9/kettle-bar/issues/202) | [plan](docs/plans/phase-20-after-dark-explicit.md) | paused after ticket 8 |
+| 3 | 20 · After dark refined, the Explicit set (tickets 8b–15 left) | [#202](https://github.com/noamros9/kettle-bar/issues/202) | [plan](docs/plans/phase-20-after-dark-explicit.md) | paused after ticket 8 |
 | 4 | 23 · New fitness programs and the Signature IIs | – | [plan](docs/plans/phase-23-fitness-programs.md) | planned |
 | 5 | 24 · Architecture and code review, then the fixes | [#187](https://github.com/noamros9/kettle-bar/issues/187), [#188](https://github.com/noamros9/kettle-bar/issues/188) | [plan](docs/plans/phase-24-review.md) | planned |
 | 6 | 25 · "Do now": one exercise for dead time | [#200](https://github.com/noamros9/kettle-bar/issues/200) | [plan](docs/plans/phase-25-do-now.md) | planned |
@@ -90,6 +90,12 @@ Numbered 20 because 19 is super programs.
   rule in CLAUDE.md and a test over every couple program.
 - **65 · Equal odds in sex blocks, basics about 1.5×**, through the merged pools; `tests/couple-odds.test.js`.
 - **66 · Descriptions describe the session**, never the builder (no slots or catalogues); `tests/his-pov.test.js`.
+
+**Caught up 7 Oct** (with the decisions made since)
+- **218 · Tickets 9–15 all build at catalogue 13**, the 45 Explicit too (was 12, and 11 for 14–15). *(77, 105)*
+- **219 · Sex blocks draw everything but the places**: catalogues 10–13 at equal odds, minus Shower and bath, Pool,
+  Hot tub, Balcony, Doorframe (those stay in their own subjects). New ticket 8b adds the pools.
+- **220 · All 180 stay 60 days**; the "fifth at 30" (185) is Phase 23's and 27's only.
 
 ## Backlog
 - **Test a restore from the nightly backup** on the phone ([#16](https://github.com/noamros9/kettle-bar/issues/16)).
