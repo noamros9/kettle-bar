@@ -39,14 +39,17 @@ Tickets 3–6 edit the same list (`configs/long.js`) and the pins file, so they 
   passes or minutes within what the block's format allows (`formats.js`), one block at a time, main blocks before the
   abs; (2) if still short, add one slot at the end of a main block, drawn from that slot's pool (catalogue 13 first,
   then the pool as it was), not an exercise the day already has; repeat until the day's time is in `[lo, hi]` or
-  nothing more fits (then the test fails, never a quiet short day). The program shows `minutes: long`. A pin's
+  nothing more fits (at most one added slot per block); a day that stops short keeps what it gained (170). The
+  program's `minutes` become the range its days really build to (`long` where they all reach it). A pin's
   re-pin is allowed only for ids listed in `configs/long.js`, and only in the ticket that lists them:
   `scripts/pin-programs.js --long` re-pins exactly those, and the pins test compares every other pin as today.
 - **Files:** `program-builder.js`, `formats.js` (what each format may grow), `configs/long.js` (empty map),
   `programs.config.js` (applies the map), `scripts/pin-programs.js`, `tests/builder.test.js`,
   `tests/programs.test.js`.
 - **Test first:** a made-up config at `[24, 29]` with `long: [35, 38]`: every original pick of every day is still
-  there in the same block and order; every day lands in 35–38; formats grow only by their own rules; a program not in
+  there in the same block and order; every day lands in 35–38; a made-up config
+  that can't reach it with one slot per block still ends longer than before, with `minutes` showing what it reached;
+  formats grow only by their own rules; a program not in
   the map is byte-identical to its pin.
 - **Done when:** 100% lines and functions on the new code; no pin changes in this ticket.
 
@@ -65,12 +68,14 @@ Tickets 3–6 edit the same list (`configs/long.js`) and the pins file, so they 
 
 ### 3–6. Re-timed, by family
 - **Build:** add the family's ids to `configs/long.js`; `npm run pin -- --long`; check every changed day with
-  `npm run times`. A program the pass can't lengthen into its band is taken off the list and the next candidate of
-  the same split moves instead; recorded here.
+  `npm run times`. A program the pass can't lengthen into its band still gets longer by what fits and stays on the
+  list (170); the next candidate of the same split also moves, so the shelf gets as close to the spread as it can.
+  Each short one is recorded in "The list" with the minutes it reached.
 - **Files:** `configs/long.js`, `tests/fixtures/program-days.json`.
-- **Test first:** `programs.test.js`'s Phase 26 block: the family's subjects meet the spread; every listed program's
-  days hold all their old picks (the pass's test, run over the real list).
-- **Done when:** the spread holds for the family; only the listed pins changed (`git diff --stat` on the pins file);
+- **Test first:** `programs.test.js`'s Phase 26 block: the family's subjects meet the spread, or the shortfall is the
+  programs recorded as short in "The list"; every listed program is longer than its pin was, and its days hold all
+  their old picks (the pass's test, run over the real list).
+- **Done when:** the spread holds for the family, short of it only by the recorded programs; only the listed pins changed (`git diff --stat` on the pins file);
   the PR's CI green.
 
 ## The list
@@ -80,8 +85,8 @@ _(ticket 2)_
 - **Weakest assumption: that adding sets and slots gets a 24-minute day to 35 without it feeling padded.** A yoga or
   mobility flow has `repeat` 1–3 and scaled holds; a boxing day has bouts of fixed length. For some short shapes the
   pass may need two extra slots per block, which is a different workout. **Plan edit:** ticket 1 caps the pass at one
-  added slot per block and, past that, the program is off the list (ticket 3–6 rule); a subject that can't reach
-  half ends with fewer long programs, recorded in "The list", never padded (170).
+  added slot per block; a program that can't reach its band past that gets longer anyway by what fits (170), and a
+  subject may end with fewer than half at 35–38, recorded in "The list".
 - **What I hadn't read:** `formats.js`'s per-format growth rules (whether EMOM and Tabata grow by minutes or by
   rounds), and how `recipe-book.js` records time ranges: a re-timed library day type would change what Build your own
   and random workouts offer for 35 minutes. Ticket 1 reads both; if the recipe book changes, own programs are safe
