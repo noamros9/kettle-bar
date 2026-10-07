@@ -57,7 +57,7 @@ goes unused this phase (CLAUDE.md: tickets that edit the same files wait).
 | 1c | The unit suite once per tree; review and UI rules | feature | – | `feature/test-once-per-tree` | done (PR #273) |
 | 1d | Main's CI skips tests on a tree a PR tested | feature | – | `feature/main-skips-tested` | done (PR #274) |
 | 1e | CI: light and dark UI as parallel jobs | feature | 1d | `feature/ci-parallel-themes` | done (PR #275) |
-| 1f | Every-exercise UI loops in one page load | feature | – | `feature/one-load-figures` | todo |
+| 1f | Every-exercise UI loops in one page load | feature | – | `feature/one-load-figures` | done (PR #276) |
 | 2 | Intercourse +24 (a) | content | 1 | `content/c13-fuck-a` | done (PR #258) |
 | 3 | Intercourse +24 (b) | content | 2 | `content/c13-fuck-b` | done (PR #261) |
 | 4 | Intercourse +24 (c) | content | 3 | `content/c13-fuck-c` | done (PR #263) |
@@ -156,6 +156,7 @@ on Grok.
 - **Test first:** `tests/tested-tree.test.js`: same tree and green run → tested; another tree, a red or missing
   run, or no PR → not tested. `tests/ci.test.js`: the unit and UI steps carry the `tested` condition; deploy doesn't.
 - **Done when:** the next merge's main run skips both test steps and deploys (its time noted here).
+  **Measured (7 Oct):** main run #521 (1d's own merge) skipped both and deployed in 3.7 min; #518 before it took 10.6.
 
 ### 1e. CI: light and dark UI as parallel jobs (131)
 - `deploy.yml`: job `test` (unit, build, site, Pages artifact) and job `ui` with `matrix: theme: [light, dark]`
@@ -163,6 +164,7 @@ on Grok.
   needs both. 1d's `tested` gate applies to both jobs.
 - **Test first:** `tests/ci.test.js`: a `ui` job with a light and dark matrix; `deploy` needs `test` and `ui`.
 - **Done when:** a PR run's wall time is noted against today's 10–15 min.
+  **Measured (7 Oct):** PR run #522 took 9.2 min (before 1f's faster loops).
 
 ### 1f. Every-exercise UI loops in one page load (131)
 - `tests-ui/exercise.spec.js` (every catalogue-5+ figure) and `tests-ui/renders.spec.js` (every exercise page):
@@ -171,11 +173,14 @@ on Grok.
 - **Test first:** break one figure on purpose (scratch, not committed): both specs still fail on it.
 - **Done when:** both specs' times in a one-page run are noted, before and after; their per-exercise `setTimeout`
   shrinks to match.
+  **Measured (7 Oct, one worker, phone-light):** the figure loop 22.0 s → 1.7 s, every exercise page 25.4 s → 3.0 s
+  (700+ exercises); a broken exercise still fails both, by id.
 
 ### 2–12i. The sex exercises (715)
 
-**Resume here (7 Oct 2026):** tickets 1–6 and 1b merged (last: #272). Next: 1c–1f (shorter test runs), all of
-them, before any other sex or fitness ticket (Noam, 7 Oct 2026). Grok was stopped twice on 6 Oct for low memory: check free memory first, and commit WIP if a run stops.
+**Resume here (7 Oct 2026, end of session):** tickets 1–6 and 1b–1f merged (last: #276); main green. Next: ticket 7
+(toys +36) for Grok, the first with the plan-first step (132): a plan-only run, Claude reviews `test-results/t7-plan.md`,
+then Grok builds and commits. Check free memory before each Grok run; commit WIP if one stops. Grok was stopped twice on 6 Oct for low memory: check free memory first, and commit WIP if a run stops.
 
 **Plan first (132), every Grok ticket from 7 on:** Grok's first run writes only `test-results/tN-plan.md`, one line
 per exercise (id, who lies, kneels, sits or stands where, where her legs are, what he braces), checked against

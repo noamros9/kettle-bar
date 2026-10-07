@@ -32,23 +32,23 @@ test('with reduce motion on, the drawing stays still', async ({ app }) => {
 test('every exercise added in Phase 5 draws its figure on its page, and moves when it has several positions', async ({ app }) => {
   test.skip(test.info().project.name !== 'phone-light', 'theme-independent');
   const { EX } = require('../exercises.js');
-  const added = Object.values(EX).filter((x) => x.added);
-  test.setTimeout(30000 + added.length * 200); // the catalogue grows each phase; a moving figure takes longer than a still one
-  await app.page.clock.install();
+  const added = Object.values(EX).filter((x) => x.added).map((e) => ({ id: e.id, label: `${e.name} illustration`, moves: e.poses.length > 1 }));
+  test.setTimeout(30000 + added.length * 30); // the catalogue grows each phase
   await app.open('#exercises');
-  for (const e of added) {
-    await app.go(`#ex-${e.id}`);
-    await expect(drawing(app).locator('svg.fig'), e.id).toHaveAttribute('aria-label', `${e.name} illustration`);
-    const first = await snapshot(app);
-    expect(first, e.id).not.toContain('NaN');
-    if (e.poses.length > 1) {
-      // frame by frame: the fake clock also runs in real time, so one long jump can land back on the frame it started on;
-      // up to 2 s, as the ease-in's first frames can round to the same drawing
-      let moved = false;
-      for (let k = 0; k < 40 && !moved; k++) { await app.page.clock.runFor(55); moved = (await snapshot(app)) !== first; }
-      expect(moved, `${e.id} moves`).toBe(true);
+  // Decision 131: every page checked inside the browser in one go (render is synchronous on hashchange). Moving =
+  // the page's animation is running over at least two different frames; the first test watches one actually move.
+  const bad = await app.page.evaluate(async (list) => {
+    const out = [];
+    for (const e of list) {
+      await new Promise((done) => { addEventListener('hashchange', () => setTimeout(done), { once: true }); location.hash = `#ex-${e.id}`; });
+      const fig = document.querySelector('.bigfig svg.fig');
+      if (!fig || fig.getAttribute('aria-label') !== e.label) out.push(`${e.id}: no figure`);
+      else if (document.querySelector('.bigfig').innerHTML.includes('NaN')) out.push(`${e.id}: NaN`);
+      if (e.moves && (!anim.iv || new Set(anim.cache[e.id] || []).size < 2)) out.push(`${e.id}: doesn't move`);
     }
-  }
+    return out;
+  }, added);
+  expect(bad).toEqual([]);
 });
 
 test('"Also in" lists the other programs that use the exercise, once the exercise index has loaded', async ({ app }) => {
