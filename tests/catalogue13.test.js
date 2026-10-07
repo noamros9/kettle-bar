@@ -10,7 +10,8 @@ const { generate, NEWEST } = require('../recipe-book.js');
 const { EX_FAMILIES } = require('../app/library.js');
 
 const hash = (x) => crypto.createHash('sha256').update(JSON.stringify(x)).digest('hex').slice(0, 16);
-const KINDS = { sexRough: 'rough', sexKink: 'kink', sexBody: 'body', sexRim: 'rim' };
+const KINDS = { sexRough: 'rough', sexKink: 'kink', sexBody: 'body', sexRim: 'rim', sexEdging: 'edging', sexMassage: 'massage', sexTease: 'tease',
+  sexShower: 'shower', sexPool: 'pool', sexHottub: 'hottub', sexBalcony: 'balcony', sexDoorframe: 'doorframe' };
 const added13 = (sub) => Object.values(cat.EX).filter((e) => e.added === 13 && (!sub || e.sub === sub)).map((e) => e.id);
 
 test('the merged sex pools of catalogues 10 to 12 are as they were before Phase 22 (pinned)', () => {
@@ -28,7 +29,8 @@ test('each new kind has a pool of its own: its catalogue-13 exercises, empty bel
 
 test('at catalogue 13 the merged pools take the new exercises by role (decision 117)', () => {
   const at12 = mergedAt(12), at13 = mergedAt(13);
-  const role = { sexFuck: ['fuck', 'anal', 'toys', 'rough', 'body'], sexWarm: ['oral', 'hands', 'kink', 'rim'] };
+  const role = { sexFuck: ['fuck', 'anal', 'toys', 'rough', 'body', 'edging', 'shower', 'pool', 'hottub', 'balcony', 'doorframe'],
+    sexWarm: ['oral', 'hands', 'kink', 'rim', 'massage', 'tease'] };
   Object.entries(role).forEach(([pool, subs]) => {
     assert.deepEqual(at13[pool].slice(0, at12[pool].length), at12[pool], `${pool} keeps its order`);
     assert.deepEqual([...at13[pool].slice(at12[pool].length)].sort(), subs.flatMap(added13).sort(), pool);
@@ -46,9 +48,10 @@ test('own programs and random workouts stay at catalogue 12 while Phase 22 lands
   } finally { delete cat.EX.fake_c13; }
 });
 
-test('the four new kinds are Couples subjects on the Exercises page', () => {
-  const couples = EX_FAMILIES.find(([k]) => k === 'couples')[2].map(([k]) => k);
-  ['rough', 'kink', 'body', 'rim'].forEach((k) => assert.ok(couples.includes(k), k));
+test('the new kinds are Couples subjects on the Exercises page; tease shows as Strip and tease', () => {
+  const couples = Object.fromEntries(EX_FAMILIES.find(([k]) => k === 'couples')[2]);
+  ['rough', 'kink', 'body', 'rim', 'edging', 'shower', 'pool', 'hottub', 'balcony', 'doorframe'].forEach((k) => assert.ok(couples[k], k));
+  assert.equal(couples.tease, 'Strip and tease');
 });
 
 test('catalogue 13 adds 91 intercourse exercises (tickets 2–4b)', () => {

@@ -251,6 +251,15 @@
         sexKink: has((e) => e.added === 13 && e.sub === 'kink'),
         sexBody: has((e) => e.added === 13 && e.sub === 'body'),
         sexRim: has((e) => e.added === 13 && e.sub === 'rim'),
+        // Decision 123: eight more kinds. Massage and tease already had old exercises; `added === 13` keeps them out.
+        sexEdging: has((e) => e.added === 13 && e.sub === 'edging'),
+        sexMassage: has((e) => e.added === 13 && e.sub === 'massage'),
+        sexTease: has((e) => e.added === 13 && e.sub === 'tease'),
+        sexShower: has((e) => e.added === 13 && e.sub === 'shower'),
+        sexPool: has((e) => e.added === 13 && e.sub === 'pool'),
+        sexHottub: has((e) => e.added === 13 && e.sub === 'hottub'),
+        sexBalcony: has((e) => e.added === 13 && e.sub === 'balcony'),
+        sexDoorframe: has((e) => e.added === 13 && e.sub === 'doorframe'),
       };
     };
     // Sex blocks of catalogue-11 programs draw one of these: old and new exercises in one pool, so each has about the
@@ -261,8 +270,8 @@
       const new13 = (subs) => (upTo >= 13 ? ids((e) => e.added === 13 && e.cat === 'couple' && (!subs || subs.includes(e.sub))) : []);
       return {
         sexPositions: [...new Set([...cp.explicit, ...POOLS.positions, ...new13()])],
-        sexWarm: [...new Set([...POOLS.oralSex, ...POOLS.hands, ...POOLS.oral, ...POOLS.tease, ...POOLS.massage, ...new13(['oral', 'hands', 'kink', 'rim'])])],
-        sexFuck: [...new Set([...POOLS.fuck, ...POOLS.anal, ...POOLS.toy, ...POOLS.positions, ...new13(['fuck', 'anal', 'toys', 'rough', 'body'])])],
+        sexWarm: [...new Set([...POOLS.oralSex, ...POOLS.hands, ...POOLS.oral, ...POOLS.tease, ...POOLS.massage, ...new13(['oral', 'hands', 'kink', 'rim', 'massage', 'tease'])])],
+        sexFuck: [...new Set([...POOLS.fuck, ...POOLS.anal, ...POOLS.toy, ...POOLS.positions, ...new13(['fuck', 'anal', 'toys', 'rough', 'body', 'edging', 'shower', 'pool', 'hottub', 'balcony', 'doorframe'])])],
       };
     };
     const COMPUTED = new Map();

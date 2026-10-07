@@ -156,7 +156,7 @@
     ['muscles', 'Muscles', [['chest', 'Chest'], ['back', 'Back'], ['shoulders', 'Shoulders'], ['arms', 'Arms'], ['legs', 'Legs & glutes'], ['core', 'Core & abs'], ['full', 'Full body']]],
     ['cardio', 'Cardio & combat', [['cardio', 'Cardio'], ['boxing', 'Boxing'], ['kick', 'Kickboxing']]],
     ['mind', 'Mind & body', [['yoga', 'Yoga'], ['pilates', 'Pilates'], ['balance', 'Balance'], ['mobility', 'Mobility']]],
-    ['couples', 'Couples', [['fuck', 'Intercourse'], ['oral', 'Oral'], ['hands', 'Hands'], ['anal', 'Anal'], ['toys', 'Toys'], ['partner', 'Partner work'], ['tease', 'Tease'], ['dare', 'Dares'], ['massage', 'Massage'], ['rough', 'Rough'], ['kink', 'Kink-lite'], ['body', 'Body play'], ['rim', 'Rimming']]],
+    ['couples', 'Couples', [['fuck', 'Intercourse'], ['oral', 'Oral'], ['hands', 'Hands'], ['anal', 'Anal'], ['toys', 'Toys'], ['partner', 'Partner work'], ['tease', 'Strip and tease'], ['dare', 'Dares'], ['massage', 'Massage'], ['rough', 'Rough'], ['kink', 'Kink-lite'], ['body', 'Body play'], ['rim', 'Rimming'], ['edging', 'Edging'], ['shower', 'Shower and bath'], ['pool', 'Pool'], ['hottub', 'Hot tub'], ['balcony', 'Balcony'], ['doorframe', 'Doorframe']]],
   ];
   const MUSCLE_SUB = {
     chest: 'chest', lats: 'back', upper_back: 'back', lower_back: 'back', traps: 'back', neck: 'back',

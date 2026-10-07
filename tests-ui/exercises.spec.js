@@ -56,7 +56,7 @@ test('Couples: its own chip and subject sections, every card drawn with two figu
   const n = Object.values(EX).filter((e) => e.cat === 'couple').length;
   await app.page.getByRole('group', { name: 'Filter by family' }).getByRole('button', { name: /^Couples/ }).click();
   await expect(cards(app)).toHaveCount(n);
-  await expect(app.page.locator('.libcat h2')).toHaveText(['Intercourse', 'Oral', 'Hands', 'Anal', 'Toys', 'Partner work', 'Tease', 'Dares', 'Massage']);
+  await expect(app.page.locator('.libcat h2')).toHaveText(['Intercourse', 'Oral', 'Hands', 'Anal', 'Toys', 'Partner work', 'Strip and tease', 'Dares', 'Massage']);
   expect(await app.page.locator('#exresults .exlink svg.fig').evaluateAll((l) => l.every((s) => s.querySelector('circle[fill="var(--fig2)"]')))).toBe(true);
   expect(await app.sidewaysScroll()).toBe(0);
 });
