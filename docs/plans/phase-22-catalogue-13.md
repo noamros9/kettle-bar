@@ -5,7 +5,7 @@ Noam picks Grok tickets at hand-off (CLAUDE.md, "Grok tickets"); Grok writes the
 Today: 508 exercises, 131 couple, the page at 130.6 KB gzipped.
 
 ## What lands
-- **715 couple exercises, `added: 13`** (120, 122–126): intercourse +91 (4b shipped 19 of 24), oral +23 (5 shipped 23 of 30) and anal +30, toys
+- **715 couple exercises, `added: 13`** (120, 122–126): intercourse +91 (4b shipped 19 of 24), oral +23 (5 shipped 23 of 30) and anal +22 (6 shipped 22 of 30), toys
   +36 and hands +36, Kink-lite and Body play 66 each, eight more kinds 36 each (Edging, Massage, Strip and tease, Shower
   and bath, Pool, Hot tub, Balcony, Doorframe; 123), and four new kinds, 36 each: Rough (`sub: 'rough'`), Kink-lite (`kink`), Body play (`body`), Rimming (`rim`). Poses with the
   pelvic mark, in the Phase 20 cue register (75). Rough and Kink-lite are mostly a position with the act in it, a
@@ -64,7 +64,7 @@ goes unused this phase (CLAUDE.md: tickets that edit the same files wait).
 | 4b | Intercourse +19 (d) | content | 4 | `content/c13-fuck-d` | done (PR #264) |
 | 5 | Oral +23 | content | 1 | `content/c13-oral` | done (PR #267) |
 | 5b | ~~Oral +30 (b)~~ | content | 5 | – | dropped (122) |
-| 6 | Anal +30 | content | 1 | `content/c13-anal` | todo |
+| 6 | Anal +22 (of 30) | content | 1 | `content/c13-anal` | done (PR #272) |
 | 6b | ~~Anal +30 (b)~~ | content | 6 | – | dropped (122) |
 | 7 | Toys +36 | content | 1 | `content/c13-toys` | todo |
 | 8 | Hands +36 | content | 1 | `content/c13-hands` | todo |
@@ -174,8 +174,8 @@ on Grok.
 
 ### 2–12i. The sex exercises (715)
 
-**Resume here (7 Oct 2026):** tickets 1–5 and 1b merged (last: #269). 6 (anal +30) is in Grok's fix round. Then 1c–1f
-(shorter test runs), all of them, before any other sex or fitness ticket (Noam, 7 Oct 2026). Grok was stopped twice on 6 Oct for low memory: check free memory first, and commit WIP if a run stops.
+**Resume here (7 Oct 2026):** tickets 1–6 and 1b merged (last: #272). Next: 1c–1f (shorter test runs), all of
+them, before any other sex or fitness ticket (Noam, 7 Oct 2026). Grok was stopped twice on 6 Oct for low memory: check free memory first, and commit WIP if a run stops.
 
 **Plan first (132), every Grok ticket from 7 on:** Grok's first run writes only `test-results/tN-plan.md`, one line
 per exercise (id, who lies, kneels, sits or stands where, where her legs are, what he braces), checked against
@@ -191,7 +191,8 @@ pelvic mark (Phase 20 ticket 1), a cue in the Phase 20 register (one paragraph, 
 script; who is where, the hold, what to brace), his muscles. Written from his side (CLAUDE.md, "Writing program
 text"). Ids are new (`fuck_*`, `oral_*`, `anal_*`, `toy_*`, `hands_*`, `rough_*`, `kink_*`, `body_*`, `rim_*`), never
 reusing a catalogue-11 position with a new name: each is a position or act not already in the catalogue.
-- 5, 6: oral and anal, 30 each (122): oral both ways; anal on her only, never him. Oral shipped 23 (124: after a fix
+- 5, 6: oral and anal, 30 each (122): oral both ways; anal on her only, never him. Anal shipped 22 (124: after two fix rounds, 8 of the 9 last replacements were copies
+  or didn't fit; 7 Oct). Oral shipped 23 (124: after a fix
   round 7 still failed, and Noam chose to ship; 6 Oct).
 - 2–4b: intercourse, 24, 24, 24 and 19 (91: after two Grok fix rounds the last 5 were still copies; Noam, 6 Oct), new positions and angles (no repeat of the 38 already in `fuck`).
 - 7: toys stay on her or worn by him (the strap-on is used on her, never pegging, Phase 20).
