@@ -1,7 +1,32 @@
 # Phase 28: explicit drawings and loops for the explicit exercises
 
 Issue [#249](https://github.com/noamros9/kettle-bar/issues/249). Grilled 6–7 Oct 2026 (Noam); decisions 106–115 and
-160–161 in [ROADMAP.md](../../ROADMAP.md). After Phase 19 (134).
+160–161 below. After Phase 19 (134).
+
+## Decisions
+Grilled 6–7 Oct 2026 with Noam (global decision numbers).
+
+**What it shows**
+- **106 · Drawn, never photos of real people**: stills and short loops.
+- **107 · Every explicit exercise, any catalogue**; a ticket adding one adds its drawing too.
+- **108 · Figure · Drawing · Animation**, Drawing by default. **109 ·** Default in Settings, override on each exercise page.
+- **176 · A drawing replaces the figure everywhere it shows** (exercise page, day page, big timer, swap list).
+- **177 · Loops play on their own, muted, tap to pause.** **115 ·** Stored as MP4/WebM (converted from GIF).
+- **114 · Two styles are fine**: each view consistent in itself.
+- **161 · The stick figure until something is approved.**
+
+**Where it lives**
+- **110 · Signed-in only, Firebase Storage, never the public repo, never cached** (Noam publishes the Storage rules).
+
+**How files are found and approved**
+- **112 · Found online by Grok** (its image tool refuses these): stills from the vector-diagram site of Noam's first
+  pick, loops from the cartoon-GIF site; drawings of two adults only.
+- **113 · Private use, no licence check**, source URL kept. Claude flagged the copyright risk of re-hosting; Noam chose this.
+- **160 · Grok searches headless; Noam approves on a review page**, stick figure and find side by side.
+  **166 ·** If headless web search can't run, Noam runs Grok interactively per batch.
+- **173 · Up to 3 finds of each; Noam keeps one.** **111 ·** Claude never reviews the images.
+- **198 · "Find another"** on the exercise page queues a new search.
+- **206 · Catalogue 10–11 first**, then Phase 22's kinds.
 
 ## What lands
 - **Three views of an explicit exercise** (108, 109): Figure (the stick figure) · Drawing (a still) · Animation (a
@@ -21,7 +46,7 @@ Issue [#249](https://github.com/noamros9/kettle-bar/issues/249). Grilled 6–7 O
 Licence: decision 113 stands (private use, taken as found, source URL recorded); Claude raised the copyright risk of
 re-hosting others' artwork on 6 Oct and Noam chose this.
 
-## Also settled (7 Oct, evening)
+## How the later decisions land in the tickets
 - **A drawing replaces the figure everywhere it shows** (176): exercise page, day page, big timer, swap list; the
   view switch decides for all of them. Ticket 1's spec checks each place.
 - **Loops play on their own, muted, tap to pause** (177).

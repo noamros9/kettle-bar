@@ -1,9 +1,33 @@
 # Phase 23: new fitness programs at catalogue 13, and a "II" of every Signature program
 
-Grilled 6 Oct 2026 (Noam); decisions 83–88, 96, 137–138 in [ROADMAP.md](../../ROADMAP.md). Starts once Phase 20's
+Grilled 6 Oct 2026 (Noam); decisions 83–88, 96, 137–138 below. Starts once Phase 20's
 tickets 9–15 are merged (96). Claude plans; Noam picks Grok tickets at hand-off (CLAUDE.md, "Grok tickets").
 Counted 7 Oct: 592 programs, 452 of them fitness outside Signature (`node -e` over `buildAll()`); recount when the
 phase starts (136).
+
+## Decisions
+Grilled 6–7 Oct 2026 with Noam. Numbers are the project's global decision numbers. "Catalogue 12" in the 6 Oct
+decisions is today's catalogue 13 (renumbered by 105).
+
+**What gets built**
+- **83 · +50% programs in every fitness subject**, rounded (not After dark or couple), mixing old and new exercises. *(6 Oct)*
+- **138 · That's 233 programs**, Strength +10 down to Chest +4; with the IIs, 248. Recount at the start. *(7 Oct)*
+- **84 · A "II" of every Signature program**: same days, blocks and length, a step harder, built at catalogue 13. The
+  originals never change. *(6 Oct)*
+- **85 · "A step harder" = a level up**: a II's Level I is the original's Level II. *(6 Oct)*
+- **86 · All 15 get a II**, on the Signature shelf after their originals. *(6 Oct)*
+- **171 · A II's Level III may run up to 3 min long.** *(7 Oct)*
+- **201 · Own cards, plus "Ready for II"** on the original's page once its day 60 is done. *(7 Oct)*
+
+**How they're made**
+- **87 · Built to the longer-programs spread** from the start: half 35–38, a quarter 31–35, a quarter shorter. *(6 Oct)*
+- **185 · A fifth are 30 days** (about 47); the IIs stay 60. **205 ·** The 30-day ones follow the same spread. *(7 Oct)*
+- **184 · Gear like each subject's today** (same share of full gear, kettlebell-only, no-equipment). *(7 Oct)*
+- **88 · Names and blurbs in today's style**, no separate review. **199 ·** No "New" marking. *(6–7 Oct)*
+
+**When and how big**
+- **96 · After Phase 20's tickets 9–15.** *(6 Oct)*
+- **137 · Measure the library at ~1,060 programs; split it only if the Programs page slows.** *(7 Oct)*
 
 ## What lands
 - **233 library programs** (83, 138): every fitness subject but Signature grows by half, rounded. All
@@ -15,7 +39,7 @@ phase starts (136).
 - **Names and blurbs in today's style** (88), no separate review. Fitness text, so the After dark POV rules don't apply.
 - **The library at ~1,060 programs is measured** (137); split only if the Programs page slows.
 
-## Also settled (7 Oct, evening)
+## How the later decisions land in the tickets
 - **Gear like each subject's today** (184): the same share of full gear, kettlebell-only and no-equipment.
 - **A fifth are 30 days** (185): about 47 of the 233 (`days: 30`), spread over the subjects; the IIs stay 60. Each
   content ticket's test checks its fifth (rounded) and that the spread (87) holds for 30-day ones too.

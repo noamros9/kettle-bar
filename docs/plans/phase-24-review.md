@@ -1,9 +1,19 @@
 # Phase 24: architecture review V and code review, then the fixes
 
 Issues [#187](https://github.com/noamros9/kettle-bar/issues/187) and [#188](https://github.com/noamros9/kettle-bar/issues/188).
-Grilled 7 Oct 2026 (Noam); decisions 139–141 in [ROADMAP.md](../../ROADMAP.md). After Phase 23 (140): the app at
+Grilled 7 Oct 2026 (Noam); decisions 139–141 below. After Phase 23 (140): the app at
 ~1,060 programs. Earlier reviews: [III](architecture-review-3.md), [IV](architecture-review-4.md); read their
 findings first, so nothing already decided is re-raised.
+
+## Decisions
+Grilled 7 Oct 2026 with Noam (global decision numbers).
+- **139 · One phase for both reviews** (architecture V, #187, and the code review, #188).
+- **140 · After Phase 23**, so it reviews the library at full size before new features land.
+- **141 · Review just before fixing**: findings are triaged (fix now / issue / drop), fix tickets join this plan and
+  are built right away. Only what's too big for one ticket becomes an issue.
+- **186 · Tests that don't earn their keep are deleted** in the fix tickets; each PR says what still covers them.
+- **187 · A stored shape or sync rule that should change goes to Noam** and becomes an issue, never a fix here (old
+  backups must still import).
 
 ## What lands
 - **Two findings files** (139): `docs/reviews/architecture-5.md` and `docs/reviews/code-review.md`. Each finding:
@@ -12,7 +22,7 @@ findings first, so nothing already decided is re-raised.
 - **The fixes, in this phase** (141): Claude triages every finding (fix now / issue / drop, with a one-line why),
   adds the fix-now ones as tickets 4 onward to this plan, and builds them straight after.
 
-## Also settled (7 Oct, evening)
+## How the later decisions land in the tickets
 - **Tests that don't earn their keep are deleted in the fix tickets** (186), each PR saying what still covers them.
 - **A stored shape or sync rule that should change goes to Noam and becomes an issue** (187), never a fix ticket here.
 

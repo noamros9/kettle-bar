@@ -1,393 +1,107 @@
 # Kettle & Bar roadmap
 
-Built from a grilling session with Noam on 28 Sep 2026. Decisions are recorded under each item so
-future work doesn't re-ask them. Order within a phase is the build order.
+The index: where we are, what comes next, and the two phases being built now. Every other phase's decisions live at the
+top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase comes up. Decision numbers are global
+(the next one is **207**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
 ## Resume here (7 Oct 2026, end of session)
-- **Done today:** Phase 22 tickets 1b (#269) and 6 (anal, shipped 22 of 30, #272); shorter test runs, decisions
-  128–132, tickets 1c–1f (#273–#276): the hook skips a tree `test:coverage` passed, main's CI skips tests a PR ran,
-  light and dark UI in parallel, the every-exercise loops in one go. Main is green, no PR open.
-- **Next: Phase 22 ticket 10** (kink-lite +36, him on her) for Grok; tickets 7–9 (toys #278, hands #279, rough #280) done. Plan first (132); every Grok review so far caught bodies whose hips do not meet and tame or "what it is not" cues. From
-  [docs/plans/phase-22-catalogue-13.md](docs/plans/phase-22-catalogue-13.md) "Resume here". Then the rest of Phase 22,
-  Phase 20 tickets 9–15 (at catalogue 13), then Phase 23, then Phases 24, 25, 26, 27, 19, 28, 29 (decision 134):
-  **every phase now has a plan** (7 Oct); re-read its Challenge round before handing off its first ticket (136).
-- **Working rules (CLAUDE.md):** never more than 2 tickets building at once; look for the next ticket at every
-  checkpoint; parallel only within one phase. Every Grok ticket plans first.
-- **Parked:** #249 explicit drawings and loops (decisions 106–115; Grok finds them online, signed-in only, Firebase
-  Storage). Now Phase 28 (134), planned 7 Oct with decisions 160–161.
-- **Worktrees:** `../kettle-bar-docs` is the spare (detached, `npm ci` done; UI tests there use `UI_PORT=4174`).
+- **Next: Phase 22 ticket 10** (Kink-lite +36, him on her) for Grok. Plan first (132); every Grok review so far caught
+  bodies whose hips don't meet, and tame or "what it is not" cues. Start from the plan's "Resume here".
+- **Done today:** Phase 22 tickets 1b, 1c–1f, 6–9 (#269–#280); every open phase planned and grilled (#281–#285).
+- **Working rules** are in [CLAUDE.md](CLAUDE.md): at most 2 tickets building, the next ticket at every checkpoint, one
+  phase at a time, every Grok ticket plans first.
+- **Worktrees:** `../kettle-bar-docs` is the spare (`npm ci` done; UI tests there use `UI_PORT=4174`).
   `../kettle-bar-cachefix` is Noam's #253 branch.
 
-## Done
-Phases 1–18 and 21, #234, architecture reviews III–IV and their decisions: [docs/roadmap-archive.md](docs/roadmap-archive.md).
+## The order
+Set 7 Oct 2026 (decision 134): Noam put "Do now" right after the review and left the rest to Claude.
+
+| # | Phase | Issue | Plan | Status |
+|---|---|---|---|---|
+| 1 | 22 · Catalogue 13: the sex catalogue doubled, 12 new kinds, +50% fitness exercises | – | [plan](docs/plans/phase-22-catalogue-13.md) | **building** |
+| 2 | 20 · After dark refined, the Explicit set (tickets 9–15 left) | [#202](https://github.com/noamros9/kettle-bar/issues/202) | [plan](docs/plans/phase-20-after-dark-explicit.md) | paused after ticket 8 |
+| 3 | 23 · New fitness programs and the Signature IIs | – | [plan](docs/plans/phase-23-fitness-programs.md) | planned |
+| 4 | 24 · Architecture and code review, then the fixes | [#187](https://github.com/noamros9/kettle-bar/issues/187), [#188](https://github.com/noamros9/kettle-bar/issues/188) | [plan](docs/plans/phase-24-review.md) | planned |
+| 5 | 25 · "Do now": one exercise for dead time | [#200](https://github.com/noamros9/kettle-bar/issues/200) | [plan](docs/plans/phase-25-do-now.md) | planned |
+| 6 | 26 · Longer programs, half at 35–38 min | [#198](https://github.com/noamros9/kettle-bar/issues/198) | [plan](docs/plans/phase-26-longer-programs.md) | planned |
+| 7 | 27 · Calisthenics: twelve skills, 25 programs | [#199](https://github.com/noamros9/kettle-bar/issues/199) | [plan](docs/plans/phase-27-calisthenics.md) | planned |
+| 8 | 19 · Super programs: 120 days from several programs | [#186](https://github.com/noamros9/kettle-bar/issues/186) | [plan](docs/plans/phase-19-super-programs.md) | planned |
+| 9 | 28 · Explicit drawings and loops | [#249](https://github.com/noamros9/kettle-bar/issues/249) | [plan](docs/plans/phase-28-explicit-drawings.md) | planned |
+| 10 | 29 · Stories from the couple workouts, in Drive | [#225](https://github.com/noamros9/kettle-bar/issues/225) | [plan](docs/plans/phase-29-stories.md) | planned, last |
+
+- **135 · #225 was planned early**; replanned when it starts if need be.
+- **136 · Plans are ready, not frozen**: before a phase's first ticket, re-read its Challenge round; counts and files
+  move while earlier phases land, and a ticket whose facts changed is fixed in its plan before hand-off.
+
+## Phase 22 (building): catalogue 13
+Grilled 5–6 Oct 2026. Claude plans, Grok builds and writes the text. The working rules decided during it (128–133)
+are in [its plan](docs/plans/phase-22-catalogue-13.md) and CLAUDE.md.
+
+**The sex exercises** (all `couple`, with poses and the pelvic mark, Phase 20's cue register, 75)
+- **120 · New per kind**: intercourse +91 (planned +96; copies after ~115 positions), toys and hands +36 each, Rough,
+  Kink-lite, Body play, Rimming 36 each. *(replaces 72–73's first counts)*
+- **122 · Oral and anal +30 each**, not +60; shipped oral +23 and anal +22 (124). The freed 60 went to Kink-lite and
+  Body play (66 each).
+- **123 · Eight more kinds, 36 each**: Edging, Massage, Strip and tease, Shower and bath, Pool, Hot tub, Balcony,
+  Doorframe. Totals now: 700 sex exercises, 162 fitness, 96 programs.
+- **73 · What the four new kinds are**: Rough (spanking, hair-pulling, wrists pinned, held down; **no choking**),
+  Kink-lite (blindfold, ties or cuffs, gag, ice or wax), Body play (titfuck, grinding, thigh-fucking, cumming on her
+  as an act), Rimming.
+- **118 · Rough and Kink-lite mostly during sex** (a position with the act in it); a few stand alone.
+- **74 · She may rim him; nothing goes in him** (no pegging, no fingers or toys). **126 ·** Kink-lite goes both ways:
+  about a quarter is her doing it to him. Both exceptions are in CLAUDE.md and `tests/his-pov.test.js`.
+- **125 · Places count by what the place changes** (what he holds or braces); places include play, not only sex.
+- **124 · Hitting the wall**: Grok's build plus two fix rounds; then it ships what passed, count recorded.
+
+**The programs**
+- **119 · Each new kind is an After dark subject with 8 programs** (3 gym then sex, 3 sex then sex, 2 positions only),
+  at catalogue 13: 12 subjects, 96 programs.
+- **117 · The new kinds join the merged pools by role**: Rough and Body play → `sexFuck`, Kink-lite and Rimming →
+  `sexWarm`, all → `sexPositions`; each kind has its own pool too.
+
+**The fitness exercises**
+- **79, 80, 116 · +50% in every fitness category but warm-ups and cool-downs**: 317 → 479, +162, using all his gear.
+- **81 · Existing programs stay as built**; Build your own, random workouts, Variety and Swap pick up the new ones. New
+  fitness programs come in Phase 23.
+
+**Keeping what's built safe**
+- **121 · Own programs and random workouts move to catalogue 13 only in the last ticket.** *(technical)*
+- **105 · Phase 21's exercises took `added: 12`**, so this phase is catalogue 13. **77 ·** Phase 20's tickets 9–15
+  build at catalogue 13 (mixing 10, 11 and 13).
+- **127 · Room to grow**: the page gate is 1 MB gzipped (was 135 → 250 → 350 KB: 61, 76, 95); UI timeouts and
+  command limits raised; cutting the times is #265.
+
+## Phase 20 (paused): After dark refined, and an Explicit set
+Grilled 5 Oct 2026 on [#202](https://github.com/noamros9/kettle-bar/issues/202); Grok builds, Claude reviews.
+Numbered 20 because 19 is super programs.
+- **67 · Paused after ticket 8**; tickets 9–15 resume after Phase 22.
+- **57 · Refined in place**: the 17 position cues, 7 dare cues and 105 programs' text; same ids and days, no re-pins.
+  Explicit words and dirty slang, one paragraph, no orgasm script.
+- **58 · A pelvic mark on the stick figures** (rendered pictures were refused).
+- **59 · Catalogue 11: 88 exercises** (24 intercourse, 24 oral, 24 anal, 8 toys, 8 hands).
+- **60 · +200 couple programs, 60 days each**: the Explicit subject (65: 20, then 45 mainly sex-only) and 9 in each of
+  the 15 After dark subjects; three session shapes; minutes 20% longer than each band; new exercises alongside
+  catalogue 10's.
+- **62 · Swap unchanged**: older couple programs may offer catalogue-11 exercises.
+- **63 · Grok writes the explicit text**; a text failure gets a second round.
+- **64 · Descriptions from his side**: his POV or a straight couple's, never hers; as explicit or hotter. A standing
+  rule in CLAUDE.md and a test over every couple program.
+- **65 · Equal odds in sex blocks, basics about 1.5×**, through the merged pools; `tests/couple-odds.test.js`.
+- **66 · Descriptions describe the session**, never the builder (no slots or catalogues); `tests/his-pov.test.js`.
 
 ## Backlog
 - **Test a restore from the nightly backup** on the phone ([#16](https://github.com/noamros9/kettle-bar/issues/16)).
-- **Faster phone UI tests (1 Oct 2026):** locally only the affected specs run (`npm run test:ui:affected`), the full
-  suite in CI on the PR. The two-browser helper (`tests-ui/devices.js`) batches its calls (1 Oct): the sync tests run
-  ~35% faster (sync 22 → 13 s, build 23 → 14 s, random 24 → 18 s); the build one had flaked on a busy runner. More workers don't help on 2 cores (4 workers: 4.4 min and timeouts). CI (1 Oct): the test job runs in
-  Playwright's image (installing the browser took 6–20+ min of apt-get), a newer push to a PR cancels the older run,
-  and a commit of Markdown only skips the pre-commit tests.
-- **Workout history with a calendar** ([#113](https://github.com/noamros9/kettle-bar/issues/113)): planned as Phase 9.
-
-## The 4 Oct 2026 roadmap
-Four issues Noam opened on 4 Oct 2026, grilled the same day. Order first set as architecture review V, then super
-programs, then After dark; **that evening Noam moved After dark first** ("let's do it now, then the rest on Tuesday or
-Wednesday"). Added the same evening: longer programs (#198), calisthenics (#199) and "do now" (#200); their place in
-the order isn't set yet. The code review's place in the order isn't set yet. Each gets its own plan, by our method, when it starts.
-
-**Every open item planned, 7 Oct 2026** (grilled the same day; the last session before the weekly reset). Decisions
-134–206 (and 148 raised to 36).
-134. **The order** (7 Oct): Phase 22 → Phase 20 tickets 9–15 → Phase 23 → **Phase 24** review → **Phase 25** "Do
-     now" → **Phase 26** longer programs → **Phase 27** calisthenics → **Phase 19** super programs → **Phase 28**
-     explicit drawings (#249) → **Phase 29** stories (#225). Noam put "Do now" right after the review and left the rest to
-     Claude ("you choose"): longer programs before more programs pile up, calisthenics built to the new spread from the
-     start, super programs once the library they chain is final. Phase 19 keeps its number (as 20 came before it).
-135. **#225 planned now too** (7 Oct, Noam): if need be it is replanned when it starts (replaces 78's "grilled when it
-     starts"; it stays last).
-136. **Plans are ready to build, not frozen** (7 Oct, technical): each plan's Challenge round lists what to re-read
-     when its phase starts (counts and file names move while Phases 22, 20 and 23 land); a ticket whose facts changed
-     is corrected in its plan before it is handed off.
-
-### Phase 20: After dark, refined, and an Explicit set ([#202](https://github.com/noamros9/kettle-bar/issues/202))
-Plan: [docs/plans/phase-20-after-dark-explicit.md](docs/plans/phase-20-after-dark-explicit.md). Grilled on the issue
-5 Oct 2026; Noam put it next (5 Oct), built by Grok and reviewed by Claude. Numbered 20 because 19 is super programs.
-57. **Refine in place** (5 Oct): the 17 position cues, the 7 dare cues, and the 105 programs' blurbs and about text;
-    same ids and days, no re-pins. Explicit words and dirty slang, one paragraph, no orgasm script.
-58. **A pelvic mark on the stick figures** (5 Oct), on every position: rendered pictures were refused by the image tool.
-59. **Catalogue 11: 88 exercises** (5 Oct): 24 intercourse, 24 oral, 24 anal, 8 toys, 8 hands.
-60. **+200 programs, all 60 days, all couple** (5 Oct): Explicit (a subject chip on the After dark shelf, 65: 20, then
-    45 more that are mainly sex only) and 9 in each of the 15 After dark subjects; three
-    session shapes (gym then sex, sex then sex, positions only). Minutes 20% longer than each band (Noam, 5 Oct).
-    They use the 88 new exercises alongside catalogue 10's couple exercises, not instead of them (Noam, 5 Oct).
-61. **Page cap 125 → 135 KB gzipped** (5 Oct); the 150 gate stays.
-62. **Swap unchanged** (5 Oct): older couple programs may offer catalogue-11 exercises in Swap.
-63. **Grok writes the explicit text** (5 Oct); a text failure gets a second Grok round.
-64. **Program descriptions from his side** (5 Oct, ticket 5.5): blurbs and about text are written from his POV or a
-    straight couple's POV, depending on the program, never hers. The app is Noam's. Just as explicit, or hotter.
-    Applies to the 105 rewritten in tickets 3–4, to every new program in tickets 8–13, and to every couple program
-    in any later phase: a standing rule in CLAUDE.md, and a test over every `couple: true` program (5 Oct).
-
-65. **Equal odds, basics about 1.5×** (5 Oct, ticket 8): in a sex block every couple exercise, old or new, has about the
-    same chance of being drawn; basics (`basic: 1`: the 17 classics and 10 plain new ones) come up about 1.5× as often.
-    Code, not a habit: the builder's merged pools (`sexPositions`, `sexWarm`, `sexFuck`, from `mergedAt`) and a
-    standing test over every couple program on catalogue 11 or later (`tests/couple-odds.test.js`).
-66. **Descriptions describe the session** (5 Oct, ticket 8): a blurb or about says what he does to her, never how the
-    builder made it (no slots, catalogues, old or new positions); a standing test over every couple and After dark
-    program (`tests/his-pov.test.js`).
-67. **Phase 20 pauses after ticket 8** (5 Oct): Phases 21 and 22 come first; tickets 9–15 resume after them.
-
-### Phase 22: catalogue 13 (was 12, decision 105), the sex catalogue doubled and four new kinds
-Grilled 5 Oct 2026 (Noam); after Phase 21, before Phase 20 ticket 9. Claude plans, Grok builds and writes the text.
-72. **Doubled, intercourse tripled** (5 Oct): intercourse 24 → 72, oral 24 → 48, anal 24 → 48, toys 8 → 16,
-    hands 8 → 24.
-73. **Four new kinds, 24 each** (5 Oct): **Rough** (spanking, hair-pulling, pinning her wrists, holding her down; no
-    choking), **Kink-lite** (blindfold, ties or cuffs, a gag, ice or wax, him on her), **Body play** (titfuck,
-    grinding and dry humping, thigh-fucking, cumming on her as an act, no orgasm script), **Rimming** (him on her,
-    and her on him).
-74. **One exception to "nothing receiving about him"** (5 Oct): she may rim him. Nothing goes in him: no pegging, no
-    fingers or toys in his ass. CLAUDE.md's rule and the tests get this exception and nothing more.
-75. **216 new exercises, `added: 12`, all `couple`** (5 Oct), with poses and the pelvic mark, in the Phase 20 cue
-    register.
-76. **Page cap 135 → 250 KB gzipped** (5 Oct, Noam: "250 KB easy"), and the gate in CLAUDE.md with
-    it. Phases 21–22 land the page near 144 KB. **Raised to 350 KB by decision 95.**
-95. **Page cap 350 KB gzipped** (6 Oct), replacing 76's 250; CLAUDE.md's gate says 350 now, the build's check moves
-    to it in a Phase 22 ticket.
-77. **Phase 20 tickets 9–15 build at `catalogue: 12`** (5 Oct): their 180 programs mix catalogue 10, 11 and 12
-    exercises. Ticket 8's 20 Explicit programs stay at catalogue 11.
-79. **The fitness library grows too, in this phase** (5 Oct):
-    catalogue 12 also adds fitness exercises, not only sex ones.
-80. **+50% in every fitness category** (5 Oct): every non-couple `cat` grows by half, counted after Phase 21 lands
-    (today ~335 → ~500, about 168 new), using all his equipment: dumbbells, kettlebell, pull-up bar, bodyweight and
-    mat.
-81. **Existing programs stay as built** (6 Oct): no program moves up a catalogue (that would re-deal every day).
-    Build your own, random workouts, Variety and the Swap list pick up the new exercises as they are. The new fitness
-    programs come in Phase 23.
-116. **Warm-ups and cool-downs don't grow again** (6 Oct): they went to 30 each in Phase 21. Decision 80's +50% is
-     the other 14 fitness categories: 317 → 479, **+162**.
-117. **The new kinds in the merged pools, by role** (6 Oct): at catalogue 13, Rough and Body play join `sexFuck`,
-     Kink-lite and Rimming join `sexWarm`, and all 432 join `sexPositions`. Each kind also has a pool of its own.
-118. **Rough and Kink-lite mostly during sex** (6 Oct): most are a position with the act in it (doggy pulling her
-     hair, missionary with her wrists pinned, cowgirl blindfolded); a few stand alone (a spanking round, ice on her).
-119. **Four new After dark subjects, 8 programs each** (6 Oct): Rough, Kink-lite, Body play, Rimming: 32 programs at
-     catalogue 13, in this phase, each subject 3 gym then sex, 3 sex then sex, 2 positions only (Noam).
-120. **The sex exercises, new per kind** (6 Oct, Noam; replaces 72–73's numbers; his numbers are what's added, not
-     totals): intercourse **+96** (24 → 120), oral and anal **+60** each (24 → 84), toys and hands **+36** each
-     (8 → 44), and Rough, Kink-lite, Body play, Rimming **36** each (+144): **432** new. Intercourse ended at **+91**
-     (6 Oct, Noam): after ~115 positions the last 5 of ticket 4b were still copies, so it shipped 19 (427 new).
-121. **Own programs and random workouts move to catalogue 13 only in the phase's last ticket** (6 Oct, technical):
-     the newest catalogue they store is held at 12 while Phase 22's tickets land, so an own program saved mid-phase
-     never reshuffles when the next ticket adds to its pools.
-122. **Oral and anal +30 each, not +60** (6 Oct, Noam): too many; tickets 5b and 6b are dropped. The 60 freed go to
-     Kink-lite and Body play, +30 each (→ 66 each).
-123. **Eight more kinds, 36 each** (6 Oct, Noam): Edging, Massage, Strip and tease, Shower and bath, Pool, Hot tub,
-     Balcony, Doorframe (+288). Massage and Strip and tease grow the existing `massage` and `tease` kinds (2 and 4
-     today); the other six are new `sub`s (`edging`, `shower`, `pool`, `hottub`, `balcony`, `doorframe`). Each is
-     an After dark subject with **8 programs** (3/3/2 as 119): +64 programs. Phase 22 totals: **715 sex exercises**
-     (91 intercourse, 30 oral, 30 anal, 36 toys, 36 hands, 36 Rough, 66 Kink-lite, 66 Body play, 36 Rimming, 8 × 36),
-     162 fitness, **96 programs** (12 subjects × 8). Oral shipped **+23** (6 Oct, Noam: after a fix round 7 of 30
-     still failed; 708 sex exercises). Anal shipped **+22** (7 Oct, 124: after two fix rounds; 700 sex exercises).
-124. **Hitting the wall** (6 Oct, Noam): a sex ticket gets Grok's build and two fix rounds. If it still writes copies
-     or positions that don't work, it ships what passed and we move on; the count is recorded here and in the plan.
-125. **Places count by what the place changes** (6 Oct, Noam): in Shower and bath, Pool, Hot tub, Balcony and
-     Doorframe, a version of a bed position counts as new when the water, tiles, tub, rail or frame changes what he
-     holds or braces; no two in one kind the same. Places include play (washing her, touching under the water), not
-     only sex.
-126. **Kink-lite goes both ways** (6 Oct, Noam): about a quarter of the 66 is her doing it to him, anything Kink-lite
-     (blindfold, ties or cuffs, a gag, ice or wax on him). Nothing goes in him, no pegging. The exception goes into
-     CLAUDE.md's "A straight man training his own body" and `tests/his-pov.test.js`, like Rimming's (74).
-127. **Room to grow** (6 Oct, Noam): the page gate is **1 MB** gzipped (was 350 KB, 95); the UI test timeouts and
-     Claude's command limits are raised, CI's job has no limit set (GitHub's 6 h). Cutting the times is
-     [#265](https://github.com/noamros9/kettle-bar/issues/265).
-128. **Main's CI builds and deploys without retesting** (7 Oct, Noam): when the tree pushed to main is the tree a green
-     PR run tested (a squash merge of an up-to-date PR is byte-identical; verified on #269), main skips the unit and UI
-     tests. Any other tree gets the full run. Claude updates a PR that is behind main before merging it.
-129. **The unit suite runs once per tree locally, and Claude's review still runs it** (7 Oct, Noam): a passing
-     `test:coverage` records the tree; the pre-commit hook skips that tree. Grok runs only the ticket's test files while
-     writing (the hook runs the full suite once, at its commit). Claude's review runs `test:coverage` itself, and no
-     longer also `npm test`.
-130. **Local phone UI tests for UI tickets only** (7 Oct, Noam): content tickets (exercises, programs) rely on the PR's
-     CI, which runs the full suite.
-131. **CI itself gets faster in this phase** (7 Oct, Noam): light and dark run as parallel jobs, and the every-exercise
-     loops check every figure in one page load ([#265](https://github.com/noamros9/kettle-bar/issues/265)).
-132. **Every Grok ticket: Grok plans, Claude reviews the plan, then Grok builds** (7 Oct, Noam; first for sex tickets,
-     widened the same day): Grok's first run writes only its plan to `test-results/tN-plan.md` and stops: for a
-     content ticket one line per item (an exercise: who lies, kneels, sits or stands where, where her legs are, what he
-     braces; a program: name, shape, minutes, pools), for code the files, the test first and the approach. Claude
-     reviews it (copies, bodies that don't fit, wrong approach) and sends back changes until it passes; then Grok
-     builds from the approved plan (`--continue`) and commits, and Claude reviews the build as before. A fix round on
-     a plan costs minutes, not a full run.
-133. **Claude's review trusts Grok's commit hook on the same tree** (7 Oct, Noam; replaces 129's "review still runs
-     it"): when `.git/kb-tested-tree` equals the tree of Grok's last commit, the suite passed on exactly that code and
-     Claude doesn't run it again. Any mismatch (hook skipped, an edit after the run) and Claude runs `test:coverage`.
-     The PR's CI still runs everything before a merge.
-- Plan: [docs/plans/phase-22-catalogue-13.md](docs/plans/phase-22-catalogue-13.md).
-
-### Phase 23: new fitness programs at catalogue 13
-Grilled 6 Oct 2026 (Noam). "Catalogue 12" in the decisions below is Phase 22's catalogue, numbered 13 since decision
-105: the new programs are built at `catalogue: 13`. Plan:
-[docs/plans/phase-23-fitness-programs.md](docs/plans/phase-23-fitness-programs.md).
-96. **After Phase 20 is complete** (6 Oct): the order is #234 → Phase 21 → Phase 22 → Phase 20 tickets 9–15 →
-    Phase 23. Phase 20's programs draw on catalogues 10, 11 and 12 together (decision 77), not 12 alone.
-83. **+50% programs in every fitness subject** (6 Oct): each fitness shelf (not After dark or couple) grows by half,
-    rounded, the same as the exercises did (Strength 19 → ~29, Chest 8 → 12): about 240 new programs, all built at
-    `catalogue: 12`, mixing old and new exercises.
-84. **A "II" of every Signature program, on top** (6 Oct): 15 more. Same shape as the original (days, blocks, length),
-    a step harder (more sets or rounds, or harder variants), and built at catalogue 12 so it brings new exercises.
-    The originals never change.
-85. **"A step harder" = a level up** (6 Oct): a II's Level I is the original's Level II, and each level climbs on from
-    there, so its Level III goes past the original's.
-86. **All 15 get a II** (6 Oct): each of the five splits and each Tempo and Harder Moves variation (Three-Split 60 II,
-    Three-Split 60 Tempo II, ...), on the Signature shelf after their originals.
-87. **Built to the Longer programs spread** (6 Oct): the new programs are made at decision 53's spread from the start
-    (half 35–38 min, a quarter 31–35, a quarter shorter), so they never need re-timing.
-88. **Names and blurbs in today's style** (6 Oct), no separate review.
-171. **A II's Level III may run up to 3 min long** (7 Oct, Noam): its extra set past the catalogue's top stays; a day
-     may end up to 3 min over its range.
-199. **No "New" marking** (7 Oct, Noam) for Phase 23's or 27's programs.
-201. **A II has its own card after its original** (86), **and the original's page links to it once its day 60 is
-     done** ("Ready for II", 7 Oct, Noam).
-184. **The new programs' gear like each subject's today** (7 Oct, Noam): the same share of full gear, kettlebell-only
-     and no-equipment as the subject has now.
-185. **A fifth of the new programs are 30 days** (7 Oct, Noam): Phase 23's 233 (about 47 at 30 days) and Phase 27's 25
-     (5). The IIs keep their originals' 60.
-205. **The 30-day ones follow the same spread** (7 Oct, Noam): any band, not mostly short.
-137. **The library's size is measured, then split only if it slows** (7 Oct, technical): at ~1,060 programs the
-     ticket measures `data/library.json`, the finder data and the Programs page's first draw on a throttled phone
-     profile; a split (index first, days per program on demand) is its own ticket only if the page gets slower than
-     today's by a margin the ticket states.
-138. **233 programs, +50% per subject, rounded** (7 Oct, counted today): every fitness subject but Signature, from
-     Strength 19 (+10) to Chest 8 (+4); with the 15 IIs, **248 programs**. Recounted when the phase starts.
-
-### Phase 24: architecture review V and code review, then the fixes ([#187](https://github.com/noamros9/kettle-bar/issues/187), [#188](https://github.com/noamros9/kettle-bar/issues/188))
-A fresh review after Phases 13–23: shelf groups, Variety, ~1,060 programs, the library boot, sync at that scale (one
-cloud listener per program; ticket 17.2 found each first reply redrawing the page); and the code review's correctness,
-dead code, duplication, tests that no longer earn their keep. Plan:
-[docs/plans/phase-24-review.md](docs/plans/phase-24-review.md).
-139. **One phase for both reviews** (7 Oct, Noam).
-140. **After Phase 23** (7 Oct, Noam): it reviews the library at its size, before new features land on it.
-141. **The review runs just before the fixing** (7 Oct, Noam: "run just before we can actually fix things"): the
-     review tickets write findings; Claude triages them (fix now, issue for later, drop) and adds the fix tickets to
-     the same plan; they are built right away, in this phase. Nothing the review finds waits for another phase unless
-     it is too big for one ticket (then an issue).
-186. **Tests that don't earn their keep are deleted in the fix tickets** (7 Oct, Noam), each with a line in the PR on
-     what still covers it.
-187. **A stored shape or sync rule that should change: Noam is asked, and it becomes an issue** (7 Oct, Noam), never
-     a fix ticket in this phase (old backups must still import).
-
-### Phase 25: "Do now" ([#200](https://github.com/noamros9/kettle-bar/issues/200))
-Plan: [docs/plans/phase-25-do-now.md](docs/plans/phase-25-do-now.md).
-142. **A card on the Programs page and a home-screen shortcut** (7 Oct, Noam): the shortcut (long-press the icon)
-     opens it at `#now`, like "Today's workout".
-174. **What I missed looks back 7 days; the shortcut opens the card** (7 Oct, Noam): both buttons, nothing picked until
-     a tap.
-143. **Two buttons, picked each time** (7 Oct, Noam): **Random** and **What I missed** (the muscle with the least load in
-     the last 7 days). Both pick one exercise: no equipment, quiet (no jumping, nothing on the floor), 20–30 s.
-144. **Timed and counted** (7 Oct, Noam): its own 20–30 s timer; Mark as done counts it in Stats and History.
-145. **Stored as a random workout** (7 Oct, technical): a done "Do now" is a record in `users/{uid}/random/{id}` with
-     `choice: { now: 'random' | 'missed' }`: no new collection, so no Firestore rules change, and backups already
-     carry it. Stats show it under Random workouts, named "Do now".
-180. **A beep at the end, no voice** (7 Oct, Noam): office-quiet.
-181. **A Do now doesn't count as having trained today** (7 Oct, Noam): the rest-day card, Today's workout and the next
-     random workout's level are unchanged; History shows it with its own small mark.
-
-### Phase 19: super programs ([#186](https://github.com/noamros9/kettle-bar/issues/186))
-One plan that runs days from several programs in a set order (some days from here, some from there). Plan:
-[docs/plans/phase-19-super-programs.md](docs/plans/phase-19-super-programs.md).
-43. **Both** (4 Oct): a few ready-made super programs, and I can chain my own from any programs.
-146. **Its own progress** (7 Oct, Noam): a super program is a program of its own; ticking its day never touches the
-     programs it is made of.
-147. **120 days, levels every 40** (7 Oct, Noam: "lengthier").
-148. **36 ready-made, plus build your own** (7 Oct, Noam; 12 at first, raised to 36 the same evening): a Super shelf, and chaining your own in Build your own.
-149. **The parts take turns, day by day** (7 Oct, Noam): interleaved (A, B, C, A, B, C…, weighted per super: 152), all
-     120 days; **3 or more programs**; not every day of a part is used.
-150. **The super's level picks the part's days** (7 Oct, Noam): days 41–80 are Level II, so each part gives its Level
-     II days there.
-151. **Super shelf and a "from" line** (7 Oct, Noam): each day says which program it comes from; the program page
-     shows the parts.
-175. **Your own super: weights 1–3 and a share link** (7 Oct, Noam), like an own program's link.
-152. **How the days are chosen** (7 Oct, Noam, asked after he pointed out it had been decided for him): **3–6
-     parts**, **library programs only** (pinned; an own program can be edited). **Weighted turns, set per super**
-     (Iron PPL 2 days for every 1 of Yoga Flow); equal weights are the default. A part's days of a level are used
-     **evenly spaced across its 20**, so its progression and day types hold.
-164. **The mechanics** (7 Oct, technical): in each 40-day level a part with weight *w* of total *W* gets
-     round(40·*w*/*W*) days, at most its 20 (so no part is more than half of a super), placed by a smooth weighted
-     round-robin so its days spread through the level. A super's days are copies of its parts' built days with the
-     super's day number, pinned like any program. An own super is stored like an own program
-     (`users/{uid}/programs/{id}`, `config: { super: [[id, weight]] }`) and built in the page from the library's days.
-179. **Parts may be solo After dark programs, never couple ones** (7 Oct, Noam).
-182. **Parts of any lengths** (7 Oct, Noam): the card shows the range; the weights decide the mix.
-189. **The 36 ready-made ship in today's style** (7 Oct, Noam): listed in the PR, no review first.
-190. **Swaps, Round 2 and Short on time work as in any program** (7 Oct, Noam), stored in the super's own progress.
-195. **A super's days carry its own names** (7 Oct, Noam), a names list like any program's, with the "from" line below.
-196. **Stats count a super's days under the super only** (7 Oct, Noam); the parts' stats are untouched.
-197. **Super has a tab of its own**, after Variety (7 Oct, Noam).
-
-### Longer programs: Phase 26 ([#198](https://github.com/noamros9/kettle-bar/issues/198))
-Plan: [docs/plans/phase-26-longer-programs.md](docs/plans/phase-26-longer-programs.md).
-Noam, 4 Oct 2026: only about 1/6 of the programs run 33 min or more (of 557: 13% at 35+, 13% at 31–35, 74% under 31).
-53. **The spread he wants:** half of all programs at **35–38 min (his baseline)**, a quarter at **31–35**, a quarter
-    shorter.
-54. **Minutes are the workout only**, as the cards show; the ~3 min warm-up and cool-down come on top.
-55. **Re-time programs: rebuild them longer**, a one-time exception to the never-re-pin rule for those that change,
-    **but they shouldn't change much: just add compatible exercises** (keep the blocks and picks, add sets, rounds or
-    slots of the same kind).
-56. **The shorter quarter has no target:** whatever stays under 31.
-82. **The added slots prefer catalogue 12** (6 Oct): when a program is re-timed longer, each slot it gains takes a
-    new catalogue-12 exercise where one of the same kind exists, else an older one. Within the same one-time
-    exception, nothing more.
-153. **Programs already started stay as they are** (7 Oct, Noam): a program with a day done in any round keeps its
-     days; only unstarted programs are re-timed. Read from Noam's progress (the nightly backup) when the phase starts.
-154. **Kept at their length** (7 Oct, Noam): Busy week, Quickie, Date night warm-up, and every After dark subject
-     (couple and solo). Three-Split 60 is frozen (ADR 0001) and keeps its days too.
-155. **The spread is counted per subject** (7 Oct, Noam): every re-timed shelf ends about half at 35–38, a quarter at
-     31–35, a quarter shorter.
-156. **Within a shelf, spread over splits and formats** (7 Oct, Noam): every kind of program on a shelf gets a long
-     version, rather than the ones already closest to 35.
-157. **Added without reshuffling: a pass after the build** (7 Oct, technical): a re-timed program is built exactly as
-     today, then a lengthening pass (its own random stream, seeded from the id) adds, in this order, sets or rounds the
-     block's format allows, then slots of the same pool at the end of a block (decision 82: catalogue 13 first),
-     until each day lands in the new range. Existing picks never move. The config says `long: [lo, hi]`; the old
-     `minutes` stay for the pin's history.
-169. **No review of the list** (7 Oct, Noam): ticket 2's list goes straight to tickets 3–6.
-172. **Signature is re-timed like any shelf** (7 Oct, Noam): about half of its originals move to 35–38. Three-Split 60
-     stays (frozen, ADR 0001), and Phase 23's IIs keep their length (84) and aren't moved.
-170. **Programs that can't reach their band get longer anyway** (7 Oct, Noam, correcting the first reading the same
-     day): at most one added exercise per block, plus the sets and rounds the format allows; a program that lands
-     short of 35–38 keeps what it gained, and its card shows the minutes its days really build to. A shelf may end
-     with fewer than half at 35–38; recorded per shelf.
-191. **The length filter follows the new spread** (7 Oct, Noam): Up to 30 / 31–35 / 35+ (was Up to 25 / 26–32 / 33+),
-     by mid-range.
-192. **Random workouts offer 15 / 25 / 38 minutes** (7 Oct, Noam; 38 replaces 35): from this phase, once the re-timed
-     day types reach it. The rest-day flow keeps 15; old records with 35 stay as they are.
-200. **The re-timed programs are listed only in the PR** (7 Oct, Noam): no note in the app.
-203. **Help me pick's minutes follow too** (7 Oct, Noam): About 15 / 20–30 / 31–35 / 35–38+ (in 6b with 191–192).
-204. **Build your own keeps 20 / 25 / 30 / 35 / 40** (7 Oct, Noam): no 38.
-
-### Calisthenics: Phase 27 ([#199](https://github.com/noamros9/kettle-bar/issues/199))
-Noam, 4 Oct 2026: calisthenics programs. Plan: [docs/plans/phase-27-calisthenics.md](docs/plans/phase-27-calisthenics.md).
-158. **A subject of its own, Calisthenics, and 25 programs** (7 Oct, Noam): skills (muscle-up, handstand, front lever,
-     pistol and more) with bar and floor progressions. Calisthenics Base and Skills stay in Bodyweight.
-159. **Twelve skills, six steps each: 72 new exercises** (7 Oct, Noam: "about 60", then all twelve skills offered),
-     `added: 14` (catalogue 14), with poses: muscle-up, handstand, front lever, pistol, handstand push-up, back lever,
-     planche, L-sit to V-sit, one-arm push-up, dragon flag, archer / typewriter pull-up (in place of the human flag, 165),
-     one-arm pull-up. The 25 programs are built to
-     decision 53's spread from the start (they come after Phase 26).
-165. **No human flag** (7 Oct, Noam): it needs a vertical pole or frame he doesn't have; the **archer / typewriter
-     pull-up** (on the bar, toward the one-arm pull-up) takes its place.
-183. **Open to Build your own, random workouts and Swap like any subject** (7 Oct, Noam); a skill step's alternative is
-     its easier step.
-193. **A window of 3 steps per program, one step a level** (7 Oct, Noam): a starter program sits at steps 1–3 of a
-     skill, harder ones at 3–5 or 4–6; Level II and III move one step up.
-194. **Calisthenics has a tab of its own** on the Programs page (7 Oct, Noam); in Stats and builders it stays in the
-     Strength family.
-188. **A skill exercise shows its place on the ladder** (7 Oct, Noam): "Front lever · step 3 of 6" on the day and
-     exercise pages, with the next step named.
-
-### Explicit drawings and loops for the explicit exercises: Phase 28 ([#249](https://github.com/noamros9/kettle-bar/issues/249))
-Noam, 6 Oct 2026; grilled the same day. Plan:
-[docs/plans/phase-28-explicit-drawings.md](docs/plans/phase-28-explicit-drawings.md).
-106. **Drawn, never photos of real people** (6 Oct): explicit drawings and short animated loops (source: 112).
-107. **Every explicit exercise, any catalogue** (6 Oct): catalogue 10's positions and oral, catalogue 11, Phase 22's,
-     and later ones; a ticket that adds an explicit exercise also adds its drawing and loop.
-108. **Three ways to show it** (6 Oct): Figure · Drawing · Animation. The drawing replaces the stick figure by default.
-109. **The switch is in Settings and on each exercise page** (6 Oct): Settings sets the default; the page switch
-     overrides it there.
-110. **Signed-in only, stored in Firebase Storage, never in the public repo** (6 Oct): Storage rules let only Noam's
-     account read them (Noam publishes the rules in the console). **No caching:** not in the service worker, not
-     offline; fetched each time the page shows one.
-111. **Noam reviews each before it ships** (6 Oct): Claude can't review explicit images.
-112. **Found online by Grok, not generated** (6 Oct, Noam's test): Grok's image tool refuses these scenes, so Grok
-     searches the web and checks each file is a drawing of two adults (no photos, medical cross-sections or old
-     fine-art prints). Stills: the flat two-colour vector diagrams (thin outline, blank background) from the site
-     Noam's first pick came from. Loops: the shaded cartoon GIFs from a second site; a mislabeled file is skipped.
-113. **Private use, no licence check** (6 Oct, Noam): taken as found, since they're signed-in only and for Noam.
-     Claude raised that it's still copying and re-hosting others' artwork (a copyright risk); Noam chose this anyway.
-     Each file still records its source URL.
-114. **Two styles are fine** (6 Oct): Drawing and Animation are separate views, each consistent in itself.
-115. **Loops stored as MP4/WebM** (6 Oct): each GIF converted with ffmpeg, played muted, looped, inline.
-160. **Grok searches headless; Noam approves side by side** (7 Oct, Noam): Claude runs `grok -p` with web search and
-     fetch allowed for these tickets only. Each find waits as pending in Storage; a signed-in review page shows the
-     exercise's stick figure and the found drawing (or loop) side by side, and Noam approves or rejects each.
-161. **The stick figure until approved** (7 Oct, Noam): an exercise with no match, or none approved, shows its figure.
-166. **Headless first, interactive as the fallback** (7 Oct, Noam): ticket 3 finds whether `grok -p` can allow web
-     search and fetch without approval prompts; if not, Noam runs Grok interactively per batch and the script takes
-     over from its `found.json`.
-176. **A drawing replaces the figure everywhere it shows** (7 Oct, Noam): exercise page, day page, big timer, swap list.
-177. **Loops play on their own, tap to pause** (7 Oct, Noam).
-198. **"Find another" on the exercise page** (7 Oct, Noam): queues that exercise for the next search run; the approved
-     file stays until a new one is kept.
-206. **Catalogue 10–11 first** (7 Oct, Noam), then Phase 22's kinds, as the plan's batches go.
-173. **Up to 3 finds of each, Noam picks one** (7 Oct, Noam): per exercise Grok brings up to 3 stills and 3 loops;
-     the review page shows them beside the stick figure and Noam keeps one of each (or none).
-
-### Stories from the couple workouts: Phase 29 ([#225](https://github.com/noamros9/kettle-bar/issues/225))
-Noam, 5 Oct 2026: automate creating an erotic story with Grok for every After dark workout. Plan:
-[docs/plans/phase-29-stories.md](docs/plans/phase-29-stories.md).
-78. **Last in the order** (5 Oct): after all other open issues are done. Grilled 7 Oct (135).
-162. **Not in the app: Google Drive, with the workout as a seed** (7 Oct, Noam): a story is written from a couple
-     program's day (its positions, what he does), saved as a Google Doc in Noam's Drive; the app never stores or shows
-     them. **Couple programs only.**
-163. **On request, by a script** (7 Oct, Noam): Noam asks for a story for a day ("day 12 of X"), or runs the script
-     himself; Grok writes it with `grok -p` from **Noam's own prompt file** (no Claude review), and a small script with
-     a Drive key uploads it, so the text never passes through Claude. A Doc per story; the exact Drive layout is
-     settled with Noam before the first run. Written ahead was dropped: per day is ~24,000 stories, 400–800 hours of
-     Grok, almost all never read.
-167. **A folder per program** (7 Oct, Noam): "Kettle & Bar stories / <program> / Day 12 — <title>", a Doc each.
-168. **The seed is a screenshot of the day** (7 Oct, Noam: his prompt asks for a story based on a screenshot of the
-     workout, and he wants to keep that): the script renders the day page full length at phone width (every block
-     and drawing) and gives Grok the image with his prompt. Replaces a text seed.
-178. **The screenshot shows the drawings** (7 Oct, Noam): the script opens the day signed in as Noam, so Grok sees
-     Phase 28's drawings, not stick figures.
-202. **Asked here, run on Noam's PC** (7 Oct, Noam): Claude runs the script through the linked desktop app, which must
-     be on.
+- **Cut the test and CI times** ([#265](https://github.com/noamros9/kettle-bar/issues/265)). Already done: only the
+  affected UI specs run locally; the sync tests run ~35% faster; CI runs in Playwright's image and cancels older runs;
+  Markdown-only commits skip the tests. More workers don't help on 2 cores.
 
 ## Decided against (don't re-suggest)
-- **Logging weights/reps per set**: Noam wants done / not done only.
-- **Adaptive plans**: no test days, no too-easy/too-hard nudging, no deload suggestions. Plans stay as written.
-- **Streaks** (a history calendar is fine, Phase 9; 1 Oct), **consistency targets, program-progress stats, push/pull ratios, neglected-muscle alerts**:
-  not picked.
+- **Logging weights or reps per set**: done / not done only.
+- **Adaptive plans**: no test days, no too-easy/too-hard nudging, no deloads. Plans stay as written.
+- **Streaks, consistency targets, program-progress stats, push/pull ratios, neglected-muscle alerts.** (The History
+  calendar is fine.)
 - **Voice countdowns, "what's next" and encouragement**: holds and sides only.
-- **Hebrew version** and **share as image**: not wanted for now.
-- **Animating workout cards** (every card, current exercise only, tap to play): exercise pages only.
-- **Heart-rate / Google Fit**: limited from a web app; revisit only if the app goes native.
+- **A Hebrew version** and **share as image**: not for now.
+- **Animated workout cards**: exercise pages only.
+- **Heart rate / Google Fit**: only if the app goes native.
+- **"New" marking on new programs** (199).

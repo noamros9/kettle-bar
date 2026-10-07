@@ -3,6 +3,19 @@
 Issue [#199](https://github.com/noamros9/kettle-bar/issues/199). Grilled 7 Oct 2026 (Noam); decisions 158–159 in
 [ROADMAP.md](../../ROADMAP.md). After Phase 26 (134).
 
+## Decisions
+Grilled 7 Oct 2026 with Noam (global decision numbers).
+- **158 · Calisthenics is a subject of its own, 25 programs.** Calisthenics Base and Skills stay in Bodyweight.
+- **159 · Twelve skills × six steps = 72 new exercises** (`added: 14`): muscle-up, handstand, front lever, pistol,
+  handstand push-up, back lever, planche, L-sit to V-sit, one-arm push-up, dragon flag, archer / typewriter pull-up,
+  one-arm pull-up. (Asked "about 60", then took all twelve.)
+- **165 · No human flag** (needs a vertical pole); the archer / typewriter pull-up replaces it.
+- **193 · A window of 3 steps per program, one step a level**: starters at steps 1–3, harder ones at 3–5 or 4–6.
+- **188 · "Front lever · step 3 of 6"** on the day and exercise pages, with the next step named.
+- **183 · Open to Build your own, random workouts and Swap**; a step's alternative is its easier step.
+- **194 · A tab of its own** on the Programs page (Strength family in Stats and builders).
+- **185 · 5 of the 25 are 30 days.** Built to the 35–38 spread from the start (53).
+
 ## What lands
 - **A new subject, Calisthenics** (158), in the Strength family and the Strength shelf group, next to Bodyweight.
   Calisthenics Base and Calisthenics Skills stay in Bodyweight.
@@ -19,7 +32,7 @@ Issue [#199](https://github.com/noamros9/kettle-bar/issues/199). Grilled 7 Oct 2
 - **Catalogue 14 is held until the last exercise ticket** (the decision-121 pattern): own programs and random workouts
   stay at 13 while the skill exercises land, then move to 14 at once.
 
-## Also settled (7 Oct, evening)
+## How the later decisions land in the tickets
 - **Open like any subject** (183): Build your own, random workouts and Swap; a step's alternative is its easier step.
 - **"Front lever · step 3 of 6"** (188) on the day and exercise pages, with the next step named: ticket 1 adds the
   label (it reads `skill` and `step`), so every skill exercise has it as it lands.
