@@ -1,7 +1,36 @@
 # Phase 26: longer programs, half at 35–38 minutes
 
 Issue [#198](https://github.com/noamros9/kettle-bar/issues/198). Grilled 4 and 7 Oct 2026 (Noam); decisions 53–56,
-82 and 153–157 in [ROADMAP.md](../../ROADMAP.md). After Phase 25 (134).
+82 and 153–157 below. After Phase 25 (134).
+
+## Decisions
+Grilled 4 and 7 Oct 2026 with Noam (global decision numbers). Why: on 4 Oct only ~1/6 of the programs ran 33 min or more.
+
+**The target**
+- **53 · Half at 35–38 min (his baseline), a quarter at 31–35, a quarter shorter.** **56 ·** The short quarter has no target. *(4 Oct)*
+- **54 · Minutes are the workout only**; the ~3 min warm-up and cool-down come on top. *(4 Oct)*
+- **155 · Counted per subject.** **156 ·** Movers spread over each shelf's splits and formats. *(7 Oct)*
+
+**What moves and what doesn't**
+- **153 · Started programs stay as they are** (any day done in any round). *(7 Oct)*
+- **154 · Kept at their length:** Busy week, Quickie, Date night warm-up, every After dark subject; Three-Split 60
+  (frozen). *(7 Oct)*
+- **172 · Signature is re-timed like any shelf**; Phase 23's IIs keep their length. *(7 Oct)*
+- **169 · No review of the list** before re-timing. **200 ·** The re-timed ones are listed only in the PR. *(7 Oct)*
+
+**How a program gets longer**
+- **55 · Add, don't rebuild**: keep the blocks and picks, add sets, rounds or slots of the same kind; a one-time
+  exception to never re-pinning. *(4 Oct)*
+- **82 · Added slots prefer catalogue 13** (then older). *(6 Oct)*
+- **157 · A pass after the build**, its own random stream: sets or rounds first, then a slot at a block's end;
+  existing picks never move; config `long: [lo, hi]`. *(technical)*
+- **170 · Can't reach 35–38? It gets longer anyway**: at most one added exercise per block; it keeps what it gained
+  and shows its real minutes. A shelf may end with fewer than half long. *(7 Oct, corrected the same day)*
+
+**Minutes elsewhere in the app** (ticket 6b)
+- **191 · Length filter: Up to 30 / 31–35 / 35+** (was Up to 25 / 26–32 / 33+).
+- **192 · Random workouts: 15 / 25 / 38** (38 replaces 35); the rest-day flow keeps 15.
+- **203 · Help me pick: About 15 / 20–30 / 31–35 / 35–38+.** **204 ·** Build your own keeps 20–40, no 38.
 
 ## What lands
 - **Per subject, about half at 35–38 min, a quarter at 31–35, a quarter shorter** (53, 155), counting the workout
@@ -91,7 +120,7 @@ Tickets 3–6 edit the same list (`configs/long.js`) and the pins file, so they 
   35 can make 38 at some gear (or the sheet says why not, as today); an old 35-minute record reads back.
 - **Done when:** 390 px screenshots of the filter and the random sheet, light and dark.
 
-## Also settled (7 Oct, evening)
+## How the later decisions land in the tickets
 - **The re-timed programs are listed only in the PR** (200): no note in the app.
 
 ## The list

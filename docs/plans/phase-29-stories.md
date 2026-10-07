@@ -1,8 +1,19 @@
 # Phase 29: stories from the couple workouts, by Grok, in Google Drive
 
 Issue [#225](https://github.com/noamros9/kettle-bar/issues/225). Grilled 7 Oct 2026 (Noam); decisions 78, 135,
-162–163 and 167–168 in [ROADMAP.md](../../ROADMAP.md). Last in the order (78, 134); replanned when it starts if need
+162–163 and 167–168 below. Last in the order (78, 134); replanned when it starts if need
 be (135).
+
+## Decisions
+Grilled 7 Oct 2026 with Noam (global decision numbers).
+- **78, 135 · Last in the order**, planned now, replanned when it starts if need be.
+- **162 · Not in the app**: Google Docs in Noam's Drive, the workout as the seed. **Couple programs only.**
+- **163 · On request, by a script**: Grok writes from Noam's own prompt file (no Claude review); a script with a Drive
+  key uploads it, so the text never passes through Claude. Written-ahead was dropped (~24,000 stories, mostly unread).
+- **168 · The seed is a full-length screenshot of the day**, as Noam's prompt expects.
+- **178 · Signed in**, so the screenshot shows Phase 28's drawings.
+- **167 · A folder per program**: "Kettle & Bar stories / <program> / Day 12 — <title>".
+- **202 · Asked here, run on Noam's PC** through the linked desktop app, which must be on.
 
 ## What lands
 - **Nothing in the app** (162): the stories live in Noam's Google Drive; the app never stores or shows them.
@@ -17,7 +28,7 @@ be (135).
   command and reports only the Doc's name and link.
 - **A folder per program** (167): "Kettle & Bar stories / <program> / Day 12 — <title>", a Google Doc each.
 
-## Also settled (7 Oct, evening)
+## How the later decisions land in the tickets
 - **The screenshot shows the drawings** (178): the seed script opens the day signed in as Noam (a saved Playwright
   sign-in on his machine, never committed), so Grok sees Phase 28's drawings rather than stick figures. Ticket 1's
   test page uses a fake sign-in and placeholder images.

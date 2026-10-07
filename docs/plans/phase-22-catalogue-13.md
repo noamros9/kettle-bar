@@ -4,6 +4,17 @@ Grilled 5–6 Oct 2026 (Noam); decisions 72–81, 95, 105 and 116–121 in [ROAD
 Noam picks Grok tickets at hand-off (CLAUDE.md, "Grok tickets"); Grok writes the explicit text either way (63).
 Today: 508 exercises, 131 couple, the page at 130.6 KB gzipped.
 
+## Working-rule decisions made during this phase (128–133)
+Rules for how every ticket is tested and reviewed; CLAUDE.md is where they're followed from.
+- **128 · Main's CI builds and deploys without retesting** a tree a green PR run already tested; Claude updates a PR
+  that is behind main before merging. *(7 Oct)*
+- **129 · The unit suite runs once per tree**: a passing `test:coverage` records the tree; the pre-commit hook skips
+  it; Grok runs only the ticket's tests while writing. *(7 Oct)*
+- **130 · Local phone UI tests for UI tickets only**; content tickets rely on the PR's CI. *(7 Oct)*
+- **131 · CI gets faster**: light and dark in parallel jobs, the every-exercise loops in one page load (#265). *(7 Oct)*
+- **132 · Every Grok ticket plans first**: Grok writes `test-results/tN-plan.md`, Claude reviews it, then Grok builds. *(7 Oct)*
+- **133 · Claude's review trusts Grok's commit hook** when `.git/kb-tested-tree` matches the commit's tree. *(7 Oct)*
+
 ## What lands
 - **715 couple exercises, `added: 13`** (120, 122–126): intercourse +91 (4b shipped 19 of 24), oral +23 (5 shipped 23 of 30) and anal +22 (6 shipped 22 of 30), toys
   +36 and hands +36, Kink-lite and Body play 66 each, eight more kinds 36 each (Edging, Massage, Strip and tease, Shower

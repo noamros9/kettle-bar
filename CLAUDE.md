@@ -1,16 +1,33 @@
 # Working on Kettle & Bar
 
-How Noam wants work done in this repo. Words: [CONTEXT.md](CONTEXT.md). Decisions: [ROADMAP.md](ROADMAP.md) (open
-work; finished phases in [docs/roadmap-archive.md](docs/roadmap-archive.md), read only when needed), [docs/adr/](docs/adr/). Plans and tickets: [docs/plans/](docs/plans/).
+How Noam wants work done in this repo. Words: [CONTEXT.md](CONTEXT.md). [ROADMAP.md](ROADMAP.md) is the index (where we
+are, the order, the phases being built). Each phase's decisions, tickets and challenge round: its plan in
+[docs/plans/](docs/plans/), read only when that phase comes up. Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md),
+read only when needed. Decisions with a long "why": [docs/adr/](docs/adr/).
 
 ## Planning ("plan it by our method")
-- Grill Noam first (short multiple-choice questions) on anything open; record every decision, dated, in ROADMAP.md
-  under its phase so it's never re-asked. When a phase is done, move its section to `docs/roadmap-archive.md`. "Decided against" items are never re-suggested.
+- Grill Noam first (short multiple-choice questions) on anything open, including details Claude would otherwise
+  decide alone; record every decision so it's never re-asked. "Decided against" items are never re-suggested.
+- **Where decisions go (Noam, 7 Oct 2026; keeps ROADMAP.md short):**
+  - A phase's decisions go in a **Decisions** section at the top of its plan, never in ROADMAP.md. Only the phases
+    being built (status **building** or **paused** in the order table) keep their decisions in ROADMAP.md; when a
+    phase starts building, its decisions stay in its plan and ROADMAP.md gets only its row and a link.
+  - Decision numbers are global; the next free one is in ROADMAP.md's header (bump it with every new decision).
+  - One bullet per decision, at most two lines: `**N · Bold lead.** What, the why in a few words. *(date)*`, grouped
+    under short bold headings. A changed decision is edited in place with the old value in brackets ("36, was 12"),
+    not added as a new paragraph. Implementation detail goes in the tickets, not in the decision.
+  - ROADMAP.md holds: Resume here (rewritten each session, not appended), the order table (one row per phase), the
+    building phases, Backlog, Decided against. Nothing else; if it grows past about 120 lines, something belongs in
+    a plan.
+  - When a phase is done, its row goes and its plan's Decisions move to `docs/roadmap-archive.md` (a summary line and
+    a link to the plan).
+  - Working rules (how tickets are built, tested, merged) go in CLAUDE.md itself; a decision about them is noted once
+    in the plan of the phase that made it.
 - One plan per phase in `docs/plans/<name>.md`: a ticket table `| # | Ticket | Tier | Blocked by | Branch | Status |`
   (ticket 0 is the plan itself), then per ticket: what to build, files, **Test first**, **Done when**; and a
   **Challenge round** at the end (weakest assumption, what I hadn't read, the lazier version).
-- New glossary words go in CONTEXT.md. A new issue Noam asks to plan goes into ROADMAP.md, with a comment on the issue
-  linking where it's planned.
+- New glossary words go in CONTEXT.md. A new issue Noam asks to plan gets a row in ROADMAP.md's order table and a
+  plan; the issue gets a comment linking the plan.
 - The plan ships as its own `plan/...` PR.
 
 ## Building (standing permission from Noam, 29 Sep 2026; Opus only since 30 Sep 2026)

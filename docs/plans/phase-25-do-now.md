@@ -3,6 +3,19 @@
 Issue [#200](https://github.com/noamros9/kettle-bar/issues/200). Grilled 7 Oct 2026 (Noam); decisions 142–145 in
 [ROADMAP.md](../../ROADMAP.md). After Phase 24 (134).
 
+## Decisions
+Grilled 7 Oct 2026 with Noam (global decision numbers).
+- **142 · A card on the Programs page and a home-screen shortcut** (`#now`).
+- **174 · The shortcut opens the card**; nothing is picked until a tap.
+- **143 · Two buttons each time: Random and What I missed** (least-loaded muscle). No equipment, quiet (no jumping,
+  nothing on the floor), 20–30 s. **174 ·** What I missed looks back 7 days.
+- **144 · Timed and counted** in Stats and History.
+- **180 · A beep at the end, no voice.**
+- **181 · Not a trained day**: the rest-day card, Today's workout and the next random workout's level stay as they
+  were; History gives it its own small mark.
+- **145 · Stored as a random workout** (`choice: { now }`): no new collection, no rules change, backups already carry
+  it. *(technical)*
+
 ## What lands
 - **A "Do now" card on the Programs page** (142), under the rest-day card, with two buttons (143): **Random** and
   **What I missed**. Either hands you one exercise at `#now`: its drawing, cue and a 20–30 s timer (144).
@@ -15,7 +28,7 @@ Issue [#200](https://github.com/noamros9/kettle-bar/issues/200). Grilled 7 Oct 2
   level, day, time }`, a one-block day of one exercise. Stats and History count it under Random workouts, named "Do
   now". No rules change, and backups already carry the `random` collection.
 
-## Also settled (7 Oct, evening)
+## How the later decisions land in the tickets
 - **A beep at the end, no voice** (180): get-ready silent, one beep when the time is up.
 - **Not a trained day** (181): a Do now leaves the rest-day card, Today's workout and the next random workout's level
   as they were; History shows it with its own small mark. Ticket 2's spec checks all three.
