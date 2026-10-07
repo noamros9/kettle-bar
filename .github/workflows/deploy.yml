@@ -11,6 +11,8 @@ on:
 
 permissions:
   contents: read
+  actions: read # tested-tree.js reads the PR's run (decision 128)
+  pull-requests: read
   pages: write
   id-token: write
 
@@ -33,11 +35,20 @@ jobs:
         with:
           node-version: 22
       - run: npm ci
+      # Decision 128: a push whose tree a green PR run already tested only builds and deploys
+      - name: Was this tree tested on its PR?
+        id: tested
+        if: github.event_name == 'push'
+        run: node scripts/tested-tree.js
+        env:
+          GH_TOKEN: ${{ github.token }}
       - name: Unit tests, 100% coverage on the core modules
+        if: steps.tested.outputs.tested != 'true'
         run: npm run test:coverage
       - name: Build
         run: npm run build
       - name: Phone UI tests, light and dark
+        if: steps.tested.outputs.tested != 'true'
         run: npm run test:ui
       - name: Keep the screenshots
         if: always()

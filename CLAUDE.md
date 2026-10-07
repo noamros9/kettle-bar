@@ -51,7 +51,8 @@ work; finished phases in [docs/roadmap-archive.md](docs/roadmap-archive.md), rea
   - merges still go in plan order, each on its own green CI, and main's run is checked green before the next merge;
   - a fix the earlier ticket needs is made on its branch (in its worktree), then carried into the stacked one.
 - **Merge without asking:** when a ticket passes the review checks below and the PR's CI run is green, Claude merges
-  its PR itself (squash).
+  its PR itself (squash). A PR behind `main` is first updated (`gh pr update-branch`) and merged on that run's
+  green: main's run then only builds and deploys (decision 128, 7 Oct 2026).
   Tell Noam what was merged, briefly.
 - **Review checks:**
   - `npm run test:coverage` once (gated modules: 100% lines and functions, branches at least 95%, kept as high as it
