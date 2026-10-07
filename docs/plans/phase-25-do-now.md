@@ -15,6 +15,12 @@ Issue [#200](https://github.com/noamros9/kettle-bar/issues/200). Grilled 7 Oct 2
   level, day, time }`, a one-block day of one exercise. Stats and History count it under Random workouts, named "Do
   now". No rules change, and backups already carry the `random` collection.
 
+## Also settled (7 Oct, evening)
+- **A beep at the end, no voice** (180): get-ready silent, one beep when the time is up.
+- **Not a trained day** (181): a Do now leaves the rest-day card, Today's workout and the next random workout's level
+  as they were; History shows it with its own small mark. Ticket 2's spec checks all three.
+- **What I missed looks back 7 days; the shortcut opens the card** with both buttons (174).
+
 ## Tickets
 
 | # | Ticket | Tier | Blocked by | Branch | Status |

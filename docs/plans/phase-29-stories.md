@@ -17,6 +17,13 @@ be (135).
   command and reports only the Doc's name and link.
 - **A folder per program** (167): "Kettle & Bar stories / <program> / Day 12 — <title>", a Google Doc each.
 
+## Also settled (7 Oct, evening)
+- **The screenshot shows the drawings** (178): the seed script opens the day signed in as Noam (a saved Playwright
+  sign-in on his machine, never committed), so Grok sees Phase 28's drawings rather than stick figures. Ticket 1's
+  test page uses a fake sign-in and placeholder images.
+- **Asked here, run on Noam's PC** (202) through the linked desktop app, which must be on; ticket 3 writes the steps
+  in CLAUDE.md.
+
 ## Tickets
 
 | # | Ticket | Tier | Blocked by | Branch | Status |
@@ -29,7 +36,7 @@ be (135).
 ### 1. The seed
 - **Build:** `scripts/story-seed.js <program id> <day> [out.png]`: refuses a program that isn't `couple: true` or a
   day out of range; serves the built app (as the UI tests do), opens `#program/<id>/<day>` in Playwright at 390 px
-  wide, light theme, signed out, and saves a full-page PNG (default into a gitignored `story-tmp/`). It prints only the
+  wide, light theme, signed in as Noam (178), and saves a full-page PNG (default into a gitignored `story-tmp/`). It prints only the
   file's path.
 - **Files:** `scripts/story-seed.js`, `.gitignore`, `package.json`, `tests/story-seed.test.js` (the refusals, pure),
   `tests-ui/story-seed.spec.js` (one couple day renders to a PNG taller than one screen).

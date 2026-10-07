@@ -30,7 +30,8 @@ at 31–35. Roughly 180 move to 35–38 and 30 to 31–35; ticket 2 makes the re
 | 4 | Cardio & combat, re-timed | content | 3 | `content/long-cardio-combat` | todo |
 | 5 | Mind & body, re-timed | content | 4 | `content/long-mind-body` | todo |
 | 6 | Mixed and Variety, re-timed | content | 5 | `content/long-mixed` | todo |
-| 7 | Close the phase: the spread checked, CONTEXT.md, archive | plan | 6 | `plan/p26-close` | todo |
+| 6b | The length filter and random workouts at 38 | feature | 6 | `feature/length-filter-38` | todo |
+| 7 | Close the phase: the spread checked, CONTEXT.md, archive | plan | 6b | `plan/p26-close` | todo |
 
 Tickets 3–6 edit the same list (`configs/long.js`) and the pins file, so they go one at a time.
 
@@ -78,6 +79,20 @@ Tickets 3–6 edit the same list (`configs/long.js`) and the pins file, so they 
   their old picks (the pass's test, run over the real list).
 - **Done when:** the spread holds for the family, short of it only by the recorded programs; only the listed pins changed (`git diff --stat` on the pins file);
   the PR's CI green.
+
+### 6b. The length filter and random workouts at 38
+- **Build:** `app/library.js`'s `LENGTHS` and `lengthOf` become Up to 30 / 31–35 / 35+ by mid-range (191); random
+  workouts offer 15 / 25 / 38 (192) in `app/random.js`'s `MINUTES` and the sheet; the rest-day flow keeps 15; a stored
+  random record with 35 still opens and counts. Help me pick's minutes become About 15 / 20–30 / 31–35 / 35–38+
+  (203) in `app/finder.js`; Build your own keeps its minutes (204).
+- **Files:** `app/library.js`, `app/random.js`, `app/pages/random.js`, `app/finder.js`, `tests/finder.test.js`, `tests/library.test.js`, `tests/random.test.js`,
+  `tests-ui/random.spec.js`, `tests-ui/library.spec.js`.
+- **Test first:** the three filter buckets by mid-range (30.5 short, 35 mid, 35.5 long); every subject that offered
+  35 can make 38 at some gear (or the sheet says why not, as today); an old 35-minute record reads back.
+- **Done when:** 390 px screenshots of the filter and the random sheet, light and dark.
+
+## Also settled (7 Oct, evening)
+- **The re-timed programs are listed only in the PR** (200): no note in the app.
 
 ## The list
 _(ticket 2)_

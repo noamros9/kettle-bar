@@ -37,7 +37,7 @@ Wednesday"). Added the same evening: longer programs (#198), calisthenics (#199)
 the order isn't set yet. The code review's place in the order isn't set yet. Each gets its own plan, by our method, when it starts.
 
 **Every open item planned, 7 Oct 2026** (grilled the same day; the last session before the weekly reset). Decisions
-134–175.
+134–206 (and 148 raised to 36).
 134. **The order** (7 Oct): Phase 22 → Phase 20 tickets 9–15 → Phase 23 → **Phase 24** review → **Phase 25** "Do
      now" → **Phase 26** longer programs → **Phase 27** calisthenics → **Phase 19** super programs → **Phase 28**
      explicit drawings (#249) → **Phase 29** stories (#225). Noam put "Do now" right after the review and left the rest to
@@ -184,6 +184,14 @@ Grilled 6 Oct 2026 (Noam). "Catalogue 12" in the decisions below is Phase 22's c
 88. **Names and blurbs in today's style** (6 Oct), no separate review.
 171. **A II's Level III may run up to 3 min long** (7 Oct, Noam): its extra set past the catalogue's top stays; a day
      may end up to 3 min over its range.
+199. **No "New" marking** (7 Oct, Noam) for Phase 23's or 27's programs.
+201. **A II has its own card after its original** (86), **and the original's page links to it once its day 60 is
+     done** ("Ready for II", 7 Oct, Noam).
+184. **The new programs' gear like each subject's today** (7 Oct, Noam): the same share of full gear, kettlebell-only
+     and no-equipment as the subject has now.
+185. **A fifth of the new programs are 30 days** (7 Oct, Noam): Phase 23's 233 (about 47 at 30 days) and Phase 27's 25
+     (5). The IIs keep their originals' 60.
+205. **The 30-day ones follow the same spread** (7 Oct, Noam): any band, not mostly short.
 137. **The library's size is measured, then split only if it slows** (7 Oct, technical): at ~1,060 programs the
      ticket measures `data/library.json`, the finder data and the Programs page's first draw on a throttled phone
      profile; a split (index first, days per program on demand) is its own ticket only if the page gets slower than
@@ -202,6 +210,10 @@ dead code, duplication, tests that no longer earn their keep. Plan:
      review tickets write findings; Claude triages them (fix now, issue for later, drop) and adds the fix tickets to
      the same plan; they are built right away, in this phase. Nothing the review finds waits for another phase unless
      it is too big for one ticket (then an issue).
+186. **Tests that don't earn their keep are deleted in the fix tickets** (7 Oct, Noam), each with a line in the PR on
+     what still covers it.
+187. **A stored shape or sync rule that should change: Noam is asked, and it becomes an issue** (7 Oct, Noam), never
+     a fix ticket in this phase (old backups must still import).
 
 ### Phase 25: "Do now" ([#200](https://github.com/noamros9/kettle-bar/issues/200))
 Plan: [docs/plans/phase-25-do-now.md](docs/plans/phase-25-do-now.md).
@@ -215,6 +227,9 @@ Plan: [docs/plans/phase-25-do-now.md](docs/plans/phase-25-do-now.md).
 145. **Stored as a random workout** (7 Oct, technical): a done "Do now" is a record in `users/{uid}/random/{id}` with
      `choice: { now: 'random' | 'missed' }`: no new collection, so no Firestore rules change, and backups already
      carry it. Stats show it under Random workouts, named "Do now".
+180. **A beep at the end, no voice** (7 Oct, Noam): office-quiet.
+181. **A Do now doesn't count as having trained today** (7 Oct, Noam): the rest-day card, Today's workout and the next
+     random workout's level are unchanged; History shows it with its own small mark.
 
 ### Phase 19: super programs ([#186](https://github.com/noamros9/kettle-bar/issues/186))
 One plan that runs days from several programs in a set order (some days from here, some from there). Plan:
@@ -223,7 +238,7 @@ One plan that runs days from several programs in a set order (some days from her
 146. **Its own progress** (7 Oct, Noam): a super program is a program of its own; ticking its day never touches the
      programs it is made of.
 147. **120 days, levels every 40** (7 Oct, Noam: "lengthier").
-148. **12 ready-made, plus build your own** (7 Oct, Noam): a Super shelf, and chaining your own in Build your own.
+148. **36 ready-made, plus build your own** (7 Oct, Noam; 12 at first, raised to 36 the same evening): a Super shelf, and chaining your own in Build your own.
 149. **The parts take turns, day by day** (7 Oct, Noam): interleaved (A, B, C, A, B, C…, weighted per super: 152), all
      120 days; **3 or more programs**; not every day of a part is used.
 150. **The super's level picks the part's days** (7 Oct, Noam): days 41–80 are Level II, so each part gives its Level
@@ -240,6 +255,13 @@ One plan that runs days from several programs in a set order (some days from her
      round-robin so its days spread through the level. A super's days are copies of its parts' built days with the
      super's day number, pinned like any program. An own super is stored like an own program
      (`users/{uid}/programs/{id}`, `config: { super: [[id, weight]] }`) and built in the page from the library's days.
+179. **Parts may be solo After dark programs, never couple ones** (7 Oct, Noam).
+182. **Parts of any lengths** (7 Oct, Noam): the card shows the range; the weights decide the mix.
+189. **The 36 ready-made ship in today's style** (7 Oct, Noam): listed in the PR, no review first.
+190. **Swaps, Round 2 and Short on time work as in any program** (7 Oct, Noam), stored in the super's own progress.
+195. **A super's days carry its own names** (7 Oct, Noam), a names list like any program's, with the "from" line below.
+196. **Stats count a super's days under the super only** (7 Oct, Noam); the parts' stats are untouched.
+197. **Super has a tab of its own**, after Variety (7 Oct, Noam).
 
 ### Longer programs: Phase 26 ([#198](https://github.com/noamros9/kettle-bar/issues/198))
 Plan: [docs/plans/phase-26-longer-programs.md](docs/plans/phase-26-longer-programs.md).
@@ -274,6 +296,13 @@ Noam, 4 Oct 2026: only about 1/6 of the programs run 33 min or more (of 557: 13%
      day): at most one added exercise per block, plus the sets and rounds the format allows; a program that lands
      short of 35–38 keeps what it gained, and its card shows the minutes its days really build to. A shelf may end
      with fewer than half at 35–38; recorded per shelf.
+191. **The length filter follows the new spread** (7 Oct, Noam): Up to 30 / 31–35 / 35+ (was Up to 25 / 26–32 / 33+),
+     by mid-range.
+192. **Random workouts offer 15 / 25 / 38 minutes** (7 Oct, Noam; 38 replaces 35): from this phase, once the re-timed
+     day types reach it. The rest-day flow keeps 15; old records with 35 stay as they are.
+200. **The re-timed programs are listed only in the PR** (7 Oct, Noam): no note in the app.
+203. **Help me pick's minutes follow too** (7 Oct, Noam): About 15 / 20–30 / 31–35 / 35–38+ (in 6b with 191–192).
+204. **Build your own keeps 20 / 25 / 30 / 35 / 40** (7 Oct, Noam): no 38.
 
 ### Calisthenics: Phase 27 ([#199](https://github.com/noamros9/kettle-bar/issues/199))
 Noam, 4 Oct 2026: calisthenics programs. Plan: [docs/plans/phase-27-calisthenics.md](docs/plans/phase-27-calisthenics.md).
@@ -286,6 +315,14 @@ Noam, 4 Oct 2026: calisthenics programs. Plan: [docs/plans/phase-27-calisthenics
      decision 53's spread from the start (they come after Phase 26).
 165. **No human flag** (7 Oct, Noam): it needs a vertical pole or frame he doesn't have; the **archer / typewriter
      pull-up** (on the bar, toward the one-arm pull-up) takes its place.
+183. **Open to Build your own, random workouts and Swap like any subject** (7 Oct, Noam); a skill step's alternative is
+     its easier step.
+193. **A window of 3 steps per program, one step a level** (7 Oct, Noam): a starter program sits at steps 1–3 of a
+     skill, harder ones at 3–5 or 4–6; Level II and III move one step up.
+194. **Calisthenics has a tab of its own** on the Programs page (7 Oct, Noam); in Stats and builders it stays in the
+     Strength family.
+188. **A skill exercise shows its place on the ladder** (7 Oct, Noam): "Front lever · step 3 of 6" on the day and
+     exercise pages, with the next step named.
 
 ### Explicit drawings and loops for the explicit exercises: Phase 28 ([#249](https://github.com/noamros9/kettle-bar/issues/249))
 Noam, 6 Oct 2026; grilled the same day. Plan:
@@ -316,6 +353,11 @@ Noam, 6 Oct 2026; grilled the same day. Plan:
 166. **Headless first, interactive as the fallback** (7 Oct, Noam): ticket 3 finds whether `grok -p` can allow web
      search and fetch without approval prompts; if not, Noam runs Grok interactively per batch and the script takes
      over from its `found.json`.
+176. **A drawing replaces the figure everywhere it shows** (7 Oct, Noam): exercise page, day page, big timer, swap list.
+177. **Loops play on their own, tap to pause** (7 Oct, Noam).
+198. **"Find another" on the exercise page** (7 Oct, Noam): queues that exercise for the next search run; the approved
+     file stays until a new one is kept.
+206. **Catalogue 10–11 first** (7 Oct, Noam), then Phase 22's kinds, as the plan's batches go.
 173. **Up to 3 finds of each, Noam picks one** (7 Oct, Noam): per exercise Grok brings up to 3 stills and 3 loops;
      the review page shows them beside the stick figure and Noam keeps one of each (or none).
 
@@ -335,6 +377,10 @@ Noam, 5 Oct 2026: automate creating an erotic story with Grok for every After da
 168. **The seed is a screenshot of the day** (7 Oct, Noam: his prompt asks for a story based on a screenshot of the
      workout, and he wants to keep that): the script renders the day page full length at phone width (every block
      and drawing) and gives Grok the image with his prompt. Replaces a text seed.
+178. **The screenshot shows the drawings** (7 Oct, Noam): the script opens the day signed in as Noam, so Grok sees
+     Phase 28's drawings, not stick figures.
+202. **Asked here, run on Noam's PC** (7 Oct, Noam): Claude runs the script through the linked desktop app, which must
+     be on.
 
 ## Decided against (don't re-suggest)
 - **Logging weights/reps per set**: Noam wants done / not done only.

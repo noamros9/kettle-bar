@@ -21,6 +21,14 @@ Issue [#249](https://github.com/noamros9/kettle-bar/issues/249). Grilled 6–7 O
 Licence: decision 113 stands (private use, taken as found, source URL recorded); Claude raised the copyright risk of
 re-hosting others' artwork on 6 Oct and Noam chose this.
 
+## Also settled (7 Oct, evening)
+- **A drawing replaces the figure everywhere it shows** (176): exercise page, day page, big timer, swap list; the
+  view switch decides for all of them. Ticket 1's spec checks each place.
+- **Loops play on their own, muted, tap to pause** (177).
+- **Up to 3 finds of each, Noam keeps one** (173).
+- **"Find another"** (198) on the exercise page (signed in as Noam): adds the exercise to `media/queue.json`;
+  `find-media.js --queue` searches those next. The approved file stays until a new one is kept. In ticket 2.
+
 ## Storage layout
 `media/pending/<exercise id>/<drawing|loop>-<1..3>.<ext>` (up to 3 finds of each, 173) and `media/approved/<exercise id>/<drawing|loop>.<ext>`, each
 with custom metadata `{ source, site, foundAt }`. Keeping one copies it to approved and deletes the other
