@@ -66,7 +66,7 @@ goes unused this phase (CLAUDE.md: tickets that edit the same files wait).
 | 5b | ~~Oral +30 (b)~~ | content | 5 | – | dropped (122) |
 | 6 | Anal +22 (of 30) | content | 1 | `content/c13-anal` | done (PR #272) |
 | 6b | ~~Anal +30 (b)~~ | content | 6 | – | dropped (122) |
-| 7 | Toys +36 | content | 1 | `content/c13-toys` | todo |
+| 7 | Toys +36 | content | 1 | `content/c13-toys` | done (PR #278) |
 | 8 | Hands +36 | content | 1 | `content/c13-hands` | todo |
 | 9 | Rough +36 | content | 1 | `content/c13-rough` | todo |
 | 10 | Kink-lite +36 (a), him on her | content | 1 | `content/c13-kink` | todo |
@@ -178,8 +178,8 @@ on Grok.
 
 ### 2–12i. The sex exercises (715)
 
-**Resume here (7 Oct 2026, end of session):** tickets 1–6 and 1b–1f merged (last: #276); main green. Next: ticket 7
-(toys +36) for Grok, the first with the plan-first step (132): a plan-only run, Claude reviews `test-results/t7-plan.md`,
+**Resume here (7 Oct 2026):** tickets 1–7 and 1b–1f merged (last: #278, toys: plan first, one plan fix and one build fix round). Next: ticket 8
+(hands +36) for Grok, plan first (132): a plan-only run writes `test-results/t8-plan.md`, Claude reviews it,
 then Grok builds and commits. Check free memory before each Grok run; commit WIP if one stops. Grok was stopped twice on 6 Oct for low memory: check free memory first, and commit WIP if a run stops.
 
 **Plan first (132), every Grok ticket from 7 on:** Grok's first run writes only `test-results/tN-plan.md`, one line
