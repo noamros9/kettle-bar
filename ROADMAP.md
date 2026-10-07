@@ -7,7 +7,7 @@ future work doesn't re-ask them. Order within a phase is the build order.
 - **Done today:** Phase 22 tickets 1b (#269) and 6 (anal, shipped 22 of 30, #272); shorter test runs, decisions
   128–132, tickets 1c–1f (#273–#276): the hook skips a tree `test:coverage` passed, main's CI skips tests a PR ran,
   light and dark UI in parallel, the every-exercise loops in one go. Main is green, no PR open.
-- **Next: Phase 22 ticket 8** (hands +36) for Grok; ticket 7 (toys, #278) done, plan first (132), from
+- **Next: Phase 22 ticket 9** (rough +36) for Grok; tickets 7 (toys, #278) and 8 (hands, #279) done, plan first (132), from
   [docs/plans/phase-22-catalogue-13.md](docs/plans/phase-22-catalogue-13.md) "Resume here". Then the rest of Phase 22,
   Phase 20 tickets 9–15 (at catalogue 13), then Phase 23.
 - **Working rules (CLAUDE.md):** never more than 2 tickets building at once; look for the next ticket at every
