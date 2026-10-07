@@ -83,8 +83,9 @@ Tickets 3–6 edit the same list (`configs/long.js`) and the pins file, so they 
 ### 6b. The length filter and random workouts at 38
 - **Build:** `app/library.js`'s `LENGTHS` and `lengthOf` become Up to 30 / 31–35 / 35+ by mid-range (191); random
   workouts offer 15 / 25 / 38 (192) in `app/random.js`'s `MINUTES` and the sheet; the rest-day flow keeps 15; a stored
-  random record with 35 still opens and counts.
-- **Files:** `app/library.js`, `app/random.js`, `app/pages/random.js`, `tests/library.test.js`, `tests/random.test.js`,
+  random record with 35 still opens and counts. Help me pick's minutes become About 15 / 20–30 / 31–35 / 35–38+
+  (203) in `app/finder.js`; Build your own keeps its minutes (204).
+- **Files:** `app/library.js`, `app/random.js`, `app/pages/random.js`, `app/finder.js`, `tests/finder.test.js`, `tests/library.test.js`, `tests/random.test.js`,
   `tests-ui/random.spec.js`, `tests-ui/library.spec.js`.
 - **Test first:** the three filter buckets by mid-range (30.5 short, 35 mid, 35.5 long); every subject that offered
   35 can make 38 at some gear (or the sheet says why not, as today); an old 35-minute record reads back.

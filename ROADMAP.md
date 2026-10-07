@@ -37,7 +37,7 @@ Wednesday"). Added the same evening: longer programs (#198), calisthenics (#199)
 the order isn't set yet. The code review's place in the order isn't set yet. Each gets its own plan, by our method, when it starts.
 
 **Every open item planned, 7 Oct 2026** (grilled the same day; the last session before the weekly reset). Decisions
-134–202 (and 148 raised to 36).
+134–206 (and 148 raised to 36).
 134. **The order** (7 Oct): Phase 22 → Phase 20 tickets 9–15 → Phase 23 → **Phase 24** review → **Phase 25** "Do
      now" → **Phase 26** longer programs → **Phase 27** calisthenics → **Phase 19** super programs → **Phase 28**
      explicit drawings (#249) → **Phase 29** stories (#225). Noam put "Do now" right after the review and left the rest to
@@ -191,6 +191,7 @@ Grilled 6 Oct 2026 (Noam). "Catalogue 12" in the decisions below is Phase 22's c
      and no-equipment as the subject has now.
 185. **A fifth of the new programs are 30 days** (7 Oct, Noam): Phase 23's 233 (about 47 at 30 days) and Phase 27's 25
      (5). The IIs keep their originals' 60.
+205. **The 30-day ones follow the same spread** (7 Oct, Noam): any band, not mostly short.
 137. **The library's size is measured, then split only if it slows** (7 Oct, technical): at ~1,060 programs the
      ticket measures `data/library.json`, the finder data and the Programs page's first draw on a throttled phone
      profile; a split (index first, days per program on demand) is its own ticket only if the page gets slower than
@@ -300,6 +301,8 @@ Noam, 4 Oct 2026: only about 1/6 of the programs run 33 min or more (of 557: 13%
 192. **Random workouts offer 15 / 25 / 38 minutes** (7 Oct, Noam; 38 replaces 35): from this phase, once the re-timed
      day types reach it. The rest-day flow keeps 15; old records with 35 stay as they are.
 200. **The re-timed programs are listed only in the PR** (7 Oct, Noam): no note in the app.
+203. **Help me pick's minutes follow too** (7 Oct, Noam): About 15 / 20–30 / 31–35 / 35–38+ (in 6b with 191–192).
+204. **Build your own keeps 20 / 25 / 30 / 35 / 40** (7 Oct, Noam): no 38.
 
 ### Calisthenics: Phase 27 ([#199](https://github.com/noamros9/kettle-bar/issues/199))
 Noam, 4 Oct 2026: calisthenics programs. Plan: [docs/plans/phase-27-calisthenics.md](docs/plans/phase-27-calisthenics.md).
@@ -354,6 +357,7 @@ Noam, 6 Oct 2026; grilled the same day. Plan:
 177. **Loops play on their own, tap to pause** (7 Oct, Noam).
 198. **"Find another" on the exercise page** (7 Oct, Noam): queues that exercise for the next search run; the approved
      file stays until a new one is kept.
+206. **Catalogue 10–11 first** (7 Oct, Noam), then Phase 22's kinds, as the plan's batches go.
 173. **Up to 3 finds of each, Noam picks one** (7 Oct, Noam): per exercise Grok brings up to 3 stills and 3 loops;
      the review page shows them beside the stick figure and Noam keeps one of each (or none).
 
