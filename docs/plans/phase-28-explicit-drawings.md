@@ -22,9 +22,9 @@ Licence: decision 113 stands (private use, taken as found, source URL recorded);
 re-hosting others' artwork on 6 Oct and Noam chose this.
 
 ## Storage layout
-`media/pending/<exercise id>/<drawing|loop>.<ext>` and `media/approved/<exercise id>/<drawing|loop>.<ext>`, each
-with custom metadata `{ source, site, foundAt }`. Approve copies pending to approved and deletes the pending file;
-Reject deletes it and records the URL in `media/rejected.json` so the next search skips it.
+`media/pending/<exercise id>/<drawing|loop>-<1..3>.<ext>` (up to 3 finds of each, 173) and `media/approved/<exercise id>/<drawing|loop>.<ext>`, each
+with custom metadata `{ source, site, foundAt }`. Keeping one copies it to approved and deletes the other
+pending finds of that kind; Reject (or rejecting all) deletes them and records the URL in `media/rejected.json` so the next search skips it.
 
 ## Tickets
 
@@ -58,20 +58,21 @@ Ticket 3 can build alongside ticket 2 (stacked on 1; 2 is the page, 3 is a scrip
   him after merging; UI tests use the fake, never real files.
 
 ### 2. The review page
-- **Build:** `#review` (signed in as Noam only; a link in Settings): the pending items one by one: the exercise's name,
-  cue and stick figure on one side, the found drawing or loop on the other, its source site; **Approve**, **Reject**,
-  **Skip**; a count left. Approve and Reject as in "Storage layout".
+- **Build:** `#review` (signed in as Noam only; a link in Settings): the pending exercises one by one: the exercise's name,
+  cue and stick figure on one side, its up to 3 found drawings (then its up to 3 loops) on the other, each with its
+  source site; **Keep** on one of them, **Reject all**, **Skip**; a count left. As in "Storage layout" (173).
 - **Files:** `app/pages/review.js`, `app/media.js` (approve, reject), `app/main.js` (route), `app/styles.css`,
   `tests/media.test.js`, `tests-ui/review.spec.js`.
-- **Test first:** with the fake Storage: Approve moves the file and its metadata; Reject deletes it and adds the URL to
+- **Test first:** with the fake Storage: Keep moves the chosen file and its metadata and deletes the other finds of
+  that kind; Reject all deletes them and adds the URL to
   `rejected.json`; a non-Noam account sees nothing.
 - **Done when:** screenshots at 390 px with placeholder images (never real files) light and dark.
 
 ### 3. The search run
 - **Build:** `scripts/find-media.js <exercise ids | --kind k | --catalogue n>`: per exercise, a `grok -p` run with web
   search and fetch allowed (`--allow` for those two tools only; never in other tickets), given the exercise's name,
-  cue and pose description, the two sites, the rules of 112 and the rejected URLs; Grok downloads at most one still and
-  one loop into a gitignored folder (`media-inbox/`) and writes `found.json` (`{ id, kind, file, source }`). The script
+  cue and pose description, the two sites, the rules of 112 and the rejected URLs; Grok downloads up to 3 stills and
+  3 loops (173) into a gitignored folder (`media-inbox/`) and writes `found.json` (`{ id, kind, file, source }`). The script
   checks type and size (a still ≤ 300 KB, a loop ≤ 2 MB after `ffmpeg -an` to MP4 and WebM), uploads each as pending
   with Noam's signed-in session (a small local upload page or the Firebase CLI's auth, decided in the ticket; no
   service-account key in the repo), and deletes the inbox copy. Grok's output goes to a scratch file, not Claude's

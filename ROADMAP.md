@@ -37,7 +37,7 @@ Wednesday"). Added the same evening: longer programs (#198), calisthenics (#199)
 the order isn't set yet. The code review's place in the order isn't set yet. Each gets its own plan, by our method, when it starts.
 
 **Every open item planned, 7 Oct 2026** (grilled the same day; the last session before the weekly reset). Decisions
-134–171.
+134–175.
 134. **The order** (7 Oct): Phase 22 → Phase 20 tickets 9–15 → Phase 23 → **Phase 24** review → **Phase 25** "Do
      now" → **Phase 26** longer programs → **Phase 27** calisthenics → **Phase 19** super programs → **Phase 28**
      explicit drawings (#249) → **Phase 29** stories (#225). Noam put "Do now" right after the review and left the rest to
@@ -207,6 +207,8 @@ dead code, duplication, tests that no longer earn their keep. Plan:
 Plan: [docs/plans/phase-25-do-now.md](docs/plans/phase-25-do-now.md).
 142. **A card on the Programs page and a home-screen shortcut** (7 Oct, Noam): the shortcut (long-press the icon)
      opens it at `#now`, like "Today's workout".
+174. **What I missed looks back 7 days; the shortcut opens the card** (7 Oct, Noam): both buttons, nothing picked until
+     a tap.
 143. **Two buttons, picked each time** (7 Oct, Noam): **Random** and **What I missed** (the muscle with the least load in
      the last 7 days). Both pick one exercise: no equipment, quiet (no jumping, nothing on the floor), 20–30 s.
 144. **Timed and counted** (7 Oct, Noam): its own 20–30 s timer; Mark as done counts it in Stats and History.
@@ -228,6 +230,7 @@ One plan that runs days from several programs in a set order (some days from her
      II days there.
 151. **Super shelf and a "from" line** (7 Oct, Noam): each day says which program it comes from; the program page
      shows the parts.
+175. **Your own super: weights 1–3 and a share link** (7 Oct, Noam), like an own program's link.
 152. **How the days are chosen** (7 Oct, Noam, asked after he pointed out it had been decided for him): **3–6
      parts**, **library programs only** (pinned; an own program can be edited). **Weighted turns, set per super**
      (Iron PPL 2 days for every 1 of Yoga Flow); equal weights are the default. A part's days of a level are used
@@ -265,6 +268,8 @@ Noam, 4 Oct 2026: only about 1/6 of the programs run 33 min or more (of 557: 13%
      until each day lands in the new range. Existing picks never move. The config says `long: [lo, hi]`; the old
      `minutes` stay for the pin's history.
 169. **No review of the list** (7 Oct, Noam): ticket 2's list goes straight to tickets 3–6.
+172. **Signature is re-timed like any shelf** (7 Oct, Noam): about half of its originals move to 35–38. Three-Split 60
+     stays (frozen, ADR 0001), and Phase 23's IIs keep their length (84) and aren't moved.
 170. **Programs that can't reach their band get longer anyway** (7 Oct, Noam, correcting the first reading the same
      day): at most one added exercise per block, plus the sets and rounds the format allows; a program that lands
      short of 35–38 keeps what it gained, and its card shows the minutes its days really build to. A shelf may end
@@ -311,6 +316,8 @@ Noam, 6 Oct 2026; grilled the same day. Plan:
 166. **Headless first, interactive as the fallback** (7 Oct, Noam): ticket 3 finds whether `grok -p` can allow web
      search and fetch without approval prompts; if not, Noam runs Grok interactively per batch and the script takes
      over from its `found.json`.
+173. **Up to 3 finds of each, Noam picks one** (7 Oct, Noam): per exercise Grok brings up to 3 stills and 3 loops;
+     the review page shows them beside the stick figure and Noam keeps one of each (or none).
 
 ### Stories from the couple workouts: Phase 29 ([#225](https://github.com/noamros9/kettle-bar/issues/225))
 Noam, 5 Oct 2026: automate creating an erotic story with Grok for every After dark workout. Plan:

@@ -6,8 +6,8 @@ Issue [#200](https://github.com/noamros9/kettle-bar/issues/200). Grilled 7 Oct 2
 ## What lands
 - **A "Do now" card on the Programs page** (142), under the rest-day card, with two buttons (143): **Random** and
   **What I missed**. Either hands you one exercise at `#now`: its drawing, cue and a 20–30 s timer (144).
-- **A home-screen shortcut** "Do now" (142): long-press the icon, it opens `#now` (picks Random; What I missed is a
-  tap away on the page).
+- **A home-screen shortcut** "Do now" (142): long-press the icon, it opens `#now` with both buttons; nothing is picked
+  until a tap (174).
 - **The pool** (143): no equipment, quiet (no jumping, nothing on the floor), doable in work clothes: a hand-picked
   list in `app/now.js`, checked by a test. **What I missed** picks from the exercises whose first main muscle had the
   least load in the last 7 days (Stats' muscle load over done days, random workouts and Do nows).
@@ -49,7 +49,7 @@ Issue [#200](https://github.com/noamros9/kettle-bar/issues/200). Grilled 7 Oct 2
   `app/stats.js` (name), `manifest.webmanifest`, `app/styles.css`, `sw.js` (the new script in the cache list),
   `tests-ui/now.spec.js`, `tests/random.test.js`, `tests/stats.test.js`, `scripts/ui-affected.js`.
 - **Test first:** `now.spec.js`: the card shows both buttons; Random opens `#now` with one exercise; Start runs the
-  timer to the end; Done adds a day to History and a "Do now" line to Stats; the shortcut URL opens `#now`.
+  timer to the end; Done adds a day to History and a "Do now" line to Stats; the shortcut URL opens `#now` with both buttons and no exercise yet.
   `random.test.js`: a Do now record round-trips through backup export and import.
 - **Done when:** 390 px screenshots light and dark of the card and `#now`; no sideways scroll at 360 px; the PR's CI
   green.
