@@ -45,14 +45,22 @@ for (const cfg of sample) {
 }
 
 test('every exercise page', async ({ app }, testInfo) => {
-  test.setTimeout(30000 + Object.keys(EX).length * 150); // ~70 ms a page in CI: the catalogue grows each phase (466 in Phase 20)
+  const list = Object.values(EX).map((e) => ({ id: e.id, name: e.name }));
+  test.setTimeout(30000 + list.length * 30); // the catalogue grows each phase
   await app.open('#exercises');
-  for (const e of Object.values(EX)) {
-    await app.go(`#ex-${e.id}`);
-    expect(await app.h1(), e.id).toBe(e.name);
-    await expect(app.page.locator('#app svg.mm'), e.id).toHaveCount(1);
-    expect(await app.sidewaysScroll(), e.id).toBe(0);
-  }
+  // Decision 131: every page checked inside the browser in one go (render is synchronous on hashchange)
+  const bad = await app.page.evaluate(async (all) => {
+    const out = [], de = document.documentElement;
+    for (const e of all) {
+      await new Promise((done) => { addEventListener('hashchange', () => setTimeout(done), { once: true }); location.hash = `#ex-${e.id}`; });
+      const h1 = document.querySelector('#app h1');
+      if (!h1 || h1.textContent.trim() !== e.name) out.push(`${e.id}: heading`);
+      if (document.querySelectorAll('#app svg.mm').length !== 1) out.push(`${e.id}: muscle map`);
+      if (de.scrollWidth - de.clientWidth !== 0) out.push(`${e.id}: sideways scroll`);
+    }
+    return out;
+  }, list);
+  expect(bad).toEqual([]);
   await shot(app, testInfo, 'exercise-last');
 });
 

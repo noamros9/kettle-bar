@@ -3,15 +3,15 @@
 Built from a grilling session with Noam on 28 Sep 2026. Decisions are recorded under each item so
 future work doesn't re-ask them. Order within a phase is the build order.
 
-## Resume here (6 Oct 2026, end of session)
-- **Done today:** #234 muscle chip links (PR #240) and **Phase 21 complete** (PRs #243, #248, #251, #254). Main is
-  green, no PR open, no ticket in progress.
-- **Next: Phase 22** (catalogue **13**, decision 105; section below), planned 6 Oct (decisions 116–121): build from
-  [docs/plans/phase-22-catalogue-13.md](docs/plans/phase-22-catalogue-13.md), ticket 1 first. Then Phase 20 tickets
-  9–15 (at catalogue 13), then Phase 23.
-- **Working rules set today (CLAUDE.md):** never more than 2 tickets building at once; look for the next ticket at
-  every checkpoint; parallel only within one phase. If Claude goes sequential when a second ticket could run, it
-  proposes a hook to Noam.
+## Resume here (7 Oct 2026, end of session)
+- **Done today:** Phase 22 tickets 1b (#269) and 6 (anal, shipped 22 of 30, #272); shorter test runs, decisions
+  128–132, tickets 1c–1f (#273–#276): the hook skips a tree `test:coverage` passed, main's CI skips tests a PR ran,
+  light and dark UI in parallel, the every-exercise loops in one go. Main is green, no PR open.
+- **Next: Phase 22 ticket 7** (toys +36) for Grok, plan first (132), from
+  [docs/plans/phase-22-catalogue-13.md](docs/plans/phase-22-catalogue-13.md) "Resume here". Then the rest of Phase 22,
+  Phase 20 tickets 9–15 (at catalogue 13), then Phase 23.
+- **Working rules (CLAUDE.md):** never more than 2 tickets building at once; look for the next ticket at every
+  checkpoint; parallel only within one phase. Every Grok ticket plans first.
 - **Parked:** #249 explicit drawings and loops (decisions 106–115; Grok finds them online, signed-in only, Firebase
   Storage). Place in the order not set; open points are listed in its section.
 - **Worktrees:** `../kettle-bar-docs` is the spare (detached, `npm ci` done; UI tests there use `UI_PORT=4174`).
