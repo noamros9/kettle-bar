@@ -80,7 +80,7 @@ The pins file is regenerated after each rebase (`npm run pin`), never merged by 
   `tests/builder.test.js`, `tests/fixtures/program-days.json`.
 - **Test first:** `signature.test.js`: 15 IIs, each after its original; a II's day 1 sets and reps equal its
   original's day 21's; Level III has more sets than the original's Level III; no original's pin changes.
-- **Done when:** the 15 build inside their minutes, pinned; screenshots of a II's day 1 and day 41 at 390 px.
+- **Done when:** the 15 build inside their minutes (Level III up to 3 min over, 171), pinned; screenshots of a II's day 1 and day 41 at 390 px.
 
 ### 3–12. The new programs, by subject
 - **Build:** per subject, the new count in the table above, each a full config (id, `added: 23`, `catalogue: 13`,
@@ -107,8 +107,8 @@ _(ticket 1)_
 - **Weakest assumption: "a step harder" has something to step to at Level III.** The catalogue has three levels of
   reps; a II's Level III is past them. The plan adds a set (or round) there, which changes the day's time: a
   Five-Split day near the top of its range may overflow. Ticket 2 checks every II day against its range and, where
-  one overflows, takes the extra set off the abs block first. If that still overflows, Noam is asked (not decided
-  quietly).
+  one overflows, lets it run up to 3 min over (171); past that, the extra set goes and Level III climbs by the
+  original's lever only, recorded here.
 - **What I hadn't read:** how the Signature shelf orders its programs (by `ORDER`, or by a list in
   `app/library.js`), and whether Three-Split 60's look-alike config is reachable from `configs/strength.js`. Ticket 2
   reads both first. Also not read: whether the finder vectors (made in the deploy) take longer than CI allows at
