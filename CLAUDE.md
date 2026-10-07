@@ -54,9 +54,11 @@ work; finished phases in [docs/roadmap-archive.md](docs/roadmap-archive.md), rea
   its PR itself (squash).
   Tell Noam what was merged, briefly.
 - **Review checks:**
-  - `npm test` and `npm run test:coverage` (gated modules: 100% lines and functions, branches at least 95%, kept as
-    high as it goes; Noam, 6 Oct 2026);
-  - locally, only the phone UI tests the branch touches: `npm run test:ui:affected -- <pages the ticket's UI work
+  - `npm run test:coverage` once (gated modules: 100% lines and functions, branches at least 95%, kept as high as it
+    goes; Noam, 6 Oct 2026). Not `npm test` too, and no rerun on the same tree: it records the tree it passed on and
+    the pre-commit hook skips that tree (decision 129, 7 Oct 2026);
+  - for UI tickets only (the branch touches `app/`, `index.html`, styles or a spec; content tickets rely on the PR's
+    CI, decision 130), the phone UI tests the branch touches: `npm run test:ui:affected -- <pages the ticket's UI work
     touched>` (a fresh build, then the changed specs, the specs mapped to the changed modules, the pages named, and a
     smoke check that every page draws; light theme, `--dark` adds dark). The **full suite, light and dark, runs in CI
     on the PR, and the ticket merges only when that run is green** (Noam, 1 Oct 2026: the full local run took ~6 min

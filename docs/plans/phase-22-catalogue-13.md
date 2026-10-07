@@ -54,7 +54,7 @@ goes unused this phase (CLAUDE.md: tickets that edit the same files wait).
 | 0c | Every Grok ticket plans first (132 widened) | plan | – | `plan/grok-plans-first` | done (PR #271) |
 | 1 | Catalogue-13 plumbing: page cap 350, pools, held newest, four subjects in `EX_FAMILIES` | feature | – | `feature/catalogue-13` | done (PR #257) |
 | 1b | More kinds plumbing: page gate 1 MB, longer UI timeouts, eight more pools, six subjects in `EX_FAMILIES` | feature | 1 | `feature/c13-more-kinds` | done (PR #269) |
-| 1c | The unit suite once per tree; review and UI rules | feature | – | `feature/test-once-per-tree` | todo |
+| 1c | The unit suite once per tree; review and UI rules | feature | – | `feature/test-once-per-tree` | done (PR #273) |
 | 1d | Main's CI skips tests on a tree a PR tested | feature | – | `feature/main-skips-tested` | todo |
 | 1e | CI: light and dark UI as parallel jobs | feature | 1d | `feature/ci-parallel-themes` | todo |
 | 1f | Every-exercise UI loops in one page load | feature | – | `feature/one-load-figures` | todo |
