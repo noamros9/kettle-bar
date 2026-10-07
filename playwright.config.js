@@ -10,6 +10,7 @@ module.exports = defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: 0,
+  timeout: 150000, // twice the slowest test (the every-exercise loop, ~1.2 min); decision 127
   reporter: process.env.CI ? [['list'], ['github'], ['html', { open: 'never' }]] : 'list', // github: failures show as run annotations
   // service workers blocked: requests through one would skip the Firebase/font stubs in tests-ui/fixtures.js
   use: { baseURL: `http://localhost:${PORT}`, trace: 'retain-on-failure', serviceWorkers: 'block' },

@@ -30,9 +30,9 @@ test('a program adds only its id to the first download (Phase 16): 100 more prog
   assert.ok(gz([...real, ...more]) - gz(real) < 1024, `${gz([...real, ...more]) - gz(real)} bytes for 100 programs`);
 });
 
-test('the first download is at most 350 KB gzipped (Phase 22, decision 95; the gate in CLAUDE.md)', () => {
+test('the first download is at most 1 MB gzipped (Phase 22, decision 127; the gate in CLAUDE.md)', () => {
   const gz = require('zlib').gzipSync(out['index.html']).length;
-  assert.ok(gz <= 350 * 1024, `index.html is ${(gz / 1024).toFixed(1)} KB gzipped`);
+  assert.ok(gz <= 1024 * 1024, `index.html is ${(gz / 1024).toFixed(1)} KB gzipped`);
 });
 
 test('data/library.json carries only what the pages that do not load the program need', () => {

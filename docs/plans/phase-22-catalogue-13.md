@@ -51,7 +51,7 @@ goes unused this phase (CLAUDE.md: tickets that edit the same files wait).
 |---|---|---|---|---|---|
 | 0 | This plan | plan | – | `plan/phase-22-catalogue-13` | done (PR #256) |
 | 1 | Catalogue-13 plumbing: page cap 350, pools, held newest, four subjects in `EX_FAMILIES` | feature | – | `feature/catalogue-13` | done (PR #257) |
-| 1b | More kinds plumbing: page gate 1 MB, longer UI timeouts, eight more pools, six subjects in `EX_FAMILIES` | feature | 1 | `feature/c13-more-kinds` | todo |
+| 1b | More kinds plumbing: page gate 1 MB, longer UI timeouts, eight more pools, six subjects in `EX_FAMILIES` | feature | 1 | `feature/c13-more-kinds` | done (PR #269) |
 | 2 | Intercourse +24 (a) | content | 1 | `content/c13-fuck-a` | done (PR #258) |
 | 3 | Intercourse +24 (b) | content | 2 | `content/c13-fuck-b` | done (PR #261) |
 | 4 | Intercourse +24 (c) | content | 3 | `content/c13-fuck-c` | done (PR #263) |
@@ -124,7 +124,7 @@ on Grok.
 
 ### 2–12i. The sex exercises (715)
 
-**Resume here (6 Oct 2026, end of session):** tickets 1–5 merged (last: #267); main green. Next: ticket 1b (`feature/c13-more-kinds`), Claude builds it (plumbing); then 6 (anal +30) for Grok, in a **fresh** session. Grok was stopped twice on 6 Oct for low memory: check free memory first, and commit WIP if a run stops.
+**Resume here (7 Oct 2026):** tickets 1–5 and 1b merged (last: #269). Next: 6 (anal +30) for Grok. Grok was stopped twice on 6 Oct for low memory: check free memory first, and commit WIP if a run stops.
 
 **Review lessons from tickets 2–4b, for every sex ticket's prompt:** (1) different = a different body arrangement, not
 the same one on other furniture or with a leg held another way; (2) it must work for real bodies (hip heights meet,
@@ -194,6 +194,8 @@ the PR. No duplicate of an existing exercise under a new name.
 ### 21. Open catalogue 13
 - `recipe-book.js`: `NEWEST = 13`. New own programs and random workouts draw the new fitness exercises; saved ones
   keep the catalogue they stored.
+- `recipes/book.json`: commit a fresh one (`node recipe-book.js`). It's a cache, rebuilt when its hash is stale
+  (~20 s a build); every exercise ticket changes its inputs, so tickets 2–20e leave it out (Noam, 7 Oct 2026).
 - **Test first:** the book's catalogue is 13; an own program stored at 12 builds the same days as before (pinned);
   a random workout at 13 can draw an `added: 13` exercise.
 - **Done when:** a new random workout on the phone shows a catalogue-13 exercise within a few tries; an own program
