@@ -18,5 +18,5 @@ module.exports = defineConfig({
     { name: 'phone-light', use: { ...phone, colorScheme: 'light' } },
     { name: 'phone-dark', use: { ...phone, colorScheme: 'dark' } },
   ],
-  webServer: { command: `npm run -s build && node scripts/serve.js ${PORT}`, url: `http://localhost:${PORT}/index.html`, reuseExistingServer: !process.env.CI, timeout: 60000 },
+  webServer: { command: `npm run -s build && node scripts/serve.js ${PORT}`, url: `http://localhost:${PORT}/index.html`, reuseExistingServer: !process.env.CI, timeout: 240000 }, // the build alone takes ~80 s on 2 cores (Phase 22): a UI job without a build step before it timed out at 60 s
 });

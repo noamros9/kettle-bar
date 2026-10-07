@@ -56,7 +56,7 @@ goes unused this phase (CLAUDE.md: tickets that edit the same files wait).
 | 1b | More kinds plumbing: page gate 1 MB, longer UI timeouts, eight more pools, six subjects in `EX_FAMILIES` | feature | 1 | `feature/c13-more-kinds` | done (PR #269) |
 | 1c | The unit suite once per tree; review and UI rules | feature | – | `feature/test-once-per-tree` | done (PR #273) |
 | 1d | Main's CI skips tests on a tree a PR tested | feature | – | `feature/main-skips-tested` | done (PR #274) |
-| 1e | CI: light and dark UI as parallel jobs | feature | 1d | `feature/ci-parallel-themes` | todo |
+| 1e | CI: light and dark UI as parallel jobs | feature | 1d | `feature/ci-parallel-themes` | done (PR #275) |
 | 1f | Every-exercise UI loops in one page load | feature | – | `feature/one-load-figures` | todo |
 | 2 | Intercourse +24 (a) | content | 1 | `content/c13-fuck-a` | done (PR #258) |
 | 3 | Intercourse +24 (b) | content | 2 | `content/c13-fuck-b` | done (PR #261) |

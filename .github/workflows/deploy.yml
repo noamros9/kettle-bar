@@ -47,18 +47,6 @@ jobs:
         run: npm run test:coverage
       - name: Build
         run: npm run build
-      - name: Phone UI tests, light and dark
-        if: steps.tested.outputs.tested != 'true'
-        run: npm run test:ui
-      - name: Keep the screenshots
-        if: always()
-        uses: actions/upload-artifact@v7
-        with:
-          name: phone-screenshots
-          path: |
-            test-results/
-            playwright-report/
-          retention-days: 14
       - name: Collect the site
         run: |
           mkdir _site
@@ -73,8 +61,43 @@ jobs:
         with:
           path: _site
 
+  # Decision 131: the phone tests, light and dark, each in its own job beside the unit tests
+  ui:
+    runs-on: ubuntu-24.04
+    container:
+      image: mcr.microsoft.com/playwright:v1.56.0-noble
+      options: --user 1001
+    strategy:
+      fail-fast: false
+      matrix:
+        theme: [light, dark]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - run: npm ci
+      - name: Was this tree tested on its PR?
+        id: tested
+        if: github.event_name == 'push'
+        run: node scripts/tested-tree.js
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - name: Phone UI tests
+        if: steps.tested.outputs.tested != 'true'
+        run: npx playwright test --project=phone-${{ matrix.theme }}
+      - name: Keep the screenshots
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: phone-screenshots-${{ matrix.theme }}
+          path: |
+            test-results/
+            playwright-report/
+          retention-days: 14
+
   deploy:
-    needs: test
+    needs: [test, ui]
     concurrency:
       group: pages
       cancel-in-progress: false
