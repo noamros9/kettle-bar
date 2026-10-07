@@ -20,7 +20,11 @@ work; finished phases in [docs/roadmap-archive.md](docs/roadmap-archive.md), rea
   marks them. Grok Build builds, Claude reviews and merges:
   - Claude creates the ticket's branch, then runs `grok -p` headless with the plan file and ticket number, asking
     for a short summary back; Grok's full output goes to a scratch file, not Claude's context.
-  - Grok builds from the ticket's **Test first** and commits on that branch. It never pushes, opens PRs or merges.
+  - **Grok plans first (Noam, 7 Oct 2026):** its first run writes only `test-results/tN-plan.md` (per item for
+    content, files and approach for code) and stops; Claude reviews the plan and sends changes until it passes.
+  - Grok then builds from the approved plan (`--continue`), from the ticket's **Test first**, and commits on that
+    branch. While writing it runs only the ticket's test files; the commit hook runs the full suite. It never pushes,
+    opens PRs or merges.
   - Claude runs the review checks below, pushes, opens the PR, marks the ticket `done (PR #n)`, and merges on green
     CI — the same bar as Claude's own tickets.
   - Review fails → Grok gets the findings for one fix round. Still failing → Claude finishes the ticket and says so

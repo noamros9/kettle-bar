@@ -136,9 +136,13 @@ Grilled 5 Oct 2026 (Noam); after Phase 21, before Phase 20 ticket 9. Claude plan
      CI, which runs the full suite.
 131. **CI itself gets faster in this phase** (7 Oct, Noam): light and dark run as parallel jobs, and the every-exercise
      loops check every figure in one page load ([#265](https://github.com/noamros9/kettle-bar/issues/265)).
-132. **Sex tickets: outline first** (7 Oct, Noam): Grok first writes one line per exercise (who lies, kneels, sits or
-     stands where, where her legs are, what he braces) and stops; Claude reviews the list for copies and bodies that
-     don't fit; then Grok writes the cues. A fix round on the outline costs minutes, not a full run.
+132. **Every Grok ticket: Grok plans, Claude reviews the plan, then Grok builds** (7 Oct, Noam; first for sex tickets,
+     widened the same day): Grok's first run writes only its plan to `test-results/tN-plan.md` and stops: for a
+     content ticket one line per item (an exercise: who lies, kneels, sits or stands where, where her legs are, what he
+     braces; a program: name, shape, minutes, pools), for code the files, the test first and the approach. Claude
+     reviews it (copies, bodies that don't fit, wrong approach) and sends back changes until it passes; then Grok
+     builds from the approved plan (`--continue`) and commits, and Claude reviews the build as before. A fix round on
+     a plan costs minutes, not a full run.
 - Plan: [docs/plans/phase-22-catalogue-13.md](docs/plans/phase-22-catalogue-13.md).
 
 ### Phase 23: new fitness programs at catalogue 12
