@@ -24,6 +24,10 @@ Issue [#199](https://github.com/noamros9/kettle-bar/issues/199). Grilled 7 Oct 2
 - **"Front lever · step 3 of 6"** (188) on the day and exercise pages, with the next step named: ticket 1 adds the
   label (it reads `skill` and `step`), so every skill exercise has it as it lands.
 - **5 of the 25 programs are 30 days** (185).
+- **A window of 3 steps per program, one step a level** (193): each program names, per skill, its first step; Level I
+  uses it, II the next, III the one after. A program's window is in its config (`skills: { frontLever: 3 }`), checked
+  by ticket 5–6's test (the window fits inside the ladder; starter programs at step 1).
+- **A tab of its own** (194): `SHELVES` gets Calisthenics (ticket 1); `FAMILIES` keeps it in Strength.
 
 ## Tickets
 

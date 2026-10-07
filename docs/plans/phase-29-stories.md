@@ -21,6 +21,8 @@ be (135).
 - **The screenshot shows the drawings** (178): the seed script opens the day signed in as Noam (a saved Playwright
   sign-in on his machine, never committed), so Grok sees Phase 28's drawings rather than stick figures. Ticket 1's
   test page uses a fake sign-in and placeholder images.
+- **Asked here, run on Noam's PC** (202) through the linked desktop app, which must be on; ticket 3 writes the steps
+  in CLAUDE.md.
 
 ## Tickets
 

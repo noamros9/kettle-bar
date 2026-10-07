@@ -26,6 +26,8 @@ re-hosting others' artwork on 6 Oct and Noam chose this.
   view switch decides for all of them. Ticket 1's spec checks each place.
 - **Loops play on their own, muted, tap to pause** (177).
 - **Up to 3 finds of each, Noam keeps one** (173).
+- **"Find another"** (198) on the exercise page (signed in as Noam): adds the exercise to `media/queue.json`;
+  `find-media.js --queue` searches those next. The approved file stays until a new one is kept. In ticket 2.
 
 ## Storage layout
 `media/pending/<exercise id>/<drawing|loop>-<1..3>.<ext>` (up to 3 finds of each, 173) and `media/approved/<exercise id>/<drawing|loop>.<ext>`, each

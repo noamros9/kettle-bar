@@ -19,6 +19,9 @@ phase starts (136).
 - **Gear like each subject's today** (184): the same share of full gear, kettlebell-only and no-equipment.
 - **A fifth are 30 days** (185): about 47 of the 233 (`days: 30`), spread over the subjects; the IIs stay 60. Each
   content ticket's test checks its fifth (rounded) and that the spread (87) holds for 30-day ones too.
+- **No "New" marking** (199).
+- **"Ready for II"** (201): an original's page links to its II once its day 60 is done (ticket 2: `app/pages/program.js`,
+  and a UI check in `tests-ui/library.spec.js`).
 
 ## Per subject (today → new)
 

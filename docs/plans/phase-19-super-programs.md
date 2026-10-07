@@ -18,6 +18,8 @@ Issue [#186](https://github.com/noamros9/kettle-bar/issues/186). Grilled 4 and 7
   range (182). A 30-day part (185) has 10 days a level, so it gives at most 10 days per super level.
 - **Swaps, Round 2 and Short on time** work as in any program, in the super's own progress (190).
 - **Your own:** weights 1–3 and a share link (175).
+- **Its own day names** (195): each super config has a `names` list like any program's; the "from" line sits below.
+- **Stats under the super only** (196). **A tab of its own after Variety** (197).
 
 ## How a super is built (164)
 - In each level (days 1–40, 41–80, 81–120), part *i* with weight *w* of total *W* gets *n* = round(40·*w*/*W*) days
