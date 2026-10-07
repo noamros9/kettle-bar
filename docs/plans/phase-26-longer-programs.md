@@ -10,7 +10,8 @@ Issue [#198](https://github.com/noamros9/kettle-bar/issues/198). Grilled 4 and 7
 - **Which programs move** (156): spread over each subject's splits and formats, so every kind of program on a shelf
   has a long version; then, among equals, the one closest to its new band (the smaller change).
 - **Not started ones only** (153): a program with any day done in any round, in Noam's progress when the phase
-  starts, keeps its days. Three-Split 60 is frozen and keeps its days too.
+  starts, keeps its days. Three-Split 60 is frozen and keeps its days too. Signature is re-timed like any shelf
+  (172); Phase 23's IIs keep their length (84).
 - **Added, never reshuffled** (55, 157): a moved program is built exactly as before, then a lengthening pass adds
   sets or rounds first, then slots of the same pool at a block's end (catalogue 13 first, 82), until each day lands
   in its new range. Every existing pick stays where it was. Its pins change once, by this phase's exception (55).
