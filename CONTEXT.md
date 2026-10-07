@@ -313,3 +313,11 @@ Noam on the review page and kept in Firebase Storage, signed-in only.
 
 **Story seed** (Phase 29): a couple day's page as a full-length screenshot at phone width, which Grok writes a story
 from with Noam's prompt; the story goes to Noam's Google Drive (a folder per program), never into the app.
+
+**Muscle group** (Phase 30): the muscles on three levels: a **top** (Upper body, Core, Lower body), its **parts**
+(Chest, Back, Shoulders, Arms; Abs & obliques, Lower back; Glutes & hips, Thighs, Lower legs) and their muscles.
+One definition, `MUSCLE_GROUPS` in `exercises.js`, used by Stats, the Muscles page and the Exercises page.
+
+**Done again** (Phase 30): a done day of the current round trained another time; each time adds a date
+(`again: { day: [time] }` in its progress). History and Stats count every date; the program counts the day once. A
+mark is removed only in History.
