@@ -265,9 +265,10 @@ Noam, 4 Oct 2026: only about 1/6 of the programs run 33 min or more (of 557: 13%
      until each day lands in the new range. Existing picks never move. The config says `long: [lo, hi]`; the old
      `minutes` stay for the pin's history.
 169. **No review of the list** (7 Oct, Noam): ticket 2's list goes straight to tickets 3–6.
-170. **A shelf that can't reach half stays shorter** (7 Oct, Noam): at most one added exercise per block; every
-     program that reaches its band that way gets longer, one that can't keeps its minutes, and the shelf ends with
-     fewer than half long. Recorded per shelf, never padded.
+170. **Programs that can't reach their band get longer anyway** (7 Oct, Noam, correcting the first reading the same
+     day): at most one added exercise per block, plus the sets and rounds the format allows; a program that lands
+     short of 35–38 keeps what it gained, and its card shows the minutes its days really build to. A shelf may end
+     with fewer than half at 35–38; recorded per shelf.
 
 ### Calisthenics: Phase 27 ([#199](https://github.com/noamros9/kettle-bar/issues/199))
 Noam, 4 Oct 2026: calisthenics programs. Plan: [docs/plans/phase-27-calisthenics.md](docs/plans/phase-27-calisthenics.md).
