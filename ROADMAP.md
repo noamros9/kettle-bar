@@ -143,6 +143,10 @@ Grilled 5 Oct 2026 (Noam); after Phase 21, before Phase 20 ticket 9. Claude plan
      reviews it (copies, bodies that don't fit, wrong approach) and sends back changes until it passes; then Grok
      builds from the approved plan (`--continue`) and commits, and Claude reviews the build as before. A fix round on
      a plan costs minutes, not a full run.
+133. **Claude's review trusts Grok's commit hook on the same tree** (7 Oct, Noam; replaces 129's "review still runs
+     it"): when `.git/kb-tested-tree` equals the tree of Grok's last commit, the suite passed on exactly that code and
+     Claude doesn't run it again. Any mismatch (hook skipped, an edit after the run) and Claude runs `test:coverage`.
+     The PR's CI still runs everything before a merge.
 - Plan: [docs/plans/phase-22-catalogue-13.md](docs/plans/phase-22-catalogue-13.md).
 
 ### Phase 23: new fitness programs at catalogue 12
