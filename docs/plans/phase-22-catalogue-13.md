@@ -95,7 +95,7 @@ goes unused this phase (CLAUDE.md: tickets that edit the same files wait).
 | 12i | Doorframe +36 | content | 1b | `content/c13-doorframe` | todo |
 | 13 | Chest +9, back +12, full +5 | content | 1 | `content/c13-chest-back` | done (PR #299) |
 | 14 | Upper +17 | content | 1 | `content/c13-upper` | done (PR #300) |
-| 15 | Lower +22 | content | 1 | `content/c13-lower` | todo |
+| 15 | Lower +22 | content | 1 | `content/c13-lower` | done (PR #301) |
 | 16 | Abs +21 | content | 1 | `content/c13-abs` | todo |
 | 17 | Cardio +16, boxing +7, kick +6 | content | 1 | `content/c13-cardio-combat` | todo |
 | 18 | Yoga +15, pilates +11, flex +7, mobility +8, balance +6 | content | 1 | `content/c13-mind-body` | todo |
