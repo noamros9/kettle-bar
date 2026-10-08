@@ -281,11 +281,24 @@ tokens measured) (plan first, Opus reviews, Sonnet builds and commits, Opus runs
 works, tickets project-wide move to "Opus plans and supervises, Sonnet or Grok builds"; Claude judges, Noam decides.
 Measured per ticket against 13–15 (Claude alone: about 25–35 min each, 0–2 test fixes in review):
 
-| Ticket | Plan rounds | Review findings | Fix rounds | Finished by | Wall time | Sonnet tokens (in / cache read / cache write / out) | Sonnet USD | Notes |
-|---|---|---|---|---|---|---|---|---|
-| 16 | 2 | | | | | | | first build stopped (an `Agent` subagent; the session moved) |
-| 17 | | | | | | | | |
-| 18 | | | | | | | | |
+- **277 · Headless, explicit to Grok.** Sonnet runs as `claude -p` (resumable, measured); a ticket with explicit
+  text goes to Grok whole, never split. *(8 Oct 2026)*
+- **278 · Ticket 16 from scratch.** The half-built `Agent` run on `content/c13-abs` is dropped; a fresh Sonnet
+  session plans and builds 16, fully measured. *(8 Oct 2026)*
+- **279 · Two token baselines.** (1) An Opus headless control: ticket 16 built by `claude -p --model opus` from the
+  same brief on a throwaway branch, never merged; (2) Opus's supervising tokens per ticket (`opus-stats.js` over this
+  session's log, branch to merge). *(8 Oct 2026)*
+- **280 · The bar.** About the same time as 13–15, and Sonnet's tokens plus Opus's supervising tokens clearly below
+  Opus doing it alone; quality judged together, ticket by ticket. *(8 Oct 2026)*
+- **281 · One at a time.** Sonnet tickets run singly: clean timings, and each review feeds the next brief.
+  *(8 Oct 2026)*
+
+| Ticket | Plan rounds | Review findings | Fix rounds | Finished by | Wall time | Sonnet tokens (in / cache read / cache write / out) | Sonnet USD | Opus supervising tokens | Notes |
+|---|---|---|---|---|---|---|---|---|---|
+| 16 control (Opus alone) | | – | – | Opus | | | | – | never merged |
+| 16 | | | | | | | | | redone from scratch (278) |
+| 17 | | | | | | | | | |
+| 18 | | | | | | | | | |
 
 - **Shorter test runs (0b, 7 Oct).** Weakest assumption: a squash merge leaves main on the exact tree the PR
   tested. Verified: #269's head `88c0014` and main's `219ce39` share tree `897a71a`. Branch protection is off, so

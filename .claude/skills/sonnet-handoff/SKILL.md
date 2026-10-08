@@ -27,7 +27,13 @@ the Phase 22 plan's "Sonnet experiment" table (the plan is the record, not memor
 - Sonnet's numbers: `node .claude/skills/sonnet-handoff/run-stats.js grok/tN-out*.json` sums every run of the
   ticket (plan, build, fixes) from each run's `result` line: minutes, input / cache-read / cache-write / output
   tokens, USD. The same script reads a Grok transcript's `end` event (tokens only: Grok gives no duration).
-- Opus's side: wall time from the branch to the PR, and the review rounds.
+- Opus's side: wall time from the branch to the PR, the review rounds, and its supervising tokens:
+  `node .claude/skills/sonnet-handoff/opus-stats.js ~/.claude/projects/<repo>/<session id>.jsonl <branch created, ISO>
+  [<merged, ISO>]` (sums this session's Opus calls in that window; note both times in the table's Notes).
+- The control (279): ticket 16 also built once by `claude -p --model opus` from the same brief on a throwaway
+  branch (`control/t16-opus`, never pushed); `run-stats.js` on its transcript gives Opus-alone time and tokens.
+- The bar (280): about the same time, and Sonnet's tokens plus Opus's supervising tokens clearly below the control.
+- One ticket at a time (281).
 - Each Sonnet PR also gets a **Review findings** section: what was sent back, the fix round, what Opus finished.
 
 ## The loop
