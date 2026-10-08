@@ -29,8 +29,8 @@ Grilled 7 Oct 2026 with Noam (global decision numbers).
 - **25 programs, `catalogue: 16`**, built to the spread from the start (53, 159): about 12 at 35–38, 6–7 at 31–35, the
   rest shorter. Each program trains 2–4 skills by their steps, plus the strength that carries them (pulls, dips, core,
   hollow and arch work); levels climb by `variation` (the next step) more than by reps.
-- **Catalogue 14 is held until the last exercise ticket** (the decision-121 pattern): own programs and random workouts
-  stay at 13 while the skill exercises land, then move to 14 at once.
+- **Catalogue 16 is held until the last exercise ticket** (the decision-121 pattern): own programs and random workouts
+  stay at 15 while the skill exercises land, then move to 16 at once (was 13 → 14 before 237).
 
 ## How the later decisions land in the tickets
 - **Open like any subject** (183): Build your own, random workouts and Swap; a step's alternative is its easier step.
@@ -47,7 +47,7 @@ Grilled 7 Oct 2026 with Noam (global decision numbers).
 | # | Ticket | Tier | Blocked by | Branch | Status |
 |---|---|---|---|---|---|
 | 0 | This plan | plan | – | `plan/unplanned-phases` | done (PR #281) |
-| 1 | Plumbing: the subject, skill pools, newest held at 13 | feature | – | `feature/calisthenics-plumbing` | todo |
+| 1 | Plumbing: the subject, skill pools, newest held at 15 | feature | – | `feature/calisthenics-plumbing` | todo |
 | 2 | Muscle-up, handstand, handstand push-up, front lever (24) | content | 1 | `content/skills-a` | todo |
 | 3 | Back lever, planche, L-sit to V-sit, pistol (24) | content | 2 | `content/skills-b` | todo |
 | 4 | One-arm push-up, dragon flag, archer / typewriter pull-up, one-arm pull-up (24); catalogue 16 opens | content | 3 | `content/skills-c` | todo |
@@ -59,13 +59,13 @@ Tickets 2–4 all edit `exercises.js`, 5–6 `configs/strength.js`: one at a tim
 
 ### 1. Plumbing
 - **Build:** `Calisthenics` in `FAMILIES` (Strength) and `SHELVES` (Strength), and an entry in `EX_FAMILIES` for
-  the skill exercises; `recipe-book.js`'s newest catalogue held at 13 (`NEWEST`, as Phase 22 ticket 1 did); in
-  `program-builder.js`, computed pools empty below 14: one per skill (`skillMuscleUp`, …) by a new `skill` field on the
+  the skill exercises; `recipe-book.js`'s newest catalogue held at 15 (`NEWEST`, as Phase 22 ticket 1 did); in
+  `program-builder.js`, computed pools empty below 16: one per skill (`skillMuscleUp`, …) by a new `skill` field on the
   exercise, ordered by its `step` (1–6), so a level's `variation` lever takes the next step.
 - **Files:** `app/library.js`, `recipe-book.js`, `program-builder.js`, `tests/catalogue16.test.js`,
   `tests/library.test.js`, `tests/builder.test.js`.
 - **Test first:** the skill pools are empty below catalogue 16 and every catalogue-15 pool is unchanged; a made-up
-  `skill` exercise lands in its pool in step order; `generate` still stores 13.
+  `skill` exercise lands in its pool in step order; `generate` still stores 15.
 - **Done when:** no pin changes.
 
 ### 2–4. The skill exercises
@@ -74,7 +74,7 @@ Tickets 2–4 all edit `exercises.js`, 5–6 `configs/strength.js`: one at a tim
   a wall is drawn as a line where a handstand uses one). Each skill's step 1 is doable by an intermediate (Level I
   starts at intermediate); step 6 is the skill or the hardest version safe at home. A Grok ticket plans first (132):
   one line per step (what changes from the step before, what he holds, where the bar or wall is). Ticket 4 sets
-  `NEWEST` to 14.
+  `NEWEST` to 16.
 - **Files:** `exercises.js`, `tests/catalogue16.test.js`, `tests/figures.test.js` (poses render).
 - **Test first:** per skill, six steps 1–6, no two the same move (name and pose), each with poses; Swap offers a skill
   step only for its own skill.

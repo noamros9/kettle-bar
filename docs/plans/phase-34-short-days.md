@@ -15,6 +15,8 @@ Grilled 8 Oct 2026 with Noam (global decision numbers).
 - **262 · The rest-day card offers 10 or 15 min**, from Mobility & posture, Flexibility and Yoga, with breathing.
   *(8 Oct)* *(changes 192's "the rest-day flow keeps 15")*
 - **263 · About 5 new breathing drills**, beside the five that are cool-downs today; `added: 15` (237). *(8 Oct)*
+- **266 · The drills reach random workouts and the rest-day flow at ticket 3** (`NEWEST` 14 → 15), not ticket 1. *(8 Oct)*
+- **267 · Named "<Subject> · 15-min circuit"** on a random workout built from one. *(8 Oct)*
 
 ## What lands
 - **15 minutes, everywhere it's offered**: the random workout's 15 is never greyed out for a family; Build your own
@@ -62,7 +64,8 @@ Grilled 8 Oct 2026 with Noam (global decision numbers).
 
 ### 3. The minutes
 - **Build:** the random workout's 15 builds for every family (no greying for Strength, Cardio & combat, Mixed);
-  `KBOwn.MINUTES` and `recipes.js`'s `MINUTES` gain 15 for a single subject, a mix still offering 20 up; the rest-day
+  `KBOwn.MINUTES` and `recipes.js`'s `MINUTES` gain 15 for a single subject, a mix still offering 20 up; `recipe-book.js`'s
+  `NEWEST` becomes 15 (266); a random workout from a circuit is named "<Subject> · 15-min circuit" (267); the rest-day
   card shows 10 and 15 (`REST_DAY` becomes `{ subjects: ['Mobility & posture', 'Flexibility', 'Yoga'], minutes: [10,
   15], equipment: 'bw' }`), each button starting its flow; a stored rest-day or random record from before still reads.
 - **Files:** `app/random.js`, `app/pages/random.js`, `app/own.js`, `app/pages/build.js`, `recipes.js`,

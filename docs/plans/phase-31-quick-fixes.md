@@ -10,7 +10,8 @@ Grilled 8 Oct 2026 with Noam (global decision numbers).
 - **224 · One small phase for #214, #111 and #105**, right after Phase 22; #110 split off as Phase 34 (it grew). *(8 Oct)*
 - **225 · Back lands where you were**: the phone's or browser's Back only; the top tabs (Programs, Exercises…) still
   open at the top. *(8 Oct)*
-- **226 · On four pages**: Programs ← a program, Exercises ← an exercise, a program ← its day, Stats/History ← a day. *(8 Oct)*
+- **226 · On five pages (was four)**: Programs ← a program, Exercises ← an exercise, a program ← its day, Stats/History ←
+  a day, a day ← an exercise opened from it. *(8 Oct)*
 - **227 · Preview = saved** (#111): Build your own picks the new program's id before drawing the preview, so Save keeps
   exactly what the preview showed; Regenerate keeps the id with a new seed. *(8 Oct)*
 - **228 · Own programs already saved stay as built**: no rebuild, no offer to rebuild. *(8 Oct)*
@@ -18,7 +19,7 @@ Grilled 8 Oct 2026 with Noam (global decision numbers).
   the test; no retries. *(8 Oct)*
 
 ## What lands
-- **Back keeps your place** (225, 226): on the four pages, Back returns to the same scroll position, the same shelf
+- **Back keeps your place** (225, 226): on the five pages, Back returns to the same scroll position, the same shelf
   or card in view; the shelves you opened ("Show all") and the filters stay as they were. Tapping a top tab still
   starts at the top.
 - **What you preview is what you save** (227): same exercises, same minutes on every tile.
@@ -29,7 +30,7 @@ Grilled 8 Oct 2026 with Noam (global decision numbers).
 | # | Ticket | Tier | Blocked by | Branch | Status |
 |---|---|---|---|---|---|
 | 0 | This plan | plan | – | `plan/open-issues-8oct` | done (PR #297) |
-| 1 | Back keeps your place on four pages (#214) | feature | – | `fix/back-keeps-place` | todo |
+| 1 | Back keeps your place on five pages (#214) | feature | – | `fix/back-keeps-place` | todo |
 | 2 | Build your own: preview = saved (#111) | feature | – | `fix/preview-is-saved` | todo |
 | 3 | The rename-sync flake: root cause and fix (#105) | feature | – | `fix/rename-sync-flake` | todo |
 | 4 | Close the phase: archive | plan | 1–3 | `plan/p31-close` | todo |
@@ -47,9 +48,10 @@ view), so it waits for ticket 1's PR to open and stacks on it if it does.
 - **Files:** `app/pages/core.js`, `tests-ui/back.spec.js` (new), `scripts/ui-affected.js` (MAP line).
 - **Test first:** `back.spec.js`, at 390 px: scroll the Programs page to the fourth shelf, open a program, Back: the
   same card is in view (within 4 px) and an opened "Show all" shelf is still open; the same for Exercises ← an
-  exercise (with a search typed), a program ← day 37, and Stats/History ← a day; tapping the Programs tab from a
+  exercise (with a search typed), a program ← day 37, Stats/History ← a day, and a long day ← an exercise opened
+  from its block; tapping the Programs tab from a
   program lands at the top.
-- **Done when:** the four cases pass light and dark; a 390 px screen recording or before/after screenshots in the PR.
+- **Done when:** the five cases pass light and dark; a 390 px screen recording or before/after screenshots in the PR.
 
 ### 2. Build your own: preview = saved (#111)
 - **Build:** `app/pages/build.js` draws the preview under `'own-preview'` and Save makes a new id, while the Program

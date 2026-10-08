@@ -12,6 +12,8 @@ Grilled 7 Oct 2026 with Noam (global decision numbers).
 - **141 · Review just before fixing**: findings are triaged (fix now / issue / drop), fix tickets join this plan and
   are built right away. Only what's too big for one ticket becomes an issue.
 - **186 · Tests that don't earn their keep are deleted** in the fix tickets; each PR says what still covers them.
+- **275 · Both reviews also look ahead** at what Phases 25–34 need (catalogues 14–16, new progress fields, export,
+  sync status), as "cheaper now" findings. *(8 Oct)*
 - **187 · A stored shape or sync rule that should change goes to Noam** and becomes an issue, never a fix here (old
   backups must still import).
 

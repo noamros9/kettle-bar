@@ -13,6 +13,7 @@ Grilled 4 and 7 Oct 2026 with Noam (global decision numbers).
 - **152 · 3–6 parts, library programs only; weighted turns set per super** (e.g. 2:1:1; equal by default); each part's
   days evenly spaced across its level. *(asked after Noam pointed out it had been decided for him)*
 - **150 · The super's level picks the part's days** (days 41–80 take Level II days).
+- **274 · Variety, Weekly mix and Surprise are never parts**: they're mixes already. *(8 Oct)*
 - **179 · Solo After dark parts yes, couple never.** **182 ·** Parts of any length.
 - **164 · The mechanics**: round(40·w/W) days a part per level, a smooth weighted round-robin, days copied and pinned.
   *(technical)*
