@@ -290,6 +290,8 @@ Measured per ticket against 13–15 (Claude alone: about 25–35 min each, 0–2
   session's log, branch to merge). *(8 Oct 2026)*
 - **280 · The bar.** About the same time as 13–15, and Sonnet's tokens plus Opus's supervising tokens clearly below
   Opus doing it alone; quality judged together, ticket by ticket. *(8 Oct 2026)*
+- **282 · The experiment ends after ticket 16.** Sonnet plus Opus supervision took 25 min and ≈ $7.4 against the
+  Opus control's 9 min and $1.88, with five review findings; 17 and 18 go back to Opus. *(8 Oct 2026)*
 - **281 · One at a time.** Sonnet tickets run singly: clean timings, and each review feeds the next brief.
   *(8 Oct 2026)*
 
@@ -297,8 +299,7 @@ Measured per ticket against 13–15 (Claude alone: about 25–35 min each, 0–2
 |---|---|---|---|---|---|---|---|---|---|
 | 16 control (Opus alone) | – (no plan stop) | not reviewed | – | Opus | 9 min | 46 / 1.90M / 115k / 28.9k | 1.88 | – | `control/t16-opus`, never merged; tests and the full suite passed |
 | 16 | 2 (four near-copies, one of them `plank_to_pushup`; loaded moves in bodyweight-only pools) | build: a "loaded" exercise with no load, two drawings off their cues, the recipe book left out; Test first skipped (the test was written after the build) | 1 | Sonnet | 25 min branch to PR (Sonnet 18 min over 4 runs) | 90 / 4.91M / 142k / 45.2k | 4.58 | 74 / 6.76M / 38.8k / 16.6k (≈ $2.8, 37 calls) | redone from scratch (278); Opus's cost is mostly re-reading a long session (~180k context per turn) |
-| 17 | | | | | | | | | |
-| 18 | | | | | | | | | |
+| 17, 18 | – | – | – | – | – | – | – | – | not run: back to Opus (282) |
 
 - **Shorter test runs (0b, 7 Oct).** Weakest assumption: a squash merge leaves main on the exact tree the PR
   tested. Verified: #269's head `88c0014` and main's `219ce39` share tree `897a71a`. Branch protection is off, so
