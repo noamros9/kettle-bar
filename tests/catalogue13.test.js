@@ -288,3 +288,5 @@ function fitnessTicket(counts) {
 test('catalogue 13 adds chest +9, back +12 and full body +5 (ticket 13)', () => fitnessTicket({ chest: 9, back: 12, full: 5 }));
 
 test('catalogue 13 adds upper body +17 (ticket 14)', () => fitnessTicket({ upper: 17 }));
+
+test('catalogue 13 adds lower body +22 (ticket 15)', () => fitnessTicket({ lower: 22 }));
