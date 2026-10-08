@@ -264,8 +264,7 @@ test('the named pools and the catalogue-12 pools are as they were before the fit
   assert.equal(hash(poolsAt(12)), 'b02c1105b2f75c88');
 });
 
-test('catalogue 13 adds chest +9, back +12 and full body +5 (ticket 13)', () => {
-  const counts = { chest: 9, back: 12, full: 5 };
+function fitnessTicket(counts) {
   Object.entries(counts).forEach(([c, n]) => assert.equal(fitness13([c]).length, n, c));
   const names = new Set();
   Object.values(cat.EX).filter((e) => e.added !== 13).forEach((e) => names.add(e.name.toLowerCase()));
@@ -284,4 +283,8 @@ test('catalogue 13 adds chest +9, back +12 and full body +5 (ticket 13)', () => 
     assert.ok(inPools(at13, e.id), `${e.id} joins a pool at catalogue 13`);
     assert.equal(inPools(POOLS, e.id) || inPools(poolsAt(12), e.id), false, `${e.id} in no pool below 13`);
   });
-});
+}
+
+test('catalogue 13 adds chest +9, back +12 and full body +5 (ticket 13)', () => fitnessTicket({ chest: 9, back: 12, full: 5 }));
+
+test('catalogue 13 adds upper body +17 (ticket 14)', () => fitnessTicket({ upper: 17 }));
