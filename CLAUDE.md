@@ -33,9 +33,10 @@ read only when needed. Decisions with a long "why": [docs/adr/](docs/adr/).
 ## Building (standing permission from Noam, 29 Sep 2026; Opus only since 30 Sep 2026)
 - **Who builds:** Claude on Opus by default. No Sonnet, no sub-agents for building (Noam, 30 Sep: Sonnet's work
   wasn't to his liking on this project).
-  - **Sonnet experiment (Noam, 8 Oct 2026; decision 276):** Phase 22 tickets 16–18 go to Sonnet subagents through
-    the `sonnet-handoff` skill (`.claude/skills/sonnet-handoff/`): Opus briefs, reviews the plan, reviews the build
-    and merges, as with Grok. Logged in the Phase 22 plan; Noam decides afterwards whether tickets work this way.
+  - **Sonnet experiment (Noam, 8 Oct 2026; decision 276):** Phase 22 tickets 16–18 go to Sonnet, run headless
+    (`claude -p`), through the `sonnet-handoff` skill (`.claude/skills/sonnet-handoff/`): Opus briefs, reviews the
+    plan, reviews the build and merges, as with Grok. Tickets with explicit content go to Grok whole. Logged (quality,
+    time, tokens) in the Phase 22 plan; Noam decides afterwards whether tickets work this way.
 - **Grok tickets (Noam, 5 Oct 2026):** Noam picks them at hand-off ("Grok takes ticket N"); nothing in the plan
   marks them. Grok Build builds, Claude reviews and merges:
   - Claude creates the ticket's branch, then runs `grok -p` headless with the plan file and ticket number, asking

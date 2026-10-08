@@ -275,16 +275,17 @@ the PR. No duplicate of an existing exercise under a new name.
   saved before the ticket is unchanged.
 
 ## Sonnet experiment (276)
-Noam, 8 Oct 2026: tickets 16–18 go to Sonnet subagents through the `sonnet-handoff` skill, the Grok loop with an
-`Agent` call (plan first, Opus reviews, Sonnet builds and commits, Opus runs the review checks and merges). If it
+Noam, 8 Oct 2026: tickets 16–18 go to Sonnet through the `sonnet-handoff` skill, the Grok loop with a headless
+`claude -p --model sonnet` run (changed from an `Agent` call the same day: a transcript file, resumable, time and
+tokens measured) (plan first, Opus reviews, Sonnet builds and commits, Opus runs the review checks and merges). If it
 works, tickets project-wide move to "Opus plans and supervises, Sonnet or Grok builds"; Claude judges, Noam decides.
 Measured per ticket against 13–15 (Claude alone: about 25–35 min each, 0–2 test fixes in review):
 
-| Ticket | Plan rounds | Review findings | Fix rounds | Finished by | Wall time | Notes |
-|---|---|---|---|---|---|---|
-| 16 | | | | | | |
-| 17 | | | | | | |
-| 18 | | | | | | |
+| Ticket | Plan rounds | Review findings | Fix rounds | Finished by | Wall time | Sonnet tokens (in / cache read / cache write / out) | Sonnet USD | Notes |
+|---|---|---|---|---|---|---|---|---|
+| 16 | 2 | | | | | | | first build stopped (an `Agent` subagent; the session moved) |
+| 17 | | | | | | | | |
+| 18 | | | | | | | | |
 
 - **Shorter test runs (0b, 7 Oct).** Weakest assumption: a squash merge leaves main on the exact tree the PR
   tested. Verified: #269's head `88c0014` and main's `219ce39` share tree `897a71a`. Branch protection is off, so
