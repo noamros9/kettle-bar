@@ -253,11 +253,64 @@ test('catalogue 13 adds 36 rough exercises (ticket 9)', () => {
   });
 });
 
+const KINK_10B = [
+  'kink_him_cuff_head', 'kink_him_cuff_lunge', 'kink_him_ankles_kneel', 'kink_him_ankles_open',
+  'kink_him_wrists_back', 'kink_him_tie_stroke', 'kink_him_blind_suck', 'kink_him_blind_squat',
+  'kink_him_blind_crab', 'kink_him_blind_side', 'kink_him_gag_scissors', 'kink_him_gag_edge',
+  'kink_him_gag_stroke', 'kink_him_ice_ride', 'kink_him_ice_suck', 'kink_him_wax_kneel',
+  'kink_blind_four', 'kink_blind_over', 'kink_cuff_behind', 'kink_cuff_v',
+  'kink_gag_split', 'kink_gag_prone', 'kink_gag_foot', 'kink_ice_soles',
+  'kink_wax_closed', 'kink_blind_hero', 'kink_ice_face', 'kink_wax_belly',
+  'kink_gag_kneel_face', 'kink_blind_pike',
+];
+
 test('catalogue 13 adds 36 kink exercises (ticket 10)', () => {
-  const added = Object.values(cat.EX).filter((e) => e.added === 13 && e.sub === 'kink');
+  const added = Object.values(cat.EX).filter((e) => e.added === 13 && e.sub === 'kink' && !KINK_10B.includes(e.id));
   assert.equal(added.length, 36);
   const at12 = mergedAt(12), at13 = mergedAt(13);
   added.forEach((e) => {
+    assert.equal(e.cat, 'couple', e.id);
+    assert.ok(e.id.startsWith('kink_'), e.id);
+    assert.equal('basic' in e, false, e.id);
+    assert.equal(e.u, 'sec', e.id);
+    assert.equal(e.r.length, 3, e.id);
+    e.r.forEach((n) => assert.ok(Number.isInteger(n) && n > 0, e.id));
+    assert.equal(e.cue.includes('\n') || e.cue.includes('\r'), false, e.id);
+    assert.ok(e.cue.length > 40 && e.cue.length <= 400, `${e.id} is ${e.cue.length}`);
+    assert.doesNotMatch(e.cue, /neck|throat|chok/i, e.id);
+    assert.ok(e.mus, e.id);
+    assert.ok(e.muscles.primary.length >= 1, e.id);
+    [...e.muscles.primary, ...e.muscles.secondary].forEach((m) => assert.ok(cat.MUSCLE_NAMES[m], `${e.id}: ${m}`));
+    assert.ok(e.poses.length >= 1, e.id);
+    e.poses.forEach((p) => {
+      assert.equal(p.mark, 1, e.id);
+      assert.ok(p.two, `${e.id}: both figures`);
+      assert.equal(p.two.mark, 1, e.id);
+    });
+    const svg = figureSVG(e);
+    assert.equal((svg.match(/fill="var\(--mark\)"/g) || []).length, e.poses.length * 2, `${e.id}: mark on both`);
+    assert.equal((svg.match(/fill="var\(--fig2\)"/g) || []).length, e.poses.length, e.id);
+    assert.doesNotMatch(svg, /NaN/, e.id);
+    assert.ok(at13.sexWarm.includes(e.id), `${e.id} in sexWarm`);
+    assert.ok(at13.sexPositions.includes(e.id), `${e.id} in sexPositions`);
+    assert.ok(poolsAt(13).sexKink.includes(e.id), `${e.id} in sexKink`);
+    assert.equal(at12.sexWarm.includes(e.id), false, e.id);
+    assert.equal(at12.sexPositions.includes(e.id), false, e.id);
+    assert.equal(poolsAt(12).sexKink.includes(e.id), false, e.id);
+  });
+});
+
+test('catalogue 13 adds 30 more kink exercises (ticket 10b)', () => {
+  const present = KINK_10B.filter((id) => cat.EX[id]);
+  assert.equal(present.length, 30);
+  assert.equal(present.filter((id) => id.startsWith('kink_him_')).length, 16);
+  const all = Object.values(cat.EX).filter((e) => e.added === 13 && e.sub === 'kink');
+  assert.equal(all.length, 66);
+  const at12 = mergedAt(12), at13 = mergedAt(13);
+  present.forEach((id) => {
+    const e = cat.EX[id];
+    assert.equal(e.added, 13, e.id);
+    assert.equal(e.sub, 'kink', e.id);
     assert.equal(e.cat, 'couple', e.id);
     assert.ok(e.id.startsWith('kink_'), e.id);
     assert.equal('basic' in e, false, e.id);

@@ -104,7 +104,7 @@ read only when needed. Decisions with a long "why": [docs/adr/](docs/adr/).
 - **A straight man training his own body:** the workout trains *his* body, and the text says what that does for him:
   what he does to her, how long he lasts, how she sees and enjoys him. His ass is for drive, and for her to grab or
   admire; never fucked, never "ass up" or bent over. His flexibility lets *him* get deeper, kneel, fold over her; it
-  never bends her. Nothing receiving is said about him (riding, taking it, being held up).
+  never bends her. Nothing receiving is said about him (riding, taking it, being held up). She may blindfold him, tie or cuff his wrists or ankles, gag him, or use ice or wax on him; nothing goes in him, no pegging and no fingers or toy in his ass.
 - `tests/his-pov.test.js` (from Phase 20 ticket 5.5) checks every `couple: true` program for her-side phrasings; a
   new program never gets an exception just to pass. The test catches the obvious ones; Claude's review reads each new
   blurb and about for POV and heat before merging, and sends softer or her-side text back.

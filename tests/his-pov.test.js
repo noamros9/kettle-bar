@@ -49,3 +49,38 @@ test('no couple or After dark description talks about the builder (slots, catalo
     .map((c) => `${c.id}: ${`${c.blurb}\n${c.about}`.match(BUILDER_TALK)[0]}`);
   assert.deepEqual(hits, []);
 });
+
+// Phase 22 ticket 10b: her kink-lite on him is allowed. Anything in him still fails. Substring, case-insensitive.
+const { EX } = require('../exercises.js');
+const IN_HIM = [
+  'peg',
+  'strap-on on him',
+  'strap-on in him',
+  'strap-on in his',
+  'strap-on up his',
+  'in his ass',
+  'into his ass',
+  'up his ass',
+  'his asshole',
+  'his hole',
+  'finger in his ass',
+  'fingers in his ass',
+  'finger his ass',
+  'fingers his ass',
+  'toy in his ass',
+  'dildo in his ass',
+  'plug in his ass',
+  'in him',
+];
+
+test('no couple exercise puts anything in him', () => {
+  const hits = [];
+  Object.values(EX).forEach((e) => {
+    if (e.cat !== 'couple') return;
+    const text = `${e.name}\n${e.cue}`.toLowerCase();
+    IN_HIM.forEach((p) => {
+      if (text.includes(p)) hits.push(`${e.id}: ${p}`);
+    });
+  });
+  assert.deepEqual(hits, []);
+});
