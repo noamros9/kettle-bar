@@ -85,7 +85,7 @@ goes unused this phase (CLAUDE.md: tickets that edit the same files wait).
 | 11 | Body play +36 (a) | content | 1 | `content/c13-body` | done (PR #309) |
 | 11b | Body play +30 (b) | content | 11 | `content/c13-body-b` | done (PR #310) |
 | 12 | Rimming +36, and the rule's exception | content | 1 | `content/c13-rim` | done (PR #311) |
-| 12b | Edging +36 | content | 1b | `content/c13-edging` | todo |
+| 12b | Edging +36 | content | 1b | `content/c13-edging` | done (PR #312) |
 | 12c | Massage +36 | content | 1b | `content/c13-massage` | todo |
 | 12d | Strip and tease +36 | content | 1b | `content/c13-tease` | todo |
 | 12e | Shower and bath +36 | content | 1b | `content/c13-shower` | todo |
