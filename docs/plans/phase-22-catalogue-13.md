@@ -83,7 +83,7 @@ goes unused this phase (CLAUDE.md: tickets that edit the same files wait).
 | 10 | Kink-lite +36 (a), him on her | content | 1 | `content/c13-kink` | done (PR #307) |
 | 10b | Kink-lite +30 (b), her on him (16), and the rule's exception | content | 10 | `content/c13-kink-b` | done (PR #308) |
 | 11 | Body play +36 (a) | content | 1 | `content/c13-body` | done (PR #309) |
-| 11b | Body play +30 (b) | content | 11 | `content/c13-body-b` | todo |
+| 11b | Body play +30 (b) | content | 11 | `content/c13-body-b` | done (PR #310) |
 | 12 | Rimming +36, and the rule's exception | content | 1 | `content/c13-rim` | todo |
 | 12b | Edging +36 | content | 1b | `content/c13-edging` | todo |
 | 12c | Massage +36 | content | 1b | `content/c13-massage` | todo |
