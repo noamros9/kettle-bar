@@ -72,6 +72,13 @@ Caught up 7 Oct 2026 (Noam), against the decisions made since:
 - **218 · Tickets 14–15 build at catalogue 13** like 9–13 (was 11 in this plan).
 - **220 · All 180 stay 60 days** (60); Phase 23's "a fifth at 30" (185) doesn't apply here.
 
+Grown 8 Oct 2026 (Noam):
+- **221 · +50% programs in the 16 After dark subjects**, on each one's count after this phase, rounded up: +155.
+  Beach body, Bedroom stamina, Sex positions 19 → 29 (+10 each); Couples 29 → 44 (+15); the eleven at 14 → 21 (+7
+  each); Explicit 65 → 98 (+33). Tickets 16–23, after 15. After dark grows from 305 to 460 here.
+- **222 · The +155 build as tickets 9–15 do**: `catalogue: 13`, the home pools (219), 60 days, minutes in the
+  subject's ×1.2 band. Shapes in even thirds (an odd one goes to gym then sex); Explicit sex-heavy like its 45.
+
 ## Who builds
 Noam handed Claude the hand-offs for this phase (5 Oct): **every ticket goes to Grok**, by the Grok-tickets rule in
 CLAUDE.md. Claude creates the ticket's branch, runs `grok -p` with this file and the ticket number, reviews, opens the
@@ -100,6 +107,14 @@ minutes, pools) for Claude to review before Grok builds.
 | 13 | Date night warm-up, Positions tour, Morning glory / Sunday (+27) | content | 8b | `content/explicit-more-e` | todo |
 | 14 | Explicit, sex only (+23) | content | 8b | `content/explicit-sex-a` | todo |
 | 15 | Explicit, sex only (+22) | content | 8b | `content/explicit-sex-b` | todo |
+| 16 | Beach body, Bedroom stamina +10 each (+20) | content | 9 | `content/after-dark-more-a` | todo |
+| 17 | Sex positions +10, Couples +15 (+25) | content | 9, 10 | `content/after-dark-more-b` | todo |
+| 18 | Endurance & control, Hip power & thrust, Carry & hold +7 each (+21) | content | 10, 11 | `content/after-dark-more-c` | todo |
+| 19 | Flexible & bendy, Strip & show-off, Her pleasure +7 each (+21) | content | 11, 12 | `content/after-dark-more-d` | todo |
+| 20 | Quickie, Back & knees care, Date night warm-up +7 each (+21) | content | 12, 13 | `content/after-dark-more-e` | todo |
+| 21 | Positions tour, Morning glory / Sunday +7 each (+14) | content | 13 | `content/after-dark-more-f` | todo |
+| 22 | Explicit, sex heavy (+17) | content | 15 | `content/explicit-more-a` | todo |
+| 23 | Explicit, sex heavy (+16) | content | 22 | `content/explicit-more-b` | todo |
 
 ### 1. The pelvic mark
 - `figures.js`: a pose (and its `two`) may carry `mark: 1`; the figure then draws a small filled mark at its hip, in
@@ -220,6 +235,19 @@ at `catalogue: 13`, with the home pools (219).
   13`, 60 days, `skipped`, no place exercise; minutes in Explicit's band; every program uses both catalogue-10 and catalogue-11 couple exercises.
 - **Done when:** as ticket 8.
 
+### 16–21. +50% in the 15 subjects (+122)
+- As tickets 9–13 (catalogue 13, home pools, 60 days, minutes in the subject's band, names and about hand-written,
+  his side), for the counts in the table (221). Shapes per subject (222): +10 is 4 gym then sex, 3 sex then sex, 3
+  positions only; +15 is 5/5/5; +7 is 3/2/2. Positions tour's 7 are one-off days, as ticket 13 builds them.
+- **Test first** (each): the new ids pinned; each subject's count after the ticket (29, 44 or 21); shapes per
+  subject; Mixed rules; `couple`, `catalogue: 13`, `skipped`, no place exercise; minutes in band.
+- **Done when:** as ticket 8; no existing pin changes.
+
+### 22–23. Explicit, sex heavy (+33)
+- As tickets 14–15. Ticket 22: 2 gym then sex, 8 sex then sex, 7 positions only; ticket 23: 2, 7, 7 (222).
+- **Test first** (each): as tickets 14–15; Explicit holds 82 after 22 and 98 after 23.
+- **Done when:** as ticket 8.
+
 ## Challenge round
 - **Weakest assumption:** that 88 exercises fit in 135 KB. Verified only by scale: the 43 couple exercises gzip to
   ~5.6 KB on their own, so 88 is ~11.5 KB and the page lands near 131 KB. Ticket 5 measures the first 24 before 6 and
@@ -237,3 +265,7 @@ at `catalogue: 13`, with the home pools (219).
   `tests/build.test.js`: a program adds only its id to the first download (100 programs < 1 KB), so 45 cost well
   under 0.5 KB. Plan edits: tickets 14–15, the 65 Explicit split, minutes ×1.2. The lazier version, folding the 45
   into ticket 8, isn't taken: 65 programs in one ticket can't be reviewed.
+- **The +155 (8 Oct):** weakest assumption, that 155 more programs still fit the page: a program adds only its id to
+  the first download (100 < 1 KB), so ~1.5 KB under a 1 MB gate. What I hadn't read: the counts the 50% is taken on;
+  built today is 125, after this phase 305, and Noam picked the latter. The lazier version, folding the +155 into
+  tickets 9–15, isn't taken: those would grow to 40–60 programs, past the 27 one review reads properly.

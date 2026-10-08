@@ -2,12 +2,13 @@
 
 The index: where we are, what comes next, and the two phases being built now. Every other phase's decisions live at the
 top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase comes up. Decision numbers are global
-(the next one is **221**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
+(the next one is **223**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
-## Resume here (7 Oct 2026, end of session)
+## Resume here (8 Oct 2026)
 - **Next: Phase 22 ticket 10** (Kink-lite +36, him on her) for Grok. Plan first (132); every Grok review so far caught
   bodies whose hips don't meet, and tame or "what it is not" cues. Start from the plan's "Resume here".
-- **Done today:** Phase 22 tickets 1b, 1c–1f, 6–9 (#269–#280); every open phase planned and grilled (#281–#285).
+- **8 Oct:** After dark grown: 12 programs per new subject (119), +155 for the existing 16 (221–222, Phase 20 tickets 16–23).
+- **Done 7 Oct:** Phase 22 tickets 1b, 1c–1f, 6–9 (#269–#280); every open phase planned and grilled (#281–#285).
 - **Working rules** are in [CLAUDE.md](CLAUDE.md): at most 2 tickets building, the next ticket at every checkpoint, one
   phase at a time, every Grok ticket plans first.
 - **Worktrees:** `../kettle-bar-docs` is the spare (`npm ci` done; UI tests there use `UI_PORT=4174`).
@@ -21,7 +22,7 @@ right after Phase 22 (216).
 |---|---|---|---|---|
 | 1 | 22 · Catalogue 13: the sex catalogue doubled, 12 new kinds, +50% fitness exercises | – | [plan](docs/plans/phase-22-catalogue-13.md) | **building** |
 | 2 | 30 · Muscle groups on three levels, and doing a day again | [#287](https://github.com/noamros9/kettle-bar/issues/287) | [plan](docs/plans/phase-30-muscle-groups-and-again.md) | planned |
-| 3 | 20 · After dark refined, the Explicit set (tickets 8b–15 left) | [#202](https://github.com/noamros9/kettle-bar/issues/202) | [plan](docs/plans/phase-20-after-dark-explicit.md) | paused after ticket 8 |
+| 3 | 20 · After dark refined, the Explicit set, +50% programs (tickets 8b–23 left) | [#202](https://github.com/noamros9/kettle-bar/issues/202) | [plan](docs/plans/phase-20-after-dark-explicit.md) | paused after ticket 8 |
 | 4 | 23 · New fitness programs and the Signature IIs | – | [plan](docs/plans/phase-23-fitness-programs.md) | planned |
 | 5 | 24 · Architecture and code review, then the fixes | [#187](https://github.com/noamros9/kettle-bar/issues/187), [#188](https://github.com/noamros9/kettle-bar/issues/188) | [plan](docs/plans/phase-24-review.md) | planned |
 | 6 | 25 · "Do now": one exercise for dead time | [#200](https://github.com/noamros9/kettle-bar/issues/200) | [plan](docs/plans/phase-25-do-now.md) | planned |
@@ -45,7 +46,7 @@ are in [its plan](docs/plans/phase-22-catalogue-13.md) and CLAUDE.md.
 - **122 · Oral and anal +30 each**, not +60; shipped oral +23 and anal +22 (124). The freed 60 went to Kink-lite and
   Body play (66 each).
 - **123 · Eight more kinds, 36 each**: Edging, Massage, Strip and tease, Shower and bath, Pool, Hot tub, Balcony,
-  Doorframe. Totals now: 700 sex exercises, 162 fitness, 96 programs.
+  Doorframe. Totals now: 700 sex exercises, 162 fitness, 144 programs (was 96).
 - **73 · What the four new kinds are**: Rough (spanking, hair-pulling, wrists pinned, held down; **no choking**),
   Kink-lite (blindfold, ties or cuffs, gag, ice or wax), Body play (titfuck, grinding, thigh-fucking, cumming on her
   as an act), Rimming.
@@ -56,8 +57,8 @@ are in [its plan](docs/plans/phase-22-catalogue-13.md) and CLAUDE.md.
 - **124 · Hitting the wall**: Grok's build plus two fix rounds; then it ships what passed, count recorded.
 
 **The programs**
-- **119 · Each new kind is an After dark subject with 8 programs** (3 gym then sex, 3 sex then sex, 2 positions only),
-  at catalogue 13: 12 subjects, 96 programs.
+- **119 · Each new kind is an After dark subject with 12 programs (was 8)**: 4 gym then sex, 4 sex then sex, 4
+  positions only (was 3/3/2), at catalogue 13: 12 subjects, 144 programs (was 96). *(8 Oct)*
 - **117 · The new kinds join the merged pools by role**: Rough and Body play → `sexFuck`, Kink-lite and Rimming →
   `sexWarm`, all → `sexPositions`; each kind has its own pool too.
 
@@ -96,6 +97,11 @@ Numbered 20 because 19 is super programs.
 - **219 · Sex blocks draw everything but the places**: catalogues 10–13 at equal odds, minus Shower and bath, Pool,
   Hot tub, Balcony, Doorframe (those stay in their own subjects). New ticket 8b adds the pools.
 - **220 · All 180 stay 60 days**; the "fifth at 30" (185) is Phase 23's and 27's only.
+
+**Grown 8 Oct**
+- **221 · +50% programs in the 16 existing After dark subjects**, on their count after this phase, rounded up: +155
+  (19 → 29, Couples 29 → 44, the 14s → 21, Explicit 65 → 98). Tickets 16–23. *(8 Oct)*
+- **222 · The +155 at catalogue 13 on the home pools**, 60 days; even thirds by shape, Explicit sex-heavy like its 45. *(8 Oct)*
 
 ## Backlog
 - **Test a restore from the nightly backup** on the phone ([#16](https://github.com/noamros9/kettle-bar/issues/16)).
