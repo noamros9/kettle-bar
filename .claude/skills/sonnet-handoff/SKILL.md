@@ -5,6 +5,9 @@ description: Hand a Kettle & Bar ticket to Sonnet run headless (`claude -p --mod
 
 # Sonnet hand-off
 
+**Not in use: the experiment ended after Phase 22 ticket 16 (decision 282, 8 Oct 2026).** Sonnet with Opus
+supervising took 25 min and ≈ $7.4 against Opus alone at 9 min and $1.88. Kept for reference, and for the pitfalls.
+
 Opus plans and supervises; Sonnet builds, headless. The shape is CLAUDE.md's Grok hand-off and the grok-handoff
 skill (`~/.claude/skills/grok-handoff/`): same branch rules, same plan-first step, same review bar, same commit hook,
 same progress monitor. Only the builder differs: `claude -p --model sonnet` instead of `grok -p`. Read CLAUDE.md's
