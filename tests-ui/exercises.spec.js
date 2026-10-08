@@ -145,15 +145,16 @@ test('a muscle chip on an exercise page filters the Exercises page, keeping the 
   expect(ids.length).toBeGreaterThan(0);
   expect(ids.every((id) => works('glutes')(EX[id]))).toBe(true);
 
-  // one at a time: Hamstrings replaces Glutes (no kettlebell squat works them), tapping it again unpicks it
+  // one at a time: Chest replaces Glutes (no kettlebell squat works it; since Phase 22 the clean & front squat works the
+  // hamstrings), tapping it again unpicks it
   await muscleLine(app).click();
-  await muscleRow(app).getByRole('button', { name: 'Hamstrings' }).click();
+  await muscleRow(app).getByRole('button', { name: 'Chest' }).click();
   await expect(muscleRow(app)).toHaveCount(0);
   await muscleLine(app).click();
   await expect(muscleRow(app).getByRole('button', { name: 'Glutes' })).toHaveAttribute('aria-pressed', 'false');
   await expect(app.page.getByText('No exercises match.')).toBeVisible();
-  expect(new URL(app.page.url()).hash).toBe('#exercises?muscle=hamstrings');
-  await muscleRow(app).getByRole('button', { name: 'Hamstrings' }).click();
+  expect(new URL(app.page.url()).hash).toBe('#exercises?muscle=chest');
+  await muscleRow(app).getByRole('button', { name: 'Chest' }).click();
   await expect(cards(app)).toHaveCount(kbSquats);
   expect(new URL(app.page.url()).hash).toBe('#exercises');
 

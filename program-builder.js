@@ -233,7 +233,41 @@
     // Pools computed from the catalogue. An exercise marked `added: N` (the phase that added it) joins them only
     // for configs with `catalogue: N` or later, so new exercises can't reshuffle the days of existing programs.
     // Named pools that later catalogues add to (at the end, so a config at an older catalogue draws exactly as before)
-    const POOL_ADDS = { pullBw: { 6: ['prone_lat_pull', 'superman_row'], 7: ['reverse_snow_angel'] } }; // Phase 10 and 13: floor-only pulls
+    // Phase 10 and 13: floor-only pulls. Phase 22 (catalogue 13): the new fitness exercises, ticket by ticket.
+    const POOL_ADDS = {
+      pullBw: { 6: ['prone_lat_pull', 'superman_row'], 7: ['reverse_snow_angel'], 13: ['back_widow'] },
+      // ticket 13: chest, back, full body
+      push: { 13: ['decline_pushup', 'pushup_plus', 'staggered_pushup', 'shoulder_tap_pushup', 'pushup_down_dog'] },
+      pushBw2: { 13: ['decline_pushup', 'staggered_pushup', 'shoulder_tap_pushup', 'pushup_down_dog'] },
+      chestBw: { 13: ['knee_pushup', 'decline_pushup', 'pushup_plus', 'staggered_pushup', 'shoulder_tap_pushup', 'pushup_down_dog'] },
+      gentleStrength: { 13: ['knee_pushup'] },
+      pushLoad: { 13: ['db_alt_floor_press'] },
+      pushLoad2: { 13: ['db_alt_floor_press'] },
+      chest2: { 13: ['db_alt_floor_press', 'decline_pushup'] },
+      chestPress: { 13: ['db_alt_floor_press', 'kb_crush_press'] },
+      chestIso: { 13: ['db_squeeze_out'] },
+      kbUpper2: { 13: ['kb_crush_press', 'kb_horn_row'] },
+      kbCxUpper: { 13: ['kb_horn_row'] },
+      pullBar: { 13: ['jumping_pullup', 'close_grip_chinup'] },
+      pullBar2: { 13: ['jumping_pullup', 'close_grip_chinup', 'pullup_knee_raise'] },
+      pullBarMain: { 13: ['close_grip_chinup'] },
+      backBar: { 13: ['close_grip_chinup', 'pullup_knee_raise'] },
+      climbPull: { 13: ['close_grip_chinup'] },
+      barCore: { 13: ['pullup_knee_raise'] },
+      row: { 13: ['db_underhand_row', 'db_pendlay_row'] },
+      row2: { 13: ['db_underhand_row', 'db_wide_row', 'db_row_hold', 'bird_dog_row', 'db_pendlay_row'] },
+      backRow: { 13: ['db_underhand_row', 'db_wide_row', 'db_row_hold', 'bird_dog_row', 'side_plank_row', 'db_pendlay_row', 'kb_horn_row'] },
+      backRear: { 13: ['db_wide_row', 'prone_db_t_raise'] },
+      backBw: { 13: ['back_widow'] },
+      climbBack: { 13: ['back_widow'] },
+      shoulderHealth: { 13: ['prone_db_t_raise'] },
+      gripPull: { 13: ['db_underhand_row', 'db_pendlay_row'] },
+      coreRot: { 13: ['side_plank_row'] },
+      total: { 13: ['db_snatch', 'db_clean_press', 'devil_press', 'man_maker', 'kb_clean_squat'] },
+      kbCx: { 13: ['kb_clean_squat'] },
+      kbCxLower: { 13: ['kb_clean_squat'] },
+      kbAll: { 13: ['kb_horn_row', 'kb_clean_squat'] },
+    };
     const computedPools = (upTo) => {
       const has = (fn) => ids((e) => (e.added || 0) <= upTo && fn(e));
       const adds = Object.fromEntries(Object.entries(POOL_ADDS).map(([name, byCat]) => [name, Object.entries(byCat).filter(([n]) => +n <= upTo).flatMap(([, list]) => list)]).filter(([, list]) => list.length));
@@ -299,6 +333,8 @@
       hang_knee_raise: 'l_sit_hang', floor_fly: 'db_pullover', bulgarian_split_squat: 'shrimp_squat', db_step_up: 'bulgarian_split_squat', kb_row: 'kb_high_pull',
       heel_taps: 'windshield_wipers', plank_reach: 'body_saw', bear_hold: 'plank_walkout', glute_bridge_march: 'single_leg_bridge',
       teep: 'jab_teep', roundhouse: 'switch_kick', jab_cross_kick: 'kick_four', knee_strike: 'clinch_knees', front_kick: 'side_thrust_kick',
+      // Phase 22 ticket 13 (new easier exercises only, so no existing program changes)
+      knee_pushup: 'pushup', staggered_pushup: 'archer_pushup', jumping_pullup: 'pullup', db_clean_press: 'devil_press',
     };
     // holds: like reps (the level's number from the catalogue), said the way it feels in a flow
     const LEVER_TEXT = { base: 'Base', reps: 'More reps', holds: 'Longer holds', weight: 'Heavier weights', variation: 'Harder variations', tempo: 'Slow tempo' };

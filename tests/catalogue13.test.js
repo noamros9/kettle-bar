@@ -252,3 +252,36 @@ test('catalogue 13 adds 36 rough exercises (ticket 9)', () => {
     assert.equal(at12.sexPositions.includes(e.id), false, e.id);
   });
 });
+
+// Tickets 13–18: the fitness exercises. Each joins named pools through POOL_ADDS at 13; nothing an older catalogue
+// draws moves (the named pools and the catalogue-12 computed pools are pinned as they were before ticket 13).
+const { POOLS } = require('../program-builder.js');
+const fitness13 = (cats) => Object.values(cat.EX).filter((e) => e.added === 13 && cats.includes(e.cat));
+const inPools = (pools, id) => Object.values(pools).some((list) => list.includes(id));
+
+test('the named pools and the catalogue-12 pools are as they were before the fitness tickets (pinned)', () => {
+  assert.equal(hash(POOLS), 'ed70117c563a5300');
+  assert.equal(hash(poolsAt(12)), 'b02c1105b2f75c88');
+});
+
+test('catalogue 13 adds chest +9, back +12 and full body +5 (ticket 13)', () => {
+  const counts = { chest: 9, back: 12, full: 5 };
+  Object.entries(counts).forEach(([c, n]) => assert.equal(fitness13([c]).length, n, c));
+  const names = new Set();
+  Object.values(cat.EX).filter((e) => e.added !== 13).forEach((e) => names.add(e.name.toLowerCase()));
+  const at13 = poolsAt(13);
+  fitness13(Object.keys(counts)).forEach((e) => {
+    assert.equal(names.has(e.name.toLowerCase()), false, `${e.id}: a new name`);
+    names.add(e.name.toLowerCase());
+    assert.ok(e.mus, e.id);
+    [...e.muscles.primary, ...e.muscles.secondary].forEach((m) => assert.ok(cat.MUSCLE_NAMES[m], `${e.id}: ${m}`));
+    assert.ok(e.cue.length > 40 && e.cue.length <= 300, `${e.id} cue is ${e.cue.length}`);
+    assert.equal(e.r.length, 3, e.id);
+    e.r.forEach((n, i) => assert.ok(Number.isInteger(n) && n > 0 && (!i || n >= e.r[i - 1]), e.id));
+    assert.ok(e.u === 'sec' || e.tp > 0, `${e.id}: reps need a tempo`);
+    assert.ok(e.poses.length >= (e.u === 'sec' ? 1 : 2), `${e.id}: moves`);
+    assert.doesNotMatch(figureSVG(e), /NaN/, e.id);
+    assert.ok(inPools(at13, e.id), `${e.id} joins a pool at catalogue 13`);
+    assert.equal(inPools(POOLS, e.id) || inPools(poolsAt(12), e.id), false, `${e.id} in no pool below 13`);
+  });
+});
