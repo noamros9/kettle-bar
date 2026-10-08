@@ -189,11 +189,23 @@ on Grok.
 
 ### 2–12i. The sex exercises (715)
 
-**Resume here (8 Oct 2026, end of session):** tickets 1–10, 1b–1f and 13–16 are merged (last: #307, kink-lite). Next for
-Grok: 10b (kink-lite, her on him, and the rule's exception), plan first (132). Scratch lives in `grok/`; ticket 10's plan
-session is `01a11668-a37d-70f2-9c24-395498b96c2b`, but 10b starts a fresh one. **Memory:** the commit hook's coverage run
-takes about 3 GB, so a Grok run and the hook together can exhaust memory (8 Oct: two runs were killed). Have Grok edit
-without committing, then commit after it exits; resume a killed Grok once 4 GB or more is free (Noam, 8 Oct).
+**Resume here (9 Oct 2026, end of session):** tickets 1–12c, 1b–1f and 13–16 are merged (last: #313, massage). Next for
+Grok: 12d (Strip and tease), then 12e–12i (the places), each plan first (132), then 17–18 (Claude) and the programs.
+How the 8–9 Oct run went, for the next prompts:
+- **Two lanes:** the main checkout and `../kettle-bar-docs`, each with its own `grok/` scratch (`list-sub.js` copied
+  in). Grok keeps sessions per folder; resume a ticket's session by id (`--resume <id>`, the id is the first
+  `sessionId` in its `tN-out.json`), never `--continue` once two tickets share a folder. Grok edits and never commits;
+  Claude stages, runs `npm run test:coverage`, commits, builds `data/` on both sides and diffs, pushes.
+- **Stacking:** a ticket that edits `exercises.js` starts from the open PR's branch; after that PR squash-merges,
+  move it with `git stash; git reset --hard origin/main; git stash pop` (uncommitted) or `git rebase --onto
+  origin/main <old tip>` (committed).
+- **Prompt lessons:** give heights in the prompt (standing cock about 90 cm, kneeling on the floor about 50 cm, a
+  seated man's mouth about 120 cm, his mouth sat back on his heels about 85 cm); plans failed mostly on heights and on
+  near-copies. Massage-like kinds need "at least half end with his cock in her", or Grok keeps everything non-penetrative.
+  Ask for the heat of the last merged kind's cues up front, and for varied sentences (12 came back one formula
+  repeated). No "nothing goes in you" or other safety lines in cues.
+- Her on him (10b, 12): he lies flat, on his side, kneels or stands tall, or squats; never folded forward or on all
+  fours. `tests/his-pov.test.js` holds the IN_HIM list (third and second person) and the rim-only exemption.
 
 **Plan first (132), every Grok ticket from 7 on:** Grok's first run writes only `test-results/tN-plan.md`, one line
 per exercise (id, who lies, kneels, sits or stands where, where her legs are, what he braces), checked against
