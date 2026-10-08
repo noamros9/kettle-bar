@@ -7,8 +7,15 @@ top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase c
 ## Resume here (8 Oct 2026)
 - **8 Oct:** every open issue planned (223–263, PR #297): Phases 31–34 below; #216 joined Phase 23; #220, #67 closed.
   Then a fine-grain round over every open plan (264–275, PR #298): the top rows slide (mocked), catalogues held per phase.
-- **8 Oct evening:** Claude built fitness tickets 13–15 (#299–#301, merged) while Grok was away; 16–18 are next for Claude.
-  Their test helper is `fitnessTicket` in `tests/catalogue13.test.js`.
+- **8 Oct evening:** Claude built fitness tickets 13–15 (#299–#301, merged). Then the **Sonnet experiment** (276) began on
+  16–18: the `sonnet-handoff` skill and the notes are PR #303 (merge it first). **Ticket 16 (abs +21):** Sonnet's plan
+  was approved (two rounds: bear-crawl and chair-crunch near-copies swapped, corkscrew kept out of Pilates pools),
+  then its build stopped midway when the session moved to the desktop: WIP commit on `content/c13-abs` (pushed; the
+  plan is in it as `test-results/t16-plan.md`). The ticket's test passes; still to do: look at the drawings, recipe
+  book freshness, full suite, the review. A subagent can't be resumed in a new session: start a fresh Sonnet run with
+  the skill's brief plus "continue from the WIP commit, the plan is approved", or finish it as Claude. Log ticket 16's
+  row in the Phase 22 plan's experiment table (plan rounds 2 so far). Then 17 and 18 the same way.
+  The test helper is `fitnessTicket` in `tests/catalogue13.test.js`.
 - **Next: Phase 22 ticket 10** (Kink-lite +36, him on her) for Grok. Plan first (132); every Grok review so far caught
   bodies whose hips don't meet, and tame or "what it is not" cues. Start from the plan's "Resume here".
 - **8 Oct:** After dark grown: 12 programs per new subject (119), +155 for the existing 16 (221–222, Phase 20 tickets 16–23).

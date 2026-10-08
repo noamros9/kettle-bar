@@ -29,6 +29,13 @@ instead of `grok -p`. Read CLAUDE.md's **Building** section first; this skill ad
 8. **Log it** in the plan's "Sonnet experiment" table (when the experiment is on): plan rounds, review findings, fix
    rounds, who finished, wall time.
 
+## Telling Noam (Noam, 8 Oct 2026: chat messages, not push)
+Send a chat message (`SendUserMessage`) only when something changes for him, in words, a few lines:
+- **build done:** what the subagent built and the review result (passed, or the findings sent back);
+- **PR opened** (its number), then **merged**, or **CI red** (which run and why);
+- **he's needed:** a fix round failed and Claude is finishing the ticket, or the experiment table has a verdict.
+The plan review stays silent. Nothing on a timer.
+
 Only the subagent's final message enters Claude's context. Ask for a short summary (10 lines at most), never its
 whole transcript or file contents.
 
