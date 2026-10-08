@@ -2,7 +2,7 @@
 
 The index: where we are, what comes next, and the two phases being built now. Every other phase's decisions live at the
 top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase comes up. Decision numbers are global
-(the next one is **276**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
+(the next one is **277**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
 ## Resume here (8 Oct 2026)
 - **8 Oct:** every open issue planned (223–263, PR #297): Phases 31–34 below; #216 joined Phase 23; #220, #67 closed.
@@ -80,6 +80,8 @@ are in [its plan](docs/plans/phase-22-catalogue-13.md) and CLAUDE.md.
   build at catalogue 13 (mixing 10, 11 and 13).
 - **127 · Room to grow**: the page gate is 1 MB gzipped (was 135 → 250 → 350 KB: 61, 76, 95); UI timeouts and
   command limits raised; cutting the times is #265.
+- **276 · Sonnet experiment**: tickets 16–18 built by Sonnet subagents, Opus planning and supervising (the
+  `sonnet-handoff` skill, Grok's loop). Claude judges; Noam decides if tickets go this way. *(8 Oct)*
 
 ## Phase 20 (paused): After dark refined, and an Explicit set
 Grilled 5 Oct 2026 on [#202](https://github.com/noamros9/kettle-bar/issues/202); Grok builds, Claude reviews.
