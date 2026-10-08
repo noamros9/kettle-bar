@@ -27,6 +27,8 @@ the Phase 22 plan's "Sonnet experiment" table (the plan is the record, not memor
 - Sonnet's numbers: `node .claude/skills/sonnet-handoff/run-stats.js grok/tN-out*.json` sums every run of the
   ticket (plan, build, fixes) from each run's `result` line: minutes, input / cache-read / cache-write / output
   tokens, USD. The same script reads a Grok transcript's `end` event (tokens only: Grok gives no duration).
+- **Supervise from a fresh session** (ticket 16): Opus's cost is mostly cache reads, the whole context re-read every
+  turn, including each monitor event. In a long session that alone can cost more than the control build.
 - Opus's side: wall time from the branch to the PR, the review rounds, and its supervising tokens:
   `node .claude/skills/sonnet-handoff/opus-stats.js ~/.claude/projects/<repo>/<session id>.jsonl <branch created, ISO>
   [<merged, ISO>]` (sums this session's Opus calls in that window; note both times in the table's Notes).
@@ -196,6 +198,17 @@ check the `result` line's `permission_denials` and the summary's "could not do".
 7. **`git commit -a`** fails the hook's `tree-mark` test (as for Grok): `git add <files>`, then commit. A multi-line
    `-m` is fine (unlike Grok).
 8. **Uncommitted work left by a stopped run:** commit it as WIP on the ticket's branch (CLAUDE.md), then `--resume`.
+9. **Shell heredocs and `rm` are refused** (8 Oct, ticket 16): the brief says write files with Write and Edit, and
+   leave scratch files in `grok/` for Claude to clear.
+10. **The pre-commit hook's log is in `/tmp`**, outside the repo, so Sonnet can't read why a commit was blocked; it
+   retried the same tree and passed (ticket 16, cause unknown: the log was overwritten). Say in the brief: a blocked
+   commit → retry once, then stop and report; Claude reads `/tmp/kettle-bar-precommit.log`.
+11. **Memory:** under memory pressure Claude Code reaps background shells. On 8 Oct it killed the wrapper but the
+   `claude -p` child kept running. Check free memory first (4 GB+), and before relaunching check for a live
+   `claude -p` process (its session log `~/.claude/projects/<repo>/<session id>.jsonl` keeps the events and tokens
+   even when the out file is gone).
+12. **Test first gets skipped** (ticket 16: the test was written after the build). Put it in the BUILD part as a
+   checked step: "run the test before writing any exercise and quote its failure in your reply".
 
 **Recovering a stopped or short run:** don't start over. `--resume "<uuid>"` with a short prompt naming what was
 refused or skipped and the plain command to use instead; Sonnet keeps its edits and context. A run from before

@@ -290,3 +290,5 @@ test('catalogue 13 adds chest +9, back +12 and full body +5 (ticket 13)', () => 
 test('catalogue 13 adds upper body +17 (ticket 14)', () => fitnessTicket({ upper: 17 }));
 
 test('catalogue 13 adds lower body +22 (ticket 15)', () => fitnessTicket({ lower: 22 }));
+
+test('catalogue 13 adds abs +21 (ticket 16)', () => fitnessTicket({ abs: 21 }));

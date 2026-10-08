@@ -252,7 +252,7 @@
       pullBarMain: { 13: ['close_grip_chinup'] },
       backBar: { 13: ['close_grip_chinup', 'pullup_knee_raise'] },
       climbPull: { 13: ['close_grip_chinup'] },
-      barCore: { 13: ['pullup_knee_raise'] },
+      barCore: { 13: ['pullup_knee_raise', 'hanging_leg_raise', 'toes_to_bar', 'hanging_oblique_raise', 'hanging_scissors', 'hang_hollow_swing'] },
       row: { 13: ['db_underhand_row', 'db_pendlay_row'] },
       row2: { 13: ['db_underhand_row', 'db_wide_row', 'db_row_hold', 'bird_dog_row', 'db_pendlay_row'] },
       backRow: { 13: ['db_underhand_row', 'db_wide_row', 'db_row_hold', 'bird_dog_row', 'side_plank_row', 'db_pendlay_row', 'kb_horn_row'] },
@@ -260,7 +260,7 @@
       backBw: { 13: ['back_widow'] },
       climbBack: { 13: ['back_widow'] },
       gripPull: { 13: ['db_underhand_row', 'db_pendlay_row'] },
-      coreRot: { 13: ['side_plank_row'] },
+      coreRot: { 13: ['side_plank_row', 'db_woodchop', 'weighted_side_plank', 'sit_through', 'plank_hip_twist', 'side_plank_reach_through', 'standing_oblique_crunch', 'side_lying_crunch'] },
       total: { 13: ['db_snatch', 'db_clean_press', 'devil_press', 'man_maker', 'kb_clean_squat'] },
       kbCx: { 13: ['kb_clean_squat'] },
       kbCxLower: { 13: ['kb_clean_squat', 'kb_suitcase_deadlift'] },
@@ -270,7 +270,7 @@
       shoulders2: { 13: ['db_scaption', 'db_lu_raise', 'leaning_lateral_raise', 'db_bus_driver', 'db_z_press'] },
       shoulderPress: { 13: ['db_z_press'] },
       shoulderHealth: { 13: ['prone_db_t_raise', 'db_cuban_press', 'db_scaption'] },
-      kbCore2: { 13: ['kb_waiter_walk'] },
+      kbCore2: { 13: ['kb_waiter_walk', 'kb_plank_pull_through', 'kb_seated_pass'] },
       carry: { 13: ['kb_waiter_walk'] },
       biceps: { 13: ['db_drag_curl'] },
       biceps2: { 13: ['db_drag_curl', 'curl_hold', 'kb_curl'] },
@@ -309,6 +309,11 @@
       calf: { 13: ['tiptoe_walk'] },
       runLegs: { 13: ['kickstand_rdl', 'nordic_negative'] },
       courtLegs: { 13: ['lateral_squat_walk', 'curtsy_lunge'] },
+      // ticket 16: abs (`abs` and `absW` take the rest by themselves)
+      core2: { 13: ['plank_hip_twist', 'plank_leg_lift', 'crab_toe_touch'] },
+      coreAnti: { 13: ['plank_leg_lift'] },
+      coreHollow: { 13: ['vertical_hip_lift'] },
+      kbCxCore: { 13: ['kb_plank_pull_through', 'kb_seated_pass'] },
       gentleStrength: { 13: ['knee_pushup', 'donkey_kick', 'side_lying_abduction'] },
     };
     const computedPools = (upTo) => {
@@ -378,6 +383,8 @@
       teep: 'jab_teep', roundhouse: 'switch_kick', jab_cross_kick: 'kick_four', knee_strike: 'clinch_knees', front_kick: 'side_thrust_kick',
       // Phase 22 ticket 13 (new easier exercises only, so no existing program changes)
       knee_pushup: 'pushup', staggered_pushup: 'archer_pushup', jumping_pullup: 'pullup', db_clean_press: 'devil_press',
+      // ticket 16 (only a new exercise as the easier side, so no old program draws it)
+      hanging_leg_raise: 'toes_to_bar',
     };
     // holds: like reps (the level's number from the catalogue), said the way it feels in a flow
     const LEVER_TEXT = { base: 'Base', reps: 'More reps', holds: 'Longer holds', weight: 'Heavier weights', variation: 'Harder variations', tempo: 'Slow tempo' };

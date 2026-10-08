@@ -96,7 +96,7 @@ goes unused this phase (CLAUDE.md: tickets that edit the same files wait).
 | 13 | Chest +9, back +12, full +5 | content | 1 | `content/c13-chest-back` | done (PR #299) |
 | 14 | Upper +17 | content | 1 | `content/c13-upper` | done (PR #300) |
 | 15 | Lower +22 | content | 1 | `content/c13-lower` | done (PR #301) |
-| 16 | Abs +21 | content | 1 | `content/c13-abs` | todo |
+| 16 | Abs +21 | content | 1 | `content/c13-abs-sonnet` | done (PR #305) |
 | 17 | Cardio +16, boxing +7, kick +6 | content | 1 | `content/c13-cardio-combat` | todo |
 | 18 | Yoga +15, pilates +11, flex +7, mobility +8, balance +6 | content | 1 | `content/c13-mind-body` | todo |
 | 19 | Rough and Kink-lite: 24 programs | content | 9, 10b | `content/c13-rough-kink-programs` | todo |
@@ -295,8 +295,8 @@ Measured per ticket against 13–15 (Claude alone: about 25–35 min each, 0–2
 
 | Ticket | Plan rounds | Review findings | Fix rounds | Finished by | Wall time | Sonnet tokens (in / cache read / cache write / out) | Sonnet USD | Opus supervising tokens | Notes |
 |---|---|---|---|---|---|---|---|---|---|
-| 16 control (Opus alone) | | – | – | Opus | | | | – | never merged |
-| 16 | | | | | | | | | redone from scratch (278) |
+| 16 control (Opus alone) | – (no plan stop) | not reviewed | – | Opus | 9 min | 46 / 1.90M / 115k / 28.9k | 1.88 | – | `control/t16-opus`, never merged; tests and the full suite passed |
+| 16 | 2 (four near-copies, one of them `plank_to_pushup`; loaded moves in bodyweight-only pools) | build: a "loaded" exercise with no load, two drawings off their cues, the recipe book left out; Test first skipped (the test was written after the build) | 1 | Sonnet | 25 min branch to PR (Sonnet 18 min over 4 runs) | 90 / 4.91M / 142k / 45.2k | 4.58 | 74 / 6.76M / 38.8k / 16.6k (≈ $2.8, 37 calls) | redone from scratch (278); Opus's cost is mostly re-reading a long session (~180k context per turn) |
 | 17 | | | | | | | | | |
 | 18 | | | | | | | | | |
 
