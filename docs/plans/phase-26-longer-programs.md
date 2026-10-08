@@ -1,7 +1,7 @@
 # Phase 26: longer programs, half at 35–38 minutes
 
 Issue [#198](https://github.com/noamros9/kettle-bar/issues/198). Grilled 4 and 7 Oct 2026 (Noam); decisions 53–56,
-82 and 153–157 below. After Phase 25 (134).
+82 and 153–157 below. After Phase 33, day to day II (223; was after Phase 25, 134).
 
 ## Decisions
 Grilled 4 and 7 Oct 2026 with Noam (global decision numbers). Why: on 4 Oct only ~1/6 of the programs ran 33 min or more.
@@ -29,8 +29,8 @@ Grilled 4 and 7 Oct 2026 with Noam (global decision numbers). Why: on 4 Oct only
 
 **Minutes elsewhere in the app** (ticket 6b)
 - **191 · Length filter: Up to 30 / 31–35 / 35+** (was Up to 25 / 26–32 / 33+).
-- **192 · Random workouts: 15 / 25 / 38** (38 replaces 35); the rest-day flow keeps 15.
-- **203 · Help me pick: About 15 / 20–30 / 31–35 / 35–38+.** **204 ·** Build your own keeps 20–40, no 38.
+- **192 · Random workouts: 15 / 25 / 38** (38 replaces 35); the rest-day flow keeps 15 (Phase 34 makes it 10 or 15, 262).
+- **203 · Help me pick: About 15 / 20–30 / 31–35 / 35–38+.** **204 ·** Build your own keeps 20–40, no 38 (and 15 for one subject from Phase 34, 261).
 
 ## What lands
 - **Per subject, about half at 35–38 min, a quarter at 31–35, a quarter shorter** (53, 155), counting the workout

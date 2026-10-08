@@ -2,7 +2,7 @@
 
 Issues [#187](https://github.com/noamros9/kettle-bar/issues/187) and [#188](https://github.com/noamros9/kettle-bar/issues/188).
 Grilled 7 Oct 2026 (Noam); decisions 139–141 below. After Phase 23 (140): the app at
-~1,060 programs. Earlier reviews: [III](architecture-review-3.md), [IV](architecture-review-4.md); read their
+~1,140 programs. Earlier reviews: [III](architecture-review-3.md), [IV](architecture-review-4.md); read their
 findings first, so nothing already decided is re-raised.
 
 ## Decisions
@@ -79,5 +79,5 @@ Tickets 1 and 2 only write their own findings file, so they can run at once (the
   are read in tickets 1 and 2 before anything else.
 - **The lazier version:** one review ticket for both. Not proposed: architecture needs measurements on a throttled
   phone profile, the code review needs a line-by-line read; split, they run at once and each stays one review's worth.
-- **Risk:** the review finds that the library at ~1,060 programs should be split (Phase 23's ticket 1b). If Phase 23
+- **Risk:** the review finds that the library at ~1,140 programs should be split (Phase 23's ticket 1b). If Phase 23
   already did it, the review checks it held; if it didn't, the split is a likely fix-now ticket here.
