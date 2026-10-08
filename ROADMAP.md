@@ -2,7 +2,7 @@
 
 The index: where we are, what comes next, and the two phases being built now. Every other phase's decisions live at the
 top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase comes up. Decision numbers are global
-(the next one is **277**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
+(the next one is **282**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
 ## Resume here (8 Oct 2026)
 - **8 Oct:** every open issue planned (223–263, PR #297): Phases 31–34 below; #216 joined Phase 23; #220, #67 closed.
