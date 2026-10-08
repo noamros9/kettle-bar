@@ -1,6 +1,6 @@
 # Phase 30: muscle groups on three levels, and doing a day again
 
-Asked and grilled 7 Oct 2026 with Noam. Right after Phase 22 (216). Issue [#287](https://github.com/noamros9/kettle-bar/issues/287).
+Asked and grilled 7 Oct 2026 with Noam. After Phase 31, the quick fixes (223; was right after Phase 22, 216). Issue [#287](https://github.com/noamros9/kettle-bar/issues/287).
 
 ## Decisions
 Global decision numbers.
@@ -27,7 +27,7 @@ Global decision numbers.
   old apps ignore it, backups carry it as an optional section, merges take the union. *(technical)*
 
 **When**
-- **216 · Right after Phase 22**, before Phase 20's tickets 9–15.
+- **216 · Right after Phase 22 (now after Phase 31, 223)**, before Phase 20's tickets 9–15.
 
 ## What lands
 - One definition of the groups (`MUSCLE_GROUPS` in `exercises.js`, next to `MUSCLE_NAMES`), read by Stats, the
