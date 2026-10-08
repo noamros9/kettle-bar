@@ -35,8 +35,8 @@ Rules for how every ticket is tested and reviewed; CLAUDE.md is where they're fo
   | abs | 41 | +21 | boxing | 14 | +7 |
   | cardio | 31 | +16 | kick | 12 | +6 |
 
-- **Twelve After dark subjects, 8 programs each** (119, 123): Rough, Kink-lite, Body play, Rimming and the eight
-  kinds above, at `catalogue: 13`: 96 programs.
+- **Twelve After dark subjects, 12 programs each** (119, 123; was 8): Rough, Kink-lite, Body play, Rimming and the
+  eight kinds above, at `catalogue: 13`: 144 programs (was 96).
 - **A ticket that hits the wall moves on** (124): Grok's build and two fix rounds, then it ships what passed.
 - **No existing program changes** (81): every pool a catalogue-12-or-older config reads stays as it is.
 
@@ -99,12 +99,12 @@ goes unused this phase (CLAUDE.md: tickets that edit the same files wait).
 | 16 | Abs +21 | content | 1 | `content/c13-abs` | todo |
 | 17 | Cardio +16, boxing +7, kick +6 | content | 1 | `content/c13-cardio-combat` | todo |
 | 18 | Yoga +15, pilates +11, flex +7, mobility +8, balance +6 | content | 1 | `content/c13-mind-body` | todo |
-| 19 | Rough and Kink-lite: 16 programs | content | 9, 10b | `content/c13-rough-kink-programs` | todo |
-| 20 | Body play and Rimming: 16 programs | content | 11b, 12 | `content/c13-body-rim-programs` | todo |
-| 20b | Edging and Massage: 16 programs | content | 12b, 12c | `content/c13-edging-massage-programs` | todo |
-| 20c | Strip and tease, Shower and bath: 16 programs | content | 12d, 12e | `content/c13-tease-shower-programs` | todo |
-| 20d | Pool and Hot tub: 16 programs | content | 12f, 12g | `content/c13-pool-hottub-programs` | todo |
-| 20e | Balcony and Doorframe: 16 programs | content | 12h, 12i | `content/c13-balcony-doorframe-programs` | todo |
+| 19 | Rough and Kink-lite: 24 programs | content | 9, 10b | `content/c13-rough-kink-programs` | todo |
+| 20 | Body play and Rimming: 24 programs | content | 11b, 12 | `content/c13-body-rim-programs` | todo |
+| 20b | Edging and Massage: 24 programs | content | 12b, 12c | `content/c13-edging-massage-programs` | todo |
+| 20c | Strip and tease, Shower and bath: 24 programs | content | 12d, 12e | `content/c13-tease-shower-programs` | todo |
+| 20d | Pool and Hot tub: 24 programs | content | 12f, 12g | `content/c13-pool-hottub-programs` | todo |
+| 20e | Balcony and Doorframe: 24 programs | content | 12h, 12i | `content/c13-balcony-doorframe-programs` | todo |
 | 21 | Open catalogue 13 to own programs and random workouts | feature | 2–18, 12b–12i | `feature/open-catalogue-13` | todo |
 
 Order: plan order; 1b goes right after 5. 1c–1f (decisions 128–132) go next, beside the sex tickets: they touch no
@@ -247,21 +247,21 @@ the PR. No duplicate of an existing exercise under a new name.
 - **Done when:** every new exercise's figure moves (the every-exercise UI loop); the build diff shows no program
   change; the Exercises page counts match.
 
-### 19–20e. Twelve new subjects, 96 programs
+### 19–20e. Twelve new subjects, 144 programs
 - 20b–20e as 19–20, two subjects each (123): their pools are `sexEdging`, `sexMassage`, `sexTease`, `sexShower`,
   `sexPool`, `sexHottub`, `sexBalcony`, `sexDoorframe`. Subject names: Edging, Massage, Strip and tease, Shower and
   bath, Pool, Hot tub, Balcony, Doorframe.
-- `configs/after-dark.js`: 8 programs in each of Rough, Kink-lite (ticket 19), Body play, Rimming (ticket 20);
-  `EXPLICIT` but `catalogue: 13`, 60 days, ticket 8's three shapes split 3 gym then sex, 3 sex then sex, 2 positions
+- `configs/after-dark.js`: 12 programs in each of Rough, Kink-lite (ticket 19), Body play, Rimming (ticket 20);
+  `EXPLICIT` but `catalogue: 13`, 60 days, ticket 8's three shapes split 4 gym then sex, 4 sex then sex, 4 positions
   only (119), minutes as Explicit's. Each subject's sex blocks name its own pool (`sexRough`, …) for one block and
   the merged pools for the rest, so the subject's kind leads without being the whole session.
 - The two subjects join `FAMILIES` (Mixed) and `SHELVES` (After dark) in `app/library.js`, after Explicit, and the
   couple-subject exclusions in `tests/recipes.test.js` (`SUBJECTS`) and `recipe-book.js` (couple configs are skipped).
 - Names, blurbs and about text from his side (CLAUDE.md), describing the session, not the builder.
-- **Test first:** in a new `tests/c13-programs.test.js`: the 16 ids pinned; the 3/3/2 shapes per subject; `couple`,
+- **Test first:** in a new `tests/c13-programs.test.js`: the 24 ids pinned; the 4/4/4 shapes per subject; `couple`,
   `catalogue: 13`, 60 days, `skipped`; minutes in band; every program draws its subject's kind; the his-pov,
   couple-odds and description tests pass with no exception added.
-- **Done when:** the ticket's two subjects show on the After dark shelf with 8 programs each (390 px light and dark),
+- **Done when:** the ticket's two subjects show on the After dark shelf with 12 programs each (390 px light and dark),
   a day of each opens; existing program files unchanged in the build diff.
 
 ### 21. Open catalogue 13
