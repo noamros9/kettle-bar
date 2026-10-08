@@ -34,9 +34,9 @@ decisions is today's catalogue 13 (renumbered by 105).
 **More Yoga, Pilates and Variety** ([#216](https://github.com/noamros9/kettle-bar/issues/216), grilled 8 Oct)
 - **230 · #216 is built in this phase**, in its Yoga, Pilates and Variety tickets. *(8 Oct)*
 - **231 · Yoga, Pilates and Variety double** (14 → 28, 12 → 24, 15 → 30), instead of +50% (was +7, +6, +8). *(8 Oct)*
-- **232 · Seven new subjects, 8 programs each**, on top: Power yoga, Yin yoga, Mobility flow (Yoga); Mat core,
+- **232 · Seven new subjects, 8 programs each**, on top: Power yoga, Yin yoga, Yoga flow (was Mobility flow) (Yoga); Mat core,
   Kettlebell Pilates (Pilates); Weekly mix, Surprise (Variety shelf). *(8 Oct)*
-- **233 · Weekly mix**: a 7-day rotation, each day a different shelf group (Strength, Muscles, Cardio, Combat, Yoga &
+- **233 · Weekly mix**: a 7-day rotation, each program its own order (was one order for all), each day a different shelf group (Strength, Muscles, Cardio, Combat, Yoga &
   Pilates, Mobility & care, Mixed). *(8 Oct)*
 - **234 · Surprise**: every day a different fitness subject, no pattern; never After dark. *(8 Oct)*
 - **235 · Yoga and Pilates exercises double on their count after Phase 22**: yoga 88+, Pilates 66+ (about +44, +33),
@@ -44,6 +44,8 @@ decisions is today's catalogue 13 (renumbered by 105).
 - **236 · The same rules as the rest of the phase**: the spread (87), a fifth 30 days (185), gear like the subject (184). *(8 Oct)*
 - **237 · Catalogue numbers**: the new yoga and Pilates exercises open catalogue 14 (`added: 14`), Phase 34's breathing
   drills take 15, Phase 27's skills move to 16. *(technical, 8 Oct)*
+- **264 · Build your own and random workouts get catalogue 14 at the phase's last ticket**, all at once (as 121). *(8 Oct)*
+- **265 · Yin & Deep Stretch stays on the Yoga shelf**; programs never move shelves. *(8 Oct)*
 
 ## What lands
 - **309 library programs** (83, 138, 231, 232): every fitness subject but Signature grows by half, rounded, except
@@ -76,7 +78,7 @@ decisions is today's catalogue 13 (renumbered by 105).
 | 7 | Conditioning +7, HIIT +7, Plyometrics +6, Running prep +5, Court & field sports +5 | 30 |
 | 8 | Boxing +7, Kickboxing +6, Fighter +7 | 20 |
 | 9 | Yoga +14, Pilates +12, Back care +5 (231) | 31 |
-| 9b | Power yoga, Yin yoga, Mobility flow, Mat core, Kettlebell Pilates, 8 each (232) | 40 |
+| 9b | Power yoga, Yin yoga, Yoga flow, Mat core, Kettlebell Pilates, 8 each (232) | 40 |
 | 10 | Mobility & posture +6, Flexibility +6, Balance & stability +6, Gentle / low impact +5 | 23 |
 | 11 | Strength & stretch +7, Athlete +7, Balanced week +8, Calm strength +7 | 29 |
 | 12 | Variety +15 (231) | 15 |
@@ -169,7 +171,7 @@ The pins file is regenerated after each rebase (`npm run pin`), never merged by 
   the PR's CI is green. Ticket 12 also checks Variety's own rule (no two days share a type and format).
 
 ### 9b. Five new Yoga and Pilates subjects (232)
-- **Build:** Power yoga (strong, flowing, standing-heavy), Yin yoga (long holds, few poses, slow), Mobility flow
+- **Build:** Power yoga (strong, flowing, standing-heavy), Yin yoga (long holds, few poses, slow), Yoga flow
   (joint-by-joint flows), Mat core (Pilates mat, core first), Kettlebell Pilates (Pilates with a light bell): 8
   programs each, `catalogue: 14`, by ticket 3–12's rules (spread, a fifth 30 days, gear like the shelf's; Kettlebell
   Pilates `kb`). The five join `FAMILIES` (Mind & body) and `SHELVES` (Yoga & Pilates), after Yoga and Pilates.
@@ -181,8 +183,8 @@ The pins file is regenerated after each rebase (`npm run pin`), never merged by 
 
 ### 12b. Weekly mix and Surprise (233, 234)
 - **Build:** Weekly mix: 8 programs whose cycle is 7 day types, one from each of the seven fitness shelf groups
-  (Strength, Muscles, Cardio, Combat, Yoga & Pilates, Mobility & care, Mixed), in an order that never puts two hard
-  days of the same muscles back to back; a mixed-day program like Balanced week, so no builder change. Surprise: 8
+  (Strength, Muscles, Cardio, Combat, Yoga & Pilates, Mobility & care, Mixed), each program in its own order, never putting two
+  hard days of the same muscles back to back (233); a mixed-day program like Balanced week, so no builder change. Surprise: 8
   Variety programs whose deck is dealt by subject: every day a different fitness subject's day type, each subject
   once before any comes back, none from After dark (`variety.js` learns `surprise: true`, dealing subjects before
   formats; a Variety program without it deals as now). Both subjects join the Variety shelf group and the Mixed
@@ -194,6 +196,7 @@ The pins file is regenerated after each rebase (`npm run pin`), never merged by 
 - **Done when:** as ticket 3–12.
 
 ### 13. Close the phase
+- `recipe-book.js`: `NEWEST = 14` (264); new own programs and random workouts draw the yoga and Pilates moves.
 - `npm run size` again, recorded under "Measured" next to ticket 1's numbers; the section moves to
   `docs/roadmap-archive.md`; CONTEXT.md's Signature entry says the IIs.
 

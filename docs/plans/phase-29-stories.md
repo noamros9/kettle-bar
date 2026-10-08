@@ -10,7 +10,7 @@ Grilled 7 Oct 2026 with Noam (global decision numbers).
 - **162 · Not in the app**: Google Docs in Noam's Drive, the workout as the seed. **Couple programs only.**
 - **163 · On request, by a script**: Grok writes from Noam's own prompt file (no Claude review); a script with a Drive
   key uploads it, so the text never passes through Claude. Written-ahead was dropped (~24,000 stories, mostly unread).
-- **168 · The seed is a full-length screenshot of the day**, as Noam's prompt expects.
+- **168 · The seed is the day's print view** (Phase 32; was a full-length day-page screenshot): clean, with drawings.
 - **178 · Signed in**, so the screenshot shows Phase 28's drawings.
 - **167 · A folder per program**: "Kettle & Bar stories / <program> / Day 12 — <title>".
 - **202 · Asked here, run on Noam's PC** through the linked desktop app, which must be on.
@@ -18,7 +18,8 @@ Grilled 7 Oct 2026 with Noam (global decision numbers).
 ## What lands
 - **Nothing in the app** (162): the stories live in Noam's Google Drive; the app never stores or shows them.
   **Couple programs only.**
-- **A screenshot of the day as the seed** (168): Noam's prompt asks for a story based on a screenshot of the workout.
+- **The day's print view as the seed** (168): Noam's prompt asks for a story based on a screenshot of the workout;
+  Phase 32's print view gives a clean one (no buttons, drawings beside each exercise).
   The script renders the day's page full length at phone width (every block, exercise and drawing) and hands Grok
   that image with his prompt.
 - **On request** (163): Noam asks Claude ("a story for day 12 of Slow Deep Fuck") or runs it himself:
@@ -40,13 +41,13 @@ Grilled 7 Oct 2026 with Noam (global decision numbers).
 | # | Ticket | Tier | Blocked by | Branch | Status |
 |---|---|---|---|---|---|
 | 0 | This plan | plan | – | `plan/unplanned-phases` | done (PR #281) |
-| 1 | The seed: a couple day's page as a full-length screenshot | feature | – | `feature/story-seed` | todo |
+| 1 | The seed: a couple day's print view as one image | feature | – | `feature/story-seed` | todo |
 | 2 | The run: Grok with the image and the prompt, then upload to Drive | feature | 1 | `feature/story-run` | todo |
 | 3 | Close: how to ask for a story in CLAUDE.md, CONTEXT.md, archive | plan | 2 | `plan/p29-close` | todo |
 
 ### 1. The seed
 - **Build:** `scripts/story-seed.js <program id> <day> [out.png]`: refuses a program that isn't `couple: true` or a
-  day out of range; serves the built app (as the UI tests do), opens `#program/<id>/<day>` in Playwright at 390 px
+  day out of range; serves the built app (as the UI tests do), opens the day's print view (`#print/p-<id>-d<day>`, Phase 32) in Playwright at 390 px
   wide, light theme, signed in as Noam (178), and saves a full-page PNG (default into a gitignored `story-tmp/`). It prints only the
   file's path.
 - **Files:** `scripts/story-seed.js`, `.gitignore`, `package.json`, `tests/story-seed.test.js` (the refusals, pure),

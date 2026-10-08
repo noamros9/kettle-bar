@@ -12,6 +12,8 @@ Grilled 8 Oct 2026 with Noam (global decision numbers).
 - **239 · For a copy for himself (offline) and for sending to her or a friend.** Export only: no import (your own
   programs already share by link). *(8 Oct)*
 - **240 · Couple and After dark content export like everything else**, no warning or trimming. *(8 Oct)*
+- **272 · Explicit exercises in the PDF use your view** (Phase 28's approved drawing when signed in, else the figure):
+  Noam's choice, an exception to 110's "never leaves Storage". *(8 Oct)*
 
 **Formats**
 - **241 · Print / Save as PDF and text to share; a calendar file (.ics) from the program page only.** No image
@@ -27,6 +29,7 @@ Grilled 8 Oct 2026 with Noam (global decision numbers).
   fit. *(8 Oct)*
 - **247 · The calendar file: all-day events from a start date on the weekdays you pick**, pre-filled from the
   program's training weekdays once Phase 33 lands them. *(8 Oct)*
+- **273 · A super's calendar file holds all 120 days** (Phase 19), like any program (245). *(8 Oct)*
 
 ## What lands
 - **An Export button** on the exercise page, the day page, the program page (library and own) and the random workout
@@ -67,7 +70,8 @@ Tickets 1 and 2 share no files and can run at once.
 
 ### 2. The print view
 - **Build:** a `#print/ex-<id>`, `#print/p-<pid>-d<n>`, `#print/p-<pid>` and `#print/random` route that draws the
-  print layout (always the light theme, no top bar, no timer) and opens the phone's print dialog once drawn
+  print layout (always the light theme, no top bar, no timer; an explicit exercise drawn in your view, Phase 28's approved
+  drawing when signed in, 272) and opens the phone's print dialog once drawn
   (`window.print()`), with a "Back" link for when it's dismissed. A program's days, then the glossary of every
   exercise it uses, each figure drawn once. `@media print` rules: page breaks between days kept together, figures
   sized for A4.

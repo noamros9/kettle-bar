@@ -2,10 +2,11 @@
 
 The index: where we are, what comes next, and the two phases being built now. Every other phase's decisions live at the
 top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase comes up. Decision numbers are global
-(the next one is **264**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
+(the next one is **276**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
 ## Resume here (8 Oct 2026)
 - **8 Oct:** every open issue planned (223–263, PR #297): Phases 31–34 below; #216 joined Phase 23; #220, #67 closed.
+  Then a fine-grain round over every open plan (264–275, PR #298): the top rows slide (mocked), catalogues held per phase.
 - **Next: Phase 22 ticket 10** (Kink-lite +36, him on her) for Grok. Plan first (132); every Grok review so far caught
   bodies whose hips don't meet, and tame or "what it is not" cues. Start from the plan's "Resume here".
 - **8 Oct:** After dark grown: 12 programs per new subject (119), +155 for the existing 16 (221–222, Phase 20 tickets 16–23).

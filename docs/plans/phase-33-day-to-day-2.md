@@ -20,21 +20,26 @@ Grilled 8 Oct 2026 with Noam (global decision numbers).
 **Training weekdays** (#291)
 - **250 · Per program, set on its page, synced.** The day the Today's workout shortcut opens says "Next workout
   Thursday"; hidden while the program is paused; they pre-fill the calendar export's weekdays (Phase 32). *(8 Oct)*
+- **271 · A tick on another weekday just counts**, no mark. *(8 Oct)*
 
 **A day note** (#292)
 - **251 · One line, 140 characters**: typed on the finish screen, editable from History, shown on the day page;
   synced. Words only (no weights or reps, which stay decided against). *(8 Oct)*
+- **269 · One note per time done**: a day done again (Phase 30) has a note per date. *(8 Oct)*
 
 **Pause, In progress, Start over** (#293)
 - **252 · Pause**: a Paused badge and Resume; a paused program is never picked for Today's workout; synced. *(8 Oct)*
-- **253 · Two rows at the top of the Programs page**: In progress (a day done this round, not finished), then Paused;
-  each program also stays on its own shelf. *(8 Oct)*
-- **254 · Start over = a new round, history kept**: today's Start Round button, made easier to find; nothing erases
-  done days. *(8 Oct)*
+- **253 · Rows at the top**: after the rest-day and Do now cards, Favourites, In progress (a day done this round, not
+  finished), then Paused (was In progress, Paused); each program also stays on its own shelf. *(8 Oct)*
+- **268 · The three rows slide sideways**: 3 cards, then a Show all tile opening the row as its own stacked page (own
+  link, no filters). The shelves keep 6 + Show all. *(8 Oct, from a mock)*
+- **270 · Paused still counts as started**: "Ready for II" shows, and Phase 26 never re-times it. *(8 Oct)*
+- **254 · Start over = a new round, history kept**: today's Start Round button reading "Start over", with "Round 2" small
+  under it; nothing erases done days. *(8 Oct)*
 
 **Finding** (#294, #295)
 - **255 · Compare**: a Compare button on a program page, then pick the second; side by side: days per week, length,
-  minutes, formats and gear, the muscle heat map, exercises in common. *(8 Oct)*
+  minutes, formats and gear, the muscle maps with Phase 30's group bars beside them, exercises in common. *(8 Oct)*
 - **256 · Programs that use this** grows "Also in": library and your own programs, most uses first, with how many
   days each, the first 10 then Show all. *(8 Oct)*
 
@@ -44,9 +49,10 @@ Grilled 8 Oct 2026 with Noam (global decision numbers).
 
 ## What lands
 - **On a program's page**: Pause / Resume, the training weekdays (seven day chips), Start over where Start Round is
-  today (labelled "Start over · Round 2"), and Compare.
-- **On the Programs page**: an **In progress** row and a **Paused** row at the top, above Favourites; the programs stay
-  on their shelves too.
+  today ("Start over", "Round 2" small under it), and Compare.
+- **On the Programs page**, under the rest-day and Do now cards: **Favourites**, **In progress** and **Paused** as
+  sideways rows of 3 cards and a **Show all** tile, which opens the row stacked on its own page (`#row/<name>`); the
+  programs stay on their shelves too.
 - **Today's workout** skips paused programs; the day it opens says "Next workout Thursday" when the program has
   weekdays and today isn't one (or today's is done).
 - **A day note**: a one-line box on the finish screen; the note shows on that day's page and in History, where it can
@@ -58,7 +64,7 @@ Grilled 8 Oct 2026 with Noam (global decision numbers).
 ## Stored shapes
 Everything new lives in collections that exist (`progress`, `prefs`): **no rules change**. In a program's progress
 document: `paused` (time, or absent), `weekdays` (0–6, Sunday first, or absent) and `notes` (`{ day: text }` for the
-current round; a new round carries the old round's notes into its `past` entry, as `done` and `swaps` are). Old
+current round, a list per day when Phase 30's `again` gives a day more than one date, 269; a new round carries the old round's notes into its `past` entry, as `done` and `swaps` are). Old
 documents and old backups have none of them and read as "not paused, no weekdays, no notes"; an old app reading a new
 document ignores the fields, and a merge keeps the newer of each by the document's existing timestamps.
 
@@ -93,14 +99,17 @@ Tickets 5, 6 and 7 share no files with 1–4 and can run beside them (the cap of
 
 ### 2. Pause, In progress and Paused rows, Start over (#293)
 - **Build:** the program page gets Pause / Resume and a Paused badge; Start Round becomes "Start over · Round N"
-  in the same place, with the same sheet. The Programs page draws In progress (≥1 day done this round, not all days
-  done, not paused; most recently trained first) and Paused (most recently paused first) above Favourites, each
-  hidden when empty, using the same cards. Today's workout (`app/pages/core.js`) skips paused programs (falls back to
+  in the same place, with the same sheet. The Programs page draws Favourites, In progress (≥1 day done this round,
+  not all days done, not paused; most recently trained first) and Paused (most recently paused first) as sideways rows
+  (scroll-snap, the next card peeking in): 3 cards, then a Show all tile when there are more, opening `#row/<name>`
+  (the row stacked, no filters; Back returns, Phase 31). Each row hidden when empty. Phase 26 and "Ready for II" read
+  paused programs as started (270). Today's workout (`app/pages/core.js`) skips paused programs (falls back to
   the next most recent, then to the first program, as now).
-- **Files:** `app/pages/program.js`, `app/pages/programs.js`, `app/library.js` (the two rows' lists), `app/pages/core.js`,
-  `app/styles.css`, `tests/library.test.js`, `tests-ui/library.spec.js`, `tests-ui/pause.spec.js` (new),
+- **Files:** `app/pages/program.js`, `app/pages/programs.js`, `app/library.js` (the two rows' lists), `app/pages/core.js`
+  (the `#row/` route), `app/styles.css`, `tests/library.test.js`, `tests-ui/library.spec.js`, `tests-ui/pause.spec.js` (new),
   `scripts/ui-affected.js`.
-- **Test first:** `library.test.js`: who is In progress and who is Paused, and their order; `pause.spec.js`: pause a
+- **Test first:** `library.test.js`: who is In progress and who is Paused, and their order; `pause.spec.js`: four
+  started programs give 3 cards and Show all, which opens all four stacked; pause a
   started program, it moves to Paused and the Today's workout shortcut opens another program; Resume brings it back;
   Start over keeps the old round in History.
 - **Done when:** 390 px screenshots light and dark of the two rows and the program page; no sideways scroll at 360 px.
@@ -118,7 +127,8 @@ Tickets 5, 6 and 7 share no files with 1–4 and can run beside them (the cap of
 
 ### 4. A day note (#292)
 - **Build:** the finish card (`finishCard` in `app/pages/day.js`) gets a one-line input (140, a counter near the
-  limit); the day page shows the note under the title; History shows it on the day and edits it in place.
+  limit); the day page shows the note under the title; History shows it on the day and edits it in place; a day done again
+  (Phase 30) has a note per date (269).
 - **Files:** `app/pages/day.js`, `app/pages/stats.js`, `app/styles.css`, `tests-ui/note.spec.js` (new),
   `scripts/ui-affected.js`.
 - **Test first:** type a note on the finish screen, it shows on the day page and in History; edit it in History and
@@ -133,7 +143,7 @@ Tickets 5, 6 and 7 share no files with 1–4 and can run beside them (the cap of
 - **Files:** `app/compare.js`, `app/pages/compare.js`, `app/pages/program.js`, `app/pages/core.js` (route),
   `build.js` (the scripts), `sw.js` (cache list), `app/styles.css`, `tests/compare.test.js`,
   `tests-ui/compare.spec.js`, `scripts/ui-affected.js`.
-- **Test first:** `compare.test.js` on two made-up programs: the counts, the shared exercises, equipment; the spec:
+- **Test first:** `compare.test.js` on two made-up programs: the group loads (Phase 30's `groupLoads`), the counts, the shared exercises, equipment; the spec:
   Compare from a program, pick a second, both names and both maps show; an own program can be compared.
 - **Done when:** 100% coverage of `app/compare.js`; 390 px screenshots light and dark; no sideways scroll at 360 px.
 
