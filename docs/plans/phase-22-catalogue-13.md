@@ -81,7 +81,7 @@ goes unused this phase (CLAUDE.md: tickets that edit the same files wait).
 | 8 | Hands +36 | content | 1 | `content/c13-hands` | done (PR #279) |
 | 9 | Rough +36 | content | 1 | `content/c13-rough` | done (PR #280) |
 | 10 | Kink-lite +36 (a), him on her | content | 1 | `content/c13-kink` | done (PR #307) |
-| 10b | Kink-lite +30 (b), her on him (~16), and the rule's exception | content | 10 | `content/c13-kink-b` | todo |
+| 10b | Kink-lite +30 (b), her on him (16), and the rule's exception | content | 10 | `content/c13-kink-b` | done (PR #308) |
 | 11 | Body play +36 (a) | content | 1 | `content/c13-body` | todo |
 | 11b | Body play +30 (b) | content | 11 | `content/c13-body-b` | todo |
 | 12 | Rimming +36, and the rule's exception | content | 1 | `content/c13-rim` | todo |
