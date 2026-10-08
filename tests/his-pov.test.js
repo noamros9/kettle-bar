@@ -55,32 +55,69 @@ const { EX } = require('../exercises.js');
 const IN_HIM = [
   'peg',
   'strap-on on him',
+  'strap-on on you',
   'strap-on in him',
+  'strap-on in you',
   'strap-on in his',
   'strap-on up his',
   'in his ass',
+  'in your ass',
   'into his ass',
+  'into your ass',
   'up his ass',
+  'up your ass',
   'his asshole',
+  'your asshole',
   'his hole',
+  'your hole',
   'finger in his ass',
+  'finger in your ass',
   'fingers in his ass',
+  'fingers in your ass',
   'finger his ass',
+  'finger your ass',
   'fingers his ass',
+  'fingers your ass',
   'toy in his ass',
+  'toy in your ass',
   'dildo in his ass',
+  'dildo in your ass',
   'plug in his ass',
+  'plug in your ass',
   'in him',
 ];
+const RIM_OK = new Set(['his asshole', 'his hole', 'your asshole', 'your hole']);
+
+// Her tongue on his or your asshole passes only when the exercise is rimming. Anything else in him still fails.
+function inHimHits(e) {
+  if (e.cat !== 'couple') return [];
+  const text = `${e.name}\n${e.cue}`.toLowerCase();
+  const rimTongue = e.sub === 'rim' && String(e.cue).toLowerCase().includes('her tongue');
+  const hits = [];
+  IN_HIM.forEach((p) => {
+    if (rimTongue && RIM_OK.has(p)) return;
+    if (text.includes(p)) hits.push(p);
+  });
+  return hits;
+}
 
 test('no couple exercise puts anything in him', () => {
   const hits = [];
   Object.values(EX).forEach((e) => {
-    if (e.cat !== 'couple') return;
-    const text = `${e.name}\n${e.cue}`.toLowerCase();
-    IN_HIM.forEach((p) => {
-      if (text.includes(p)) hits.push(`${e.id}: ${p}`);
-    });
+    inHimHits(e).forEach((p) => hits.push(`${e.id}: ${p}`));
   });
   assert.deepEqual(hits, []);
+});
+
+test('her tongue on your asshole passes only as rimming', () => {
+  const phrases = (e) => inHimHits(e);
+  assert.deepEqual(phrases({ cat: 'couple', sub: 'rim', name: 'Rim', cue: 'Her tongue on your asshole.' }), []);
+  assert.deepEqual(phrases({ cat: 'couple', sub: 'rim', name: 'Rim', cue: 'Her tongue on your hole.' }), []);
+  assert.deepEqual(phrases({ cat: 'couple', sub: 'rim', name: 'Rim', cue: 'Her tongue on his asshole.' }), []);
+  assert.deepEqual(phrases({ cat: 'couple', sub: 'rim', name: 'Rim', cue: 'Her tongue on your asshole. Finger your ass.' }), ['finger your ass']);
+  assert.deepEqual(phrases({ cat: 'couple', sub: 'oral', name: 'Rim', cue: 'Her tongue on your asshole.' }), ['your asshole']);
+  assert.deepEqual(phrases({ cat: 'couple', sub: 'rim', name: 'Rim', cue: 'Spread your asshole.' }), ['your asshole']);
+  assert.deepEqual(phrases({ cat: 'couple', sub: 'rim', name: 'Rim', cue: 'Her tongue in your ass.' }), ['in your ass']);
+  assert.deepEqual(phrases({ cat: 'couple', sub: 'rim', name: 'Peg', cue: 'Her tongue on your asshole and peg you.' }), ['peg']);
+  assert.deepEqual(phrases({ cat: 'other', sub: 'rim', name: 'x', cue: 'Finger your ass.' }), []);
 });
