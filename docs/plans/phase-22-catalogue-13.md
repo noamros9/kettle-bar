@@ -80,7 +80,7 @@ goes unused this phase (CLAUDE.md: tickets that edit the same files wait).
 | 7 | Toys +36 | content | 1 | `content/c13-toys` | done (PR #278) |
 | 8 | Hands +36 | content | 1 | `content/c13-hands` | done (PR #279) |
 | 9 | Rough +36 | content | 1 | `content/c13-rough` | done (PR #280) |
-| 10 | Kink-lite +36 (a), him on her | content | 1 | `content/c13-kink` | todo |
+| 10 | Kink-lite +36 (a), him on her | content | 1 | `content/c13-kink` | done (PR #307) |
 | 10b | Kink-lite +30 (b), her on him (~16), and the rule's exception | content | 10 | `content/c13-kink-b` | todo |
 | 11 | Body play +36 (a) | content | 1 | `content/c13-body` | todo |
 | 11b | Body play +30 (b) | content | 11 | `content/c13-body-b` | todo |
@@ -189,9 +189,11 @@ on Grok.
 
 ### 2–12i. The sex exercises (715)
 
-**Resume here (7 Oct 2026, end of session):** tickets 1–9 and 1b–1f merged or in CI (last: #280, rough). Next: ticket 10
-(kink-lite +36, him on her) for Grok, plan first (132): a plan-only run writes `test-results/t10-plan.md`, Claude reviews it,
-Prompts to adapt (local, gitignored): `test-results/t9-plan-prompt.md`, `t9-plan-fix.md`, `t9-build.md`, `t9-fix.md`; progress watch: the grok-handoff skill's `grok-monitor.sh`. then Grok builds and commits. Check free memory before each Grok run; commit WIP if one stops. Grok was stopped twice on 6 Oct for low memory: check free memory first, and commit WIP if a run stops.
+**Resume here (8 Oct 2026, end of session):** tickets 1–10, 1b–1f and 13–16 are merged (last: #307, kink-lite). Next for
+Grok: 10b (kink-lite, her on him, and the rule's exception), plan first (132). Scratch lives in `grok/`; ticket 10's plan
+session is `01a11668-a37d-70f2-9c24-395498b96c2b`, but 10b starts a fresh one. **Memory:** the commit hook's coverage run
+takes about 3 GB, so a Grok run and the hook together can exhaust memory (8 Oct: two runs were killed). Have Grok edit
+without committing, then commit after it exits; resume a killed Grok once 4 GB or more is free (Noam, 8 Oct).
 
 **Plan first (132), every Grok ticket from 7 on:** Grok's first run writes only `test-results/tN-plan.md`, one line
 per exercise (id, who lies, kneels, sits or stands where, where her legs are, what he braces), checked against
