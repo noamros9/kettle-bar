@@ -221,7 +221,11 @@ test('travel mode: the open day swaps what needs missing gear, its Swap list lea
   store.load();
   let mode = 'nobar';
   const days = createDays({ programs: createProgramCatalogue(inlined(real)), store, cat, createSession, storage: { get: () => null, set() {}, remove() {} }, travel: () => mode });
-  const n = real[0].days.find((d) => d.blocks.some((b) => b.items.some((it) => (cat.EX[it.ex].equip || []).includes('bar')))).day;
+  // a day with a bar exercise whose travel stand-in has something else to swap to (since Phase 22 ticket 14, a chin-over-bar
+  // hold's only no-bar stand-in is the curl hold, with nothing besides it)
+  const hasOther = (O, bi, i) => O.alternatives(bi, i).some((x) => x !== O.day.blocks[bi].items[i].ex);
+  const n = real[0].days.filter((d) => d.blocks.some((b) => b.items.some((it) => (cat.EX[it.ex].equip || []).includes('bar'))))
+    .map((d) => d.day).find((x) => { const O = days.open(P, x); return O.day.blocks.some((b, bi) => b.items.some((it, i) => it.travel && hasOther(O, bi, i))); });
   const D = days.open(P, n);
   assert.equal(D.travel(), 'nobar');
   D.day.blocks.forEach((b) => b.items.forEach((it) => assert.ok(!(cat.EX[it.ex].equip || []).includes('bar'), it.ex)));
@@ -230,7 +234,7 @@ test('travel mode: the open day swaps what needs missing gear, its Swap list lea
   D.alternatives(bi, 0).forEach((a) => assert.ok(!(cat.EX[a].equip || []).includes('bar')));
   assert.ok(days.resolved(P, n).blocks.some((b) => b.items.some((it) => (cat.EX[it.ex].equip || []).includes('bar'))), 'stats: the day as planned');
   // swapping a travel stand-in swaps the planned exercise it stands for
-  const tb = D.day.blocks.findIndex((b) => b.items.some((it) => it.travel)), ti = D.day.blocks[tb].items.findIndex((it) => it.travel);
+  const tb = D.day.blocks.findIndex((b, bi) => b.items.some((it, i) => it.travel && hasOther(D, bi, i))), ti = D.day.blocks[tb].items.findIndex((it, i) => it.travel && hasOther(D, tb, i));
   const alt = D.alternatives(tb, ti).find((a) => a !== D.day.blocks[tb].items[ti].ex);
   D.swap(tb, ti, alt);
   const after = days.open(P, n).day.blocks[tb].items[ti];

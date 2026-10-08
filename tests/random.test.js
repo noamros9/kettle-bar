@@ -239,8 +239,9 @@ test('skip: a random workout swaps what I skip when it opens; the record keeps t
   let skip = [];
   const random = Random.createRandom({ store, cat, createSession, storage: device, now: () => clock.t, skip: () => skip });
   started(random);
-  // the straight block's first exercise that has a stand-in (some have none, e.g. Pilates heel raises, since Phase 16)
-  const made = random.open().day, b = straight(random.open()), k = made.blocks[b].items.findIndex((x, i) => random.open().alternatives(b, i).length), ex = made.blocks[b].items[k].ex;
+  // the straight block's first exercise with a stand-in and one more to swap to (some have none, e.g. Pilates heel raises,
+  // since Phase 16; some have one only, since Phase 22 ticket 14)
+  const made = random.open().day, b = straight(random.open()), k = made.blocks[b].items.findIndex((x, i) => random.open().alternatives(b, i).length > 1), ex = made.blocks[b].items[k].ex;
   skip = [ex];
   const D = random.open(), it = D.day.blocks[b].items[k];
   assert.notEqual(it.ex, ex);
