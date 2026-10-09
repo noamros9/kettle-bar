@@ -90,7 +90,7 @@ goes unused this phase (CLAUDE.md: tickets that edit the same files wait).
 | 12d | Strip and tease +36 | content | 1b | `content/c13-tease` | done (PR #315) |
 | 12e | Shower and bath +36 | content | 1b | `content/c13-shower` | done (PR #316) |
 | 12f | Pool +36 | content | 1b | `content/c13-pool` | done (PR #317) |
-| 12g | Hot tub +36 | content | 1b | `content/c13-hottub` | todo |
+| 12g | Hot tub +36 | content | 1b | `content/c13-hottub` | done (PR #319) |
 | 12h | Balcony +36 | content | 1b | `content/c13-balcony` | todo |
 | 12i | Doorframe +36 | content | 1b | `content/c13-doorframe` | todo |
 | 13 | Chest +9, back +12, full +5 | content | 1 | `content/c13-chest-back` | done (PR #299) |
