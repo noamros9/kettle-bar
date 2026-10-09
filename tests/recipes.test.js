@@ -28,7 +28,8 @@ function built(cfg) {
   p.days.forEach((d) => {
     const t = Builder.timing.dayTime(d.blocks, p.rests) / 60;
     const [lo, hi] = cfg.dayTypes[d.type].minutes;
-    assert.ok(t >= lo - 1 && t <= hi + 1.1, `${cfg.subject} ${cfg.equip} d${d.day} ${d.type}: ${t.toFixed(1)} min, want ${lo}-${hi}`);
+    assert.ok(t >= Math.min(lo - 1, lo * 0.9) && t <= Math.max(hi + 1.1, hi * 1.1), // 10% either way is fine (Noam, 9 Oct 2026)
+      `${cfg.subject} ${cfg.equip} d${d.day} ${d.type}: ${t.toFixed(1)} min, want ${lo}-${hi}`);
   });
   return p;
 }
@@ -194,7 +195,7 @@ test('make: what the config holds', () => {
   assert.equal(cfg.subject, 'Strength');
   assert.equal(cfg.equip, 'kb');
   assert.deepEqual(cfg.levers, [null, 'weight', 'reps']);
-  assert.equal(cfg.catalogue, 12, 'the newest catalogue (Phase 21)');
+  assert.equal(cfg.catalogue, 13, 'the newest catalogue (Phase 22)');
   assert.equal(cfg.cycle.length, 4);
   assert.equal(new Set(cfg.cycle).size, 4);
   assert.equal(typeof cfg.about, 'string');
@@ -298,7 +299,7 @@ test('make: a choice that is not a choice is refused', () => {
 test('recipeFor: a recipe buildDay accepts, from a day type', () => {
   const t = R.pick({ subjects: ['Strength'], equipment: 'kb', minutes: 30 })[0];
   const r = R.recipeFor(t, { minutes: 30, equipment: 'kb', levers: ['weight', 'reps'] });
-  assert.deepEqual([r.minutes, r.equip, r.levers, r.catalogue, r.key, r.label], [[28, 32], 'kb', [null, 'weight', 'reps'], 12, t.key, t.label]);
+  assert.deepEqual([r.minutes, r.equip, r.levers, r.catalogue, r.key, r.label], [[28, 32], 'kb', [null, 'weight', 'reps'], 13, t.key, t.label]);
   const d = Builder.buildDay(r, { day: 1, level: 1, rnd: Builder.makeRnd('r'), memory: Builder.newMemory() }, cat);
   assert.equal(d.title, t.label);
 });

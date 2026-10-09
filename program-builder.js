@@ -336,12 +336,11 @@
       // ticket 18: yoga, pilates, flex, mobility, balance (the loaded ones joined row2, shoulders2, shoulderHealth and kbCore2 above)
       ygStand: { 13: ['goddess_pose', 'pyramid_pose', 'revolved_triangle', 'revolved_side_angle', 'humble_warrior'] },
       ygBalance: { 13: ['eagle_pose', 'standing_splits', 'hand_to_big_toe'] },
-      ygFloor: { 13: ['gate_pose', 'bow_pose', 'fish_pose'] },
+      ygFloor: { 13: ['gate_pose', 'bow_pose', 'fish_pose', 'plow_pose'] },
       ygBack: { 13: ['bow_pose', 'fish_pose', 'upward_dog', 'wheel_pose'] },
       ygCore: { 13: ['chaturanga'] },
       ygYinHips: { 13: ['reclined_butterfly'] },
-      fxHam: { 13: ['pyramid_pose', 'standing_splits', 'hand_to_big_toe', 'plow_pose', 'elephant_walk'] },
-      fxSpine: { 13: ['plow_pose', 'gate_pose'] },
+      fxHam: { 13: ['elephant_walk'] }, // ticket 21: the short yoga holds stay in the yoga pools, or flexibility flows run short
       fxSplit: { 13: ['couch_stretch'] },
       fxQuad: { 13: ['couch_stretch', 'shin_stretch'] },
       fxStraddle: { 13: ['middle_split', 'reclined_butterfly', 'side_lunge_stretch'] },

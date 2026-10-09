@@ -115,7 +115,7 @@ const json = JSON.stringify;
 
 // The newest catalogue own programs and random workouts are made at. Held while a phase adds to it, so a program saved
 // mid-phase never reshuffles when the next ticket grows its pools (Phase 22, decision 121); moved when the phase is in.
-const NEWEST = 12;
+const NEWEST = 13;
 
 function generate({ configs = require('./programs.config.js'), families = FAMILIES, catalogue = NEWEST } = {}) {
   const familyOf = new Map(families.flatMap(([f, list]) => list.map((s) => [s, f])));

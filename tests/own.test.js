@@ -38,7 +38,8 @@ test('toConfig: id own-<id>, the user\'s name, and the catalogue it was made wit
 });
 
 test('a saved record read back builds identical days, whatever the catalogue asks for later', () => {
-  const entry = { id: 'x1', name: 'Mine', choices: choices(), seed: 'abc', catalogue: 4 };
+  // all equipment: a kettlebell-only day of today's book may need a catalogue-13 kettlebell move (Phase 22 ticket 21)
+  const entry = { id: 'x1', name: 'Mine', choices: choices({ equipment: 'all' }), seed: 'abc', catalogue: 4 };
   const first = Own.programOf(deps, Own.fromRecord('x1', saved(entry, '2026-09-29T10:00:00Z')));
   const viaJson = Own.fromRecord('x1', JSON.parse(JSON.stringify(saved(entry, '2026-09-29T10:00:00Z'))));
   const second = Own.programOf(deps, viaJson);
@@ -288,8 +289,8 @@ test('a saved program builds byte-identical days after the recipe book changes: 
 });
 
 test('the stored config is what make() produced, without what is worked out again; its names match make()', () => {
-  const made = recipes.make({ ...choices({ split: 5 }), catalogue: 5 }, 'abc');
-  const config = Own.configOf(recipes, { choices: choices({ split: 5 }), seed: 'abc', catalogue: 5 });
+  const made = recipes.make({ ...choices({ split: 5, equipment: 'all' }), catalogue: 5 }, 'abc');
+  const config = Own.configOf(recipes, { choices: choices({ split: 5, equipment: 'all' }), seed: 'abc', catalogue: 5 });
   assert.deepEqual(Object.keys(config).filter((k) => !(k in made)), []);
   assert.deepEqual(['id', 'name', 'names'].filter((k) => k in config), []);
   const built = Own.programOf(deps, { pid: 'own-x', name: 'N', config });
