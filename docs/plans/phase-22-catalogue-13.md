@@ -89,7 +89,7 @@ goes unused this phase (CLAUDE.md: tickets that edit the same files wait).
 | 12c | Massage +36 | content | 1b | `content/c13-massage` | done (PR #313) |
 | 12d | Strip and tease +36 | content | 1b | `content/c13-tease` | done (PR #315) |
 | 12e | Shower and bath +36 | content | 1b | `content/c13-shower` | done (PR #316) |
-| 12f | Pool +36 | content | 1b | `content/c13-pool` | todo |
+| 12f | Pool +36 | content | 1b | `content/c13-pool` | done (PR #317) |
 | 12g | Hot tub +36 | content | 1b | `content/c13-hottub` | todo |
 | 12h | Balcony +36 | content | 1b | `content/c13-balcony` | todo |
 | 12i | Doorframe +36 | content | 1b | `content/c13-doorframe` | todo |
