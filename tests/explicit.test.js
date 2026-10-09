@@ -96,7 +96,7 @@ test('every day is its shape, and both catalogues appear in every program', () =
 
 test('two families a day, except a day marked oneFamily, and only positions-only days are marked', () => {
   const marked = [];
-  CONFIGS.forEach((c) => Object.entries(c.dayTypes).forEach(([k, t]) => { if (t.oneFamily) marked.push(`${c.id}:${k}`); }));
+  IDS.forEach((id) => Object.entries(cfgOf(id).dayTypes).forEach(([k, t]) => { if (t.oneFamily) marked.push(`${id}:${k}`); }));
   const expect = POS.flatMap((id) => Object.keys(cfgOf(id).dayTypes).map((k) => `${id}:${k}`));
   assert.deepEqual(marked.sort(), expect.sort());
   IDS.forEach((id) => {

@@ -28,17 +28,27 @@ const rounds = (label, short, slots, values, finish = ['back_massage']) => ({ la
 
 // Phase 20 ticket 8: Explicit. Each sex block draws one merged pool, so every exercise it can use has the same chance, basics about 1.5x.
 const EXPLICIT = { added: 20, catalogue: 11, couple: true, equip: 'bw' };
+const C13 = { ...EXPLICIT, catalogue: 13 };
 // partner work, then positions from sexPositions (explicit and positions together)
 const gymThenSex = (label, short, work, positions, flow) => ({ label, short, absSlots: [], blocks: [work, F('Positions', positions, { ...POS, ...flow })] });
 // warm-up from sexWarm, then intercourse from sexFuck
 const sexThenSex = (label, short, warmup, fuck, warm, intercourse) => ({ label, short, absSlots: [], blocks: [F('Warm-up', warmup, { ...TEASE, ...warm }), F('Fuck', fuck, { ...POS, ...intercourse })] });
+// Rough sex-then-sex: her mouth and your hands first, the rough block last. Same families as sexThenSex.
+const warmThenRough = (label, short, warmup, rough, warm, climax) => ({ label, short, absSlots: [], blocks: [F('Warm-up', warmup, { ...TEASE, ...warm }), F('Rough', rough, { ...POS, ...climax })] });
 // one positions flow from sexPositions. One family. oneFamily marks it so the two-families test skips it, and only it.
 const positionsOnly = (label, short, positions, flow) => ({ label, short, absSlots: [], oneFamily: true, blocks: [F('Positions', positions, { ...POS, ...flow })] });
 const poses = (pool, keep, drop) => [...Array(keep).fill(pool), ...Array(drop).fill(pool + '?')];
 const GYM_WORK = ['partnerLower', 'partnerUpper', 'partnerCore', 'partnerHold?'];
+const GYM_THREE = ['partnerLower', 'partnerUpper', 'partnerCore'];
 const GYM_STRONG = ['partnerLower', 'partnerUpper', 'partnerHold', 'partnerCore?'];
 const GYM_LIFT = ['partnerHold', 'partnerLower', 'partnerUpper', 'partnerCore?'];
 const GYM_KISS = ['kiss_squat', 'kiss_pushup', 'partnerCore', 'partnerLower?'];
+// Kiss squat and kiss push-up are in sexWarm. Rough gym uses the kiss-free partner pools, or a partner-block draw counts twice and breaks the 3x median.
+const ROUGH_THREE = ['partner', 'partnerCore', 'partnerHold'];
+const ROUGH_WORK = ['partner', 'partnerCore', 'partnerHold', 'partner?'];
+const ROUGH_STRONG = ['partnerHold', 'partner', 'partnerCore', 'partner?'];
+const ROUGH_LIFT = ['partnerHold', 'partner', 'partnerCore', 'partnerHold?'];
+const ROUGH_PUSH = ['partnerCore', 'partner', 'partnerHold', 'partner?'];
 const GYM_LONG_WORK = ['partnerLower', 'partnerUpper', 'partnerCore', 'partnerHold', 'partner?'];
 const GYM_POS = poses('sexPositions', 4, 2);
 const GYM_POS_B = poses('sexPositions', 4, 2);
@@ -1121,6 +1131,296 @@ module.exports = [
     dayTypes: {
       fuck: positionsOnly('Nothing but fucking', 'Fuck', ONLY_FLOW, { pref: 2 }),
       more: positionsOnly('More of it', 'More', ONLY_ALT, { pref: 2 }),
+    },
+  },
+  // ---- Rough (Phase 22 ticket 19): 4 gym, 4 sex, 4 positions. Catalogue 13. Sex days are warm, then rough. ----
+  {
+    id: 'rough-set-then-spank', ...C13, name: 'Set Then Spank', subject: 'Rough', minutes: [31, 40], levers: [null, 'reps', 'holds'],
+    split: 'Partner circuit, then spanking every third day',
+    blurb: 'You train with her first, then you spank her ass and fuck her with your cock still buried in her pussy.',
+    about: 'You train with her first, a partner circuit one day and shorter sets on the others. Two days in three you finish on her mouth, your hands and your tongue, with a tease and a massage. On the third you spank her ass, pin her wrists, or fist her hair and fuck her with your cock in her pussy. Level II adds reps to the partner work. Level III holds every position longer.',
+    names: ['Spank After the Set', 'Palm on Her Cheek', 'Circuit Then Slap', 'Wrist Under You', 'Fist After Sets', 'Over Your Lap', 'Thigh Gone Red', 'Held and Slapped', 'Mean Third Day', 'Her Cheek Hot', 'Slap Then Stay', 'Both Wrists Down', 'Hair Wrapped Tight', 'Flat on the Bed', 'Cock and Palm', 'Red on the Right', 'Lap and Spank', 'Mouth Day First', 'Massage Between', 'Pin and Fuck'],
+    cycle: ['warm', 'warm', 'lead'],
+    dayTypes: {
+      warm: gymThenSex('Mouth and hands', 'Warm', C('Partner circuit', ROUGH_THREE, { ...LIFT, values: [2, 3, 4, 5, 6] }), poses('sexWarm', 8, 2), { pref: 1 }),
+      lead: gymThenSex('Spank her', 'Spank', C('Partner circuit', ROUGH_WORK, { ...LIFT, values: [2, 3, 4, 5, 6] }), poses('sexRough', 4, 2), { pref: 2 }),
+    },
+  },
+  {
+    id: 'rough-sweat-then-pin', ...C13, name: 'Sweat Then Pin', subject: 'Rough', minutes: [31, 40], levers: [null, 'reps', 'holds'],
+    split: 'Sweat first, then pinning every third day',
+    blurb: 'You get the sweat on with her, then you pin her wrists down and fuck her pussy slow and deep.',
+    about: 'You get the sweat on beside her before anyone is naked. Two days in three the rest is her mouth, your hands and tongue, teasing and a massage. On the third you pin her wrists down and fuck her pussy, or spank her and hold her hair while you stay buried. Level II adds reps to the partner work. Level III holds every position longer.',
+    names: ['Sweat Then the Pin', 'Wrists to the Bed', 'Both Arms Down', 'Pin and Thrust', 'Palm on Her Back', 'Forearm Across Her', 'Held at the Hip', 'Sweaty Pin', 'Her Wrists Together', 'Down and Pinned', 'Pin the Grind', 'After the Sweat Pin', 'Slow Under the Pin', 'Deep and Pinned', 'Hair While Pinned', 'Weight on the Pin', 'Pinned Missionary', 'Side Pin Hold', 'Last Pin of Her', 'Pin Her Through'],
+    cycle: ['warm', 'warm', 'lead'],
+    dayTypes: {
+      warm: gymThenSex('Mouth and hands', 'Warm', C('Partner circuit', ROUGH_THREE, { ...LIFT, values: [2, 3, 4, 5, 6] }), poses('sexWarm', 8, 2), { pref: 1 }),
+      lead: gymThenSex('Pin her', 'Pin', C('Partner circuit', ROUGH_STRONG, { ...LIFT, values: [2, 3, 4, 5, 6] }), poses('sexRough', 4, 2), { pref: 2 }),
+    },
+  },
+  {
+    id: 'rough-lift-then-hold', ...C13, name: 'Lift Then Hold', subject: 'Rough', minutes: [31, 40], levers: [null, 'reps', 'holds'],
+    split: 'Carries beside her, then holding her down',
+    blurb: 'You squat and carry beside her, then you hold her down and fuck her cunt with your cock kept deep.',
+    about: 'You squat and carry beside her, her weight in your arms, and then the day splits. Two days in three you go to her mouth, your hands and tongue, a tease and a massage. On the third you hold her down and fuck her cunt, a palm on her or a fist in her hair. Level II adds reps to the partner work. Level III holds every position longer.',
+    names: ['Lift Then the Hold', 'Carry Then Down', 'Flat Hold Down', 'Across Her Back', 'Over the Lap Hold', 'Forearm Hold Down', 'Held From Above', 'Squat Then Down', 'Her Hips Pinned', 'Stay on Her Down', 'Hold the Rough', 'Weight Kept Down', 'Down on Her Side', 'Lap Spank Hold', 'Palm Between Her', 'After the Carry Down', 'Deep While Held', 'Pressed Flat Down', 'Last Hold Down', 'Hold Her There'],
+    cycle: ['warm', 'warm', 'lead'],
+    dayTypes: {
+      warm: gymThenSex('Mouth and hands', 'Warm', C('Partner circuit', ROUGH_THREE, { ...LIFT, values: [2, 3, 4, 5, 6] }), poses('sexWarm', 8, 2), { pref: 1 }),
+      lead: gymThenSex('Hold her down', 'Hold', C('Partner circuit', ROUGH_LIFT, { ...LIFT, values: [2, 3, 4, 5, 6] }), poses('sexRough', 4, 2), { pref: 2 }),
+    },
+  },
+  {
+    id: 'rough-grind-then-hair', ...C13, name: 'Grind Then Hair', subject: 'Rough', minutes: [31, 40], levers: [null, 'reps', 'holds'],
+    split: 'Kiss squats, then a fist in her hair',
+    blurb: 'Kiss squats and partner pushes first, then a fist in her hair while you fuck her from behind.',
+    about: 'Partner squats and pushes start you close, already hard against her. Two days in three you finish with her mouth, your hands and tongue, teasing and massage. On the third a fist in her hair keeps her where you want her while you spank her and fuck her from behind. Level II adds reps to the partner work. Level III holds every position longer.',
+    names: ['Grind Then the Fist', 'Fist at Her Nape', 'Hair and the Hips', 'From Behind Mean', 'Kiss Then Fist', 'Pull Her Up Hard', 'Hair and the Spank', 'Wrapped and Fucked', 'Nape in Your Hand', 'Grind With a Fist', 'Her Head Pulled', 'Behind and Mean', 'Hair Down Her Back', 'Hip and the Fist', 'Slow With Her Hair', 'After the Kiss Fist', 'Cheek to the Mat', 'Fist and the Cock', 'Held by the Hair', 'Last Fist in Her'],
+    cycle: ['warm', 'warm', 'lead'],
+    dayTypes: {
+      warm: gymThenSex('Mouth and hands', 'Warm', C('Partner circuit', ROUGH_THREE, { ...LIFT, values: [2, 3, 4, 5, 6] }), poses('sexWarm', 8, 2), { pref: 1 }),
+      lead: gymThenSex('Fist in her hair', 'Hair', C('Partner circuit', ROUGH_PUSH, { ...LIFT, values: [2, 3, 4, 5, 6] }), poses('sexRough', 4, 2), { pref: 2 }),
+    },
+  },
+  {
+    id: 'rough-spank-then-fuck', ...C13, name: 'Spank Then Fuck', subject: 'Rough', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'Her mouth first, then you spank her',
+    blurb: 'You spank her ass and her thigh with your cock in her, then you fuck her and hold it deep.',
+    about: 'Every day starts with her mouth, your hands and your tongue, a tease and a massage while you are both down to skin. Then you spank her ass and her thigh with your cock in her, and you fuck her and hold it deep. One day runs longer in the warm-up, the other in the spanking. Level II and Level III hold every part longer.',
+    names: ['Spank Then the Fuck', 'Ass Then the Cock', 'Thigh Slap Deep', 'Palm and Thrust', 'Cheek Then Grind', 'Spank and Stay In', 'Red Then Deep', 'Slap Her Thigh', 'In Her and Slap', 'Both Cheeks Red', 'Spank the Rough', 'Warm Then Palm', 'Mouth Then Slap', 'Fuck and Spank', 'Deep After Red', 'Her Thigh Hot', 'Palm While Buried', 'Spank the Grind', 'Hold the Slap', 'Last Spank of Her'],
+    cycle: ['open', 'mean'],
+    dayTypes: {
+      open: warmThenRough('Mouth, then spank', 'Mouth', poses('sexWarm', 5, 2), poses('sexRough', 4, 2), { pref: 2 }, { pref: 2 }),
+      mean: warmThenRough('Mouth, then meaner', 'Mean', poses('sexWarm', 5, 2), poses('sexRough', 5, 2), { pref: 1 }, { pref: 2 }),
+    },
+  },
+  {
+    id: 'rough-pin-then-thrust', ...C13, name: 'Pin Then Thrust', subject: 'Rough', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'Her mouth first, then you pin her wrists',
+    blurb: 'You pin both her wrists and fuck her pussy, then you stay buried and grind your cock in her cunt.',
+    about: 'You open on her mouth and with your hands, tongue on her clit, a slow tease and a rub. Then you pin both her wrists and fuck her pussy, and you stay buried and grind. The two days change how long each part is held, and both end with her pinned. Level II and Level III hold every part longer.',
+    names: ['Pin Then the Thrust', 'Wrists Then Cock', 'Pinned and Buried', 'Both Wrists In', 'Grind While Pinned', 'Arms Above Her', 'Pin Then Deep', 'Held Open Pinned', 'Wrist and Thrust', 'Stay Pinned In', 'Slow Pin Fuck', 'Her Arms Down', 'Pin the Base', 'Thrust Under Pin', 'Deep Wrist Hold', 'Pinned From Behind', 'Two Hands One Pin', 'She Takes the Pin', 'Long Pinned Grind', 'Last Thrust Pin'],
+    cycle: ['open', 'mean'],
+    dayTypes: {
+      open: warmThenRough('Mouth, then pin', 'Mouth', poses('sexWarm', 5, 2), poses('sexRough', 4, 2), { pref: 2 }, { pref: 2 }),
+      mean: warmThenRough('Mouth, then pinned', 'Pin', poses('sexWarm', 5, 2), poses('sexRough', 5, 2), { pref: 1 }, { pref: 2 }),
+    },
+  },
+  {
+    id: 'rough-quick-and-mean', ...C13, name: 'Quick and Mean', subject: 'Rough', minutes: [22, 30], levers: [null, 'holds', 'holds'],
+    split: 'A short mouth, then a short rough fuck',
+    blurb: 'A short one: you slap her ass, pull her hair, and fuck her before either of you cools off.',
+    about: 'A short one, still with her mouth and your hands first, tongue and a tease before you get mean. Then you slap her ass, pull her hair, and fuck her before either of you cools off. One day is shorter on the warm-up, the other on the rough part. Level II and Level III hold every part a little longer.',
+    names: ['Quick and the Mean', 'Short Slap', 'Fast Fist', 'Brief and Rough', 'Slap Before Cool', 'Short Pin Mean', 'Mean and Brief', 'Hair and Quick', 'Fast Then Deep', 'Short Mean Fuck', 'Short Palm', 'Quick Thigh Slap', 'Warm and Mean', 'Brief Spank', 'Fast Behind Her', 'Short and Hard', 'Slap and Done', 'Quick Wrist Pin', 'Mean Minute', 'Last Quick Slap'],
+    cycle: ['open', 'mean'],
+    dayTypes: {
+      open: warmThenRough('Short mouth, then slap', 'Mouth', poses('sexWarm', 5, 2), poses('sexRough', 4, 2), { values: [1, 2], pref: 1 }, { values: [1, 2], pref: 1 }),
+      mean: warmThenRough('Shorter mouth, then mean', 'Mean', poses('sexWarm', 5, 1), poses('sexRough', 4, 2), { values: [1, 2], pref: 1 }, { values: [1, 2], pref: 1 }),
+    },
+  },
+  {
+    id: 'rough-long-hold', ...C13, name: 'Long Hold', subject: 'Rough', minutes: [46, 54], levers: [null, 'holds', 'holds'],
+    split: 'A long mouth, then a long hold-down',
+    blurb: 'A long afternoon of holding her down, spanking her, and fucking her pussy and her ass without a rush.',
+    about: 'This one takes the afternoon, and it still starts with her mouth, your hands and tongue, a tease and a long massage. Then you hold her down, spank her, and fuck her pussy and her ass without a rush. One day lingers on the warm-up and the other on the holds. Level II and Level III hold every part longer.',
+    names: ['Long Hold Down', 'Afternoon Pin', 'Slow Spank Long', 'Hours on Her', 'Long Fist Hold', 'Unhurried Slap', 'Held All Afternoon', 'Deep Mean Hour', 'Palm for Hours', 'Long Over the Lap', 'Stay and the Spank', 'Long Mean Fuck', 'Long Thigh Slap', 'Afternoon Hair', 'Held Without Rush', 'Slow Red Afternoon', 'Long Flat Hold', 'Spank the Hour', 'Deep and Long Mean', 'Last Long Hold'],
+    cycle: ['open', 'mean'],
+    dayTypes: {
+      open: warmThenRough('Long mouth, then hold', 'Mouth', poses('sexWarm', 5, 2), poses('sexRough', 8, 2), { pref: 3 }, { pref: 3 }),
+      mean: warmThenRough('Longer hold-down', 'Hold', poses('sexWarm', 5, 2), poses('sexRough', 8, 3), { pref: 3 }, { pref: 3 }),
+    },
+  },
+  {
+    id: 'rough-stay-and-spank', ...C13, name: 'Stay and Spank', subject: 'Rough', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'Massage two days, spanking on the third',
+    blurb: 'You stay inside her and spank her ass on the holds, cock in her pussy or her ass the whole way.',
+    about: 'Two days in three you stay on her mouth, your hands and tongue, teasing and massage, hold after hold. On the third you stay inside her and spank her ass, cock in her pussy or her ass, and you pin her wrists when the hold asks for it. You stay in her from one hold to the next. Level II and Level III hold every position longer.',
+    names: ['Stay and the Spank', 'Inside and Slap', 'Cock Then Palm', 'Hold and Cheek', 'Slap and Stay In', 'Red While Inside', 'Ass or Her Pussy', 'Palm on the Hold', 'Stay for the Slap', 'Third Day Slap', 'Mouth Hold Spank', 'Massage Hold Spank', 'Tongue Hold Spank', 'Spank the Next', 'In and Red', 'Cheek on the Hold', 'Lap While Inside', 'Fist on Third Spank', 'Spank Through It', 'Last Inside Slap'],
+    cycle: ['warm', 'warm', 'lead'],
+    dayTypes: {
+      warm: positionsOnly('Mouth, hands, massage', 'Warm', poses('sexWarm', 8, 4), { pref: 2 }),
+      lead: positionsOnly('Spank and pin', 'Spank', poses('sexRough', 8, 7), { pref: 2 }),
+    },
+  },
+  {
+    id: 'rough-pin-and-stay', ...C13, name: 'Pin and Stay', subject: 'Rough', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'Hands and tongue, pinning on the third',
+    blurb: 'You pin her wrists, keep your cock in her, and move to the next hold without pulling out.',
+    about: 'Two days in three are her mouth, your hands and tongue, a tease and a massage, one hold into the next. On the third you pin her wrists, keep your cock in her, and move straight into the next hold. A fist in her hair shows up when that hold wants it. Level II and Level III hold every position longer.',
+    names: ['Pin and Stay In', 'Wrists and the Cock', 'Pinned Through It', 'Next Hold Pinned', 'Arms and Inside', 'Stay in the Pin', 'Third Day Pin', 'Mouth Hold Pin', 'Hands Day Pin', 'Tongue Then Pin', 'Buried and Pinned', 'Wrist to Her Wrist', 'Hold Her Pinned', 'Pin the Angle', 'Side and the Pin', 'Above and the Pin', 'Deep Pin Hold', 'Her Arms Wide Pin', 'Last Pinned Hold', 'Pin Her and Stay'],
+    cycle: ['warm', 'warm', 'lead'],
+    dayTypes: {
+      warm: positionsOnly('Mouth, hands, massage', 'Warm', poses('sexWarm', 8, 4), { pref: 2 }),
+      lead: positionsOnly('Pin and stay', 'Pin', poses('sexRough', 8, 4), { pref: 2 }),
+    },
+  },
+  {
+    id: 'rough-hair-and-hips', ...C13, name: 'Hair and Hips', subject: 'Rough', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'Tease and massage, her hair on the third',
+    blurb: 'A fist in her hair and your cock in her cunt, one long hold after another, her hips in your hands.',
+    about: 'Two days in three you use your mouth, your hands and your tongue, with teasing and massage between the holds. On the third a fist in her hair and your cock in her cunt, her hips in your hands, and you spank her when the hold is that kind. You do the whole run inside her. Level II and Level III hold every position longer.',
+    names: ['Hair and the Hips', 'Fist and Her Cunt', 'Nape and the Hold', 'Hips in Your Hand', 'Hair Through It', 'Third Day Fist', 'Mouth Then Hair', 'Massage Then Fist', 'Behind With Hair', 'Pull and the Hold', 'Her Hips Yours', 'Fist at the Base', 'Hair and a Spank', 'Slow Hair Fuck', 'Cheek Turned Hard', 'Hips Up by Hair', 'In and Fisted', 'Hold by Her Hair', 'Third and Mean', 'Last Hair Hold'],
+    cycle: ['warm', 'warm', 'lead'],
+    dayTypes: {
+      warm: positionsOnly('Mouth, hands, massage', 'Warm', poses('sexWarm', 8, 4), { pref: 2 }),
+      lead: positionsOnly('Hair and spank', 'Hair', poses('sexRough', 8, 4), { pref: 2 }),
+    },
+  },
+  {
+    id: 'rough-held-down', ...C13, name: 'Held Down', subject: 'Rough', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'Over your lap on the third day',
+    blurb: 'You hold her down flat, on her side, or over your lap, and you fuck her until that hold ends.',
+    about: 'Two days in three you are on her mouth, hands and tongue working, a tease and a massage. On the third you hold her down flat, on her side, or over your lap, and you fuck her until that hold ends. Spanking and a fist in her hair sit in the same run. Level II and Level III hold every position longer.',
+    names: ['Held Down Flat', 'Flat Fuck Hold', 'Over the Lap Fuck', 'Side Hold Fuck', 'Palm on Her Spine', 'Forearm Down Her', 'Third Day Down', 'Mouth Then Down', 'Massage Then Flat', 'Across Her Body', 'Lap Fuck Hold', 'Held to the End', 'Down and Deep Mean', 'Weight on Top Her', 'She Stays Flat', 'Hold the Flat', 'Spank While Down', 'Hair While Down', 'Pressed and Fucked', 'Last Down Hold'],
+    cycle: ['warm', 'warm', 'lead'],
+    dayTypes: {
+      warm: positionsOnly('Mouth, hands, massage', 'Warm', poses('sexWarm', 8, 4), { pref: 2 }),
+      lead: positionsOnly('Hold her down', 'Down', poses('sexRough', 8, 4), { pref: 2 }),
+    },
+  },
+  // ---- Kink-lite (Phase 22 ticket 19): 4 gym, 4 sex, 4 positions. Lead day is the toys; the other days are fucking. ----
+  {
+    id: 'kink-set-then-blind', ...C13, name: 'Set Then Blind', subject: 'Kink-lite', minutes: [31, 40], levers: [null, 'reps', 'holds'],
+    split: 'Partner work, blindfold every third day',
+    blurb: 'You train with her first, then you blindfold her and fuck her, hands on her hips, cock in her pussy.',
+    about: 'You train beside her first, squats and pushes, and then the day splits. Two days in three you finish by fucking her, cock in her pussy, one hold after another. On the third you blindfold her, cuff her wrists or gag her, ice on her tits or wax on her ass, and one of those holds she blindfolds you or ties your wrists. Level II adds reps to the partner work. Level III holds every position longer.',
+    names: ['Set Then the Blind', 'Blindfold On Her', 'Cuffs After Sets', 'Gag After the Work', 'Ice on Her Tits', 'Wax on Her Ass', 'She Ties Your Wrists', 'Cloth on Her Eyes', 'Wrists Cuffed Tight', 'Third Day Blind', 'Fuck Day After Sets', 'Fuck Day Beside Her', 'Ice on Your Chest', 'Wax on Her Hip', 'Gagged and Fucked', 'Blind and Deep', 'Cuff and the Hold', 'She Blinds You', 'Toy Day After Sets', 'Last Blind Set'],
+    cycle: ['warm', 'warm', 'lead'],
+    dayTypes: {
+      warm: gymThenSex('Fuck her', 'Fuck', C('Partner circuit', GYM_THREE, { ...LIFT, values: [1, 2, 3, 4] }), poses('sexFuck', 14, 0), { pref: 1 }),
+      lead: gymThenSex('Blindfold her', 'Blind', C('Partner circuit', GYM_WORK, { ...LIFT, values: [2, 3, 4, 5, 6] }), poses('sexKink', 4, 2), { pref: 2 }),
+    },
+  },
+  {
+    id: 'kink-sweat-then-cuffs', ...C13, name: 'Sweat Then Cuffs', subject: 'Kink-lite', minutes: [31, 40], levers: [null, 'reps', 'holds'],
+    split: 'Sweat first, cuffs every third day',
+    blurb: 'Sweat with her first, then you cuff her wrists and fuck her pussy with her hands held together.',
+    about: 'Sweat with her first, a short partner circuit, and then you fuck. Two days in three that fuck is plain, cock in her pussy, hold after hold. On the third you cuff her wrists, gag her or ice her tits, and once she cuffs you or runs wax over your chest while you stay inside her. Level II adds reps to the partner work. Level III holds every position longer.',
+    names: ['Sweat Then the Cuffs', 'Loose Cuffs On', 'Wrists Together Cuffed', 'Ankles Cuffed Open', 'Gag After Sweat', 'Ice After the Sweat', 'She Cuffs You', 'Cloth Gag Sweat', 'Cuff and Fuck Her', 'Third Day Cuff', 'Plain Fuck One', 'Plain Fuck Two', 'Wax Over Your Chest', 'Her Ankles Open', 'Cuffs and Deep', 'Held by the Cuffs', 'Sweat and the Tie', 'Ice While Cuffed', 'She Ties Your Wrists', 'Last Cuff Hold'],
+    cycle: ['warm', 'warm', 'lead'],
+    dayTypes: {
+      warm: gymThenSex('Fuck her', 'Fuck', C('Partner circuit', GYM_THREE, { ...LIFT, values: [1, 2, 3, 4] }), poses('sexFuck', 14, 0), { pref: 1 }),
+      lead: gymThenSex('Cuff her', 'Cuffs', C('Partner circuit', GYM_STRONG, { ...LIFT, values: [2, 3, 4, 5, 6] }), poses('sexKink', 4, 2), { pref: 2 }),
+    },
+  },
+  {
+    id: 'kink-lift-then-gag', ...C13, name: 'Lift Then Gag', subject: 'Kink-lite', minutes: [31, 40], levers: [null, 'reps', 'holds'],
+    split: 'Carries, then a gag every third day',
+    blurb: 'You carry beside her, then a gag in her mouth while you fuck her and watch her take your cock.',
+    about: 'You carry beside her, then the session turns to sex. Two days in three you fuck her, cock buried, changing the hold when it ends. On the third a gag is in her mouth, or a blindfold, or wax on her skin, and one hold she gags you or ties your wrists while you stay in her. Level II adds reps to the partner work. Level III holds every position longer.',
+    names: ['Lift Then the Gag', 'Gag in Her Mouth', 'Ball Beside the Cock', 'Cloth Between Teeth', 'Blind After Carry', 'Wax After the Lift', 'She Gags You', 'Gagged Deep In', 'Carry Then Gag', 'Third Day Gag', 'Fuck After the Lift', 'Fuck After a Squat', 'Ice After Carry', 'Tied After the Lift', 'Gag and the Grind', 'Mouth Full of Gag', 'She Ties After', 'Gag on the Hold', 'Deep and Gagged', 'Last Gag Hold'],
+    cycle: ['warm', 'warm', 'lead'],
+    dayTypes: {
+      warm: gymThenSex('Fuck her', 'Fuck', C('Partner circuit', GYM_THREE, { ...LIFT, values: [1, 2, 3, 4] }), poses('sexFuck', 14, 0), { pref: 1 }),
+      lead: gymThenSex('Gag her', 'Gag', C('Partner circuit', GYM_LIFT, { ...LIFT, values: [2, 3, 4, 5, 6] }), poses('sexKink', 4, 2), { pref: 2 }),
+    },
+  },
+  {
+    id: 'kink-grind-then-wax', ...C13, name: 'Grind Then Wax', subject: 'Kink-lite', minutes: [31, 40], levers: [null, 'reps', 'holds'],
+    split: 'Kiss squats, then wax every third day',
+    blurb: 'Kiss squats first, then wax on her tits and her ass while you fuck her and feel her cunt grip you.',
+    about: 'Kiss squats first, close enough that you are already hard. Two days in three you fuck her after, cock in her cunt, one position then the next. On the third wax goes on her tits and her ass, or ice, or a blindfold, and once the ice is on your chest while you fuck her. Level II adds reps to the partner work. Level III holds every position longer.',
+    names: ['Grind Then the Wax', 'Wax on Her Tits', 'Wax on Her Ass', 'Drip and Fuck', 'Ice and the Grind', 'Blind After Kiss', 'She Ices Your Chest', 'Wax on Her Hip', 'Hot Then the Cock', 'Third Day Wax', 'Fuck After the Kiss', 'Fuck After Squats', 'Wax on Your Chest', 'Ice on Her Nipple', 'Drip Down Her Side', 'Kiss Then Wax', 'Wax and Deep In', 'She Waxes Close', 'Hold Under Wax', 'Last Wax Hold'],
+    cycle: ['warm', 'warm', 'lead'],
+    dayTypes: {
+      warm: gymThenSex('Fuck her', 'Fuck', C('Partner circuit', GYM_THREE, { ...LIFT, values: [1, 2, 3, 4] }), poses('sexFuck', 14, 0), { pref: 1 }),
+      lead: gymThenSex('Wax on her', 'Wax', C('Partner circuit', GYM_KISS, { ...LIFT, values: [2, 3, 4, 5, 6] }), poses('sexKink', 4, 2), { pref: 2 }),
+    },
+  },
+  {
+    id: 'kink-blind-then-fuck', ...C13, name: 'Blind Then Fuck', subject: 'Kink-lite', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'Blindfold one day, fucking the other',
+    blurb: 'You blindfold her and cuff her wrists, then you fuck her deep, and one day she blindfolds you instead.',
+    about: 'One day you blindfold her and cuff her wrists, then you fuck her deep, and she may blindfold you on that same day. The other day you fuck her, cock in her pussy, from the start through the last hold. You hold it deep either way. Level II and Level III hold every part longer.',
+    names: ['Blind Then the Fuck', 'Cloth Then Cock', 'Cuffs Then Deep', 'She Blinds You First', 'Eyes Covered Fuck', 'Fuck Her Both Ways', 'Plain Deep Fuck', 'Blind and Buried', 'Wrist Tie First', 'Then You Fuck Her', 'Hold After the Blind', 'Deep After Cloth', 'She Ties You First', 'Fuck and Hold Deep', 'Second Stretch Fuck', 'Blind Lead Day', 'Buried Either Way', 'Last Blind Fuck', 'Cuff Then the Cock', 'Cloth Off the Fuck'],
+    cycle: ['lead', 'fuck'],
+    dayTypes: {
+      lead: sexThenSex('Blindfold, then fuck', 'Blind', poses('sexKink', 4, 2), poses('sexFuck', 8, 0), { pref: 2 }, { pref: 2 }),
+      fuck: sexThenSex('Fuck, then more', 'Fuck', poses('sexFuck', 6, 0), poses('sexFuck', 6, 0), { pref: 2 }, { pref: 2 }),
+    },
+  },
+  {
+    id: 'kink-gag-then-ice', ...C13, name: 'Gag Then Ice', subject: 'Kink-lite', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'A gag and ice, then a fuck',
+    blurb: 'A gag in her mouth and ice on her tits, your cock in her cunt, then you fuck her and hold deep.',
+    about: 'One day a gag is in her mouth and ice is on her tits, your cock in her cunt, and then you fuck her and hold deep. The other day you fuck her the whole session, her pussy or her ass, and you stay buried. She can gag you or ice your chest on the day with the gag and the ice. Level II and Level III hold every part longer.',
+    names: ['Gag Then the Ice', 'Ice on Her Tits', 'Gag Then Deep', 'Cube and the Cock', 'She Ices Your Chest', 'Fuck Her All Day', 'Both Holds a Fuck', 'Gag and the Grind', 'Ice Then Thrust', 'Hold After Ice', 'Her Pussy All Day', 'Her Ass All Day', 'She Gags You', 'Cold on Her Skin', 'Gag in Deep', 'Ice and Stay In', 'Toy Day Fuck', 'Chest Gets the Ice', 'Second Hold Fuck', 'Last Gag and Ice'],
+    cycle: ['lead', 'fuck'],
+    dayTypes: {
+      lead: sexThenSex('Gag and ice, then fuck', 'Gag', poses('sexKink', 4, 2), poses('sexFuck', 8, 0), { pref: 2 }, { pref: 2 }),
+      fuck: sexThenSex('Fuck, then more', 'Fuck', poses('sexFuck', 6, 0), poses('sexFuck', 6, 0), { pref: 2 }, { pref: 2 }),
+    },
+  },
+  {
+    id: 'kink-quick-tie', ...C13, name: 'Quick Tie', subject: 'Kink-lite', minutes: [22, 30], levers: [null, 'holds', 'holds'],
+    split: 'A short tie, or a short fuck',
+    blurb: 'A short one: you tie her wrists, gag her, and fuck her while you are both still warm.',
+    about: 'A short one. One day you tie her wrists, gag her, and fuck her while you are both still warm, and she may tie your wrists too. The other day is a short fuck, cock in her, start to finish. Level II and Level III hold every part a little longer.',
+    names: ['Quick Tie Her', 'Short Gag Tie', 'Fast Cuff Tie', 'Brief Blind Tie', 'Tie and Fuck Her', 'Short and Tied', 'Quick Wrist Tie', 'She Ties You Fast', 'Short Plain Fuck', 'Brief Fuck Twice', 'Fast Cloth Tie', 'Quick Ice Tie', 'Warm and Tied', 'Short Gagged Fuck', 'Tie Then Done', 'Fast Deep Tie', 'Brief Wax Tie', 'Quick and In Her', 'She Cuffs You Fast', 'Last Quick Tie'],
+    cycle: ['lead', 'fuck'],
+    dayTypes: {
+      lead: sexThenSex('Tie, then fuck', 'Tie', poses('sexKink', 4, 2), poses('sexFuck', 8, 2), { pref: 1 }, { pref: 1 }),
+      fuck: sexThenSex('Short fuck, then more', 'Fuck', poses('sexFuck', 6, 2), poses('sexFuck', 6, 2), { pref: 1 }, { pref: 1 }),
+    },
+  },
+  {
+    id: 'kink-long-ice', ...C13, name: 'Long Ice', subject: 'Kink-lite', minutes: [46, 54], levers: [null, 'holds', 'holds'],
+    split: 'A long blindfold, or a long fuck',
+    blurb: 'A long session of ice, wax, and a blindfold on her while you fuck her, and once she ices your chest.',
+    about: 'One day is ice, wax, and a blindfold on her while you fuck her, and once she ices your chest or ties your wrists. The other day is a long fuck, your cock kept deep in her pussy from the first hold to the last. You take your time on both and let the afternoon run. Level II and Level III hold every part longer.',
+    names: ['Long Ice Day', 'Afternoon Wax', 'Long Blind Fuck', 'Hours of Ice', 'She Ices You Long', 'Long Plain Fuck', 'Both Holds Long', 'Wax for Hours', 'Blind the Hour', 'Ice on Chest Long', 'Deep Long Fuck', 'Unhurried Ice', 'Long Gag Ice', 'Tie for Hours', 'Cock Kept Deep', 'Slow Ice Fuck', 'Long Cloth Ice', 'Long Wax Afternoon', 'Wax and Stay In', 'Last Long Ice'],
+    cycle: ['lead', 'fuck'],
+    dayTypes: {
+      lead: sexThenSex('Ice and wax, then fuck', 'Ice', poses('sexKink', 4, 4), poses('sexFuck', 8, 3), { pref: 3 }, { pref: 3 }),
+      fuck: sexThenSex('Long fuck, then more', 'Fuck', poses('sexFuck', 6, 3), poses('sexFuck', 6, 3), { pref: 3 }, { pref: 3 }),
+    },
+  },
+  {
+    id: 'kink-stay-blind', ...C13, name: 'Stay Blind', subject: 'Kink-lite', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'Fucking two days, blindfold on the third',
+    blurb: 'You stay inside her with the blindfold on, cock in her pussy, one long hold after another.',
+    about: 'Two days in three you fuck her, cock in her pussy, one long hold after another. On the third the blindfold is on, and you stay inside her, cuffs or a gag when that hold uses them. One of those holds she blindfolds you and you keep fucking her. Level II and Level III hold every position longer.',
+    names: ['Stay Blind In', 'Blind and Inside', 'Cloth on the Hold', 'Cuff on the Third', 'Gag on That Hold', 'She Blinds a Hold', 'Fuck Hold Plain', 'Fuck Hold Next', 'Eyes Covered In', 'Stay in the Dark', 'Third Day Cloth', 'Ice on That Hold', 'Wax While Inside', 'Blind Through It', 'Cock and the Cloth', 'Hold Under Cloth', 'She Ties a Hold', 'Deep and Blind', 'Next Hold Blind', 'Last Blind Hold'],
+    cycle: ['warm', 'warm', 'lead'],
+    dayTypes: {
+      warm: positionsOnly('Fuck her', 'Fuck', poses('sexFuck', 12, 6), { pref: 1 }),
+      lead: positionsOnly('Blindfold on', 'Blind', poses('sexKink', 8, 4), { pref: 2 }),
+    },
+  },
+  {
+    id: 'kink-cuffed-open', ...C13, name: 'Cuffed Open', subject: 'Kink-lite', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'Fucking two days, cuffs on the third',
+    blurb: 'Her wrists or her ankles in loose cuffs, your cock in her cunt, hold after hold without pulling out.',
+    about: 'Two days in three are fucking, hold after hold, your cock in her cunt. On the third her wrists or her ankles are in loose cuffs, and you stay in her between holds. A gag or her cuffs on your wrists shows up in that same run. Level II and Level III hold every position longer.',
+    names: ['Cuffed Open Wide', 'Wrists in the Cuffs', 'Ankles Loose Cuffed', 'Cuff and Stay In', 'She Cuffs a Hold', 'Fuck Hold Open', 'Fuck Hold After', 'Open and Cuffed', 'Gag With the Cuffs', 'Third Day Cuffs', 'Ankle and the Cock', 'Wrist and Deep In', 'Loose and Inside', 'Cuff the Hold', 'Stay Cuffed In', 'Her Ankles Wide', 'She Ties the Hold', 'Buried in Cuffs', 'Hold Her Cuffed', 'Last Cuff of Her'],
+    cycle: ['warm', 'warm', 'lead'],
+    dayTypes: {
+      warm: positionsOnly('Fuck her', 'Fuck', poses('sexFuck', 12, 6), { pref: 1 }),
+      lead: positionsOnly('Cuffs on', 'Cuffs', poses('sexKink', 8, 4), { pref: 2 }),
+    },
+  },
+  {
+    id: 'kink-gagged-holds', ...C13, name: 'Gagged Holds', subject: 'Kink-lite', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'Fucking two days, a gag on the third',
+    blurb: 'A gag in her mouth and your cock buried in her pussy, and you change the hold without leaving her.',
+    about: 'Two days in three you fuck her and change the hold with your cock still in her. On the third a gag is in her mouth and you stay buried, blindfold or cuffs in the same run. She can gag you on that day and you keep the hold. Level II and Level III hold every position longer.',
+    names: ['Gagged Hold In', 'Gag and Buried', 'Cloth in Her Mouth', 'Change While Gagged', 'She Gags a Hold', 'Fuck Hold Gagged', 'Plain Hold Gag', 'Plain Hold Next', 'Blind With the Gag', 'Third Day Gag', 'Cuff and the Gag', 'Stay and the Gag', 'Deep Gagged Hold', 'Mouth Full Hold', 'Gag the Next Hold', 'Her Gag Stays In', 'In and Gagged', 'Hold the Gag', 'Buried Gag Hold', 'Last Gagged Hold'],
+    cycle: ['warm', 'warm', 'lead'],
+    dayTypes: {
+      warm: positionsOnly('Fuck her', 'Fuck', poses('sexFuck', 12, 6), { pref: 1 }),
+      lead: positionsOnly('Gag in', 'Gag', poses('sexKink', 8, 4), { pref: 2 }),
+    },
+  },
+  {
+    id: 'kink-ice-wax', ...C13, name: 'Ice and Wax', subject: 'Kink-lite', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'Fucking two days, ice and wax on the third',
+    blurb: 'Ice on her tits or wax on her skin while you fuck her, and one day the ice is on your chest.',
+    about: 'Two days in three you fuck her, position after position, cock in her pussy. On the third ice is on her tits or wax is on her skin while you fuck her, and one hold the ice is on your chest. A blindfold can be on her for the same run. Level II and Level III hold every position longer.',
+    names: ['Ice and the Wax', 'Ice on the Tits', 'Wax on Her Skin', 'Ice on Your Chest', 'Third Day Cold', 'Fuck Hold on Ice', 'Plain Hold Cold', 'Plain Hold Hot', 'Drip While Inside', 'Cube on Her Tit', 'Wax and the Cock', 'She Ices a Hold', 'Cold and Deep In', 'Hot Wax Hold', 'Blind and the Ice', 'Stay Under Wax', 'Chest Then Fuck', 'Ice the Hold', 'Wax the Next', 'Last Ice Hold'],
+    cycle: ['warm', 'warm', 'lead'],
+    dayTypes: {
+      warm: positionsOnly('Fuck her', 'Fuck', poses('sexFuck', 12, 6), { pref: 1 }),
+      lead: positionsOnly('Ice and wax', 'Wax', poses('sexKink', 8, 4), { pref: 2 }),
     },
   },
 ];

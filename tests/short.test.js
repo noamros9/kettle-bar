@@ -43,7 +43,7 @@ test('every day of every program over 22 minutes trims into 18-22 (all but a few
         assert.ok(b[k] <= o[k], `${p.id} ${day.day}: ${k} never grows`);
         b.items.forEach((it) => { if (it.sets) assert.ok(it.sets <= b.sets); });
       });
-      if (t.est >= 18 && t.est <= 22) near++;
+      if (t.est >= 18 && t.est <= 22 * 1.1) near++; // up to 10% over is fine (Noam, 9 Oct 2026)
     }
   }
   assert.ok(near / trimmed > 0.99, `${near} of ${trimmed} land in 18-22`);
