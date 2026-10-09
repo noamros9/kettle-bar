@@ -455,8 +455,11 @@
           const m = EX[id].muscles, ago = day - (used[id] || -99);
           return m.primary.reduce((a, x) => a + (w[x] || 0), 0) + 0.5 * m.secondary.reduce((a, x) => a + (w[x] || 0), 0) - (ago <= 2 ? 0.45 : 0) - (ago <= 5 ? 0.15 : 0);
         };
-        const id = pool.filter((x) => !chosen.includes(x)).sort((a, b) => score(b) - score(a))[0];
-        chosen.push(id); t += EX[id].r[0] * (EX[id].side ? 2 : 1); used[id] = day;
+        const len = (x) => EX[x].r[0] * (EX[x].side ? 2 : 1);
+        const left = pool.filter((x) => !chosen.includes(x)).sort((a, b) => score(b) - score(a));
+        // the best one that ends within 15 s of the time, else the shortest; days that never overshot pick as before
+        const id = left.find((x) => t + len(x) <= seconds + 15) || left.reduce((a, x) => (len(x) < len(a) ? x : a));
+        chosen.push(id); t += len(id); used[id] = day;
         EX[id].muscles.primary.forEach((m) => { if (w[m]) w[m] *= 0.25; });
         EX[id].muscles.secondary.forEach((m) => { if (w[m]) w[m] *= 0.6; });
       }

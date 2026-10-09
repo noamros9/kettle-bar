@@ -129,6 +129,13 @@ const IDS = [
     'set-then-fuck', 'sweat-then-spread', 'earn-the-pussy', 'lift-her-then-fuck', 'grind-after-reps', 'short-and-dirty', 'long-afternoon',
     'mouth-then-cock', 'tongue-then-thrust', 'fingers-then-fuck', 'eat-then-pound', 'tease-then-bury', 'quick-and-deep', 'slow-deep-fuck',
     'stay-inside-her', 'hold-after-hold', 'deeper-every-hold', 'all-the-positions', 'cock-in-her', 'nothing-but-fucking',
+    // Phase 22 ticket 19: Rough and Kink-lite (+24)
+    'rough-set-then-spank', 'rough-sweat-then-pin', 'rough-lift-then-hold', 'rough-grind-then-hair',
+    'rough-spank-then-fuck', 'rough-pin-then-thrust', 'rough-quick-and-mean', 'rough-long-hold',
+    'rough-stay-and-spank', 'rough-pin-and-stay', 'rough-hair-and-hips', 'rough-held-down',
+    'kink-set-then-blind', 'kink-sweat-then-cuffs', 'kink-lift-then-gag', 'kink-grind-then-wax',
+    'kink-blind-then-fuck', 'kink-gag-then-ice', 'kink-quick-tie', 'kink-long-ice',
+    'kink-stay-blind', 'kink-cuffed-open', 'kink-gagged-holds', 'kink-ice-wax',
 ];
 
 test('the config ids, in order, are today\'s list', () => {

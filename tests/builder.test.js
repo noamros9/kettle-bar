@@ -51,10 +51,10 @@ test('generated days land in their time range (within a minute of rounding)', ()
   }));
 });
 
-test('every day has a ~1 min warm-up and ~2 min cool-down', () => {
+test('every day has a ~1 min warm-up and ~2 min cool-down (up to 10% over is fine; cool-down to 150 s, Noam 9 Oct 2026)', () => {
   programs.forEach((p) => p.days.forEach((d) => {
-    assert.ok(d.warmup.seconds >= 60 && d.warmup.seconds <= 75, `${p.id} d${d.day} warm-up ${d.warmup.seconds}`);
-    assert.ok(d.cooldown.seconds >= 120 && d.cooldown.seconds <= 135, `${p.id} d${d.day} cool-down ${d.cooldown.seconds}`);
+    assert.ok(d.warmup.seconds >= 60 && d.warmup.seconds <= 83, `${p.id} d${d.day} warm-up ${d.warmup.seconds}`);
+    assert.ok(d.cooldown.seconds >= 120 && d.cooldown.seconds <= 150, `${p.id} d${d.day} cool-down ${d.cooldown.seconds}`);
   }));
 });
 

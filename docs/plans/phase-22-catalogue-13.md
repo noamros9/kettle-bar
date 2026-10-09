@@ -99,7 +99,7 @@ goes unused this phase (CLAUDE.md: tickets that edit the same files wait).
 | 16 | Abs +21 | content | 1 | `content/c13-abs-sonnet` | done (PR #305) |
 | 17 | Cardio +16, boxing +7, kick +6 | content | 1 | `content/c13-cardio-combat` | done (PR #325) |
 | 18 | Yoga +15, pilates +11, flex +7, mobility +8, balance +6 | content | 1 | `content/c13-mind-body` | done (PR #326) |
-| 19 | Rough and Kink-lite: 24 programs | content | 9, 10b | `content/c13-rough-kink-programs` | todo |
+| 19 | Rough and Kink-lite: 24 programs | content | 9, 10b | `content/c13-rough-kink-programs` | done (PR #327) |
 | 20 | Body play and Rimming: 24 programs | content | 11b, 12 | `content/c13-body-rim-programs` | todo |
 | 20b | Edging and Massage: 24 programs | content | 12b, 12c | `content/c13-edging-massage-programs` | todo |
 | 20c | Strip and tease, Shower and bath: 24 programs | content | 12d, 12e | `content/c13-tease-shower-programs` | todo |
