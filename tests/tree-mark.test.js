@@ -8,6 +8,8 @@ const { execFileSync } = require('child_process');
 const { begin, write, check, same } = require('../scripts/tree-mark.js');
 
 const hasGit = (() => { try { execFileSync('git', ['--version']); return true; } catch { return false; } })();
+// a hook in a worktree sets GIT_DIR and GIT_INDEX_FILE to the real repo; the scratch repos must not inherit them
+if (hasGit) execFileSync('git', ['rev-parse', '--local-env-vars'], { encoding: 'utf8' }).split('\n').forEach((v) => delete process.env[v.trim()]);
 const gitTest = (name, fn) => test(name, { skip: !hasGit && 'no git here' }, fn);
 
 const repo = () => {
