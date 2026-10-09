@@ -134,6 +134,13 @@ const ORDER = [
   'kink-set-then-blind', 'kink-sweat-then-cuffs', 'kink-lift-then-gag', 'kink-grind-then-wax',
   'kink-blind-then-fuck', 'kink-gag-then-ice', 'kink-quick-tie', 'kink-long-ice',
   'kink-stay-blind', 'kink-cuffed-open', 'kink-gagged-holds', 'kink-ice-wax',
+  // Phase 22 ticket 20: Body play and Rimming, 12 each
+  'body-set-then-tits', 'body-sweat-then-grind', 'body-lift-then-thigh', 'body-push-then-cum',
+  'body-tits-then-hold', 'body-grind-then-hold', 'body-quick-and-slick', 'body-long-on-her',
+  'body-stay-on-tits', 'body-grind-and-stay', 'body-thighs-and-hips', 'body-cum-on-her',
+  'rim-set-then-tongue', 'rim-sweat-then-ass', 'rim-lift-then-rim', 'rim-grind-then-tongue',
+  'rim-tongue-then-fuck', 'rim-ass-then-cock', 'rim-quick-lick', 'rim-long-tongue',
+  'rim-stay-and-lick', 'rim-open-and-eat', 'rim-tongue-holds', 'rim-her-tongue',
 ];
 
 const byId = new Map(FAMILY_FILES.flat().map((c) => [c.id, c]));
