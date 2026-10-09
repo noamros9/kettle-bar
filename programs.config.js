@@ -148,6 +148,13 @@ const ORDER = [
   'massage-set-then-oil', 'massage-sweat-then-hands', 'massage-lift-then-back', 'massage-squat-then-oil',
   'massage-oil-then-fuck', 'massage-forearm-then-fuck', 'massage-quick-oil', 'massage-long-oil',
   'massage-stay-oiled', 'massage-hands-down-her', 'massage-oiled-holds', 'massage-she-oils-you',
+  // Phase 22 ticket 20c: Strip and tease, and Shower and bath, 12 each
+  'tease-set-then-zip', 'tease-sweat-then-bra', 'tease-lift-then-panties', 'tease-grind-then-lap',
+  'tease-zip-then-fuck', 'tease-bra-then-cock', 'tease-quick-strip', 'tease-long-strip',
+  'tease-stay-and-peel', 'tease-skirt-up', 'tease-dry-holds', 'tease-her-strip',
+  'shower-set-then-tile', 'shower-sweat-then-soap', 'shower-lift-then-tub', 'shower-push-then-stream',
+  'shower-tile-then-hold', 'shower-soap-then-hold', 'shower-quick-and-wet', 'shower-long-steam',
+  'shower-stay-on-tile', 'shower-soap-and-stay', 'shower-tub-and-hips', 'shower-stream-on-her',
 ];
 
 const byId = new Map(FAMILY_FILES.flat().map((c) => [c.id, c]));
