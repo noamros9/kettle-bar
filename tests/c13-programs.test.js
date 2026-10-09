@@ -36,7 +36,7 @@ const programs = CONFIGS.filter((c) => IDS.includes(c.id)).map((c) => Builder.bu
 const prog = (id) => programs.find((p) => p.id === id);
 const bare = (block) => (block.slots || []).map((s) => s.replace('?', ''));
 const pure = (block, name) => bare(block).length > 0 && bare(block).every((n) => n === name);
-const sexBlocks = (type) => type.blocks.filter((b) => bare(b).some((n) => ['sexPositions', 'sexWarm', 'sexFuck', 'sexRough', 'sexKink', 'sexBody', 'sexRim'].includes(n)));
+const sexBlocks = (type) => type.blocks.filter((b) => bare(b).some((n) => ['sexPositions', 'sexWarm', 'sexFuck', 'sexRough', 'sexKink', 'sexBody', 'sexRim', 'sexEdging', 'sexMassage'].includes(n)));
 const closer = (id) => {
   if (SHAPE[id] === 'gym') return 'Level II adds reps to the partner work. Level III holds every position longer.';
   if (SHAPE[id] === 'positions') return 'Level II and Level III hold every position longer.';
@@ -406,4 +406,196 @@ test('Body play and Rimming abouts say what the other days hold, and her rim pla
     assert.doesNotMatch(`${c.blurb}\n${c.about}\n${c.names.join('\n')}\n${c.split}`, /all fours|bent over|ass up/i, id);
   });
   assert.match(cfgOf('rim-her-tongue').blurb, /standing tall|lying flat on your back/);
+});
+
+// Phase 22 ticket 20b: Edging and Massage, 12 each. Edging pairs sexEdging with sexWarm, like Rough.
+// Massage pairs sexMassage with sexFuck, like Kink-lite. Edging sex days are sexWarm, then a sexEdging block last.
+const EDGE_GYM = ['edge-set-then-stop', 'edge-sweat-then-out', 'edge-lift-then-slow', 'edge-squat-then-still'];
+const EDGE_SEX = ['edge-stop-then-fuck', 'edge-out-then-shallow', 'edge-quick-stop', 'edge-long-still'];
+const EDGE_POS = ['edge-stay-and-stop', 'edge-pull-and-stay', 'edge-slow-and-deep', 'edge-brace-and-hold'];
+const MASS_GYM = ['massage-set-then-oil', 'massage-sweat-then-hands', 'massage-lift-then-back', 'massage-squat-then-oil'];
+const MASS_SEX = ['massage-oil-then-fuck', 'massage-forearm-then-fuck', 'massage-quick-oil', 'massage-long-oil'];
+const MASS_POS = ['massage-stay-oiled', 'massage-hands-down-her', 'massage-oiled-holds', 'massage-she-oils-you'];
+const EDGE = [...EDGE_GYM, ...EDGE_SEX, ...EDGE_POS];
+const MASS = [...MASS_GYM, ...MASS_SEX, ...MASS_POS];
+const IDS20B = [...EDGE, ...MASS];
+const GYM20B = [...EDGE_GYM, ...MASS_GYM];
+const SEX20B = [...EDGE_SEX, ...MASS_SEX];
+const POS20B = [...EDGE_POS, ...MASS_POS];
+const SHAPE20B = Object.fromEntries([...GYM20B.map((id) => [id, 'gym']), ...SEX20B.map((id) => [id, 'sex']), ...POS20B.map((id) => [id, 'positions'])]);
+const SHORT20B = new Set(['edge-quick-stop', 'massage-quick-oil']);
+const LONG20B = new Set(['edge-long-still', 'massage-long-oil']);
+const programs20b = CONFIGS.filter((c) => IDS20B.includes(c.id)).map((c) => Builder.build(c, cat));
+const prog20b = (id) => programs20b.find((p) => p.id === id);
+const closer20b = (id) => {
+  if (SHAPE20B[id] === 'gym') return 'Level II adds reps to the partner work. Level III holds every position longer.';
+  if (SHAPE20B[id] === 'positions') return 'Level II and Level III hold every position longer.';
+  return SHORT20B.has(id) ? 'Level II and Level III hold every part a little longer.' : 'Level II and Level III hold every part longer.';
+};
+const olderNames20b = new Set(CONFIGS.filter((c) => ['Explicit', 'Rough', 'Kink-lite', 'Body play', 'Rimming'].includes(c.subject)).flatMap((c) => c.names));
+const SCHEDULE20B = /\b(day|days|third|lead|plain|second|next|warm)\b|both holds|fuck hold|from the start|other day|the hold|next hold/i;
+
+test('Edging and Massage: 24 programs, for two, catalogue 13, 60 days, out of build your own', () => {
+  assert.deepEqual(programs20b.map((p) => p.id), IDS20B);
+  assert.equal(CONFIGS.filter((c) => c.subject === 'Edging').length, 12);
+  assert.equal(CONFIGS.filter((c) => c.subject === 'Massage').length, 12);
+  assert.deepEqual([EDGE_GYM.length, EDGE_SEX.length, EDGE_POS.length], [4, 4, 4]);
+  assert.deepEqual([MASS_GYM.length, MASS_SEX.length, MASS_POS.length], [4, 4, 4]);
+  const mixed = FAMILIES.find(([name]) => name === 'Mixed')[1];
+  const after = SHELVES.find(([name]) => name === 'After dark')[1];
+  assert.deepEqual(mixed.slice(mixed.indexOf('Explicit'), mixed.indexOf('Explicit') + 7), ['Explicit', 'Rough', 'Kink-lite', 'Body play', 'Rimming', 'Edging', 'Massage']);
+  assert.deepEqual(after.slice(after.indexOf('Explicit'), after.indexOf('Explicit') + 7), ['Explicit', 'Rough', 'Kink-lite', 'Body play', 'Rimming', 'Edging', 'Massage']);
+  const allNames = [];
+  IDS20B.forEach((id) => {
+    const c = cfgOf(id);
+    const p = prog20b(id);
+    const [lo, hi] = SHORT20B.has(id) ? [22, 30] : LONG20B.has(id) ? [46, 54] : [31, 40];
+    assert.equal(c.subject, EDGE.includes(id) ? 'Edging' : 'Massage', id);
+    assert.equal(c.added, 20, id);
+    assert.equal(c.catalogue, 13, id);
+    assert.equal(c.couple, true, id);
+    assert.equal(c.equip, 'bw', id);
+    assert.deepEqual(c.minutes, [lo, hi], id);
+    assert.deepEqual(c.levers, SHAPE20B[id] === 'gym' ? [null, 'reps', 'holds'] : [null, 'holds', 'holds'], id);
+    assert.equal(p.days.length, 60, id);
+    assert.deepEqual([1, 20, 21, 40, 41, 60].map((n) => p.days[n - 1].level), [1, 1, 2, 2, 3, 3], id);
+    assert.ok(R.skipped.includes(id), id);
+    assert.equal(c.names.length, 20, id);
+    assert.equal(new Set(c.names).size, 20, id);
+    assert.deepEqual(c.names.filter((n) => olderNames20b.has(n)), [], id);
+    c.names.forEach((n) => assert.doesNotMatch(n, SCHEDULE20B, `${id}: ${n}`));
+    allNames.push(...c.names);
+    assert.equal(c.blurb.trim(), c.blurb, id);
+    assert.ok(c.blurb.length > 0 && c.blurb.length <= 140, `${id}: blurb is ${c.blurb.length}`);
+    assert.deepEqual(c.blurb.match(/[.!?]/g), [c.blurb.at(-1)], `${id}: blurb is not one sentence`);
+    assert.equal(c.about.trim(), c.about, id);
+    assert.ok(!/[\r\n]/.test(c.about) && /[.!?]/.test(c.about), `${id}: about`);
+    assert.ok(c.about.endsWith(closer20b(id)), `${id}: closer`);
+    const sentences = c.about.split(/(?<=[.!?])\s+/).filter(Boolean);
+    assert.ok(sentences.length >= 4 && sentences.length <= 5, `${id}: ${sentences.length} sentences`);
+    assert.doesNotMatch(`${c.blurb}\n${c.about}`, BANNED, id);
+    assert.doesNotMatch(`${c.blurb}\n${c.about}`, ABSENT, id);
+    assert.doesNotMatch(`${c.blurb}\n${c.about}\n${c.names.join('\n')}\n${c.split}`, /chok/i, id);
+  });
+  assert.equal(new Set(allNames).size, allNames.length);
+  assert.deepEqual(R.pick({ subjects: ['Edging'] }), []);
+  assert.deepEqual(R.pick({ subjects: ['Massage'] }), []);
+});
+
+test('gym and positions cycle warm, warm, lead; Edging sex is warm then edging every day; Massage sex leads with massage once', () => {
+  EDGE_SEX.forEach((id) => {
+    const c = cfgOf(id);
+    const types = Object.values(c.dayTypes);
+    assert.equal(types.length, 2, id);
+    types.forEach((t) => {
+      assert.deepEqual(t.blocks.map((b) => b.title), ['Warm-up', 'Edging'], id);
+      assert.ok(pure(t.blocks[0], 'sexWarm'), id);
+      assert.ok(pure(t.blocks[1], 'sexEdging'), id);
+    });
+    assert.notEqual(JSON.stringify(types[0].blocks), JSON.stringify(types[1].blocks), id);
+  });
+  MASS_SEX.forEach((id) => {
+    const types = Object.values(cfgOf(id).dayTypes);
+    assert.equal(types.length, 2, id);
+    types.forEach((t) => assert.deepEqual(t.blocks.map((b) => b.title), ['Warm-up', 'Fuck'], id));
+    const lead = types.filter((t) => pure(t.blocks[0], 'sexMassage'));
+    assert.equal(lead.length, 1, id);
+    assert.ok(pure(lead[0].blocks[1], 'sexFuck'), id);
+    const rest = types.filter((t) => t !== lead[0]);
+    assert.ok(rest[0].blocks.every((b) => pure(b, 'sexFuck')), id);
+  });
+  [...GYM20B, ...POS20B].forEach((id) => {
+    const c = cfgOf(id);
+    const own = c.subject === 'Edging' ? 'sexEdging' : 'sexMassage';
+    const cover = c.subject === 'Edging' ? 'sexWarm' : 'sexFuck';
+    assert.deepEqual([c.cycle[0], c.cycle[1] === c.cycle[0], c.cycle[2] !== c.cycle[0]], [c.cycle[0], true, true], id);
+    const warm = c.dayTypes[c.cycle[0]];
+    const lead = c.dayTypes[c.cycle[2]];
+    const warmSex = sexBlocks(warm);
+    const leadSex = sexBlocks(lead);
+    assert.ok(warmSex.every((b) => pure(b, cover)), `${id}: warm`);
+    assert.ok(pure(leadSex[0], own), `${id}: lead`);
+    assert.equal(warmSex.length, 1, id);
+    assert.equal(leadSex.length, 1, id);
+    if (SHAPE20B[id] === 'gym') {
+      assert.equal(warm.blocks.length, 2, id);
+      assert.equal(lead.blocks.length, 2, id);
+      assert.equal(warm.blocks[1].title, 'Positions', id);
+      assert.equal(lead.blocks[1].title, 'Positions', id);
+    }
+  });
+});
+
+test('every day is its shape, the lead day draws the subject, and an Edging program stays inside the sexWarm window', () => {
+  const warmIds = new Set(mergedAt(13).sexWarm);
+  IDS20B.forEach((id) => {
+    const c = cfgOf(id);
+    const sub = c.subject === 'Edging' ? 'edging' : 'massage';
+    const leadType = SHAPE20B[id] === 'sex' && c.subject === 'Edging'
+      ? null
+      : (SHAPE20B[id] === 'sex' ? Object.entries(c.dayTypes).find(([, t]) => pure(t.blocks[0], 'sexMassage'))[0] : c.cycle[2]);
+    let warmDraws = 0;
+    prog20b(id).days.forEach((d) => {
+      const m = mains(d);
+      const where = `${id} d${d.day}`;
+      assert.ok(m.every((b) => TAGS.includes(b.family)), `${where}: untagged`);
+      assert.ok(!d.blocks.some((b) => b.kind === 'abs'), `${where}: abs`);
+      m.forEach((b) => {
+        const ids = b.items.map((it) => it.ex);
+        assert.equal(new Set(ids).size, ids.length, `${where} ${b.title}`);
+        assert.ok(ids.every((ex) => EX[ex].cat === 'couple'), `${where}: a solo exercise`);
+        ids.forEach((ex) => { if (warmIds.has(ex)) warmDraws += 1; });
+      });
+      const drawn = m.some((b) => b.items.some((it) => EX[it.ex].sub === sub));
+      if (leadType === null || d.type === leadType) assert.ok(drawn, `${where}: no ${sub}`);
+      assert.ok(d.est >= c.minutes[0] && d.est <= c.minutes[1], `${where}: ${d.est} min, band ${c.minutes[0]}–${c.minutes[1]}`);
+      if (SHAPE20B[id] === 'gym') {
+        assert.equal(m.length, 2, where);
+        assert.equal(m[1].title, 'Positions', where);
+        assert.equal(m[1].format, 'flow', where);
+        assert.ok(m[0].items.every((it) => EX[it.ex].added === 10 && !inPool('explicit', it.ex) && !inPool('positions', it.ex)), `${where}: gym block`);
+      } else if (SHAPE20B[id] === 'sex') {
+        assert.equal(m.length, 2, where);
+        assert.equal(m[0].title, 'Warm-up', where);
+        assert.equal(m[1].title, c.subject === 'Edging' ? 'Edging' : 'Fuck', where);
+      } else {
+        assert.equal(m.length, 1, where);
+        assert.equal(m[0].title, 'Positions', where);
+        assert.equal(m[0].format, 'flow', where);
+      }
+    });
+    if (c.subject === 'Edging') assert.ok(warmDraws >= 277 && warmDraws <= 450, `${id}: ${warmDraws} sexWarm draws`);
+  });
+});
+
+test('Edging and Massage: two families a day, except a day marked oneFamily', () => {
+  const marked = [];
+  IDS20B.forEach((id) => Object.entries(cfgOf(id).dayTypes).forEach(([k, t]) => { if (t.oneFamily) marked.push(`${id}:${k}`); }));
+  const expect = POS20B.flatMap((id) => Object.keys(cfgOf(id).dayTypes).map((k) => `${id}:${k}`));
+  assert.deepEqual(marked.sort(), expect.sort());
+  IDS20B.forEach((id) => {
+    const cfg = cfgOf(id);
+    prog20b(id).days.forEach((d) => {
+      const n = new Set(mains(d).map((b) => b.family)).size;
+      if (cfg.dayTypes[d.type].oneFamily) assert.equal(n, 1, `${id} d${d.day}: positions-only is one family`);
+      else assert.ok(n >= 2, `${id} d${d.day}: two families`);
+      assert.equal(!!cfg.dayTypes[d.type].oneFamily, SHAPE20B[id] === 'positions', `${id} d${d.day}: mark`);
+    });
+  });
+});
+
+test('Edging and Massage abouts say what the other days hold', () => {
+  [...EDGE_GYM, ...EDGE_POS].forEach((id) => {
+    const about = cfgOf(id).about;
+    assert.match(about, /two days in three/i, id);
+    assert.match(about, /mouth/i, id);
+    assert.match(about, /stop|pull|shallow|brace|still/i, id);
+  });
+  [...MASS_GYM, ...MASS_POS].forEach((id) => {
+    const about = cfgOf(id).about;
+    assert.match(about, /two days in three/i, id);
+    assert.match(about, /fuck/i, id);
+    assert.match(about, /oil|forearm/i, id);
+  });
+  [...EDGE_SEX, ...MASS_SEX].forEach((id) => assert.doesNotMatch(cfgOf(id).about, /two days in three/i, id));
 });

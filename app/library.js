@@ -32,7 +32,7 @@
     ['Strength', ['Signature', 'Strength', 'Pull-ups', 'Legs & glutes', 'Kettlebell only', 'Bodyweight', 'Busy week', 'Grip & forearms', 'Kettlebell complexes', 'Climber / pull strength', 'Chest', 'Back', 'Shoulders', 'Arms', 'Hips & adductors', 'Calves & lower legs', 'Neck & traps']],
     ['Cardio & combat', ['Conditioning', 'HIIT', 'Plyometrics', 'Boxing', 'Kickboxing', 'Running prep', 'Court & field sports']],
     ['Mind & body', ['Core & abs', 'Mobility & posture', 'Yoga', 'Pilates', 'Flexibility', 'Balance & stability', 'Gentle / low impact', 'Back care']],
-    ['Mixed', ['Strength & stretch', 'Fighter', 'Athlete', 'Balanced week', 'Calm strength', 'Variety', 'Beach body', 'Bedroom stamina', 'Sex positions', 'Couples', 'Endurance & control', 'Hip power & thrust', 'Carry & hold', 'Flexible & bendy', 'Strip & show-off', 'Her pleasure', 'Quickie', 'Back & knees care', 'Date night warm-up', 'Positions tour', 'Morning glory / Sunday', 'Explicit', 'Rough', 'Kink-lite', 'Body play', 'Rimming']],
+    ['Mixed', ['Strength & stretch', 'Fighter', 'Athlete', 'Balanced week', 'Calm strength', 'Variety', 'Beach body', 'Bedroom stamina', 'Sex positions', 'Couples', 'Endurance & control', 'Hip power & thrust', 'Carry & hold', 'Flexible & bendy', 'Strip & show-off', 'Her pleasure', 'Quickie', 'Back & knees care', 'Date night warm-up', 'Positions tour', 'Morning glory / Sunday', 'Explicit', 'Rough', 'Kink-lite', 'Body play', 'Rimming', 'Edging', 'Massage']],
   ];
   // Shelf groups (Phase 17): the Programs page tabs, finer than the four families. Every family subject sits in exactly
   // one group. Stats, build your own and random workouts keep FAMILIES.
@@ -45,7 +45,7 @@
     ['Mobility & care', ['Mobility & posture', 'Flexibility', 'Balance & stability', 'Gentle / low impact', 'Back care']],
     ['Mixed', ['Strength & stretch', 'Athlete', 'Balanced week', 'Calm strength']],
     ['Variety', ['Variety']],
-    ['After dark', ['Beach body', 'Bedroom stamina', 'Sex positions', 'Couples', 'Endurance & control', 'Hip power & thrust', 'Carry & hold', 'Flexible & bendy', 'Strip & show-off', 'Her pleasure', 'Quickie', 'Back & knees care', 'Date night warm-up', 'Positions tour', 'Morning glory / Sunday', 'Explicit', 'Rough', 'Kink-lite', 'Body play', 'Rimming']],
+    ['After dark', ['Beach body', 'Bedroom stamina', 'Sex positions', 'Couples', 'Endurance & control', 'Hip power & thrust', 'Carry & hold', 'Flexible & bendy', 'Strip & show-off', 'Her pleasure', 'Quickie', 'Back & knees care', 'Date night warm-up', 'Positions tour', 'Morning glory / Sunday', 'Explicit', 'Rough', 'Kink-lite', 'Body play', 'Rimming', 'Edging', 'Massage']],
   ];
   const LENGTHS = [['all', 'Any length'], ['short', 'Up to 25 min'], ['mid', '26–32 min'], ['long', '33 min +']];
   const EQUIPS = [['all', 'Any equipment'], ['kb', 'Kettlebell only'], ['bw', 'No equipment']];

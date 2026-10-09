@@ -26,14 +26,17 @@ test('trim of a 35-minute straight-set day gives 18-22 minutes and keeps every b
 });
 
 // ---- the rest ----
-test('every day of every program over 22 minutes trims into 18-22 (all but a few long flows), never longer, first exercises kept', () => {
+// Couple sessions are a few long holds and may stay above 24 min: they trim shorter but don't count (Noam, 9 Oct 2026)
+const COUPLE = new Set(B.CONFIGS.filter((c) => c.couple).map((c) => c.id));
+
+test('every day of every program over 22 minutes trims into 18-22 (all but a few long flows; couple sessions exempt), never longer, first exercises kept', () => {
   let trimmed = 0, near = 0;
   for (const p of all) {
     const R = restsOf(p);
     for (const day of p.days) {
       const t = Short.trim(day, { R, EX: cat.EX });
       if (day.est <= Short.TARGET + 2) { assert.equal(t, day, `${p.id} ${day.day}: already short`); continue; }
-      trimmed++;
+      if (!COUPLE.has(p.id)) trimmed++;
       assert.ok(t.est <= day.est, `${p.id} ${day.day}`);
       assert.deepEqual(firsts(t), firsts(day), `${p.id} ${day.day}`);
       t.blocks.forEach((b, bi) => {
@@ -43,7 +46,7 @@ test('every day of every program over 22 minutes trims into 18-22 (all but a few
         assert.ok(b[k] <= o[k], `${p.id} ${day.day}: ${k} never grows`);
         b.items.forEach((it) => { if (it.sets) assert.ok(it.sets <= b.sets); });
       });
-      if (t.est >= 18 && t.est <= 22 * 1.1) near++; // up to 10% over is fine (Noam, 9 Oct 2026)
+      if (!COUPLE.has(p.id) && t.est >= 18 && t.est <= 22 * 1.1) near++; // up to 10% over is fine (Noam, 9 Oct 2026)
     }
   }
   assert.ok(near / trimmed > 0.99, `${near} of ${trimmed} land in 18-22`);

@@ -141,6 +141,13 @@ const ORDER = [
   'rim-set-then-tongue', 'rim-sweat-then-ass', 'rim-lift-then-rim', 'rim-grind-then-tongue',
   'rim-tongue-then-fuck', 'rim-ass-then-cock', 'rim-quick-lick', 'rim-long-tongue',
   'rim-stay-and-lick', 'rim-open-and-eat', 'rim-tongue-holds', 'rim-her-tongue',
+  // Phase 22 ticket 20b: Edging and Massage, 12 each
+  'edge-set-then-stop', 'edge-sweat-then-out', 'edge-lift-then-slow', 'edge-squat-then-still',
+  'edge-stop-then-fuck', 'edge-out-then-shallow', 'edge-quick-stop', 'edge-long-still',
+  'edge-stay-and-stop', 'edge-pull-and-stay', 'edge-slow-and-deep', 'edge-brace-and-hold',
+  'massage-set-then-oil', 'massage-sweat-then-hands', 'massage-lift-then-back', 'massage-squat-then-oil',
+  'massage-oil-then-fuck', 'massage-forearm-then-fuck', 'massage-quick-oil', 'massage-long-oil',
+  'massage-stay-oiled', 'massage-hands-down-her', 'massage-oiled-holds', 'massage-she-oils-you',
 ];
 
 const byId = new Map(FAMILY_FILES.flat().map((c) => [c.id, c]));
