@@ -97,7 +97,7 @@ goes unused this phase (CLAUDE.md: tickets that edit the same files wait).
 | 14 | Upper +17 | content | 1 | `content/c13-upper` | done (PR #300) |
 | 15 | Lower +22 | content | 1 | `content/c13-lower` | done (PR #301) |
 | 16 | Abs +21 | content | 1 | `content/c13-abs-sonnet` | done (PR #305) |
-| 17 | Cardio +16, boxing +7, kick +6 | content | 1 | `content/c13-cardio-combat` | todo |
+| 17 | Cardio +16, boxing +7, kick +6 | content | 1 | `content/c13-cardio-combat` | done (PR #325) |
 | 18 | Yoga +15, pilates +11, flex +7, mobility +8, balance +6 | content | 1 | `content/c13-mind-body` | todo |
 | 19 | Rough and Kink-lite: 24 programs | content | 9, 10b | `content/c13-rough-kink-programs` | todo |
 | 20 | Body play and Rimming: 24 programs | content | 11b, 12 | `content/c13-body-rim-programs` | todo |

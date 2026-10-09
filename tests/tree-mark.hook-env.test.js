@@ -13,7 +13,10 @@ test('tree-mark tests leave the worktree the hook runs in alone', { skip: !hasGi
   const base = path.join(__dirname, '..', 'test-results', `hook-env-${process.pid}`);
   const main = path.join(base, 'main'), wt = path.join(base, 'wt');
   fs.mkdirSync(main, { recursive: true });
-  const git = (cwd, ...args) => execFileSync('git', args, { cwd, encoding: 'utf8' }).trim();
+  // the scratch repos get a clean env: the hook's own GIT_INDEX_FILE (relative in the main checkout) would point them at it
+  const clean = { ...process.env };
+  execFileSync('git', ['rev-parse', '--local-env-vars'], { encoding: 'utf8' }).split('\n').forEach((v) => delete clean[v.trim()]);
+  const git = (cwd, ...args) => execFileSync('git', args, { cwd, encoding: 'utf8', env: clean }).trim();
   try {
     git(main, 'init', '-q');
     fs.writeFileSync(path.join(main, 'kept.js'), '1');
