@@ -500,6 +500,42 @@ test('catalogue 13 adds 36 hot tub exercises (ticket 12g)', () => {
   });
 });
 
+test('catalogue 13 adds 36 balcony exercises (ticket 12h)', () => {
+  const added = Object.values(cat.EX).filter((e) => e.added === 13 && e.sub === 'balcony');
+  assert.equal(added.length, 36);
+  const at12 = mergedAt(12), at13 = mergedAt(13);
+  added.forEach((e) => {
+    assert.equal(e.cat, 'couple', e.id);
+    assert.ok(e.id.startsWith('balcony_'), e.id);
+    assert.equal('basic' in e, false, e.id);
+    assert.equal(e.u, 'sec', e.id);
+    assert.equal(e.r.length, 3, e.id);
+    e.r.forEach((n) => assert.ok(Number.isInteger(n) && n > 0, e.id));
+    assert.equal(e.cue.includes('\n') || e.cue.includes('\r'), false, e.id);
+    assert.ok(e.cue.length > 40 && e.cue.length <= 400, `${e.id} is ${e.cue.length}`);
+    assert.doesNotMatch(e.cue, /neck|throat|chok/i, e.id);
+    assert.ok(e.mus, e.id);
+    assert.ok(e.muscles.primary.length >= 1, e.id);
+    [...e.muscles.primary, ...e.muscles.secondary].forEach((m) => assert.ok(cat.MUSCLE_NAMES[m], `${e.id}: ${m}`));
+    assert.ok(e.poses.length >= 1, e.id);
+    e.poses.forEach((p) => {
+      assert.equal(p.mark, 1, e.id);
+      assert.ok(p.two, `${e.id}: both figures`);
+      assert.equal(p.two.mark, 1, e.id);
+    });
+    const svg = figureSVG(e);
+    assert.equal((svg.match(/fill="var\(--mark\)"/g) || []).length, e.poses.length * 2, `${e.id}: mark on both`);
+    assert.equal((svg.match(/fill="var\(--fig2\)"/g) || []).length, e.poses.length, e.id);
+    assert.doesNotMatch(svg, /NaN/, e.id);
+    assert.ok(at13.sexFuck.includes(e.id), `${e.id} in sexFuck`);
+    assert.ok(at13.sexPositions.includes(e.id), `${e.id} in sexPositions`);
+    assert.ok(poolsAt(13).sexBalcony.includes(e.id), `${e.id} in sexBalcony`);
+    assert.equal(at12.sexFuck.includes(e.id), false, e.id);
+    assert.equal(at12.sexPositions.includes(e.id), false, e.id);
+    assert.equal(poolsAt(12).sexBalcony.includes(e.id), false, e.id);
+  });
+});
+
 const BODY_11B = [
   'body_tit_heel', 'body_tit_cross', 'body_grind_behind', 'body_grind_squat', 'body_thigh_spoon',
   'body_thigh_sit', 'body_thigh_up', 'body_cum_belly', 'body_cum_back', 'body_cum_soles',
