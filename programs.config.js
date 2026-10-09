@@ -155,6 +155,13 @@ const ORDER = [
   'shower-set-then-tile', 'shower-sweat-then-soap', 'shower-lift-then-tub', 'shower-push-then-stream',
   'shower-tile-then-hold', 'shower-soap-then-hold', 'shower-quick-and-wet', 'shower-long-steam',
   'shower-stay-on-tile', 'shower-soap-and-stay', 'shower-tub-and-hips', 'shower-stream-on-her',
+  // Phase 22 ticket 20d: Pool and Hot tub, 12 each
+  'pool-set-then-wall', 'pool-sweat-then-step', 'pool-lift-then-lounge', 'pool-push-then-jet',
+  'pool-wall-then-hold', 'pool-step-then-hold', 'pool-quick-soak', 'pool-long-soak',
+  'pool-stay-on-wall', 'pool-step-and-stay', 'pool-lounge-and-hips', 'pool-jet-on-her',
+  'hottub-set-then-seat', 'hottub-sweat-then-bubbles', 'hottub-lift-then-cover', 'hottub-push-then-heat',
+  'hottub-seat-then-hold', 'hottub-bubble-then-hold', 'hottub-quick-steam', 'hottub-long-heat',
+  'hottub-stay-in-seat', 'hottub-bubbles-and-stay', 'hottub-cover-and-hips', 'hottub-jet-in-seat',
 ];
 
 const byId = new Map(FAMILY_FILES.flat().map((c) => [c.id, c]));
