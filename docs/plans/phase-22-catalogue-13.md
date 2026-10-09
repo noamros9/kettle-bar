@@ -189,8 +189,23 @@ on Grok.
 
 ### 2–12i. The sex exercises (715)
 
-**Resume here (9 Oct 2026, end of session):** tickets 1–12c, 1b–1f and 13–16 are merged (last: #313, massage). Next for
-Grok: 12d (Strip and tease), then 12e–12i (the places), each plan first (132), then 17–18 (Claude) and the programs.
+**Resume here (9 Oct 2026, end of the day session):** every sex ticket is merged: 1–12i, 1b–1f (last: #321,
+doorframe), and fitness 13–16. **Next:** Opus builds 17, then 18 (fitness, `fitnessTicket` helper) in one checkout,
+while Grok builds the programs 19 → 20e in the other (program configs, not `exercises.js`, so the lanes don't
+collide; 20e needs 12h and 12i, both merged). 21 (Opus) goes last. Who builds is Noam's call at hand-off; this is
+the plan's default (Claude plans, Grok writes the text, 17–18 Claude).
+
+**From the 9 Oct day run (12d–12i, #315–#321), for the next prompts:**
+- **Places need real-depth rules in the prompt:** nobody lies, squats or goes face down in water over the knees; only
+  one person reclines, face up, in a hot tub's lounger seat; nothing across a tub wall or rail (her hips inside the
+  tub with him outside fails); balcony rails are faced or gripped, never backed against.
+- **Guard phrases leak into cues** ("Lying, not sitting.", "not between her knees"): the build prompt says a cue says
+  what happens, never what doesn't, and asks for 300–400 characters at the last kind's heat.
+- **Grok can't see unmerged kinds:** when the previous place is still in a PR, the prompt lists its arrangements to
+  avoid (12i first copied six of 12h's doorway lines).
+- **Small plan fixes go into the build prompt** ("approved with N changes", each spelled out) instead of another plan
+  round; a full rework (12g's lying-in-water lines) still gets its own plan round.
+- **Stage before `npm run test:coverage`**, so the commit hook sees the tested tree and skips the suite (decision 129).
 How the 8–9 Oct run went, for the next prompts:
 - **Two lanes:** the main checkout and `../kettle-bar-docs`, each with its own `grok/` scratch (`list-sub.js` copied
   in). Grok keeps sessions per folder; resume a ticket's session by id (`--resume <id>`, the id is the first
