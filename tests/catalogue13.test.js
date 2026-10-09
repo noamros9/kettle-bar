@@ -788,3 +788,5 @@ test('catalogue 13 adds lower body +22 (ticket 15)', () => fitnessTicket({ lower
 test('catalogue 13 adds abs +21 (ticket 16)', () => fitnessTicket({ abs: 21 }));
 
 test('catalogue 13 adds cardio +16, boxing +7 and kick +6 (ticket 17)', () => fitnessTicket({ cardio: 16, boxing: 7, kick: 6 }));
+
+test('catalogue 13 adds yoga +15, pilates +11, flex +7, mobility +8 and balance +6 (ticket 18)', () => fitnessTicket({ yoga: 15, pilates: 11, flex: 7, mobility: 8, balance: 6 }));
