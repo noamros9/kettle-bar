@@ -100,7 +100,7 @@
     ['balance', 'Core, balance & sport', ['Core & abs', 'Balance & stability', 'Athlete']],
     ['gentle', 'Gentle, or a sore back', ['Gentle / low impact', 'Back care', 'Calm strength', 'Back & knees care']],
     ['mix', 'A bit of everything', ['Balanced week', 'Strength & stretch', 'Variety']],
-    ['couple', 'For two, after dark', ['Couples', 'Her pleasure', 'Date night warm-up', 'Positions tour', 'Morning glory / Sunday', 'Explicit', 'Rough', 'Kink-lite', 'Body play', 'Rimming', 'Edging', 'Massage', 'Strip and tease', 'Shower and bath', 'Pool', 'Hot tub']], // Phase 18: couples, and the solo training that's for her; Explicit (Phase 20); Rough and Kink-lite (Phase 22); Body play and Rimming (Phase 22); Edging and Massage (Phase 22); Strip and tease, and Shower and bath (Phase 22); Pool and Hot tub (Phase 22)
+    ['couple', 'For two, after dark', ['Couples', 'Her pleasure', 'Date night warm-up', 'Positions tour', 'Morning glory / Sunday', 'Explicit', 'Rough', 'Kink-lite', 'Body play', 'Rimming', 'Edging', 'Massage', 'Strip and tease', 'Shower and bath', 'Pool', 'Hot tub', 'Balcony', 'Doorframe']], // Phase 18: couples, and the solo training that's for her; Explicit (Phase 20); Rough and Kink-lite (Phase 22); Body play and Rimming (Phase 22); Edging and Massage (Phase 22); Strip and tease, and Shower and bath (Phase 22); Pool and Hot tub (Phase 22); Balcony and Doorframe (Phase 22)
   ];
   const MINUTES = [['15', 'About 15 min', [0, 18]], ['20', '20–25 min', [18, 26]], ['30', 'About 30 min', [26, 33]], ['35', '35 min or more', [33, 90]]];
   const GEAR = [['bw', 'No equipment'], ['kb', 'A kettlebell'], ['all', 'Dumbbells & kettlebell']];
