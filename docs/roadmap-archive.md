@@ -388,3 +388,43 @@ Grilled 5 Oct 2026 (Noam); next after Phase 20 ticket 8, before ticket 9. Claude
 105. **Phase 21's new exercises are `added: 12`, so Phase 22 becomes catalogue 13** (6 Oct, technical): own programs
      and random workouts store the newest catalogue, so catalogue 12 must not grow after Phase 21 lands. Where
      decisions 75, 77, 82 and Phase 23 say catalogue 12, read 13.
+
+## Phase 22: catalogue 13 (done, 9 Oct 2026)
+Plan and tickets: [docs/plans/phase-22-catalogue-13.md](plans/phase-22-catalogue-13.md). Grilled 5–6 Oct 2026; built 6–9 Oct (#299–#334): 700 sex exercises, 162 fitness exercises, 144 programs in 12 new After dark subjects; own programs and random workouts at catalogue 13 from ticket 21. The working rules decided during it (128–133)
+are in [its plan](docs/plans/phase-22-catalogue-13.md) and CLAUDE.md.
+
+**The sex exercises** (all `couple`, with poses and the pelvic mark, Phase 20's cue register, 75)
+- **120 · New per kind**: intercourse +91 (planned +96; copies after ~115 positions), toys and hands +36 each, Rough,
+  Kink-lite, Body play, Rimming 36 each. *(replaces 72–73's first counts)*
+- **122 · Oral and anal +30 each**, not +60; shipped oral +23 and anal +22 (124). The freed 60 went to Kink-lite and
+  Body play (66 each).
+- **123 · Eight more kinds, 36 each**: Edging, Massage, Strip and tease, Shower and bath, Pool, Hot tub, Balcony,
+  Doorframe. Totals now: 700 sex exercises, 162 fitness, 144 programs (was 96).
+- **73 · What the four new kinds are**: Rough (spanking, hair-pulling, wrists pinned, held down; **no choking**),
+  Kink-lite (blindfold, ties or cuffs, gag, ice or wax), Body play (titfuck, grinding, thigh-fucking, cumming on her
+  as an act), Rimming.
+- **118 · Rough and Kink-lite mostly during sex** (a position with the act in it); a few stand alone.
+- **74 · She may rim him; nothing goes in him** (no pegging, no fingers or toys). **126 ·** Kink-lite goes both ways:
+  about a quarter is her doing it to him. Both exceptions are in CLAUDE.md and `tests/his-pov.test.js`.
+- **125 · Places count by what the place changes** (what he holds or braces); places include play, not only sex.
+- **124 · Hitting the wall**: Grok's build plus two fix rounds; then it ships what passed, count recorded.
+
+**The programs**
+- **119 · Each new kind is an After dark subject with 12 programs (was 8)**: 4 gym then sex, 4 sex then sex, 4
+  positions only (was 3/3/2), at catalogue 13: 12 subjects, 144 programs (was 96). *(8 Oct)*
+- **117 · The new kinds join the merged pools by role**: Rough and Body play → `sexFuck`, Kink-lite and Rimming →
+  `sexWarm`, all → `sexPositions`; each kind has its own pool too.
+
+**The fitness exercises**
+- **79, 80, 116 · +50% in every fitness category but warm-ups and cool-downs**: 317 → 479, +162, using all his gear.
+- **81 · Existing programs stay as built**; Build your own, random workouts, Variety and Swap pick up the new ones. New
+  fitness programs come in Phase 23.
+
+**Keeping what's built safe**
+- **121 · Own programs and random workouts move to catalogue 13 only in the last ticket.** *(technical)*
+- **105 · Phase 21's exercises took `added: 12`**, so this phase is catalogue 13. **77 ·** Phase 20's tickets 9–15
+  build at catalogue 13 (mixing 10, 11 and 13).
+- **127 · Room to grow**: the page gate is 1 MB gzipped (was 135 → 250 → 350 KB: 61, 76, 95); UI timeouts and
+  command limits raised; cutting the times is #265.
+- **276 · Sonnet experiment**: tickets 16–18 built by Sonnet subagents, Opus planning and supervising (the
+  `sonnet-handoff` skill, Grok's loop). Claude judges; Noam decides if tickets go this way. *(8 Oct)*
