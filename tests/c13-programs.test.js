@@ -36,7 +36,7 @@ const programs = CONFIGS.filter((c) => IDS.includes(c.id)).map((c) => Builder.bu
 const prog = (id) => programs.find((p) => p.id === id);
 const bare = (block) => (block.slots || []).map((s) => s.replace('?', ''));
 const pure = (block, name) => bare(block).length > 0 && bare(block).every((n) => n === name);
-const sexBlocks = (type) => type.blocks.filter((b) => bare(b).some((n) => ['sexPositions', 'sexWarm', 'sexFuck', 'sexRough', 'sexKink'].includes(n)));
+const sexBlocks = (type) => type.blocks.filter((b) => bare(b).some((n) => ['sexPositions', 'sexWarm', 'sexFuck', 'sexRough', 'sexKink', 'sexBody', 'sexRim'].includes(n)));
 const closer = (id) => {
   if (SHAPE[id] === 'gym') return 'Level II adds reps to the partner work. Level III holds every position longer.';
   if (SHAPE[id] === 'positions') return 'Level II and Level III hold every position longer.';
@@ -203,4 +203,207 @@ test('gym and positions abouts say what the other days hold', () => {
     assert.match(about, /blindfold|cuff|gag|ice|wax/i, id);
   });
   ROUGH_SEX.forEach((id) => assert.doesNotMatch(cfgOf(id).about, /two days in three/i, id));
+});
+
+// Phase 22 ticket 20: Body play and Rimming, 12 each. Body play pairs sexBody with sexWarm, like Rough.
+// Rimming pairs sexRim with sexFuck, like Kink-lite. Body sex days are sexWarm, then a sexBody block last.
+const BODY_GYM = ['body-set-then-tits', 'body-sweat-then-grind', 'body-lift-then-thigh', 'body-push-then-cum'];
+const BODY_SEX = ['body-tits-then-hold', 'body-grind-then-hold', 'body-quick-and-slick', 'body-long-on-her'];
+const BODY_POS = ['body-stay-on-tits', 'body-grind-and-stay', 'body-thighs-and-hips', 'body-cum-on-her'];
+const RIM_GYM = ['rim-set-then-tongue', 'rim-sweat-then-ass', 'rim-lift-then-rim', 'rim-grind-then-tongue'];
+const RIM_SEX = ['rim-tongue-then-fuck', 'rim-ass-then-cock', 'rim-quick-lick', 'rim-long-tongue'];
+const RIM_POS = ['rim-stay-and-lick', 'rim-open-and-eat', 'rim-tongue-holds', 'rim-her-tongue'];
+const BODY = [...BODY_GYM, ...BODY_SEX, ...BODY_POS];
+const RIM = [...RIM_GYM, ...RIM_SEX, ...RIM_POS];
+const IDS20 = [...BODY, ...RIM];
+const GYM20 = [...BODY_GYM, ...RIM_GYM];
+const SEX20 = [...BODY_SEX, ...RIM_SEX];
+const POS20 = [...BODY_POS, ...RIM_POS];
+const SHAPE20 = Object.fromEntries([...GYM20.map((id) => [id, 'gym']), ...SEX20.map((id) => [id, 'sex']), ...POS20.map((id) => [id, 'positions'])]);
+const SHORT20 = new Set(['body-quick-and-slick', 'rim-quick-lick']);
+const LONG20 = new Set(['body-long-on-her', 'rim-long-tongue']);
+const programs20 = CONFIGS.filter((c) => IDS20.includes(c.id)).map((c) => Builder.build(c, cat));
+const prog20 = (id) => programs20.find((p) => p.id === id);
+const closer20 = (id) => {
+  if (SHAPE20[id] === 'gym') return 'Level II adds reps to the partner work. Level III holds every position longer.';
+  if (SHAPE20[id] === 'positions') return 'Level II and Level III hold every position longer.';
+  return SHORT20.has(id) ? 'Level II and Level III hold every part a little longer.' : 'Level II and Level III hold every part longer.';
+};
+const olderNames = new Set(CONFIGS.filter((c) => ['Explicit', 'Rough', 'Kink-lite'].includes(c.subject)).flatMap((c) => c.names));
+
+test('Body play and Rimming: 24 programs, for two, catalogue 13, 60 days, out of build your own', () => {
+  assert.deepEqual(programs20.map((p) => p.id), IDS20);
+  assert.equal(CONFIGS.filter((c) => c.subject === 'Body play').length, 12);
+  assert.equal(CONFIGS.filter((c) => c.subject === 'Rimming').length, 12);
+  assert.deepEqual([BODY_GYM.length, BODY_SEX.length, BODY_POS.length], [4, 4, 4]);
+  assert.deepEqual([RIM_GYM.length, RIM_SEX.length, RIM_POS.length], [4, 4, 4]);
+  const mixed = FAMILIES.find(([name]) => name === 'Mixed')[1];
+  const after = SHELVES.find(([name]) => name === 'After dark')[1];
+  assert.deepEqual(mixed.slice(mixed.indexOf('Explicit'), mixed.indexOf('Explicit') + 5), ['Explicit', 'Rough', 'Kink-lite', 'Body play', 'Rimming']);
+  assert.deepEqual(after.slice(after.indexOf('Explicit'), after.indexOf('Explicit') + 5), ['Explicit', 'Rough', 'Kink-lite', 'Body play', 'Rimming']);
+  IDS20.forEach((id) => {
+    const c = cfgOf(id);
+    const p = prog20(id);
+    const [lo, hi] = SHORT20.has(id) ? [22, 30] : LONG20.has(id) ? [46, 54] : [31, 40];
+    assert.equal(c.subject, BODY.includes(id) ? 'Body play' : 'Rimming', id);
+    assert.equal(c.added, 20, id);
+    assert.equal(c.catalogue, 13, id);
+    assert.equal(c.couple, true, id);
+    assert.equal(c.equip, 'bw', id);
+    assert.deepEqual(c.minutes, [lo, hi], id);
+    assert.deepEqual(c.levers, SHAPE20[id] === 'gym' ? [null, 'reps', 'holds'] : [null, 'holds', 'holds'], id);
+    assert.equal(p.days.length, 60, id);
+    assert.deepEqual([1, 20, 21, 40, 41, 60].map((n) => p.days[n - 1].level), [1, 1, 2, 2, 3, 3], id);
+    assert.ok(R.skipped.includes(id), id);
+    assert.equal(c.names.length, 20, id);
+    assert.equal(new Set(c.names).size, 20, id);
+    assert.deepEqual(c.names.filter((n) => olderNames.has(n)), [], id);
+    assert.equal(c.blurb.trim(), c.blurb, id);
+    assert.ok(c.blurb.length > 0 && c.blurb.length <= 140, `${id}: blurb is ${c.blurb.length}`);
+    assert.deepEqual(c.blurb.match(/[.!?]/g), [c.blurb.at(-1)], `${id}: blurb is not one sentence`);
+    assert.equal(c.about.trim(), c.about, id);
+    assert.ok(!/[\r\n]/.test(c.about) && /[.!?]/.test(c.about), `${id}: about`);
+    assert.ok(c.about.endsWith(closer20(id)), `${id}: closer`);
+    const sentences = c.about.split(/(?<=[.!?])\s+/).filter(Boolean);
+    assert.ok(sentences.length >= 4 && sentences.length <= 5, `${id}: ${sentences.length} sentences`);
+    assert.doesNotMatch(`${c.blurb}\n${c.about}`, BANNED, id);
+    assert.doesNotMatch(`${c.blurb}\n${c.about}`, ABSENT, id);
+    assert.doesNotMatch(`${c.blurb}\n${c.about}\n${c.names.join('\n')}\n${c.split}`, /chok/i, id);
+  });
+  assert.deepEqual(R.pick({ subjects: ['Body play'] }), []);
+  assert.deepEqual(R.pick({ subjects: ['Rimming'] }), []);
+});
+
+test('gym and positions cycle warm, warm, lead; Body sex is warm then body every day; Rim sex leads with rim once', () => {
+  BODY_SEX.forEach((id) => {
+    const c = cfgOf(id);
+    const types = Object.values(c.dayTypes);
+    assert.equal(types.length, 2, id);
+    types.forEach((t) => {
+      assert.deepEqual(t.blocks.map((b) => b.title), ['Warm-up', 'Body'], id);
+      assert.ok(pure(t.blocks[0], 'sexWarm'), id);
+      assert.ok(pure(t.blocks[1], 'sexBody'), id);
+    });
+    assert.notEqual(JSON.stringify(types[0].blocks), JSON.stringify(types[1].blocks), id);
+  });
+  RIM_SEX.forEach((id) => {
+    const types = Object.values(cfgOf(id).dayTypes);
+    assert.equal(types.length, 2, id);
+    types.forEach((t) => assert.deepEqual(t.blocks.map((b) => b.title), ['Warm-up', 'Fuck'], id));
+    const lead = types.filter((t) => pure(t.blocks[0], 'sexRim'));
+    assert.equal(lead.length, 1, id);
+    assert.ok(pure(lead[0].blocks[1], 'sexFuck'), id);
+    const rest = types.filter((t) => t !== lead[0]);
+    assert.ok(rest[0].blocks.every((b) => pure(b, 'sexFuck')), id);
+  });
+  [...GYM20, ...POS20].forEach((id) => {
+    const c = cfgOf(id);
+    const own = c.subject === 'Body play' ? 'sexBody' : 'sexRim';
+    const cover = c.subject === 'Body play' ? 'sexWarm' : 'sexFuck';
+    assert.deepEqual([c.cycle[0], c.cycle[1] === c.cycle[0], c.cycle[2] !== c.cycle[0]], [c.cycle[0], true, true], id);
+    const warm = c.dayTypes[c.cycle[0]];
+    const lead = c.dayTypes[c.cycle[2]];
+    const warmSex = sexBlocks(warm);
+    const leadSex = sexBlocks(lead);
+    assert.ok(warmSex.every((b) => pure(b, cover)), `${id}: warm`);
+    assert.ok(pure(leadSex[0], own), `${id}: lead`);
+    if (POS20.includes(id) && c.subject === 'Rimming') {
+      assert.equal(warmSex.length, 1, id);
+      assert.equal(leadSex.length, 2, id);
+      assert.ok(pure(leadSex[1], 'sexFuck'), id);
+    } else {
+      assert.equal(warmSex.length, 1, id);
+      assert.equal(leadSex.length, 1, id);
+    }
+    if (SHAPE20[id] === 'gym') {
+      assert.equal(warm.blocks.length, 2, id);
+      assert.equal(lead.blocks.length, 2, id);
+      assert.equal(warm.blocks[1].title, 'Positions', id);
+      assert.equal(lead.blocks[1].title, 'Positions', id);
+    }
+  });
+});
+
+test('every day is its shape, the lead day draws the subject, and a Body play program stays inside the sexWarm window', () => {
+  const warmIds = new Set(mergedAt(13).sexWarm);
+  IDS20.forEach((id) => {
+    const c = cfgOf(id);
+    const sub = c.subject === 'Body play' ? 'body' : 'rim';
+    const leadType = SHAPE20[id] === 'sex' && c.subject === 'Body play'
+      ? null
+      : (SHAPE20[id] === 'sex' ? Object.entries(c.dayTypes).find(([, t]) => pure(t.blocks[0], 'sexRim'))[0] : c.cycle[2]);
+    let warmDraws = 0;
+    prog20(id).days.forEach((d) => {
+      const m = mains(d);
+      const where = `${id} d${d.day}`;
+      assert.ok(m.every((b) => TAGS.includes(b.family)), `${where}: untagged`);
+      assert.ok(!d.blocks.some((b) => b.kind === 'abs'), `${where}: abs`);
+      m.forEach((b) => {
+        const ids = b.items.map((it) => it.ex);
+        assert.equal(new Set(ids).size, ids.length, `${where} ${b.title}`);
+        assert.ok(ids.every((ex) => EX[ex].cat === 'couple'), `${where}: a solo exercise`);
+        ids.forEach((ex) => { if (warmIds.has(ex)) warmDraws += 1; });
+      });
+      const drawn = m.some((b) => b.items.some((it) => EX[it.ex].sub === sub));
+      if (leadType === null || d.type === leadType) assert.ok(drawn, `${where}: no ${sub}`);
+      assert.ok(d.est >= c.minutes[0] && d.est <= c.minutes[1], `${where}: ${d.est} min, band ${c.minutes[0]}–${c.minutes[1]}`);
+      if (SHAPE20[id] === 'gym') {
+        assert.equal(m.length, 2, where);
+        assert.equal(m[1].title, 'Positions', where);
+        assert.equal(m[1].format, 'flow', where);
+        assert.ok(m[0].items.every((it) => EX[it.ex].added === 10 && !inPool('explicit', it.ex) && !inPool('positions', it.ex)), `${where}: gym block`);
+      } else if (SHAPE20[id] === 'sex') {
+        assert.equal(m.length, 2, where);
+        assert.equal(m[0].title, 'Warm-up', where);
+        assert.equal(m[1].title, c.subject === 'Body play' ? 'Body' : 'Fuck', where);
+      } else {
+        const blocks = c.subject === 'Rimming' && d.type === 'lead' ? 2 : 1;
+        assert.equal(m.length, blocks, where);
+        m.forEach((b) => {
+          assert.equal(b.title, 'Positions', where);
+          assert.equal(b.format, 'flow', where);
+        });
+      }
+    });
+    if (c.subject === 'Body play') assert.ok(warmDraws >= 277 && warmDraws <= 450, `${id}: ${warmDraws} sexWarm draws`);
+  });
+});
+
+test('Body play and Rimming: two families a day, except a day marked oneFamily', () => {
+  const marked = [];
+  IDS20.forEach((id) => Object.entries(cfgOf(id).dayTypes).forEach(([k, t]) => { if (t.oneFamily) marked.push(`${id}:${k}`); }));
+  const expect = POS20.flatMap((id) => Object.keys(cfgOf(id).dayTypes).map((k) => `${id}:${k}`));
+  assert.deepEqual(marked.sort(), expect.sort());
+  IDS20.forEach((id) => {
+    const cfg = cfgOf(id);
+    prog20(id).days.forEach((d) => {
+      const n = new Set(mains(d).map((b) => b.family)).size;
+      if (cfg.dayTypes[d.type].oneFamily) assert.equal(n, 1, `${id} d${d.day}: positions-only is one family`);
+      else assert.ok(n >= 2, `${id} d${d.day}: two families`);
+      assert.equal(!!cfg.dayTypes[d.type].oneFamily, SHAPE20[id] === 'positions', `${id} d${d.day}: mark`);
+    });
+  });
+});
+
+test('Body play and Rimming abouts say what the other days hold, and her rim places him', () => {
+  [...BODY_GYM, ...BODY_POS].forEach((id) => {
+    const about = cfgOf(id).about;
+    assert.match(about, /two days in three/i, id);
+    assert.match(about, /mouth/i, id);
+    assert.match(about, /tit|grind|thigh|cum/i, id);
+  });
+  [...RIM_GYM, ...RIM_POS].forEach((id) => {
+    const about = cfgOf(id).about;
+    assert.match(about, /two days in three/i, id);
+    assert.match(about, /fuck/i, id);
+    assert.match(about, /tongue|asshole/i, id);
+  });
+  [...BODY_SEX, ...RIM_SEX].forEach((id) => assert.doesNotMatch(cfgOf(id).about, /two days in three/i, id));
+  RIM.forEach((id) => {
+    const c = cfgOf(id);
+    assert.match(c.about, /standing tall|lying flat on your back/, id);
+    assert.match(c.about, /your asshole/, id);
+    assert.doesNotMatch(`${c.blurb}\n${c.about}\n${c.names.join('\n')}\n${c.split}`, /all fours|bent over|ass up/i, id);
+  });
+  assert.match(cfgOf('rim-her-tongue').blurb, /standing tall|lying flat on your back/);
 });

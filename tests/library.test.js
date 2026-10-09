@@ -139,9 +139,9 @@ test('the core programs opt in to the new catalogue (catalogue: 5): their abs fi
   assert.ok(optIn.some((p) => p.days.some((d) => d.blocks.at(-1).items.some((it) => fresh.has(it.ex)))));
 });
 
-test('the library: 616 programs in 56 subjects', () => {
-  assert.equal(programs.length, 616);
-  assert.equal(new Set(programs.map((p) => p.subject)).size, 56);
+test('the library: 640 programs in 58 subjects', () => {
+  assert.equal(programs.length, 640);
+  assert.equal(new Set(programs.map((p) => p.subject)).size, 58);
 });
 
 test('the Signature shelf has 15 programs: each original, then its Tempo and Harder moves variations', () => {

@@ -33,10 +33,14 @@ const C13 = { ...EXPLICIT, catalogue: 13 };
 const gymThenSex = (label, short, work, positions, flow) => ({ label, short, absSlots: [], blocks: [work, F('Positions', positions, { ...POS, ...flow })] });
 // warm-up from sexWarm, then intercourse from sexFuck
 const sexThenSex = (label, short, warmup, fuck, warm, intercourse) => ({ label, short, absSlots: [], blocks: [F('Warm-up', warmup, { ...TEASE, ...warm }), F('Fuck', fuck, { ...POS, ...intercourse })] });
-// Rough sex-then-sex: her mouth and your hands first, the rough block last. Same families as sexThenSex.
-const warmThenRough = (label, short, warmup, rough, warm, climax) => ({ label, short, absSlots: [], blocks: [F('Warm-up', warmup, { ...TEASE, ...warm }), F('Rough', rough, { ...POS, ...climax })] });
+// Sex then the subject's own pool (Rough, Body play): her mouth and your hands first, the lead block last.
+const warmThenLead = (label, short, warmup, lead, warm, climax, title) => ({ label, short, absSlots: [], blocks: [F('Warm-up', warmup, { ...TEASE, ...warm }), F(title, lead, { ...POS, ...climax })] });
 // one positions flow from sexPositions. One family. oneFamily marks it so the two-families test skips it, and only it.
 const positionsOnly = (label, short, positions, flow) => ({ label, short, absSlots: [], oneFamily: true, blocks: [F('Positions', positions, { ...POS, ...flow })] });
+// Ticket 20 rim positions: warm is one sexFuck flow at three passes, and the lead day adds a fuck flow beside the rim
+// flow, so the sexFuck pool still comes up and a shorter day can land near 20 minutes.
+const flowBlock = (pool, keep, drop, pref, values) => F('Positions', poses(pool, keep, drop), { ...POS, pref, ...(values ? { values } : {}) });
+const flowDay = (label, short, blocks) => ({ label, short, absSlots: [], oneFamily: true, blocks });
 const poses = (pool, keep, drop) => [...Array(keep).fill(pool), ...Array(drop).fill(pool + '?')];
 const GYM_WORK = ['partnerLower', 'partnerUpper', 'partnerCore', 'partnerHold?'];
 const GYM_THREE = ['partnerLower', 'partnerUpper', 'partnerCore'];
@@ -1190,8 +1194,8 @@ module.exports = [
     names: ['Spank Then the Fuck', 'Ass Then the Cock', 'Thigh Slap Deep', 'Palm and Thrust', 'Cheek Then Grind', 'Spank and Stay In', 'Red Then Deep', 'Slap Her Thigh', 'In Her and Slap', 'Both Cheeks Red', 'Spank the Rough', 'Warm Then Palm', 'Mouth Then Slap', 'Fuck and Spank', 'Deep After Red', 'Her Thigh Hot', 'Palm While Buried', 'Spank the Grind', 'Hold the Slap', 'Last Spank of Her'],
     cycle: ['open', 'mean'],
     dayTypes: {
-      open: warmThenRough('Mouth, then spank', 'Mouth', poses('sexWarm', 5, 2), poses('sexRough', 4, 2), { pref: 2 }, { pref: 2 }),
-      mean: warmThenRough('Mouth, then meaner', 'Mean', poses('sexWarm', 5, 2), poses('sexRough', 5, 2), { pref: 1 }, { pref: 2 }),
+      open: warmThenLead('Mouth, then spank', 'Mouth', poses('sexWarm', 5, 2), poses('sexRough', 4, 2), { pref: 2 }, { pref: 2 }, 'Rough'),
+      mean: warmThenLead('Mouth, then meaner', 'Mean', poses('sexWarm', 5, 2), poses('sexRough', 5, 2), { pref: 1 }, { pref: 2 }, 'Rough'),
     },
   },
   {
@@ -1202,8 +1206,8 @@ module.exports = [
     names: ['Pin Then the Thrust', 'Wrists Then Cock', 'Pinned and Buried', 'Both Wrists In', 'Grind While Pinned', 'Arms Above Her', 'Pin Then Deep', 'Held Open Pinned', 'Wrist and Thrust', 'Stay Pinned In', 'Slow Pin Fuck', 'Her Arms Down', 'Pin the Base', 'Thrust Under Pin', 'Deep Wrist Hold', 'Pinned From Behind', 'Two Hands One Pin', 'She Takes the Pin', 'Long Pinned Grind', 'Last Thrust Pin'],
     cycle: ['open', 'mean'],
     dayTypes: {
-      open: warmThenRough('Mouth, then pin', 'Mouth', poses('sexWarm', 5, 2), poses('sexRough', 4, 2), { pref: 2 }, { pref: 2 }),
-      mean: warmThenRough('Mouth, then pinned', 'Pin', poses('sexWarm', 5, 2), poses('sexRough', 5, 2), { pref: 1 }, { pref: 2 }),
+      open: warmThenLead('Mouth, then pin', 'Mouth', poses('sexWarm', 5, 2), poses('sexRough', 4, 2), { pref: 2 }, { pref: 2 }, 'Rough'),
+      mean: warmThenLead('Mouth, then pinned', 'Pin', poses('sexWarm', 5, 2), poses('sexRough', 5, 2), { pref: 1 }, { pref: 2 }, 'Rough'),
     },
   },
   {
@@ -1214,8 +1218,8 @@ module.exports = [
     names: ['Quick and the Mean', 'Short Slap', 'Fast Fist', 'Brief and Rough', 'Slap Before Cool', 'Short Pin Mean', 'Mean and Brief', 'Hair and Quick', 'Fast Then Deep', 'Short Mean Fuck', 'Short Palm', 'Quick Thigh Slap', 'Warm and Mean', 'Brief Spank', 'Fast Behind Her', 'Short and Hard', 'Slap and Done', 'Quick Wrist Pin', 'Mean Minute', 'Last Quick Slap'],
     cycle: ['open', 'mean'],
     dayTypes: {
-      open: warmThenRough('Short mouth, then slap', 'Mouth', poses('sexWarm', 5, 2), poses('sexRough', 4, 2), { values: [1, 2], pref: 1 }, { values: [1, 2], pref: 1 }),
-      mean: warmThenRough('Shorter mouth, then mean', 'Mean', poses('sexWarm', 5, 1), poses('sexRough', 4, 2), { values: [1, 2], pref: 1 }, { values: [1, 2], pref: 1 }),
+      open: warmThenLead('Short mouth, then slap', 'Mouth', poses('sexWarm', 5, 2), poses('sexRough', 4, 2), { values: [1, 2], pref: 1 }, { values: [1, 2], pref: 1 }, 'Rough'),
+      mean: warmThenLead('Shorter mouth, then mean', 'Mean', poses('sexWarm', 5, 1), poses('sexRough', 4, 2), { values: [1, 2], pref: 1 }, { values: [1, 2], pref: 1 }, 'Rough'),
     },
   },
   {
@@ -1226,8 +1230,8 @@ module.exports = [
     names: ['Long Hold Down', 'Afternoon Pin', 'Slow Spank Long', 'Hours on Her', 'Long Fist Hold', 'Unhurried Slap', 'Held All Afternoon', 'Deep Mean Hour', 'Palm for Hours', 'Long Over the Lap', 'Stay and the Spank', 'Long Mean Fuck', 'Long Thigh Slap', 'Afternoon Hair', 'Held Without Rush', 'Slow Red Afternoon', 'Long Flat Hold', 'Spank the Hour', 'Deep and Long Mean', 'Last Long Hold'],
     cycle: ['open', 'mean'],
     dayTypes: {
-      open: warmThenRough('Long mouth, then hold', 'Mouth', poses('sexWarm', 5, 2), poses('sexRough', 8, 2), { pref: 3 }, { pref: 3 }),
-      mean: warmThenRough('Longer hold-down', 'Hold', poses('sexWarm', 5, 2), poses('sexRough', 8, 3), { pref: 3 }, { pref: 3 }),
+      open: warmThenLead('Long mouth, then hold', 'Mouth', poses('sexWarm', 5, 2), poses('sexRough', 8, 2), { pref: 3 }, { pref: 3 }, 'Rough'),
+      mean: warmThenLead('Longer hold-down', 'Hold', poses('sexWarm', 5, 2), poses('sexRough', 8, 3), { pref: 3 }, { pref: 3 }, 'Rough'),
     },
   },
   {
@@ -1421,6 +1425,296 @@ module.exports = [
     dayTypes: {
       warm: positionsOnly('Fuck her', 'Fuck', poses('sexFuck', 12, 6), { pref: 1 }),
       lead: positionsOnly('Ice and wax', 'Wax', poses('sexKink', 8, 4), { pref: 2 }),
+    },
+  },
+  // ---- Body play (Phase 22 ticket 20): 4 gym, 4 sex, 4 positions. Catalogue 13. Sex days are warm, then body. ----
+  {
+    id: 'body-set-then-tits', ...C13, name: 'Set Then Tits', subject: 'Body play', minutes: [31, 40], levers: [null, 'reps', 'holds'],
+    split: 'Partner circuit, then her tits every third day',
+    blurb: 'You train with her first, then you fuck her oiled tits and watch your cock slide in that squeeze.',
+    about: 'You train with her first, a short partner circuit on two days and a longer one on the third. Two days in three you finish on her mouth, your hands and your tongue, with a tease and a massage. On the third your cock fucks her tits, grinds along her wet pussy, slides between her closed thighs, or you paint your cum on her skin. Level II adds reps to the partner work. Level III holds every position longer.',
+    names: ['Cleavage After Sets', 'Oil Between Her Tits', 'Cock in the Cleavage', 'She Squeezes the Shaft', 'Astride Her Ribs', 'Watch Her Tits Hug', 'Third Day Cleavage', 'Slick Tit Slide', 'Hands on Her Shoulders', 'Tits After Circuit', 'Mouth Day Cleavage', 'Massage Day Cleavage', 'Kneeling Titfuck', 'Side-On Her Tits', 'Her Cleavage Holds', 'Slide and Watch It', 'Oil on Both Tits', 'The Third Squeeze', 'Circuit Then Cleavage', 'Last Cleavage Hold'],
+    cycle: ['warm', 'warm', 'lead'],
+    dayTypes: {
+      warm: gymThenSex('Mouth and hands', 'Warm', C('Partner circuit', ROUGH_THREE, { ...LIFT, values: [2, 3, 4, 5, 6] }), poses('sexWarm', 8, 2), { pref: 1 }),
+      lead: gymThenSex('Fuck her tits', 'Tits', C('Partner circuit', ROUGH_WORK, { ...LIFT, values: [2, 3, 4, 5, 6] }), poses('sexBody', 4, 2), { pref: 2 }),
+    },
+  },
+  {
+    id: 'body-sweat-then-grind', ...C13, name: 'Sweat Then Grind', subject: 'Body play', minutes: [31, 40], levers: [null, 'reps', 'holds'],
+    split: 'Sweat first, then grinding every third day',
+    blurb: 'You get the sweat on with her, then you grind your cock along her wet pussy and feel her clit drag it.',
+    about: 'You get the sweat on beside her before anyone is naked. Two days in three the rest is her mouth, your hands and tongue, teasing and a massage. On the third you grind your cock along her wet pussy, fuck her tits, or slide between her thighs, and you paint your cum on her skin. Level II adds reps to the partner work. Level III holds every position longer.',
+    names: ['Sweat Then the Grind', 'Clit on the Shaft', 'Grind Along Her Cunt', 'Wet Pussy Drag', 'Mound on Your Cock', 'Sweaty Grind Hold', 'Third Day Grind', 'Mouth Day Grind', 'Massage Day Grind', 'Slide on Her Slit', 'Clit Drags the Top', 'Grind After Sweat', 'Her Cunt on the Shaft', 'Stay on the Grind', 'Slick Along Her', 'Grind the Third', 'Pussy Gloss on You', 'After the Sweat Grind', 'Hot Grind Hold', 'Last Grind of Her'],
+    cycle: ['warm', 'warm', 'lead'],
+    dayTypes: {
+      warm: gymThenSex('Mouth and hands', 'Warm', C('Partner circuit', ROUGH_THREE, { ...LIFT, values: [2, 3, 4, 5, 6] }), poses('sexWarm', 8, 2), { pref: 1 }),
+      lead: gymThenSex('Grind on her', 'Grind', C('Partner circuit', ROUGH_STRONG, { ...LIFT, values: [2, 3, 4, 5, 6] }), poses('sexBody', 4, 2), { pref: 2 }),
+    },
+  },
+  {
+    id: 'body-lift-then-thigh', ...C13, name: 'Lift Then Thigh', subject: 'Body play', minutes: [31, 40], levers: [null, 'reps', 'holds'],
+    split: 'Carries beside her, then her thighs',
+    blurb: 'You squat and carry beside her, then you fuck her closed thighs and feel them squeeze your cock.',
+    about: 'You squat and carry beside her, her weight in your arms, and then the day splits. Two days in three you go to her mouth, your hands and tongue, a tease and a massage. On the third you fuck her closed thighs, grind along her wet pussy, or slide your cock between her tits, and you paint your cum on her ass. Level II adds reps to the partner work. Level III holds every position longer.',
+    names: ['Lift Then Her Thighs', 'Closed Thigh Squeeze', 'Cock Between Thighs', 'Carry Then Thighs', 'Oil in the Gap', 'Thigh Hug on Shaft', 'Third Day Thighs', 'Mouth Day Thighs', 'Massage Day Thighs', 'Slide Under Her Pussy', 'Thighs Pressed Shut', 'After the Carry Slide', 'Her Thighs Hot', 'Fuck the Closed Gap', 'Squeeze and Watch', 'Thighs From Behind', 'Deep Thigh Slide', 'Held by Her Thighs', 'Last Thigh Fuck', 'Thighs the Whole Way'],
+    cycle: ['warm', 'warm', 'lead'],
+    dayTypes: {
+      warm: gymThenSex('Mouth and hands', 'Warm', C('Partner circuit', ROUGH_THREE, { ...LIFT, values: [2, 3, 4, 5, 6] }), poses('sexWarm', 8, 2), { pref: 1 }),
+      lead: gymThenSex('Fuck her thighs', 'Thigh', C('Partner circuit', ROUGH_LIFT, { ...LIFT, values: [2, 3, 4, 5, 6] }), poses('sexBody', 4, 2), { pref: 2 }),
+    },
+  },
+  {
+    id: 'body-push-then-cum', ...C13, name: 'Push Then Cum', subject: 'Body play', minutes: [31, 40], levers: [null, 'reps', 'holds'],
+    split: 'Partner pushes, then your cum on her',
+    blurb: 'Partner pushes first, then you stroke your cock and paint your cum across her tits and her ass.',
+    about: 'Partner pushes start you close, already hard against her. Two days in three you finish with her mouth, your hands and tongue, teasing and massage. On the third you stroke your cock and paint your cum on her tits, her ass and her belly, or you fuck her tits and her thighs. Level II adds reps to the partner work. Level III holds every position longer.',
+    names: ['Push Then the Cum', 'Paint Her Tits', 'Stripe Across Her Ass', 'Cum on Her Belly', 'Stroke and Paint', 'Load on Her Skin', 'Third Day Cum', 'Mouth Day Cum', 'Massage Day Cum', 'Watch It Stripe', 'Cum on Her Hip', 'After the Push Paint', 'Thick on Both Tits', 'Cum Along Her Back', 'Paint Her Mound', 'Stroke for the Stripe', 'Her Skin Marked', 'Cum and Watch', 'Push Then Paint', 'Last Stripe on Her'],
+    cycle: ['warm', 'warm', 'lead'],
+    dayTypes: {
+      warm: gymThenSex('Mouth and hands', 'Warm', C('Partner circuit', ROUGH_THREE, { ...LIFT, values: [2, 3, 4, 5, 6] }), poses('sexWarm', 8, 2), { pref: 1 }),
+      lead: gymThenSex('Cum on her skin', 'Cum', C('Partner circuit', ROUGH_PUSH, { ...LIFT, values: [2, 3, 4, 5, 6] }), poses('sexBody', 4, 2), { pref: 2 }),
+    },
+  },
+  {
+    id: 'body-tits-then-hold', ...C13, name: 'Tits Then Hold', subject: 'Body play', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'Her mouth first, then you fuck her tits',
+    blurb: 'Her mouth and your hands first, then you fuck her tits and hold your cock in that slick squeeze.',
+    about: 'Every day starts with her mouth, your hands and your tongue, a tease and a massage while you are both down to skin. Then you fuck her tits and hold your cock in that slick squeeze, and you grind her wet pussy when the hold changes. One day runs longer in the warm-up, the other on her tits. Level II and Level III hold every part longer.',
+    names: ['Tits Then the Hold', 'Mouth Then Cleavage', 'Slick Squeeze Hold', 'Cock Between Tits', 'Hold in Her Cleavage', 'Oil and the Shaft', 'Warm Then Tits', 'Longer on Her Tits', 'Squeeze and Stay', 'Watch the Slide', 'Tits Hug the Cock', 'Hands Then Tits', 'Tongue Then Tits', 'Cleavage Hold Deep', 'Both Tits Around', 'Stay in the Squeeze', 'Grind After Tits', 'Titfuck the Hold', 'Slick and Held', 'Last Tit Hold'],
+    cycle: ['open', 'mean'],
+    dayTypes: {
+      open: warmThenLead('Mouth, then tits', 'Mouth', poses('sexWarm', 5, 2), poses('sexBody', 4, 2), { pref: 2 }, { pref: 2 }, 'Body'),
+      mean: warmThenLead('Mouth, then more', 'Tits', poses('sexWarm', 5, 2), poses('sexBody', 5, 2), { pref: 1 }, { pref: 2 }, 'Body'),
+    },
+  },
+  {
+    id: 'body-grind-then-hold', ...C13, name: 'Grind Then Hold', subject: 'Body play', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'Her mouth first, then you grind her',
+    blurb: 'Her mouth and your tongue first, then you grind your cock along her wet cunt and stay on her clit.',
+    about: 'You open on her mouth and with your hands, tongue on her clit, a slow tease and a rub. Then you grind your cock along her wet cunt and stay on her clit, and you fuck her tits when that hold comes. The two days change how long each part is held, and both end with you grinding her. Level II and Level III hold every part longer.',
+    names: ['Grind Then the Hold', 'Tongue Then Grind', 'Clit Under the Shaft', 'Stay on Her Cunt', 'Wet Grind Hold', 'Mouth Then the Grind', 'Along Her Slit', 'Grind and Stay On', 'Her Clit Drags', 'Hold the Grind', 'Cunt Gloss Hold', 'Hands Then Grind', 'Longer Grind Day', 'Pussy Along the Cock', 'Grind Until It Ends', 'Slick Clit Hold', 'Tits After Grind', 'Open Then Grind', 'Both Days Grinding', 'Last Grind Hold'],
+    cycle: ['open', 'mean'],
+    dayTypes: {
+      open: warmThenLead('Mouth, then grind', 'Mouth', poses('sexWarm', 5, 2), poses('sexBody', 4, 2), { pref: 2 }, { pref: 2 }, 'Body'),
+      mean: warmThenLead('Mouth, then grinding', 'Grind', poses('sexWarm', 5, 2), poses('sexBody', 5, 2), { pref: 1 }, { pref: 2 }, 'Body'),
+    },
+  },
+  {
+    id: 'body-quick-and-slick', ...C13, name: 'Quick and Slick', subject: 'Body play', minutes: [22, 30], levers: [null, 'holds', 'holds'],
+    split: 'A short mouth, then a short slide on her',
+    blurb: 'A short one: her mouth first, then your cock between her tits and her thighs before either of you cools off.',
+    about: 'A short one, still with her mouth and your hands first, tongue and a tease before you get your cock on her. Then your cock goes between her tits and her thighs before either of you cools off. One day is shorter on the warm-up, the other on the slide. Level II and Level III hold every part a little longer.',
+    names: ['Quick and the Slick', 'Short Tit Slide', 'Fast Thigh Gap', 'Brief Cleavage', 'Slide Before Cool', 'Short Mouth Slick', 'Quick Between Tits', 'Fast on Her Thighs', 'Brief and Slick', 'Short Cock Slide', 'Warm Then Slide', 'Quick Oil Slide', 'Slick and Done', 'Short Grind Slide', 'Fast Cleavage', 'Slide While Warm', 'Quick Thigh Fuck', 'Short Slick Hold', 'Slide and Finish', 'Last Quick Slick'],
+    cycle: ['open', 'mean'],
+    dayTypes: {
+      open: warmThenLead('Short mouth, then tits', 'Mouth', poses('sexWarm', 5, 2), poses('sexBody', 4, 2), { values: [1, 2], pref: 1 }, { values: [1, 2], pref: 1 }, 'Body'),
+      mean: warmThenLead('Shorter mouth, then slide', 'Slide', poses('sexWarm', 5, 1), poses('sexBody', 4, 2), { values: [1, 2], pref: 1 }, { values: [1, 2], pref: 1 }, 'Body'),
+    },
+  },
+  {
+    id: 'body-long-on-her', ...C13, name: 'Long on Her', subject: 'Body play', minutes: [46, 54], levers: [null, 'holds', 'holds'],
+    split: 'A long mouth, then a long slide on her',
+    blurb: 'A long afternoon of her mouth, then your cock between her tits and her thighs, and your cum on her skin.',
+    about: 'This one takes the afternoon, and it still starts with her mouth, your hands and tongue, a tease and a long massage. Then your cock stays between her tits and her thighs, and you paint your cum on her skin. One day lingers on the warm-up and the other on those holds. Level II and Level III hold every part longer.',
+    names: ['Long on Her Skin', 'Afternoon Cleavage', 'Hours Between Thighs', 'Slow Cum on Skin', 'Long Tit Squeeze', 'Unhurried Slide', 'Paint the Afternoon', 'Long Mouth Then Tits', 'Thighs for Hours', 'Cum Across the Hour', 'Stay on Her Long', 'Long Slick Hold', 'Afternoon Grind', 'Skin for the Hour', 'Long Oil Slide', 'Tits the Long Way', 'Cum on the Long Day', 'Hold Her All Day', 'Deep Long Slide', 'Last Long on Her'],
+    cycle: ['open', 'mean'],
+    dayTypes: {
+      open: warmThenLead('Long mouth, then tits', 'Mouth', poses('sexWarm', 4, 1), poses('sexBody', 4, 2), { pref: 5, values: [1, 2, 3, 4, 5] }, { pref: 5, values: [1, 2, 3, 4, 5] }, 'Body'),
+      mean: warmThenLead('Longer on her skin', 'Skin', poses('sexWarm', 3, 2), poses('sexBody', 4, 2), { pref: 5, values: [1, 2, 3, 4, 5] }, { pref: 5, values: [1, 2, 3, 4, 5] }, 'Body'),
+    },
+  },
+  {
+    id: 'body-stay-on-tits', ...C13, name: 'Stay on Tits', subject: 'Body play', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'Massage two days, her tits on the third',
+    blurb: 'You stay on her tits with your cock squeezed between them, one long hold after another.',
+    about: 'Two days in three you stay on her mouth, your hands and tongue, teasing and massage, hold after hold. On the third you stay on her tits, cock squeezed between them, and you grind her pussy or fuck her thighs when the hold asks for it. You watch your cock the whole way. Level II and Level III hold every position longer.',
+    names: ['Stay on Her Tits', 'Cleavage Hold After', 'Squeezed the Whole Way', 'Third Day on Tits', 'Mouth Hold Tits', 'Massage Hold Tits', 'Cock Kept in Tits', 'Watch Between Them', 'Oil Hold on Tits', 'Stay for the Squeeze', 'Tits Into the Next', 'Grind on That Hold', 'Thighs on Third', 'Long Cleavage Stay', 'Both Days on Mouth', 'Tit Stay Through', 'Slick Stay Hold', 'Her Tits the Third', 'Hold and Watch Tits', 'Last Stay on Tits'],
+    cycle: ['warm', 'warm', 'lead'],
+    dayTypes: {
+      warm: positionsOnly('Mouth, hands, massage', 'Warm', poses('sexWarm', 8, 4), { pref: 2 }),
+      lead: positionsOnly('Tits and grind', 'Tits', poses('sexBody', 8, 7), { pref: 2 }),
+    },
+  },
+  {
+    id: 'body-grind-and-stay', ...C13, name: 'Grind and Stay', subject: 'Body play', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'Hands and tongue, grinding on the third',
+    blurb: 'You grind your cock along her wet pussy and stay on her clit, hold after hold, without pulling away.',
+    about: 'Two days in three are her mouth, your hands and tongue, a tease and a massage, one hold into the next. On the third you grind your cock along her wet pussy and stay on her clit, and you fuck her tits when that hold wants it. You stay against her from one hold to the next. Level II and Level III hold every position longer.',
+    names: ['Grind Stay on Her', 'Clit Stay Hold', 'Along Her the Hold', 'Third Day on Clit', 'Mouth Hold Grind', 'Hands Day Grind', 'Stay Against Her Cunt', 'Pussy Stay Through', 'Grind the Next Hold', 'Wet Stay on Shaft', 'Tits on That Grind', 'Hold Without Leaving', 'Clit Through It', 'Stay and the Grind', 'Slick Clit Stay', 'Her Cunt the Third', 'Grind Hold to Hold', 'Pressed Along Her', 'Last Grind Stay', 'Stay on the Clit'],
+    cycle: ['warm', 'warm', 'lead'],
+    dayTypes: {
+      warm: positionsOnly('Mouth, hands, massage', 'Warm', poses('sexWarm', 8, 4), { pref: 2 }),
+      lead: positionsOnly('Grind and stay', 'Grind', poses('sexBody', 8, 4), { pref: 2 }),
+    },
+  },
+  {
+    id: 'body-thighs-and-hips', ...C13, name: 'Thighs and Hips', subject: 'Body play', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'Tease and massage, her thighs on the third',
+    blurb: 'Your cock slides between her closed thighs, her ass in your hands, one hold after another.',
+    about: 'Two days in three you use your mouth, your hands and your tongue, with teasing and massage between the holds. On the third your cock slides between her closed thighs, her ass in your hands, and you grind her pussy when the hold is that kind. You keep your hands on her hips the whole run. Level II and Level III hold every position longer.',
+    names: ['Thighs and Her Hips', 'Closed Gap Hold', 'Ass in Your Hands', 'Hips Through the Slide', 'Third Day Thigh Gap', 'Mouth Then the Gap', 'Massage Then Thighs', 'Slide and Her Ass', 'Hands on Her Hips', 'Thigh Hold to Hold', 'Grind on the Gap', 'Her Ass the Hold', 'Oil Gap Hold', 'Hips Yours the Run', 'Behind Her Thighs', 'Stay in the Gap', 'Thighs the Third', 'Squeeze Her Hips', 'Long Thigh Hold', 'Last Hip Slide'],
+    cycle: ['warm', 'warm', 'lead'],
+    dayTypes: {
+      warm: positionsOnly('Mouth, hands, massage', 'Warm', poses('sexWarm', 8, 4), { pref: 2 }),
+      lead: positionsOnly('Thighs and ass', 'Thigh', poses('sexBody', 8, 3), { pref: 2 }),
+    },
+  },
+  {
+    id: 'body-cum-on-her', ...C13, name: 'Cum on Her', subject: 'Body play', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'Her mouth two days, your cum on the third',
+    blurb: 'You stroke your cock and paint your cum on her tits, her ass and her belly, and you watch it stripe her.',
+    about: 'Two days in three you are on her mouth, hands and tongue working, a tease and a massage. On the third you stroke your cock and paint your cum on her tits, her ass and her belly, and you watch it stripe her skin. Fucking her tits and her thighs sits in the same run. Level II and Level III hold every position longer.',
+    names: ['Cum on Her Skin', 'Paint the Tits Hold', 'Stripe Her Ass Hold', 'Belly Takes the Cum', 'Watch the Stripe', 'Third Day Paint', 'Mouth Then the Cum', 'Massage Then Paint', 'Stroke and the Hold', 'Cum Across Tits', 'Ass Cheek Striped', 'Load on Her Belly', 'Tits in That Run', 'Thighs in That Run', 'Paint Hold to Hold', 'Her Skin the Third', 'Thick Stripe Hold', 'Cum and Her Tits', 'Stay for the Paint', 'Last Paint Hold'],
+    cycle: ['warm', 'warm', 'lead'],
+    dayTypes: {
+      warm: positionsOnly('Mouth, hands, massage', 'Warm', poses('sexWarm', 8, 3), { pref: 2 }),
+      lead: positionsOnly('Cum on her', 'Cum', poses('sexBody', 8, 4), { pref: 2 }),
+    },
+  },
+  // ---- Rimming (Phase 22 ticket 20): 4 gym, 4 sex, 4 positions. Lead day is the rimming; the other days are fucking. ----
+  {
+    id: 'rim-set-then-tongue', ...C13, name: 'Set Then Tongue', subject: 'Rimming', minutes: [31, 40], levers: [null, 'reps', 'holds'],
+    split: 'Partner work, your tongue every third day',
+    blurb: 'You train with her first, then you spread her cheeks and lick her asshole slow and wide.',
+    about: 'You train beside her first, squats and pushes, and then the day splits. Two days in three you finish by fucking her, cock in her pussy, one hold after another. On the third you spread her cheeks and lick her asshole, and on one hold you are lying flat on your back while she puts her tongue on your asshole and strokes your cock. Level II adds reps to the partner work. Level III holds every position longer.',
+    names: ['Tongue After the Set', 'Cheeks Spread Wide', 'Lick Her Slow', 'Flat Tongue on Her', 'Third Day Tongue', 'Fuck Day After Work', 'Fuck Day at Her Side', 'Asshole After Reps', 'Wide Slow Lick', 'She Licks You Flat', 'Back Flat Her Tongue', 'Set Then Her Ass', 'Mouth on Her Rim', 'Hold the Cheeks Open', 'Drip on the Lick', 'Tongue the Third', 'Stroke While Flat', 'Lick and Stay Wide', 'After Sets Her Rim', 'Last Tongue Set'],
+    cycle: ['warm', 'warm', 'lead'],
+    dayTypes: {
+      warm: gymThenSex('Fuck her', 'Fuck', C('Partner circuit', GYM_THREE, { ...LIFT, values: [5, 6, 7], pref: 5 }), poses('sexFuck', 9, 7), { pref: 1 }),
+      lead: gymThenSex('Lick her ass', 'Tongue', C('Partner circuit', GYM_WORK, { ...LIFT, values: [2, 3, 4, 5, 6] }), poses('sexRim', 4, 2), { pref: 2 }),
+    },
+  },
+  {
+    id: 'rim-sweat-then-ass', ...C13, name: 'Sweat Then Ass', subject: 'Rimming', minutes: [31, 40], levers: [null, 'reps', 'holds'],
+    split: 'Sweat first, her asshole every third day',
+    blurb: 'Sweat with her first, then you get under her and lick her asshole while her cunt drips on your mouth.',
+    about: 'Sweat with her first, a short partner circuit, and then you fuck. Two days in three that fuck is plain, cock in her pussy, hold after hold. On the third you lick her asshole while her cunt drips on your mouth, and once you are standing tall while her tongue is on your asshole. Level II adds reps to the partner work. Level III holds every position longer.',
+    names: ['Sweat Then Her Ass', 'Drip on Your Mouth', 'Lick Under the Sweat', 'Cunt Drip Lick', 'Standing Tall Her Tongue', 'Plain Fuck One Rim', 'Plain Fuck Two Rim', 'Third Day Her Rim', 'Sweat and the Lick', 'Tongue After Sweat', 'Her Asshole Wet', 'Tall While She Licks', 'Drip and the Tongue', 'Ass After the Sweat', 'Lick the Sweaty Rim', 'Hold Her Hips Lick', 'Wide After Sweat', 'She Licks You Tall', 'Rim the Sweat Day', 'Last Sweat Lick'],
+    cycle: ['warm', 'warm', 'lead'],
+    dayTypes: {
+      warm: gymThenSex('Fuck her', 'Fuck', C('Partner circuit', GYM_THREE, { ...LIFT, values: [5, 6, 7], pref: 5 }), poses('sexFuck', 9, 7), { pref: 1 }),
+      lead: gymThenSex('Lick her', 'Ass', C('Partner circuit', GYM_STRONG, { ...LIFT, values: [2, 3, 4, 5, 6] }), poses('sexRim', 4, 2), { pref: 2 }),
+    },
+  },
+  {
+    id: 'rim-lift-then-rim', ...C13, name: 'Lift Then Rim', subject: 'Rimming', minutes: [31, 40], levers: [null, 'reps', 'holds'],
+    split: 'Carries, then her asshole every third day',
+    blurb: 'You carry beside her, then your tongue is on her asshole and you lick her until that hold ends.',
+    about: 'You carry beside her, then the session turns to sex. Two days in three you fuck her, cock buried, changing the hold when it ends. On the third your tongue is on her asshole, and one hold you are lying flat on your back while she licks your asshole and strokes your cock. Level II adds reps to the partner work. Level III holds every position longer.',
+    names: ['Lift Then the Rim', 'Tongue After Carry', 'Flat Back Her Lick', 'Stroke on Your Back', 'Carry Then Asshole', 'Fuck After the Lift Rim', 'Fuck After a Squat Rim', 'Third Day Rim', 'Lick Until It Ends', 'Her Tongue You Flat', 'Asshole After Carry', 'Buried Fuck Rim Day', 'Tongue on Her Rim', 'Back Down She Licks', 'Cock in Her Fist Flat', 'Rim After the Carry', 'Hold Ends on Tongue', 'She Licks the Flat', 'Deep Rim After Lift', 'Last Rim After Carry'],
+    cycle: ['warm', 'warm', 'lead'],
+    dayTypes: {
+      warm: gymThenSex('Fuck her', 'Fuck', C('Partner circuit', GYM_THREE, { ...LIFT, values: [5, 6, 7], pref: 5 }), poses('sexFuck', 9, 7), { pref: 1 }),
+      lead: gymThenSex('Tongue on her', 'Rim', C('Partner circuit', GYM_LIFT, { ...LIFT, values: [2, 3, 4, 5, 6] }), poses('sexRim', 4, 2), { pref: 2 }),
+    },
+  },
+  {
+    id: 'rim-grind-then-tongue', ...C13, name: 'Grind Then Tongue', subject: 'Rimming', minutes: [31, 40], levers: [null, 'reps', 'holds'],
+    split: 'Kiss squats, then her asshole every third day',
+    blurb: 'Kiss squats first, then you lick her asshole and her tongue licks your asshole.',
+    about: 'Kiss squats first, close enough that you are already hard. Two days in three you fuck her after, cock in her cunt, one position then the next. On the third you lick her asshole, and once you are standing tall while her tongue licks your asshole. Level II adds reps to the partner work. Level III holds every position longer.',
+    names: ['Grind Then Her Tongue', 'Kiss Then the Lick', 'Standing Her Tongue', 'Tall While She Rims', 'Lick After Squats', 'Fuck After the Kiss Rim', 'Fuck After Squats Rim', 'Third Day Her Tongue', 'Asshole After Kiss', 'She Rims You Tall', 'Tongue on Both', 'Hard Then Her Rim', 'Squat Then Lick', 'Her Tongue Standing', 'Cunt Then the Rim', 'Kiss Squat Lick', 'Tall and Her Mouth', 'Lick Her Then Tall', 'Hold Under Tongue', 'Last Tongue Squat'],
+    cycle: ['warm', 'warm', 'lead'],
+    dayTypes: {
+      warm: gymThenSex('Fuck her', 'Fuck', C('Partner circuit', GYM_THREE, { ...LIFT, values: [5, 6, 7], pref: 5 }), poses('sexFuck', 9, 7), { pref: 1 }),
+      lead: gymThenSex('Lick her asshole', 'Tongue', C('Partner circuit', GYM_KISS, { ...LIFT, values: [2, 3, 4, 5, 6] }), poses('sexRim', 4, 2), { pref: 2 }),
+    },
+  },
+  {
+    id: 'rim-tongue-then-fuck', ...C13, name: 'Tongue Then Fuck', subject: 'Rimming', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'Her asshole one day, fucking the other',
+    blurb: 'You lick her asshole, she licks yours, then you fuck her deep, and the other day you fuck her the whole way.',
+    about: 'One day you lick her asshole, and you are lying flat on your back while she licks your asshole, then you fuck her deep. The other day you fuck her, cock in her pussy, from the start through the last hold. You hold it deep either way. Level II and Level III hold every part longer.',
+    names: ['Tongue Then the Fuck', 'Flat While She Licks', 'Lick Then Deep', 'Back Down Then Cock', 'Other Day All Fuck', 'Both Holds a Fuck Rim', 'Asshole Then Buried', 'She Licks You Flat Day', 'Fuck Her Both Rim', 'Hold After the Lick', 'Deep After Tongue', 'Pussy the Other Day', 'Flat Back Lick Fuck', 'Tongue Lead Day', 'Buried Either Rim', 'Last Tongue Fuck', 'Lick Hers Then Yours', 'Cock After the Rim', 'Whole Way Fuck Day', 'Flat and Then Deep'],
+    cycle: ['lead', 'fuck'],
+    dayTypes: {
+      lead: sexThenSex('Lick, then fuck', 'Tongue', poses('sexRim', 4, 2), poses('sexFuck', 8, 0), { pref: 2 }, { pref: 2 }),
+      fuck: sexThenSex('Fuck, then more', 'Fuck', poses('sexFuck', 6, 0), poses('sexFuck', 6, 0), { pref: 2 }, { pref: 2 }),
+    },
+  },
+  {
+    id: 'rim-ass-then-cock', ...C13, name: 'Ass Then Cock', subject: 'Rimming', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'Her asshole, then a fuck',
+    blurb: 'Your tongue on her asshole, your cock in her cunt, and the other day you fuck her pussy and her ass.',
+    about: 'One day your tongue is on her asshole and then your cock is in her cunt, and you are standing tall while she licks your asshole. The other day you fuck her the whole session, her pussy or her ass, and you stay buried. You take both days down to skin. Level II and Level III hold every part longer.',
+    names: ['Asshole Then the Cock', 'Tall for Her Lick', 'Tongue Then Her Cunt', 'Standing Rim Day', 'Other Day Her Pussy', 'Other Day Her Ass', 'Stay Buried Rim', 'Cock After Asshole', 'She Licks You Tall Day', 'Down to Skin Rim', 'Fuck the Whole Rim', 'Tongue on Her First', 'Tall and Her Tongue', 'Cunt After the Lick', 'Buried the Other', 'Asshole Then Deep', 'Both Days to Skin', 'Her Ass the Fuck Day', 'Lick Then Stay In', 'Last Ass Then Cock'],
+    cycle: ['lead', 'fuck'],
+    dayTypes: {
+      lead: sexThenSex('Ass, then cock', 'Ass', poses('sexRim', 4, 2), poses('sexFuck', 8, 0), { pref: 2 }, { pref: 2 }),
+      fuck: sexThenSex('Fuck, then more', 'Fuck', poses('sexFuck', 6, 0), poses('sexFuck', 6, 0), { pref: 2 }, { pref: 2 }),
+    },
+  },
+  {
+    id: 'rim-quick-lick', ...C13, name: 'Quick Lick', subject: 'Rimming', minutes: [22, 30], levers: [null, 'holds', 'holds'],
+    split: 'A short lick, or a short fuck',
+    blurb: 'A short one: you lick her asshole, she licks yours, and you fuck her before either of you cools off.',
+    about: 'A short one. One day you lick her asshole, you are standing tall while she licks your asshole, and you fuck her while you are both still warm. The other day is a short fuck, cock in her, start to finish. Level II and Level III hold every part a little longer.',
+    names: ['Quick Lick Her', 'Short Standing Lick', 'Tall and a Fast Lick', 'Brief Rim Then Fuck', 'Lick Before Cool', 'Short Fuck the Other', 'Quick Tongue Fuck', 'She Licks You Fast', 'Warm Short Rim', 'Fast Asshole Lick', 'Short Cock After', 'Brief and Her Tongue', 'Quick Rim Then In', 'Standing Quick Rim', 'Before the Cool Lick', 'Short Buried Fuck', 'Fast Lick Then In', 'Quick Her Rim', 'Both Still Warm Rim', 'Last Quick Lick'],
+    cycle: ['lead', 'fuck'],
+    dayTypes: {
+      lead: sexThenSex('Lick, then fuck', 'Lick', poses('sexRim', 4, 2), poses('sexFuck', 8, 2), { pref: 1 }, { pref: 1 }),
+      fuck: sexThenSex('Short fuck, then more', 'Fuck', poses('sexFuck', 6, 2), poses('sexFuck', 6, 2), { pref: 1 }, { pref: 1 }),
+    },
+  },
+  {
+    id: 'rim-long-tongue', ...C13, name: 'Long Tongue', subject: 'Rimming', minutes: [46, 54], levers: [null, 'holds', 'holds'],
+    split: 'A long lick, or a long fuck',
+    blurb: 'A long afternoon of your tongue on her asshole and hers on yours, then a long fuck with your cock kept deep.',
+    about: 'One day your tongue is on her asshole, and you are lying flat on your back while her tongue is on your asshole, then you fuck her. The other day is a long fuck, your cock kept deep in her pussy from the first hold to the last. You take your time on both and let the afternoon run. Level II and Level III hold every part longer.',
+    names: ['Long Tongue Day', 'Afternoon on Her Rim', 'Flat for the Long Lick', 'Hours of Her Asshole', 'Her Tongue the Hour', 'Long Plain Fuck Rim', 'Both Holds Long Rim', 'Tongue for Hours', 'Back Down the Hour', 'Cock Kept Deep Rim', 'Unhurried Lick', 'Long Fuck After Rim', 'Flat and Her Tongue', 'Afternoon Rim Fuck', 'Slow Tongue Hour', 'Deep From First Hold', 'Long Lick Then Cock', 'Her Rim the Afternoon', 'Stay Deep the Hour', 'Last Long Tongue'],
+    cycle: ['lead', 'fuck'],
+    dayTypes: {
+      lead: sexThenSex('Lick, then fuck', 'Tongue', poses('sexRim', 4, 2), poses('sexFuck', 5, 2), { pref: 5, values: [1, 2, 3, 4, 5] }, { pref: 5, values: [1, 2, 3, 4, 5] }),
+      fuck: sexThenSex('Long fuck, then more', 'Fuck', poses('sexFuck', 4, 2), poses('sexFuck', 4, 2), { pref: 5, values: [1, 2, 3, 4, 5] }, { pref: 5, values: [1, 2, 3, 4, 5] }),
+    },
+  },
+  {
+    id: 'rim-stay-and-lick', ...C13, name: 'Stay and Lick', subject: 'Rimming', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'Fucking two days, her asshole on the third',
+    blurb: 'You stay with your tongue flat on her asshole, her cunt dripping on your mouth, hold after hold.',
+    about: 'Two days in three you fuck her, cock in her pussy, one long hold after another. On the third your tongue stays flat on her asshole, her cunt dripping on your mouth, and one hold you are lying flat on your back while she licks your asshole. You keep the holds long. Level II and Level III hold every position longer.',
+    names: ['Stay and the Lick', 'Flat Tongue Stay', 'Drip on the Hold', 'Third Day Flat Lick', 'Fuck Hold Lick One', 'Fuck Hold Lick Two', 'Back Flat She Licks', 'Cunt Drip Hold', 'Tongue Stays on Her', 'Long Lick Hold', 'She Licks a Hold', 'Asshole the Third', 'Stay With the Tongue', 'Mouth Wet From Her', 'Flat Back Hold', 'Lick Through the Run', 'Hold Her Open Lick', 'Dripping Lick Stay', 'Next Hold Her Rim', 'Last Stay Lick'],
+    cycle: ['warm', 'warm', 'lead'],
+    dayTypes: {
+      warm: flowDay('Fuck her', 'Fuck', [flowBlock('sexFuck', 6, 12, 3, [3])]),
+      lead: flowDay('Tongue on her', 'Lick', [flowBlock('sexRim', 3, 2, 2), flowBlock('sexFuck', 6, 2, 2)]),
+    },
+  },
+  {
+    id: 'rim-open-and-eat', ...C13, name: 'Open and Eat', subject: 'Rimming', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'Fucking two days, licking her on the third',
+    blurb: 'You spread her cheeks and lick her asshole, hold after hold, and on the other days you fuck her deep.',
+    about: 'Two days in three are fucking, hold after hold, your cock in her cunt. On the third you spread her cheeks and lick her asshole, and you are standing tall while her tongue is on your asshole. You fuck her deep on the days in between. Level II and Level III hold every position longer.',
+    names: ['Open and Eat Her', 'Cheeks Open Hold', 'Standing Tongue Hold', 'Tall on the Third', 'Fuck Hold Open One', 'Fuck Hold Open Two', 'Lick the Open Rim', 'Her Tongue You Tall', 'Spread and the Tongue', 'Deep on Other Days', 'Asshole Held Open', 'Third Day Open', 'Cock Deep Between', 'Eat Her on Third', 'Tall She Licks Hold', 'Cheeks in Your Hands', 'Lick Hold to Hold', 'Fuck Deep the Rest', 'Open the Next', 'Last Open Lick'],
+    cycle: ['warm', 'warm', 'lead'],
+    dayTypes: {
+      warm: flowDay('Fuck her', 'Fuck', [flowBlock('sexFuck', 6, 12, 3, [3])]),
+      lead: flowDay('Cheeks spread', 'Open', [flowBlock('sexRim', 3, 3, 2), flowBlock('sexFuck', 6, 2, 2)]),
+    },
+  },
+  {
+    id: 'rim-tongue-holds', ...C13, name: 'Tongue Holds', subject: 'Rimming', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'Fucking two days, your tongue on the third',
+    blurb: 'Your tongue works her asshole, hold after hold, and two days in three your cock is buried in her pussy.',
+    about: 'Two days in three you fuck her and change the hold with your cock still in her. On the third your tongue works her asshole and you stay there, and one hold you are lying flat on your back while she licks your asshole. She strokes your cock on that hold. Level II and Level III hold every position longer.',
+    names: ['Tongue Holds on Her', 'Work Her Asshole', 'Flat Back Stroke', 'Change While Buried', 'Third Day Tongue Hold', 'Fuck Hold Tongue One', 'Fuck Hold Tongue Two', 'She Licks You Flat Hold', 'Stay on Her Rim', 'Cock Still in Her Rim', 'Stroke on the Flat', 'Tongue the Next Hold', 'Asshole Hold Run', 'Back Down a Hold', 'Her Hand on You Flat', 'Buried Then Tongue', 'Hold and Her Rim', 'Lick the Changed Hold', 'Flat and a Stroke', 'Last Tongue Hold'],
+    cycle: ['warm', 'warm', 'lead'],
+    dayTypes: {
+      warm: flowDay('Fuck her', 'Fuck', [flowBlock('sexFuck', 6, 12, 3, [3])]),
+      lead: flowDay('Tongue holds', 'Tongue', [flowBlock('sexRim', 3, 2, 2), flowBlock('sexFuck', 6, 2, 2)]),
+    },
+  },
+  {
+    id: 'rim-her-tongue', ...C13, name: 'Her Tongue', subject: 'Rimming', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'Fucking two days, her tongue on the third',
+    blurb: 'You are standing tall, her tongue on your asshole and her hand on your cock, and you lick hers on the other holds.',
+    about: 'Two days in three you fuck her, position after position, cock in her pussy. On the third you are standing tall while she kneels behind you, her tongue on your asshole and her hand on your cock, and you lick her asshole on the other holds of that day. A long lick of her sits in the same run. Level II and Level III hold every position longer.',
+    names: ['Her Tongue on You', 'Standing Tall Her Mouth', 'Kneels Behind You Tall', 'Hand on Your Cock Tall', 'Her Tongue the Third', 'Fuck Hold Her Tongue', 'Plain Hold Her Rim', 'You Lick Her Too', 'Tall and Her Hand', 'Asshole She Licks', 'Other Holds You Lick', 'Long Lick of Her', 'Standing the Third', 'Her Tongue Stays', 'Cock in Her Hand Tall', 'Fuck Then Her Tongue', 'Behind You Standing', 'Lick Hers Standing', 'Same Run Her Rim', 'Last Her Tongue'],
+    cycle: ['warm', 'warm', 'lead'],
+    dayTypes: {
+      warm: flowDay('Fuck her', 'Fuck', [flowBlock('sexFuck', 6, 10, 3, [3])]),
+      lead: flowDay('Her tongue', 'Hers', [flowBlock('sexRim', 3, 2, 2), flowBlock('sexFuck', 6, 2, 2)]),
     },
   },
 ];
