@@ -105,7 +105,7 @@ goes unused this phase (CLAUDE.md: tickets that edit the same files wait).
 | 20c | Strip and tease, Shower and bath: 24 programs | content | 12d, 12e | `content/c13-tease-shower-programs` | done (PR #331) |
 | 20d | Pool and Hot tub: 24 programs | content | 12f, 12g | `content/c13-pool-hottub-programs` | done (PR #332) |
 | 20e | Balcony and Doorframe: 24 programs | content | 12h, 12i | `content/c13-balcony-doorframe-programs` | done (PR #333) |
-| 21 | Open catalogue 13 to own programs and random workouts | feature | 2–18, 12b–12i | `feature/open-catalogue-13` | todo |
+| 21 | Open catalogue 13 to own programs and random workouts | feature | 2–18, 12b–12i | `feature/open-catalogue-13` | done (PR #334) |
 
 Order: plan order; 1b goes right after 5. 1c–1f (decisions 128–132) go next, beside the sex tickets: they touch no
 exercise file, so one can build while Grok writes a sex ticket. 19–20e need only their kinds, so they may go before 13–18 if those wait

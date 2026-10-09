@@ -38,13 +38,13 @@ test('at catalogue 13 the merged pools take the new exercises by role (decision 
   assert.deepEqual([...at13.sexPositions.slice(at12.sexPositions.length)].sort(), Object.values(KINDS).concat('fuck', 'oral', 'anal', 'toys', 'hands').flatMap(added13).sort());
 });
 
-test('own programs and random workouts stay at catalogue 12 while Phase 22 lands (decision 121)', () => {
-  assert.equal(NEWEST, 12);
+test('own programs and random workouts open at catalogue 13 once Phase 22 is in (decision 121, ticket 21)', () => {
+  assert.equal(NEWEST, 13);
   cat.EX.fake_c13 = { id: 'fake_c13', added: 13 };
   try {
     const cfg = { id: 'tiny', subject: 'Yoga', minutes: [28, 32], levers: [null, 'holds', 'holds'], equip: 'bw', cycle: ['a'], names: ['x'],
       dayTypes: { a: { label: 'Only', short: 'Only', blocks: require('../program-builder.js').CONFIGS.find((c) => c.id === 'flow-state').dayTypes.a.blocks } } };
-    assert.equal(generate({ configs: [cfg] }).catalogue, 12);
+    assert.equal(generate({ configs: [cfg] }).catalogue, 13);
   } finally { delete cat.EX.fake_c13; }
 });
 
