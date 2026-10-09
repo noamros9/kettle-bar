@@ -102,7 +102,7 @@ goes unused this phase (CLAUDE.md: tickets that edit the same files wait).
 | 19 | Rough and Kink-lite: 24 programs | content | 9, 10b | `content/c13-rough-kink-programs` | done (PR #327) |
 | 20 | Body play and Rimming: 24 programs | content | 11b, 12 | `content/c13-body-rim-programs` | done (PR #329) |
 | 20b | Edging and Massage: 24 programs | content | 12b, 12c | `content/c13-edging-massage-programs` | done (PR #330) |
-| 20c | Strip and tease, Shower and bath: 24 programs | content | 12d, 12e | `content/c13-tease-shower-programs` | todo |
+| 20c | Strip and tease, Shower and bath: 24 programs | content | 12d, 12e | `content/c13-tease-shower-programs` | done (PR #331) |
 | 20d | Pool and Hot tub: 24 programs | content | 12f, 12g | `content/c13-pool-hottub-programs` | todo |
 | 20e | Balcony and Doorframe: 24 programs | content | 12h, 12i | `content/c13-balcony-doorframe-programs` | todo |
 | 21 | Open catalogue 13 to own programs and random workouts | feature | 2–18, 12b–12i | `feature/open-catalogue-13` | todo |

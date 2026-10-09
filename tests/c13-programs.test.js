@@ -36,7 +36,7 @@ const programs = CONFIGS.filter((c) => IDS.includes(c.id)).map((c) => Builder.bu
 const prog = (id) => programs.find((p) => p.id === id);
 const bare = (block) => (block.slots || []).map((s) => s.replace('?', ''));
 const pure = (block, name) => bare(block).length > 0 && bare(block).every((n) => n === name);
-const sexBlocks = (type) => type.blocks.filter((b) => bare(b).some((n) => ['sexPositions', 'sexWarm', 'sexFuck', 'sexRough', 'sexKink', 'sexBody', 'sexRim', 'sexEdging', 'sexMassage'].includes(n)));
+const sexBlocks = (type) => type.blocks.filter((b) => bare(b).some((n) => ['sexPositions', 'sexWarm', 'sexFuck', 'sexRough', 'sexKink', 'sexBody', 'sexRim', 'sexEdging', 'sexMassage', 'sexTease', 'sexShower'].includes(n)));
 const closer = (id) => {
   if (SHAPE[id] === 'gym') return 'Level II adds reps to the partner work. Level III holds every position longer.';
   if (SHAPE[id] === 'positions') return 'Level II and Level III hold every position longer.';
@@ -598,4 +598,197 @@ test('Edging and Massage abouts say what the other days hold', () => {
     assert.match(about, /oil|forearm/i, id);
   });
   [...EDGE_SEX, ...MASS_SEX].forEach((id) => assert.doesNotMatch(cfgOf(id).about, /two days in three/i, id));
+});
+
+// Phase 22 ticket 20c: Strip and tease, and Shower and bath, 12 each. Strip and tease pairs sexTease with sexFuck.
+// Shower and bath pairs sexShower with sexWarm. Shower sex days are sexWarm, then a sexShower block last.
+// Strip and tease positions are one flow on every day: sexTease on the lead, sexFuck on the warm days.
+const TEASE_GYM = ['tease-set-then-zip', 'tease-sweat-then-bra', 'tease-lift-then-panties', 'tease-grind-then-lap'];
+const TEASE_SEX = ['tease-zip-then-fuck', 'tease-bra-then-cock', 'tease-quick-strip', 'tease-long-strip'];
+const TEASE_POS = ['tease-stay-and-peel', 'tease-skirt-up', 'tease-dry-holds', 'tease-her-strip'];
+const SHOWER_GYM = ['shower-set-then-tile', 'shower-sweat-then-soap', 'shower-lift-then-tub', 'shower-push-then-stream'];
+const SHOWER_SEX = ['shower-tile-then-hold', 'shower-soap-then-hold', 'shower-quick-and-wet', 'shower-long-steam'];
+const SHOWER_POS = ['shower-stay-on-tile', 'shower-soap-and-stay', 'shower-tub-and-hips', 'shower-stream-on-her'];
+const TEASE = [...TEASE_GYM, ...TEASE_SEX, ...TEASE_POS];
+const SHOWER = [...SHOWER_GYM, ...SHOWER_SEX, ...SHOWER_POS];
+const IDS20C = [...TEASE, ...SHOWER];
+const GYM20C = [...TEASE_GYM, ...SHOWER_GYM];
+const SEX20C = [...TEASE_SEX, ...SHOWER_SEX];
+const POS20C = [...TEASE_POS, ...SHOWER_POS];
+const SHAPE20C = Object.fromEntries([...GYM20C.map((id) => [id, 'gym']), ...SEX20C.map((id) => [id, 'sex']), ...POS20C.map((id) => [id, 'positions'])]);
+const SHORT20C = new Set(['tease-quick-strip', 'shower-quick-and-wet']);
+const LONG20C = new Set(['tease-long-strip', 'shower-long-steam']);
+const programs20c = CONFIGS.filter((c) => IDS20C.includes(c.id)).map((c) => Builder.build(c, cat));
+const prog20c = (id) => programs20c.find((p) => p.id === id);
+const closer20c = (id) => {
+  if (SHAPE20C[id] === 'gym') return 'Level II adds reps to the partner work. Level III holds every position longer.';
+  if (SHAPE20C[id] === 'positions') return 'Level II and Level III hold every position longer.';
+  return SHORT20C.has(id) ? 'Level II and Level III hold every part a little longer.' : 'Level II and Level III hold every part longer.';
+};
+const olderNames20c = new Set(CONFIGS.filter((c) => ['Explicit', 'Rough', 'Kink-lite', 'Body play', 'Rimming', 'Edging', 'Massage'].includes(c.subject)).flatMap((c) => c.names));
+const SCHEDULE20C = /\b(day|days|lead|plain|third)\b/i;
+
+test('Strip and tease, and Shower and bath: 24 programs, for two, catalogue 13, 60 days, out of build your own', () => {
+  assert.deepEqual(programs20c.map((p) => p.id), IDS20C);
+  assert.equal(CONFIGS.filter((c) => c.subject === 'Strip and tease').length, 12);
+  assert.equal(CONFIGS.filter((c) => c.subject === 'Shower and bath').length, 12);
+  assert.deepEqual([TEASE_GYM.length, TEASE_SEX.length, TEASE_POS.length], [4, 4, 4]);
+  assert.deepEqual([SHOWER_GYM.length, SHOWER_SEX.length, SHOWER_POS.length], [4, 4, 4]);
+  const mixed = FAMILIES.find(([name]) => name === 'Mixed')[1];
+  const after = SHELVES.find(([name]) => name === 'After dark')[1];
+  assert.deepEqual(mixed.slice(mixed.indexOf('Explicit'), mixed.indexOf('Explicit') + 9), ['Explicit', 'Rough', 'Kink-lite', 'Body play', 'Rimming', 'Edging', 'Massage', 'Strip and tease', 'Shower and bath']);
+  assert.deepEqual(after.slice(after.indexOf('Explicit'), after.indexOf('Explicit') + 9), ['Explicit', 'Rough', 'Kink-lite', 'Body play', 'Rimming', 'Edging', 'Massage', 'Strip and tease', 'Shower and bath']);
+  const allNames = [];
+  IDS20C.forEach((id) => {
+    const c = cfgOf(id);
+    const p = prog20c(id);
+    const [lo, hi] = SHORT20C.has(id) ? [22, 30] : LONG20C.has(id) ? [46, 54] : [31, 40];
+    assert.equal(c.subject, TEASE.includes(id) ? 'Strip and tease' : 'Shower and bath', id);
+    assert.equal(c.added, 20, id);
+    assert.equal(c.catalogue, 13, id);
+    assert.equal(c.couple, true, id);
+    assert.equal(c.equip, 'bw', id);
+    assert.deepEqual(c.minutes, [lo, hi], id);
+    assert.deepEqual(c.levers, SHAPE20C[id] === 'gym' ? [null, 'reps', 'holds'] : [null, 'holds', 'holds'], id);
+    assert.equal(p.days.length, 60, id);
+    assert.deepEqual([1, 20, 21, 40, 41, 60].map((n) => p.days[n - 1].level), [1, 1, 2, 2, 3, 3], id);
+    assert.ok(R.skipped.includes(id), id);
+    assert.equal(c.names.length, 20, id);
+    assert.equal(new Set(c.names).size, 20, id);
+    assert.deepEqual(c.names.filter((n) => olderNames20c.has(n)), [], id);
+    c.names.forEach((n) => assert.doesNotMatch(n, SCHEDULE20C, `${id}: ${n}`));
+    allNames.push(...c.names);
+    assert.equal(c.blurb.trim(), c.blurb, id);
+    assert.ok(c.blurb.length > 0 && c.blurb.length <= 140, `${id}: blurb is ${c.blurb.length}`);
+    assert.deepEqual(c.blurb.match(/[.!?]/g), [c.blurb.at(-1)], `${id}: blurb is not one sentence`);
+    assert.equal(c.about.trim(), c.about, id);
+    assert.ok(!/[\r\n]/.test(c.about) && /[.!?]/.test(c.about), `${id}: about`);
+    assert.ok(c.about.endsWith(closer20c(id)), `${id}: closer`);
+    const sentences = c.about.split(/(?<=[.!?])\s+/).filter(Boolean);
+    assert.ok(sentences.length >= 4 && sentences.length <= 5, `${id}: ${sentences.length} sentences`);
+    assert.doesNotMatch(`${c.blurb}\n${c.about}`, BANNED, id);
+    assert.doesNotMatch(`${c.blurb}\n${c.about}`, ABSENT, id);
+    assert.doesNotMatch(`${c.blurb}\n${c.about}\n${c.names.join('\n')}\n${c.split}`, /chok/i, id);
+  });
+  assert.equal(new Set(allNames).size, allNames.length);
+  assert.deepEqual(R.pick({ subjects: ['Strip and tease'] }), []);
+  assert.deepEqual(R.pick({ subjects: ['Shower and bath'] }), []);
+});
+
+test('gym and positions cycle warm, warm, lead; Shower sex is warm then shower every day; Tease sex leads with tease once', () => {
+  SHOWER_SEX.forEach((id) => {
+    const c = cfgOf(id);
+    const types = Object.values(c.dayTypes);
+    assert.equal(types.length, 2, id);
+    types.forEach((t) => {
+      assert.deepEqual(t.blocks.map((b) => b.title), ['Warm-up', 'Shower'], id);
+      assert.ok(pure(t.blocks[0], 'sexWarm'), id);
+      assert.ok(pure(t.blocks[1], 'sexShower'), id);
+    });
+    assert.notEqual(JSON.stringify(types[0].blocks), JSON.stringify(types[1].blocks), id);
+  });
+  TEASE_SEX.forEach((id) => {
+    const types = Object.values(cfgOf(id).dayTypes);
+    assert.equal(types.length, 2, id);
+    types.forEach((t) => assert.deepEqual(t.blocks.map((b) => b.title), ['Warm-up', 'Fuck'], id));
+    const lead = types.filter((t) => pure(t.blocks[0], 'sexTease'));
+    assert.equal(lead.length, 1, id);
+    assert.ok(pure(lead[0].blocks[1], 'sexFuck'), id);
+    const rest = types.filter((t) => t !== lead[0]);
+    assert.ok(rest[0].blocks.every((b) => pure(b, 'sexFuck')), id);
+  });
+  [...GYM20C, ...POS20C].forEach((id) => {
+    const c = cfgOf(id);
+    const own = c.subject === 'Shower and bath' ? 'sexShower' : 'sexTease';
+    const cover = c.subject === 'Shower and bath' ? 'sexWarm' : 'sexFuck';
+    assert.deepEqual([c.cycle[0], c.cycle[1] === c.cycle[0], c.cycle[2] !== c.cycle[0]], [c.cycle[0], true, true], id);
+    const warm = c.dayTypes[c.cycle[0]];
+    const lead = c.dayTypes[c.cycle[2]];
+    const warmSex = sexBlocks(warm);
+    const leadSex = sexBlocks(lead);
+    assert.ok(warmSex.every((b) => pure(b, cover)), `${id}: warm`);
+    assert.ok(pure(leadSex[0], own), `${id}: lead`);
+    assert.equal(warmSex.length, 1, id);
+    assert.equal(leadSex.length, 1, id);
+    if (SHAPE20C[id] === 'gym') {
+      assert.equal(warm.blocks.length, 2, id);
+      assert.equal(lead.blocks.length, 2, id);
+      assert.equal(warm.blocks[1].title, 'Positions', id);
+      assert.equal(lead.blocks[1].title, 'Positions', id);
+    }
+  });
+});
+
+test('every day is its shape, the lead day draws the subject, and a Shower program stays inside the sexWarm window', () => {
+  const warmIds = new Set(mergedAt(13).sexWarm);
+  IDS20C.forEach((id) => {
+    const c = cfgOf(id);
+    const sub = c.subject === 'Shower and bath' ? 'shower' : 'tease';
+    const leadType = SHAPE20C[id] === 'sex' && c.subject === 'Shower and bath'
+      ? null
+      : (SHAPE20C[id] === 'sex' ? Object.entries(c.dayTypes).find(([, t]) => pure(t.blocks[0], 'sexTease'))[0] : c.cycle[2]);
+    let warmDraws = 0;
+    prog20c(id).days.forEach((d) => {
+      const m = mains(d);
+      const where = `${id} d${d.day}`;
+      assert.ok(m.every((b) => TAGS.includes(b.family)), `${where}: untagged`);
+      assert.ok(!d.blocks.some((b) => b.kind === 'abs'), `${where}: abs`);
+      m.forEach((b) => {
+        const ids = b.items.map((it) => it.ex);
+        assert.equal(new Set(ids).size, ids.length, `${where} ${b.title}`);
+        assert.ok(ids.every((ex) => EX[ex].cat === 'couple'), `${where}: a solo exercise`);
+        ids.forEach((ex) => { if (warmIds.has(ex)) warmDraws += 1; });
+      });
+      const drawn = m.some((b) => b.items.some((it) => EX[it.ex].sub === sub));
+      if (leadType === null || d.type === leadType) assert.ok(drawn, `${where}: no ${sub}`);
+      assert.ok(d.est >= c.minutes[0] && d.est <= c.minutes[1], `${where}: ${d.est} min, band ${c.minutes[0]}–${c.minutes[1]}`);
+      if (SHAPE20C[id] === 'gym') {
+        assert.equal(m.length, 2, where);
+        assert.equal(m[1].title, 'Positions', where);
+        assert.equal(m[1].format, 'flow', where);
+        assert.ok(m[0].items.every((it) => EX[it.ex].added === 10 && !inPool('explicit', it.ex) && !inPool('positions', it.ex)), `${where}: gym block`);
+      } else if (SHAPE20C[id] === 'sex') {
+        assert.equal(m.length, 2, where);
+        assert.equal(m[0].title, 'Warm-up', where);
+        assert.equal(m[1].title, c.subject === 'Shower and bath' ? 'Shower' : 'Fuck', where);
+      } else {
+        assert.equal(m.length, 1, where);
+        assert.equal(m[0].title, 'Positions', where);
+        assert.equal(m[0].format, 'flow', where);
+      }
+    });
+    if (c.subject === 'Shower and bath') assert.ok(warmDraws >= 277 && warmDraws <= 450, `${id}: ${warmDraws} sexWarm draws`);
+  });
+});
+
+test('Strip and tease, and Shower and bath: two families a day, except a day marked oneFamily', () => {
+  const marked = [];
+  IDS20C.forEach((id) => Object.entries(cfgOf(id).dayTypes).forEach(([k, t]) => { if (t.oneFamily) marked.push(`${id}:${k}`); }));
+  const expect = POS20C.flatMap((id) => Object.keys(cfgOf(id).dayTypes).map((k) => `${id}:${k}`));
+  assert.deepEqual(marked.sort(), expect.sort());
+  IDS20C.forEach((id) => {
+    const cfg = cfgOf(id);
+    prog20c(id).days.forEach((d) => {
+      const n = new Set(mains(d).map((b) => b.family)).size;
+      if (cfg.dayTypes[d.type].oneFamily) assert.equal(n, 1, `${id} d${d.day}: positions-only is one family`);
+      else assert.ok(n >= 2, `${id} d${d.day}: two families`);
+      assert.equal(!!cfg.dayTypes[d.type].oneFamily, SHAPE20C[id] === 'positions', `${id} d${d.day}: mark`);
+    });
+  });
+});
+
+test('Strip and tease, and Shower and bath abouts say what the other days hold', () => {
+  [...TEASE_GYM, ...TEASE_POS].forEach((id) => {
+    const about = cfgOf(id).about;
+    assert.match(about, /two days in three/i, id);
+    assert.match(about, /fuck/i, id);
+    assert.match(about, /zip|bra|panties|grind|strip|skirt|dress|denim/i, id);
+  });
+  [...SHOWER_GYM, ...SHOWER_POS].forEach((id) => {
+    const about = cfgOf(id).about;
+    assert.match(about, /two days in three/i, id);
+    assert.match(about, /mouth/i, id);
+    assert.match(about, /tile|soap|tub|stream|shower|bath/i, id);
+  });
+  [...TEASE_SEX, ...SHOWER_SEX].forEach((id) => assert.doesNotMatch(cfgOf(id).about, /two days in three/i, id));
 });

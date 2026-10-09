@@ -12,7 +12,7 @@ const cat = require('../exercises.js');
 const CONFIGS = require('../programs.config.js');
 const { FAMILIES } = require('../app/library.js');
 
-const SUBJECTS = FAMILIES.flatMap(([, list]) => list).filter((s) => s !== 'Variety' && !['Couples', 'Date night warm-up', 'Positions tour', 'Morning glory / Sunday', 'Explicit', 'Rough', 'Kink-lite', 'Body play', 'Rimming', 'Edging', 'Massage'].includes(s)); // Variety (Phase 16) is not in build your own: 60 one-off day types are not a subject to pick; nor Couples (Phase 18), Explicit (Phase 20), Rough and Kink-lite (Phase 22), Body play and Rimming (Phase 22), or Edging and Massage (Phase 22): sessions for two
+const SUBJECTS = FAMILIES.flatMap(([, list]) => list).filter((s) => s !== 'Variety' && !['Couples', 'Date night warm-up', 'Positions tour', 'Morning glory / Sunday', 'Explicit', 'Rough', 'Kink-lite', 'Body play', 'Rimming', 'Edging', 'Massage', 'Strip and tease', 'Shower and bath'].includes(s)); // Variety (Phase 16) is not in build your own: 60 one-off day types are not a subject to pick; nor Couples (Phase 18), Explicit (Phase 20), Rough and Kink-lite (Phase 22), Body play and Rimming (Phase 22), Edging and Massage (Phase 22), or Strip and tease and Shower and bath (Phase 22): sessions for two
 const MINUTES = [20, 25, 30, 35, 40];
 const EQUIPS = ['all', 'kb', 'bw'];
 const GEAR = { all: 'all equipment', kb: 'a kettlebell only', bw: 'no equipment' };
