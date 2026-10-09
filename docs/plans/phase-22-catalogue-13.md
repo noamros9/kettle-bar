@@ -92,7 +92,7 @@ goes unused this phase (CLAUDE.md: tickets that edit the same files wait).
 | 12f | Pool +36 | content | 1b | `content/c13-pool` | done (PR #317) |
 | 12g | Hot tub +36 | content | 1b | `content/c13-hottub` | done (PR #319) |
 | 12h | Balcony +36 | content | 1b | `content/c13-balcony` | done (PR #320) |
-| 12i | Doorframe +36 | content | 1b | `content/c13-doorframe` | todo |
+| 12i | Doorframe +36 | content | 1b | `content/c13-doorframe` | done (PR #321) |
 | 13 | Chest +9, back +12, full +5 | content | 1 | `content/c13-chest-back` | done (PR #299) |
 | 14 | Upper +17 | content | 1 | `content/c13-upper` | done (PR #300) |
 | 15 | Lower +22 | content | 1 | `content/c13-lower` | done (PR #301) |
