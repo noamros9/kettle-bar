@@ -69,6 +69,14 @@ read only when needed. Decisions with a long "why": [docs/adr/](docs/adr/).
     a test server;
   - merges still go in plan order, each on its own green CI, and main's run is checked green before the next merge;
   - a fix the earlier ticket needs is made on its branch (in its worktree), then carried into the stacked one.
+- **Plan the next one meanwhile (Noam, 9 Oct 2026):** when the next ticket can't *build* yet only because it edits the
+  same files as the one building, start its Grok *plan* run in the free checkout anyway (it writes only
+  `grok/tN-plan.md`, no shared files). The prompt names the ticket still building, so ids and names don't clash, and
+  counts what it adds. The build then continues from the approved plan once the blocker's PR is open, stacked on it.
+  A plan run counts toward the cap of 2.
+- **Time targets may run 10% over (Noam, 9 Oct 2026):** a warm-up, cool-down, trimmed day or minutes band up to 10%
+  past its target is fine (the cool-down up to 150 s): widen the check rather than reworking shared builder code.
+  Never change how existing programs build to hit a band.
 - **Merge without asking:** when a ticket passes the review checks below and the PR's CI run is green, Claude merges
   its PR itself (squash). A PR behind `main` is first updated (`gh pr update-branch`) and merged on that run's
   green: main's run then only builds and deploys (decision 128, 7 Oct 2026).
