@@ -162,6 +162,13 @@ const ORDER = [
   'hottub-set-then-seat', 'hottub-sweat-then-bubbles', 'hottub-lift-then-cover', 'hottub-push-then-heat',
   'hottub-seat-then-hold', 'hottub-bubble-then-hold', 'hottub-quick-steam', 'hottub-long-heat',
   'hottub-stay-in-seat', 'hottub-bubbles-and-stay', 'hottub-cover-and-hips', 'hottub-jet-in-seat',
+  // Phase 22 ticket 20e: Balcony and Doorframe, 12 each
+  'balcony-set-then-rail', 'balcony-sweat-then-glass', 'balcony-lift-then-chair', 'balcony-push-then-table',
+  'balcony-rail-then-hold', 'balcony-glass-then-hold', 'balcony-quick-air', 'balcony-long-night',
+  'balcony-stay-at-rail', 'balcony-glass-and-stay', 'balcony-chair-and-hips', 'balcony-fingers-on-her',
+  'doorframe-set-then-jamb', 'doorframe-sweat-then-lintel', 'doorframe-lift-then-threshold', 'doorframe-push-then-door',
+  'doorframe-jamb-then-hold', 'doorframe-lintel-then-hold', 'doorframe-quick-frame', 'doorframe-long-frame',
+  'doorframe-stay-on-jamb', 'doorframe-lintel-and-stay', 'doorframe-threshold-and-hips', 'doorframe-mouth-in-frame',
 ];
 
 const byId = new Map(FAMILY_FILES.flat().map((c) => [c.id, c]));
