@@ -121,6 +121,10 @@ read only when needed. Decisions with a long "why": [docs/adr/](docs/adr/).
 - **Equal odds in sex blocks** (Noam, 5 Oct 2026): a couple program on catalogue 11 or later names the merged pools
   (`sexPositions`, `sexWarm`, `sexFuck`), never a hand-weighted mix of pools; basics (`basic: 1`) come up about 1.5×.
   `tests/couple-odds.test.js` checks every such program.
+- **A session that makes sense** (Noam, 9 Oct 2026): every couple program follows
+  [docs/explicit-guidelines.md](docs/explicit-guidelines.md): clothed teasing first and never back, oral anywhere, a
+  shower set between anal and her pussy or mouth, the finish closing its set, props off once, a place per set. Grok
+  reads it for every couple ticket; Claude reviews against it. Phase 36 makes the builder keep it.
 
 ## Mechanics
 - Use `gh` (installed and signed in on Noam's machine; from Git Bash it's `"/c/Program Files/GitHub CLI/gh.exe"`
