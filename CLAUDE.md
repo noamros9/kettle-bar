@@ -42,7 +42,7 @@ read only when needed. Decisions with a long "why": [docs/adr/](docs/adr/).
   - **Grok plans first (Noam, 7 Oct 2026):** its first run writes only `test-results/tN-plan.md` (per item for
     content, files and approach for code) and stops; Claude reviews the plan and sends changes until it passes.
   - Grok then builds from the approved plan (`--continue`), from the ticket's **Test first**, and commits on that
-    branch. While writing it runs only the ticket's test files; the commit hook runs the full suite. It never pushes,
+    branch. It runs only the ticket's test files; the commit hook runs the changed ones, CI the full suite (308). It never pushes,
     opens PRs or merges.
   - Claude runs the review checks below, pushes, opens the PR, marks the ticket `done (PR #n)`, and merges on green
     CI — the same bar as Claude's own tickets.
@@ -82,17 +82,16 @@ read only when needed. Decisions with a long "why": [docs/adr/](docs/adr/).
   green: main's run then only builds and deploys (decision 128, 7 Oct 2026).
   Tell Noam what was merged, briefly.
 - **Review checks:**
-  - `npm run test:coverage` once (gated modules: 100% lines and functions, branches at least 95%, kept as high as it
-    goes; Noam, 6 Oct 2026). Not `npm test` too, and no rerun on the same tree: it records the tree it passed on and
-    the pre-commit hook skips that tree (decision 129, 7 Oct 2026). On a Grok ticket, first compare
-    `cat .git/kb-tested-tree` with `git rev-parse HEAD^{tree}`: equal means Grok's commit hook passed on exactly that
-    code, so skip the run; different means run it (decision 133, Noam, 7 Oct 2026);
+  - **No local `test:coverage` (decision 308, Noam, 10 Oct 2026):** the PR's CI runs the full unit suite with the
+    coverage gate (100% lines and functions, branches at least 95%), and the merge waits for that green job. Locally,
+    run only the test files the ticket writes or changes (`node --test tests/x.test.js`); the pre-commit hook runs
+    those too. On 2 cores the full suite took 12–15 minutes per ticket;
   - for UI tickets only (the branch touches `app/`, `index.html`, styles or a spec; content tickets rely on the PR's
-    CI, decision 130), the phone UI tests the branch touches: `npm run test:ui:affected -- <pages the ticket's UI work
-    touched>` (a fresh build, then the changed specs, the specs mapped to the changed modules, the pages named, and a
-    smoke check that every page draws; light theme, `--dark` adds dark). The **full suite, light and dark, runs in CI
-    on the PR, and the ticket merges only when that run is green** (Noam, 1 Oct 2026: the full local run took ~6 min
-    on 2 cores and repeated CI). A new spec or module gets its line in `scripts/ui-affected.js`'s MAP;
+    CI, decision 130): **locally, only the ticket's own specs and the smoke check** (decision 309, Noam, 10 Oct 2026):
+    `npx playwright test tests-ui/<the ticket's spec>.spec.js tests-ui/renders.spec.js --project=phone-light`. The
+    specs mapped to the changed modules and the **full suite, light and dark, run in CI on the PR, and the ticket
+    merges only when that run is green**. A new spec or module still gets its line in `scripts/ui-affected.js`'s MAP
+    (`npm run test:ui:affected` stays for a wider local run when a change is risky);
   - when programs could be affected: `rm -rf data && node build.js` on main and on the branch, `diff -r` shows only
     new program files, and no existing pin in `tests/fixtures/program-days.json` changes (never re-pin);
   - `index.html` stays under the 1 MB gzip gate (Noam, 6 Oct 2026: Phase 22 ticket 1b moves the build's check to it);
@@ -137,6 +136,11 @@ read only when needed. Decisions with a long "why": [docs/adr/](docs/adr/).
   chain of them in the background with a 30 min wait (Noam, 6 Oct 2026: the catalogue grows in Phase 22); CI 30 min
   (the PR test job took 15 min on 6 Oct). Cutting the times: #265.
   Never wrap a test command in a shell `timeout` shorter than that.
+- **Long runs go in the background (Noam, 10 Oct 2026):** on the 2-core cloud machine `test:coverage` and the affected UI
+  tests each take 10 min or more, longer than a tool call waits. Start them with `nohup … > log &` and poll the log;
+  never in the foreground, where a cut-off wait throws the run away. One heavy run at a time per machine: a second
+  one starves the UI build (`webServer` times out at 240 s).
+- `npm run build` rewrites `recipes/book.json`: restore it (`git checkout recipes/book.json`) before committing.
 - Committed tests never write outside the repo (screenshots go to `test-results/`); review screenshots for Noam go to
   `/home/claude/kettle-bar-shots/` from a throwaway script or spec that isn't committed. CI (the deploy) must stay green:
   after merging, don't wait on main's Test and deploy run; start the next ticket, and check that run is green before

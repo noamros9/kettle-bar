@@ -1,6 +1,7 @@
 #!/usr/bin/env node
-// Installs the pre-commit hook (runs on `npm install` via "prepare"): no commit unless the unit tests pass
-// with the coverage gate on the core modules (100% lines and functions, 95% branches), the same gate CI uses (ADR 4).
+// Installs the pre-commit hook (runs on `npm install` via "prepare"). Decision 308 (10 Oct 2026): the full unit suite
+// with the coverage gate runs in CI on the PR (the merge waits for it), not on every commit: on 2 cores it took 12-15
+// minutes. The hook runs only the test files the commit adds or changes, so a broken new test still stops the commit.
 const fs = require('fs');
 const path = require('path');
 
@@ -11,15 +12,15 @@ if (!fs.existsSync(hooksDir)) {
 }
 
 const hook = `#!/bin/sh
-if [ -z "$(git diff --cached --name-only | grep -v '\\.md$')" ]; then echo "Pre-commit: only Markdown changed, no tests to run."; exit 0; fi
-if node scripts/tree-mark.js check; then echo "Pre-commit: this tree passed test:coverage already (decision 129)."; exit 0; fi
-echo "Pre-commit: unit tests with the coverage gate..."
-if ! npm run -s test:coverage > /tmp/kettle-bar-precommit.log 2>&1; then
-  grep -E "^not ok|coverage threshold|does not meet" /tmp/kettle-bar-precommit.log | head -20
-  echo "BLOCKED: tests failing or core coverage below the gate (100% lines and functions, 95% branches). Full log: /tmp/kettle-bar-precommit.log"
+tests=$(git diff --cached --name-only --diff-filter=AM | grep -E '^tests/.*\\.test\\.js$')
+if [ -z "$tests" ]; then echo "Pre-commit: no unit test changed; the full suite runs in CI on the PR (decision 308)."; exit 0; fi
+echo "Pre-commit: the changed unit tests: $tests"
+if ! node --test $tests > /tmp/kettle-bar-precommit.log 2>&1; then
+  grep -E "^not ok" /tmp/kettle-bar-precommit.log | head -20
+  echo "BLOCKED: a changed test fails. Full log: /tmp/kettle-bar-precommit.log"
   exit 1
 fi
-echo "Tests and coverage OK."
+echo "Changed tests OK."
 `;
 fs.writeFileSync(path.join(hooksDir, 'pre-commit'), hook, { mode: 0o755 });
 console.log('install-hooks: pre-commit hook installed.');

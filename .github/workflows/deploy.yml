@@ -83,9 +83,15 @@ jobs:
         run: node scripts/tested-tree.js
         env:
           GH_TOKEN: ${{ github.token }}
+      # Decision 307: build in its own step; the test server then only serves (the build inside its start timed out)
+      - name: Build
+        if: steps.tested.outputs.tested != 'true'
+        run: npm run build
       - name: Phone UI tests
         if: steps.tested.outputs.tested != 'true'
         run: npx playwright test --project=phone-${{ matrix.theme }}
+        env:
+          UI_PREBUILT: '1'
       - name: Keep the screenshots
         if: always()
         uses: actions/upload-artifact@v7
