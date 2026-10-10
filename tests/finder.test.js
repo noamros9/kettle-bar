@@ -1,3 +1,4 @@
+// ci-only: builds or reads the whole program library; the commit hook skips it, CI runs it (decision 312)
 // The Program finder (Phase 15 ticket 3): finder text, limits read with plain rules, the why line, and ranking.
 const test = require('node:test');
 const assert = require('node:assert/strict');

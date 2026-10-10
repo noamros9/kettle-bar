@@ -1,3 +1,4 @@
+// ci-only: builds or reads the whole program library; the commit hook skips it, CI runs it (decision 312)
 // Phase 10: floor-only stand-ins for rows and lateral raises (prone lat pulls, superman rows, side-lying lateral raises).
 const test = require('node:test');
 const assert = require('node:assert/strict');

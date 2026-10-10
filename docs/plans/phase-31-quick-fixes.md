@@ -26,6 +26,8 @@ Grilled 8 Oct 2026 with Noam (global decision numbers).
   was found; CI keeps a trace on failure, and the next one names the cause. Ticket 3 closes the phase without it. *(10 Oct)*
 - **311 · Ticket 5: faster unit tests**, same tests and gate: the whole library is built once, without coverage, before
   the run; the slow files read it. The unit job took ~17 min, ~12 of it building programs under coverage. *(10 Oct)*
+- **312 · Whole-library tests run only in CI**: files marked `// ci-only` are skipped by the commit hook, and this
+  machine runs light tests only; a heavy change is measured by the PR's CI. *(10 Oct)*
   the test; no retries. *(8 Oct)*
 
 ## What lands
@@ -43,7 +45,7 @@ Grilled 8 Oct 2026 with Noam (global decision numbers).
 | 1 | Back keeps your place on five pages (#214) | feature | – | `fix/back-keeps-place` | done (PR #336) |
 | 2 | Build your own: preview = saved (#111) | feature | – | `fix/preview-is-saved` | done (PR #339) |
 | 3 | The rename-sync flake: root cause and fix (#105) | feature | – | `fix/rename-sync-flake` | waits for a CI trace (310) |
-| 5 | Faster unit tests: the library built once, without coverage | feature | – | `test/faster-unit` | todo |
+| 5 | Faster unit tests: the library built once, without coverage | feature | – | `test/faster-unit` | done (PR #341) |
 | 4 | Close the phase: archive | plan | 1–3, 5 | `plan/p31-close` | todo |
 
 Tickets 1 and 2 touch different files and can run at once; ticket 3 may touch `app/pages/core.js` (the loading

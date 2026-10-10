@@ -12,7 +12,8 @@ if (!fs.existsSync(hooksDir)) {
 }
 
 const hook = `#!/bin/sh
-tests=$(git diff --cached --name-only --diff-filter=AM | grep -E '^tests/.*\\.test\\.js$')
+# decision 312: files marked "// ci-only" on their first line build or read the whole library: CI runs them, not the hook
+tests=$(for f in $(git diff --cached --name-only --diff-filter=AM | grep -E '^tests/.*\\.test\\.js$'); do head -1 "$f" | grep -q '^// ci-only' || echo "$f"; done)
 if [ -z "$tests" ]; then echo "Pre-commit: no unit test changed; the full suite runs in CI on the PR (decision 308)."; exit 0; fi
 echo "Pre-commit: the changed unit tests: $tests"
 if ! node --test $tests > /tmp/kettle-bar-precommit.log 2>&1; then

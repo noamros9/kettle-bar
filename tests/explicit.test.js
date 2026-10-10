@@ -1,3 +1,4 @@
+// ci-only: builds or reads the whole program library; the commit hook skips it, CI runs it (decision 312)
 // Phase 20 ticket 8: Explicit, 20 programs, three session shapes. Each sex block draws one merged pool (old and new
 // together), basics about 1.5x. A positions-only day is one family, marked `oneFamily`, and only it.
 const test = require('node:test');
@@ -7,6 +8,7 @@ const { CONFIGS, POOLS, poolsAt } = require('../program-builder.js');
 const Builder = require('../program-builder.js');
 const cat = require('../exercises.js');
 const R = require('../recipes.js');
+const { built } = require('./helpers/library.js');
 
 const GYM = ['set-then-fuck', 'sweat-then-spread', 'earn-the-pussy', 'lift-her-then-fuck', 'grind-after-reps', 'short-and-dirty', 'long-afternoon'];
 const SEX = ['mouth-then-cock', 'tongue-then-thrust', 'fingers-then-fuck', 'eat-then-pound', 'tease-then-bury', 'quick-and-deep', 'slow-deep-fuck'];
@@ -30,7 +32,7 @@ const median = (ns) => {
 };
 const cfgOf = (id) => CONFIGS.find((c) => c.id === id);
 const mains = (d) => d.blocks.filter((b) => b.kind !== 'abs' && b.kind !== 'warmup' && b.kind !== 'cooldown');
-const programs = CONFIGS.filter((c) => IDS.includes(c.id)).map((c) => Builder.build(c, cat));
+const programs = built(IDS); // the shared build (Phase 31 ticket 5)
 const prog = (id) => programs.find((p) => p.id === id);
 
 test('Explicit: the 20 programs, for two, catalogue 11, 60 days, out of build your own', () => {
