@@ -2,13 +2,14 @@
 
 The index: where we are, what comes next, and the two phases being built now. Every other phase's decisions live at the
 top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase comes up. Decision numbers are global
-(the next one is **313**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
+(the next one is **316**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
 ## Resume here (10 Oct 2026)
 - **Phase 31 is done** (10 Oct, #336–#342): Back keeps your place, Build your own previews what Save keeps, and the
   unit tests build the program library once (#341). #105 didn't reproduce: it stays open for the next CI failure's trace.
   Archived in [docs/roadmap-archive.md](docs/roadmap-archive.md).
-- **Next: Phase 30** (muscle groups on three levels, and doing a day again), then 23, 24 … in the order below. **Opus
+- **Now: Phase 30** (muscle groups on three levels, and doing a day again), building from 10 Oct; grilled again 10 Oct
+  (314, 315). Then 23, 24 … in the order below. **Opus
   builds alone this week** (295): Grok is away, so no Grok tickets; Phase 20 waits for it.
 - **Rules added 10 Oct** (CLAUDE.md): CI builds the site before the phone tests (307); no local coverage run, the
   commit hook runs only changed light tests (308, 312); a UI ticket runs its own specs and the smoke check locally
@@ -22,7 +23,7 @@ right after Phase 22 (216). **223 ·** 8 Oct: quick fixes after 22; Export, day 
 
 | # | Phase | Issue | Plan | Status |
 |---|---|---|---|---|
-| 1 | 30 · Muscle groups on three levels, and doing a day again | [#287](https://github.com/noamros9/kettle-bar/issues/287) | [plan](docs/plans/phase-30-muscle-groups-and-again.md) | planned |
+| 1 | 30 · Muscle groups on three levels, and doing a day again | [#287](https://github.com/noamros9/kettle-bar/issues/287) | [plan](docs/plans/phase-30-muscle-groups-and-again.md) | building |
 | 2 | 23 · New fitness programs, the Signature IIs, Yoga, Pilates and Variety doubled | [#216](https://github.com/noamros9/kettle-bar/issues/216) | [plan](docs/plans/phase-23-fitness-programs.md) | planned |
 | 3 | 24 · Architecture and code review, then the fixes | [#187](https://github.com/noamros9/kettle-bar/issues/187), [#188](https://github.com/noamros9/kettle-bar/issues/188) | [plan](docs/plans/phase-24-review.md) | planned |
 | 4 | 25 · "Do now": one exercise for dead time | [#200](https://github.com/noamros9/kettle-bar/issues/200) | [plan](docs/plans/phase-25-do-now.md) | planned |
