@@ -87,7 +87,7 @@ function chipsHTML(r, chip) {
   const gears = KBLibrary.GEAR.map(([key, label]) => ({ key, label, pressed: exSearch.gear === key }));
   const muscles = Object.entries(MUSCLE_NAMES).map(([key, label]) => ({ key, label, pressed: exSearch.muscle === key }));
   return `<div class="ftabs" role="group" aria-label="Filter by family">${r.families.map(tab).join('')}</div>
-    ${r.subjects.length ? `<div class="filters" role="group" aria-label="Filter by subject">${subChips(r.subjects, fam, chip)}</div>` : ''}
+    ${r.subjects.length ? `<div class="filters" role="group" aria-label="Filter by subject">${subChips(r.subjects, r.families.find((c) => c.pressed).key, chip)}</div>` : ''}
     <div class="lenlines">${menuLine('gear', 'Equipment', gearLabel)}${menuLine('muscle', 'Muscle', muscleLabel)}</div>
     ${exMenu === 'gear' ? menuChips('gear', 'equipment', gears) : exMenu === 'muscle' ? menuChips('muscle', 'muscle', muscles) : ''}
     ${exSearch.q || exSearch.family !== 'all' || exSearch.sub !== 'all' || exSearch.gear !== 'all' || exSearch.muscle ? '<button class="fchip" data-ex-clear="1">Clear all</button>' : ''}`;
