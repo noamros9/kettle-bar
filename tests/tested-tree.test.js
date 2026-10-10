@@ -46,3 +46,24 @@ test('deploy.yml: on pushes, the unit and UI steps run only when the tree was no
   assert.match(yml, /actions: read/);
   assert.match(yml, /pull-requests: read/);
 });
+
+// Noam, 10 Oct 2026: a PR run on a tree that already passed on that PR (a rebase onto main that changed no file) skips
+// its tests. A last job records each passed tree in the Actions cache (tested-<tree>); every job looks it up first.
+test('deploy.yml: PR runs look up their tree first and skip on a hit; a passed PR run records its tree', () => {
+  const yml = fs.readFileSync(path.join(__dirname, '..', '.github', 'workflows', 'deploy.yml'), 'utf8').replace(/\r/g, '');
+  const job = (name) => { const i = yml.indexOf(`\n  ${name}:\n`); const rest = yml.slice(i + 1); const j = rest.slice(1).search(/\n  [a-z]+:\n/); return j < 0 ? rest : rest.slice(0, j + 1); };
+  const HIT = "steps.passed.outputs.cache-hit != 'true'";
+  ['test', 'ui'].forEach((name) => {
+    const j = job(name);
+    assert.match(j, /id: tree\n\s+run: echo "tree=\$\(git rev-parse HEAD\^\{tree\}\)" >> "\$GITHUB_OUTPUT"/, name);
+    assert.match(j, /id: passed\n\s+if: github\.event_name == 'pull_request'\n\s+uses: actions\/cache\/restore@v4/, name);
+    assert.match(j, /key: tested-\$\{\{ steps\.tree\.outputs\.tree \}\}\n\s+lookup-only: true/, name);
+  });
+  const step = (j, name) => j.slice(j.indexOf(`- name: ${name}`)).split('\n      - ')[0];
+  assert.ok(step(job('test'), 'Unit tests').includes(HIT));
+  assert.ok(step(job('ui'), 'Phone UI tests').includes(HIT));
+  ['Build', 'Collect the site'].forEach((n) => assert.ok(step(job('test'), n).includes(HIT), n));
+  const mark = job('mark');
+  assert.match(mark, /needs: \[test, ui\]\n\s+if: github\.event_name == 'pull_request'/);
+  assert.match(mark, /uses: actions\/cache\/save@v4\n\s+continue-on-error: true\n\s+with:\n\s+path: \.tested-tree\n\s+key: tested-\$\{\{ steps\.tree\.outputs\.tree \}\}/);
+});
