@@ -61,6 +61,16 @@
     return out;
   }
 
+  // Phase 30 (207): a span's muscle loads summed into body parts and Upper / Core / Lower, the same weighted sets
+  function groupLoads(loads, groups) {
+    const tops = {}, parts = {};
+    groups.forEach(([top, , ps]) => {
+      tops[top] = 0;
+      ps.forEach(([part, , ms]) => { parts[part] = ms.reduce((a, m) => a + (loads[m] || 0), 0); tops[top] += parts[part]; });
+    });
+    return { tops, parts };
+  }
+
   function dayVolume(day, EX) {
     const sets = setsOf(day, EX);
     const secs = (day.warmup ? day.warmup.seconds : 0) + (day.cooldown ? day.cooldown.seconds : 0);
@@ -238,7 +248,7 @@
     return { from, to, totals, weeks: span === 'week' ? null : weekly(mine, opts), muscles: rankMuscles(totals.muscles, names), months: span === 'year' ? monthly(mine, opts) : null, hasHistory: mine.length > 0, ...breakdown(mine, { ...opts, infoOf }) };
   }
 
-  const api = { scoped, daysPerWeek, byWeekday, byTimeOfDay, calendarMonth, programFocus, dayVolume, weekStart, summarize, spanRange, weekly, monthly, rankMuscles, exerciseHistory, levelOverTime, toCSV, report, dayParts, breakdown, DEFAULT_RESTS };
+  const api = { groupLoads, scoped, daysPerWeek, byWeekday, byTimeOfDay, calendarMonth, programFocus, dayVolume, weekStart, summarize, spanRange, weekly, monthly, rankMuscles, exerciseHistory, levelOverTime, toCSV, report, dayParts, breakdown, DEFAULT_RESTS };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBStats = api;
 })(typeof window !== 'undefined' ? window : globalThis, typeof module !== 'undefined' && module.exports ? require('../formats.js') : window.KBFormats);

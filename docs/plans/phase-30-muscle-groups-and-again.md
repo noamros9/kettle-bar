@@ -48,7 +48,7 @@ Global decision numbers.
 | # | Ticket | Tier | Blocked by | Branch | Status |
 |---|---|---|---|---|---|
 | 0 | This plan | plan | – | `plan/phase-30` | done (PR #288) |
-| 1 | The groups: one definition, group loads | feature | – | `feature/muscle-groups` | todo |
+| 1 | The groups: one definition, group loads | feature | – | `feature/muscle-groups` | done (PR #345) |
 | 2 | Stats → Muscles on three levels, the map both ways | feature | 1 | `feature/stats-muscle-groups` | todo |
 | 3 | Group chips on the Muscles page; the Exercises page by groups | feature | 1 | `feature/picker-groups` | todo |
 | 4 | Done again: the `again` field, store, sync, backup, stats entries | feature | 2 | `feature/done-again` | todo |

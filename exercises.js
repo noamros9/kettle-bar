@@ -2934,6 +2934,17 @@
     quads: 'Quads', hamstrings: 'Hamstrings', adductors: 'Inner thighs', calves: 'Calves',
     neck: 'Neck', traps: 'Traps', shins: 'Shins', // Phase 16 (catalogue 9 only, so past stats don't move)
   };
+  /* Muscle groups on three levels (Phase 30, decision 207): Upper / Core / Lower, then body parts, then muscles. The one
+     definition Stats, the Muscles page and the Exercises page read, so they never disagree. Every muscle is in one part. */
+  const MUSCLE_GROUPS = [
+    ['upper', 'Upper', [['chest', 'Chest', ['chest']], ['back', 'Back', ['lats', 'upper_back', 'traps', 'neck']],
+      ['shoulders', 'Shoulders', ['front_delts', 'side_delts', 'rear_delts']], ['arms', 'Arms', ['biceps', 'triceps', 'forearms']]]],
+    ['core', 'Core', [['abs_obliques', 'Abs & obliques', ['abs', 'obliques']], ['lower_back', 'Lower back', ['lower_back']]]],
+    ['lower', 'Lower', [['glutes_hips', 'Glutes & hips', ['glutes', 'adductors', 'hip_flexors']], ['thighs', 'Thighs', ['quads', 'hamstrings']],
+      ['lower_legs', 'Lower legs', ['calves', 'shins']]]],
+  ];
+  const GROUP_OF = Object.fromEntries(MUSCLE_GROUPS.flatMap(([top, , parts]) => parts.flatMap(([part, , ms]) => ms.map((m) => [m, { top, part }]))));
+  const groupOf = (muscle) => GROUP_OF[muscle];
   const MUS = {
     pushup: 'chest triceps front_delts | abs', diamond_pushup: 'triceps chest | front_delts abs',
     dive_bomber: 'chest front_delts triceps | lower_back abs', db_floor_press: 'chest triceps | front_delts',
@@ -3003,7 +3014,7 @@
     if (Formats.of({ format }).halveReps) return e.u === 'sec' ? Math.min(n, 30) : Math.max(3, Math.round(n * 0.5));
     return n;
   }
-  const api = { EX, LOAD, MUSCLE_NAMES, normalize, allowedIn, scaleReps };
+  const api = { EX, LOAD, MUSCLE_NAMES, MUSCLE_GROUPS, groupOf, normalize, allowedIn, scaleReps };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBEx = api;
 })(typeof window !== 'undefined' ? window : globalThis, typeof module !== 'undefined' && module.exports ? require('./formats.js') : window.KBFormats);

@@ -67,13 +67,13 @@ test('Couples: its own chip and subject sections, every card drawn with two figu
   expect(await app.sidewaysScroll()).toBe(0);
 });
 
-test('All shows six family sections; Muscles shows its seven subjects; Chest leaves one section', async ({ app }) => {
+test('All shows six family sections; Muscles shows its ten body parts and Full body (Phase 30); Chest leaves one section', async ({ app }) => {
   await app.open('#exercises');
   await expect(app.page.locator('.libcat h2')).toHaveText(['Warm-up', 'Stretch & cool-down', 'Muscles', 'Cardio & combat', 'Mind & body', 'Couples']);
   await expect(app.page.getByRole('group', { name: 'Filter by subject' })).toHaveCount(0);
   await app.page.getByRole('group', { name: 'Filter by family' }).getByRole('button', { name: /^Muscles/ }).click();
-  await expect(app.page.getByRole('group', { name: 'Filter by subject' }).getByRole('button')).toHaveCount(8);
-  await expect(app.page.locator('.libcat h2')).toHaveText(['Chest', 'Back', 'Shoulders', 'Arms', 'Legs & glutes', 'Core & abs', 'Full body']);
+  await expect(app.page.getByRole('group', { name: 'Filter by subject' }).getByRole('button')).toHaveCount(11); // All + 9 parts + Full body
+  await expect(app.page.locator('.libcat h2')).toHaveText(['Chest', 'Back', 'Shoulders', 'Arms', 'Abs & obliques', 'Lower back', 'Glutes & hips', 'Thighs', 'Lower legs', 'Full body']);
   await app.page.getByRole('group', { name: 'Filter by subject' }).getByRole('button', { name: /^Chest/ }).click();
   await expect(app.page.locator('.libcat h2')).toHaveText(['Chest']);
   expect(await app.sidewaysScroll()).toBe(0);
@@ -182,7 +182,7 @@ test('Clear all resets the search and every filter', async ({ app }) => {
   await equipLine(app).click();
   await app.page.getByRole('group', { name: 'Filter by equipment' }).getByRole('button', { name: 'Kettlebell' }).click();
   await app.page.getByRole('group', { name: 'Filter by family' }).getByRole('button', { name: /^Muscles/ }).click();
-  await app.page.getByRole('group', { name: 'Filter by subject' }).getByRole('button', { name: /^Legs/ }).click();
+  await app.page.getByRole('group', { name: 'Filter by subject' }).getByRole('button', { name: /^Thighs/ }).click(); // Phase 30: legs split into parts
   await muscleLine(app).click();
   await expect(muscleRow(app)).toBeVisible();
   await app.page.getByRole('button', { name: 'Clear all' }).click();
