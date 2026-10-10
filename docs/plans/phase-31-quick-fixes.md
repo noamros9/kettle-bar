@@ -37,7 +37,7 @@ Grilled 8 Oct 2026 with Noam (global decision numbers).
 |---|---|---|---|---|---|
 | 0 | This plan | plan | – | `plan/open-issues-8oct` | done (PR #297) |
 | 1 | Back keeps your place on five pages (#214) | feature | – | `fix/back-keeps-place` | done (PR #336) |
-| 2 | Build your own: preview = saved (#111) | feature | – | `fix/preview-is-saved` | todo |
+| 2 | Build your own: preview = saved (#111) | feature | – | `fix/preview-is-saved` | done (PR #339) |
 | 3 | The rename-sync flake: root cause and fix (#105) | feature | – | `fix/rename-sync-flake` | todo |
 | 4 | Close the phase: archive | plan | 1–3 | `plan/p31-close` | todo |
 
