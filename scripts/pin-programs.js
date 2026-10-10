@@ -1,19 +1,32 @@
 #!/usr/bin/env node
-// Pins new programs: adds a sha256 of each program's days to tests/fixtures/program-days.json for every program
-// that isn't pinned yet (`npm run pin`). Never changes an existing pin: days people have started must not move, so
-// changing a pinned program means deleting its line on purpose.
+// `npm run pin`: builds only this phase's programs (added: 23 and later), never the whole library. Adds a pin for each
+// that has none and checks the pins they have; an existing pin is never changed. The build's own gate checks the rest.
 const fs = require('fs');
 const path = require('path');
-const crypto = require('crypto');
-const { buildAll } = require('../program-builder.js');
+const { pinOf } = require('./pins.js');
 
 const file = path.join(__dirname, '../tests/fixtures/program-days.json');
-const pins = JSON.parse(fs.readFileSync(file, 'utf8'));
-const added = [];
-buildAll().forEach((p) => {
-  if (pins[p.id]) return;
-  pins[p.id] = crypto.createHash('sha256').update(JSON.stringify(p.days)).digest('hex');
-  added.push(p.id);
-});
-fs.writeFileSync(file, JSON.stringify(pins, null, 2) + '\n');
-console.log(added.length ? `pinned: ${added.join(', ')}` : 'every program was already pinned');
+const PHASE = 23;
+
+// Pure: `build(config)` gives a program; returns the new pins, the ids added and the problems found.
+function pinEntries(configs, pins, build, from = PHASE) {
+  const out = { ...pins }, added = [], problems = [];
+  configs.filter((c) => (c.added || 0) >= from).forEach((c) => {
+    const p = build(c);
+    const now = pinOf(p.days);
+    if (!out[c.id]) { out[c.id] = now; added.push(c.id); return; }
+    if (out[c.id] !== now) problems.push(`${c.id}: its days changed (pinned ${out[c.id].slice(0, 8)}, built ${now.slice(0, 8)})`);
+  });
+  return { pins: out, added, problems };
+}
+
+if (require.main === module) {
+  const { CONFIGS, buildConfig } = require('../program-builder.js');
+  const pins = JSON.parse(fs.readFileSync(file, 'utf8'));
+  const out = pinEntries(CONFIGS, pins, buildConfig);
+  if (out.problems.length) { console.error(out.problems.join('\n')); process.exit(1); }
+  fs.writeFileSync(file, JSON.stringify(out.pins, null, 2) + '\n');
+  console.log(out.added.length ? `pinned: ${out.added.join(', ')}` : 'every phase program was already pinned');
+}
+
+module.exports = { pinEntries };
