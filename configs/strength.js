@@ -2666,6 +2666,313 @@ const P23_BW = [
 const P23_T3 = [...P23_STRENGTH, ...P23_BUSY, ...P23_BW].map((c) => ({ ...c, added: 23, catalogue: 13 }));
 CONFIGS.push(...P23_T3);
 
+// Phase 23 ticket 4: Kettlebell only +9, Kettlebell complexes +5, Pull-ups +8, Climber / pull strength +4, by ticket 3's rules.
+const P23_KB = [
+  {
+    id: 'long-bell-strength', name: 'Long Bell Strength', subject: 'Kettlebell only', minutes: P23_LONG, equip: 'kb', levers: [null, 'weight', 'reps'],
+    split: 'Bell squat & press / bell hinge & swing / bell full body', blurb: 'Longer one-bell days in straight sets: squat and press, hinge and swing, then full body.',
+    about: 'One kettlebell and the time to use it properly. Three days rotate in straight sets: squats and presses, then hinges and swings, then a full-body day. Five moves a day, all with the same bell. Abs finish every session. Level II asks for a heavier bell and Level III adds reps.',
+    names: ['Anvil Bell', 'Iron Bell', 'Cast Bell', 'Black Bell', 'Cannonball', 'Shot Put', 'Kettle', 'Cauldron', 'Crucible Pot', 'Dutch Oven', 'Skillet', 'Pot Belly', 'Boiler', 'Steam Drum', 'Ballast', 'Counterweight', 'Plumb Bob', 'Sinker', 'Anchor Weight', 'Deadweight'],
+    cycle: ['squat', 'hinge', 'full'],
+    dayTypes: {
+      squat: { label: 'Squat & press', short: 'Squat', blocks: [S('Squat & press', ['kbLower2', 'kbUpper2', 'kbLower', 'kbUpper2', 'kbCore2?'])] },
+      hinge: { label: 'Hinge & swing', short: 'Hinge', blocks: [S('Hinge & swing', ['kbBallistic', 'kbUpper2', 'kbLower2', 'kbCore2', 'kbSwing?'])] },
+      full: { label: 'Full body', short: 'Full', blocks: [S('Full body', ['kbAll', 'kbUpper2', 'kbLower2', 'kbCore2', 'kbAll?'])] },
+    },
+  },
+  {
+    id: 'bell-circuit-month', name: 'Bell Circuit Month', subject: 'Kettlebell only', days: 30, minutes: P23_LONG, equip: 'kb', levers: [null, 'reps', 'weight'],
+    split: 'Two bell circuits a day, A / B, 30 days', blurb: 'A month of two one-bell circuits a day, round after round.',
+    about: 'A month of circuits with one kettlebell. Each day is two circuits of four moves, swings and squats, presses and core work, round after round with a short breather. Two days alternate, and every ten days the level steps up. Abs finish every session. Level II adds reps and Level III asks for a heavier bell.',
+    names: ['Orbit Ring', 'Ferris Wheel', 'Merry-Go-Round', 'Whirligig', 'Spinning Top', 'Gyroscope', 'Centrifuge', 'Turntable', 'Lazy Susan', 'Revolving Door', 'Water Wheel', 'Windmill Sail', 'Paddle Wheel', 'Treadwheel', 'Hamster Wheel', 'Big Wheel', 'Cartwheel', 'Catherine Ring', 'Roulette', 'Rotunda'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Bell circuits A', short: 'A', blocks: [C('Circuit 1', ['kbBallistic', 'kbLower2', 'kbUpper2', 'kbCore2'], { values: [2, 3, 4] }), C('Circuit 2', ['kbSwing', 'kbLower', 'kbUpper2', 'kbAll'], { values: [2, 3, 4] })] },
+      b: { label: 'Bell circuits B', short: 'B', blocks: [C('Circuit 1', ['kbAll', 'kbUpper2', 'kbLower2', 'kbCore2'], { values: [2, 3, 4] }), C('Circuit 2', ['kbBallistic', 'kbUpper', 'kbLower', 'kbCore2'], { values: [2, 3, 4] })] },
+    },
+  },
+  {
+    id: 'bell-lifts-emom', name: 'Bell Lifts and EMOM', subject: 'Kettlebell only', minutes: P23_LONG, equip: 'kb', levers: [null, 'weight', 'tempo'],
+    split: 'Bell lifts, then a bell EMOM, A / B', blurb: 'Three bell lifts in straight sets, then a bell EMOM to the end.',
+    about: 'Strength first, then the clock. Each day opens with three kettlebell lifts in straight sets, then an EMOM of four more bell moves, a set at the top of every minute. Two days alternate. Abs finish every session. Level II asks for a heavier bell and Level III slows the lowering to three seconds.',
+    names: ['Morning Bell', 'Noon Bell', 'Evening Bell', 'Vespers', 'Matins', 'Angelus', 'Curfew', 'Reveille', 'Last Post', 'Taps', 'Muster', 'Roll Call', 'Watch Bell', 'Dog Watch', 'Middle Watch', 'Forenoon', 'First Watch', 'Eight Bells', 'Two Bells', 'Six Bells'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Lifts & EMOM A', short: 'A', blocks: [S('Bell lifts', ['kbLower2', 'kbUpper2', 'kbLower']), E('Bell EMOM', ['kbBallistic', 'kbUpper2', 'kbCore2', 'kbLower2'], { values: [10, 12, 14] })] },
+      b: { label: 'Lifts & EMOM B', short: 'B', blocks: [S('Bell lifts', ['kbBallistic', 'kbUpper2', 'kbLower2']), E('Bell EMOM', ['kbSwing', 'kbUpper', 'kbAll', 'kbCore2'], { values: [10, 12, 14] })] },
+    },
+  },
+  {
+    id: 'bell-push-pull-legs', name: 'Bell Push Pull Legs', subject: 'Kettlebell only', minutes: P23_LONG, equip: 'kb', levers: [null, 'reps', 'tempo'],
+    split: 'Bell push / bell pull / bell legs', blurb: 'Push, pull and legs with a single kettlebell, in straight sets.',
+    about: 'The classic three-day split with one kettlebell. Push day presses, pull day rows and pulls, legs day squats, lunges and swings, each in straight sets with core work along the way. Three days rotate. Abs finish every session. Level II adds reps and Level III slows the lowering to three seconds.',
+    names: ['Tin', 'Copper', 'Bronze', 'Brass', 'Pewter', 'Nickel', 'Zinc', 'Cobalt', 'Chrome', 'Tungsten', 'Titanium', 'Platinum', 'Silver', 'Gold', 'Lead', 'Bismuth', 'Manganese', 'Vanadium', 'Iridium', 'Osmium'],
+    cycle: ['push', 'pull', 'legs'],
+    dayTypes: {
+      push: { label: 'Bell push', short: 'Push', blocks: [S('Push', ['kbUpper2', 'kbUpper', 'kbUpper2', 'kbCore2', 'kbAll?'])] },
+      pull: { label: 'Bell pull', short: 'Pull', blocks: [S('Pull', ['kbUpper2', 'kbAll', 'kbUpper2', 'kbCore2', 'kbUpper?'])] },
+      legs: { label: 'Bell legs', short: 'Legs', blocks: [S('Legs', ['kbLower2', 'kbLower', 'kbBallistic', 'kbLower2', 'kbSwing?'])] },
+    },
+  },
+  {
+    id: 'bell-emom-trio', name: 'Bell EMOM Trio', subject: 'Kettlebell only', minutes: P23_LONG, equip: 'kb', levers: [null, 'reps', 'weight'],
+    split: 'Three-move bell EMOM A / B / C', blurb: 'One long bell EMOM a day, three moves taking turns at the top of each minute.',
+    about: 'One bell, three moves and the clock. Each day is a long EMOM where three kettlebell moves take turns, one set at the top of every minute. Three days rotate, so each move gets plenty of minutes. Abs finish every session. Level II adds reps and Level III asks for a heavier bell.',
+    names: ['Trio', 'Triad', 'Trident', 'Trefoil', 'Tripod', 'Trilogy', 'Triangle', 'Triple Jump', 'Hat Trick', 'Three Count', 'Treble', 'Tercet', 'Triplet', 'Tricorn', 'Trimaran', 'Tri-State', 'Third Gear', 'Three Bells', 'Triskelion', 'Trifecta'],
+    cycle: ['a', 'b', 'c'],
+    dayTypes: {
+      a: { label: 'EMOM A', short: 'A', blocks: [E('Bell EMOM', ['kbBallistic', 'kbUpper2', 'kbLower2'], { values: [24, 27, 30] })] },
+      b: { label: 'EMOM B', short: 'B', blocks: [E('Bell EMOM', ['kbSwing', 'kbLower', 'kbCore2'], { values: [24, 27, 30] })] },
+      c: { label: 'EMOM C', short: 'C', blocks: [E('Bell EMOM', ['kbAll', 'kbUpper', 'kbLower2'], { values: [24, 27, 30] })] },
+    },
+  },
+  {
+    id: 'bell-strength-thirty', name: 'Bell Strength Thirty', subject: 'Kettlebell only', days: 30, minutes: P23_MID, equip: 'kb', levers: [null, 'weight', 'reps'],
+    split: 'Bell upper & core / bell lower & swings, 30 days', blurb: 'A month of one-bell strength, upper and lower days in straight sets.',
+    about: 'A month of strength with one kettlebell. Upper days press, row and brace; lower days squat, hinge and swing, all in straight sets with full rests. Every ten days the level steps up. Abs finish every session. Level II asks for a heavier bell and Level III adds reps.',
+    names: ['Acorn Bell', 'Pine Cone', 'Chestnut', 'Walnut', 'Hazelnut', 'Almond', 'Pecan', 'Cashew', 'Pistachio', 'Macadamia', 'Brazil Nut', 'Coconut', 'Peanut', 'Beechnut', 'Butternut', 'Hickory', 'Kola', 'Pine Nut', 'Candlenut', 'Chinquapin'],
+    cycle: ['upper', 'lower'],
+    dayTypes: {
+      upper: { label: 'Upper & core', short: 'Upper', blocks: [S('Upper & core', ['kbUpper2', 'kbUpper2', 'kbCore2', 'kbAll?'])] },
+      lower: { label: 'Lower & swings', short: 'Lower', blocks: [S('Lower & swings', ['kbLower2', 'kbBallistic', 'kbLower', 'kbSwing?'])] },
+    },
+  },
+  {
+    id: 'circuit-then-swings', name: 'Circuit Then Swings', subject: 'Kettlebell only', minutes: P23_MID, equip: 'kb', levers: [null, 'reps', 'variation'],
+    split: 'Bell circuit, then a swing EMOM, A / B', blurb: 'A one-bell strength circuit, then a swing EMOM to finish.',
+    about: 'Strength in a circuit, then swings on the minute. Each day is a circuit of three kettlebell moves, round after round, then a short EMOM of swings and other ballistic moves. Two days alternate. Abs finish every session. Level II adds reps and Level III brings harder variations.',
+    names: ['Spark Plug', 'Ignition', 'Starter', 'Throttle', 'Clutch', 'Gear Shift', 'Choke', 'Carburettor', 'Manifold', 'Exhaust', 'Radiator', 'Fan Belt', 'Alternator', 'Distributor', 'Timing Belt', 'Crankshaft', 'Oil Pan', 'Dipstick', 'Spark Gap', 'Coil'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Circuit & swings A', short: 'A', blocks: [C('Bell circuit', ['kbLower2', 'kbUpper2', 'kbCore2'], { values: [2, 3, 4] }), E('Swing EMOM', ['kbSwing', 'kbBallistic'], { values: [6, 8, 10] })] },
+      b: { label: 'Circuit & swings B', short: 'B', blocks: [C('Bell circuit', ['kbLower', 'kbUpper', 'kbAll'], { values: [2, 3, 4] }), E('Swing EMOM', ['kbBallistic', 'kbSwing'], { values: [6, 8, 10] })] },
+    },
+  },
+  {
+    id: 'quick-bell-circuit', name: 'Quick Bell Circuit', subject: 'Kettlebell only', minutes: [25, 30], equip: 'kb', levers: [null, 'weight', 'reps'],
+    split: 'Short bell circuit A / B / C', blurb: 'A short one-bell circuit a day, three rotating, four moves a round.',
+    about: 'A quick session with one kettlebell. Each day is a circuit of four bell moves, round after round with a short breather, and three circuits rotate. It fits a short slot without losing any part of the body. Abs finish every session. Level II asks for a heavier bell and Level III adds reps.',
+    names: ['Quick Fix', 'Fast Track', 'Speed Bump', 'Short Cut', 'Jiffy', 'Trice', 'Flash Bell', 'Snap Bell', 'Rapid', 'Brisk', 'Nimble', 'Fleet', 'Hasty', 'Swift Bell', 'Prompt', 'Lively', 'Spry', 'Zippy', 'Speedy', 'Pronto'],
+    cycle: ['a', 'b', 'c'],
+    dayTypes: {
+      a: { label: 'Circuit A', short: 'A', blocks: [C('Bell circuit', ['kbBallistic', 'kbLower2', 'kbUpper2', 'kbCore2'], { values: [2, 3, 4] })] },
+      b: { label: 'Circuit B', short: 'B', blocks: [C('Bell circuit', ['kbSwing', 'kbUpper', 'kbLower', 'kbAll'], { values: [2, 3, 4] })] },
+      c: { label: 'Circuit C', short: 'C', blocks: [C('Bell circuit', ['kbAll', 'kbUpper2', 'kbLower2', 'kbCore2'], { values: [2, 3, 4] })] },
+    },
+  },
+  {
+    id: 'quick-bell-emom', name: 'Quick Bell EMOM', subject: 'Kettlebell only', minutes: [25, 30], equip: 'kb', levers: [null, 'reps', 'tempo'],
+    split: 'Bell EMOM, upper / lower, short', blurb: 'A short one-bell EMOM, upper body one day and lower the next.',
+    about: 'A short session the clock runs. Each day is an EMOM of four kettlebell moves, a set at the top of every minute, upper body one day and lower the next. No rests to plan. Abs finish every session. Level II adds reps and Level III slows every rep down.',
+    names: ['Bell One', 'Bell Two', 'Bell Three', 'Bell Four', 'Bell Five', 'Bell Six', 'Bell Seven', 'Bell Eight', 'Bell Nine', 'Bell Ten', 'Bell Eleven', 'Bell Twelve', 'Bell Thirteen', 'Bell Fourteen', 'Bell Fifteen', 'Bell Sixteen', 'Bell Seventeen', 'Bell Eighteen', 'Bell Nineteen', 'Bell Twenty'],
+    cycle: ['upper', 'lower'],
+    dayTypes: {
+      upper: { label: 'Upper EMOM', short: 'Upper', blocks: [E('Upper EMOM', ['kbUpper2', 'kbUpper', 'kbCore2', 'kbUpper2'], { values: [14, 16, 18, 20] })] },
+      lower: { label: 'Lower EMOM', short: 'Lower', blocks: [E('Lower EMOM', ['kbLower2', 'kbBallistic', 'kbLower', 'kbSwing'], { values: [14, 16, 18, 20] })] },
+    },
+  },
+];
+const P23_CX = [
+  {
+    id: 'long-complex', name: 'Long Complex', subject: 'Kettlebell complexes', minutes: P23_LONG, equip: 'kb', levers: [null, 'reps', 'weight'],
+    split: 'Two complexes a day, A / B', blurb: 'Two kettlebell complexes a day: one long chain, then a shorter one.',
+    about: 'Two complexes, each a chain of bell moves done without putting the bell down. The first is four moves long and the second three, both round after round. Two days alternate, one led by the clean and one by the swing. Abs finish every session. Level II adds reps and Level III asks for a heavier bell.',
+    names: ['Knot', 'Hitch', 'Bowline', 'Clove Hitch', 'Reef Knot', 'Sheet Bend', 'Half Hitch', 'Figure Eight', 'Slipknot', 'Granny Knot', 'Square Knot', 'Monkey Fist', 'Turk Head', 'Sheepshank', 'Taut Line', 'Prusik', 'Fisherman', 'Carrick Bend', 'Trucker Hitch', 'Constrictor'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Complexes A', short: 'A', blocks: [C('Long complex', ['kb_clean', 'kbCx', 'kbCxLower', 'kbCxUpper'], { values: [3, 4, 5] }), C('Short complex', ['kbCx', 'kbCxLower', 'kbCxCore'], { values: [2, 3, 4] })] },
+      b: { label: 'Complexes B', short: 'B', blocks: [C('Long complex', ['kb_one_arm_swing', 'kbCxUpper', 'kbCxLower', 'kbCx'], { values: [3, 4, 5] }), C('Short complex', ['kbCx', 'kbCxUpper', 'kbCxCore'], { values: [2, 3, 4] })] },
+    },
+  },
+  {
+    id: 'complex-month', name: 'Complex Month', subject: 'Kettlebell complexes', days: 30, minutes: P23_LONG, equip: 'kb', levers: [null, 'reps', 'variation'],
+    split: 'Complex AMRAP / complex ladders, 30 days', blurb: 'A month of complexes: an AMRAP day and a ladder day, one bell.',
+    about: 'A month of kettlebell complexes in two shapes. One day is a long AMRAP of a five-move chain, then a short one; the other is two complex ladders, one rep of each move, then two, then three, and a core circuit. Every ten days the level steps up. Abs finish every session. Level II adds reps and Level III brings harder variations.',
+    names: ['Braid', 'Plait', 'Weave', 'Twine', 'Strand', 'Cord', 'Rope', 'Cable', 'Hawser', 'Lanyard', 'Tether', 'Lariat', 'Halyard', 'Painter', 'Mooring Line', 'Bungee', 'Lashing', 'Ratline', 'Guy Line', 'Dock Line'],
+    cycle: ['amrap', 'ladder'],
+    dayTypes: {
+      amrap: { label: 'Complex AMRAP', short: 'AMRAP', blocks: [A('Long AMRAP', ['kb_clean', 'kbCxUpper', 'kbCxLower', 'kbCx', 'kbCxCore'], { values: [12, 14, 16] }), A('Short AMRAP', ['kbCx', 'kbCxCore'], { values: [6, 8] })] },
+      ladder: { label: 'Complex ladders', short: 'Ladder', blocks: [L('Ladder 1', ['kbCx', 'kbCxLower']), L('Ladder 2', ['kbCxUpper', 'kbCxCore']), C('Core', ['kbCxCore', 'kbCx'], { values: [2, 3] })] },
+    },
+  },
+  {
+    id: 'heavy-complex-emom', name: 'Heavy Complex EMOM', subject: 'Kettlebell complexes', minutes: P23_LONG, equip: 'kb', levers: [null, 'weight', 'reps'],
+    split: 'Heavy complex, then a complex EMOM, A / B', blurb: 'A heavy complex in straight sets, then a complex on every minute.',
+    about: 'Heavy first, then fast. Each day opens with a heavy complex in straight sets, a clean, press and squat or a swing, pull and push press, then an EMOM of three more complex moves. Two days alternate. Abs finish every session. Level II asks for a heavier bell and Level III adds reps.',
+    names: ['Chain', 'Link', 'Shackle', 'Swivel', 'Clevis', 'Carabiner', 'Hook', 'Eyelet', 'Ring Bolt', 'Turnbuckle', 'Pulley Block', 'Snatch Block', 'Bollard Line', 'Capstan', 'Windlass', 'Cleat', 'Davit', 'Derrick', 'Boom', 'Jib'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Heavy & EMOM A', short: 'A', blocks: [S('Heavy complex', ['kb_clean', 'kb_press', 'kb_front_squat', 'kbCxCore?']), E('Complex EMOM', ['kbCx', 'kbCxUpper', 'kbCxLower'], { values: [12, 14, 16] })] },
+      b: { label: 'Heavy & EMOM B', short: 'B', blocks: [S('Heavy complex', ['kb_swing', 'kb_high_pull', 'kb_push_press', 'kbCxLower?']), E('Complex EMOM', ['kbCx', 'kbCxLower', 'kbCxCore'], { values: [12, 14, 16] })] },
+    },
+  },
+  {
+    id: 'complex-ladder-plus', name: 'Complex Ladder Plus', subject: 'Kettlebell complexes', minutes: P23_MID, equip: 'kb', levers: [null, 'reps', 'tempo'],
+    split: 'Two complex ladders and a core circuit, A / B', blurb: 'Two kettlebell complex ladders, then a core circuit.',
+    about: 'Climb twice, then brace. Each day is two ladders of two complex moves, one rep of each, then two, then three, as high as you can go, then a short core circuit with the bell. Two days alternate. Abs finish every session. Level II adds reps and Level III slows every rep down.',
+    names: ['Ladder Back', 'Rope Ladder', 'Step Stool', 'Stepladder', 'Extension', 'Jacob Ladder', 'Gangway', 'Gangplank', 'Companionway', 'Hatch', 'Deck', 'Bridge Deck', 'Quarterdeck', 'Forecastle', 'Poop Deck', 'Crow Nest', 'Mainmast', 'Mizzen', 'Topsail', 'Rigging'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Ladders & core A', short: 'A', blocks: [L('Ladder 1', ['kbCx', 'kbCxLower']), L('Ladder 2', ['kbCxUpper', 'kbCx']), C('Core', ['kbCxCore', 'kbCxCore'], { values: [2, 3] })] },
+      b: { label: 'Ladders & core B', short: 'B', blocks: [L('Ladder 1', ['kb_clean', 'kbCxLower']), L('Ladder 2', ['kbCx', 'kbCxUpper']), C('Core', ['kbCxCore', 'kbCx'], { values: [2, 3] })] },
+    },
+  },
+  {
+    id: 'complex-express', name: 'Complex Express', subject: 'Kettlebell complexes', minutes: [24, 29], equip: 'kb', levers: [null, 'weight', 'reps'],
+    split: 'One complex AMRAP a day, A / B / C', blurb: 'One short kettlebell complex AMRAP a day, three rotating.',
+    about: 'A complex, a clock and nothing else. Each day is one AMRAP of a four-move complex, as many rounds as you can before the time runs out. Three complexes rotate. Abs finish every session. Level II asks for a heavier bell and Level III adds reps.',
+    names: ['Jab', 'Flick Kick', 'Snap Pass', 'Quick Hands', 'Fast Feet', 'Blink', 'Flinch', 'Twitch', 'Pounce', 'Lunge Out', 'Spring Up', 'Dash Bell', 'Hustle', 'Scramble', 'Bustle', 'Scurry', 'Hurry', 'Scamper', 'Rush', 'Bolt'],
+    cycle: ['a', 'b', 'c'],
+    dayTypes: {
+      a: { label: 'Complex AMRAP A', short: 'A', blocks: [A('Complex AMRAP', ['kb_clean', 'kbCxUpper', 'kbCxLower', 'kbCxCore'], { values: [14, 16, 18, 20] })] },
+      b: { label: 'Complex AMRAP B', short: 'B', blocks: [A('Complex AMRAP', ['kb_one_arm_swing', 'kbCx', 'kbCxLower', 'kbCxCore'], { values: [14, 16, 18, 20] })] },
+      c: { label: 'Complex AMRAP C', short: 'C', blocks: [A('Complex AMRAP', ['kbCx', 'kbCxUpper', 'kbCx', 'kbCxCore'], { values: [14, 16, 18, 20] })] },
+    },
+  },
+];
+const P23_PULL = [
+  {
+    id: 'pullup-volume', name: 'Pull-up Volume', subject: 'Pull-ups', minutes: P23_LONG, levers: [null, 'reps', 'weight'],
+    split: 'Pull-up volume / push & legs / pull-up strength', blurb: 'Pull-up supersets for volume, a push and legs day, then heavy pull-ups.',
+    about: 'More pull-ups, spread across the week. The volume day pairs pull-ups with rows and presses in supersets; the push and legs day gives the back a rest; the strength day is straight sets of harder pulls with full rests. Three days rotate. Abs finish every session. Level II adds reps and Level III moves you one weight up.',
+    names: ['Chin', 'Brow', 'Crown Bar', 'Overhand', 'Underhand', 'Neutral', 'Wide', 'Close', 'Mixed', 'Hook Grip', 'False Grip', 'Thumbless', 'Full Hang', 'Top Hold', 'Kip', 'Strict', 'Dead Stop', 'Scap Pull', 'Negative', 'Lock Off'],
+    cycle: ['volume', 'pushlegs', 'strength'],
+    dayTypes: {
+      volume: { label: 'Pull-up volume', short: 'Volume', blocks: [SS('Pull-up volume', ['pullBarMain', 'row2', 'pullBar2', 'chestPress', 'biceps2', 'barCore'])] },
+      pushlegs: { label: 'Push & legs', short: 'Push', blocks: [S('Push & legs', ['squat2', 'pushLoad2', 'hinge2', 'lunge2', 'pullBar?'])] },
+      strength: { label: 'Pull-up strength', short: 'Strength', blocks: [S('Pull-up strength', ['pullBarMain', 'backBar', 'backRow', 'pullBar2', 'biceps2?'])] },
+    },
+  },
+  {
+    id: 'pullup-emom-month', name: 'Pull-up EMOM Month', subject: 'Pull-ups', days: 30, minutes: P23_LONG, levers: [null, 'reps', 'variation'],
+    split: 'Pull-up EMOM, then strength, upper / lower, 30 days', blurb: 'A month that starts every day with a pull-up EMOM, then strength work.',
+    about: 'A month of pull-ups on the minute. Every day opens with an EMOM of pull-ups and one other move, then straight sets: the upper body one day, the legs the next. Every ten days the level steps up. Abs finish every session. Level II adds reps and Level III brings harder variations.',
+    names: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December', 'Equinox', 'Solstice', 'New Moon', 'Full Moon', 'Half Moon', 'Crescent', 'Gibbous', 'Eclipse'],
+    cycle: ['upper', 'lower'],
+    dayTypes: {
+      upper: { label: 'EMOM & upper', short: 'Upper', blocks: [E('Pull-up EMOM', ['pullBarMain', 'push'], { values: [10, 12, 14] }), S('Upper', ['backRow', 'chestPress', 'shoulders2', 'biceps2?'])] },
+      lower: { label: 'EMOM & lower', short: 'Lower', blocks: [E('Pull-up EMOM', ['pullBar2', 'barCore'], { values: [10, 12, 14] }), S('Lower', ['squat2', 'hinge2', 'lunge2', 'glute2?'])] },
+    },
+  },
+  {
+    id: 'ladder-and-pairs', name: 'Ladder and Pairs', subject: 'Pull-ups', minutes: P23_LONG, levers: [null, 'reps', 'tempo'],
+    split: 'Pull-up ladder, then supersets, A / B', blurb: 'A pull-up ladder first, then full-body supersets.',
+    about: 'Pull-ups while you are fresh, then the rest of the body. Each day opens with a pull-up ladder, one rep, then two, then three, as high as you can go, then supersets of a press, a row and the legs. Two days alternate. Abs finish every session. Level II adds reps and Level III slows the lowering to three seconds.',
+    names: ['Oak Rung', 'Ash Rung', 'Elm Rung', 'Birch Rung', 'Pine Rung', 'Maple Rung', 'Cedar Rung', 'Yew Rung', 'Teak Rung', 'Walnut Rung', 'Cherry Rung', 'Hickory Rung', 'Beech Rung', 'Alder Rung', 'Larch Rung', 'Poplar Rung', 'Willow Rung', 'Spruce Rung', 'Rowan Rung', 'Holly Rung'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Ladder & pairs A', short: 'A', blocks: [L('Pull-up ladder', ['pullBarMain']), SS('Pairs', ['chestPress', 'row2', 'squat2', 'hinge2'])] },
+      b: { label: 'Ladder & pairs B', short: 'B', blocks: [L('Pull-up ladder', ['pullBar2']), SS('Pairs', ['pushLoad2', 'backRow', 'lunge2', 'glute2'])] },
+    },
+  },
+  {
+    id: 'bar-four-day', name: 'Bar Four-Day', subject: 'Pull-ups', minutes: P23_LONG, levers: [null, 'weight', 'reps'],
+    split: 'Wide pulls / chin-ups & arms / legs / bar core & push', blurb: 'Four days round the bar: wide pulls, chin-ups and arms, legs, then core and push.',
+    about: 'Four days that treat the bar from every side. Wide-grip pulls and rear shoulders one day, chin-ups and arms the next, then a leg day, then hanging core work with presses. Straight sets throughout. Abs finish every session. Level II moves you one weight up and Level III adds reps.',
+    names: ['Monkey', 'Gibbon', 'Lemur', 'Baboon', 'Macaque', 'Capuchin', 'Tamarin', 'Marmoset', 'Orangutan', 'Gorilla', 'Chimp', 'Bonobo', 'Howler', 'Spider Monkey', 'Mandrill', 'Colobus', 'Langur', 'Siamang', 'Loris', 'Tarsier'],
+    cycle: ['wide', 'chin', 'legs', 'core'],
+    dayTypes: {
+      wide: { label: 'Wide pulls', short: 'Wide', blocks: [S('Wide pulls', ['pullBar2', 'backBar', 'backRear', 'row2', 'pullBar?'])] },
+      chin: { label: 'Chin-ups & arms', short: 'Chin', blocks: [S('Chin-ups & arms', ['pullBarMain', 'biceps2', 'backRow', 'gripPull', 'biceps2?'])] },
+      legs: { label: 'Legs', short: 'Legs', blocks: [S('Legs', ['squat2', 'hinge2', 'lunge2', 'glute2', 'calf?'])] },
+      core: { label: 'Bar core & push', short: 'Core', blocks: [S('Bar core & push', ['barCore', 'chestPress', 'pushLoad2', 'barCore', 'triceps2?'])] },
+    },
+  },
+  {
+    id: 'pull-pairs-thirty', name: 'Pull Pairs Thirty', subject: 'Pull-ups', days: 30, minutes: P23_MID, levers: [null, 'reps', 'weight'],
+    split: 'Pull-push supersets A / B, 30 days', blurb: 'A month of pull-ups paired with presses, in supersets.',
+    about: 'A month where every pull has a push. Each day is three supersets, a pull-up or row with a press, back to back with one rest after both. Two days alternate, and every ten days the level steps up. Abs finish every session. Level II adds reps and Level III moves you one weight up.',
+    names: ['Give and Take', 'Ebb and Flow', 'Up and Down', 'Rise and Fall', 'Day and Night', 'Hot and Cold', 'High and Low', 'Fire and Ice', 'Sun and Moon', 'Salt and Pepper', 'Bread and Butter', 'Rock and Roll', 'Stop and Go', 'Back and Forth', 'Push and Pull', 'Hide and Seek', 'Cat and Mouse', 'Black and White', 'Thick and Thin', 'Pros and Cons'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Pull-push A', short: 'A', blocks: [SS('Pull-push pairs', ['pullBarMain', 'chestPress', 'row2', 'pushLoad2', 'barCore', 'shoulders2'])] },
+      b: { label: 'Pull-push B', short: 'B', blocks: [SS('Pull-push pairs', ['pullBar2', 'pushLoad2', 'backRow', 'push', 'biceps2', 'triceps2'])] },
+    },
+  },
+  {
+    id: 'bar-emom-pairs', name: 'Bar EMOM and Pairs', subject: 'Pull-ups', minutes: P23_MID, levers: [null, 'tempo', 'reps'],
+    split: 'Bar EMOM, then supersets, A / B', blurb: 'A pull-up EMOM, then full-body supersets.',
+    about: 'Pull-ups on the clock, then everything else in pairs. Each day opens with an EMOM of two bar moves, a set at the top of every minute, then two supersets of legs, a press and a row. Two days alternate. Abs finish every session. Level II slows every rep down and Level III adds reps.',
+    names: ['Parallel', 'Horizontal', 'Vertical', 'Diagonal', 'Tangent', 'Arc', 'Chord', 'Radius', 'Vector', 'Axis', 'Plane', 'Angle', 'Apex', 'Vertex', 'Edge', 'Face', 'Prism', 'Cube', 'Sphere', 'Cone'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'EMOM & pairs A', short: 'A', blocks: [E('Bar EMOM', ['pullBarMain', 'barCore'], { values: [8, 10, 12] }), SS('Pairs', ['squat2', 'chestPress', 'hinge2', 'row2'])] },
+      b: { label: 'EMOM & pairs B', short: 'B', blocks: [E('Bar EMOM', ['pullBar2', 'pullBarMain'], { values: [8, 10, 12] }), SS('Pairs', ['lunge2', 'pushLoad2', 'glute2', 'backRow'])] },
+    },
+  },
+  {
+    id: 'pullup-express', name: 'Pull-up Express', subject: 'Pull-ups', minutes: [26, 31], levers: [null, 'reps', 'variation'],
+    split: 'Pull-up EMOM / pull-up ladders, short', blurb: 'A short pull-up day: an EMOM one day, two ladders the next.',
+    about: 'Pull-ups for the shorter days. One day is an EMOM of pull-ups, a push, a second pull and hanging core work; the other is two ladders, each a pull-up paired with a push or squat. They alternate. Abs finish every session. Level II adds reps and Level III brings harder variations.',
+    names: ['Snap Chin', 'Quick Pull', 'Fast Bar', 'Short Hang', 'Speed Chin', 'Rapid Row', 'Flash Pull', 'Jolt Bar', 'Brisk Bar', 'Blitz Bar', 'Dash Pull', 'Zip Bar', 'Pop Chin', 'Spark Bar', 'Hop Bar', 'Kick Bar', 'Jump Bar', 'Flick Bar', 'Rush Pull', 'Bolt Bar'],
+    cycle: ['emom', 'ladder'],
+    dayTypes: {
+      emom: { label: 'Pull-up EMOM', short: 'EMOM', blocks: [E('Pull-up EMOM', ['pullBarMain', 'push', 'pullBar2', 'barCore'], { values: [12, 14, 16, 18] })] },
+      ladder: { label: 'Pull-up ladders', short: 'Ladder', blocks: [L('Ladder 1', ['pullBarMain', 'push']), L('Ladder 2', ['pullBar2', 'squat2'])] },
+    },
+  },
+  {
+    id: 'short-bar-strength', name: 'Short Bar Strength', subject: 'Pull-ups', minutes: [26, 31], levers: [null, 'weight', 'tempo'],
+    split: 'Pull & press / pull & legs, short', blurb: 'Short straight-set days that start with the bar every time.',
+    about: 'Heavy pulls in a short session. Each day opens with a pull-up, then a press and a row on one day, a squat and a hinge on the other, in straight sets. They alternate. Abs finish every session. Level II moves you one weight up and Level III slows the lowering to three seconds.',
+    names: ['Iron Bar', 'Steel Bar', 'Crowbar', 'Rebar', 'Pry Bar', 'Bar Bell', 'Handle Bar', 'Towel Bar', 'Grab Bar', 'Roll Bar', 'Sway Bar', 'Torsion Bar', 'Tow Bar', 'Push Bar', 'Panic Bar', 'Drawbar', 'Busbar', 'Sandbar', 'Gold Bar', 'Space Bar'],
+    cycle: ['press', 'legs'],
+    dayTypes: {
+      press: { label: 'Pull & press', short: 'Press', blocks: [S('Pull & press', ['pullBarMain', 'chestPress', 'backRow', 'barCore?'])] },
+      legs: { label: 'Pull & legs', short: 'Legs', blocks: [S('Pull & legs', ['pullBar2', 'squat2', 'hinge2', 'biceps2?'])] },
+    },
+  },
+];
+const P23_CLIMB = [
+  {
+    id: 'long-climb-session', name: 'Long Climb Session', subject: 'Climber / pull strength', minutes: P23_LONG, levers: [null, 'reps', 'variation'],
+    split: 'Pull & hold / back & core / pull volume', blurb: 'Longer climbing strength days: pulls and holds, back and core, then pull volume.',
+    about: 'Strength for the wall, with the time to do it properly. One day is pull-ups and dead hangs in straight sets, the next upper back and hanging core, the third pull volume in supersets with rows and grip work. Three days rotate. Abs finish every session. Level II adds reps and Level III brings harder variations.',
+    names: ['Crimp', 'Sloper', 'Pinch', 'Jug', 'Pocket', 'Edge Hold', 'Undercling', 'Gaston', 'Sidepull', 'Mantle', 'Heel Hook', 'Toe Hook', 'Dyno', 'Deadpoint', 'Flag', 'Drop Knee', 'Smear', 'Stem', 'Layback', 'Lock Hold'],
+    cycle: ['pull', 'back', 'volume'],
+    dayTypes: {
+      pull: { label: 'Pull & hold', short: 'Pull', blocks: [S('Pull & hold', ['climbPull', 'climbHold', 'climbPull', 'climbBack', 'climbHold?'])] },
+      back: { label: 'Back & core', short: 'Back', blocks: [S('Back & core', ['climbBack', 'climbBack', 'barCore', 'coreHollow', 'climbBack?'])] },
+      volume: { label: 'Pull volume', short: 'Volume', blocks: [SS('Pull volume', ['climbPull', 'row2', 'climbPull', 'backRow', 'gripPull', 'climbHold'])] },
+    },
+  },
+  {
+    id: 'climber-month-plus', name: 'Climber Month Plus', subject: 'Climber / pull strength', days: 30, minutes: P23_LONG, levers: [null, 'reps', 'reps'],
+    split: 'Pull ladder & circuit / hang EMOM & back, 30 days', blurb: 'A month for climbers: a ladder and a circuit one day, a hang EMOM and back work the next.',
+    about: 'A month of pulling strength in two shapes. One day is a pull ladder, then a circuit of holds, legs and core; the other is an EMOM of hangs and pulls, then straight sets for the upper back and grip. Every ten days the level steps up. Abs finish every session. Both later levels add reps.',
+    names: ['El Capitan', 'Half Dome', 'Eiger North', 'Fitz Roy', 'Cerro Torre', 'Trango', 'Grand Teton', 'Devil Tower', 'Moonlight Buttress', 'Nose Route', 'Salathe', 'Freerider', 'Astroman', 'Separate Reality', 'Midnight Lightning', 'Action Directe', 'Silence', 'Realization', 'Biographie', 'Jumbo Love'],
+    cycle: ['ladder', 'hang'],
+    dayTypes: {
+      ladder: { label: 'Ladder & circuit', short: 'Ladder', blocks: [L('Pull ladder', ['climbPull', 'climbBack']), C('Circuit', ['climbHold', 'legsBw2', 'coreHollow', 'climbPull'], { values: [2, 3, 4] })] },
+      hang: { label: 'Hang EMOM & back', short: 'Hang', blocks: [E('Hang EMOM', ['climbHold', 'climbBack', 'climbPull', 'coreAnti'], { values: [10, 12, 14] }), S('Back & grip', ['climbBack', 'backRow', 'gripPull'])] },
+    },
+  },
+  {
+    id: 'climb-supersets', name: 'Climb Supersets', subject: 'Climber / pull strength', minutes: P23_MID, levers: [null, 'weight', 'variation'],
+    split: 'Pull & antagonist supersets A / B', blurb: 'Climbing pulls paired with the pushing muscles climbers forget.',
+    about: 'Pulling strength with the balance climbers need. Each superset pairs a climbing pull or hang with a press or push, so the shoulders stay even. Two days alternate. Abs finish every session. Level II moves you one weight up and Level III brings harder variations.',
+    names: ['Belay', 'Lower Off', 'Rappel', 'Top Rope', 'Lead', 'Redpoint', 'Onsight', 'Flash Send', 'Project', 'Beta', 'Crux', 'Rest Stance', 'Clip', 'Quickdraw', 'Anchor Point', 'Chalk', 'Tape', 'Harness', 'Rope Bag', 'Crash Pad'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Supersets A', short: 'A', blocks: [SS('Pull & push', ['climbPull', 'chestPress', 'climbBack', 'pushLoad2', 'climbHold', 'shoulders2'])] },
+      b: { label: 'Supersets B', short: 'B', blocks: [SS('Pull & push', ['climbPull', 'push', 'backRow', 'triceps2', 'gripPull', 'coreHollow'])] },
+    },
+  },
+  {
+    id: 'short-climb-circuit', name: 'Short Climb Circuit', subject: 'Climber / pull strength', minutes: [24, 29], levers: [null, 'reps', 'variation'],
+    split: 'Pull circuit / hold circuit, short', blurb: 'Short climbing circuits: a pull circuit one day, a hold circuit the next.',
+    about: 'Climbing strength in a short slot. One day is a circuit of pull-ups, upper back and core; the other a circuit of hangs and holds with legs and anti-extension work. They alternate, round after round. Abs finish every session. Level II adds reps and Level III brings harder variations.',
+    names: ['Boulder', 'Problem', 'Highball', 'Lowball', 'Traverse Wall', 'Overhang', 'Slab', 'Roof', 'Arete Edge', 'Corner', 'Crack', 'Chimney', 'Off-Width', 'Dihedral', 'Prow', 'Cave', 'Lip', 'Topout', 'Sit Start', 'Eliminate'],
+    cycle: ['pull', 'hold'],
+    dayTypes: {
+      pull: { label: 'Pull circuit', short: 'Pull', blocks: [C('Pull circuit', ['climbPull', 'climbBack', 'coreHollow', 'climbPull'], { values: [2, 3, 4] })] },
+      hold: { label: 'Hold circuit', short: 'Hold', blocks: [C('Hold circuit', ['climbHold', 'climbHold', 'coreAnti', 'legsBw2'], { values: [2, 3, 4] })] },
+    },
+  },
+];
+const P23_T4 = [...P23_KB, ...P23_CX, ...P23_PULL, ...P23_CLIMB].map((c) => ({ ...c, added: 23, catalogue: 13 }));
+CONFIGS.push(...P23_T4);
+
 // Phase 23: the new programs' ids in shelf order, appended to programs.config.js's ORDER after every older program
-CONFIGS.order23 = [...IIS.map((c) => c.id), ...P23_T3.map((c) => c.id)];
+CONFIGS.order23 = [...IIS.map((c) => c.id), ...P23_T3.map((c) => c.id), ...P23_T4.map((c) => c.id)];
 module.exports = CONFIGS;

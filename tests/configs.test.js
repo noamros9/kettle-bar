@@ -184,6 +184,13 @@ const IDS = [
     'half-hour-plus', 'tabata-thirty', 'twenty-pairs', 'twenty-circuit-plus', 'bodyweight-long-haul',
     'calisthenics-volume', 'floor-marathon', 'long-amrap', 'circuit-and-amrap', 'no-gear-thirty',
     'pairs-and-amrap', 'core-and-limbs', 'circuit-25', 'quick-calisthenics',
+    // Phase 23 ticket 4: Kettlebell only, Kettlebell complexes, Pull-ups, Climber / pull strength
+    'long-bell-strength', 'bell-circuit-month', 'bell-lifts-emom', 'bell-push-pull-legs', 'bell-emom-trio',
+    'bell-strength-thirty', 'circuit-then-swings', 'quick-bell-circuit', 'quick-bell-emom', 'long-complex',
+    'complex-month', 'heavy-complex-emom', 'complex-ladder-plus', 'complex-express', 'pullup-volume',
+    'pullup-emom-month', 'ladder-and-pairs', 'bar-four-day', 'pull-pairs-thirty', 'bar-emom-pairs',
+    'pullup-express', 'short-bar-strength', 'long-climb-session', 'climber-month-plus', 'climb-supersets',
+    'short-climb-circuit',
 ];
 
 test('the config ids, in order, are today\'s list', () => {

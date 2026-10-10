@@ -21,8 +21,8 @@ const SUBJECTS = {
   HIIT: { count: 14, abs: true, formats: ['circuit', 'amrap', 'emom', 'tabata', 'ladder'] },
   Plyometrics: { count: 12, abs: true, formats: ['straight', 'circuit', 'emom'] },
   'Grip & forearms': { count: 9, abs: true, formats: ['straight', 'circuit', 'superset', 'emom'] },
-  'Kettlebell complexes': { count: 9, abs: true, formats: ['circuit', 'emom', 'ladder', 'amrap', 'straight'] },
-  'Climber / pull strength': { count: 8, abs: true, formats: ['straight', 'ladder', 'circuit', 'emom', 'superset'] },
+  'Kettlebell complexes': { count: 14, abs: true, formats: ['circuit', 'emom', 'ladder', 'amrap', 'straight'] },
+  'Climber / pull strength': { count: 12, abs: true, formats: ['straight', 'ladder', 'circuit', 'emom', 'superset'] },
   'Gentle / low impact': { count: 10, abs: false, formats: ['circuit', 'flow', 'straight', 'emom'] },
   'Back care': { count: 9, abs: false, formats: ['straight', 'flow', 'circuit'] },
   // Phase 16: muscle focus
@@ -36,9 +36,9 @@ const SUBJECTS = {
   'Running prep': { count: 9, abs: true, formats: ['circuit', 'straight', 'emom', 'amrap'] },
   'Court & field sports': { count: 9, abs: true, formats: ['circuit', 'emom', 'straight', 'tabata', 'amrap'] },
   Strength: { count: 29, abs: true, formats: ['straight', 'superset'] }, // 19, then Phase 23's 10
-  'Pull-ups': { count: 16, abs: true, formats: ['straight', 'superset', 'emom', 'ladder'] },
+  'Pull-ups': { count: 24, abs: true, formats: ['straight', 'superset', 'emom', 'ladder'] },
   'Legs & glutes': { count: 17, abs: true, formats: ['straight'] },
-  'Kettlebell only': { count: 17, abs: true, formats: ['straight', 'circuit', 'emom'] },
+  'Kettlebell only': { count: 26, abs: true, formats: ['straight', 'circuit', 'emom'] },
   'Core & abs': { count: 15, abs: true, formats: ['circuit', 'straight', 'emom'] },
   Conditioning: { count: 14, abs: true, formats: ['circuit', 'amrap', 'ladder', 'emom', 'tabata'] },
   Bodyweight: { count: 29, abs: true, formats: ['superset', 'straight', 'circuit', 'amrap'] }, // 19, then Phase 23's 10
@@ -139,8 +139,8 @@ test('the core programs opt in to the new catalogue (catalogue: 5): their abs fi
   assert.ok(optIn.some((p) => p.days.some((d) => d.blocks.at(-1).items.some((it) => fresh.has(it.ex)))));
 });
 
-test('the library: 780 programs in 66 subjects (736, then Phase 23\'s 15 Signature IIs and ticket 3\'s 29)', () => {
-  assert.equal(programs.length, 780);
+test('the library: 806 programs in 66 subjects (736, then Phase 23\'s 15 Signature IIs, ticket 3\'s 29 and ticket 4\'s 26)', () => {
+  assert.equal(programs.length, 806);
   assert.equal(new Set(programs.map((p) => p.subject)).size, 66);
 });
 
