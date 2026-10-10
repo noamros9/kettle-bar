@@ -35,7 +35,7 @@ function rerender() {
   requestAnimationFrame(() => {
     rerenderQueued = false;
     const y = window.scrollY, a = document.activeElement, typing = a && a.id && a.matches('input[type="text"], input[type="search"]') ? { id: a.id, s: a.selectionStart, e: a.selectionEnd } : null;
-    render(); window.scrollTo(0, y);
+    render(); window.scrollTo(0, y); restoreY(); // a page come back to that was still loading: its saved place (#214)
     const b = typing && document.getElementById(typing.id);
     if (b) { b.focus({ preventScroll: true }); try { b.setSelectionRange(typing.s, typing.e); } catch (err) { /* not a text field now */ } }
   });

@@ -44,7 +44,7 @@ const MAP = [
   [/^app\/pages\/exercises\.js$/, ['exercise', 'exercises', 'muscles']],
   [/^app\/pages\/settings\.js$/, ['settings']],
   [/^app\/pages\/stats\.js$/, ['stats']],
-  [/^app\/(ui\.js|pages\/core\.js)$/, ['offline', 'shortcut']],
+  [/^app\/(ui\.js|pages\/core\.js)$/, ['offline', 'shortcut', 'back']], // back: Back keeps your place (#214)
   [/^app\/main\.js$/, ['actions']],
   [/^(tests-ui\/(fixtures|devices)\.js|playwright\.config\.js)$/, ['sync', 'build', 'random', 'share']],
 ];

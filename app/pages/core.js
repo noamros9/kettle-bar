@@ -57,7 +57,7 @@ function parseHash() {
   // (before any, the program opened last); the program page once every day is done
   if (h === 'today') {
     const pid = lastDonePid() || lastPid() || firstPid(), n = nextDay(pid);
-    history.replaceState(null, '', '#' + (n ? dayHash(pid, n) : 'p-' + pid));
+    history.replaceState(history.state, '', '#' + (n ? dayHash(pid, n) : 'p-' + pid)); // keeps a saved scroll (#214)
     return n ? { view: 'day', pid, day: n } : { view: 'program', pid };
   }
   if (h === 'stats') return { view: 'stats' };
@@ -74,9 +74,30 @@ function parseHash() {
   const last = lastPid();
   return last ? { view: 'program', pid: last } : { view: 'programs' };
 }
-function go(hash) { if (location.hash === '#' + hash) { route = parseHash(); render(true); } else location.hash = hash; }
+function go(hash) { saveY(); if (location.hash === '#' + hash) { pendingY = null; route = parseHash(); render(true); } else location.hash = hash; }
 let navDepth = 0; // exercise pages opened from inside the app go back with history.back()
-window.addEventListener('hashchange', () => { if (!booted) return; route = parseHash(); render(true); });
+/* Back keeps your place (Phase 31 ticket 1, #214): each history entry carries its page's scroll as `y`, written when
+   you leave it and when scrolling settles. Coming back to an entry with a `y` (the phone's or browser's Back) draws the
+   page and scrolls there; a new navigation (a top tab, a card) has none and starts at the top. A program still loading
+   restores once it has drawn (restoreY from rerender). */
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; // the browser's own restore lands on a page not yet drawn
+let pendingY = null, drewLoading = false, saveTimer = null;
+function saveY() {
+  clearTimeout(saveTimer);
+  if (booted && !drewLoading) history.replaceState({ ...(history.state || {}), y: Math.round(window.scrollY) }, '');
+}
+window.addEventListener('scroll', () => { clearTimeout(saveTimer); saveTimer = setTimeout(saveY, 200); }, { passive: true });
+function restoreY() {
+  if (pendingY === null || drewLoading) return;
+  window.scrollTo(0, pendingY); pendingY = null;
+}
+window.addEventListener('hashchange', () => {
+  if (!booted) return;
+  clearTimeout(saveTimer); // a save still waiting belongs to the page just left, not to this entry
+  const st = history.state;
+  pendingY = st && typeof st.y === 'number' ? st.y : null;
+  route = parseHash(); render(pendingY === null); restoreY();
+});
 const dayHash = (pid, n) => `p-${pid}-d${n}`;
 
 
@@ -114,7 +135,8 @@ function render(scrollTop) {
   const needsProgram = v === 'program' || v === 'day' || v === 'exercise';
   const oldStrip = $('.ftabs', app), stripX = oldStrip ? oldStrip.scrollLeft : 0, wasChosen = oldStrip && $('[aria-pressed="true"]', oldStrip);
   const wasKey = wasChosen ? wasChosen.dataset.filter : null;
-  if (needsProgram && stillLoading([route.pid]).length) app.innerHTML = loadingView(route.pid);
+  drewLoading = needsProgram && stillLoading([route.pid]).length > 0;
+  if (drewLoading) app.innerHTML = loadingView(route.pid);
   else app.innerHTML = v === 'programs' ? viewPrograms() : v === 'build' ? viewBuild() : v === 'random' ? viewRandom() : v === 'add' ? viewAdd() : v === 'library' ? viewLibrary() : v === 'settings' ? viewSettings() : v === 'stats' ? viewStats() : v === 'muscles' ? viewMuscles() : v === 'exercise' ? viewExercise() : v === 'day' ? viewDay() : viewProgram();
   const section = v === 'library' || v === 'exercise' ? 'library' : v === 'settings' || v === 'stats' || v === 'muscles' ? v : 'programs';
   document.querySelectorAll('.top [data-go]').forEach((b) => b.setAttribute('aria-current', b.dataset.go === section ? 'page' : 'false'));
