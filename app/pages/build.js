@@ -4,7 +4,7 @@
    built here from them. */
 const LEVER_TEXT = { reps: 'More reps', holds: 'Longer holds', weight: 'Heavier weights', variation: 'Harder variations', tempo: 'Slower tempo' };
 const GEAR_TEXT = { all: 'All equipment', kb: 'Kettlebell only', bw: 'No equipment' };
-let buildState = null; // { c: choices, seed, name: null (the default) | text, editId?: the own program being edited }
+let buildState = null; // { c: choices, seed, id: the new program's id (picked on opening, #111), name: null (the default) | text, editId?: the own program being edited }
 const ownIdOf = (pid) => pid.replace(/^own-/, '');
 const isOwn = (pid) => !!programs.summary(pid) && programs.summary(pid).source === 'own';
 const ownDeps = () => ({ build: KBBuilder.build, ex: KBEx });
@@ -17,11 +17,12 @@ function editedRecord(b, now) {
   return KBOwn.edit({ recipes: recipeBook, ...ownDeps() }, b.editId, store.doc('programs', b.editId), { name: b.name || undefined, choices: b.c, seed: b.seed, doneDays: ownDoneDays(KBOwn.pidOf(b.editId)) }, now);
 }
 function buildPreview(b) {
-  const key = JSON.stringify([b.c, b.seed, b.editId || null]);
+  const key = JSON.stringify([b.c, b.seed, b.editId || b.id]);
   if (previewCache.key !== key) {
     const program = b.editId
       ? KBOwn.programOf(ownDeps(), KBOwn.fromRecord(b.editId, editedRecord(b, 'preview')))
-      : KBOwn.programOf(ownDeps(), { pid: 'own-preview', name: 'Preview', config: KBOwn.configOf(recipeBook, { choices: b.c, seed: b.seed }) });
+      // built under the id Save will use: the days are seeded with it, so what you preview is what you save (#111)
+      : KBOwn.programOf(ownDeps(), { pid: KBOwn.pidOf(b.id), name: 'Preview', config: KBOwn.configOf(recipeBook, { choices: b.c, seed: b.seed }) });
     previewCache = { key, program };
   }
   return previewCache.program;
@@ -49,7 +50,7 @@ function buildSave() {
     go('p-' + pid);
     return;
   }
-  const id = KBOwn.newId();
+  const id = b.id;
   const made = { choices: b.c, seed: b.seed, catalogue: recipeBook.book().catalogue };
   // the config the recipes made is what is kept: the days never depend on the recipe book again
   store.setDoc('programs', id, KBOwn.toRecord({ name, ...made, config: KBOwn.configOf(recipeBook, made) }, new Date().toISOString())); // the catalogue follows at once
@@ -72,7 +73,7 @@ function viewBuild() {
       : '<p class="loading lede" role="status">Loading…</p>');
   }
   const rb = recipeBook;
-  const b = buildState || (buildState = { c: KBOwn.defaults(rb, 'Strength'), seed: KBOwn.newSeed(), name: null });
+  const b = buildState || (buildState = { c: KBOwn.defaults(rb, 'Strength'), seed: KBOwn.newSeed(), id: KBOwn.newId(), name: null }); // Regenerate changes the seed, never the id
   const c = b.c, o = rb.options(c.subjects), st = KBOwn.states(rb, c), mix = c.subjects.length > 1;
   const chip = (key, value, label, on, state) => `<button class="fchip acc" data-b="${key}:${value}" aria-pressed="${on}"${state && !state.ok ? ` disabled title="${esc(state.reason)}"` : ''}>${esc(label)}</button>`;
   const why = (list) => list.filter((x) => x && x.reason).map((x) => `<p class="hint">${esc(x.reason)}</p>`).join('');
