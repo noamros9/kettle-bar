@@ -2318,7 +2318,8 @@ const twoOf = (c) => {
   return {
     ...rest, id: `${c.id}-ii`, name: `${c.name} II`, added: 23, catalogue: 13, step: 1,
     blurb: `${c.name}, one level harder: every day starts where the original's Level II did, with the newer moves in the mix.`,
-    about: `${c.about} This II is the same program one step on: its Level I is the original's Level II, its Level III adds a set where the day has room, and the exercise picks include the newest moves. Start it once the original's day 60 is done.`,
+    // its original's first three sentences, then what the II changes: 4 sentences, as every about is 3 to 6
+    about: `${(c.about.match(/[^.!?]+[.!?]+(\s|$)/g) || []).slice(0, 3).join('').trim()} This II is the same program one level up, with the newest moves in the mix, and its Level III adds a set where the day has room.`,
   };
 };
 const IIS = CONFIGS.filter((c) => c.subject === 'Signature').map(twoOf);
