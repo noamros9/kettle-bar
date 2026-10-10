@@ -428,3 +428,15 @@ are in [its plan](docs/plans/phase-22-catalogue-13.md) and CLAUDE.md.
   command limits raised; cutting the times is #265.
 - **276 · Sonnet experiment**: tickets 16–18 built by Sonnet subagents, Opus planning and supervising (the
   `sonnet-handoff` skill, Grok's loop). Claude judges; Noam decides if tickets go this way. *(8 Oct)*
+
+## Phase 31: quick fixes (done, 10 Oct 2026)
+Plan and tickets: [docs/plans/phase-31-quick-fixes.md](plans/phase-31-quick-fixes.md). Grilled 8 Oct 2026; built 10 Oct
+(#336–#342): Back keeps your place, Build your own previews what Save keeps, faster unit tests. #105 (the rename-sync
+flake) didn't reproduce and stays open for a CI trace. The working rules decided during it (307–309, 312) are in
+[its plan](plans/phase-31-quick-fixes.md) and CLAUDE.md.
+- **224 · One small phase for #214, #111 and #105**, right after Phase 22; #110 split off as Phase 34. *(8 Oct)*
+- **225, 226 · Back lands where you were** on five pages (the phone's or browser's Back only; a top tab starts at the
+  top): Programs ← a program, Exercises ← an exercise, a program ← its day, Stats/History ← a day, a day ← an exercise. (#336)
+- **227, 228 · Preview = saved**: Build your own picks the program's id when it opens; saved programs stay as built. (#339)
+- **229, 310 · #105 gets a root cause, or waits for one**: 168 local runs passed; open for the next CI trace. *(10 Oct)*
+- **311 · Faster unit tests**: the whole library built once, without coverage, before the run. (#341) *(10 Oct)*

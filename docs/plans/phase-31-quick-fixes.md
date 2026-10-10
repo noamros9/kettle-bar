@@ -46,7 +46,7 @@ Grilled 8 Oct 2026 with Noam (global decision numbers).
 | 2 | Build your own: preview = saved (#111) | feature | – | `fix/preview-is-saved` | done (PR #339) |
 | 3 | The rename-sync flake: root cause and fix (#105) | feature | – | `fix/rename-sync-flake` | waits for a CI trace (310) |
 | 5 | Faster unit tests: the library built once, without coverage | feature | – | `test/faster-unit` | done (PR #341) |
-| 4 | Close the phase: archive | plan | 1–3, 5 | `plan/p31-close` | todo |
+| 4 | Close the phase: archive | plan | 1–3, 5 | `plan/p31-close` | done (PR #342) |
 
 Tickets 1 and 2 touch different files and can run at once; ticket 3 may touch `app/pages/core.js` (the loading
 view), so it waits for ticket 1's PR to open and stacks on it if it does.
