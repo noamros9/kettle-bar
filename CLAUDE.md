@@ -79,8 +79,10 @@ read only when needed. Decisions with a long "why": [docs/adr/](docs/adr/).
   past its target is fine (the cool-down up to 150 s): widen the check rather than reworking shared builder code.
   Never change how existing programs build to hit a band.
 - **Merge without asking:** when a ticket passes the review checks below and the PR's CI run is green, Claude merges
-  its PR itself (squash). A PR behind `main` is first updated (`gh pr update-branch`) and merged on that run's
-  green: main's run then only builds and deploys (decision 128, 7 Oct 2026).
+  its PR itself (squash). A PR behind `main` only by commits that touch other files merges as it is: main's run is
+  the one test of the combination (Noam, 10 Oct 2026). Only when `main` changed files the PR also changes is it first
+  updated (`gh pr update-branch`) and merged on that run's green, and main's run then only builds and deploys
+  (decision 128).
   Tell Noam what was merged, briefly.
 - **Review checks:**
   - **No local `test:coverage` (decision 308, Noam, 10 Oct 2026):** the PR's CI runs the full unit suite with the
