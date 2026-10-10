@@ -2973,6 +2973,293 @@ const P23_CLIMB = [
 const P23_T4 = [...P23_KB, ...P23_CX, ...P23_PULL, ...P23_CLIMB].map((c) => ({ ...c, added: 23, catalogue: 13 }));
 CONFIGS.push(...P23_T4);
 
+// Phase 23 ticket 5: Chest, Back, Shoulders, Arms, Neck & traps +4 each, Grip & forearms +5, by ticket 3's rules; each trains its own muscle most.
+const P23_T5 = [
+  {
+    id: 'chest-volume', name: 'Chest Volume', subject: 'Chest', minutes: P23_LONG, levers: [null, 'weight', 'reps'],
+    split: 'Heavy press / press supersets / chest & shoulders', blurb: 'Three chest days: heavy presses, press-and-fly supersets, then chest with the shoulders.',
+    about: 'Chest from every angle across three days. The heavy day is straight sets of presses with long rests, the second pairs presses with flies and push-ups in supersets, and the third brings in the front shoulders. Triceps help throughout, as they do in every press. Abs finish every session. Level II moves you one weight up and Level III adds reps.',
+    names: ['Breastplate', 'Cuirass', 'Shield', 'Buckler', 'Pavise', 'Targe', 'Aegis', 'Bulwark', 'Rampart', 'Parapet', 'Battlement', 'Bastion', 'Barbican', 'Keep', 'Citadel', 'Redoubt', 'Stockade', 'Palisade', 'Fortress', 'Stronghold'],
+    cycle: ['heavy', 'pump', 'delt'],
+    dayTypes: {
+      heavy: { label: 'Heavy press', short: 'Heavy', blocks: [S('Heavy press', ['chestPress', 'chestPress', 'chest2', 'triceps2', 'chestIso?'])] },
+      pump: { label: 'Press supersets', short: 'Pump', blocks: [SS('Press supersets', ['chestPress', 'chestIso', 'chestBw', 'triceps2', 'chest2', 'chestBw'])] },
+      delt: { label: 'Chest & shoulders', short: 'Delts', blocks: [S('Chest & shoulders', ['chestPress', 'shoulders2', 'chestBw', 'chest2', 'triceps2?'])] },
+    },
+  },
+  {
+    id: 'chest-month', name: 'Chest Month', subject: 'Chest', days: 30, minutes: P23_LONG, levers: [null, 'reps', 'tempo'],
+    split: 'Chest EMOM & presses / chest circuit, 30 days', blurb: 'A month of chest: an EMOM and presses one day, a chest circuit the next.',
+    about: 'A month that keeps the chest working. One day opens with a chest EMOM, a set at the top of every minute, then straight-set presses; the other is a circuit of presses, push-ups and flies. Every ten days the level steps up. Abs finish every session. Level II adds reps and Level III slows the lowering to three seconds.',
+    names: ['Pec Deck', 'Bench Day', 'Press Up', 'Incline', 'Decline', 'Flat Bench', 'Floor Press', 'Fly Day', 'Squeeze', 'Crossover', 'Cable Day', 'Dip Day', 'Svend', 'Spoto', 'Larsen', 'Pin Press', 'Board Press', 'Close Grip', 'Wide Grip', 'Pause Press'],
+    cycle: ['emom', 'circuit'],
+    dayTypes: {
+      emom: { label: 'EMOM & presses', short: 'EMOM', blocks: [E('Chest EMOM', ['chestPress', 'chestBw', 'triceps2', 'chestIso'], { values: [10, 12, 14] }), S('Presses', ['chest2', 'chestPress', 'triceps2?'])] },
+      circuit: { label: 'Chest circuit', short: 'Circuit', blocks: [C('Chest circuit', ['chestPress', 'chestBw', 'chest2', 'triceps2', 'chestIso'], { values: [3, 4, 5, 6] })] },
+    },
+  },
+  {
+    id: 'pushup-pyramid', name: 'Push-up Pyramid', subject: 'Chest', minutes: P23_MID, equip: 'bw', levers: [null, 'variation', 'reps'],
+    split: 'Push-up ladder & circuit / push-up AMRAP, no gear', blurb: 'Push-ups three ways with no gear: a ladder, a circuit and an AMRAP.',
+    about: 'A chest built on push-ups alone. One day climbs a push-up ladder, one rep, then two, then three, and finishes with a push-up circuit; the other is an AMRAP of push-up variations and arm work. They alternate. Abs finish every session. Level II brings harder variations and Level III adds reps.',
+    names: ['Base Camp', 'Step One', 'Step Two', 'Step Three', 'Step Four', 'Step Five', 'Plateau', 'Incline Walk', 'Hillside', 'Foothill', 'Slope', 'Grade', 'Gradient', 'Rise', 'Climb On', 'Upward', 'Ascent', 'Altitude', 'Overlook', 'Pinnacle'],
+    cycle: ['ladder', 'amrap'],
+    dayTypes: {
+      ladder: { label: 'Ladder & circuit', short: 'Ladder', blocks: [L('Push-up ladder', ['chestBw', 'chestBw']), C('Push-up circuit', ['chestBw', 'armsBw', 'chestBw'], { values: [2, 3, 4] })] },
+      amrap: { label: 'Push-up AMRAP', short: 'AMRAP', blocks: [A('Push-up AMRAP', ['chestBw', 'chestBw', 'armsBw'], { values: [14, 16, 18, 20] })] },
+    },
+  },
+  {
+    id: 'chest-express', name: 'Chest Express', subject: 'Chest', minutes: [26, 31], levers: [null, 'weight', 'tempo'],
+    split: 'Press & fly supersets A / B', blurb: 'Short chest sessions of presses paired with flies and push-ups.',
+    about: 'A short chest session in supersets. Each pair is a press with a fly or a push-up, back to back with one rest after both, and two days alternate the pairs. Triceps finish each day. Abs finish every session. Level II moves you one weight up and Level III slows the lowering to three seconds.',
+    names: ['Press Pass', 'Fly By', 'Squeeze Play', 'Quick Press', 'Short Fly', 'Snap Press', 'Chest Pass', 'Fast Fly', 'Hot Press', 'Swift Fly', 'Rapid Press', 'Jet Fly', 'Zip Press', 'Brisk Fly', 'Dart Press', 'Flash Fly', 'Sprint Press', 'Spark Fly', 'Pop Press', 'Burst Fly'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Press & fly A', short: 'A', blocks: [SS('Press & fly', ['chestPress', 'chestIso', 'chest2', 'triceps2'])] },
+      b: { label: 'Press & fly B', short: 'B', blocks: [SS('Press & fly', ['chestPress', 'chestBw', 'chestIso', 'triceps2'])] },
+    },
+  },
+  {
+    id: 'back-volume', name: 'Back Volume', subject: 'Back', minutes: P23_LONG, levers: [null, 'weight', 'reps'],
+    split: 'Heavy rows / pull-ups & rear shoulders / back supersets', blurb: 'Three back days: heavy rows, pull-ups with rear shoulders, then back supersets.',
+    about: 'A wider, thicker back across three days. Heavy rows in straight sets one day, pull-ups and rear-shoulder work the next, then supersets of rows, pulls and curls. The biceps and rear shoulders help throughout. Abs finish every session. Level II moves you one weight up and Level III adds reps.',
+    names: ['Lat', 'Rhomboid', 'Teres', 'Infraspinatus', 'Erector', 'Trapezius', 'Serratus', 'Levator', 'Rear Delt', 'Wing', 'Spine Line', 'Shoulder Blade', 'Scapula', 'Rib Cage', 'Back Line', 'V-Taper', 'Barn Door', 'Cobra Back', 'Christmas Tree', 'Kite Back'],
+    cycle: ['rows', 'bar', 'pump'],
+    dayTypes: {
+      rows: { label: 'Heavy rows', short: 'Rows', blocks: [S('Heavy rows', ['backRow', 'backRow', 'backRear', 'biceps2', 'backRow?'])] },
+      bar: { label: 'Pull-ups & rear shoulders', short: 'Bar', blocks: [S('Pull-ups & rear shoulders', ['backBar', 'backBar', 'backRear', 'biceps2', 'backBar?'])] },
+      pump: { label: 'Back supersets', short: 'Pump', blocks: [SS('Back supersets', ['backRow', 'backRear', 'backBar', 'biceps2', 'backRow', 'backRear'])] },
+    },
+  },
+  {
+    id: 'back-month', name: 'Back Month', subject: 'Back', days: 30, minutes: P23_LONG, levers: [null, 'reps', 'tempo'],
+    split: 'Back EMOM & rows / back ladders, 30 days', blurb: 'A month of back: an EMOM and rows one day, two pull ladders the next.',
+    about: 'A month for the back in two shapes. One day is a back EMOM, a set at the top of every minute, then straight-set rows; the other is two ladders of pulls and rows, one rep of each, then two, then three, with curls to finish. Every ten days the level steps up. Abs finish every session. Level II adds reps and Level III slows the lowering to three seconds.',
+    names: ['Oar', 'Paddle', 'Scull', 'Sweep', 'Stroke', 'Catch', 'Drive', 'Finish', 'Recovery', 'Feather', 'Square Blade', 'Rigger', 'Coxswain', 'Bow Seat', 'Stern', 'Regatta', 'Head Race', 'Eight', 'Four', 'Pair Oar'],
+    cycle: ['emom', 'ladder'],
+    dayTypes: {
+      emom: { label: 'EMOM & rows', short: 'EMOM', blocks: [E('Back EMOM', ['backRow', 'backBar', 'biceps2', 'backRear'], { values: [10, 12, 14] }), S('Rows', ['backRow', 'backRear', 'biceps2?'])] },
+      ladder: { label: 'Back ladders', short: 'Ladder', blocks: [L('Ladder 1', ['backBar', 'backRow']), L('Ladder 2', ['backRow', 'backRear']), S('Curls & rear shoulders', ['biceps2', 'backRear'])] },
+    },
+  },
+  {
+    id: 'bell-back-strength', name: 'Bell Back Strength', subject: 'Back', minutes: P23_MID, equip: 'kb', levers: [null, 'weight', 'reps'],
+    split: 'Bell rows / bell pulls / bell back circuit', blurb: 'One kettlebell for the back: rows, high pulls and a back circuit.',
+    about: 'A back built with one kettlebell. Heavy rows and dead-stop rows one day, high pulls and floor pulls the next, then a circuit of all of them round after round. Three days rotate. Abs finish every session. Level II asks for a heavier bell and Level III adds reps.',
+    names: ['Bell Row', 'Bell Pull', 'Bell Hike', 'Bell Haul', 'Bell Drag', 'Bell Tow', 'Bell Hoist', 'Bell Lift', 'Bell Heave', 'Bell Yank', 'Bell Tug', 'Bell Draw', 'Bell Reel', 'Bell Winch', 'Bell Crank', 'Bell Lever', 'Bell Pry', 'Bell Rake', 'Bell Hook', 'Bell Grip'],
+    cycle: ['rows', 'pulls', 'circuit'],
+    dayTypes: {
+      rows: { label: 'Bell rows', short: 'Rows', blocks: [S('Bell rows', ['kb_dead_stop_row', 'kb_row', 'kb_high_pull', 'backBw?'])] },
+      pulls: { label: 'Bell pulls', short: 'Pulls', blocks: [S('Bell pulls', ['kb_high_pull', 'kb_row', 'backBw', 'kb_dead_stop_row?'])] },
+      circuit: { label: 'Bell back circuit', short: 'Circuit', blocks: [C('Bell back circuit', ['kb_row', 'kb_high_pull', 'backBw', 'kb_dead_stop_row'], { values: [2, 3, 4] })] },
+    },
+  },
+  {
+    id: 'back-express', name: 'Back Express', subject: 'Back', minutes: [26, 31], levers: [null, 'reps', 'variation'],
+    split: 'Back circuit / back supersets, short', blurb: 'Short back sessions: a circuit of pulls one day, supersets the next.',
+    about: 'The back in a short slot. One day is a circuit of rows, pull-ups, rear-shoulder work and curls; the other is the same kind of moves in supersets. They alternate. Abs finish every session. Level II adds reps and Level III brings harder variations.',
+    names: ['Row Boat', 'Canoe', 'Kayak', 'Dinghy', 'Skiff', 'Punt', 'Gondola', 'Coracle', 'Raft', 'Dory', 'Sampan', 'Junk', 'Dhow', 'Felucca', 'Lifeboat', 'Tender', 'Launch', 'Cutter', 'Sloop', 'Ketch'],
+    cycle: ['circuit', 'pairs'],
+    dayTypes: {
+      circuit: { label: 'Back circuit', short: 'Circuit', blocks: [C('Back circuit', ['backRow', 'backBar', 'backRear', 'biceps2'], { values: [2, 3, 4] })] },
+      pairs: { label: 'Back supersets', short: 'Pairs', blocks: [SS('Back supersets', ['backBar', 'backRow', 'backRear', 'biceps2'])] },
+    },
+  },
+  {
+    id: 'shoulder-volume', name: 'Shoulder Volume', subject: 'Shoulders', minutes: P23_LONG, levers: [null, 'weight', 'reps'],
+    split: 'Heavy press / raise supersets / press & cuff', blurb: 'Three shoulder days: heavy presses, raise supersets, then presses with cuff work.',
+    about: 'Shoulders from the front, the side and the back. The heavy day is straight-set presses, the second pairs raises with cuff and trap work in supersets, and the third mixes presses with shoulder-health moves. Three days rotate. Abs finish every session. Level II moves you one weight up and Level III adds reps.',
+    names: ['Atlas', 'Titan', 'Colossus', 'Pillar Man', 'Caryatid', 'Telamon', 'Hercules', 'Samson', 'Goliath', 'Ajax', 'Achilles', 'Hector', 'Spartan', 'Gladiator', 'Centurion', 'Legionary', 'Hoplite', 'Myrmidon', 'Champion', 'Paladin'],
+    cycle: ['press', 'raise', 'cuff'],
+    dayTypes: {
+      press: { label: 'Heavy press', short: 'Press', blocks: [S('Heavy press', ['shoulderPress', 'shoulderPress', 'shoulders2', 'triceps2', 'shoulderPress?'])] },
+      raise: { label: 'Raise supersets', short: 'Raise', blocks: [SS('Raise supersets', ['shoulders2', 'shoulderHealth', 'shoulderPress', 'trapsPool', 'reverse_fly', 'triceps2'])] },
+      cuff: { label: 'Press & cuff', short: 'Cuff', blocks: [S('Press & cuff', ['shoulders2', 'shoulderHealth', 'shoulderPress', 'shoulderHealth', 'triceps2?'])] },
+    },
+  },
+  {
+    id: 'shoulder-month', name: 'Shoulder Month', subject: 'Shoulders', days: 30, minutes: P23_LONG, levers: [null, 'reps', 'tempo'],
+    split: 'Shoulder EMOM & press / shoulder circuit, 30 days', blurb: 'A month of shoulders: an EMOM and presses one day, a shoulder circuit the next.',
+    about: 'A month for rounder shoulders. One day opens with a shoulder EMOM, a set at the top of every minute, then straight-set presses; the other is a circuit of presses, raises and cuff work. Every ten days the level steps up. Abs finish every session. Level II adds reps and Level III slows the lowering to three seconds.',
+    names: ['Boulder Day', 'Cannon', 'Melon', 'Coconut Delt', 'Grapefruit', 'Bowling Ball', 'Cap', 'Dome', 'Arch', 'Vault Cap', 'Cupola', 'Rotunda Top', 'Helmet', 'Turret', 'Knob', 'Crown Delt', 'Summit Cap', 'Round Top', 'Ball Joint', 'Orb'],
+    cycle: ['emom', 'circuit'],
+    dayTypes: {
+      emom: { label: 'EMOM & presses', short: 'EMOM', blocks: [E('Shoulder EMOM', ['shoulderPress', 'shoulders2', 'shoulderHealth', 'triceps2'], { values: [10, 12, 14] }), S('Presses', ['shoulders2', 'shoulderPress', 'shoulderHealth?'])] },
+      circuit: { label: 'Shoulder circuit', short: 'Circuit', blocks: [C('Shoulder circuit', ['shoulders2', 'shoulderPress', 'shoulderHealth', 'trapsPool', 'shoulders2'], { values: [3, 4, 5] })] },
+    },
+  },
+  {
+    id: 'bell-shoulder-strength', name: 'Bell Shoulder Strength', subject: 'Shoulders', minutes: P23_MID, equip: 'kb', levers: [null, 'weight', 'tempo'],
+    split: 'Bell presses / bell press & halo circuit', blurb: 'One kettlebell for the shoulders: presses in straight sets, then a press-and-halo circuit.',
+    about: 'Shoulders built with one kettlebell. One day is straight sets of presses, bottoms-up presses and halos; the other is a circuit of clean and presses, halos, presses and high pulls. They alternate. Abs finish every session. Level II asks for a heavier bell and Level III slows the lowering to three seconds.',
+    names: ['Halo', 'Bottoms Up', 'Clean Press', 'Push Press', 'Jerk', 'Windmill', 'Arm Bar', 'Get-Up', 'Waiter Walk', 'Rack Hold', 'Overhead Hold', 'Bell Halo', 'Snatch Hold', 'High Pull', 'Figure Eight Bell', 'Around the World', 'Pass Through', 'Bell Flip', 'Bell Catch', 'Bell Press'],
+    cycle: ['press', 'circuit'],
+    dayTypes: {
+      press: { label: 'Bell presses', short: 'Press', blocks: [S('Bell presses', ['kb_press', 'bottoms_up_press', 'kb_halo', 'kb_high_pull?'])] },
+      circuit: { label: 'Press & halo circuit', short: 'Circuit', blocks: [C('Press & halo circuit', ['kb_clean_press', 'kb_halo', 'kb_press', 'kb_high_pull'], { values: [2, 3, 4] })] },
+    },
+  },
+  {
+    id: 'shoulder-express', name: 'Shoulder Express', subject: 'Shoulders', minutes: [26, 31], levers: [null, 'reps', 'variation'],
+    split: 'Shoulder ladder & raises / shoulder supersets', blurb: 'Short shoulder sessions: a press ladder and raises, or presses and raises in supersets.',
+    about: 'Shoulders in a short slot. One day is a ladder of a press and a raise, one rep of each, then two, then three, with cuff work after; the other pairs presses with raises in supersets. They alternate. Abs finish every session. Level II adds reps and Level III brings harder variations.',
+    names: ['Raise Up', 'Lift Off', 'Hoist Up', 'Elevate', 'Uplift', 'Upswing', 'Surge Up', 'Lift Up', 'Climb Up', 'Rise Up', 'Mount', 'Ascend', 'Go Up', 'Look Up', 'Stand Up', 'Push Up High', 'Reach', 'Overhead', 'Top Shelf', 'High Point'],
+    cycle: ['ladder', 'pairs'],
+    dayTypes: {
+      ladder: { label: 'Ladder & raises', short: 'Ladder', blocks: [L('Shoulder ladder', ['shoulderPress', 'shoulders2']), S('Raises & cuff', ['shoulderHealth', 'trapsPool'])] },
+      pairs: { label: 'Shoulder supersets', short: 'Pairs', blocks: [SS('Shoulder supersets', ['shoulderPress', 'shoulders2', 'shoulderHealth', 'triceps2'])] },
+    },
+  },
+  {
+    id: 'arm-volume', name: 'Arm Volume', subject: 'Arms', minutes: P23_LONG, levers: [null, 'weight', 'reps'],
+    split: 'Biceps / triceps / arm supersets', blurb: 'Three arm days: a biceps day, a triceps day, then arm supersets.',
+    about: 'Arms that fill a sleeve. One day is all biceps in straight sets, the next all triceps, and the third pairs a curl with a triceps move in supersets. The forearms come along with the curls. Abs finish every session. Level II moves you one weight up and Level III adds reps.',
+    names: ['Curl', 'Hammer', 'Zottman', 'Preacher', 'Spider', 'Drag Curl', 'Concentration', 'Incline Curl', 'Kickback', 'Skull Crusher', 'Pushdown', 'Overhead Extension', 'Close Press', 'Tate Press', 'JM Press', 'Diamond', 'Dip', 'Bench Dip', 'Reverse Curl', 'Cable Curl'],
+    cycle: ['bi', 'tri', 'ss'],
+    dayTypes: {
+      bi: { label: 'Biceps', short: 'Biceps', blocks: [S('Biceps', ['biceps2', 'biceps2', 'biceps2', 'gripCurl', 'biceps2?'])] },
+      tri: { label: 'Triceps', short: 'Triceps', blocks: [S('Triceps', ['triceps2', 'triceps2', 'triceps2', 'triceps2', 'triceps2?'])] },
+      ss: { label: 'Arm supersets', short: 'Arms', blocks: [SS('Arm supersets', ['biceps2', 'triceps2', 'biceps2', 'triceps2', 'gripCurl', 'triceps2'])] },
+    },
+  },
+  {
+    id: 'arm-month', name: 'Arm Month', subject: 'Arms', days: 30, minutes: P23_LONG, levers: [null, 'reps', 'tempo'],
+    split: 'Arm EMOM & curls / arm ladders, 30 days', blurb: 'A month of arms: an EMOM and curls one day, two arm ladders the next.',
+    about: 'A month for the arms in two shapes. One day is an EMOM of curls and triceps moves, a set at the top of every minute, then straight sets; the other is two ladders of a curl and a triceps move, one rep of each, then two, then three, with forearm work to finish. Every ten days the level steps up. Abs finish every session. Level II adds reps and Level III slows the lowering to three seconds.',
+    names: ['Python', 'Cobra', 'Anaconda', 'Boa', 'Viper', 'Mamba', 'Adder', 'Taipan', 'Krait', 'Asp', 'Rattler', 'Sidewinder', 'Copperhead', 'Cottonmouth', 'Kingsnake', 'Garter', 'Racer', 'Whip Snake', 'Tree Python', 'Coral'],
+    cycle: ['emom', 'ladder'],
+    dayTypes: {
+      emom: { label: 'EMOM & curls', short: 'EMOM', blocks: [E('Arm EMOM', ['biceps2', 'triceps2', 'biceps2', 'triceps2'], { values: [10, 12, 14] }), S('Curls & triceps', ['biceps2', 'triceps2', 'gripCurl?'])] },
+      ladder: { label: 'Arm ladders', short: 'Ladder', blocks: [L('Ladder 1', ['biceps2', 'triceps2']), L('Ladder 2', ['triceps2', 'biceps2']), S('Forearms', ['gripCurl', 'biceps2'])] },
+    },
+  },
+  {
+    id: 'bodyweight-arm-strength', name: 'Bodyweight Arm Strength', subject: 'Arms', minutes: P23_MID, equip: 'bw', levers: [null, 'variation', 'tempo'],
+    split: 'Bodyweight arm sets / arm circuit, no gear', blurb: 'Arms with no gear: dips, close push-ups and floor curls in sets, then a circuit.',
+    about: 'Arms built with nothing but your own weight. One day is straight sets of dips, close push-ups and bodyweight curls; the other is a circuit of the same, round after round. They alternate. Abs finish every session. Level II brings harder variations and Level III slows every rep down.',
+    names: ['Diamond Push', 'Close Push', 'Bench Dip Day', 'Floor Dip', 'Chin Hold', 'Towel Curl', 'Door Curl', 'Table Row', 'Plank Up', 'Push Back', 'Wall Dip', 'Sphinx', 'Tiger Bend', 'Pike Press', 'Pseudo Plank', 'Bodyweight Curl', 'Isometric', 'Arm Hold', 'Static Curl', 'Hollow Arm'],
+    cycle: ['sets', 'circuit'],
+    dayTypes: {
+      sets: { label: 'Arm sets', short: 'Sets', blocks: [S('Arm sets', ['armsBw', 'armsBw', 'armsBw', 'armsBw?'])] },
+      circuit: { label: 'Arm circuit', short: 'Circuit', blocks: [C('Arm circuit', ['armsBw', 'armsBw', 'armsBw', 'armsBw'], { values: [3, 4, 5, 6] })] },
+    },
+  },
+  {
+    id: 'arm-express', name: 'Arm Express', subject: 'Arms', minutes: [26, 31], levers: [null, 'weight', 'tempo'],
+    split: 'Arm circuit / arm EMOM, short', blurb: 'Short arm sessions: a curl-and-triceps circuit, or an arm EMOM.',
+    about: 'Arms in a short slot. One day is a circuit of curls and triceps moves, round after round; the other is an EMOM of the same with forearm work, a set at the top of every minute. They alternate. Abs finish every session. Level II moves you one weight up and Level III slows the lowering to three seconds.',
+    names: ['Pump', 'Flex', 'Peak', 'Bulge', 'Swell Up', 'Inflate', 'Blow Up', 'Expand', 'Fill Out', 'Pump Up', 'Flexed', 'Gun Show', 'Sleeve', 'Cuff', 'Short Sleeve', 'Tank Top', 'Vest', 'Muscle Tee', 'Rolled Sleeve', 'Tight Tee'],
+    cycle: ['circuit', 'emom'],
+    dayTypes: {
+      circuit: { label: 'Arm circuit', short: 'Circuit', blocks: [C('Arm circuit', ['biceps2', 'triceps2', 'biceps2', 'triceps2'], { values: [2, 3, 4] })] },
+      emom: { label: 'Arm EMOM', short: 'EMOM', blocks: [E('Arm EMOM', ['triceps2', 'biceps2', 'gripCurl', 'biceps2'], { values: [12, 14, 16] })] },
+    },
+  },
+  {
+    id: 'neck-volume', name: 'Neck Volume', subject: 'Neck & traps', minutes: P23_LONG, levers: [null, 'holds', 'weight'],
+    split: 'Neck & shrugs / traps supersets / neck & upper back', blurb: 'Three neck and trap days: neck work with shrugs, trap supersets, then neck with upper back.',
+    about: 'A thicker neck and traps across three days. Neck holds and shrugs in straight sets one day, neck moves paired with loaded traps the next, then neck work with the upper back. Three days rotate. Abs finish every session. Level II holds longer and Level III moves you one weight up.',
+    names: ['Bull', 'Ox', 'Bison', 'Buffalo', 'Yak', 'Gaur', 'Banteng', 'Zebu', 'Aurochs', 'Musk Ox', 'Water Buffalo', 'Wisent', 'Highland', 'Longhorn', 'Hereford', 'Angus', 'Brahman', 'Charolais', 'Texas Bull', 'Toro'],
+    cycle: ['neck', 'ss', 'back'],
+    dayTypes: {
+      neck: { label: 'Neck & shrugs', short: 'Neck', blocks: [S('Neck & shrugs', ['neck', 'neck', 'traps2', 'neck', 'traps2?'])] },
+      ss: { label: 'Traps supersets', short: 'Traps', blocks: [SS('Traps supersets', ['traps2', 'neck', 'trapsBw', 'neck', 'traps2', 'trapsPool'])] },
+      back: { label: 'Neck & upper back', short: 'Back', blocks: [S('Neck & upper back', ['neck', 'trapsBw', 'traps2', 'neck', 'trapsBw?'])] },
+    },
+  },
+  {
+    id: 'traps-month', name: 'Traps Month', subject: 'Neck & traps', days: 30, minutes: P23_LONG, levers: [null, 'weight', 'holds'],
+    split: 'Traps EMOM & shrugs / neck circuit, 30 days', blurb: 'A month of neck and traps: an EMOM and shrugs one day, a neck circuit the next.',
+    about: 'A month for the neck and traps. One day is an EMOM of shrugs and neck holds, a set at the top of every minute, then straight-set trap work; the other is a circuit of neck moves and loaded traps. Every ten days the level steps up. Abs finish every session. Level II moves you one weight up and Level III holds longer.',
+    names: ['Shrug', 'Yoke', 'Collar', 'Nape', 'Scruff', 'Mane', 'Ruff', 'Stole', 'Scarf', 'Cravat', 'Bow Tie', 'Necktie', 'Choker', 'Turtleneck', 'Crew Neck', 'V-Neck', 'Polo Neck', 'Lapel', 'Hood', 'Cowl'],
+    cycle: ['emom', 'circuit'],
+    dayTypes: {
+      emom: { label: 'EMOM & shrugs', short: 'EMOM', blocks: [E('Traps EMOM', ['traps2', 'neck', 'trapsBw', 'neck'], { values: [10, 12, 14] }), S('Shrugs', ['traps2', 'trapsPool', 'neck?'])] },
+      circuit: { label: 'Neck circuit', short: 'Circuit', blocks: [C('Neck circuit', ['neck', 'traps2', 'trapsBw', 'neck', 'traps2'], { values: [3, 4, 5, 6] })] },
+    },
+  },
+  {
+    id: 'desk-neck-plus', name: 'Desk Neck Plus', subject: 'Neck & traps', minutes: P23_MID, equip: 'bw', levers: [null, 'holds', 'reps'],
+    split: 'Neck holds / neck & traps circuit, no gear', blurb: 'Neck and trap work with no gear: holds in sets, then a circuit.',
+    about: 'A neck that copes with long days at a desk, with no equipment. One day is straight sets of neck holds and upper-trap work; the other is a circuit of the same, round after round. They alternate. Abs finish every session. Level II holds longer and Level III adds reps.',
+    names: ['Desk', 'Chair', 'Monitor', 'Keyboard', 'Mouse Pad', 'Lamp', 'Window Seat', 'Coffee Break', 'Water Cooler', 'Stand Up Desk', 'Office', 'Cubicle', 'Conference', 'Lobby Chair', 'Break Room', 'Printer', 'Stapler', 'Notepad', 'Calendar', 'Whiteboard'],
+    cycle: ['holds', 'circuit'],
+    dayTypes: {
+      holds: { label: 'Neck holds', short: 'Holds', blocks: [S('Neck holds', ['neck', 'neck', 'trapsBw', 'neck?'])] },
+      circuit: { label: 'Neck & traps circuit', short: 'Circuit', blocks: [C('Neck & traps circuit', ['neck', 'trapsBw', 'neck', 'trapsBw'], { values: [3, 4, 5, 6, 7] })] },
+    },
+  },
+  {
+    id: 'neck-ladder-express', name: 'Neck Ladder Express', subject: 'Neck & traps', minutes: [22, 27], levers: [null, 'reps', 'weight'],
+    split: 'Neck & shrug ladders / neck supersets, short', blurb: 'Short neck sessions: neck and shrug ladders, or neck supersets.',
+    about: 'The neck and traps in a short slot. One day is two ladders of neck reps and shrugs, one rep of each, then two, then three; the other pairs neck moves with trap work in supersets. They alternate. Abs finish every session. Level II adds reps and Level III moves you one weight up.',
+    names: ['Nod', 'Shake', 'Tilt', 'Turn', 'Look Left', 'Look Right', 'Chin Tuck', 'Head Up', 'Head Down', 'Gaze', 'Glance', 'Peek', 'Crane', 'Rubberneck', 'Swivel Head', 'Head Roll', 'Nape Lift', 'Neck Bridge', 'Wrestler', 'Iron Neck'],
+    cycle: ['ladder', 'pairs'],
+    dayTypes: {
+      ladder: { label: 'Neck ladders', short: 'Ladder', blocks: [L('Ladder 1', ['neckReps', 'trapReps']), L('Ladder 2', ['trapReps', 'neckReps'])] },
+      pairs: { label: 'Neck supersets', short: 'Pairs', blocks: [SS('Neck supersets', ['neck', 'traps2', 'neck', 'trapsBw'])] },
+    },
+  },
+  {
+    id: 'grip-volume', name: 'Grip Volume', subject: 'Grip & forearms', minutes: P23_LONG, levers: [null, 'weight', 'reps'],
+    split: 'Holds & carries / curls / heavy pulls', blurb: 'Three grip days: holds and carries, wrist and forearm curls, then heavy pulls.',
+    about: 'Hands and forearms that do not let go. Holds and carries one day, wrist and reverse curls the next, then heavy pulls and rows that test the grip. Straight sets throughout. Abs finish every session. Level II moves you one weight up and Level III adds reps.',
+    names: ['Vise Grip', 'Clamp Hand', 'Pliers Hand', 'Iron Fist', 'Talon', 'Claw', 'Pincer', 'Grapple', 'Clutch Hand', 'Bear Paw', 'Gorilla Grip', 'Crusher', 'Pinch Grip', 'Support Grip', 'Open Hand', 'Hook Hand', 'Thumb Lock', 'Knuckle Down', 'White Knuckle', 'Death Grip'],
+    cycle: ['holds', 'curls', 'pulls'],
+    dayTypes: {
+      holds: { label: 'Holds & carries', short: 'Holds', blocks: [S('Holds & carries', ['farmer_carry', 'gripHold', 'gripHold', 'gripPull', 'gripHold?'])] },
+      curls: { label: 'Forearm curls', short: 'Curls', blocks: [S('Forearm curls', ['wrist_curl', 'reverse_wrist_curl', 'reverse_curl', 'gripCurl', 'gripCurl?'])] },
+      pulls: { label: 'Heavy pulls', short: 'Pulls', blocks: [S('Heavy pulls', ['gripPull', 'gripPull', 'backRow', 'gripHold', 'gripPull?'])] },
+    },
+  },
+  {
+    id: 'grip-month', name: 'Grip Month', subject: 'Grip & forearms', days: 30, minutes: P23_LONG, levers: [null, 'reps', 'tempo'],
+    split: 'Grip EMOM & curls / forearm circuit, 30 days', blurb: 'A month of grip: an EMOM and curls one day, a forearm circuit the next.',
+    about: 'A month of grip in two shapes. One day is an EMOM of carries, holds, curls and pulls, a set at the top of every minute, then wrist curls in straight sets; the other is a circuit of forearm moves. Every ten days the level steps up. Abs finish every session. Level II adds reps and Level III slows every rep down.',
+    names: ['Wrist', 'Palm', 'Thumb', 'Knuckle Bone', 'Forearm', 'Tendon Line', 'Carpal', 'Metacarpal', 'Phalanx', 'Radius Bone', 'Ulna', 'Brachioradialis', 'Flexor', 'Extensor', 'Pronator', 'Supinator', 'Grip Line', 'Hand Spread', 'Finger Tip', 'Fist Bump'],
+    cycle: ['emom', 'circuit'],
+    dayTypes: {
+      emom: { label: 'EMOM & curls', short: 'EMOM', blocks: [E('Grip EMOM', ['farmer_carry', 'gripHold', 'gripCurl', 'gripPull'], { values: [10, 12, 14] }), S('Curls', ['wrist_curl', 'reverse_curl', 'gripCurl?'])] },
+      circuit: { label: 'Forearm circuit', short: 'Circuit', blocks: [C('Forearm circuit', ['wrist_curl', 'zottman_curl', 'gripHold', 'reverse_wrist_curl', 'farmer_carry'], { values: [3, 4, 5] })] },
+    },
+  },
+  {
+    id: 'grip-and-lift-long', name: 'Grip and Lift Long', subject: 'Grip & forearms', minutes: P23_LONG, levers: [null, 'weight', 'tempo'],
+    split: 'Lifts, then grip supersets, lower / upper', blurb: 'Big lifts in straight sets, then grip supersets, lower and upper days.',
+    about: 'Grip trained the way lifting needs it. Each day opens with three lifts in straight sets, squats and hinges one day, rows and presses the next, then supersets of carries, holds and forearm curls. They alternate. Abs finish every session. Level II moves you one weight up and Level III slows the lowering to three seconds.',
+    names: ['Farmer', 'Porter', 'Stevedore', 'Docker', 'Mover', 'Hauler', 'Carrier', 'Packer', 'Lumberjack', 'Logger', 'Mason', 'Blacksmith', 'Miner', 'Rigger Man', 'Roofer', 'Builder', 'Hod Carrier', 'Navvy', 'Shipwright', 'Wheelwright'],
+    cycle: ['lower', 'upper'],
+    dayTypes: {
+      lower: { label: 'Lower & grip', short: 'Lower', blocks: [S('Lower lifts', ['hinge2', 'squat2', 'lunge2']), SS('Grip supersets', ['farmer_carry', 'gripCurl', 'gripHold', 'wrist_curl'])] },
+      upper: { label: 'Upper & grip', short: 'Upper', blocks: [S('Upper lifts', ['backRow', 'pushLoad2', 'gripPull']), SS('Grip supersets', ['gripHold', 'reverse_curl', 'gripCurl', 'reverse_wrist_curl'])] },
+    },
+  },
+  {
+    id: 'forearm-supersets', name: 'Forearm Supersets', subject: 'Grip & forearms', minutes: P23_MID, levers: [null, 'reps', 'weight'],
+    split: 'Forearm supersets A / B', blurb: 'Forearm curls, holds and pulls paired in supersets.',
+    about: 'Forearms in pairs. Each day is three supersets of wrist curls, hammer and reverse curls, holds and pulls, back to back with one rest after both. Two days alternate. Abs finish every session. Level II adds reps and Level III moves you one weight up.',
+    names: ['Wrist Roll', 'Rice Bucket', 'Gripper', 'Sledge Lever', 'Pinch Block', 'Hub Lift', 'Thick Bar', 'Fat Grip', 'Towel Hang', 'Plate Pinch', 'Hammer Lever', 'Rope Climb', 'Rock Grip', 'Wring Out', 'Twist Off', 'Jar Lid', 'Coin Pinch', 'Paper Crush', 'Sand Grip', 'Clay Squeeze'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Forearm supersets A', short: 'A', blocks: [SS('Forearm supersets', ['wrist_curl', 'reverse_wrist_curl', 'hammer_curl', 'gripHold', 'zottman_curl', 'gripPull'])] },
+      b: { label: 'Forearm supersets B', short: 'B', blocks: [SS('Forearm supersets', ['reverse_curl', 'wrist_curl', 'gripCurl', 'farmer_carry', 'gripHold', 'reverse_wrist_curl'])] },
+    },
+  },
+  {
+    id: 'grip-express', name: 'Grip Express', subject: 'Grip & forearms', minutes: [24, 29], levers: [null, 'reps', 'variation'],
+    split: 'Grip circuit / hang & curl EMOM, short', blurb: 'Short grip sessions: a carry-and-curl circuit, or a hang EMOM.',
+    about: 'Grip in a short slot. One day is a circuit of carries, curls, holds and pulls; the other an EMOM of hangs, curls and holds at the bar, a set at the top of every minute. They alternate. Abs finish every session. Level II adds reps and Level III brings harder variations.',
+    names: ['Snap Grip', 'Quick Squeeze', 'Fast Hold', 'Short Hang Grip', 'Speed Curl', 'Rapid Grip', 'Flash Hold', 'Jolt Grip', 'Brisk Hold', 'Zip Grip', 'Dash Hold', 'Pop Grip', 'Spark Hold', 'Kick Grip', 'Hop Hold', 'Flick Grip', 'Rush Hold', 'Bolt Grip', 'Swift Hold', 'Zing Grip'],
+    cycle: ['circuit', 'emom'],
+    dayTypes: {
+      circuit: { label: 'Grip circuit', short: 'Circuit', blocks: [C('Grip circuit', ['farmer_carry', 'gripCurl', 'gripHold', 'gripPull'], { values: [2, 3, 4] })] },
+      emom: { label: 'Hang & curl EMOM', short: 'EMOM', blocks: [E('Hang & curl EMOM', ['climbHold', 'gripCurl', 'gripHold', 'pullBarMain'], { values: [12, 14, 16] })] },
+    },
+  },
+].map((c) => ({ ...c, added: 23, catalogue: 13 }));
+CONFIGS.push(...P23_T5);
+
 // Phase 23: the new programs' ids in shelf order, appended to programs.config.js's ORDER after every older program
-CONFIGS.order23 = [...IIS.map((c) => c.id), ...P23_T3.map((c) => c.id), ...P23_T4.map((c) => c.id)];
+CONFIGS.order23 = [...IIS.map((c) => c.id), ...P23_T3.map((c) => c.id), ...P23_T4.map((c) => c.id), ...P23_T5.map((c) => c.id)];
 module.exports = CONFIGS;

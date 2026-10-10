@@ -271,7 +271,7 @@ test('an exercise index that arrives after its source was replaced is dropped, n
 // Phase 23 (docs/plans/phase-23-fitness-programs.md, decisions 83, 87, 184, 185, 205): the new fitness programs. Built
 // here one config at a time (never the whole library): per subject the new count, catalogue 13, some Phase 22 moves in
 // every program, the minutes spread, a fifth at 30 days, gear in the subject's old shares, no two alike.
-const P23 = { Strength: 10, 'Busy week': 9, Bodyweight: 10, 'Kettlebell only': 9, 'Kettlebell complexes': 5, 'Pull-ups': 8, 'Climber / pull strength': 4 }; // tickets 3, 4; later tickets add their subjects here
+const P23 = { Strength: 10, 'Busy week': 9, Bodyweight: 10, 'Kettlebell only': 9, 'Kettlebell complexes': 5, 'Pull-ups': 8, 'Climber / pull strength': 4, Chest: 4, Back: 4, Shoulders: 4, Arms: 4, 'Neck & traps': 4, 'Grip & forearms': 5 }; // tickets 3–5; later tickets add their subjects here
 const { CONFIGS: ALL_CONFIGS, buildConfig } = require('../program-builder.js');
 const { EX: EX23 } = require('../exercises.js');
 const new23 = (s) => ALL_CONFIGS.filter((c) => c.subject === s && c.added === 23 && !c.step);

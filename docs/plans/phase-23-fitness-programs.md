@@ -99,7 +99,7 @@ decisions is today's catalogue 13 (renumbered by 105).
 | 2 | Signature IIs: a level step in the builder, and the 15 IIs | feature | 1 | `feature/signature-ii` | done (PR #353) |
 | 3 | Strength, Busy week, Bodyweight +29 | content | 1 | `content/p23-strength` | done (PR #360) |
 | 4 | Kettlebells and pulls +26 | content | 1 | `content/p23-bells-pulls` | done (PR #361) |
-| 5 | Upper-body muscles and grip +25 | content | 1 | `content/p23-muscles-upper` | todo |
+| 5 | Upper-body muscles and grip +25 | content | 1 | `content/p23-muscles-upper` | done (PR #362) |
 | 6 | Legs, hips, calves, core +25 | content | 1 | `content/p23-muscles-lower` | todo |
 | 7 | Cardio +30 | content | 1 | `content/p23-cardio` | todo |
 | 8 | Combat +20 | content | 1 | `content/p23-combat` | todo |
