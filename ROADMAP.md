@@ -4,16 +4,21 @@ The index: where we are, what comes next, and the two phases being built now. Ev
 top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase comes up. Decision numbers are global
 (the next one is **319**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
-## Resume here (10 Oct 2026, afternoon)
-- **Phase 30 is done** (10 Oct, #345–#351): muscle groups on three levels (Stats → Muscles, the Muscles and Exercises
-  pages), and a done day can be done again, every date counted; a date is removed in History. Archived in
-  [docs/roadmap-archive.md](docs/roadmap-archive.md). Phase 31 closed this morning (#336–#342).
-- **Now: Phase 23** (new fitness programs), building from 10 Oct afternoon; then 24, 25 … in the order below. **Opus builds alone this week** (295):
-  Grok is away, so no Grok tickets; Phase 20 waits for it.
-- **Rules added 10 Oct** (CLAUDE.md): CI builds the site before the phone tests (307); no local coverage run, the
-  commit hook runs only changed light tests (308, 312); a UI ticket runs its own specs and the smoke check locally
-  (309); nothing that builds the whole library runs on the cloud machine (312); waiting on CI polls every 30 s with an
-  early exit, never a blind sleep.
+## Resume here (10 Oct 2026, evening)
+- **Phase 23 is building** (new fitness programs): tickets 1, 2, 1c, 3, 4, 5 merged (#352–#354, #360–#362): the 15
+  Signature IIs, 77 yoga and Pilates exercises at catalogue 14, and 80 new programs in Strength, Busy week, Bodyweight,
+  the kettlebell and pull subjects, and the upper-body muscles and grip. **Next: ticket 6** (legs, hips, calves, core
+  +25), then 7, 8 … per [its plan](docs/plans/phase-23-fitness-programs.md); pause for Noam's go after every 3 (316).
+  The new programs stay out of Build your own and random workouts until ticket 13 (318). **Opus builds alone this week**
+  (295): Grok is away, so no Grok tickets; Phase 20 waits for it.
+- **Rules added 10 Oct** (CLAUDE.md): no local coverage run or whole-library build (308, 312); a UI ticket runs its own
+  specs and the smoke check locally (309); CI polls every 30 s; the build stops on a changed pin and `npm run pin`
+  builds only this phase's programs; `npm run check:new` before pushing a content ticket; one ticket pushed at a time,
+  no stacked PRs; a PR run on a tree that already passed skips its tests; a PR behind main only by other files'
+  commits merges as it is. Failing CI tests show as PR annotations (#355).
+- **Open, for later:** [#356](https://github.com/noamros9/kettle-bar/issues/356) (finishing a workout: the 30 s timer
+  starts by itself, then straight into cool-down, no rest after it). Phase 35's tickets are written (#358, #359); its
+  open points (who builds the exercises, which subjects get +8) wait for its turn.
 - **Working rules** are in [CLAUDE.md](CLAUDE.md): at most 2 tickets building, the next ticket at every checkpoint, one
   phase at a time, every Grok ticket plans first.
 
