@@ -71,9 +71,9 @@ test('the warm-up runs hands-free through every stretch and starts the workout c
 test('Mark as done ticks the day, survives a reload and shows on the program page', async ({ app }) => {
   await app.open('#p-three-split-60-d1');
   await app.page.getByRole('button', { name: 'Mark as done' }).click();
-  await expect(app.page.locator('.whead [data-toggle="1"]')).toHaveText('✓ Done');
+  await expect(app.page.getByTestId('done-count')).toHaveText('✓ Done'); // Phase 30: done, with Do it again
   await app.page.reload(); await app.page.locator('#app h1').waitFor();
-  await expect(app.page.locator('.whead [data-toggle="1"]')).toHaveText('✓ Done');
+  await expect(app.page.getByTestId('done-count')).toHaveText('✓ Done');
   await app.go('#p-three-split-60');
   await expect(app.page.getByRole('checkbox', { name: 'Mark day 1 done' })).toHaveAttribute('aria-checked', 'true');
 });

@@ -27,17 +27,22 @@ test('ticking every set shows the finish card with sets, workout and stretching 
   await app.page.screenshot({ path: `test-results/shots/${testInfo.project.name}/finish-card.png` });
 });
 
-test('Mark as done on the card marks the day; tapping again un-marks it', async ({ app }) => {
-  test.skip(test.info().project.name !== 'phone-light', 'theme-independent');
+// Phase 30 ticket 5 (212, 215): marking never unmarks; a done day is done again from a fresh session
+test('Mark as done on the card marks the day; Do it again starts fresh and its card adds a date', async ({ app }, testInfo) => {
   await app.open('#p-three-split-60-d1');
   await tickEverySet(app);
   const card = app.page.getByRole('region', { name: 'Workout complete' });
   await card.getByRole('button', { name: 'Mark day 1 as done' }).click();
-  await expect(app.page.locator('.whead [data-toggle="1"]')).toHaveText('✓ Done');
-  const done = card.getByRole('button', { name: '✓ Day 1 done' });
-  await expect(done).toHaveAttribute('aria-pressed', 'true');
-  await done.click();
-  await expect(app.page.locator('.whead [data-toggle="1"]')).toHaveText('Mark as done');
+  await expect(app.page.getByTestId('done-count')).toHaveText('✓ Done');
+  await expect(card.getByRole('button', { name: '✓ Day 1 done' })).toBeDisabled(); // the card stays, and says so
+  await app.page.screenshot({ path: `test-results/shots/${testInfo.project.name}/done-day.png` });
+  await app.page.getByRole('button', { name: 'Do it again' }).click();
+  await tickEverySet(app);
+  await app.page.screenshot({ path: `test-results/shots/${testInfo.project.name}/done-again-card.png` });
+  await card.getByRole('button', { name: 'Mark day 1 done again' }).click();
+  await expect(app.page.getByTestId('done-count')).toHaveText('✓ Done 2×');
+  await expect(card.getByRole('button', { name: '✓ Day 1 done' })).toBeDisabled();
+  expect(await app.data(() => [store.count('three-split-60'), store.entries('three-split-60').length])).toEqual([1, 2]);
 });
 
 test('the card shows this week so far (today counts once marked done) and the next workout', async ({ app }) => {

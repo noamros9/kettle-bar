@@ -5,7 +5,7 @@
                gear (app/swaps.js travel) and its Swap list leaves the gear out; stats (resolved) keep the program's day
        skip: () => [exercise id]: the exercises I skip (Phase 13): swapped on the open day along with travel mode
                (app/swaps.js standIns) and left out of its Swap list; stats keep the program's day here too
-     days.forget(pid, n)                 drop the saved session of that day (Mark as done, un-marking)
+     days.forget(pid, n, { open? })      drop that day's saved session (Mark as done); open: the live one too (Do it again)
      days.resolved(pid, n, round?) -> the day with that round's swaps applied (for stats), or nothing
      days.open(pid, n) -> a Day, or nothing for an unknown program or day:
        D.program, D.day                 the program and the day as you'll do it
@@ -86,7 +86,10 @@
         setShort(on) { store.setShort(pid, n, on); },
       };
     }
-    return { open, resolved, forget: (pid, n) => storage.remove(savedKey(pid, n)) };
+    // forget: the saved session goes; with { open: true } the open one too, so Do it again (Phase 30) starts afresh
+    // (marking done keeps the open one: its finish card stays, with the week and what's next)
+    function forget(pid, n, { open: alsoOpen } = {}) { const key = savedKey(pid, n); storage.remove(key); if (alsoOpen && live.key === key) live.key = null; }
+    return { open, resolved, forget };
   }
 
   const api = { createDays };

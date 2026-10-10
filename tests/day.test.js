@@ -1,3 +1,4 @@
+// ci-only: builds or reads the whole program library; the commit hook skips it, CI runs it (decision 312)
 // The Day: a program day as you'll do it (swaps applied), with its live Workout Session and swap actions.
 const test = require('node:test');
 const assert = require('node:assert/strict');
@@ -131,6 +132,9 @@ test('Mark as done clears the saved session (and so does un-marking)', () => {
   assert.equal(keys().length, 1);
   days.forget(P, 1);
   assert.deepEqual(keys(), []);
+  assert.equal(days.open(P, 1).session().state(0).sets[0], 1, 'marking done keeps the open session (its finish card stays)');
+  days.forget(P, 1, { open: true });
+  assert.equal(days.open(P, 1).session().state(0).sets[0], 0, 'Do it again: the open session goes too (Phase 30)');
   assert.equal(make().open(P, 1).session().state(0).sets[0], 0, 'a fresh page starts the day from zero');
   days.forget(P, 1); // nothing there: fine
 });

@@ -151,7 +151,11 @@ const ACTIONS = [
   ['exf', (v) => { const [k, x] = v.split(':'); exFilter(k, x); }],
   ['filter', (v) => { const [k, x] = v.split(':'); setFilter(k, x); render(); }],
   ['short', () => { const D = openDay(); D.setShort(!D.short()); }], // the store's change event redraws
-  ['toggle', (v) => { days.forget(prog().id, +v); store.toggle(prog().id, +v); }], // marked or un-marked: the saved session is done with
+  // Phase 30 (212, 314): marking is done, or done again (another date); it never unmarks (Remove is in History, 215)
+  ['toggle', (v) => { if (route.view === 'day') markedSession = openSession(); days.forget(prog().id, +v); store.doAgain(prog().id, +v); }], // the saved session is done with
+  ['redo', (v) => { days.forget(prog().id, +v, { open: true }); markedSession = null; render(); window.scrollTo(0, 0); }], // Do it again: a fresh session
+  ['hremove', (v) => { statsView.removing = statsView.removing === v ? null : v; render(); }], // History: Remove asks first
+  ['hremoveYes', (v) => { const [pid, day, ...t] = v.split(':'); statsView.removing = null; store.removeMark(pid, +day, t.join(':')); }],
   ['day', (v) => { const n = +v; if (n >= 1 && n <= prog().days.length) go(dayHash(prog().id, n)); }],
   ['pip', (v) => { const [bi, i, k] = v.split(':').map(Number); tick({ type: 'set', bi, i, k }); }],
   ['rpip', (v) => {
