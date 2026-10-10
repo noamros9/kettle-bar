@@ -22,6 +22,10 @@ Grilled 8 Oct 2026 with Noam (global decision numbers).
   the merge waits for it; locally it took 12–15 min per ticket. *(10 Oct)*
 - **309 · Locally, a UI ticket runs its own specs and the smoke check**, light only; the mapped specs and the full suite
   run in CI. *(10 Oct)*
+- **310 · #105 waits for a CI trace**: 168 local runs passed (40 alone, 128 among the sync specs under load) and no race
+  was found; CI keeps a trace on failure, and the next one names the cause. Ticket 3 closes the phase without it. *(10 Oct)*
+- **311 · Ticket 5: faster unit tests**, same tests and gate: the whole library is built once, without coverage, before
+  the run; the slow files read it. The unit job took ~17 min, ~12 of it building programs under coverage. *(10 Oct)*
   the test; no retries. *(8 Oct)*
 
 ## What lands
@@ -38,8 +42,9 @@ Grilled 8 Oct 2026 with Noam (global decision numbers).
 | 0 | This plan | plan | – | `plan/open-issues-8oct` | done (PR #297) |
 | 1 | Back keeps your place on five pages (#214) | feature | – | `fix/back-keeps-place` | done (PR #336) |
 | 2 | Build your own: preview = saved (#111) | feature | – | `fix/preview-is-saved` | done (PR #339) |
-| 3 | The rename-sync flake: root cause and fix (#105) | feature | – | `fix/rename-sync-flake` | todo |
-| 4 | Close the phase: archive | plan | 1–3 | `plan/p31-close` | todo |
+| 3 | The rename-sync flake: root cause and fix (#105) | feature | – | `fix/rename-sync-flake` | waits for a CI trace (310) |
+| 5 | Faster unit tests: the library built once, without coverage | feature | – | `test/faster-unit` | todo |
+| 4 | Close the phase: archive | plan | 1–3, 5 | `plan/p31-close` | todo |
 
 Tickets 1 and 2 touch different files and can run at once; ticket 3 may touch `app/pages/core.js` (the loading
 view), so it waits for ticket 1's PR to open and stacks on it if it does.
@@ -84,12 +89,26 @@ view), so it waits for ticket 1's PR to open and stacks on it if it does.
 - **Done when:** the cause is written in the PR and in this plan (under "Found"); 100 repeats under load pass;
   `retries` stays 0.
 
+### 5. Faster unit tests (311)
+- **Build:** `scripts/warm-test-cache.js` builds `tests/helpers/library.js`'s `library()` and `rendered()` once, without
+  coverage (~50 s for 736 programs, against ~6 min under coverage, where each file that found no cache built it again);
+  `test:coverage` and `npm test` run it first. Test files that build whole sets themselves (`c13-programs`) read the
+  shared library instead. If the cache moves coverage of `program-builder.js` below the gate, small direct tests cover
+  what the whole-library build covered by accident.
+- **Files:** `scripts/warm-test-cache.js` (new), `package.json`, the slow test files, `tests/` for any coverage gap.
+- **Test first:** the timing: the unit job's time on CI before (≈15–17 min) and after, recorded in the PR.
+- **Done when:** the same tests pass with the same gate; CI's unit job under ~6 min.
+
 ### 4. Close the phase
 - Decisions to `docs/roadmap-archive.md` (a summary line and a link here); the row leaves ROADMAP.md; #214, #111 and
   #105 closed by their PRs.
 
 ## Found
-_(ticket 3)_
+- **Ticket 3 (#105), 10 Oct 2026:** no repro. The test passed 40 of 40 alone (2 workers) and 128 of 128 among
+  `build`, `sync` and `share` specs at 3 workers on 2 cores. Read and ruled out: own programs are always preloaded
+  (`KBOwn.source` is `inlined`), so a sync echo can't leave the page on "Loading…"; a background redraw keeps the
+  rename field's focus and text, and the submit is synchronous with Enter. Open: the page had no heading at all, so it
+  stayed in the rename form or a loading view. CI keeps a trace on failure (`retain-on-failure`); #105 stays open for it.
 
 ## Challenge round
 - **Weakest assumption: that the history entry is the right place to keep the scroll.** A hash change made by
