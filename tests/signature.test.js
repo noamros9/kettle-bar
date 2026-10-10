@@ -105,7 +105,7 @@ test('the variations: 60 days, each in its day type\'s time range, abs last (no 
 });
 
 test('the variations sit on the Signature shelf right after their original, and are pinned; no existing pin changed', () => {
-  const sig = CONFIGS.filter((c) => c.subject === 'Signature').map((c) => c.id);
+  const sig = CONFIGS.filter((c) => c.subject === 'Signature' && !c.step).map((c) => c.id); // the IIs (Phase 23) come after: tests/signature-ii.test.js
   assert.equal(sig.length, 15);
   assert.deepEqual(sig, Object.keys(ORIGINALS).flatMap((o) => [o, `${o}-tempo`, `${o}-harder`]));
   VARIATIONS.forEach(([id]) => {
