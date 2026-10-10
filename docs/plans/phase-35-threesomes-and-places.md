@@ -1,8 +1,8 @@
 # Phase 35 · Catalogue 14: threesomes, and every act at every place
 
 Grilled 9 Oct 2026 (Noam), at the end of Phase 22's sex exercises. Claude plans; Grok writes the exercises and the
-program text, plan first (132). Tickets written 10 Oct 2026 from the decisions below; nothing here is re-asked. The
-open points are listed at the end, not decided.
+program text, plan first (132). Tickets written 10 Oct 2026 from the decisions below; nothing here is re-asked. Its open
+points were settled 10 Oct (292, 293).
 
 ## Decisions
 
@@ -26,10 +26,10 @@ open points are listed at the end, not decided.
 **Drawings and programs**
 - **291 · A third figure.** An Opus ticket first adds three-figure poses, with the pelvic mark, to `figures.js`; every
   threesome draws all three. *(9 Oct)*
-- **292 · +8 programs per fitting subject, Threesome 18.** Every After dark and couple subject the new exercises fit
-  gets 8 more programs using them; the Threesome subject gets 18 (a new subject's 12, decision 119, plus 6). *(9 Oct)*
+- **292 · +8 programs in 13 subjects (was: every fitting subject), Threesome 18.** Explicit, Rough, Kink-lite, Body
+  play, Rimming, Edging, Massage, Strip and tease and the five places get 8 each (104); Threesome 18 (119 + 6). *(9, 10 Oct)*
 - **293 · Who builds.** Grok the exercises and program text, plan first (132); Opus the third figure, the tags and
-  the pool wiring. *(9 Oct)*
+  the pool wiring. The phase waits for Grok, like Phase 20 (confirmed 10 Oct). *(9, 10 Oct)*
 
 ## Tickets
 
@@ -38,7 +38,7 @@ exercises (six at each of five places).
 
 | # | Ticket | Tier | Blocked by | Branch | Status |
 |---|---|---|---|---|---|
-| 0 | This plan | plan | – | `plan/p35-tickets-small` | todo |
+| 0 | This plan | plan | – | `plan/p35-tickets-small` | done (PR #358, #359) |
 | 1 | Third figure, the FMF/MMF tag, and the filing rules (289, 290, 291) | feature | – | `feature/p35-figure-tags` | todo |
 | 2a | Threesome act: intercourse, 36 (284) | content | 1 | `content/p35-act-intercourse` | todo |
 | 2b | Threesome acts: oral 18, hands 18 (284) | content | 1 | `content/p35-act-oral-hands` | todo |
@@ -64,8 +64,20 @@ exercises (six at each of five places).
 | 5 | Pools and pins for catalogue 14, the FMF/MMF split in every kind (287) | feature | 2a–4l | `feature/p35-pools` | todo |
 | 6a | Threesome subject, programs 1–9 of 18 (292) | content | 5 | `content/p35-threesome-1` | todo |
 | 6b | Threesome subject, programs 10–18 of 18 (292) | content | 5 | `content/p35-threesome-2` | todo |
-| 6c… | One ticket per fitting After dark or couple subject: 8 programs each (292). Subject list open. | content | 5 | `content/p35-subject-…` | todo (list open) |
-| 7 | Close the phase: measure, pins, archive | plan | 6* | `plan/p35-close` | todo |
+| 6c | Explicit +8 (292) | content | 5 | `content/p35-explicit` | todo |
+| 6d | Rough +8 (292) | content | 5 | `content/p35-rough` | todo |
+| 6e | Kink-lite +8 (292) | content | 5 | `content/p35-kink-lite` | todo |
+| 6f | Body play +8 (292) | content | 5 | `content/p35-body-play` | todo |
+| 6g | Rimming +8 (292) | content | 5 | `content/p35-rimming` | todo |
+| 6h | Edging +8 (292) | content | 5 | `content/p35-edging` | todo |
+| 6i | Massage +8 (292) | content | 5 | `content/p35-massage` | todo |
+| 6j | Strip and tease +8 (292) | content | 5 | `content/p35-strip-tease` | todo |
+| 6k | Shower and bath +8 (292) | content | 5 | `content/p35-shower-bath` | todo |
+| 6l | Pool +8 (292) | content | 5 | `content/p35-pool` | todo |
+| 6m | Hot tub +8 (292) | content | 5 | `content/p35-hot-tub` | todo |
+| 6n | Balcony +8 (292) | content | 5 | `content/p35-balcony` | todo |
+| 6o | Doorframe +8 (292) | content | 5 | `content/p35-doorframe` | todo |
+| 7 | Close the phase: measure, pins, archive | plan | 6a–6o | `plan/p35-close` | todo |
 
 ### 1. Third figure, tags and filing (Opus)
 - **Build:** the three-figure pose with the pelvic mark in `figures.js` (291); every threesome draws all three. Each
@@ -100,23 +112,21 @@ exercises (six at each of five places).
 - **Test first:** `tests/his-pov.test.js`, `tests/couple-odds.test.js` and the guidelines checks pass; 18 programs in one subject.
 - **Done when:** the Opus review reads each blurb and about; the PR's CI is green.
 
-### 6c… One subject each (Grok, plan first)
-- **Build:** 8 programs in one After dark or couple subject that the new exercises fit (292), using them.
-- **Test first:** as 6a, plus each program uses at least one catalogue-14 exercise.
-- **Done when:** as 6a. The subject list is open (see below).
+### 6c–6o. One subject each, 8 programs (Grok, plan first)
+- **Build:** 8 programs in the ticket's subject (292), each using catalogue 14's threesome or place exercises that fit
+  it: the act subjects draw that act's threesome versions (FMF or MMF, 287–288), the five places their place × act
+  sets. Program text by the his-side rules and `docs/explicit-guidelines.md`.
+- **Test first:** as 6a, plus 8 new programs in the subject, each using at least one catalogue-14 exercise of its kind
+  or place.
+- **Done when:** as 6a.
 
 ### 7. Close the phase (Opus)
-- **Build:** the counts (666 exercises, programs per subject), `docs/roadmap-archive.md`, the ROADMAP row removed.
+- **Build:** the counts (666 exercises, 122 programs: 18 + 13 × 8), `docs/roadmap-archive.md`, the ROADMAP row removed.
 - **Done when:** the row is archived; decisions 283–293 moved to the archive with a link.
 
 ## Challenge round
-- **Weakest assumption:** the subject list. 292 says "every fitting subject" but names none, so the program total
-  (18 + 8 × subjects) is not fixed, and so is the number of 6c tickets.
+- **Weakest assumption:** that every one of the 13 subjects has enough of its own new exercises for 8 programs that
+  differ; the places have 72 each (12 acts × 6), the act subjects 18 to 36.
 - **What I haven't read:** the exercise shape's tag field (ticket 1 may need a new field), and the Threesome subject's
   pools in `program-builder.js`.
 - **The lazier version:** the Threesome kind (285) only, with the place × act as a later phase: 72 + 18 programs.
-
-## Open points (to grill, not decided here)
-- **Who builds:** decision 293 gives the exercises to Grok, but ROADMAP says Grok is away this week (295). Until Grok
-  is back, Opus writes the exercises, and each ticket names who builds it.
-- **Subject list for 6c…** (292): which After dark and couple subjects get 8 more.
