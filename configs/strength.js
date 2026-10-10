@@ -3073,8 +3073,8 @@ const P23_T5 = [
     names: ['Atlas', 'Titan', 'Colossus', 'Pillar Man', 'Caryatid', 'Telamon', 'Hercules', 'Samson', 'Goliath', 'Ajax', 'Achilles', 'Hector', 'Spartan', 'Gladiator', 'Centurion', 'Legionary', 'Hoplite', 'Myrmidon', 'Champion', 'Paladin'],
     cycle: ['press', 'raise', 'cuff'],
     dayTypes: {
-      press: { label: 'Heavy press', short: 'Press', blocks: [S('Heavy press', ['shoulderPress', 'shoulders2', 'shoulderPress', 'triceps2', 'shoulders2?'])] },
-      raise: { label: 'Raise supersets', short: 'Raise', blocks: [SS('Raise supersets', ['shoulders2', 'shoulderHealth', 'shoulders2', 'trapsPool', 'shoulderHealth', 'shoulders2'])] },
+      press: { label: 'Heavy press', short: 'Press', blocks: [S('Heavy press', ['shoulderPress', 'shoulderPress', 'shoulders2', 'triceps2', 'shoulderPress?'])] },
+      raise: { label: 'Raise supersets', short: 'Raise', blocks: [SS('Raise supersets', ['shoulders2', 'shoulderHealth', 'shoulderPress', 'trapsPool', 'reverse_fly', 'triceps2'])] },
       cuff: { label: 'Press & cuff', short: 'Cuff', blocks: [S('Press & cuff', ['shoulders2', 'shoulderHealth', 'shoulderPress', 'shoulderHealth', 'triceps2?'])] },
     },
   },
@@ -3107,7 +3107,7 @@ const P23_T5 = [
     names: ['Raise Up', 'Lift Off', 'Hoist Up', 'Elevate', 'Uplift', 'Upswing', 'Surge Up', 'Lift Up', 'Climb Up', 'Rise Up', 'Mount', 'Ascend', 'Go Up', 'Look Up', 'Stand Up', 'Push Up High', 'Reach', 'Overhead', 'Top Shelf', 'High Point'],
     cycle: ['ladder', 'pairs'],
     dayTypes: {
-      ladder: { label: 'Ladder & raises', short: 'Ladder', blocks: [L('Shoulder ladder', ['shoulderPress', 'shoulders2']), S('Raises & cuff', ['shoulderHealth', 'shoulders2'])] },
+      ladder: { label: 'Ladder & raises', short: 'Ladder', blocks: [L('Shoulder ladder', ['shoulderPress', 'shoulders2']), S('Raises & cuff', ['shoulderHealth', 'trapsPool'])] },
       pairs: { label: 'Shoulder supersets', short: 'Pairs', blocks: [SS('Shoulder supersets', ['shoulderPress', 'shoulders2', 'shoulderHealth', 'triceps2'])] },
     },
   },
