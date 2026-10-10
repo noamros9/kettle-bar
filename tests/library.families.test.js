@@ -45,7 +45,7 @@ test('every warm-up, cool-down and couple exercise has a known sub; no other exe
 });
 
 test('Goblet squat, half split and 69 land on the table', () => {
-  assert.deepEqual(label(EX.goblet_squat), ['Muscles', 'Legs & glutes']);
+  assert.deepEqual(label(EX.goblet_squat), ['Muscles', 'Thighs']);
   assert.deepEqual(label(EX.half_split), ['Stretch & cool-down', 'Flexibility']);
   assert.deepEqual(label(EX.oral_69), ['Couples', 'Oral']);
 });

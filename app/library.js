@@ -26,6 +26,8 @@
    skipped(prefs, EX) -> the exercises I skip (Phase 13): prefs.skip's ids this app knows, once each, in the order skipped.
    Pure: the page only renders what this returns. */
 (function (root) {
+  /* node:coverage ignore next */ // the browser branch: exercises.js loads before library.js on the page
+  const Ex = typeof module !== 'undefined' && module.exports ? require('../exercises.js') : root.KBEx;
   // Families group the subjects; chips and shelves follow this order. Subjects listed before they have programs
   // just don't show. A program whose subject is missing here is an error (the UI tests fail on it), never dropped quietly.
   const FAMILIES = [
@@ -153,18 +155,13 @@
   const EX_FAMILIES = [
     ['warmup', 'Warm-up', [['dynamic', 'Dynamic moves'], ['joints', 'Joint circles'], ['activation', 'Activation']]],
     ['stretch', 'Stretch & cool-down', [['static', 'Static stretches'], ['breath', 'Breathing'], ['flex', 'Flexibility']]],
-    ['muscles', 'Muscles', [['chest', 'Chest'], ['back', 'Back'], ['shoulders', 'Shoulders'], ['arms', 'Arms'], ['legs', 'Legs & glutes'], ['core', 'Core & abs'], ['full', 'Full body']]],
+    ['muscles', 'Muscles', [...Ex.MUSCLE_GROUPS.flatMap(([, , parts]) => parts.map(([part, name]) => [part, name])), ['full', 'Full body']]], // Phase 30 (211)
     ['cardio', 'Cardio & combat', [['cardio', 'Cardio'], ['boxing', 'Boxing'], ['kick', 'Kickboxing']]],
     ['mind', 'Mind & body', [['yoga', 'Yoga'], ['pilates', 'Pilates'], ['balance', 'Balance'], ['mobility', 'Mobility']]],
     ['couples', 'Couples', [['fuck', 'Intercourse'], ['oral', 'Oral'], ['hands', 'Hands'], ['anal', 'Anal'], ['toys', 'Toys'], ['partner', 'Partner work'], ['tease', 'Strip and tease'], ['dare', 'Dares'], ['massage', 'Massage'], ['rough', 'Rough'], ['kink', 'Kink-lite'], ['body', 'Body play'], ['rim', 'Rimming'], ['edging', 'Edging'], ['shower', 'Shower and bath'], ['pool', 'Pool'], ['hottub', 'Hot tub'], ['balcony', 'Balcony'], ['doorframe', 'Doorframe']]],
   ];
-  const MUSCLE_SUB = {
-    chest: 'chest', lats: 'back', upper_back: 'back', lower_back: 'back', traps: 'back', neck: 'back',
-    front_delts: 'shoulders', side_delts: 'shoulders', rear_delts: 'shoulders',
-    triceps: 'arms', biceps: 'arms', forearms: 'arms',
-    glutes: 'legs', quads: 'legs', hamstrings: 'legs', adductors: 'legs', calves: 'legs', shins: 'legs', hip_flexors: 'legs',
-    abs: 'core', obliques: 'core',
-  };
+  // an exercise's Muscles chip is the body part of its first main muscle (Phase 30, 211: from the one MUSCLE_GROUPS)
+  const MUSCLE_SUB = Object.fromEntries(Ex.MUSCLE_GROUPS.flatMap(([, , parts]) => parts.flatMap(([part, , ms]) => ms.map((m) => [m, part]))));
   const CAT_TO_FAM = {
     warmup: 'warmup', cooldown: 'stretch', flex: 'stretch', couple: 'couples', full: 'muscles',
     cardio: 'cardio', boxing: 'cardio', kick: 'cardio',
