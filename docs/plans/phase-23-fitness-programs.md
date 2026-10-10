@@ -33,6 +33,8 @@ decisions is today's catalogue 13 (renumbered by 105).
 - **316 · Pause after every 3 tickets**: Claude stops and waits for Noam's explicit go before the next three. *(10 Oct)*
 - **317 · Measure today and at the close only** (no placeholder end state; nothing builds the whole library on the
   cloud machine, 312); the 1 MB page gate may be raised if the library needs it. *(10 Oct)*
+- **318 · The new programs stay out of Build your own and random workouts until the close**: the recipe book skips
+  `added: 23` (`HELD` in `recipe-book.js`), so those screens don't shift every ticket; ticket 13 lets them all in. *(10 Oct)*
 
 **More Yoga, Pilates and Variety** ([#216](https://github.com/noamros9/kettle-bar/issues/216), grilled 8 Oct)
 - **230 · #216 is built in this phase**, in its Yoga, Pilates and Variety tickets. *(8 Oct)*
@@ -95,7 +97,7 @@ decisions is today's catalogue 13 (renumbered by 105).
 | 0b | #216 joins (230–237) | plan | – | `plan/open-issues-8oct` | done (PR #297) |
 | 1 | Library size: measure at the end state, and per-family program order | feature | – | `feature/p23-size-and-order` | done (PR #352) |
 | 2 | Signature IIs: a level step in the builder, and the 15 IIs | feature | 1 | `feature/signature-ii` | done (PR #353) |
-| 3 | Strength, Busy week, Bodyweight +29 | content | 1 | `content/p23-strength` | todo |
+| 3 | Strength, Busy week, Bodyweight +29 | content | 1 | `content/p23-strength` | done (PR #360) |
 | 4 | Kettlebells and pulls +26 | content | 1 | `content/p23-bells-pulls` | todo |
 | 5 | Upper-body muscles and grip +25 | content | 1 | `content/p23-muscles-upper` | todo |
 | 6 | Legs, hips, calves, core +25 | content | 1 | `content/p23-muscles-lower` | todo |
@@ -200,6 +202,8 @@ The pins file is regenerated after each rebase (`npm run pin`), never merged by 
 
 ### 13. Close the phase
 - `recipe-book.js`: `NEWEST = 14` (264); new own programs and random workouts draw the yoga and Pilates moves.
+- `recipe-book.js`: `HELD` moves past 23 (318), so the phase's programs join Build your own and random workouts; the
+  own, mix and recipes tests' expected options are updated once, here.
 - `npm run size` again, recorded under "Measured" next to ticket 1's numbers; the section moves to
   `docs/roadmap-archive.md`; CONTEXT.md's Signature entry says the IIs.
 

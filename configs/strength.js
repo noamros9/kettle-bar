@@ -2325,6 +2325,347 @@ const twoOf = (c) => {
 const IIS = CONFIGS.filter((c) => c.subject === 'Signature').map(twoOf);
 CONFIGS.push(...IIS);
 
+// Phase 23 ticket 3 (83, 87, 184, 185, 205): Strength +10, Busy week +9, Bodyweight +10, at catalogue 13. In each
+// subject half run 35–38 min, a quarter 31–35, a quarter shorter; a fifth are 30 days; gear as the subject's today.
+const P23_LONG = [34.5, 38.4], P23_MID = [31, 35];
+const P23_STRENGTH = [
+  {
+    id: 'heavy-light-medium', name: 'Heavy, Light, Medium', subject: 'Strength', minutes: P23_LONG, levers: [null, 'weight', 'tempo'],
+    split: 'Heavy / light / medium', blurb: 'Three days that change the load: a heavy straight-set day, a light superset day and a medium day between.',
+    about: 'Strength that comes from changing the effort across the week. The heavy day is straight sets of big lifts with long rests, the light day pairs moves in supersets with higher reps, and the medium day sits between. Abs finish every session. Level II moves you one weight up and Level III slows the lowering to three seconds.',
+    names: ['Danube', 'Rhine', 'Volga', 'Nile', 'Amazon', 'Yangtze', 'Mekong', 'Indus', 'Ganges', 'Jordan', 'Tigris', 'Euphrates', 'Seine', 'Thames', 'Loire', 'Elbe', 'Oder', 'Vistula', 'Dnieper', 'Po'],
+    cycle: ['heavy', 'light', 'medium'],
+    dayTypes: {
+      heavy: { label: 'Heavy day', short: 'Heavy', blocks: [S('Heavy lifts', ['squat2', 'chestPress', 'hinge2', 'backRow', 'total?'])] },
+      light: { label: 'Light day', short: 'Light', blocks: [SS('Light pairs', ['lunge2', 'push', 'glute2', 'row2', 'shoulders2', 'triceps2'])] },
+      medium: { label: 'Medium day', short: 'Medium', blocks: [S('Medium lifts', ['hinge2', 'pushLoad2', 'singleLeg', 'backBar', 'biceps2?'])] },
+    },
+  },
+  {
+    id: 'three-way-split', name: 'Three-Way Split', subject: 'Strength', minutes: P23_LONG, levers: [null, 'reps', 'weight'],
+    split: 'Upper / lower / full body', blurb: 'An upper day, a lower day and a full-body day in straight sets, round and round.',
+    about: 'Three days that share the work out evenly. The upper day presses and rows, the lower day squats, hinges and lunges, and the full-body day mixes both with a total-body lift. Straight sets with full rests throughout. Abs finish every session. Level II adds reps and Level III moves you one weight up.',
+    names: ['Oak', 'Cedar', 'Pine', 'Birch', 'Maple', 'Ash', 'Elm', 'Willow', 'Spruce', 'Larch', 'Fir', 'Beech', 'Alder', 'Cypress', 'Juniper', 'Sequoia', 'Redwood', 'Poplar', 'Linden', 'Hazel'],
+    cycle: ['upper', 'lower', 'full'],
+    dayTypes: {
+      upper: { label: 'Upper body', short: 'Upper', blocks: [S('Upper', ['chestPress', 'backRow', 'shoulders2', 'triceps2', 'biceps2?'])] },
+      lower: { label: 'Lower body', short: 'Lower', blocks: [S('Lower', ['squat2', 'hinge2', 'lunge2', 'glute2', 'calf?'])] },
+      full: { label: 'Full body', short: 'Full', blocks: [S('Full body', ['total', 'push', 'row2', 'singleLeg', 'coreRot?'])] },
+    },
+  },
+  {
+    id: 'lifts-then-pairs', name: 'Lifts Then Pairs', subject: 'Strength', minutes: P23_LONG, levers: [null, 'weight', 'reps'],
+    split: 'Three lifts, then supersets, A / B', blurb: 'Three heavy lifts in straight sets, then supersets of four more moves.',
+    about: 'Heavy first, then volume. Each day opens with three big lifts in straight sets with full rests, then two supersets of four more moves, back to back with one rest after each pair. The two days swap the lifts and the pairs. Abs finish every session. Level II moves you one weight up and Level III adds reps.',
+    names: ['Tick', 'Tock', 'Pendulum', 'Escapement', 'Mainspring', 'Balance Wheel', 'Dial', 'Bezel', 'Crown', 'Chime', 'Gong', 'Hourglass', 'Sundial', 'Metronome', 'Chronograph', 'Quartz', 'Carillon', 'Bell Tower', 'Second Hand', 'Minute Hand'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Lifts & pairs A', short: 'A', blocks: [S('Lifts', ['squat2', 'pushLoad2', 'backRow']), SS('Pairs', ['total', 'row2', 'push', 'lunge2'])] },
+      b: { label: 'Lifts & pairs B', short: 'B', blocks: [S('Lifts', ['hinge2', 'chestPress', 'backBar']), SS('Pairs', ['kbBallistic', 'shoulders2', 'singleLeg', 'glute2'])] },
+    },
+  },
+  {
+    id: 'superset-month', name: 'Superset Month', subject: 'Strength', days: 30, minutes: P23_LONG, levers: [null, 'reps', 'tempo'],
+    split: 'Supersets A / B / C, 30 days', blurb: 'A month of full-body supersets, three days rotating, six lifts a day.',
+    about: 'A month of strength done in pairs. Each day is three supersets of a lower and an upper lift, back to back with one rest after both, so six lifts fit in the session. Three days rotate, and every ten days the level steps up. Abs finish every session. Level II adds reps and Level III slows the lowering to three seconds.',
+    names: ['Falcon', 'Hawk', 'Eagle', 'Osprey', 'Kestrel', 'Harrier', 'Kite', 'Buzzard', 'Condor', 'Vulture', 'Merlin', 'Hobby', 'Goshawk', 'Sparrowhawk', 'Peregrine', 'Gyrfalcon', 'Caracara', 'Owl', 'Harpy', 'Shrike'],
+    cycle: ['a', 'b', 'c'],
+    dayTypes: {
+      a: { label: 'Supersets A', short: 'A', blocks: [SS('Supersets', ['squat2', 'chestPress', 'hinge2', 'backRow', 'lunge2', 'shoulders2'])] },
+      b: { label: 'Supersets B', short: 'B', blocks: [SS('Supersets', ['hinge2', 'pushLoad2', 'singleLeg', 'row2', 'glute2', 'triceps2'])] },
+      c: { label: 'Supersets C', short: 'C', blocks: [SS('Supersets', ['total', 'push', 'lunge2', 'backBar', 'hipGlute', 'biceps2'])] },
+    },
+  },
+  {
+    id: 'four-movements', name: 'Four Movements', subject: 'Strength', minutes: P23_LONG, levers: [null, 'weight', 'variation'],
+    split: 'Press / pull / squat / hinge', blurb: 'One movement pattern a day, four days round: press, pull, squat and hinge.',
+    about: 'Every day trains one way the body moves. Press day pushes, pull day rows and pulls, squat day bends the knees and hinge day the hips, each in straight sets with the helpers that go with it. Four days rotate, so each pattern comes round again every fourth day. Abs finish every session. Level II moves you one weight up and Level III brings harder variations.',
+    names: ['North', 'South', 'East', 'West', 'Northeast', 'Northwest', 'Southeast', 'Southwest', 'Zenith', 'Nadir', 'Meridian', 'Equator', 'Tropic', 'Pole', 'Bearing', 'Heading', 'Azimuth', 'Latitude', 'Longitude', 'True North'],
+    cycle: ['press', 'pull', 'squat', 'hinge'],
+    dayTypes: {
+      press: { label: 'Press', short: 'Press', blocks: [S('Press', ['chestPress', 'pushLoad2', 'shoulders2', 'triceps2', 'push?'])] },
+      pull: { label: 'Pull', short: 'Pull', blocks: [S('Pull', ['backRow', 'backBar', 'row2', 'biceps2', 'pullBar2?'])] },
+      squat: { label: 'Squat', short: 'Squat', blocks: [S('Squat', ['squat2', 'lunge2', 'singleLeg', 'calf', 'glute2?'])] },
+      hinge: { label: 'Hinge', short: 'Hinge', blocks: [S('Hinge', ['hinge2', 'glute2', 'hipGlute', 'total', 'coreRot?'])] },
+    },
+  },
+  {
+    id: 'push-pull-pairs', name: 'Push-Pull Pairs', subject: 'Strength', minutes: P23_MID, levers: [null, 'weight', 'reps'],
+    split: 'Push-pull supersets / legs in straight sets', blurb: 'An upper day of push-pull supersets, then a leg day of straight sets.',
+    about: 'Two days that train differently. The upper day pairs every press with a row or pull in supersets, so one side rests while the other works; the leg day is straight sets of squats, hinges, lunges and glute work with full rests. They alternate. Abs finish every session. Level II moves you one weight up and Level III adds reps.',
+    names: ['Piston', 'Cog', 'Crank', 'Flywheel', 'Camshaft', 'Gearbox', 'Sprocket', 'Axle', 'Ratchet Wheel', 'Lever', 'Pulley', 'Winch', 'Turbine', 'Rotor', 'Shaft', 'Spindle', 'Valve', 'Governor', 'Dynamo', 'Bellcrank'],
+    cycle: ['upper', 'legs'],
+    dayTypes: {
+      upper: { label: 'Push-pull pairs', short: 'Upper', blocks: [SS('Push-pull pairs', ['chestPress', 'backRow', 'pushLoad2', 'row2', 'shoulders2', 'backBar'])] },
+      legs: { label: 'Legs', short: 'Legs', blocks: [S('Legs', ['squat2', 'hinge2', 'lunge2', 'glute2'])] },
+    },
+  },
+  {
+    id: 'big-three-month', name: 'Big Three Month', subject: 'Strength', days: 30, minutes: P23_MID, levers: [null, 'reps', 'variation'],
+    split: 'Squat day / bench day / deadlift day, 30 days', blurb: 'A month built round the three big lifts, one leading each day.',
+    about: 'A month built round the squat, the bench press and the deadlift. Each day one of them leads, with three helpers in straight sets: legs and a row after the squat, presses and triceps after the bench, glutes and back after the deadlift. Every ten days the level steps up. Abs finish every session. Level II adds reps and Level III brings harder variations.',
+    names: ['Rung', 'Step', 'Landing', 'Stair', 'Riser', 'Tread', 'Flight', 'Banister', 'Newel', 'Stile', 'Scaffold', 'Gantry', 'Catwalk', 'Ramp', 'Terrace', 'Ledge', 'Summit', 'Crest', 'Ridge', 'Peak'],
+    cycle: ['squat', 'bench', 'dead'],
+    dayTypes: {
+      squat: { label: 'Squat day', short: 'Squat', blocks: [S('Squat day', ['squat2', 'lunge2', 'backRow', 'calf?'])] },
+      bench: { label: 'Bench day', short: 'Bench', blocks: [S('Bench day', ['chestPress', 'pushLoad2', 'triceps2', 'row2?'])] },
+      dead: { label: 'Deadlift day', short: 'Deadlift', blocks: [S('Deadlift day', ['hinge2', 'glute2', 'backBar', 'biceps2?'])] },
+    },
+  },
+  {
+    id: 'density-supersets', name: 'Density Supersets', subject: 'Strength', minutes: P23_MID, levers: [null, 'tempo', 'weight'],
+    split: 'Upper density / lower density', blurb: 'Six lifts in three supersets, upper and lower days, more work in the same half hour.',
+    about: 'More work packed into the same time. Each day is three supersets, two lifts back to back with one rest after both, so the half hour holds six exercises. Upper and lower days alternate. Abs finish every session. Level II slows the lowering to three seconds and Level III moves you one weight up.',
+    names: ['Granite', 'Basalt', 'Marble', 'Slate', 'Flint', 'Quartzite', 'Obsidian', 'Gneiss', 'Schist', 'Limestone', 'Sandstone', 'Shale', 'Jasper', 'Onyx', 'Agate', 'Feldspar', 'Pumice', 'Gabbro', 'Diorite', 'Dolomite'],
+    cycle: ['upper', 'lower'],
+    dayTypes: {
+      upper: { label: 'Upper density', short: 'Upper', blocks: [SS('Upper supersets', ['chestPress', 'backRow', 'pushLoad2', 'row2', 'triceps2', 'biceps2'])] },
+      lower: { label: 'Lower density', short: 'Lower', blocks: [SS('Lower supersets', ['squat2', 'hinge2', 'lunge2', 'glute2', 'singleLeg', 'calf'])] },
+    },
+  },
+  {
+    id: 'strength-express', name: 'Strength Express', subject: 'Strength', minutes: [26, 31], levers: [null, 'weight', 'reps'],
+    split: 'Three lifts and one superset, A / B', blurb: 'Three lifts in straight sets and one closing superset, under half an hour.',
+    about: 'Strength for the days with less time. Three lifts in straight sets come first, a squat or hinge, a press and a row, then one superset of two more moves to finish. Two days alternate. Abs finish every session. Level II moves you one weight up and Level III adds reps.',
+    names: ['Cheetah', 'Pronghorn', 'Springbok', 'Gazelle', 'Hare', 'Greyhound', 'Swift', 'Sailfish', 'Marlin', 'Mako', 'Ostrich', 'Impala', 'Jackrabbit', 'Wildebeest', 'Quarter Horse', 'Lion', 'Coyote', 'Zebra', 'Elk', 'Antelope'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Lifts & pair A', short: 'A', blocks: [S('Lifts', ['squat2', 'chestPress', 'row2']), SS('Closing pair', ['total', 'coreRot'])] },
+      b: { label: 'Lifts & pair B', short: 'B', blocks: [S('Lifts', ['hinge2', 'pushLoad2', 'backRow']), SS('Closing pair', ['glute2', 'push'])] },
+    },
+  },
+  {
+    id: 'short-supersets', name: 'Short Supersets', subject: 'Strength', minutes: [26, 31], levers: [null, 'reps', 'weight'],
+    split: 'Upper pairs / lower pairs / full-body pairs', blurb: 'Two supersets a day, upper, lower or full body, in under half an hour.',
+    about: 'Short sessions of paired lifts. Each day is two supersets, two moves back to back with one rest after both: presses and rows on the upper day, squats and hinges on the lower, a mix on the full-body day. Three days rotate. Abs finish every session. Level II adds reps and Level III moves you one weight up.',
+    names: ['Thunder', 'Lightning', 'Squall', 'Gale', 'Tempest', 'Cyclone', 'Monsoon', 'Typhoon', 'Blizzard', 'Hail', 'Sleet', 'Downpour', 'Whirlwind', 'Tornado', 'Sirocco', 'Mistral', 'Chinook', 'Bora', 'Haboob', 'Derecho'],
+    cycle: ['upper', 'lower', 'full'],
+    dayTypes: {
+      upper: { label: 'Upper pairs', short: 'Upper', blocks: [SS('Upper pairs', ['chestPress', 'backRow', 'shoulders2', 'row2'])] },
+      lower: { label: 'Lower pairs', short: 'Lower', blocks: [SS('Lower pairs', ['squat2', 'hinge2', 'lunge2', 'glute2'])] },
+      full: { label: 'Full-body pairs', short: 'Full', blocks: [SS('Full-body pairs', ['total', 'push', 'singleLeg', 'backBar'])] },
+    },
+  },
+];
+const P23_BUSY = [
+  {
+    id: 'catch-up-full-body', name: 'Catch-Up Full Body', subject: 'Busy week', minutes: P23_LONG, levers: [null, 'reps', 'weight'],
+    split: 'Full-body catch-up A / B', blurb: 'One longer full-body session for the day you finally get, supersets then a circuit.',
+    about: 'For the week when one session is all you get, so it covers everything. Strength supersets come first, a lower and an upper lift back to back, then a circuit of four more moves. Two days alternate. Abs finish every session. Level II adds reps and Level III moves you one weight up.',
+    names: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Weekday', 'Weekend', 'Midweek', 'Payday', 'Deadline', 'Overtime', 'Inbox Zero', 'Clock Out', 'Last Train', 'Night Shift', 'Early Bird', 'Day Off', 'Long Weekend'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Catch-up A', short: 'A', blocks: [SS('Supersets', ['squat2', 'chestPress', 'hinge2', 'backRow']), C('Circuit', ['lunge2', 'push', 'row2', 'coreRot'], { values: [2, 3] })] },
+      b: { label: 'Catch-up B', short: 'B', blocks: [SS('Supersets', ['hinge2', 'pushLoad2', 'singleLeg', 'row2']), C('Circuit', ['total', 'shoulders2', 'glute2', 'hiit'], { values: [2, 3] })] },
+    },
+  },
+  {
+    id: 'sunday-session', name: 'Sunday Session', subject: 'Busy week', days: 30, minutes: P23_LONG, levers: [null, 'weight', 'reps'],
+    split: 'Lifts, then a long AMRAP, A / B, 30 days', blurb: 'A month of one long session at a time: four lifts, then an AMRAP to finish.',
+    about: 'A month of sessions for whichever day has the time. Four lifts in straight sets come first, then an AMRAP of four moves, as many rounds as you can. Two days alternate, and every ten days the level steps up. Abs finish every session. Level II moves you one weight up and Level III adds reps.',
+    names: ['Pancake', 'Waffle', 'Omelette', 'Croissant', 'Bagel', 'Porridge', 'Brioche', 'Muffin', 'Scone', 'Crumpet', 'Granola', 'Frittata', 'Shakshuka', 'Toast', 'Benedict', 'Hash Brown', 'Kipper', 'Crepe', 'Danish', 'Brunch'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Lifts & AMRAP A', short: 'A', blocks: [S('Lifts', ['squat2', 'chestPress', 'backRow', 'hinge2']), A('AMRAP', ['total', 'push', 'lunge2', 'coreRot'], { values: [6, 8, 10] })] },
+      b: { label: 'Lifts & AMRAP B', short: 'B', blocks: [S('Lifts', ['hinge2', 'pushLoad2', 'row2', 'singleLeg']), A('AMRAP', ['hiit', 'shoulders2', 'glute2', 'core2'], { values: [6, 8, 10] })] },
+    },
+  },
+  {
+    id: 'double-emom', name: 'Double EMOM', subject: 'Busy week', minutes: P23_LONG, levers: [null, 'reps', 'variation'],
+    split: 'Two EMOMs a day, A / B', blurb: 'Two EMOMs back to back: the clock plans the session, you just start it.',
+    about: 'No rests to plan and no list to remember. Each day is two EMOMs of four moves, a set at the top of every minute, the first leaning on legs and pushing, the second on hinges and pulling. Two days alternate. Abs finish every session. Level II adds reps and Level III brings harder variations.',
+    names: ['Double Shift', 'Back to Back', 'Twin Peaks', 'Second Wind', 'Encore', 'Reprise', 'Double Take', 'Two-Step', 'Tandem', 'Duet', 'Pair Up', 'Double Time', 'Rerun', 'Repeat', 'Echo', 'Mirror', 'Twin Engine', 'Double Header', 'Overlap', 'Relay'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Double EMOM A', short: 'A', blocks: [E('EMOM 1', ['squat2', 'push', 'row2', 'total'], { values: [8, 10, 12] }), E('EMOM 2', ['hinge2', 'shoulders2', 'lunge2', 'hiit'], { values: [8, 10, 12] })] },
+      b: { label: 'Double EMOM B', short: 'B', blocks: [E('EMOM 1', ['lunge2', 'chestPress', 'backRow', 'kbBallistic'], { values: [8, 10, 12] }), E('EMOM 2', ['singleLeg', 'pushLoad2', 'glute2', 'coreRot'], { values: [8, 10, 12] })] },
+    },
+  },
+  {
+    id: 'long-ladder', name: 'Long Ladder', subject: 'Busy week', minutes: P23_LONG, levers: [null, 'reps', 'tempo'],
+    split: 'Three ladders a day, A / B', blurb: 'Three rep ladders, each two moves, for one long session that climbs.',
+    about: 'One long session built from ladders. Each ladder is two moves: one rep of each, then two, then three, as high as you can climb before the time runs out, three ladders a day. Two days alternate the pairs. Abs finish every session. Level II adds reps and Level III slows every rep down.',
+    names: ['First Floor', 'Second Floor', 'Third Floor', 'Mezzanine', 'Penthouse', 'Rooftop', 'Basement', 'Lobby', 'Atrium', 'Stairwell', 'Elevator', 'Landing Pad', 'Fire Escape', 'Skylight', 'Attic', 'Veranda', 'Loft', 'Tower', 'Spire', 'Observation Deck'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Ladders A', short: 'A', blocks: [L('Ladder 1', ['push', 'squat2']), L('Ladder 2', ['row2', 'hinge2']), L('Ladder 3', ['shoulders2', 'lunge2'])] },
+      b: { label: 'Ladders B', short: 'B', blocks: [L('Ladder 1', ['chestPress', 'lunge2']), L('Ladder 2', ['backRow', 'glute2']), L('Ladder 3', ['total', 'coreRot'])] },
+    },
+  },
+  {
+    id: 'bell-weekend', name: 'Bell Weekend', subject: 'Busy week', minutes: P23_LONG, equip: 'kb', levers: [null, 'weight', 'reps'],
+    split: 'Long bell circuit / long bell EMOM', blurb: 'One kettlebell and one longer session: a bell circuit one day, a bell EMOM the next.',
+    about: 'One kettlebell and the one longer session the week allows. One day is a circuit of swings, squats, presses and core work, round after round; the other is an EMOM of the same kind of moves. Nothing else needed. Abs finish every session. Level II asks for a heavier bell and Level III adds reps.',
+    names: ['Saturday Bell', 'Sunday Bell', 'Church Bell', 'Cowbell', 'Sleigh Bell', 'Doorbell', 'Bicycle Bell', 'School Bell', 'Ship Bell', 'Dinner Bell', 'Hand Bell', 'Jingle', 'Toll', 'Peal', 'Ring', 'Clang', 'Knell', 'Carol', 'Chime Out', 'Bell Lap'],
+    cycle: ['circuit', 'emom'],
+    dayTypes: {
+      circuit: { label: 'Bell circuit', short: 'Circuit', blocks: [C('Bell circuit', ['kbLower2', 'kbUpper2', 'kbBallistic', 'kbCore2', 'kbSwing'], { values: [3, 4, 5, 6] })] },
+      emom: { label: 'Bell EMOM', short: 'EMOM', blocks: [E('Bell EMOM', ['kbBallistic', 'kbLower2', 'kbUpper2', 'kbCore2'], { values: [20, 24, 28] })] },
+    },
+  },
+  {
+    id: 'half-hour-plus', name: 'Half Hour Plus', subject: 'Busy week', days: 30, minutes: P23_MID, levers: [null, 'reps', 'reps'],
+    split: 'Upper EMOM / lower AMRAP, 30 days', blurb: 'A month of half-hour sessions: an upper-body EMOM one day, a lower-body AMRAP the next.',
+    about: 'A month of sessions a little over half an hour. The upper day is an EMOM of pressing and pulling, a set at the top of every minute; the lower day is an AMRAP of squats, hinges and lunges, as many rounds as you can. Every ten days the level steps up. Abs finish every session. Both later levels add reps.',
+    names: ['Half Past', 'Quarter To', 'Quarter Past', 'On the Hour', 'Noon', 'Midnight', 'Dawn', 'Dusk', 'Teatime', 'Lunch Hour', 'Peak Hour', 'Happy Hour', 'Golden Hour', 'Blue Hour', 'Witching Hour', 'High Noon', 'Small Hours', 'Eleventh Hour', 'Zero Hour', 'Prime Time'],
+    cycle: ['upper', 'lower'],
+    dayTypes: {
+      upper: { label: 'Upper EMOM', short: 'Upper', blocks: [E('Upper EMOM', ['chestPress', 'backRow', 'shoulders2', 'triceps2'], { values: [14, 16, 18, 20] })] },
+      lower: { label: 'Lower AMRAP', short: 'Lower', blocks: [A('Lower AMRAP', ['squat2', 'hinge2', 'lunge2', 'glute2'], { values: [12, 14, 16, 18] })] },
+    },
+  },
+  {
+    id: 'tabata-thirty', name: 'Tabata Thirty', subject: 'Busy week', minutes: P23_MID, levers: [null, 'reps', 'tempo'], absSlots: ['absW', 'abs?'],
+    split: 'Supersets and two Tabatas, A / B', blurb: 'Strength supersets, then two Tabatas, in a little over half an hour.',
+    about: 'Strength and sweat in one go. Two supersets of a lower and an upper lift come first, then two Tabatas, twenty seconds hard and ten seconds rest, eight times each. Two days alternate. Abs finish every session. Level II adds reps and Level III slows the lowering to three seconds.',
+    names: ['Burst', 'Surge', 'Spike', 'Jolt', 'Kick', 'Rally', 'Push On', 'Fire Up', 'Spark', 'Flare', 'Ignite', 'Blaze', 'Torch', 'Kindle', 'Ember', 'Afterburn', 'Overdrive', 'Turbo', 'Boost', 'Sprint Plus'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Supersets & Tabatas A', short: 'A', blocks: [SS('Supersets', ['squat2', 'chestPress', 'hinge2', 'backRow'], { values: [2, 3, 4] }), T('Tabata 1', ['hiit', 'push'], { values: [1] }), T('Tabata 2', ['total', 'coreRot'], { values: [1] })] },
+      b: { label: 'Supersets & Tabatas B', short: 'B', blocks: [SS('Supersets', ['lunge2', 'pushLoad2', 'glute2', 'row2'], { values: [2, 3, 4] }), T('Tabata 1', ['hiit', 'lunge2'], { values: [1] }), T('Tabata 2', ['kbBallistic', 'core2'], { values: [1] })] },
+    },
+  },
+  {
+    id: 'twenty-pairs', name: 'Twenty Pairs', subject: 'Busy week', minutes: [18.5, 21.4], levers: [null, 'weight', 'tempo'], absSlots: ['absW', 'abs?'],
+    split: 'Antagonist pairs, upper / lower, 20 minutes', blurb: 'Twenty minutes of opposing pairs: press with row, squat with hinge.',
+    about: 'Twenty minutes, nothing wasted. Each superset pairs muscles that work against each other, a press with a row on the upper day, a squat with a hinge on the lower, so one side rests while the other works. Two days alternate. Abs finish every session. Level II moves you one weight up and Level III slows the lowering to three seconds.',
+    names: ['Ace', 'King', 'Queen', 'Jack', 'Joker', 'Deuce', 'Trey', 'Flush', 'Straight', 'Full House', 'Royal', 'Spade', 'Heart', 'Club', 'Diamond', 'Trump', 'Wild Card', 'Shuffle', 'Deal', 'Showdown'],
+    cycle: ['upper', 'lower'],
+    dayTypes: {
+      upper: { label: 'Upper pairs', short: 'Upper', blocks: [SS('Upper pairs', ['chestPress', 'backRow', 'shoulders2', 'row2'], { values: [2, 3, 4] })] },
+      lower: { label: 'Lower pairs', short: 'Lower', blocks: [SS('Lower pairs', ['squat2', 'hinge2', 'lunge2', 'glute2'], { values: [2, 3, 4] })] },
+    },
+  },
+  {
+    id: 'twenty-circuit-plus', name: 'Twenty Circuit Plus', subject: 'Busy week', minutes: [18.5, 21.4], levers: [null, 'variation', 'reps'], absSlots: ['abs'],
+    split: 'Full-body circuit A / B / C, 20 minutes', blurb: 'Three twenty-minute circuits rotating, four full-body moves a round.',
+    about: 'A full-body circuit in twenty minutes. Each day is four moves back to back, a leg move, a press or a pull and a core or conditioning move, then round again. Three circuits rotate. Abs finish every session. Level II brings harder variations and Level III adds reps.',
+    names: ['Loop', 'Lap', 'Orbit', 'Circle', 'Round', 'Ring Road', 'Roundabout', 'Beltway', 'Circuit Breaker', 'Racetrack', 'Velodrome', 'Carousel', 'Spiral', 'Whorl', 'Vortex', 'Eddy', 'Cycle', 'Wheel', 'Hoop', 'Halo'],
+    cycle: ['a', 'b', 'c'],
+    dayTypes: {
+      a: { label: 'Circuit A', short: 'A', blocks: [C('Circuit', ['squat2', 'push', 'row2', 'coreRot'], { values: [2, 3, 4] })] },
+      b: { label: 'Circuit B', short: 'B', blocks: [C('Circuit', ['hinge2', 'pushLoad2', 'backRow', 'hiit'], { values: [2, 3, 4] })] },
+      c: { label: 'Circuit C', short: 'C', blocks: [C('Circuit', ['lunge2', 'shoulders2', 'total', 'glute2'], { values: [2, 3, 4] })] },
+    },
+  },
+];
+const P23_BW = [
+  {
+    id: 'bodyweight-long-haul', name: 'Bodyweight Long Haul', subject: 'Bodyweight', minutes: P23_LONG, equip: 'bw', levers: [null, 'reps', 'tempo'],
+    split: 'Push / legs / pull & core, no gear', blurb: 'Longer bodyweight days in straight sets: push, legs, then pull and core.',
+    about: 'No equipment and enough time to do it properly. Three days rotate in straight sets: push-ups and dips, then squats, lunges and glute work, then floor pulls and core. Each has five moves, so every muscle gets its volume without a single weight. Abs finish every session. Level II adds reps and Level III slows the lowering to three seconds.',
+    names: ['Trailhead', 'Switchback', 'Ridgeline', 'Saddle', 'Col', 'Scree', 'Cairn', 'Bivouac', 'Basecamp', 'Traverse', 'Couloir', 'Moraine', 'Glacier', 'Tarn', 'Cirque', 'Arete', 'Gully', 'Bluff', 'Mesa', 'Butte'],
+    cycle: ['push', 'legs', 'pull'],
+    dayTypes: {
+      push: { label: 'Push', short: 'Push', blocks: [S('Push', ['chestBw', 'pushBw2', 'shoulderBw', 'armsBw', 'chestBw?'])] },
+      legs: { label: 'Legs', short: 'Legs', blocks: [S('Legs', ['legsBw2', 'singleLeg', 'thrustBw', 'calfBw', 'adductorBw?'])] },
+      pull: { label: 'Pull & core', short: 'Pull', blocks: [S('Pull & core', ['backBw', 'pullBw', 'coreRot', 'coreHollow', 'backBw?'])] },
+    },
+  },
+  {
+    id: 'calisthenics-volume', name: 'Calisthenics Volume', subject: 'Bodyweight', days: 30, minutes: P23_LONG, equip: 'bw', levers: [null, 'variation', 'reps'],
+    split: 'Upper volume / lower volume, 30 days, no gear', blurb: 'A month of bodyweight supersets, three pairs a day, for more volume without weights.',
+    about: 'A month of bodyweight volume. Each day is three supersets, two moves back to back with one rest after both, upper body one day and lower the next. Every ten days the level steps up. Abs finish every session. Level II brings harder variations and Level III adds reps.',
+    names: ['Bar Star', 'Park Bench', 'Playground', 'Jungle Gym', 'Monkey Bars', 'Rings', 'Parallettes', 'Dip Station', 'Wall', 'Stoop', 'Railing', 'Step Up', 'Bollard', 'Lamp Post', 'Tree Branch', 'Fence', 'Picnic Table', 'Low Wall', 'Curb', 'Bleachers'],
+    cycle: ['upper', 'lower'],
+    dayTypes: {
+      upper: { label: 'Upper volume', short: 'Upper', blocks: [SS('Upper supersets', ['chestBw', 'backBw', 'pushBw2', 'pullBw', 'armsBw', 'shoulderBw'])] },
+      lower: { label: 'Lower volume', short: 'Lower', blocks: [SS('Lower supersets', ['legsBw2', 'thrustBw', 'singleLeg', 'adductorBw', 'calfBw', 'coreRot'])] },
+    },
+  },
+  {
+    id: 'floor-marathon', name: 'Floor Marathon', subject: 'Bodyweight', minutes: P23_LONG, equip: 'bw', levers: [null, 'reps', 'reps'],
+    split: 'Two long circuits a day, A / B, no gear', blurb: 'Two long bodyweight circuits a day, for stamina as much as strength.',
+    about: 'A long session on the floor, no gear at all. Each day is two circuits, the first of push, legs, pull and core, the second of single-leg work, glutes and conditioning, round after round. Two days alternate. Abs finish every session. Both later levels add reps.',
+    names: ['Boston', 'Berlin', 'London', 'Tokyo', 'Chicago', 'New York', 'Paris', 'Rome', 'Athens', 'Vienna', 'Prague', 'Lisbon', 'Seoul', 'Sydney', 'Valencia', 'Amsterdam', 'Dublin', 'Oslo', 'Stockholm', 'Copenhagen'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Circuits A', short: 'A', blocks: [C('Circuit 1', ['chestBw', 'legsBw2', 'backBw', 'coreRot'], { values: [2, 3, 4] }), C('Circuit 2', ['pushBw2', 'singleLeg', 'thrustBw', 'hiit'], { values: [2, 3, 4] })] },
+      b: { label: 'Circuits B', short: 'B', blocks: [C('Circuit 1', ['pushBw2', 'legsBw2', 'pullBw', 'coreHollow'], { values: [2, 3, 4] }), C('Circuit 2', ['chestBw', 'adductorBw', 'calfBw', 'plyoLow'], { values: [2, 3, 4] })] },
+    },
+  },
+  {
+    id: 'long-amrap', name: 'Long AMRAP', subject: 'Bodyweight', minutes: P23_LONG, equip: 'bw', levers: [null, 'variation', 'reps'],
+    split: 'One long AMRAP a day, A / B / C, no gear', blurb: 'One long bodyweight AMRAP a day: as many rounds as you can, nothing but the floor.',
+    about: 'One long effort and no equipment. Each day is a single AMRAP of four bodyweight moves, as many rounds as you can before the time is up. Three days rotate the moves. Abs finish every session. Level II brings harder variations and Level III adds reps.',
+    names: ['Largo', 'Lento', 'Adagio', 'Andante', 'Moderato', 'Allegretto', 'Allegro', 'Vivace', 'Presto', 'Prestissimo', 'Rubato', 'Ritardando', 'Accelerando', 'Fermata', 'Staccato', 'Legato', 'Crescendo', 'Forte', 'Piano', 'Coda'],
+    cycle: ['a', 'b', 'c'],
+    dayTypes: {
+      a: { label: 'AMRAP A', short: 'A', blocks: [A('AMRAP', ['chestBw', 'legsBw2', 'backBw', 'coreRot'], { values: [22, 24, 26, 28] })] },
+      b: { label: 'AMRAP B', short: 'B', blocks: [A('AMRAP', ['pushBw2', 'singleLeg', 'pullBw', 'hiit'], { values: [22, 24, 26, 28] })] },
+      c: { label: 'AMRAP C', short: 'C', blocks: [A('AMRAP', ['armsBw', 'thrustBw', 'shoulderBw', 'coreHollow'], { values: [22, 24, 26, 28] })] },
+    },
+  },
+  {
+    id: 'circuit-and-amrap', name: 'Circuit and AMRAP', subject: 'Bodyweight', minutes: P23_LONG, equip: 'bw', levers: [null, 'reps', 'variation'],
+    split: 'A circuit, then an AMRAP, A / B, no gear', blurb: 'A bodyweight strength circuit, then an AMRAP to empty the tank.',
+    about: 'Build, then empty the tank. Each day starts with a circuit of four bodyweight strength moves, round after round with a short rest, and ends with an AMRAP of three more, as many rounds as you can. Two days alternate. Abs finish every session. Level II adds reps and Level III brings harder variations.',
+    names: ['Swell', 'Breaker', 'Crest Line', 'Trough', 'Undertow', 'Riptide', 'Tide', 'Surf', 'Foam', 'Spray', 'Rollers', 'Groundswell', 'Whitecap', 'Ripple', 'Wake', 'Backwash', 'Shorebreak', 'Point Break', 'Reef Break', 'Set Wave'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Circuit & AMRAP A', short: 'A', blocks: [C('Circuit', ['pushBw2', 'legsBw2', 'backBw', 'thrustBw'], { values: [2, 3, 4] }), A('AMRAP', ['hiit', 'coreRot', 'chestBw'], { values: [6, 8, 10] })] },
+      b: { label: 'Circuit & AMRAP B', short: 'B', blocks: [C('Circuit', ['chestBw', 'singleLeg', 'pullBw', 'adductorBw'], { values: [2, 3, 4] }), A('AMRAP', ['plyoLow', 'core2', 'armsBw'], { values: [6, 8, 10] })] },
+    },
+  },
+  {
+    id: 'no-gear-thirty', name: 'No-Gear Thirty', subject: 'Bodyweight', days: 30, minutes: P23_MID, equip: 'bw', levers: [null, 'variation', 'tempo'],
+    split: 'Push & pull / legs & glutes, 30 days, no gear', blurb: 'A month of bodyweight strength in straight sets, upper and lower days.',
+    about: 'A month of strength with nothing but the floor. Straight sets of push-ups and floor pulls one day, squats, lunges and glute bridges the next. Every ten days the level steps up. Abs finish every session. Level II brings harder variations and Level III slows the lowering to three seconds.',
+    names: ['Grit', 'Spine', 'Backbone', 'Sinew', 'Tendon', 'Marrow', 'Knuckle', 'Fist', 'Grip', 'Stance', 'Brace', 'Anchor', 'Pillar', 'Column', 'Beam', 'Joist', 'Rafter', 'Truss', 'Keystone', 'Lintel'],
+    cycle: ['upper', 'lower'],
+    dayTypes: {
+      upper: { label: 'Push & pull', short: 'Upper', blocks: [S('Push & pull', ['chestBw', 'backBw', 'pushBw2', 'pullBw', 'armsBw?'])] },
+      lower: { label: 'Legs & glutes', short: 'Lower', blocks: [S('Legs & glutes', ['legsBw2', 'singleLeg', 'thrustBw', 'adductorBw', 'calfBw?'])] },
+    },
+  },
+  {
+    id: 'pairs-and-amrap', name: 'Pairs and AMRAP', subject: 'Bodyweight', minutes: P23_MID, equip: 'bw', levers: [null, 'reps', 'tempo'],
+    split: 'Supersets, then a short AMRAP, A / B, no gear', blurb: 'Bodyweight supersets, then a short AMRAP, for strength and a sweat without gear.',
+    about: 'Strength first, then the sweat. Two bodyweight supersets of a push or pull with a leg move come first, then a short AMRAP of two moves, as many rounds as you can. Two days alternate. Abs finish every session. Level II adds reps and Level III slows every rep down.',
+    names: ['Firecracker', 'Sparkler', 'Rocket', 'Roman Candle', 'Catherine Wheel', 'Fountain', 'Comet', 'Meteor', 'Shooting Star', 'Starburst', 'Flash Bang', 'Pinwheel', 'Bottle Rocket', 'Fuse', 'Fizz', 'Crackle', 'Pop', 'Bang', 'Whizz', 'Zip'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Pairs & AMRAP A', short: 'A', blocks: [SS('Supersets', ['chestBw', 'legsBw2', 'backBw', 'thrustBw']), A('AMRAP', ['hiit', 'coreRot'], { values: [4, 5, 6] })] },
+      b: { label: 'Pairs & AMRAP B', short: 'B', blocks: [SS('Supersets', ['pushBw2', 'singleLeg', 'pullBw', 'adductorBw']), A('AMRAP', ['plyoLow', 'core2'], { values: [4, 5, 6] })] },
+    },
+  },
+  {
+    id: 'core-and-limbs', name: 'Core and Limbs', subject: 'Bodyweight', minutes: P23_MID, equip: 'bw', levers: [null, 'variation', 'reps'],
+    split: 'Upper & core / lower & core, no gear', blurb: 'Bodyweight straight sets for the arms or legs, then a core circuit every day.',
+    about: 'Limbs first, then the middle. Each day opens with three bodyweight moves in straight sets, upper body one day and lower the next, then a circuit of core work: rotation, hollow holds and anti-extension. Two days alternate. Abs finish every session. Level II brings harder variations and Level III adds reps.',
+    names: ['Trunk', 'Limb', 'Bough', 'Root', 'Stem', 'Branch', 'Twig', 'Leaf', 'Bark', 'Sap', 'Treetop', 'Canopy', 'Sapling', 'Acorn', 'Seed', 'Bud', 'Shoot', 'Thicket', 'Grove', 'Copse'],
+    cycle: ['upper', 'lower'],
+    dayTypes: {
+      upper: { label: 'Upper & core', short: 'Upper', blocks: [S('Upper', ['chestBw', 'backBw', 'pushBw2']), C('Core circuit', ['coreRot', 'coreHollow', 'coreAnti'], { values: [2, 3] })] },
+      lower: { label: 'Lower & core', short: 'Lower', blocks: [S('Lower', ['legsBw2', 'singleLeg', 'thrustBw']), C('Core circuit', ['core2', 'coreRot', 'calfBw'], { values: [2, 3] })] },
+    },
+  },
+  {
+    id: 'circuit-25', name: 'Circuit 25', subject: 'Bodyweight', minutes: [23, 27], equip: 'bw', levers: [null, 'reps', 'variation'],
+    split: 'Push-pull circuit / legs circuit, 25 minutes, no gear', blurb: 'Twenty-five minutes of bodyweight circuits, upper one day and legs the next.',
+    about: 'A short circuit session, no equipment. The upper day goes round a push, a floor pull, a second push and a core move; the leg day round squats, single-leg work, glutes and conditioning. They alternate. Abs finish every session. Level II adds reps and Level III brings harder variations.',
+    names: ['Ping', 'Pong', 'Blip', 'Beep', 'Pulse', 'Signal', 'Beacon', 'Radar', 'Sonar', 'Morse', 'Ticker', 'Buzz', 'Click', 'Chirp', 'Tap', 'Knock', 'Ping Back', 'Relay Point', 'Flash Point', 'Checkpoint'],
+    cycle: ['upper', 'legs'],
+    dayTypes: {
+      upper: { label: 'Push-pull circuit', short: 'Upper', blocks: [C('Push-pull circuit', ['chestBw', 'backBw', 'pushBw2', 'coreRot'], { values: [2, 3, 4] })] },
+      legs: { label: 'Legs circuit', short: 'Legs', blocks: [C('Legs circuit', ['legsBw2', 'singleLeg', 'thrustBw', 'hiit'], { values: [2, 3, 4] })] },
+    },
+  },
+  {
+    id: 'quick-calisthenics', name: 'Quick Calisthenics', subject: 'Bodyweight', minutes: [23, 27], equip: 'bw', levers: [null, 'variation', 'variation'],
+    split: 'Push & legs / pull & core, 25 minutes', blurb: 'Short bodyweight supersets that move to harder variations as you level up.',
+    about: 'Calisthenics that fit in twenty-five minutes. Two supersets a day, a push with a leg move one day, a floor pull with core work the next. The point is progress in the moves themselves, not more reps. Abs finish every session. Both later levels bring harder variations.',
+    names: ['Flick', 'Snap', 'Pop Up', 'Hop', 'Skip', 'Jump', 'Bound', 'Leap', 'Spring', 'Bounce', 'Vault', 'Dart', 'Zoom', 'Whip', 'Swish', 'Dash Off', 'Scoot', 'Nip', 'Zing', 'Quickstep'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Push & legs', short: 'A', blocks: [SS('Supersets', ['pushBw2', 'legsBw2', 'chestBw', 'singleLeg'])] },
+      b: { label: 'Pull & core', short: 'B', blocks: [SS('Supersets', ['backBw', 'coreRot', 'pullBw', 'coreHollow'])] },
+    },
+  },
+];
+const P23_T3 = [...P23_STRENGTH, ...P23_BUSY, ...P23_BW].map((c) => ({ ...c, added: 23, catalogue: 13 }));
+CONFIGS.push(...P23_T3);
+
 // Phase 23: the new programs' ids in shelf order, appended to programs.config.js's ORDER after every older program
-CONFIGS.order23 = [...IIS.map((c) => c.id)];
+CONFIGS.order23 = [...IIS.map((c) => c.id), ...P23_T3.map((c) => c.id)];
 module.exports = CONFIGS;

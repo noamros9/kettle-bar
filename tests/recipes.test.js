@@ -37,7 +37,8 @@ function built(cfg) {
 
 test('the book holds every day type of every library config that has blocks; Three-Split 60 (frozen) has none', () => {
   const types = R.pick({});
-  const want = CONFIGS.filter((c) => !c.frozen && !c.variety && !c.couple).flatMap((c) => Object.keys(c.dayTypes).map((k) => `${c.id}:${k}`));
+  const held = (c) => (c.added || 0) >= require('../recipe-book.js').HELD; // decision 318: in at the phase's last ticket
+  const want = CONFIGS.filter((c) => !c.frozen && !c.variety && !c.couple && !held(c)).flatMap((c) => Object.keys(c.dayTypes).map((k) => `${c.id}:${k}`));
   const have = new Set(types.map((t) => t.id));
   // identical day types of one subject are one recipe: every config day type is there, or is the same as one that is
   const missing = want.filter((id) => !have.has(id));
@@ -47,7 +48,8 @@ test('the book holds every day type of every library config that has blocks; Thr
   });
   assert.ok(types.length >= 100, `${types.length} day types`);
   assert.ok(!types.some((t) => t.program === 'three-split-60'));
-  assert.deepEqual(R.skipped, ['three-split-60', ...CONFIGS.filter((c) => c.variety || c.couple).map((c) => c.id)]); // couple sessions (Phase 18) too
+  const { HELD } = require('../recipe-book.js'); // the held phase's programs (decision 318) too
+  assert.deepEqual(R.skipped, CONFIGS.filter((c) => c.id === 'three-split-60' || c.variety || c.couple || (c.added || 0) >= HELD).map((c) => c.id)); // couple sessions (Phase 18) too
 });
 
 test('every subject of the library has day types, tagged with subject, family, formats, equipment, time range', () => {

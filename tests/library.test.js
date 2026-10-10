@@ -35,14 +35,14 @@ const SUBJECTS = {
   'Neck & traps': { count: 8, abs: true, formats: ['straight', 'superset', 'circuit', 'emom', 'ladder'] },
   'Running prep': { count: 9, abs: true, formats: ['circuit', 'straight', 'emom', 'amrap'] },
   'Court & field sports': { count: 9, abs: true, formats: ['circuit', 'emom', 'straight', 'tabata', 'amrap'] },
-  Strength: { count: 19, abs: true, formats: ['straight', 'superset'] },
+  Strength: { count: 29, abs: true, formats: ['straight', 'superset'] }, // 19, then Phase 23's 10
   'Pull-ups': { count: 16, abs: true, formats: ['straight', 'superset', 'emom', 'ladder'] },
   'Legs & glutes': { count: 17, abs: true, formats: ['straight'] },
   'Kettlebell only': { count: 17, abs: true, formats: ['straight', 'circuit', 'emom'] },
   'Core & abs': { count: 15, abs: true, formats: ['circuit', 'straight', 'emom'] },
   Conditioning: { count: 14, abs: true, formats: ['circuit', 'amrap', 'ladder', 'emom', 'tabata'] },
-  Bodyweight: { count: 19, abs: true, formats: ['superset', 'straight', 'circuit', 'amrap'] },
-  'Busy week': { count: 17, abs: true, formats: ['circuit', 'superset', 'amrap', 'emom', 'straight', 'tabata'] },
+  Bodyweight: { count: 29, abs: true, formats: ['superset', 'straight', 'circuit', 'amrap'] }, // 19, then Phase 23's 10
+  'Busy week': { count: 26, abs: true, formats: ['circuit', 'superset', 'amrap', 'emom', 'straight', 'tabata', 'ladder'] }, // 17, then Phase 23's 9; ladder as Twenty Ladder's
   // Mixed (Phase 6): abs depends on the day type, so it has its own test below
   'Strength & stretch': { count: 14, abs: undefined, formats: ['straight', 'superset', 'flow'] },
   Fighter: { count: 14, abs: undefined, formats: ['bouts', 'straight', 'superset', 'circuit', 'emom', 'amrap', 'tabata', 'flow'] },
@@ -139,8 +139,8 @@ test('the core programs opt in to the new catalogue (catalogue: 5): their abs fi
   assert.ok(optIn.some((p) => p.days.some((d) => d.blocks.at(-1).items.some((it) => fresh.has(it.ex)))));
 });
 
-test('the library: 751 programs in 66 subjects (736, then Phase 23\'s 15 Signature IIs)', () => {
-  assert.equal(programs.length, 751);
+test('the library: 780 programs in 66 subjects (736, then Phase 23\'s 15 Signature IIs and ticket 3\'s 29)', () => {
+  assert.equal(programs.length, 780);
   assert.equal(new Set(programs.map((p) => p.subject)).size, 66);
 });
 
