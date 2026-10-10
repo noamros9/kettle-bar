@@ -1,3 +1,4 @@
+// ci-only: builds or reads the whole program library; the commit hook skips it, CI runs it (decision 312)
 // Phase 22 ticket 19: Rough and Kink-lite, 12 programs each. Same three shapes as Explicit, catalogue 13.
 // One sex block names the subject's pool. The other sex blocks name one merged pool (sexWarm for Rough, sexFuck for
 // Kink-lite). Rough sex-then-sex is the exception: every day is sexWarm, then a sexRough block last.
@@ -8,6 +9,7 @@ const { CONFIGS, POOLS, poolsAt, mergedAt } = require('../program-builder.js');
 const Builder = require('../program-builder.js');
 const cat = require('../exercises.js');
 const R = require('../recipes.js');
+const { built } = require('./helpers/library.js');
 const { FAMILIES, SHELVES } = require('../app/library.js');
 
 const ROUGH_GYM = ['rough-set-then-spank', 'rough-sweat-then-pin', 'rough-lift-then-hold', 'rough-grind-then-hair'];
@@ -32,7 +34,7 @@ const explicit = new Set(poolsAt(11).explicit);
 const inPool = (name, id) => (name === 'explicit' ? explicit.has(id) : (POOLS[name] || []).includes(id));
 const cfgOf = (id) => CONFIGS.find((c) => c.id === id);
 const mains = (d) => d.blocks.filter((b) => b.kind !== 'abs' && b.kind !== 'warmup' && b.kind !== 'cooldown');
-const programs = CONFIGS.filter((c) => IDS.includes(c.id)).map((c) => Builder.build(c, cat));
+const programs = built(IDS); // the shared build (Phase 31 ticket 5)
 const prog = (id) => programs.find((p) => p.id === id);
 const bare = (block) => (block.slots || []).map((s) => s.replace('?', ''));
 const pure = (block, name) => bare(block).length > 0 && bare(block).every((n) => n === name);
@@ -222,7 +224,7 @@ const POS20 = [...BODY_POS, ...RIM_POS];
 const SHAPE20 = Object.fromEntries([...GYM20.map((id) => [id, 'gym']), ...SEX20.map((id) => [id, 'sex']), ...POS20.map((id) => [id, 'positions'])]);
 const SHORT20 = new Set(['body-quick-and-slick', 'rim-quick-lick']);
 const LONG20 = new Set(['body-long-on-her', 'rim-long-tongue']);
-const programs20 = CONFIGS.filter((c) => IDS20.includes(c.id)).map((c) => Builder.build(c, cat));
+const programs20 = built(IDS20); // the shared build (Phase 31 ticket 5)
 const prog20 = (id) => programs20.find((p) => p.id === id);
 const closer20 = (id) => {
   if (SHAPE20[id] === 'gym') return 'Level II adds reps to the partner work. Level III holds every position longer.';
@@ -425,7 +427,7 @@ const POS20B = [...EDGE_POS, ...MASS_POS];
 const SHAPE20B = Object.fromEntries([...GYM20B.map((id) => [id, 'gym']), ...SEX20B.map((id) => [id, 'sex']), ...POS20B.map((id) => [id, 'positions'])]);
 const SHORT20B = new Set(['edge-quick-stop', 'massage-quick-oil']);
 const LONG20B = new Set(['edge-long-still', 'massage-long-oil']);
-const programs20b = CONFIGS.filter((c) => IDS20B.includes(c.id)).map((c) => Builder.build(c, cat));
+const programs20b = built(IDS20B); // the shared build (Phase 31 ticket 5)
 const prog20b = (id) => programs20b.find((p) => p.id === id);
 const closer20b = (id) => {
   if (SHAPE20B[id] === 'gym') return 'Level II adds reps to the partner work. Level III holds every position longer.';
@@ -618,7 +620,7 @@ const POS20C = [...TEASE_POS, ...SHOWER_POS];
 const SHAPE20C = Object.fromEntries([...GYM20C.map((id) => [id, 'gym']), ...SEX20C.map((id) => [id, 'sex']), ...POS20C.map((id) => [id, 'positions'])]);
 const SHORT20C = new Set(['tease-quick-strip', 'shower-quick-and-wet']);
 const LONG20C = new Set(['tease-long-strip', 'shower-long-steam']);
-const programs20c = CONFIGS.filter((c) => IDS20C.includes(c.id)).map((c) => Builder.build(c, cat));
+const programs20c = built(IDS20C); // the shared build (Phase 31 ticket 5)
 const prog20c = (id) => programs20c.find((p) => p.id === id);
 const closer20c = (id) => {
   if (SHAPE20C[id] === 'gym') return 'Level II adds reps to the partner work. Level III holds every position longer.';
@@ -810,7 +812,7 @@ const POS20D = [...POOL_POS, ...HOT_POS];
 const SHAPE20D = Object.fromEntries([...GYM20D.map((id) => [id, 'gym']), ...SEX20D.map((id) => [id, 'sex']), ...POS20D.map((id) => [id, 'positions'])]);
 const SHORT20D = new Set(['pool-quick-soak', 'hottub-quick-steam']);
 const LONG20D = new Set(['pool-long-soak', 'hottub-long-heat']);
-const programs20d = CONFIGS.filter((c) => IDS20D.includes(c.id)).map((c) => Builder.build(c, cat));
+const programs20d = built(IDS20D); // the shared build (Phase 31 ticket 5)
 const prog20d = (id) => programs20d.find((p) => p.id === id);
 const closer20d = (id) => {
   if (SHAPE20D[id] === 'gym') return 'Level II adds reps to the partner work. Level III holds every position longer.';
@@ -993,7 +995,7 @@ const POS20E = [...BALCONY_POS, ...FRAME_POS];
 const SHAPE20E = Object.fromEntries([...GYM20E.map((id) => [id, 'gym']), ...SEX20E.map((id) => [id, 'sex']), ...POS20E.map((id) => [id, 'positions'])]);
 const SHORT20E = new Set(['balcony-quick-air', 'doorframe-quick-frame']);
 const LONG20E = new Set(['balcony-long-night', 'doorframe-long-frame']);
-const programs20e = CONFIGS.filter((c) => IDS20E.includes(c.id)).map((c) => Builder.build(c, cat));
+const programs20e = built(IDS20E); // the shared build (Phase 31 ticket 5)
 const prog20e = (id) => programs20e.find((p) => p.id === id);
 const closer20e = (id) => {
   if (SHAPE20E[id] === 'gym') return 'Level II adds reps to the partner work. Level III holds every position longer.';

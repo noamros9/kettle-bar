@@ -141,6 +141,10 @@ read only when needed. Decisions with a long "why": [docs/adr/](docs/adr/).
   never in the foreground, where a cut-off wait throws the run away. One heavy run at a time per machine: a second
   one starves the UI build (`webServer` times out at 240 s).
 - `npm run build` rewrites `recipes/book.json`: restore it (`git checkout recipes/book.json`) before committing.
+- **Nothing that builds the whole library runs on this machine (decision 312, Noam, 10 Oct 2026):** test files marked
+  `// ci-only` on their first line build or read all the programs; the commit hook skips them and only CI runs them.
+  Locally, only light, single-purpose tests; for a heavy change, push and read the PR's CI result instead of timing it
+  here (a slow-test fix measured with slow local runs only made more slow runs).
 - Committed tests never write outside the repo (screenshots go to `test-results/`); review screenshots for Noam go to
   `/home/claude/kettle-bar-shots/` from a throwaway script or spec that isn't committed. CI (the deploy) must stay green:
   after merging, don't wait on main's Test and deploy run; start the next ticket, and check that run is green before

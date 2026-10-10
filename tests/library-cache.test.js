@@ -1,3 +1,4 @@
+// ci-only: builds or reads the whole program library; the commit hook skips it, CI runs it (decision 312)
 // The test helper that builds the library once per run (architecture review IV ticket 5).
 const test = require('node:test');
 const assert = require('node:assert/strict');

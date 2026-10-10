@@ -1,3 +1,4 @@
+// ci-only: builds or reads the whole program library; the commit hook skips it, CI runs it (decision 312)
 // Recipes by subject (Phase 6 ticket 4): the library is the recipe book. pick() says which day types fit, make() turns a
 // choice into a config that KBBuilder.build builds into 60 days, options() says which choices a subject allows.
 const test = require('node:test');

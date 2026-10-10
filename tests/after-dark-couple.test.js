@@ -1,3 +1,4 @@
+// ci-only: builds or reads the whole program library; the commit hook skips it, CI runs it (decision 312)
 // Phase 18 ticket 6: the couple subjects besides Couples. Date night warm-up (short partner warm-up and tease), Positions
 // tour (30 one-off days: a position and a way to prepare for it, then the position) and Morning glory / Sunday (slow and
 // long, ending in positions). All for two: out of build your own and random workouts; Mixed rules hold.

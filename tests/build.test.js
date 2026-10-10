@@ -1,3 +1,4 @@
+// ci-only: builds or reads the whole program library; the commit hook skips it, CI runs it (decision 312)
 // The build: what files it produces and what goes into the page.
 const test = require('node:test');
 const assert = require('node:assert');

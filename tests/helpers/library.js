@@ -34,5 +34,9 @@ function cached(name, make, dir = CACHE) {
 }
 
 const library = () => cached('library', () => require('../../program-builder.js').buildAll());
-const rendered = () => cached('rendered', () => require('../../build.js').render());
-module.exports = { library, rendered, hash, sources, cached };
+const rendered = () => cached('rendered', () => require('../../build.js').render(library())); // the shared build, not a second one (Phase 31 ticket 5)
+// the library's programs with these ids, in the library's order (Phase 31 ticket 5: test files read the one shared
+// build instead of building their sets again under coverage); parsed once per test file
+let shared = null;
+const built = (ids) => (shared || (shared = library())).filter((p) => ids.includes(p.id));
+module.exports = { library, rendered, built, hash, sources, cached };

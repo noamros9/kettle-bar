@@ -2,7 +2,7 @@
 
 The index: where we are, what comes next, and the two phases being built now. Every other phase's decisions live at the
 top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase comes up. Decision numbers are global
-(the next one is **312**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
+(the next one is **313**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
 ## Resume here (9 Oct 2026, evening)
 - **Phase 22 is done** (9 Oct, #299–#334): catalogue 13 complete, 144 new couple programs, own programs and random

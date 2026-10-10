@@ -1,3 +1,4 @@
+// ci-only: builds or reads the whole program library; the commit hook skips it, CI runs it (decision 312)
 // Mix in build your own (Phase 6 ticket 7): 2-3 subjects, every day a mixed day joined from one block of each subject,
 // in the order picked. recipes.make() joins and checks them; options() says which combinations and times can be made;
 // app/own.js keeps the choices (levers flat, one pair per subject) and a saved mix never depends on the book again.
