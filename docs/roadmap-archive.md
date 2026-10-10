@@ -440,3 +440,4 @@ flake) didn't reproduce and stays open for a CI trace. The working rules decided
 - **227, 228 · Preview = saved**: Build your own picks the program's id when it opens; saved programs stay as built. (#339)
 - **229, 310 · #105 gets a root cause, or waits for one**: 168 local runs passed; open for the next CI trace. *(10 Oct)*
 - **311 · Faster unit tests**: the whole library built once, without coverage, before the run. (#341) *(10 Oct)*
+- **313 · CI's unit tests in two shards** with one merged coverage gate, added after the close. (#343) *(10 Oct)*

@@ -42,9 +42,6 @@ jobs:
         run: node scripts/tested-tree.js
         env:
           GH_TOKEN: ${{ github.token }}
-      - name: Unit tests, 100% coverage on the core modules
-        if: steps.tested.outputs.tested != 'true'
-        run: npm run test:coverage
       - name: Build
         run: npm run build
       - name: Collect the site
@@ -60,6 +57,62 @@ jobs:
       - uses: actions/upload-pages-artifact@v5
         with:
           path: _site
+
+  # Decision 313: the unit tests in two shards side by side, each with coverage; the coverage job merges them and
+  # applies test:coverage's gate (100% lines and functions, 95% branches on the core modules)
+  unit:
+    runs-on: ubuntu-24.04
+    container:
+      image: mcr.microsoft.com/playwright:v1.56.0-noble
+      options: --user 1001
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - run: npm ci
+      - name: Was this tree tested on its PR?
+        id: tested
+        if: github.event_name == 'push'
+        run: node scripts/tested-tree.js
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - name: Unit tests, shard ${{ matrix.shard }} of 2, with coverage
+        if: steps.tested.outputs.tested != 'true'
+        run: node scripts/unit-shard.js ${{ matrix.shard }}/2
+      - name: Keep the shard's coverage
+        if: steps.tested.outputs.tested != 'true'
+        uses: actions/upload-artifact@v7
+        with:
+          name: lcov-${{ matrix.shard }}
+          path: lcov.info
+          retention-days: 3
+
+  coverage:
+    needs: unit
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - name: Was this tree tested on its PR?
+        id: tested
+        if: github.event_name == 'push'
+        run: node scripts/tested-tree.js
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - uses: actions/download-artifact@v7
+        if: steps.tested.outputs.tested != 'true'
+        with:
+          pattern: lcov-*
+      - name: The coverage gate over both shards
+        if: steps.tested.outputs.tested != 'true'
+        run: node scripts/coverage-gate.js lcov-1/lcov.info lcov-2/lcov.info
 
   # Decision 131: the phone tests, light and dark, each in its own job beside the unit tests
   ui:
@@ -103,7 +156,7 @@ jobs:
           retention-days: 14
 
   deploy:
-    needs: [test, ui]
+    needs: [test, unit, coverage, ui]
     concurrency:
       group: pages
       cancel-in-progress: false

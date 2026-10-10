@@ -61,7 +61,12 @@ test('the phone UI tests run as a light and a dark job beside the unit tests; de
   assert.match(ui, /npx playwright test --project=phone-\$\{\{ matrix\.theme \}\}/);
   assert.match(ui, /name: phone-screenshots-\$\{\{ matrix\.theme \}\}/);
   assert.doesNotMatch(yml.slice(0, yml.indexOf('\n  ui:\n')), /test:ui|playwright test/, 'the unit job runs no UI tests');
-  assert.match(yml, /needs: \[test, ui\]/);
+  assert.match(yml, /needs: \[test, unit, coverage, ui\]/);
+  // decision 313: the unit tests run as two shards with coverage, and one job merges them and applies the gate
+  const unit = yml.slice(yml.indexOf('\n  unit:\n'), yml.indexOf('\n  coverage:\n'));
+  assert.match(unit, /shard: \[1, 2\]/);
+  assert.match(unit, /node scripts\/unit-shard\.js \$\{\{ matrix\.shard \}\}\/2/);
+  assert.match(yml.slice(yml.indexOf('\n  coverage:\n'), yml.indexOf('\n  ui:\n')), /node scripts\/coverage-gate\.js lcov-1\/lcov\.info lcov-2\/lcov\.info/);
   // decision 307: the site is built in a step of its own, and the test server only serves it
   assert.match(ui, /run: npm run build\n[\s\S]*UI_PREBUILT: '1'/);
 });

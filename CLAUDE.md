@@ -141,6 +141,9 @@ read only when needed. Decisions with a long "why": [docs/adr/](docs/adr/).
   never in the foreground, where a cut-off wait throws the run away. One heavy run at a time per machine: a second
   one starves the UI build (`webServer` times out at 240 s).
 - `npm run build` rewrites `recipes/book.json`: restore it (`git checkout recipes/book.json`) before committing.
+- **CI's unit tests run in two shards (decision 313):** `scripts/unit-shard.js 1/2` and `2/2` side by side, each with
+  coverage; `scripts/coverage-gate.js` merges their lcov and applies `test:coverage`'s thresholds. Locally,
+  `npm run test:coverage` is still the one unsharded run.
 - **Nothing that builds the whole library runs on this machine (decision 312, Noam, 10 Oct 2026):** test files marked
   `// ci-only` on their first line build or read all the programs; the commit hook skips them and only CI runs them.
   Locally, only light, single-purpose tests; for a heavy change, push and read the PR's CI result instead of timing it

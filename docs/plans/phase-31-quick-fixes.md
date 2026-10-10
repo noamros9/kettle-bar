@@ -28,6 +28,8 @@ Grilled 8 Oct 2026 with Noam (global decision numbers).
   the run; the slow files read it. The unit job took ~17 min, ~12 of it building programs under coverage. *(10 Oct)*
 - **312 · Whole-library tests run only in CI**: files marked `// ci-only` are skipped by the commit hook, and this
   machine runs light tests only; a heavy change is measured by the PR's CI. *(10 Oct)*
+- **313 · CI's unit tests in two shards**, side by side, each with coverage; one job merges their lcov and applies the
+  same gate. After ticket 5 the job still took ~10 min; Noam asked for it shorter. *(10 Oct)*
   the test; no retries. *(8 Oct)*
 
 ## What lands
@@ -47,6 +49,7 @@ Grilled 8 Oct 2026 with Noam (global decision numbers).
 | 3 | The rename-sync flake: root cause and fix (#105) | feature | – | `fix/rename-sync-flake` | waits for a CI trace (310) |
 | 5 | Faster unit tests: the library built once, without coverage | feature | – | `test/faster-unit` | done (PR #341) |
 | 4 | Close the phase: archive | plan | 1–3, 5 | `plan/p31-close` | done (PR #342) |
+| 6 | After the close: CI's unit tests in two shards, one merged gate (313) | feature | 5 | `ci/split-unit` | done (PR #343) |
 
 Tickets 1 and 2 touch different files and can run at once; ticket 3 may touch `app/pages/core.js` (the loading
 view), so it waits for ticket 1's PR to open and stacks on it if it does.
