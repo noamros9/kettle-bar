@@ -139,12 +139,12 @@ test('the core programs opt in to the new catalogue (catalogue: 5): their abs fi
   assert.ok(optIn.some((p) => p.days.some((d) => d.blocks.at(-1).items.some((it) => fresh.has(it.ex)))));
 });
 
-test('the library: 736 programs in 66 subjects', () => {
-  assert.equal(programs.length, 736);
+test('the library: 751 programs in 66 subjects (736, then Phase 23\'s 15 Signature IIs)', () => {
+  assert.equal(programs.length, 751);
   assert.equal(new Set(programs.map((p) => p.subject)).size, 66);
 });
 
-test('the Signature shelf has 15 programs: each original, then its Tempo and Harder moves variations', () => {
+test('the Signature shelf has 30 programs: each original, then its Tempo and Harder moves variations, then the 15 IIs (Phase 23)', () => {
   const { libraryView, FAMILIES, lengthOf } = require('../app/library.js');
   const { summarize } = require('../app/programs.js');
   const v = libraryView(programs.map(summarize), { family: 'Strength', subject: 'Signature', len: 'all' }, { families: FAMILIES, lengthOf });
@@ -153,8 +153,11 @@ test('the Signature shelf has 15 programs: each original, then its Tempo and Har
     'Three-Split 60', 'Three-Split 60 Tempo', 'Three-Split 60 Harder Moves', 'Four-Split 60', 'Four-Split 60 Tempo', 'Four-Split 60 Harder Moves',
     'Two-Split 60', 'Two-Split 60 Tempo', 'Two-Split 60 Harder Moves', 'Five-Split 60', 'Five-Split 60 Tempo', 'Five-Split 60 Harder Moves',
     'Full-Body Duo 60', 'Full-Body Duo 60 Tempo', 'Full-Body Duo 60 Harder Moves',
+    'Three-Split 60 II', 'Three-Split 60 Tempo II', 'Three-Split 60 Harder Moves II', 'Four-Split 60 II', 'Four-Split 60 Tempo II', 'Four-Split 60 Harder Moves II',
+    'Two-Split 60 II', 'Two-Split 60 Tempo II', 'Two-Split 60 Harder Moves II', 'Five-Split 60 II', 'Five-Split 60 Tempo II', 'Five-Split 60 Harder Moves II',
+    'Full-Body Duo 60 II', 'Full-Body Duo 60 Tempo II', 'Full-Body Duo 60 Harder Moves II',
   ]);
-  assert.equal(v.count, 15);
+  assert.equal(v.count, 30);
 });
 
 // ---------- Mixed: Strength & stretch (Phase 6 ticket 1) ----------
@@ -348,7 +351,8 @@ test('Calm strength: a Pilates or core block, slow-tempo strength and a long-hol
 
 // Phase 14: each new program differs from its subject's others in split, formats or how it gets harder
 test('no two programs in a subject share their split, main-block formats and levers', () => {
-  const key = (c) => [c.split, [...new Set(Object.values(c.dayTypes).flatMap((t) => (t.blocks || []).map((b) => b.f)))].sort().join('+'), (c.levers || []).join(',')].join(' | ');
+  // a Signature II (Phase 23, 84) is its original a level up on purpose: its step sets it apart
+  const key = (c) => [c.split, [...new Set(Object.values(c.dayTypes).flatMap((t) => (t.blocks || []).map((b) => b.f)))].sort().join('+'), (c.levers || []).join(','), c.step ? `step ${c.step}` : ''].join(' | ');
   const seen = {};
   CONFIGS.filter((c) => !c.frozen).forEach((c) => {
     const k = `${c.subject} :: ${key(c)}`;

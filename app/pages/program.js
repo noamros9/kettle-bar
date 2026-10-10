@@ -12,6 +12,13 @@ function roundSheet(p, r) {
     <p class="muted">Days start again from day 1. Round ${r} stays in your stats, as it is.</p>${list}
     <div class="actions"><button class="btn" data-round-confirm="1">Start Round ${r + 1}</button><button class="btn ghost" data-round-cancel="1">Cancel</button></div></div></div>`;
 }
+// Phase 23 (201): a Signature original whose day 60 is done points to its II, the same program a level up
+function readyForII(p) {
+  const id = p.id + '-ii', ii = programs.summary(id);
+  if (!ii || !store.isDone(p.id, p.days.length)) return '';
+  return `<section class="readyii" aria-labelledby="ii-h"><h2 id="ii-h">Ready for II</h2><p class="muted">Day ${p.days.length} is done. ${esc(ii.name)} is this program a level up: its Level I is this one's Level II.</p>
+    <button class="wncard" data-open-prog="${id}"><span class="eyebrow">${esc(ii.subject)}</span><b>${esc(ii.name)}</b><span>Open it</span></button></section>`;
+}
 // rename, delete, edit: only for your own programs
 let ownState = null; // { pid, mode: 'rename' | 'delete', text?, error? }
 function ownTitle(p) {
@@ -62,5 +69,5 @@ function viewProgram() {
     : Object.entries(TY).map(([k, t]) => `<div><i class="dot" style="--c:${t.c}"></i><b>${esc(t.label)}</b><span class="days">${cycleDays(p, k)}</span></div>`).join('')}</div>
   ${nw ? `<div class="nextup"><div class="t"><span class="eyebrow">Next up · Day ${nw.day}</span><b>${esc(nw.name)}</b><span>${esc((TY[nw.type] || {}).label || nw.title)} · about ${nw.est} min</span></div><button class="btn" data-day="${nw.day}">Open workout</button></div>`
        : `<div class="nextup"><div class="t"><b>All ${p.days.length} days done</b><span>That's the full program. Start Round ${r + 1} to go again.</span></div></div>`}
-  ${levels}${whatNext(p)}${roundSheet(p, r)}${own ? deleteSheet(p) : ''}`;
+  ${readyForII(p)}${levels}${whatNext(p)}${roundSheet(p, r)}${own ? deleteSheet(p) : ''}`;
 }

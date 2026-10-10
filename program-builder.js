@@ -334,35 +334,41 @@
       kkCombo: { 13: ['teep_roundhouse', 'jab_cross_knee', 'check_cross', 'roundhouse_cross'] },
       kkKnee: { 13: ['jab_cross_knee', 'switch_knee'] },
       // ticket 18: yoga, pilates, flex, mobility, balance (the loaded ones joined row2, shoulders2, shoulderHealth and kbCore2 above)
-      ygStand: { 13: ['goddess_pose', 'pyramid_pose', 'revolved_triangle', 'revolved_side_angle', 'humble_warrior'] },
-      ygBalance: { 13: ['eagle_pose', 'standing_splits', 'hand_to_big_toe'] },
-      ygFloor: { 13: ['gate_pose', 'bow_pose', 'fish_pose', 'plow_pose'] },
-      ygBack: { 13: ['bow_pose', 'fish_pose', 'upward_dog', 'wheel_pose'] },
-      ygCore: { 13: ['chaturanga'] },
-      ygYinHips: { 13: ['reclined_butterfly'] },
+      ygStand: { 13: ['goddess_pose', 'pyramid_pose', 'revolved_triangle', 'revolved_side_angle', 'humble_warrior'], 14: ['crescent_lunge', 'revolved_crescent', 'wide_leg_twist', 'half_lift', 'standing_side_bend', 'skandasana', 'star_pose', 'prayer_twist', 'rag_doll', 'warrior_flow', 'moon_salutation'] },
+      ygBalance: { 13: ['eagle_pose', 'standing_splits', 'hand_to_big_toe'], 14: ['side_crow', 'three_legged_dog', 'heron_pose'] },
+      ygFloor: { 13: ['gate_pose', 'bow_pose', 'fish_pose', 'plow_pose'], 14: ['cow_face', 'head_to_knee', 'seated_side_bend', 'bound_angle_fold', 'lizard_twist', 'low_lunge_twist', 'malasana_twist', 'revolved_head_to_knee'] },
+      ygBack: { 13: ['bow_pose', 'fish_pose', 'upward_dog', 'wheel_pose'], 14: ['wild_thing', 'half_frog', 'tiger_pose', 'shoulder_stand'] },
+      ygCore: { 13: ['chaturanga'], 14: ['three_legged_dog', 'side_crow', 'half_boat', 'dolphin_plank', 'tiger_pose'] },
+      ygYinHips: { 13: ['reclined_butterfly'], 14: ['yin_dragon', 'yin_dragonfly', 'yin_shoelace', 'yin_sleeping_swan', 'yin_square', 'yin_frog', 'yin_deer'] },
       fxHam: { 13: ['elephant_walk'] }, // ticket 21: the short yoga holds stay in the yoga pools, or flexibility flows run short
       fxSplit: { 13: ['couch_stretch'] },
       fxQuad: { 13: ['couch_stretch', 'shin_stretch'] },
       fxStraddle: { 13: ['middle_split', 'reclined_butterfly', 'side_lunge_stretch'] },
       fxUpper: { 13: ['chair_lat_stretch'] },
       shin: { 13: ['toe_squat'] },
-      plAbs: { 13: ['corkscrew', 'hip_twist', 'tabletop_toe_taps'] },
-      plRoll: { 13: ['open_leg_rocker', 'rollover', 'neck_pull', 'spine_twist'] },
-      plBack: { 13: ['single_leg_kick', 'double_leg_kick', 'leg_pull_back'] },
-      plSide: { 13: ['mermaid'] },
-      plGlute: { 13: ['leg_pull_back', 'single_leg_kick'] },
+      plAbs: { 13: ['corkscrew', 'hip_twist', 'tabletop_toe_taps'], 14: ['single_straight_leg', 'double_straight_leg', 'pilates_bicycle', 'chest_lift', 'teaser_prep', 'can_can', 'single_leg_teaser'] },
+      plRoll: { 13: ['open_leg_rocker', 'rollover', 'neck_pull', 'spine_twist'], 14: ['jackknife', 'boomerang', 'control_balance', 'spine_corkscrew', 'roll_down_wall'] },
+      plBack: { 13: ['single_leg_kick', 'double_leg_kick', 'leg_pull_back'], 14: ['swan_dive', 'breast_stroke', 'rocking', 'swimming_prep'] },
+      plSide: { 13: ['mermaid'], 14: ['pilates_side_bend', 'side_leg_circles', 'inner_thigh_lift', 'kneeling_side_kick', 'star_side_plank', 'clam'] },
+      plGlute: { 13: ['leg_pull_back', 'single_leg_kick'], 14: ['pelvic_curl', 'clam', 'kneeling_side_kick', 'side_leg_circles', 'swimming_prep'] },
       mbHip: { 13: ['shin_box_getup', 'frog_rocks'] },
       mbSpine: { 13: ['spinal_wave', 'thoracic_bridge', 'scorpion'] },
       mbShoulder: { 13: ['wrist_rocks'] },
       backMove: { 13: ['spinal_wave'] },
       blStrength: { 13: ['skater_squat', 'lateral_step_down'] },
       blDynamic: { 13: ['step_up_balance'] },
+      // Phase 23 ticket 1c (catalogue 14): the new yoga and Pilates moves
+      ygHips: { 14: ['cow_face', 'lizard_twist', 'supine_figure_four', 'malasana_twist'] },
+      ygRest: { 14: ['extended_puppy_twist', 'reclined_hand_to_toe', 'supine_figure_four', 'cat_cow_flow'] },
+      ygYinSpine: { 14: ['yin_caterpillar', 'yin_saddle', 'yin_melting_heart', 'yin_banana', 'yin_snail'] },
+      ygYin: { 14: ['yin_dragon', 'yin_dragonfly', 'yin_caterpillar', 'yin_shoelace', 'yin_sleeping_swan', 'yin_square', 'yin_saddle', 'yin_frog', 'yin_melting_heart', 'yin_banana', 'yin_snail', 'yin_deer'] },
+      plKb: { 14: ['kb_roll_up', 'kb_chest_lift', 'kb_pilates_bridge', 'kb_teaser', 'kb_saw', 'kb_plie_pulse', 'kb_pilates_twist', 'kb_overhead_reach', 'kb_dead_bug_press', 'kb_side_lying_lift'] },
     };
     const computedPools = (upTo) => {
       const has = (fn) => ids((e) => (e.added || 0) <= upTo && fn(e));
       const adds = Object.fromEntries(Object.entries(POOL_ADDS).map(([name, byCat]) => [name, Object.entries(byCat).filter(([n]) => +n <= upTo).flatMap(([, list]) => list)]).filter(([, list]) => list.length));
       return {
-        ...Object.fromEntries(Object.entries(adds).map(([name, list]) => [name, [...POOLS[name], ...list]])),
+        ...Object.fromEntries(Object.entries(adds).map(([name, list]) => [name, [...(POOLS[name] || []), ...list]])),
         mobility: has((e) => e.cat === 'warmup' || e.cat === 'cooldown'),
         abs: has((e) => e.cat === 'abs' && e.id !== 'mountain_climber' && !(e.equip || []).includes('bar')),
         absW: has((e) => e.cat === 'abs' && e.load && !(e.equip || []).includes('bar')),
@@ -559,7 +565,7 @@
       return specs.map((sp, i) => choices[i].map((c) => blockTime(blockOf(i, c), recipe.rests) / 60));
     }
 
-    function buildDay(recipe, { day, level, lever, rnd, memory }) {
+    function buildDay(recipe, { day, level, lever, rnd, memory, plus }) {
       const R = recipe.rests;
       const cp = computed(recipe.catalogue);
       const { used, count, stretchUsed } = memory;
@@ -569,24 +575,38 @@
       // search block parameters (+ which optional slots to keep) to land in the time range; a block with a `target`
       // [lo, hi] in minutes (a mix from build your own: its share of the day) is kept inside it when it can: the day's
       // range comes first, then the target (10 a minute outside it), then the preferred values
-      let best = null;
+      let best = null, top = hi, opts = choices;
       const walk = (bi, pick) => {
         if (bi === specs.length) {
           const blocks = specs.map((sp, i) => blockOf(i, pick[i]));
           const t = dayTime(blocks, R) / 60;
-          let pen = t >= lo && t <= hi ? 0 : 100 + Math.abs(t - (lo + hi) / 2) * 10;
+          let pen = t >= lo && t <= top ? 0 : 100 + Math.abs(t - (lo + hi) / 2) * 10;
           pick.forEach((c, i) => { pen += Math.abs(c.v - c.pref) / (c.key === 'minutes' ? 4 : 1) + (c.nOpt - c.keep.length) * (specs[i].kind === 'abs' ? 2.5 : 1.2); });
           specs.forEach((sp, i) => {
             if (!sp.target) return;
             const bt = blockTime(blocks[i], R) / 60;
             pen += 10 * Math.max(0, sp.target[0] - bt, bt - sp.target[1]);
           });
-          if (!best || pen < best.pen) best = { pen, blocks, t };
+          if (!best || pen < best.pen) best = { pen, blocks, t, pick };
           return;
         }
-        for (const c of choices[bi]) walk(bi + 1, pick.concat([c]));
+        for (const c of opts[bi]) walk(bi + 1, pick.concat([c]));
       };
       walk(0, []);
+      // Phase 23 (84, 85, 171): a II's Level III is one past the catalogue's top: its main blocks take one more set (or
+      // round) than the Level III search chose, and the day searches again up to 3 minutes over its range, dropping
+      // optional exercises to make room; a day with no room keeps Level III as it is (the plan's fallback)
+      if (plus) {
+        const first = best;
+        opts = choices.map((list, i) => {
+          const c = first.pick[i];
+          if (specs[i].kind === 'abs' || (c.key !== 'sets' && c.key !== 'rounds')) return [c];
+          return list.filter((x) => x.v === c.v).map((x) => ({ ...x, v: x.v + 1 }));
+        });
+        best = null; top = hi + 3;
+        walk(0, []);
+        if (best.t > hi + 3) best = first;
+      }
       const blocks = best.blocks;
       blocks.forEach((b) => b.items.forEach((it) => { used[it.ex] = day; count[it.ex] = (count[it.ex] || 0) + 1; }));
 
@@ -612,7 +632,10 @@
       for (let d = 1; d <= dayCount; d++) {
         const level = L.levelOf(dayCount, d);
         const typeKey = cfg.cycle[(d - 1) % cfg.cycle.length];
-        const { day, type, title, level: lv, ...rest } = buildDay(recipes[typeKey], { day: d, level, rnd, memory });
+        // step (Phase 23, a Signature II): each day built a level up, the day keeping its own level number (85)
+        const step = cfg.step || 0, built = Math.min(3, level + step);
+        const { day, type, title, level: builtAt, ...rest } = buildDay(recipes[typeKey], { day: d, level: built, rnd, memory, plus: level + step > 3 });
+        const lv = builtAt === built ? level : builtAt; // the day's own level number
 
         const base = cfg.names[(d - 1) % cfg.names.length];
         nameCount[base] = (nameCount[base] || 0) + 1;

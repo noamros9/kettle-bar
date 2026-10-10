@@ -171,6 +171,12 @@ const IDS = [
     'doorframe-set-then-jamb', 'doorframe-sweat-then-lintel', 'doorframe-lift-then-threshold', 'doorframe-push-then-door',
     'doorframe-jamb-then-hold', 'doorframe-lintel-then-hold', 'doorframe-quick-frame', 'doorframe-long-frame',
     'doorframe-stay-on-jamb', 'doorframe-lintel-and-stay', 'doorframe-threshold-and-hips', 'doorframe-mouth-in-frame',
+    // Phase 23 ticket 2: the Signature IIs
+    'three-split-60-ii', 'three-split-60-tempo-ii', 'three-split-60-harder-ii',
+    'four-split-60-ii', 'four-split-60-tempo-ii', 'four-split-60-harder-ii',
+    'two-split-60-ii', 'two-split-60-tempo-ii', 'two-split-60-harder-ii',
+    'five-split-60-ii', 'five-split-60-tempo-ii', 'five-split-60-harder-ii',
+    'full-body-duo-60-ii', 'full-body-duo-60-tempo-ii', 'full-body-duo-60-harder-ii',
 ];
 
 test('the config ids, in order, are today\'s list', () => {

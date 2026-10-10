@@ -6,6 +6,7 @@
 const fs = require('fs');
 const path = require('path');
 const { buildAll } = require('./program-builder.js');
+const { pinProblems } = require('./scripts/pins.js');
 const { summarize, slim, usageIndex } = require('./app/programs.js');
 const { refresh } = require('./recipe-book.js');
 const { programFocus } = require('./app/stats.js');
@@ -58,7 +59,11 @@ function render(programs = buildAll()) {
 }
 
 if (require.main === module) {
-  const out = render();
+  // the gate (scripts/pins.js): a pinned program whose days changed stops the build before anything is written
+  const programs = buildAll();
+  const problems = pinProblems(programs, JSON.parse(fs.readFileSync(path.join(__dirname, 'tests/fixtures/program-days.json'), 'utf8')));
+  if (problems.length) { console.error(`The build stops: ${problems.length} pinned program(s) changed.\n${problems.join('\n')}`); process.exit(1); }
+  const out = render(programs);
   fs.mkdirSync(path.join(__dirname, 'data'), { recursive: true });
   Object.entries(out).forEach(([f, body]) => fs.writeFileSync(path.join(__dirname, f), body));
   console.log('bytes', out['index.html'].length);

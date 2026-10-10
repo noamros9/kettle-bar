@@ -734,5 +734,20 @@
   "doorframe-stay-on-jamb": "1a613272b29b2fb7167d214e367fc2616acbad27b9d4da72b52fa59b9acb787f",
   "doorframe-lintel-and-stay": "2c481de76e1e8405f1f8e3a187ba326d3e3df8799df96c4f57118aeac54bd8c6",
   "doorframe-threshold-and-hips": "1d4dbabf4ee51b6af294e09116df36d6bf429a04a6b81e0288dbe6bcffc9edc7",
-  "doorframe-mouth-in-frame": "2054d4909034a3ce72e33fd24804b56968d0b4f40f297d29afb21744380cd1c2"
+  "doorframe-mouth-in-frame": "2054d4909034a3ce72e33fd24804b56968d0b4f40f297d29afb21744380cd1c2",
+  "three-split-60-ii": "691c2bf2bea37dd5fba71285496fa506458a79169634d5c66c2c1357614ed54f",
+  "three-split-60-tempo-ii": "41988b69ee268c26fecf145e9fa62f16ad21ce3a69acfec4e63f0329608d130e",
+  "three-split-60-harder-ii": "d1457d3f4d6061bce6d4c39a8e573fcc9b95e15995cc0e2296587da5d5cd7638",
+  "four-split-60-ii": "89cdb42f702b8d531b48b214de42ec158e58301ed24a1bdf35cc82d57ee3588b",
+  "four-split-60-tempo-ii": "120a1488281031d35e2b40f58f21ec163229187ed24b1fa6e0c79d0333fbe485",
+  "four-split-60-harder-ii": "100aa4dfa332dbbe3eba1943d0cbffc57569c1a5ef740f932902b991395b4dde",
+  "two-split-60-ii": "a3a877892b2ea0630b3a9c1d7d4ca8514b0f16cdeea4c3106966f86441d81465",
+  "two-split-60-tempo-ii": "d06c9e2ac457b519867dc1eb393f63d4931733be994de229da9939297b928ef5",
+  "two-split-60-harder-ii": "a6dfdfee51006a27cb5559026d72f6dfe209e03fa251fab34b0880fbc49d5345",
+  "five-split-60-ii": "d35e84ba618ad609a011b3e0b9aacaccd47f02ae807974e714af189326a0b630",
+  "five-split-60-tempo-ii": "7a224949e9d208a59927bbc08aee46309f68e3e687ca86b016c1078c3ab8e380",
+  "five-split-60-harder-ii": "2494195084e39e7ad1de8b73732f21f50810cf0ad1a369321e3704a9498db42d",
+  "full-body-duo-60-ii": "e377c8e124e922a632a9565af2cda958f377e5bf88645f55a1c5525c6faa2d2f",
+  "full-body-duo-60-tempo-ii": "739bf0f45eaefefc4cd617459a7128f7b7c00175a403caa64b91384e301e9851",
+  "full-body-duo-60-harder-ii": "bda51290e2bb6921cba723f519e1922ff25925ebb6894c1c491213104d62de77"
 }

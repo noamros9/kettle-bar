@@ -143,6 +143,10 @@ read only when needed. Decisions with a long "why": [docs/adr/](docs/adr/).
 - **Waiting on CI polls, never a blind sleep (Noam, 10 Oct 2026):** check the PRs' check-runs every 30 s in one command
   and stop the moment any job's state changes (finishes or fails), giving up after ~9 min with no change and starting
   again. A `sleep 400` learned of a finished run up to 7 minutes late.
+- **Pins (Noam, 10 Oct 2026):** `tests/fixtures/program-days.json` holds a SHA-256 of each program's days. The build
+  (`build.js`) stops before writing anything if a pinned program is missing or its days changed (`scripts/pins.js`).
+  `npm run pin` builds only this phase's programs (`added: 23` and later): it adds pins for new ones and checks the ones
+  they have. Existing pins are never changed by hand; the full check runs in CI.
 - `npm run build` rewrites `recipes/book.json`: restore it (`git checkout recipes/book.json`) before committing.
 - **Nothing that builds the whole library runs on this machine (decision 312, Noam, 10 Oct 2026):** test files marked
   `// ci-only` on their first line build or read all the programs; the commit hook skips them and only CI runs them.

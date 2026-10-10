@@ -242,3 +242,27 @@ test('a background redraw keeps the tab strip where it was, and waits while a fi
   const r = await strip.evaluate((e) => { const t = e.querySelector('[aria-pressed="true"]').getBoundingClientRect(), b = e.getBoundingClientRect(); return [t.left >= b.left, t.right <= b.right + 1]; });
   expect(r).toEqual([true, true]);
 });
+
+// Phase 23 ticket 2 (84–86, 201): the Signature IIs sit on the Signature shelf after the originals; an original whose
+// day 60 is done points to its II
+test('Signature IIs: on the shelf after the originals; Ready for II once day 60 is done; a II day 1 and day 41', async ({ app }, testInfo) => {
+  await app.open('#p-four-split-60');
+  await expect(app.page.getByRole('region', { name: 'Ready for II' })).toHaveCount(0);
+  await app.data(() => store.toggle('four-split-60', 60));
+  await app.go('#p-four-split-60');
+  const ready = app.page.getByRole('region', { name: 'Ready for II' });
+  await expect(ready).toBeVisible();
+  await ready.getByRole('button', { name: /Four-Split 60 II/ }).click();
+  await expect(app.heading()).toHaveText('Four-Split 60 II');
+  await app.go('#p-four-split-60-ii-d1');
+  expect(await app.sidewaysScroll()).toBe(0);
+  await app.page.screenshot({ path: `test-results/shots/${testInfo.project.name}/signature-ii-d1.png`, fullPage: true });
+  await app.go('#p-four-split-60-ii-d41');
+  await app.page.screenshot({ path: `test-results/shots/${testInfo.project.name}/signature-ii-d41.png`, fullPage: true });
+  await app.go('#programs');
+  const shelf = app.page.locator('.pgroup', { hasText: 'Signature' }).first();
+  await shelf.getByRole('button', { name: /^Show all/ }).click();
+  const order = await shelf.locator('.pcard').evaluateAll((els) => els.map((e) => e.dataset.openProg));
+  expect(order.indexOf('three-split-60-ii')).toBeGreaterThan(order.indexOf('full-body-duo-60-harder'));
+  expect(order.filter((id) => id.endsWith('-ii'))).toHaveLength(15);
+});
