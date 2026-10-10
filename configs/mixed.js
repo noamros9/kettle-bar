@@ -1791,4 +1791,6 @@ const CONFIGS = [
   },
 ];
 
+// Phase 23: the new programs' ids in shelf order, appended to programs.config.js's ORDER after every older program
+CONFIGS.order23 = [];
 module.exports = CONFIGS;

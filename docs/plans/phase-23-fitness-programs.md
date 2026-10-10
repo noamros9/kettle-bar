@@ -30,6 +30,9 @@ decisions is today's catalogue 13 (renumbered by 105).
 **When and how big**
 - **96 · After Phase 20's tickets 9–15.** *(6 Oct)*
 - **137 · Measure the library at ~1,140 programs (was ~1,060); split it only if the Programs page slows.** *(7 Oct)*
+- **316 · Pause after every 3 tickets**: Claude stops and waits for Noam's explicit go before the next three. *(10 Oct)*
+- **317 · Measure today and at the close only** (no placeholder end state; nothing builds the whole library on the
+  cloud machine, 312); the 1 MB page gate may be raised if the library needs it. *(10 Oct)*
 
 **More Yoga, Pilates and Variety** ([#216](https://github.com/noamros9/kettle-bar/issues/216), grilled 8 Oct)
 - **230 · #216 is built in this phase**, in its Yoga, Pilates and Variety tickets. *(8 Oct)*
@@ -90,7 +93,7 @@ decisions is today's catalogue 13 (renumbered by 105).
 |---|---|---|---|---|---|
 | 0 | This plan | plan | – | `plan/unplanned-phases` | done (PR #281) |
 | 0b | #216 joins (230–237) | plan | – | `plan/open-issues-8oct` | done (PR #297) |
-| 1 | Library size: measure at the end state, and per-family program order | feature | – | `feature/p23-size-and-order` | todo |
+| 1 | Library size: measure at the end state, and per-family program order | feature | – | `feature/p23-size-and-order` | done (PR #352) |
 | 2 | Signature IIs: a level step in the builder, and the 15 IIs | feature | 1 | `feature/signature-ii` | todo |
 | 3 | Strength, Busy week, Bodyweight +29 | content | 1 | `content/p23-strength` | todo |
 | 4 | Kettlebells and pulls +26 | content | 1 | `content/p23-bells-pulls` | todo |
@@ -201,7 +204,18 @@ The pins file is regenerated after each rebase (`npm run pin`), never merged by 
   `docs/roadmap-archive.md`; CONTEXT.md's Signature entry says the IIs.
 
 ## Measured
-_(ticket 1)_
+**10 Oct 2026, the start** (ticket 1, `npm run size` on the last build; 736 programs, decision 317):
+
+| File | Raw | Gzipped |
+|---|---|---|
+| index.html | 947.0 KB | 224.5 KB |
+| data/library.json | 192.6 KB | 35.5 KB |
+| data/finder.json | 411.7 KB | 89.4 KB |
+| data/muscles.json | 223.0 KB | 43.0 KB |
+| data/index.json | 2119.8 KB | 60.4 KB |
+
+The page is at 22% of its 1 MB gzip gate. No end-state guess (317): ticket 13 measures again with the real programs,
+and CI's phone tests would show a slower Programs page first. So no ticket 1b.
 
 ## Challenge round
 - **Weakest assumption: "a step harder" has something to step to at Level III.** The catalogue has three levels of

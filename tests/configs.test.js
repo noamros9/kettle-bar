@@ -186,3 +186,20 @@ test('each family file holds only its own family\'s subjects', () => {
     assert.deepEqual([...new Set(own.map((c) => c.subject))].filter((s) => !subjects.includes(s)), [], family);
   }
 });
+
+// Phase 23 ticket 1: each fitness family file lists its new programs in `order23`; they come after every older program
+test('order23: every id is its own family file\'s, in the library once, after every program from before Phase 23', () => {
+  const families = { strength: require('../configs/strength.js'), 'cardio-combat': require('../configs/cardio-combat.js'), 'mind-body': require('../configs/mind-body.js'), mixed: require('../configs/mixed.js') };
+  const ids = require('../programs.config.js').map((c) => c.id);
+  const all23 = [];
+  Object.entries(families).forEach(([name, list]) => {
+    assert.ok(Array.isArray(list.order23), `${name} has an order23 list`);
+    const own = new Set(list.map((c) => c.id));
+    list.order23.forEach((id) => { assert.ok(own.has(id), `${id} is in configs/${name}.js`); all23.push(id); });
+  });
+  assert.equal(new Set(all23).size, all23.length, 'each new id once');
+  all23.forEach((id) => assert.equal(ids.filter((x) => x === id).length, 1, `${id} once in the library`));
+  const first23 = Math.min(ids.length, ...all23.map((id) => ids.indexOf(id)));
+  assert.ok(ids.slice(first23).every((id) => all23.includes(id)), 'nothing older after the first Phase 23 program');
+  assert.deepEqual(ids.slice(first23), all23, 'in the family order, then each list\'s order');
+});

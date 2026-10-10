@@ -171,6 +171,10 @@ const ORDER = [
   'doorframe-stay-on-jamb', 'doorframe-lintel-and-stay', 'doorframe-threshold-and-hips', 'doorframe-mouth-in-frame',
 ];
 
+// Phase 23 (ticket 1): each fitness family file lists its new programs in its own `order23`, appended here in the family
+// order, so the content tickets never edit this one list (and two of them can build at once)
+const ORDER23 = FAMILY_FILES.flatMap((f) => f.order23 || []);
+ORDER.push(...ORDER23);
 const byId = new Map(FAMILY_FILES.flat().map((c) => [c.id, c]));
 if (byId.size !== ORDER.length || ORDER.some((id) => !byId.has(id))) throw new Error('programs.config.js: ORDER and configs/ disagree');
 // Variety programs (Phase 16) are dealt into an ordinary cycle here, so every reader of the library sees one kind of config
