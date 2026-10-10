@@ -2,7 +2,7 @@
 
 The index: where we are, what comes next, and the two phases being built now. Every other phase's decisions live at the
 top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase comes up. Decision numbers are global
-(the next one is **316**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
+(the next one is **318**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
 ## Resume here (10 Oct 2026)
 - **Phase 31 is done** (10 Oct, #336–#342): Back keeps your place, Build your own previews what Save keeps, and the
