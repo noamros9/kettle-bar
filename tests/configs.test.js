@@ -191,6 +191,12 @@ const IDS = [
     'pullup-emom-month', 'ladder-and-pairs', 'bar-four-day', 'pull-pairs-thirty', 'bar-emom-pairs',
     'pullup-express', 'short-bar-strength', 'long-climb-session', 'climber-month-plus', 'climb-supersets',
     'short-climb-circuit',
+    // Phase 23 ticket 5: Chest, Back, Shoulders, Arms, Neck & traps, Grip & forearms
+    'chest-volume', 'chest-month', 'pushup-pyramid', 'chest-express', 'back-volume',
+    'back-month', 'bell-back-strength', 'back-express', 'shoulder-volume', 'shoulder-month',
+    'bell-shoulder-strength', 'shoulder-express', 'arm-volume', 'arm-month', 'bodyweight-arm-strength',
+    'arm-express', 'neck-volume', 'traps-month', 'desk-neck-plus', 'neck-ladder-express',
+    'grip-volume', 'grip-month', 'grip-and-lift-long', 'forearm-supersets', 'grip-express',
 ];
 
 test('the config ids, in order, are today\'s list', () => {
