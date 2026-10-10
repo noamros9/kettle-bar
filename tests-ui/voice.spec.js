@@ -12,8 +12,10 @@ test.beforeEach(async ({ app }, testInfo) => {
 });
 
 async function runSideHold(app) {
-  const h = await app.data(() => {
-    const p = programs.get('three-split-60'), EX = KBEx.EX;
+  // after a reload the program list and the program itself arrive later than the page: wait for them, don't race them
+  await app.page.waitForFunction(() => typeof programs !== 'undefined' && programs.has('three-split-60'));
+  const h = await app.data(async () => {
+    const p = await programs.load('three-split-60'), EX = KBEx.EX;
     for (const d of p.days) for (const [bi, b] of d.blocks.entries()) {
       const i = b.items.findIndex((it) => EX[it.ex].u === 'sec' && EX[it.ex].side);
       if ((b.format || 'straight') === 'straight' && i >= 0) return { day: d.day, n: b.items[i].n };
