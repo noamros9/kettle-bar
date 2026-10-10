@@ -116,16 +116,20 @@ const json = JSON.stringify;
 // The newest catalogue own programs and random workouts are made at. Held while a phase adds to it, so a program saved
 // mid-phase never reshuffles when the next ticket grows its pools (Phase 22, decision 121); moved when the phase is in.
 const NEWEST = 13;
+// The phase whose new programs are held out of the book (decision 318): Phase 23's programs (added: 23) join own programs
+// and random workouts all at once at its last ticket, which moves this on.
+const HELD = 23;
 
-function generate({ configs = require('./programs.config.js'), families = FAMILIES, catalogue = NEWEST } = {}) {
+function generate({ configs = require('./programs.config.js'), families = FAMILIES, catalogue = NEWEST, held = HELD } = {}) {
+  const isHeld = (c) => (c.added || 0) >= held;
   const familyOf = new Map(families.flatMap(([f, list]) => list.map((s) => [s, f])));
   // the levers a subject's programs use at Level II and III: what a choice for that subject may pick
   const levers = {};
-  configs.filter((c) => !c.frozen).forEach((c) => Object.values(Builder.recipesOf(c)).forEach((r) => r.levers.slice(1).forEach((l) => { (levers[c.subject] = levers[c.subject] || new Set()).add(l); })));
+  configs.filter((c) => !c.frozen && !isHeld(c)).forEach((c) => Object.values(Builder.recipesOf(c)).forEach((r) => r.levers.slice(1).forEach((l) => { (levers[c.subject] = levers[c.subject] || new Set()).add(l); })));
   const subjects = [], restTables = [], specs = [], types = [], skipped = [], seen = new Set(), trial = new Map();
   const parts = [], partSeen = new Set(), partTrial = new Map();
   configs.forEach((cfg) => {
-    if (cfg.frozen || cfg.variety || cfg.couple) { skipped.push(cfg.id); return; } // frozen; Variety (Phase 16): 60 one-off day types, not a subject to pick; couple sessions (Phase 18): for two, not for build your own or a random workout
+    if (cfg.frozen || cfg.variety || cfg.couple || isHeld(cfg)) { skipped.push(cfg.id); return; } // frozen; Variety (Phase 16): 60 one-off day types, not a subject to pick; couple sessions (Phase 18): for two, not for build your own or a random workout
     const family = familyOf.get(cfg.subject);
     if (!family) throw new Error(`${cfg.id}: subject ${cfg.subject} is in no family`);
     const subject = intern(subjects, json, [cfg.subject, family, Recipes.LEVERS.filter((l) => levers[cfg.subject].has(l))]);
@@ -201,4 +205,4 @@ const book = () => (cached = cached || load(FILE, generate, false));
 const refresh = ({ file = FILE, make = generate } = {}) => load(file, make, true);
 /* node:coverage ignore next 2 */ // npm run recipes
 if (require.main === module) { refresh(); console.log('recipes/book.json is fresh'); }
-module.exports = { generate, book, hash, refresh, stored, FILE, INPUTS, NEWEST };
+module.exports = { generate, book, hash, refresh, stored, FILE, INPUTS, NEWEST, HELD };
