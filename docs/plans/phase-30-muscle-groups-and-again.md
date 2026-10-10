@@ -23,6 +23,9 @@ Global decision numbers.
 - **213 · It counts as having trained today**: the rest-day card hides, the next random workout takes its level.
 - **214 · Current round only**; finished rounds stay as they were.
 - **215 · The day page only adds; a mark is removed in History** (tap the date, Remove). No accidental unmarking.
+- **314 · The program page's ✓ on a done tile adds another date** (today), like finishing it again; it never unmarks
+  (215: Remove is in History). *(10 Oct)*
+- **315 · Program days only**: random workouts stay one-offs, with no "Do it again" and no Remove. *(10 Oct)*
 - **217 · Stored as an optional `again: { day: [time] }`** in the program's progress, like `short`: no rules change,
   old apps ignore it, backups carry it as an optional section, merges take the union. *(technical)*
 
@@ -103,11 +106,11 @@ edit `app/stats.js`.
 ### 5. The buttons
 - **Build:** on a done day of the current round, the day page's button reads **Do it again**; it starts a fresh
   session (the old ticks are gone) and its finish card's button **Mark done again** adds today's date. The old
-  toggle that unmarked a day is gone. History: tapping a date lists that day's workouts, each with **Remove** (asks
+  toggle that unmarked a day is gone; the program page's ✓ on a done tile adds today's date (314). History: tapping a date lists that day's workouts, each with **Remove** (asks
   first). A day of a past round shows read-only.
-- **Files:** `app/pages/day.js`, `app/pages/stats.js` (History), `app/main.js` (if the toggle handler lives there),
+- **Files:** `app/pages/day.js`, `app/pages/stats.js` (History), `app/pages/program.js` and `app/main.js` (the ✓ toggle),
   `tests-ui/finish.spec.js`, `tests-ui/stats.spec.js`, `tests-ui/rounds.spec.js`.
-- **Test first:** finish day 3, then do it again: History shows both dates, Stats count both, the program still shows
+- **Test first:** tapping ✓ on a done tile adds a date and the tile stays done (314); finish day 3, then do it again: History shows both dates, Stats count both, the program still shows
   1 done; Remove on the first date leaves the second; a Round 1 day after Start Round 2 has no "Do it again".
 - **Done when:** screenshots light and dark of a done day, the finish card, and History's Remove.
 
