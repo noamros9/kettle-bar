@@ -2308,6 +2308,22 @@ const ABOUT = {
 };
 CONFIGS.forEach((c) => { if (ABOUT[c.id]) c.about = ABOUT[c.id]; });
 
+// Phase 23 ticket 2 (84–86, 171): a "II" of every Signature program: the same split, day types, blocks and minutes,
+// built a level up (`step: 1`: its Level I is the original's Level II; its Level III adds a set where the day has room)
+// at catalogue 13, so the newer exercises join. Three-Split 60 is frozen: its II starts from the look-alike its Tempo
+// variation is made from, with Levels II and III adding reps as the original's do. The originals never change.
+const twoOf = (c) => {
+  const from = c.frozen ? { ...CONFIGS.find((x) => x.id === c.id + '-tempo'), levers: [null, 'reps', 'reps'] } : c;
+  const { added, ...rest } = from; // eslint-disable-line no-unused-vars
+  return {
+    ...rest, id: `${c.id}-ii`, name: `${c.name} II`, added: 23, catalogue: 13, step: 1,
+    blurb: `${c.name}, one level harder: every day starts where the original's Level II did, with the newer moves in the mix.`,
+    about: `${c.about} This II is the same program one step on: its Level I is the original's Level II, its Level III adds a set where the day has room, and the exercise picks include the newest moves. Start it once the original's day 60 is done.`,
+  };
+};
+const IIS = CONFIGS.filter((c) => c.subject === 'Signature').map(twoOf);
+CONFIGS.push(...IIS);
+
 // Phase 23: the new programs' ids in shelf order, appended to programs.config.js's ORDER after every older program
-CONFIGS.order23 = [];
+CONFIGS.order23 = [...IIS.map((c) => c.id)];
 module.exports = CONFIGS;

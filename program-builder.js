@@ -559,7 +559,7 @@
       return specs.map((sp, i) => choices[i].map((c) => blockTime(blockOf(i, c), recipe.rests) / 60));
     }
 
-    function buildDay(recipe, { day, level, lever, rnd, memory }) {
+    function buildDay(recipe, { day, level, lever, rnd, memory, plus }) {
       const R = recipe.rests;
       const cp = computed(recipe.catalogue);
       const { used, count, stretchUsed } = memory;
@@ -569,24 +569,38 @@
       // search block parameters (+ which optional slots to keep) to land in the time range; a block with a `target`
       // [lo, hi] in minutes (a mix from build your own: its share of the day) is kept inside it when it can: the day's
       // range comes first, then the target (10 a minute outside it), then the preferred values
-      let best = null;
+      let best = null, top = hi, opts = choices;
       const walk = (bi, pick) => {
         if (bi === specs.length) {
           const blocks = specs.map((sp, i) => blockOf(i, pick[i]));
           const t = dayTime(blocks, R) / 60;
-          let pen = t >= lo && t <= hi ? 0 : 100 + Math.abs(t - (lo + hi) / 2) * 10;
+          let pen = t >= lo && t <= top ? 0 : 100 + Math.abs(t - (lo + hi) / 2) * 10;
           pick.forEach((c, i) => { pen += Math.abs(c.v - c.pref) / (c.key === 'minutes' ? 4 : 1) + (c.nOpt - c.keep.length) * (specs[i].kind === 'abs' ? 2.5 : 1.2); });
           specs.forEach((sp, i) => {
             if (!sp.target) return;
             const bt = blockTime(blocks[i], R) / 60;
             pen += 10 * Math.max(0, sp.target[0] - bt, bt - sp.target[1]);
           });
-          if (!best || pen < best.pen) best = { pen, blocks, t };
+          if (!best || pen < best.pen) best = { pen, blocks, t, pick };
           return;
         }
-        for (const c of choices[bi]) walk(bi + 1, pick.concat([c]));
+        for (const c of opts[bi]) walk(bi + 1, pick.concat([c]));
       };
       walk(0, []);
+      // Phase 23 (84, 85, 171): a II's Level III is one past the catalogue's top: its main blocks take one more set (or
+      // round) than the Level III search chose, and the day searches again up to 3 minutes over its range, dropping
+      // optional exercises to make room; a day with no room keeps Level III as it is (the plan's fallback)
+      if (plus) {
+        const first = best;
+        opts = choices.map((list, i) => {
+          const c = first.pick[i];
+          if (specs[i].kind === 'abs' || (c.key !== 'sets' && c.key !== 'rounds')) return [c];
+          return list.filter((x) => x.v === c.v).map((x) => ({ ...x, v: x.v + 1 }));
+        });
+        best = null; top = hi + 3;
+        walk(0, []);
+        if (best.t > hi + 3) best = first;
+      }
       const blocks = best.blocks;
       blocks.forEach((b) => b.items.forEach((it) => { used[it.ex] = day; count[it.ex] = (count[it.ex] || 0) + 1; }));
 
@@ -612,7 +626,10 @@
       for (let d = 1; d <= dayCount; d++) {
         const level = L.levelOf(dayCount, d);
         const typeKey = cfg.cycle[(d - 1) % cfg.cycle.length];
-        const { day, type, title, level: lv, ...rest } = buildDay(recipes[typeKey], { day: d, level, rnd, memory });
+        // step (Phase 23, a Signature II): each day built a level up, the day keeping its own level number (85)
+        const step = cfg.step || 0, built = Math.min(3, level + step);
+        const { day, type, title, level: builtAt, ...rest } = buildDay(recipes[typeKey], { day: d, level: built, rnd, memory, plus: level + step > 3 });
+        const lv = builtAt === built ? level : builtAt; // the day's own level number
 
         const base = cfg.names[(d - 1) % cfg.names.length];
         nameCount[base] = (nameCount[base] || 0) + 1;

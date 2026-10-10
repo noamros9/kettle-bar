@@ -615,3 +615,5 @@ body.has-timer .updatenote{bottom:calc(96px + env(safe-area-inset-bottom,0px))}
 .donechip{font-weight:600;color:var(--accent)}
 .hrm{margin:4px 0 0 2px}
 .hremove{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:6px}
+/* Ready for II (Phase 23 ticket 2) */
+.readyii{margin-top:18px}
