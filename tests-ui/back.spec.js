@@ -5,7 +5,8 @@ const { test, expect } = require('./fixtures.js');
 
 // scroll so `el` sits at the top of the screen, and return where it is
 async function scrollTo(app, el) {
-  await el.evaluate((n) => n.scrollIntoView({ block: 'start' }));
+  // just below the sticky header: a card under it gets scrolled by the tap itself, which then saves that place
+  await el.evaluate((n) => { n.scrollIntoView({ block: 'start' }); window.scrollBy(0, -(document.querySelector('.top') || { offsetHeight: 0 }).offsetHeight - 16); });
   await app.page.waitForTimeout(400); // the scroll save settles (200 ms) before leaving; leaving saves too
   return app.page.evaluate(() => window.scrollY);
 }
