@@ -32,8 +32,8 @@
     const emit = (ev, x) => listeners[ev].forEach((f) => f(x));
     const progress = {};
     let remote = null, unsubs = [], progressUnsubs = {}, seen = {}, docSeen = {}, queue = Promise.resolve(), docQueue = Promise.resolve(), readonly = false, auth = null, status = 'local';
-    const keys = (pid) => ({ done: 'kb-progress-' + pid, swaps: 'kb-swaps-' + pid, past: 'kb-past-' + pid, short: 'kb-short-' + pid });
-    const fromDevice = (pid) => { const k = keys(pid); return P.fromDevice({ done: read(k.done), swaps: read(k.swaps), past: read(k.past), short: read(k.short) }); };
+    const keys = (pid) => ({ done: 'kb-progress-' + pid, swaps: 'kb-swaps-' + pid, past: 'kb-past-' + pid, short: 'kb-short-' + pid, again: 'kb-again-' + pid });
+    const fromDevice = (pid) => { const k = keys(pid); return P.fromDevice({ done: read(k.done), swaps: read(k.swaps), past: read(k.past), short: read(k.short), again: read(k.again) }); };
     const setStatus = (s) => { status = s; emit('status', s); };
     const of = (pid) => progress[pid] || P.empty();
 
@@ -77,6 +77,7 @@
       const k = keys(pid), text = P.toDevice(progress[pid]);
       try { storage.set(k.done, text.done); storage.set(k.swaps, text.swaps); storage.set(k.past, text.past); } catch (e) { /* storage full or blocked: keep going */ }
       if (text.short) { try { storage.set(k.short, text.short); } catch (e) { /* as above */ } } else forgetKey(k.short); // none: no key, as before
+      if (text.again) { try { storage.set(k.again, text.again); } catch (e) { /* as above */ } } else forgetKey(k.again); // Phase 30: as short
     }
     function saveDoc(c, id) { try { storage.set(docKey(c, id), JSON.stringify(account[c][id])); } catch (e) { /* device copy is best effort */ } }
     function forgetKey(key) { try { if (storage.remove) storage.remove(key); else storage.set(key, ''); } catch (e) { /* device copy is best effort */ } }
@@ -202,7 +203,7 @@
     function deleteProgress(pid) {
       const k = keys(pid);
       dropProgram(pid);
-      [k.done, k.swaps, k.past, k.short].forEach(forgetKey);
+      [k.done, k.swaps, k.past, k.short, k.again].forEach(forgetKey);
       return removeProgress(pid);
     }
     function removeProgress(pid, again) {
@@ -212,6 +213,8 @@
       return queue;
     }
     const toggle = (pid, day) => set(pid, P.toggle(of(pid), day, now()));
+    const doAgain = (pid, day) => set(pid, P.doAgain(of(pid), day, now())); // Phase 30: done, or done again today (212)
+    const removeMark = (pid, day, time) => set(pid, P.removeMark(of(pid), day, time)); // History's Remove (215)
     const setSwaps = (pid, list) => set(pid, P.withSwaps(of(pid), list));
     const setShort = (pid, day, on) => set(pid, P.setShort(of(pid), day, on)); // "short on time" for that day (Phase 7)
     // a new round: the current one is kept as it was; `keep` = the onward swaps to carry over
@@ -240,7 +243,7 @@
       return queue;
     }
     return {
-      load, attach, detach, addProgram, dropProgram, deleteProgress, programIds: () => programIds.slice(), toggle, replaceAll, setSwaps, setShort, startRound, setDoc, deleteDoc, replaceDocs,
+      load, attach, detach, addProgram, dropProgram, deleteProgress, programIds: () => programIds.slice(), toggle, doAgain, removeMark, replaceAll, setSwaps, setShort, startRound, setDoc, deleteDoc, replaceDocs,
       doc: (c, id) => (known(c) && account[c][id] ? JSON.parse(JSON.stringify(account[c][id])) : null),
       docs: (c) => JSON.parse(JSON.stringify(account[known(c)])),
       round: (pid) => P.round(of(pid)),
@@ -249,6 +252,8 @@
       swaps: (pid) => of(pid).swaps.map((x) => ({ ...x })),
       isDone: (pid, day) => P.isDone(of(pid), day),
       isShort: (pid, day) => P.isShort(of(pid), day),
+      marks: (pid, day) => P.marks(of(pid), day), // a day's dates in the current round, oldest first (Phase 30)
+      againOf: (pid) => JSON.parse(JSON.stringify(of(pid).again || {})),
       shortOf: (pid, round) => P.shortOfRound(of(pid), round === undefined ? P.round(of(pid)) : round),
       count: (pid) => P.count(of(pid)),
       days: (pid) => ({ ...of(pid).done }),

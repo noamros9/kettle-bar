@@ -1,15 +1,19 @@
 /* Program Progress: one program's done days, exercise swaps and shortened days, as a value.
    The only module that knows how progress is stored: the cloud document and the device copy.
 
-     value: { done: { day: time first marked }, swaps: [swap], past: [{ round, done, swaps, short?, endedAt }], short? }
+     value: { done: { day: time first marked }, swaps: [swap], past: [{ round, done, swaps, short?, again?, endedAt }], short?, again? }
        done, swaps and short are the current round's; past rounds are kept as they were
        short: { day: true } for the days done "short on time" (Phase 7), present only when there is one, so documents,
        device copies and backups from before (and rounds without any) keep their shape
+       again: { day: [time] } for a done day done again (Phase 30, 212 and 217): every later date, oldest first; present
+       only when there is one, like short, so old apps, documents and backups ignore it
      empty(), fromDoc(doc | null), toDoc(value, now), fromDevice({ done, swaps, past }), toDevice(value)
      round(v), startRound(v, now, keep), onwardSwaps(v), swapsOfRound(v, round)
      isDone(v, day), count(v), toggle(v, day, now), withSwaps(v, list)
      isShort(v, day), setShort(v, day, on), shortOfRound(v, round) -> { day: true }
-     entries(pid, v) -> every done day of every round: [{ pid, day, time, round }]
+     doAgain(v, day, now) marks the day done, or done again; removeMark(v, day, time) removes one date (the next
+       becomes the day's first; the last one unmarks it); marks(v, day) -> its dates, oldest first
+     entries(pid, v) -> every date of every round (a day done twice is two entries): [{ pid, day, time, round }]
      nextDay(v, dayNumbers, after?)  the first day not done (after `after` if given, else from the start)
      mergeFirstSync(local, cloud) -> { merged, changed }   changed: the cloud needs the merged copy
      importMerge(current, fromFile, 'merge' | 'replace')
@@ -18,7 +22,7 @@
    Device copy: three strings, stored under kb-progress-<pid>, kb-swaps-<pid> and kb-past-<pid>, and kb-short-<pid>
    when there are short days.
    Two copies in different rounds: the one further along wins whole.
-   Merging days: every day from both, the earliest time wins; short days: every one from both. Merging swaps: mine, then the other side's
+   Merging days: every day from both, the earliest time wins; short days: every one from both; again dates: every one from both. Merging swaps: mine, then the other side's
    (the other side's last, so they win where they overlap). */
 (function (root) {
   const empty = () => ({ done: {}, swaps: [], past: [] });
@@ -28,20 +32,43 @@
     const days = x && typeof x === 'object' && !Array.isArray(x) ? Object.keys(x).filter((d) => x[d] === true) : [];
     return days.length ? { short: Object.fromEntries(days.map((d) => [d, true])) } : {};
   };
-  const copy = (v) => ({ done: { ...v.done }, swaps: v.swaps.map((s) => ({ ...s })), past: clone(v.past), ...shortOf(v.short) });
+  // { again } when a day was done again, else nothing: { day: [time, …] } with each list sorted, no empty lists
+  const againOf = (x) => {
+    const days = x && typeof x === 'object' && !Array.isArray(x) ? Object.keys(x).filter((d) => Array.isArray(x[d]) && x[d].length && x[d].every((t) => typeof t === 'string')) : [];
+    return days.length ? { again: Object.fromEntries(days.map((d) => [d, [...x[d]].sort()])) } : {};
+  };
+  const copy = (v) => ({ done: { ...v.done }, swaps: v.swaps.map((s) => ({ ...s })), past: clone(v.past), ...shortOf(v.short), ...againOf(v.again) });
   const parse = (text, fallback) => { try { return JSON.parse(text) || fallback; } catch (e) { return fallback; } };
 
-  const fromDoc = (doc) => (doc ? { done: { ...(doc.done || {}) }, swaps: (doc.swaps || []).map((s) => ({ ...s })), past: clone(doc.past || []), ...shortOf(doc.short) } : null);
+  const fromDoc = (doc) => (doc ? { done: { ...(doc.done || {}) }, swaps: (doc.swaps || []).map((s) => ({ ...s })), past: clone(doc.past || []), ...shortOf(doc.short), ...againOf(doc.again) } : null);
   const toDoc = (v, now) => ({ ...copy(v), updatedAt: now });
-  const fromDevice = ({ done, swaps, past, short }) => ({ done: parse(done, {}), swaps: parse(swaps, []), past: parse(past, []), ...shortOf(parse(short, null)) });
-  const toDevice = (v) => ({ done: JSON.stringify(v.done), swaps: JSON.stringify(v.swaps), past: JSON.stringify(v.past), ...(v.short ? { short: JSON.stringify(v.short) } : {}) });
+  const fromDevice = ({ done, swaps, past, short, again }) => ({ done: parse(done, {}), swaps: parse(swaps, []), past: parse(past, []), ...shortOf(parse(short, null)), ...againOf(parse(again, null)) });
+  const toDevice = (v) => ({ done: JSON.stringify(v.done), swaps: JSON.stringify(v.swaps), past: JSON.stringify(v.past), ...(v.short ? { short: JSON.stringify(v.short) } : {}), ...(v.again ? { again: JSON.stringify(v.again) } : {}) });
 
   const isDone = (v, day) => !!v.done[day];
   const count = (v) => Object.keys(v.done).length;
   function toggle(v, day, now) {
     const done = { ...v.done };
     if (done[day]) delete done[day]; else done[day] = now;
-    return { ...copy(v), done };
+    const { again, ...rest } = copy(v), left = { ...(again || {}) };
+    delete left[day]; // an unmarked day keeps no again dates
+    return { ...rest, done, ...againOf(left) };
+  }
+  // Phase 30: a day done again keeps every date (212); the first stays in `done`, so counting days is unchanged
+  const marks = (v, day) => (v.done[day] ? [v.done[day], ...((v.again && v.again[day]) || [])] : []);
+  function doAgain(v, day, now) {
+    if (!v.done[day]) return { ...copy(v), done: { ...v.done, [day]: now } };
+    const { again, ...rest } = copy(v);
+    return { ...rest, ...againOf({ ...(again || {}), [day]: [...((again && again[day]) || []), now] }) };
+  }
+  function removeMark(v, day, time) {
+    const dates = marks(v, day), i = dates.indexOf(time);
+    if (i < 0) return copy(v);
+    const left = [...dates.slice(0, i), ...dates.slice(i + 1)].sort();
+    const { again, done, ...rest } = copy(v), nextDone = { ...done }, nextAgain = { ...(again || {}) };
+    delete nextAgain[day];
+    if (left.length) { nextDone[day] = left[0]; if (left.length > 1) nextAgain[day] = left.slice(1); } else delete nextDone[day];
+    return { done: nextDone, ...rest, ...againOf(nextAgain) };
   }
   const withSwaps = (v, list) => ({ ...copy(v), swaps: list.map((s) => ({ ...s })) });
   const isShort = (v, day) => !!(v.short && v.short[day]);
@@ -51,8 +78,8 @@
     return { ...rest, ...shortOf(next) };
   }
   const round = (v) => v.past.length + 1;
-  const roundEntries = (pid, done, r) => Object.entries(done).map(([day, time]) => ({ pid, day: +day, time, round: r }));
-  const entries = (pid, v) => [...v.past.flatMap((r) => roundEntries(pid, r.done, r.round)), ...roundEntries(pid, v.done, round(v))];
+  const roundEntries = (pid, x, r) => Object.entries(x.done).flatMap(([day, time]) => [time, ...((x.again && x.again[day]) || [])].map((t) => ({ pid, day: +day, time: t, round: r })));
+  const entries = (pid, v) => [...v.past.flatMap((r) => roundEntries(pid, r, r.round)), ...roundEntries(pid, v, round(v))];
   const swapsOfRound = (v, r) => (r === round(v) ? v.swaps : v.past.find((x) => x.round === r).swaps);
   const shortOfRound = (v, r) => ({ ...((r === round(v) ? v : v.past.find((x) => x.round === r)).short || {}) });
   const onwardSwaps = (v) => v.swaps.filter((s) => s.onward);
@@ -63,7 +90,7 @@
     return {
       done: {},
       swaps: onwardSwaps(v).filter((s) => kept.has(JSON.stringify(s))).map((s) => ({ ...s, day: 1 })),
-      past: [...clone(v.past), { round: round(v), done: { ...v.done }, swaps: v.swaps.map((s) => ({ ...s })), ...shortOf(v.short), endedAt: now }],
+      past: [...clone(v.past), { round: round(v), done: { ...v.done }, swaps: v.swaps.map((s) => ({ ...s })), ...shortOf(v.short), ...againOf(v.again), endedAt: now }],
     };
   }
   function nextDay(v, days, after) {
@@ -77,6 +104,17 @@
     Object.entries(b).forEach(([d, t]) => { if (!out[d] || t < out[d]) out[d] = t; });
     return out;
   }
+  // again dates from both sides, each once; a date that became a day's first (`done`) on one side isn't repeated
+  function mergeAgain(done, a = {}, b = {}) {
+    const out = {};
+    [...new Set([...Object.keys(a), ...Object.keys(b)])].forEach((d) => {
+      if (!done[d]) return;
+      const dates = [...new Set([...(a[d] || []), ...(b[d] || [])])].filter((t) => t !== done[d]);
+      if (dates.length) out[d] = dates;
+    });
+    return againOf(out);
+  }
+  const dates = (x) => Object.values(x.again || {}).reduce((n, l) => n + l.length, 0);
   // the swaps in `list` that `other` doesn't have
   const notIn = (list, other) => { const keys = new Set(other.map((s) => JSON.stringify(s))); return list.filter((s) => !keys.has(JSON.stringify(s))); };
   const mergeSwaps = (mine, theirs) => [...notIn(mine, theirs), ...theirs];
@@ -88,26 +126,28 @@
       return { merged: copy(ahead ? local : c), changed: ahead };
     }
     // the cloud's swaps first, then the device's new ones
-    const merged = { done: mergeDays(c.done, local.done), swaps: [...c.swaps, ...notIn(local.swaps, c.swaps)], past: clone(c.past), ...shortOf({ ...c.short, ...local.short }) };
+    const done = mergeDays(c.done, local.done);
+    const merged = { done, swaps: [...c.swaps, ...notIn(local.swaps, c.swaps)], past: clone(c.past), ...shortOf({ ...c.short, ...local.short }), ...mergeAgain(done, c.again, local.again) };
     const shorts = (x) => Object.keys(x.short || {}).length;
     // no cloud copy: written only when there's something to say (an empty program needs no document of its own: a missing
     // one reads as empty everywhere), so a first sign-in doesn't write a document for every program in the library
     const something = (x) => count(x) > 0 || x.swaps.length > 0 || x.past.length > 0 || shorts(x) > 0;
-    const changed = (!cloud && something(merged)) || (!!cloud && (count(merged) !== count(c) || merged.swaps.length !== c.swaps.length || shorts(merged) !== shorts(c)));
+    const changed = (!cloud && something(merged)) || (!!cloud && (count(merged) !== count(c) || merged.swaps.length !== c.swaps.length || shorts(merged) !== shorts(c) || dates(merged) !== dates(c)));
     return { merged, changed };
   }
 
   function importMerge(current, file, mode) {
     if (mode !== 'merge' && mode !== 'replace') throw new Error('Unknown import mode ' + mode);
     const cur = current || empty(), fileSwaps = file.swaps, filePast = file.past || cur.past;
-    if (mode === 'replace') return { done: { ...file.done }, swaps: (fileSwaps || cur.swaps).map((s) => ({ ...s })), past: clone(filePast), ...shortOf(file.short !== undefined ? file.short : cur.short) };
+    if (mode === 'replace') return { done: { ...file.done }, swaps: (fileSwaps || cur.swaps).map((s) => ({ ...s })), past: clone(filePast), ...shortOf(file.short !== undefined ? file.short : cur.short), ...mergeAgain(file.done, file.again !== undefined ? file.again : cur.again) };
     if (filePast.length !== cur.past.length) { // different rounds: the one further along wins whole
-      return filePast.length > cur.past.length ? { done: { ...file.done }, swaps: (fileSwaps || []).map((s) => ({ ...s })), past: clone(filePast), ...shortOf(file.short) } : copy(cur);
+      return filePast.length > cur.past.length ? { done: { ...file.done }, swaps: (fileSwaps || []).map((s) => ({ ...s })), past: clone(filePast), ...shortOf(file.short), ...mergeAgain(file.done, file.again) } : copy(cur);
     }
-    return { done: mergeDays(cur.done, file.done), swaps: fileSwaps ? mergeSwaps(cur.swaps, fileSwaps) : cur.swaps.map((s) => ({ ...s })), past: clone(cur.past), ...shortOf({ ...cur.short, ...file.short }) };
+    const done = mergeDays(cur.done, file.done);
+    return { done, swaps: fileSwaps ? mergeSwaps(cur.swaps, fileSwaps) : cur.swaps.map((s) => ({ ...s })), past: clone(cur.past), ...shortOf({ ...cur.short, ...file.short }), ...mergeAgain(done, cur.again, file.again) };
   }
 
-  const api = { empty, fromDoc, toDoc, fromDevice, toDevice, isDone, count, toggle, withSwaps, isShort, setShort, shortOfRound, entries, nextDay, mergeFirstSync, importMerge, round, startRound, onwardSwaps, swapsOfRound };
+  const api = { empty, fromDoc, toDoc, fromDevice, toDevice, isDone, count, toggle, marks, doAgain, removeMark, withSwaps, isShort, setShort, shortOfRound, entries, nextDay, mergeFirstSync, importMerge, round, startRound, onwardSwaps, swapsOfRound };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBProgress = api;
 })(typeof window !== 'undefined' ? window : globalThis);

@@ -32,7 +32,7 @@ const known = ['a', 'b'];
 
 test('reading a file keeps the programs this app has and names the ones it does not', () => {
   const got = parseBackup(file({ a: { 1: 't1' }, gone: { 2: 't2' } }), { known });
-  assert.deepEqual(got, { programs: { a: { 1: 't1' } }, swaps: {}, rounds: {}, short: {}, unknown: ['gone'], ownPrograms: null, random: null, prefs: null });
+  assert.deepEqual(got, { programs: { a: { 1: 't1' } }, swaps: {}, rounds: {}, short: {}, again: {}, unknown: ['gone'], ownPrograms: null, random: null, prefs: null });
 });
 
 test('reading refuses files that are not a readable backup, saying why', () => {
