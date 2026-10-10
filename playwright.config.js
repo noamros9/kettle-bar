@@ -18,5 +18,7 @@ module.exports = defineConfig({
     { name: 'phone-light', use: { ...phone, colorScheme: 'light' } },
     { name: 'phone-dark', use: { ...phone, colorScheme: 'dark' } },
   ],
-  webServer: { command: `npm run -s build && node scripts/serve.js ${PORT}`, url: `http://localhost:${PORT}/index.html`, reuseExistingServer: !process.env.CI, timeout: 240000 }, // the build alone takes ~80 s on 2 cores (Phase 22): a UI job without a build step before it timed out at 60 s
+  // UI_PREBUILT (CI, decision 307): the job built the site in its own step, so the server only serves; the build inside
+  // the webServer start ran past its 240 s limit on a slow runner and failed jobs that never ran a test
+  webServer: { command: process.env.UI_PREBUILT ? `node scripts/serve.js ${PORT}` : `npm run -s build && node scripts/serve.js ${PORT}`, url: `http://localhost:${PORT}/index.html`, reuseExistingServer: !process.env.CI, timeout: 240000 }, // the build alone takes ~80 s on 2 cores (Phase 22): a UI job without a build step before it timed out at 60 s
 });
