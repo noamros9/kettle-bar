@@ -606,3 +606,7 @@ body.has-timer .updatenote{bottom:calc(96px + env(safe-area-inset-bottom,0px))}
 /* Stats: muscle groups (Phase 30 ticket 2) */
 .mmstats [data-m]{cursor:pointer}
 .mgroups{margin-top:12px}
+/* Muscle pickers by group (Phase 30 ticket 3) */
+.fglabel{flex-basis:100%;font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin:6px 0 -2px}
+.fglabel:empty{margin:2px 0 0}
+.partchip{font-weight:600}

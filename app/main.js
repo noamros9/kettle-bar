@@ -143,6 +143,7 @@ const ACTIONS = [
   ['filterMenu', (v) => { toggleFilterMenu(v); render(); }],
   ['mgear', (v) => { musclePick.gear = v; muscleRefresh(); }],
   ['exmuscle', (v) => exMuscle(v)],
+  ['expart', (v) => exPart(v)], // Phase 30 (210)
   ['exmuscleClear', () => exMuscle(null)],
   ['exMenu', (v) => { toggleExMenu(v); exRefresh(); }],
   ['exmuscleLink', (v) => { exMenu = null; go('exercises?muscle=' + v); }], // a muscle link lands with the menu closed
