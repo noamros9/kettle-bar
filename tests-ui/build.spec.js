@@ -357,3 +357,20 @@ test('a redraw from the background (another device syncing) keeps the rename fie
   await field.press('Enter');
   await expect(app.heading()).toHaveText('Pull it');
 });
+
+// Phase 31 ticket 2 (#111): Build your own picks the program's id when it opens; the preview is built under it, so
+// Save keeps exactly the days the preview showed, and Regenerate changes the seed, never the id
+test('what you preview is what you save: same exercises and minutes on the first six days; Regenerate keeps the id', async ({ app }) => {
+  await buildKettlebell(app);
+  const opened = await app.data(() => buildState.id);
+  await app.page.getByRole('button', { name: 'Regenerate' }).click();
+  await expect(app.page.locator('.grid.pv .tile')).toHaveCount(6);
+  expect(await app.data(() => buildState.id)).toBe(opened);
+  const previewed = await app.data(() => buildPreview(buildState).days.slice(0, 6).map((w) => ({ est: w.est, ex: JSON.stringify(w.blocks.map((b) => b.items.map((i) => i.ex))) })));
+  const tiles = await app.page.locator('.grid.pv .tile .ty').allTextContents();
+  await app.page.getByRole('button', { name: 'Save program' }).click();
+  await expect(app.page).toHaveURL(new RegExp(`#p-own-${opened}$`));
+  await app.loaded();
+  expect(await app.data(() => programs.get(route.pid).days.slice(0, 6).map((w) => ({ est: w.est, ex: JSON.stringify(w.blocks.map((b) => b.items.map((i) => i.ex))) })))).toEqual(previewed);
+  expect(await app.page.locator('.grid .tile .ty').evaluateAll((els) => els.slice(0, 6).map((e) => e.textContent.trim()))).toEqual(tiles.map((t) => t.trim()));
+});

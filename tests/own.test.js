@@ -567,3 +567,15 @@ test('delete a program end to end: doc, progress on the device and in the cloud,
   assert.deepEqual(b.store.programIds(), ['lib-1']);
   assert.deepEqual(Object.keys(a.storage.m).filter((k) => k.includes('own-x1') || k.includes('-programs-x1')), []);
 });
+
+// ---- Phase 31 ticket 2 (#111): what the builder previews is what Save keeps ----
+test('a preview built under the id the builder picked equals the program saved with that id, every day', () => {
+  const id = Own.newId(Date.parse('2026-10-10T08:00:00Z'), () => 0.5), made = { choices: choices(), seed: 'pv1', catalogue: R.book().catalogue };
+  const preview = Own.programOf(deps, { pid: Own.pidOf(id), name: 'Preview', config: Own.configOf(recipes, { choices: made.choices, seed: made.seed }) });
+  const kept = Own.programOf(deps, Own.fromRecord(id, saved({ name: 'Mine', ...made }, '2026-10-10T08:01:00Z')));
+  assert.equal(preview.days.length, 60);
+  assert.equal(days(preview), days(kept));
+  // the old way: a preview under a stand-in pid draws other days than the program you get (the bug)
+  const standIn = Own.programOf(deps, { pid: 'own-preview', name: 'Preview', config: Own.configOf(recipes, { choices: made.choices, seed: made.seed }) });
+  assert.notEqual(days(standIn), days(kept));
+});
