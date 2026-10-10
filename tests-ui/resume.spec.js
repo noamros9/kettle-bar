@@ -34,7 +34,7 @@ test('Mark as done clears the saved workout: a reload starts the day from zero',
   await app.open('#p-three-split-60-d1');
   await tick(app, 2);
   await app.page.getByRole('button', { name: 'Mark as done' }).click();
-  await expect(app.page.getByRole('button', { name: '✓ Done' })).toBeVisible();
+  await expect(app.page.getByRole('button', { name: 'Do it again' })).toBeVisible(); // Phase 30: done
   await app.page.reload();
   await app.loaded();
   await expect(ticked(app)).toHaveCount(0);

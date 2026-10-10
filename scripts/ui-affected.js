@@ -43,7 +43,8 @@ const MAP = [
   [/^app\/pages\/day\.js$/, ['workout', 'flow', 'bouts', 'bigtimer', 'swap', 'travel', 'short', 'warmup', 'finish', 'resume', 'skip']],
   [/^app\/pages\/exercises\.js$/, ['exercise', 'exercises', 'muscles']],
   [/^app\/pages\/settings\.js$/, ['settings']],
-  [/^app\/pages\/stats\.js$/, ['stats']],
+  [/^app\/pages\/stats\.js$/, ['stats', 'again']],
+  [/^app\/(progress|store)\.js$/, ['again']], // Phase 30: done again
   [/^app\/(ui\.js|pages\/core\.js)$/, ['offline', 'shortcut', 'back']], // back: Back keeps your place (#214)
   [/^app\/main\.js$/, ['actions']],
   [/^(tests-ui\/(fixtures|devices)\.js|playwright\.config\.js)$/, ['sync', 'build', 'random', 'share']],

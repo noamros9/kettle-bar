@@ -160,6 +160,12 @@ function whatNext(p) {
     <button class="btn" data-round-start="1">Start Round ${store.round(p.id) + 1}</button>
     ${ids.length ? `<p class="muted">Or train differently:</p><div class="wnlist">${ids.map((id) => card(programs.summary(id))).join('')}</div>` : ''}</section>`;
 }
+// Phase 30 (212, 215): a done day says so and offers Do it again (a fresh session; finishing it adds a date); it never
+// unmarks here: a date is removed in History
+function doneLine(p, w) {
+  const n = store.marks(p.id, w.day).length;
+  return `<div class="doneline"><span class="donechip" data-testid="done-count">✓ Done${n > 1 ? ` ${n}×` : ''}</span><button class="btn ghost" data-redo="${w.day}">Do it again</button></div>`;
+}
 // shown once every set of the day is ticked (after the cool-down, if you run it)
 function finishCard(p, w, isD) {
   const v = KBStats.dayVolume(w, EX);
@@ -172,7 +178,7 @@ function finishCard(p, w, isD) {
     </dl>
     <p class="fweek" data-testid="week">${weekLine()}</p>
     <div class="fmap"><h3>Muscles worked today</h3>${muscleMapSVG(v.muscles, 'Muscles worked today')}${heatLegend()}</div>
-    <button class="btn ${isD ? 'done' : ''}" data-toggle="${w.day}" aria-pressed="${isD}">${isD ? `✓ Day ${w.day} done` : `Mark day ${w.day} as done`}</button>
+    <button class="btn" data-toggle="${w.day}">${isD ? `Mark day ${w.day} done again` : `Mark day ${w.day} as done`}</button>
     ${nextPreview(p, w)}
     ${whatNext(p)}
   </section>`;
@@ -211,7 +217,7 @@ function viewDay() {
       <p class="daysum">${KBSummary.daySummary(w, p, KBEx).map((l) => `<span>${esc(l)}</span>`).join('')}</p>
       <div class="meta"><span class="ty"><i class="dot" style="--c:${t.c}"></i>${esc(t.label || w.title)}</span><span>About ${w.est} min${w.stretchMin ? ` + ${w.stretchMin} min stretching` : ''}</span><span>${nEx} exercises</span></div>
       ${D.canShort() ? `<button class="shortbtn" data-short="1" aria-pressed="${D.short()}">${D.short() ? `<b>Short on time</b> · about ${w.est} min instead of ${w.short.from}. Tap for the full day.` : `<b>Short on time?</b> Make today about ${KBShort.TARGET} min`}</button>` : ''}</div>
-      <button class="btn ${isD ? 'done' : ''}" data-toggle="${w.day}" aria-pressed="${isD}">${isD ? '✓ Done' : 'Mark as done'}</button></div>
+      ${isD ? doneLine(p, w) : `<button class="btn" data-toggle="${w.day}">Mark as done</button>`}</div>
     ${D.restored() ? '<p class="resumed" role="status">Picked up where you left off</p>' : ''}${travelNote(D)}${skipNote(D)}
     <p class="how">Tap a set, round or pair number when you finish it and the right rest starts on the timer. EMOM, AMRAP, Tabata, ladder, bout and guided-flow blocks have a Start button that runs the clock for you.</p>
     ${w.warmup ? stretchBlock(w.warmup, 'warm', 'W', 'Before you start', ses) : ''}

@@ -135,8 +135,12 @@ function historyDay(c) {
   const row = (e) => {
     const d = dayOf(e.pid, e.day, e.round);
     if (e.pid === 'random') { const rec = store.doc('random', e.day) || {}; return `<li class="hwork"><span class="eyebrow">Random workout</span><b>${esc((rec.name || 'Random workout').replace(/^Random: /, ''))}</b><span>${fmtMin(d.est)} · level ${ROMAN[d.level]}</span></li>`; }
-    const sm = programs.summary(e.pid);
-    return `<li><button class="hwork" data-hopen="${esc(e.pid)}:${e.day}"><span class="eyebrow">${esc(sm ? sm.name : e.pid)}${e.round > 1 ? ` · Round ${e.round}` : ''}</span><b>Day ${e.day} · ${esc(d.name || d.title)}</b><span>${fmtMin(d.est)} · level ${ROMAN[d.level]}</span></button></li>`;
+    const sm = programs.summary(e.pid), key = `${e.pid}:${e.day}:${e.time}`;
+    // Phase 30 (215): a date of the current round can be removed (asks first); a past round's stays as it was
+    const remove = e.round !== store.round(e.pid) ? ''
+      : statsView.removing === key ? `<div class="hremove" role="group" aria-label="Remove this workout?"><span>Remove this date?</span><button class="btn danger" data-hremove-yes="${esc(key)}">Remove</button><button class="btn ghost" data-hremove="${esc(key)}">Keep</button></div>`
+      : `<button class="linkbtn hrm" data-hremove="${esc(key)}" aria-label="Remove day ${e.day} on this date">Remove</button>`;
+    return `<li><button class="hwork" data-hopen="${esc(e.pid)}:${e.day}"><span class="eyebrow">${esc(sm ? sm.name : e.pid)}${e.round > 1 ? ` · Round ${e.round}` : ''}</span><b>Day ${e.day} · ${esc(d.name || d.title)}</b><span>${fmtMin(d.est)} · level ${ROMAN[d.level]}</span></button>${remove}</li>`;
   };
   return `<section class="card history" aria-labelledby="hday-h"><h2 id="hday-h">${esc(c.date.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' }))}</h2>
     ${c.workouts.length ? `<ol class="hlist">${c.workouts.map(row).join('')}</ol>` : '<p class="muted">No workouts this day.</p>'}</section>`;

@@ -610,3 +610,8 @@ body.has-timer .updatenote{bottom:calc(96px + env(safe-area-inset-bottom,0px))}
 .fglabel{flex-basis:100%;font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin:6px 0 -2px}
 .fglabel:empty{margin:2px 0 0}
 .partchip{font-weight:600}
+/* Done again (Phase 30 ticket 5) */
+.doneline{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.donechip{font-weight:600;color:var(--accent)}
+.hrm{margin:4px 0 0 2px}
+.hremove{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:6px}
