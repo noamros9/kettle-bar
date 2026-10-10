@@ -167,6 +167,10 @@ Mark as done.
 **Planned volume**: the sets and reps a day is written with. Stats count a done day's planned volume; the
 app does not log what was actually lifted.
 
+**Muscle group** (Phase 30): the muscles on three levels: a **top** (Upper, Core, Lower), its **parts** (Chest, Back,
+Shoulders, Arms; Abs & obliques, Lower back; Glutes & hips, Thighs, Lower legs) and their muscles. One definition,
+`MUSCLE_GROUPS` in `exercises.js` (`groupOf(muscle)`), read by Stats → Muscles, the Muscles page and the Exercises page.
+
 ## Exercises
 
 **Exercise**: an entry in the **Exercise Catalogue** with reps per level, muscles, cue, equipment and
@@ -229,6 +233,10 @@ programs and random workouts added, removed or changed) and asks **merge** (keep
 wins). For account data, merge is a union by id where the newer `updatedAt` wins, and keeps your preferences; replace
 takes the file's set and preferences. A file without account data (**version 1**, from before) leaves yours alone.
 Files: version 1 = progress only; version 2 adds `ownPrograms`, `random`, `prefs` (only when not empty).
+
+**Done again** (Phase 30): a done day of the current round trained another time; each time adds a date (`again: { day:
+[time] }` in its progress, present only when there is one). History and Stats count every date; the program counts the
+day once. Do it again on the day page, or the ✓ on a done tile, adds a date; a date is removed only in History.
 
 ## Code
 
@@ -313,11 +321,3 @@ Noam on the review page and kept in Firebase Storage, signed-in only.
 
 **Story seed** (Phase 29): a couple day's page as a full-length screenshot at phone width, which Grok writes a story
 from with Noam's prompt; the story goes to Noam's Google Drive (a folder per program), never into the app.
-
-**Muscle group** (Phase 30): the muscles on three levels: a **top** (Upper body, Core, Lower body), its **parts**
-(Chest, Back, Shoulders, Arms; Abs & obliques, Lower back; Glutes & hips, Thighs, Lower legs) and their muscles.
-One definition, `MUSCLE_GROUPS` in `exercises.js`, used by Stats, the Muscles page and the Exercises page.
-
-**Done again** (Phase 30): a done day of the current round trained another time; each time adds a date
-(`again: { day: [time] }` in its progress). History and Stats count every date; the program counts the day once. A
-mark is removed only in History.

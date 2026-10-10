@@ -440,3 +440,33 @@ flake) didn't reproduce and stays open for a CI trace. The working rules decided
 - **227, 228 · Preview = saved**: Build your own picks the program's id when it opens; saved programs stay as built. (#339)
 - **229, 310 · #105 gets a root cause, or waits for one**: 168 local runs passed; open for the next CI trace. *(10 Oct)*
 - **311 · Faster unit tests**: the whole library built once, without coverage, before the run. (#341) *(10 Oct)*
+
+## Phase 30: muscle groups on three levels, and doing a day again (done, 10 Oct 2026)
+Plan and tickets: [docs/plans/phase-30-muscle-groups-and-again.md](plans/phase-30-muscle-groups-and-again.md), issue
+[#287](https://github.com/noamros9/kettle-bar/issues/287). Grilled 7 Oct, again 10 Oct (314, 315); built 10 Oct
+(#345–#349, closed by #351): one definition of the groups, Stats → Muscles on three levels with the map both ways,
+group chips on the Muscles and Exercises pages, and a done day done again with every date counted.
+**Muscle groups**
+- **207 · Three levels: Upper / Core / Lower, then body parts, then muscles.** Upper: Chest (chest), Back (lats, upper
+  back, traps, neck), Shoulders (front, side, rear), Arms (biceps, triceps, forearms). Core: Abs & obliques, Lower
+  back. Lower: Glutes & hips (glutes, inner thighs, hip flexors), Thighs (quads, hamstrings), Lower legs (calves, shins).
+- **208 · Stats → Muscles: group bars, tap to open**, three levels deep (like the Time tab's families).
+- **209 · The body map works both ways**: opening a group lights only its muscles; tapping a muscle on the map opens
+  its row.
+- **210 · Pickers get group chips** that pick all their muscles, under Upper / Core / Lower; single muscles still
+  tappable. Everywhere muscles are picked (today: the Muscles page).
+- **211 · The Exercises page's Muscles chips follow the groups**: Upper / Core / Lower first; legs split into Glutes &
+  hips, Thighs, Lower legs; Full body stays its own chip.
+**Doing a day again**
+- **212 · A done day can be done again, and it counts again**: each time adds a date; History and Stats count every
+  one; program progress still counts the day once. (Today tapping "✓ Done" unmarks the day and loses its date.)
+- **213 · It counts as having trained today**: the rest-day card hides, the next random workout takes its level.
+- **214 · Current round only**; finished rounds stay as they were.
+- **215 · The day page only adds; a mark is removed in History** (tap the date, Remove). No accidental unmarking.
+- **314 · The program page's ✓ on a done tile adds another date** (today), like finishing it again; it never unmarks
+  (215: Remove is in History). *(10 Oct)*
+- **315 · Program days only**: random workouts stay one-offs, with no "Do it again" and no Remove. *(10 Oct)*
+- **217 · Stored as an optional `again: { day: [time] }`** in the program's progress, like `short`: no rules change,
+  old apps ignore it, backups carry it as an optional section, merges take the union. *(technical)*
+**When**
+- **216 · Right after Phase 22 (now after Phase 31, 223)**, before Phase 20's tickets 9–15.
