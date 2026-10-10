@@ -119,6 +119,8 @@ const ACTIONS = [
   }],
   ['retry', (v) => { delete loadFailures[v]; render(); }],
   ['statFamily', (v) => { statsView.family = statsView.family === v ? '' : v; rerender(); }],
+  ['statMtop', (v) => { statsView.mpart = null; statsView.mtop = statsView.mtop === v ? null : v; rerender(); }], // Phase 30 (208)
+  ['statMpart', (v) => { statsView.mpart = statsView.mpart === v ? null : v; rerender(); }],
   ['statAllex', () => { statsView.allEx = !statsView.allEx; render(); }],
   ['csv', () => downloadCSV()],
   ['hmonth', (v) => historyMove(+v)],
@@ -165,6 +167,7 @@ const ACTIONS = [
 window.KB_ACTIONS = ACTIONS.map(([k]) => k);
 document.addEventListener('click', (ev) => {
   const muscle = ev.target.closest('.mmpick [data-m]'); if (muscle) return exMuscle(muscle.dataset.m); // the Muscles page's body map
+  const statM = ev.target.closest('.mmstats [data-m]'); if (statM) return statMuscle(statM.dataset.m); // Stats: the map opens the muscle's row (209)
   const el = ev.target.closest('button'); if (!el) return;
   if (el.id === 'brand') return go('today'); // home: the next day in the program of your last done workout (as the shortcut)
   const hit = ACTIONS.find(([k]) => el.dataset[k] !== undefined);
