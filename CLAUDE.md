@@ -62,8 +62,9 @@ read only when needed. Decisions with a long "why": [docs/adr/](docs/adr/).
     branch (stacked), rebased onto `main` once the blocker squash-merges;
   - it doesn't edit the same files as a ticket still *building* (those wait; a Grok one then continues that
     session). Once a ticket's PR is open and in CI, it isn't building: the next ticket starts right away, even on
-    the same files, stacked on that branch (Noam, 6 Oct 2026). If the PR then needs a change, make it there and
-    resolve the conflicts in the stacked branch (merge or rebase, never revert the stacked work);
+    the same files, built locally on that branch (Noam, 6 Oct 2026), and pushed only after that PR merges, rebased
+    onto the new `main` (10 Oct 2026, see Mechanics). If the PR then needs a change, make it there and carry it into
+    the local branch (merge or rebase, never revert the local work);
   - each ticket has its own working folder: the main checkout or a `git worktree` (`npm ci` once in a new one),
     never two builders in one tree; UI tests in a worktree run with `UI_PORT=4174`, so two checkouts never share
     a test server;
@@ -140,6 +141,13 @@ read only when needed. Decisions with a long "why": [docs/adr/](docs/adr/).
   tests each take 10 min or more, longer than a tool call waits. Start them with `nohup … > log &` and poll the log;
   never in the foreground, where a cut-off wait throws the run away. One heavy run at a time per machine: a second
   one starves the UI build (`webServer` times out at 240 s).
+- **Push one ticket at a time; CI runs once per tree (Noam, 10 Oct 2026):** build the next ticket locally while the
+  previous PR is in CI, but push it only after that PR merges, branched from the new `main`: no stacked PRs, no rebase
+  reruns, no fix cascading up a stack. A PR run whose tree already passed on that PR skips its tests (`mark` job and
+  "Did this exact tree already pass?" in `deploy.yml`).
+- **Before pushing a content ticket, `npm run check:new [subject…]` (Noam, 10 Oct 2026):** builds only this phase's
+  programs and runs the whole-library CI rules on them (time ranges, gear, abs, about, names, muscle focus,
+  bodyweight-only stand-ins). Push only when it says all ok; a rule CI then catches gets added to it.
 - **Waiting on CI polls, never a blind sleep (Noam, 10 Oct 2026):** check the PRs' check-runs every 30 s in one command
   and stop the moment any job's state changes (finishes or fails), giving up after ~9 min with no change and starting
   again. A `sleep 400` learned of a finished run up to 7 minutes late.

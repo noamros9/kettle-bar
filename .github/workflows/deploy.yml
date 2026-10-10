@@ -31,10 +31,23 @@ jobs:
       options: --user 1001
     steps:
       - uses: actions/checkout@v7
+      # Noam, 10 Oct 2026: a PR run on a tree that already passed on this PR (a rebase that changed no file) tests nothing
+      - name: The tree this run tests
+        id: tree
+        run: echo "tree=$(git rev-parse HEAD^{tree})" >> "$GITHUB_OUTPUT"
+      - name: Did this exact tree already pass?
+        id: passed
+        if: github.event_name == 'pull_request'
+        uses: actions/cache/restore@v4
+        with:
+          path: .tested-tree
+          key: tested-${{ steps.tree.outputs.tree }}
+          lookup-only: true
       - uses: actions/setup-node@v7
         with:
           node-version: 22
       - run: npm ci
+        if: steps.passed.outputs.cache-hit != 'true'
       # Decision 128: a push whose tree a green PR run already tested only builds and deploys
       - name: Was this tree tested on its PR?
         id: tested
@@ -43,7 +56,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
       - name: Unit tests, 100% coverage on the core modules
-        if: steps.tested.outputs.tested != 'true'
+        if: steps.tested.outputs.tested != 'true' && steps.passed.outputs.cache-hit != 'true'
         run: npm run test:coverage 2>&1 | tee unit.log; exit ${PIPESTATUS[0]}
         shell: bash
       # each failing test (and a coverage shortfall) as an annotation on the PR, readable without the raw log
@@ -51,18 +64,24 @@ jobs:
         if: failure()
         run: node scripts/unit-failures.js unit.log
       - name: Build
+        if: steps.passed.outputs.cache-hit != 'true'
         run: npm run build
       - name: Collect the site
+        if: steps.passed.outputs.cache-hit != 'true'
         run: |
           mkdir _site
           cp -r index.html version.json data fonts manifest.webmanifest sw.js icons firebase-config.js firebase-sync.js _site/
       - name: Serve the Firebase library with the app (offline sign-in and sync)
+        if: steps.passed.outputs.cache-hit != 'true'
         run: node scripts/vendor-firebase.js _site
       - name: Serve the Program finder's model with the app (pinned, every file's hash checked)
+        if: steps.passed.outputs.cache-hit != 'true'
         run: node scripts/vendor-finder.js _site
       - name: The finder's model loads in Chromium from our own site, understands a question, and makes the program vectors
+        if: steps.passed.outputs.cache-hit != 'true'
         run: node scripts/finder-smoke.js _site
       - uses: actions/upload-pages-artifact@v5
+        if: steps.passed.outputs.cache-hit != 'true'
         with:
           path: _site
 
@@ -78,10 +97,23 @@ jobs:
         theme: [light, dark]
     steps:
       - uses: actions/checkout@v7
+      # Noam, 10 Oct 2026: a PR run on a tree that already passed on this PR (a rebase that changed no file) tests nothing
+      - name: The tree this run tests
+        id: tree
+        run: echo "tree=$(git rev-parse HEAD^{tree})" >> "$GITHUB_OUTPUT"
+      - name: Did this exact tree already pass?
+        id: passed
+        if: github.event_name == 'pull_request'
+        uses: actions/cache/restore@v4
+        with:
+          path: .tested-tree
+          key: tested-${{ steps.tree.outputs.tree }}
+          lookup-only: true
       - uses: actions/setup-node@v7
         with:
           node-version: 22
       - run: npm ci
+        if: steps.passed.outputs.cache-hit != 'true'
       - name: Was this tree tested on its PR?
         id: tested
         if: github.event_name == 'push'
@@ -90,10 +122,10 @@ jobs:
           GH_TOKEN: ${{ github.token }}
       # Decision 307: build in its own step; the test server then only serves (the build inside its start timed out)
       - name: Build
-        if: steps.tested.outputs.tested != 'true'
+        if: steps.tested.outputs.tested != 'true' && steps.passed.outputs.cache-hit != 'true'
         run: npm run build
       - name: Phone UI tests
-        if: steps.tested.outputs.tested != 'true'
+        if: steps.tested.outputs.tested != 'true' && steps.passed.outputs.cache-hit != 'true'
         run: npx playwright test --project=phone-${{ matrix.theme }}
         env:
           UI_PREBUILT: '1'
@@ -120,3 +152,20 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v5
+
+  # a PR run whose unit and UI jobs passed records its tree, so a later run on the same tree skips its tests
+  mark:
+    needs: [test, ui]
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - name: The tree this run tested
+        id: tree
+        run: echo "tree=$(git rev-parse HEAD^{tree})" >> "$GITHUB_OUTPUT"
+      - run: echo passed > .tested-tree
+      - uses: actions/cache/save@v4
+        continue-on-error: true
+        with:
+          path: .tested-tree
+          key: tested-${{ steps.tree.outputs.tree }}

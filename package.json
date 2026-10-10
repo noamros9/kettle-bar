@@ -11,6 +11,7 @@
     "test:ui": "playwright test",
     "test:ui:affected": "npm run -s build && node scripts/ui-affected.js",
     "pin": "node scripts/pin-programs.js",
+    "check:new": "node scripts/check-new.js",
     "recipes": "node recipe-book.js"
   },
   "devDependencies": {
