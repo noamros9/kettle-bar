@@ -95,7 +95,7 @@ decisions is today's catalogue 13 (renumbered by 105).
 | 0b | #216 joins (230–237) | plan | – | `plan/open-issues-8oct` | done (PR #297) |
 | 1 | Library size: measure at the end state, and per-family program order | feature | – | `feature/p23-size-and-order` | done (PR #352) |
 | 2 | Signature IIs: a level step in the builder, and the 15 IIs | feature | 1 | `feature/signature-ii` | done (PR #353) |
-| 3 | Strength, Busy week, Bodyweight +29 | content | 1 | `content/p23-strength` | todo |
+| 3 | Strength, Busy week, Bodyweight +29 | content | 1 | `content/p23-strength` | done (PR #360) |
 | 4 | Kettlebells and pulls +26 | content | 1 | `content/p23-bells-pulls` | todo |
 | 5 | Upper-body muscles and grip +25 | content | 1 | `content/p23-muscles-upper` | todo |
 | 6 | Legs, hips, calves, core +25 | content | 1 | `content/p23-muscles-lower` | todo |

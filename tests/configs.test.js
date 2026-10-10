@@ -177,6 +177,13 @@ const IDS = [
     'two-split-60-ii', 'two-split-60-tempo-ii', 'two-split-60-harder-ii',
     'five-split-60-ii', 'five-split-60-tempo-ii', 'five-split-60-harder-ii',
     'full-body-duo-60-ii', 'full-body-duo-60-tempo-ii', 'full-body-duo-60-harder-ii',
+    // Phase 23 ticket 3: Strength, Busy week, Bodyweight
+    'heavy-light-medium', 'three-way-split', 'lifts-then-pairs', 'superset-month', 'four-movements',
+    'push-pull-pairs', 'big-three-month', 'density-supersets', 'strength-express', 'short-supersets',
+    'catch-up-full-body', 'sunday-session', 'double-emom', 'long-ladder', 'bell-weekend',
+    'half-hour-plus', 'tabata-thirty', 'twenty-pairs', 'twenty-circuit-plus', 'bodyweight-long-haul',
+    'calisthenics-volume', 'floor-marathon', 'long-amrap', 'circuit-and-amrap', 'no-gear-thirty',
+    'pairs-and-amrap', 'core-and-limbs', 'circuit-25', 'quick-calisthenics',
 ];
 
 test('the config ids, in order, are today\'s list', () => {

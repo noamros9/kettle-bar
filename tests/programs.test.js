@@ -267,3 +267,65 @@ test('an exercise index that arrives after its source was replaced is dropped, n
   await d.loadUsage();
   assert.equal(d.usageReady(), true);
 });
+
+// Phase 23 (docs/plans/phase-23-fitness-programs.md, decisions 83, 87, 184, 185, 205): the new fitness programs. Built
+// here one config at a time (never the whole library): per subject the new count, catalogue 13, some Phase 22 moves in
+// every program, the minutes spread, a fifth at 30 days, gear in the subject's old shares, no two alike.
+const P23 = { Strength: 10, 'Busy week': 9, Bodyweight: 10 }; // ticket 3; later tickets add their subjects here
+const { CONFIGS: ALL_CONFIGS, buildConfig } = require('../program-builder.js');
+const { EX: EX23 } = require('../exercises.js');
+const new23 = (s) => ALL_CONFIGS.filter((c) => c.subject === s && c.added === 23 && !c.step);
+const mid = (c) => (c.minutes[0] + c.minutes[1]) / 2;
+const band = (c) => (mid(c) >= 35 && mid(c) <= 38 ? 'long' : mid(c) >= 31 && mid(c) < 35 ? 'mid' : mid(c) < 31 ? 'short' : 'over');
+const spread = (list) => ({ long: Math.round(list.length / 2), mid: Math.round(list.length / 4) });
+const formatsOf = (c) => [...new Set(Object.values(c.dayTypes).flatMap((t) => (t.blocks || []).map((b) => b.f)))].sort().join('+');
+
+test('Phase 23: each subject\'s new count, at catalogue 13, each program using some Phase 22 exercises', () => {
+  Object.entries(P23).forEach(([s, n]) => {
+    const list = new23(s);
+    assert.equal(list.length, n, s);
+    list.forEach((c) => {
+      assert.equal(c.catalogue, 13, c.id);
+      const p = buildConfig(c);
+      assert.ok(p.days.some((d) => d.blocks.some((b) => b.items.some((it) => EX23[it.ex].added === 13))), `${c.id} uses an added: 13 exercise`);
+    });
+  });
+});
+
+test('Phase 23: the minutes spread per subject (half 35–38, a quarter 31–35, the rest shorter), the 30-day fifth too', () => {
+  Object.keys(P23).forEach((s) => {
+    const list = new23(s), want = spread(list), count = (l, b) => l.filter((c) => band(c) === b).length;
+    assert.equal(count(list, 'long'), want.long, `${s} 35–38`);
+    assert.equal(count(list, 'mid'), want.mid, `${s} 31–35`);
+    assert.equal(count(list, 'over'), 0, `${s} over 38`);
+    const month = list.filter((c) => c.days === 30), wantM = spread(month);
+    assert.equal(month.length, Math.round(list.length / 5), `${s} a fifth at 30 days`);
+    assert.equal(count(month, 'long'), wantM.long, `${s} 30-day 35–38`);
+    assert.equal(count(month, 'mid'), wantM.mid, `${s} 30-day 31–35`);
+  });
+});
+
+test('Phase 23: gear in each subject\'s old shares (full gear, one kettlebell, no equipment), within one program', () => {
+  Object.keys(P23).forEach((s) => {
+    const old = ALL_CONFIGS.filter((c) => c.subject === s && c.added !== 23), list = new23(s);
+    ['all', 'kb', 'bw'].forEach((g) => {
+      const share = old.filter((c) => (c.equip || 'all') === g).length / old.length;
+      const got = list.filter((c) => (c.equip || 'all') === g).length;
+      assert.ok(Math.abs(got - share * list.length) <= 1, `${s} ${g}: ${got}, about ${(share * list.length).toFixed(1)}`);
+    });
+  });
+});
+
+test('Phase 23: no two programs of a subject share split and formats; names are new and each has 20 day names', () => {
+  const older = new Set(ALL_CONFIGS.filter((c) => c.added !== 23).map((c) => c.name));
+  Object.keys(P23).forEach((s) => {
+    const seen = {};
+    new23(s).forEach((c) => {
+      const k = `${c.split} | ${formatsOf(c)}`;
+      assert.ok(!seen[k], `${c.id} and ${seen[k]} share ${k}`);
+      seen[k] = c.id;
+      assert.ok(!older.has(c.name), `${c.id}: ${c.name} is an older program's name`);
+      assert.equal(new Set(c.names).size, 20, `${c.id}: 20 day names`);
+    });
+  });
+});
