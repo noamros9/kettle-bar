@@ -34,13 +34,14 @@ test('Mark as done on the card marks the day; Do it again starts fresh and its c
   const card = app.page.getByRole('region', { name: 'Workout complete' });
   await card.getByRole('button', { name: 'Mark day 1 as done' }).click();
   await expect(app.page.getByTestId('done-count')).toHaveText('✓ Done');
-  await expect(card).toHaveCount(0); // the session is done with
+  await expect(card.getByRole('button', { name: '✓ Day 1 done' })).toBeDisabled(); // the card stays, and says so
   await app.page.screenshot({ path: `test-results/shots/${testInfo.project.name}/done-day.png` });
   await app.page.getByRole('button', { name: 'Do it again' }).click();
   await tickEverySet(app);
   await app.page.screenshot({ path: `test-results/shots/${testInfo.project.name}/done-again-card.png` });
   await card.getByRole('button', { name: 'Mark day 1 done again' }).click();
   await expect(app.page.getByTestId('done-count')).toHaveText('✓ Done 2×');
+  await expect(card.getByRole('button', { name: '✓ Day 1 done' })).toBeDisabled();
   expect(await app.data(() => [store.count('three-split-60'), store.entries('three-split-60').length])).toEqual([1, 2]);
 });
 

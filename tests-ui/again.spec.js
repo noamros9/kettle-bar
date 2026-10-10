@@ -30,7 +30,10 @@ test('the ✓ on a done tile adds a date and the tile stays done; History shows 
   await app.page.getByRole('group', { name: 'Remove this workout?' }).getByRole('button', { name: 'Remove' }).click();
   await expect(app.page.getByRole('button', { name: /^Monday 5 October: no workouts/ })).toBeVisible();
   await expect(app.page.getByRole('button', { name: /^Thursday 8 October: 1 workout/ })).toBeVisible();
-  expect(await app.data((p) => [store.count(p), store.marks(p, 3)], PID)).toEqual([1, [new Date(2026, 9, 8, 9).toISOString()]]);
+  const left = await app.data((p) => [store.count(p), store.marks(p, 3)], PID);
+  expect(left[0]).toBe(1);
+  expect(left[1].length).toBe(1);
+  expect(left[1][0].slice(0, 10)).toBe(new Date(2026, 9, 8, 9).toISOString().slice(0, 10)); // Thursday's (the clock runs on)
 });
 
 test('a past round\'s dates show in History without Remove; its day starts the new round undone', async ({ app }) => {
