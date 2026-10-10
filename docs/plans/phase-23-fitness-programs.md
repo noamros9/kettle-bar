@@ -101,7 +101,7 @@ decisions is today's catalogue 13 (renumbered by 105).
 | 6 | Legs, hips, calves, core +25 | content | 1 | `content/p23-muscles-lower` | todo |
 | 7 | Cardio +30 | content | 1 | `content/p23-cardio` | todo |
 | 8 | Combat +20 | content | 1 | `content/p23-combat` | todo |
-| 1c | Yoga and Pilates exercises doubled, catalogue 14 (235, 237) | content | – | `content/p23-yoga-pilates-ex` | todo |
+| 1c | Yoga and Pilates exercises doubled, catalogue 14 (235, 237) | content | – | `content/p23-yoga-pilates-ex` | done (PR #354) |
 | 9 | Yoga, Pilates, Back care +31 | content | 1, 1c | `content/p23-yoga-pilates` | todo |
 | 9b | Five new Yoga and Pilates subjects +40 | content | 1c, 9 | `content/p23-yoga-pilates-new` | todo |
 | 10 | Mobility & care +23 | content | 1 | `content/p23-mobility` | todo |
