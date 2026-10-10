@@ -28,7 +28,7 @@ test('every button on every page has an action', async ({ app }) => {
   await app.page.locator('[data-round-cancel]').first().click();
   await visit('#exercises');
   await visit('#ex-pushup');
-  await visit('#muscles', async () => { await app.page.getByRole('group', { name: 'Muscles' }).getByRole('button', { name: 'Glutes' }).click(); });
+  await visit('#muscles', async () => { await app.page.getByRole('group', { name: 'Lower muscles' }).getByRole('button', { name: 'Glutes', exact: true }).click(); });
   for (const t of ['Overview', 'Muscles', 'Time', 'Exercises', 'History']) await visit('#stats', async () => { const b = app.page.getByRole('group', { name: 'Stats views' }).getByRole('button', { name: t }); if (await b.count()) await b.click(); });
   await visit('#settings');
   await visit('#build');

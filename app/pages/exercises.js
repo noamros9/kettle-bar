@@ -53,6 +53,18 @@ let exMenu = null; // 'gear' | 'muscle': which of "Equipment: Any" and "Muscle: 
 const toggleExMenu = (which) => { exMenu = exMenu === which ? null : which; };
 const exFound = () => KBLibrary.searchExercises(EX, exSearch.q, { ...exSearch, muscles: exSearch.muscle ? [exSearch.muscle] : [] }, { names: MUSCLE_NAMES });
 const exCounter = (r) => (r.count === r.total ? `${r.total} exercises` : `${r.count} of ${r.total} exercises`);
+// Phase 30 (211): the Muscles family's parts sit under Upper / Core / Lower labels; other families stay one row
+const TOP_OF_PART = Object.fromEntries(KBEx.MUSCLE_GROUPS.flatMap(([, name, parts]) => parts.map(([p]) => [p, name])));
+function subChips(subjects, fam, chip) {
+  const one = (c) => chip('sub', c.key, c.key === 'all' ? 'All' : exSubName[c.key], c.pressed, c.count);
+  if (fam !== 'muscles') return subjects.map(one).join('');
+  let last = null;
+  return subjects.map((c) => {
+    const top = TOP_OF_PART[c.key] || null, label = top && top !== last ? `<span class="fglabel" aria-hidden="true">${esc(top)}</span>` : '';
+    if (c.key !== 'all') last = top;
+    return (c.key === 'full' ? '<span class="fglabel" aria-hidden="true"></span>' : label) + one(c);
+  }).join('');
+}
 function exResults() {
   const r = exFound();
   const chip = (k, key, label, on, count) => `<button class="fchip acc" data-exf="${k}:${key}" aria-pressed="${on}">${esc(label)}${count === undefined ? '' : ` <span class="fcount">${count}</span>`}</button>`;
@@ -75,7 +87,7 @@ function chipsHTML(r, chip) {
   const gears = KBLibrary.GEAR.map(([key, label]) => ({ key, label, pressed: exSearch.gear === key }));
   const muscles = Object.entries(MUSCLE_NAMES).map(([key, label]) => ({ key, label, pressed: exSearch.muscle === key }));
   return `<div class="ftabs" role="group" aria-label="Filter by family">${r.families.map(tab).join('')}</div>
-    ${r.subjects.length ? `<div class="filters" role="group" aria-label="Filter by subject">${r.subjects.map((c) => chip('sub', c.key, c.key === 'all' ? 'All' : exSubName[c.key], c.pressed, c.count)).join('')}</div>` : ''}
+    ${r.subjects.length ? `<div class="filters" role="group" aria-label="Filter by subject">${subChips(r.subjects, fam, chip)}</div>` : ''}
     <div class="lenlines">${menuLine('gear', 'Equipment', gearLabel)}${menuLine('muscle', 'Muscle', muscleLabel)}</div>
     ${exMenu === 'gear' ? menuChips('gear', 'equipment', gears) : exMenu === 'muscle' ? menuChips('muscle', 'muscle', muscles) : ''}
     ${exSearch.q || exSearch.family !== 'all' || exSearch.sub !== 'all' || exSearch.gear !== 'all' || exSearch.muscle ? '<button class="fchip" data-ex-clear="1">Clear all</button>' : ''}`;
@@ -121,7 +133,16 @@ function muscleResults() {
 function muscleMap() {
   const picked = musclePick.muscles, heat = Object.fromEntries(Object.keys(MUSCLE_NAMES).map((m) => [m, picked.includes(m) ? 1 : 0]));
   return `<div class="mmpick">${muscleMapSVG(heat, 'Body, front and back: tap a muscle to add or remove it')}</div>
-    <div class="filters" role="group" aria-label="Muscles">${Object.entries(MUSCLE_NAMES).map(([m, n]) => `<button class="fchip acc" data-exmuscle="${m}" aria-pressed="${picked.includes(m)}">${esc(n)}</button>`).join('')}${picked.length ? '<button class="fchip" data-exmuscle-clear="1">Clear</button>' : ''}</div>`;
+    ${KBEx.MUSCLE_GROUPS.map(([top, name, parts]) => `<div class="filters mgroup" role="group" aria-label="${esc(name)} muscles"><span class="fglabel" aria-hidden="true">${esc(name)}</span>${parts.map(([part, pname, ms]) =>
+      `<button class="fchip acc partchip" data-expart="${part}" aria-pressed="${ms.every((m) => picked.includes(m))}">${esc(pname)}${ms.length > 1 ? ' <span class="fcount" aria-hidden="true">all</span>' : ''}</button>${ms.length > 1 ? ms.map((m) => `<button class="fchip acc" data-exmuscle="${m}" aria-pressed="${picked.includes(m)}">${esc(MUSCLE_NAMES[m])}</button>`).join('') : ''}`).join('')}</div>`).join('')}
+    ${picked.length ? '<div class="filters"><button class="fchip" data-exmuscle-clear="1">Clear</button></div>' : ''}`;
+}
+// Phase 30 (210): a part's chip picks all its muscles, or unpicks them when all are picked; a one-muscle part is that muscle
+function exPart(part) {
+  const ms = KBEx.MUSCLE_GROUPS.flatMap(([, , parts]) => parts).find(([p]) => p === part)[2];
+  const all = ms.every((m) => musclePick.muscles.includes(m));
+  musclePick.muscles = all ? musclePick.muscles.filter((m) => !ms.includes(m)) : [...musclePick.muscles, ...ms.filter((m) => !musclePick.muscles.includes(m))];
+  muscleRefresh();
 }
 function viewMuscles() {
   return `<div class="eyebrow">${musclePick.muscles.length ? esc(musclePick.muscles.map((m) => MUSCLE_NAMES[m]).join(' + ')) : 'Front and back'}</div><h1>Muscles</h1>
