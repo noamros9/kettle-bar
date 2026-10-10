@@ -16,6 +16,12 @@ Grilled 8 Oct 2026 with Noam (global decision numbers).
   exactly what the preview showed; Regenerate keeps the id with a new seed. *(8 Oct)*
 - **228 · Own programs already saved stay as built**: no rebuild, no offer to rebuild. *(8 Oct)*
 - **229 · #105 gets a root cause**: fix the app if it's a real race (two synced phones could see a blank page), else
+- **307 · CI builds the site in its own step** before the phone tests; the test server only serves. Its 240 s start
+  limit, build included, failed #336's jobs before any test ran. *(10 Oct)*
+- **308 · No local coverage run; the commit hook runs only the changed tests.** CI runs the full suite on the PR and
+  the merge waits for it; locally it took 12–15 min per ticket. *(10 Oct)*
+- **309 · Locally, a UI ticket runs its own specs and the smoke check**, light only; the mapped specs and the full suite
+  run in CI. *(10 Oct)*
   the test; no retries. *(8 Oct)*
 
 ## What lands
