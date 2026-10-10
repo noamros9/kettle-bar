@@ -137,6 +137,13 @@ read only when needed. Decisions with a long "why": [docs/adr/](docs/adr/).
   chain of them in the background with a 30 min wait (Noam, 6 Oct 2026: the catalogue grows in Phase 22); CI 30 min
   (the PR test job took 15 min on 6 Oct). Cutting the times: #265.
   Never wrap a test command in a shell `timeout` shorter than that.
+- **Long runs go in the background (Noam, 10 Oct 2026):** on the 2-core cloud machine `test:coverage` and the affected UI
+  tests each take 10 min or more, longer than a tool call waits. Start them with `nohup … > log &` and poll the log;
+  never in the foreground, where a cut-off wait throws the run away. One heavy run at a time per machine: a second
+  one starves the UI build (`webServer` times out at 240 s).
+- **Keep the build out of the tested tree (Noam, 10 Oct 2026):** `npm run build` rewrites `recipes/book.json`. Restore
+  it (`git checkout recipes/book.json`) before `test:coverage` and before committing, so the tree the run marks is the
+  tree you commit and the pre-commit hook skips it instead of running coverage again.
 - Committed tests never write outside the repo (screenshots go to `test-results/`); review screenshots for Noam go to
   `/home/claude/kettle-bar-shots/` from a throwaway script or spec that isn't committed. CI (the deploy) must stay green:
   after merging, don't wait on main's Test and deploy run; start the next ticket, and check that run is green before
