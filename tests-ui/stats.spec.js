@@ -71,32 +71,48 @@ test('the program switch narrows every number to one program; all time reads "si
   await expect(workouts(app)).toHaveText('4');
 });
 
-test('muscle balance: a heat map and ranked bars that follow the span and program', async ({ app }, testInfo) => {
+// Phase 30 ticket 2 (207–209): Upper / Core / Lower rows open into parts, then muscles; the map follows what's open
+test('muscle balance on three levels: groups open into parts and muscles; the map lights the open group; the span and program carry', async ({ app }, testInfo) => {
   await withHistory(app);
   await expect(app.page.getByRole('region', { name: 'Muscle balance' })).toHaveCount(0); // on its own tab
   await tab(app, 'Muscles').click();
   const section = app.page.getByRole('region', { name: 'Muscle balance' });
   await expect(section.getByRole('img', { name: /^Muscle balance/ })).toBeVisible();
-  const bars = section.getByRole('listitem');
-  const expected = await app.data(() => {
+  const groups = section.getByRole('list', { name: 'Muscle groups' });
+  const top = (name) => groups.locator('> li > .famrow', { hasText: new RegExp(`^${name}`) });
+  await expect(groups.locator('> li > .famrow')).toHaveCount(3);
+  await expect(groups.locator('> li > .famrow .rname')).toHaveText([/^Upper/, /^Core/, /^Lower/]);
+  const loads = await app.data(() => {
     const from = KBStats.weekStart(new Date()), to = new Date(from); to.setDate(to.getDate() + 7);
     const s = KBStats.summarize(doneEntries(), { dayOf, EX: KBEx.EX, from, to });
-    return KBStats.rankMuscles(s.muscles, KBEx.MUSCLE_NAMES).map((m) => m.name);
+    return KBStats.groupLoads(s.muscles, KBEx.MUSCLE_GROUPS);
   });
-  await expect(bars).toHaveCount(expected.length);
-  await expect(bars.first()).toContainText(expected[0]);
-  const before = await bars.count();
+  await expect(top('Upper').locator('.rval')).toHaveText(Math.round(loads.tops.upper).toLocaleString('en-US'));
+  await app.page.screenshot({ path: `test-results/shots/${testInfo.project.name}/stats-muscles.png` });
+  // open Upper: its four parts; the map lights upper muscles only
+  await top('Upper').click();
+  await expect(top('Upper')).toHaveAttribute('aria-expanded', 'true');
+  const upperParts = groups.locator('> li').first().locator('.rank.fams > li > .famrow .rname');
+  await expect(upperParts).toHaveText([/^Chest/, /^Back/, /^Shoulders/, /^Arms/]);
+  const lit = await section.locator('.mm [data-m]:not(.mm-o)').evaluateAll((els) => [...new Set(els.map((e) => e.dataset.m))]);
+  const upper = await app.data(() => KBEx.MUSCLE_GROUPS[0][2].flatMap(([, , ms]) => ms));
+  expect(lit.length).toBeGreaterThan(0);
+  expect(lit.every((m) => upper.includes(m))).toBe(true);
+  await app.page.screenshot({ path: `test-results/shots/${testInfo.project.name}/stats-muscles-upper.png` });
+  // tap the quads on the map: Lower → Thighs opens, with Quads in view
+  await section.locator('.mm [data-m="quads"]').first().click();
+  await expect(top('Lower')).toHaveAttribute('aria-expanded', 'true');
+  await expect(top('Upper')).toHaveAttribute('aria-expanded', 'false');
+  await expect(groups.locator('.famrow', { hasText: /^Thighs/ })).toHaveAttribute('aria-expanded', 'true');
+  await expect(section.locator('#mrow-quads')).toBeInViewport();
+  await expect(section.locator('#mrow-quads')).toContainText('Quads');
+  expect(await app.sidewaysScroll()).toBe(0);
+  await app.page.screenshot({ path: `test-results/shots/${testInfo.project.name}/stats-muscles-three-levels.png` });
+  // the program and span still carry: Iron PPL's only day, all time
   await app.page.getByLabel('Program', { exact: true }).selectOption('iron-ppl');
   await app.page.getByRole('button', { name: 'All time' }).click();
-  const ironTop = await app.data(() => {
-    const m = KBStats.dayVolume(programs.day('iron-ppl', 1), KBEx.EX).muscles; // Iron PPL's only done day
-    return KBStats.rankMuscles(m, KBEx.MUSCLE_NAMES)[0].name;
-  });
-  await expect(bars.first()).toContainText(ironTop);
-  await section.scrollIntoViewIfNeeded();
-  expect(await app.sidewaysScroll()).toBe(0);
-  await app.page.screenshot({ path: `test-results/shots/${testInfo.project.name}/stats-muscles.png` });
-  expect(before).toBeGreaterThan(3);
+  const iron = await app.data(() => KBStats.groupLoads(KBStats.dayVolume(programs.day('iron-ppl', 1), KBEx.EX).muscles, KBEx.MUSCLE_GROUPS).tops);
+  await expect(top('Lower').locator('.rval')).toHaveText(Math.round(iron.lower).toLocaleString('en-US'));
 });
 
 test('tabs: Overview, Muscles and Time each render; the span and the program carry across them', async ({ app }) => {

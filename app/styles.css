@@ -603,3 +603,6 @@ body.has-timer .updatenote{bottom:calc(96px + env(safe-area-inset-bottom,0px))}
 .askconsent{margin-top:12px;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}.askconsent p{margin:0 0 10px}.askconsent .actions{display:flex;gap:8px;flex-wrap:wrap;margin:0}
 .askout{margin-top:10px}
 .picksheet .filters{margin:0}.picksheet .pickh{margin:4px 0 -4px}.picksheet .pickout{margin:0}
+/* Stats: muscle groups (Phase 30 ticket 2) */
+.mmstats [data-m]{cursor:pointer}
+.mgroups{margin-top:12px}

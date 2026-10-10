@@ -16,12 +16,28 @@ function weekRows(rows, caption = 'Week by week', head = 'Week of', label = shor
     <thead><tr><th scope="col">${head}</th><th scope="col">Workouts</th><th scope="col">Min</th><th scope="col">Stretch min</th><th scope="col">Sets</th><th scope="col">Reps</th></tr></thead>
     <tbody>${rows.map((r) => `<tr${r.workouts ? '' : ' class="empty"'}><th scope="row">${label(r.start)}</th>${n(r.workouts)}${n(r.workoutMin)}${n(r.stretchMin)}${n(r.sets)}${n(r.reps)}</tr>`).join('')}</tbody></table></div>`;
 }
+/* Muscle balance on three levels (Phase 30 ticket 2, 207–209): Upper / Core / Lower rows; one opens its body parts, a
+   part its muscles. The map shades only the open group's muscles; tapping a muscle on the map opens its row. */
+function statMuscle(m) {
+  const g = KBEx.groupOf(m);
+  statsView.mtop = g.top; statsView.mpart = g.part; render();
+  const row = document.getElementById('mrow-' + m); if (row) row.scrollIntoView({ block: 'center' });
+}
 function muscleBalance(r, what) {
-  const ranked = r.muscles;
-  const body = ranked.length
-    ? `${muscleMapSVG(r.totals.muscles, `Muscle balance: ${what}`)}${heatLegend()}
-      <ol class="rank">${ranked.map((m) => `<li><span class="rname">${esc(m.name)}</span><span class="rbar"><i style="width:${(m.share * 100).toFixed(1)}%"></i></span><span class="rval num">${fmtNum(m.load)}</span></li>`).join('')}</ol>
-      <p class="note">Weighted sets: each set counts 1 for the main muscles and ½ for the secondary ones.</p>`
+  const loads = r.totals.muscles, groups = KBEx.MUSCLE_GROUPS, { tops, parts } = KBStats.groupLoads(loads, groups);
+  const open = groups.find(([top]) => top === statsView.mtop);
+  const shown = open ? Object.fromEntries(open[2].flatMap(([, , ms]) => ms).map((m) => [m, loads[m] || 0])) : loads;
+  const bar = (x, max) => `<span class="rbar"><i style="width:${(max ? (x / max) * 100 : 0).toFixed(1)}%"></i></span><span class="rval num">${fmtNum(x)}</span>`;
+  const row = (attr, key, name, isOpen, x, max, inner) => `<li class="fam"><button class="famrow" ${attr}="${key}" aria-expanded="${isOpen}"><span class="rname">${esc(name)} <span aria-hidden="true">${isOpen ? '▴' : '▾'}</span></span>${bar(x, max)}</button>${isOpen ? inner() : ''}</li>`;
+  const muscles = (ms) => { const max = Math.max(0, ...ms.map((m) => loads[m] || 0));
+    return `<ol class="rank">${ms.map((m) => `<li id="mrow-${m}"><span class="rname">${esc(MUSCLE_NAMES[m])}</span>${bar(loads[m] || 0, max)}</li>`).join('')}</ol>`; };
+  const partRows = (ps) => { const max = Math.max(0, ...ps.map(([p]) => parts[p]));
+    return `<ol class="rank fams">${ps.map(([p, name, ms]) => row('data-stat-mpart', p, name, statsView.mpart === p, parts[p], max, () => muscles(ms))).join('')}</ol>`; };
+  const topMax = Math.max(0, ...Object.values(tops));
+  const body = r.muscles.length
+    ? `<div class="mmstats">${muscleMapSVG(shown, `Muscle balance: ${what}${open ? `, ${open[1]} shown` : ''}`)}</div>${heatLegend()}
+      <ol class="rank fams mgroups" aria-label="Muscle groups">${groups.map(([top, name, ps]) => row('data-stat-mtop', top, name, statsView.mtop === top, tops[top], topMax, () => partRows(ps))).join('')}</ol>
+      <p class="note">Weighted sets: each set counts 1 for the main muscles and ½ for the secondary ones. Tap a muscle on the map to find it.</p>`
     : '<p class="muted">No sets in this span yet.</p>';
   return `<section class="card balance" aria-labelledby="bal-h"><h2 id="bal-h">Muscle balance</h2>${body}</section>`;
 }
