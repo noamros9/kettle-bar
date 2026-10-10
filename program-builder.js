@@ -76,9 +76,6 @@
       ygRest: ['childs_pose', 'puppy_pose', 'happy_baby', 'supine_twist', 'seated_forward_fold', 'forward_fold'],
       ygYinHips: ['pigeon_pose', 'low_lunge', 'butterfly', 'happy_baby', 'garland_pose', 'seated_forward_fold'],
       ygYinSpine: ['sphinx_pose', 'puppy_pose', 'supine_twist', 'childs_pose', 'seated_twist', 'forward_fold'],
-      // Phase 23 ticket 1c (catalogue 14): Yin holds and kettlebell Pilates, empty below 14
-      ygYin: [],
-      plKb: [],
       // Phase 5: Pilates
       plAbs: ['hundred', 'single_leg_stretch', 'double_leg_stretch', 'scissors', 'criss_cross'],
       plRoll: ['roll_up', 'rolling_like_a_ball', 'spine_stretch', 'seal', 'saw'],
@@ -371,7 +368,7 @@
       const has = (fn) => ids((e) => (e.added || 0) <= upTo && fn(e));
       const adds = Object.fromEntries(Object.entries(POOL_ADDS).map(([name, byCat]) => [name, Object.entries(byCat).filter(([n]) => +n <= upTo).flatMap(([, list]) => list)]).filter(([, list]) => list.length));
       return {
-        ...Object.fromEntries(Object.entries(adds).map(([name, list]) => [name, [...POOLS[name], ...list]])),
+        ...Object.fromEntries(Object.entries(adds).map(([name, list]) => [name, [...(POOLS[name] || []), ...list]])),
         mobility: has((e) => e.cat === 'warmup' || e.cat === 'cooldown'),
         abs: has((e) => e.cat === 'abs' && e.id !== 'mountain_climber' && !(e.equip || []).includes('bar')),
         absW: has((e) => e.cat === 'abs' && e.load && !(e.equip || []).includes('bar')),
