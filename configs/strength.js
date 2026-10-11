@@ -3260,6 +3260,209 @@ const P23_T5 = [
 ].map((c) => ({ ...c, added: 23, catalogue: 13 }));
 CONFIGS.push(...P23_T5);
 
+// Phase 23 ticket 6: Legs & glutes +9, Hips & adductors +4, Calves & lower legs +4, by ticket 3's rules (Core & abs +8 is in
+// configs/mind-body.js, its family file). Legs stay straight sets, like the subject; hips and calves train their own muscles most.
+const P23_T6 = [
+  {
+    id: 'legs-volume', name: 'Legs Volume', subject: 'Legs & glutes', minutes: P23_LONG, levers: [null, 'weight', 'reps'],
+    split: 'Squat / hinge / single leg', blurb: 'Three leg days and no upper day: squats, then hinges, then single-leg work.',
+    about: 'Every day is a leg day here. Squats and front squats lead the first, deadlifts, good mornings and bridges the second, and lunges, step-ups and single-leg deadlifts the third. Calves and adductors fill the gaps. Abs finish every session. Level II moves you one weight up and Level III adds reps.',
+    names: ['Pillar', 'Column', 'Plinth', 'Pedestal', 'Footing', 'Bedrock', 'Keystone', 'Lintel', 'Buttress', 'Pier', 'Piling', 'Trestle', 'Truss', 'Girder', 'Joist', 'Rafter', 'Corbel', 'Capital', 'Colonnade', 'Portico'],
+    cycle: ['squat', 'hinge', 'single'],
+    dayTypes: {
+      squat: { label: 'Squat day', short: 'Squat', blocks: [S('Squats', ['squat2', 'squat2', 'lunge2', 'calf', 'legsBw2?'])] },
+      hinge: { label: 'Hinge day', short: 'Hinge', blocks: [S('Hinges', ['hinge2', 'glute2', 'hinge2', 'hipGlute', 'glute2?'])] },
+      single: { label: 'Single-leg day', short: 'Single', blocks: [S('Single leg', ['lunge2', 'singleLeg', 'lunge2', 'adductor', 'singleLeg?'])] },
+    },
+  },
+  {
+    id: 'four-day-legs', name: 'Four-Day Legs', subject: 'Legs & glutes', minutes: P23_LONG, levers: [null, 'reps', 'weight'],
+    split: 'Quads / upper / glutes & hamstrings / upper', blurb: 'Two leg days for every two upper days: quads, then glutes and hamstrings.',
+    about: 'A four-day cycle with the legs split in two. The quad day is squats, lunges and step-ups; the back-of-the-legs day is deadlifts, hip thrusts and hamstring curls on the floor. An upper day follows each, so the legs get two days to recover. Abs finish every session. Level II adds reps and Level III moves you one weight up.',
+    names: ['North', 'East', 'South', 'West', 'Compass', 'Bearing', 'Heading', 'Meridian', 'Parallel', 'Latitude', 'Longitude', 'Tropic', 'Equator', 'Pole Star', 'Lodestar', 'Waypoint', 'Landmark', 'Cairn', 'Signpost', 'Milestone'],
+    cycle: ['quads', 'upperA', 'back', 'upperB'],
+    dayTypes: {
+      quads: { label: 'Quads', short: 'Quads', blocks: [S('Quads', ['squat2', 'lunge2', 'db_step_up', 'squat2', 'calf?'])] },
+      upperA: { label: 'Upper body A', short: 'Upper A', blocks: [S('Upper body', ['chestPress', 'backRow', 'shoulderPress', 'biceps2', 'triceps2?'])] },
+      back: { label: 'Glutes & hamstrings', short: 'Back', blocks: [S('Glutes & hamstrings', ['hinge2', 'hip_thrust', 'legsBw2', 'glute2', 'hinge2?'])] },
+      upperB: { label: 'Upper body B', short: 'Upper B', blocks: [S('Upper body', ['backRow', 'pushLoad2', 'backRear', 'shoulders2', 'arms?'])] },
+    },
+  },
+  {
+    id: 'heavy-legs-month', name: 'Heavy Legs Month', subject: 'Legs & glutes', days: 30, minutes: P23_LONG, levers: [null, 'weight', 'tempo'],
+    split: 'Heavy squat / heavy hinge / upper, 30 days', blurb: 'A month of heavy legs: a squat day and a hinge day, with an upper day after each pair.',
+    about: 'A month of the heaviest leg work you can do at home. The squat day stacks goblet, front and dumbbell squats with long rests; the hinge day does the same with deadlifts and hip thrusts. An upper day closes each three. Every ten days the level steps up. Abs finish every session. Level II moves you one weight up and Level III slows the lowering down.',
+    names: ['Anvil', 'Forge', 'Bellows', 'Crucible', 'Ingot', 'Billet', 'Bloom', 'Slag', 'Ore', 'Smelter', 'Furnace', 'Kiln', 'Foundry', 'Mould', 'Cast', 'Temper', 'Quench', 'Hardened', 'Wrought', 'Tempered Steel'],
+    cycle: ['squat', 'hinge', 'upper'],
+    dayTypes: {
+      squat: { label: 'Heavy squat', short: 'Squat', blocks: [S('Heavy squat', ['squat2', 'squat2', 'db_squat', 'lunge2', 'squat2?'])] },
+      hinge: { label: 'Heavy hinge', short: 'Hinge', blocks: [S('Heavy hinge', ['db_rdl', 'hinge2', 'hip_thrust', 'hinge2', 'glute2?'])] },
+      upper: { label: 'Upper body', short: 'Upper', blocks: [S('Upper body', ['chestPress', 'backRow', 'shoulderPress', 'backRow', 'triceps2?'])] },
+    },
+  },
+  {
+    id: 'glute-volume', name: 'Glute Volume', subject: 'Legs & glutes', minutes: P23_LONG, levers: [null, 'weight', 'reps'],
+    split: 'Bridge & thrust / swing & hinge / step-up & kickback', blurb: 'Three glute days: bridges and thrusts, swings and hinges, then step-ups and kickbacks.',
+    about: 'The glutes from three directions. Hip thrusts and loaded bridges drive them straight; swings, deadlifts and good mornings train them from the hinge; step-ups, curtsy lunges, kickbacks and side-lying raises work one side at a time. Three days rotate. Abs finish every session. Level II moves you one weight up and Level III adds reps.',
+    names: ['Peach', 'Apricot', 'Nectarine', 'Plum', 'Damson', 'Greengage', 'Quince', 'Medlar', 'Loquat', 'Persimmon', 'Mango', 'Papaya', 'Guava', 'Lychee', 'Rambutan', 'Mangosteen', 'Kumquat', 'Tangelo', 'Pomelo', 'Clementine'],
+    cycle: ['thrust', 'hinge', 'single'],
+    dayTypes: {
+      thrust: { label: 'Bridge & thrust', short: 'Thrust', blocks: [S('Bridge & thrust', ['hip_thrust', 'db_glute_bridge', 'thrust', 'hipGlute', 'gluteReps?'])] },
+      hinge: { label: 'Swing & hinge', short: 'Hinge', blocks: [S('Swing & hinge', ['kb_swing', 'hinge2', 'db_good_morning', 'glute2', 'hinge2?'])] },
+      single: { label: 'Step-up & kickback', short: 'Single', blocks: [S('Step-up & kickback', ['db_step_up', 'curtsy_lunge', 'singleLeg', 'donkey_kick', 'side_lying_abduction?'])] },
+    },
+  },
+  {
+    id: 'bell-legs-long', name: 'Bell Legs Long', subject: 'Legs & glutes', minutes: P23_LONG, equip: 'kb', levers: [null, 'reps', 'tempo'],
+    split: 'Goblet & lunge / swing & single-leg deadlift / bell upper', blurb: 'Long leg days with one kettlebell: squats and lunges, swings and single-leg deadlifts.',
+    about: 'Legs built with one kettlebell and plenty of time. One day is goblet and front squats with reverse lunges, the next swings, suitcase deadlifts and single-leg deadlifts, then an upper day with the same bell. Straight sets throughout. Abs finish every session. Level II adds reps and Level III slows every rep down.',
+    names: ['Bell Tower', 'Belfry', 'Carillon', 'Chime', 'Peal', 'Toll', 'Knell', 'Clang', 'Gong', 'Clapper', 'Tenor Bell', 'Treble', 'Ring Out', 'Angelus', 'Vesper', 'Matins', 'Curfew', 'Sanctus', 'Tocsin', 'Death Knell'],
+    cycle: ['squat', 'hinge', 'upper'],
+    dayTypes: {
+      squat: { label: 'Goblet & lunge', short: 'Squat', blocks: [S('Goblet & lunge', ['goblet_squat', 'kb_goblet_reverse_lunge', 'kb_front_squat', 'kbLower2', 'kbLower2?'])] },
+      hinge: { label: 'Swing & single-leg deadlift', short: 'Hinge', blocks: [S('Swing & deadlift', ['kb_swing', 'kb_suitcase_deadlift', 'kb_single_leg_deadlift', 'kb_sumo_deadlift', 'kbCxLower?'])] },
+      upper: { label: 'Bell upper', short: 'Upper', blocks: [S('Bell upper', ['kb_press', 'kb_row', 'kb_floor_press', 'kbUpper2', 'kb_halo?'])] },
+    },
+  },
+  {
+    id: 'tempo-legs', name: 'Tempo Legs', subject: 'Legs & glutes', minutes: P23_MID, levers: [null, 'tempo', 'weight'],
+    split: 'Slow squats & lunges / slow hinges & bridges', blurb: 'Leg days at a slow tempo: squats and lunges one day, hinges and bridges the next.',
+    about: 'Legs under control rather than under the heaviest weight. Every rep lowers slowly, squats and lunges one day, deadlifts, bridges and hamstring work the next. The two days alternate. Abs finish every session. Level II slows the reps further and Level III moves you one weight up.',
+    names: ['Adagio', 'Largo', 'Lento', 'Grave', 'Andante', 'Larghetto', 'Moderato', 'Sostenuto', 'Tenuto', 'Legato', 'Ritardando', 'Rallentando', 'Calando', 'Morendo', 'Smorzando', 'Allargando', 'Fermata', 'Rubato', 'Pianissimo', 'Diminuendo'],
+    cycle: ['front', 'back'],
+    dayTypes: {
+      front: { label: 'Slow squats & lunges', short: 'Front', blocks: [S('Slow squats & lunges', ['squat2', 'lunge2', 'sissy_squat', 'lunge2?'])] },
+      back: { label: 'Slow hinges & bridges', short: 'Back', blocks: [S('Slow hinges & bridges', ['hinge2', 'glute2', 'slider_leg_curl', 'hinge2?'])] },
+    },
+  },
+  {
+    id: 'leg-month', name: 'Leg Month', subject: 'Legs & glutes', days: 30, minutes: P23_MID, levers: [null, 'reps', 'variation'],
+    split: 'Quads & calves / glutes & hamstrings, 30 days', blurb: 'A month of legs: quads and calves one day, glutes and hamstrings the next.',
+    about: 'A month of legs in two halves. One day is squats, lunges and calf raises; the other is hinges, hip thrusts and hamstring work. They alternate, so each half gets a day off between. Every ten days the level steps up. Abs finish every session. Level II adds reps and Level III brings harder variations.',
+    names: ['Spring', 'Sprout', 'Bloom', 'Blossom', 'Petal', 'Pollen', 'Nectar', 'Meadow', 'Pasture', 'Clover', 'Daisy', 'Buttercup', 'Bluebell', 'Primrose', 'Cowslip', 'Foxglove', 'Thistle', 'Heather', 'Bracken', 'Hedgerow'],
+    cycle: ['front', 'back'],
+    dayTypes: {
+      front: { label: 'Quads & calves', short: 'Quads', blocks: [S('Quads & calves', ['squat2', 'lunge2', 'legsBw2', 'calf', 'squat2?'])] },
+      back: { label: 'Glutes & hamstrings', short: 'Back', blocks: [S('Glutes & hamstrings', ['hinge2', 'glute2', 'kickstand_rdl', 'hipGlute', 'glute2?'])] },
+    },
+  },
+  {
+    id: 'legs-express', name: 'Legs Express', subject: 'Legs & glutes', minutes: [24, 29], levers: [null, 'weight', 'reps'],
+    split: 'Squat & hinge / lunge & bridge, short', blurb: 'Short leg sessions: a squat and a hinge one day, a lunge and a bridge the next.',
+    about: 'Legs in under half an hour. One day pairs a squat with a hinge, the other a lunge with a bridge, three moves in straight sets either way. They alternate. Abs finish every session. Level II moves you one weight up and Level III adds reps.',
+    names: ['Dash', 'Sprint', 'Bolt', 'Flash', 'Zoom', 'Rush', 'Hurry', 'Hasten', 'Scurry', 'Scamper', 'Whisk', 'Zip Along', 'Hustle', 'Hotfoot', 'Skedaddle', 'Pelt', 'Tear', 'Career', 'Belt', 'Barrel'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Squat & hinge', short: 'A', blocks: [S('Squat & hinge', ['squat2', 'hinge2', 'squat2', 'glute2?'])] },
+      b: { label: 'Lunge & bridge', short: 'B', blocks: [S('Lunge & bridge', ['lunge2', 'glute2', 'singleLeg', 'calf?'])] },
+    },
+  },
+  {
+    id: 'quick-glutes', name: 'Quick Glutes', subject: 'Legs & glutes', minutes: [24, 29], levers: [null, 'reps', 'weight'],
+    split: 'Thrust & kickback / hinge & abduct, short', blurb: 'Short glute sessions: thrusts and kickbacks, or hinges and side raises.',
+    about: 'The glutes in a short slot. One day is hip thrusts, bridges and kickbacks; the other deadlifts and swings, then side-lying raises and clamshells for the sides of the hips. They alternate. Abs finish every session. Level II adds reps and Level III moves you one weight up.',
+    names: ['Pip', 'Seed', 'Kernel', 'Pit', 'Stone', 'Nut', 'Bean', 'Pea', 'Lentil', 'Grain', 'Oat', 'Barley', 'Rye', 'Spelt', 'Millet', 'Sorghum', 'Quinoa', 'Buckwheat', 'Amaranth', 'Teff'],
+    cycle: ['thrust', 'hinge'],
+    dayTypes: {
+      thrust: { label: 'Thrust & kickback', short: 'Thrust', blocks: [S('Thrust & kickback', ['hip_thrust', 'thrust', 'donkey_kick', 'gluteReps?'])] },
+      hinge: { label: 'Hinge & abduct', short: 'Hinge', blocks: [S('Hinge & abduct', ['hinge2', 'kb_swing', 'side_lying_abduction', 'hipGlute?'])] },
+    },
+  },
+  // Hips & adductors +4
+  {
+    id: 'hip-volume', name: 'Hip Volume', subject: 'Hips & adductors', minutes: P23_LONG, levers: [null, 'weight', 'reps'],
+    split: 'Loaded adductors / hip flexors / adductors & glutes', blurb: 'Three hip days: loaded inner-thigh work, the hip flexors, then adductors with the glutes.',
+    about: 'Strong hips across three days. Sumo deadlifts, side lunges and Cossack squats load the inner thighs; knee holds, leg raises and hip circles train the hip flexors; then Copenhagen planks and adductor work pair with bridges for the glutes. Straight sets throughout. Abs finish every session. Level II moves you one weight up and Level III adds reps.',
+    names: ['Hinge Pin', 'Pivot', 'Swivel', 'Gimbal', 'Axle', 'Spindle', 'Bearing', 'Socket', 'Ball Joint', 'Knuckle', 'Fulcrum', 'Trunnion', 'Journal', 'Bushing', 'Collar', 'Sleeve', 'Coupling', 'Yoke', 'Clevis', 'Shackle'],
+    cycle: ['load', 'flex', 'glute'],
+    dayTypes: {
+      load: { label: 'Loaded adductors', short: 'Load', blocks: [S('Loaded adductors', ['adductorLoad', 'adductor', 'adductorLoad', 'adductor', 'hipFlex?'])] },
+      flex: { label: 'Hip flexors', short: 'Flexors', blocks: [S('Hip flexors', ['hipFlex', 'adductor', 'hipFlex', 'adductorBw', 'hipFlex?'])] },
+      glute: { label: 'Adductors & glutes', short: 'Glutes', blocks: [S('Adductors & glutes', ['copenhagen_plank', 'adductor', 'hipGlute', 'adductorBw', 'hipFlex?'])] },
+    },
+  },
+  {
+    id: 'hips-month', name: 'Hips Month', subject: 'Hips & adductors', days: 30, minutes: P23_LONG, levers: [null, 'reps', 'tempo'],
+    split: 'Hip EMOM & sets / hip circuit, 30 days', blurb: 'A month of hips: an EMOM and straight sets one day, a hip circuit the next.',
+    about: 'A month for the inner thighs and hip flexors. One day is an EMOM of adductor and hip-flexor moves, a set at the top of every minute, then straight sets; the other is a circuit of the same with the glutes, round after round. Every ten days the level steps up. Abs finish every session. Level II adds reps and Level III slows every rep down.',
+    names: ['High Tide', 'Ebb', 'Flow', 'Neap', 'Spring Tide', 'Riptide', 'Undertow', 'Swell', 'Breaker', 'Roller', 'Comber', 'Surge', 'Wash', 'Backwash', 'Shoal', 'Sandbar', 'Lagoon', 'Estuary', 'Inlet', 'Firth'],
+    cycle: ['emom', 'circuit'],
+    dayTypes: {
+      emom: { label: 'EMOM & sets', short: 'EMOM', blocks: [E('Hip EMOM', ['adductor', 'hipFlex', 'adductorBw', 'hipFlex'], { values: [12, 14, 16] }), S('Hip sets', ['adductorLoad', 'adductor', 'hipFlex?'])] },
+      circuit: { label: 'Hip circuit', short: 'Circuit', blocks: [C('Hip circuit', ['adductor', 'hipFlex', 'adductorBw', 'hipGlute', 'hipFlex'], { values: [3, 4, 5] })] },
+    },
+  },
+  {
+    id: 'bell-hip-supersets', name: 'Bell Hip Supersets', subject: 'Hips & adductors', minutes: P23_MID, equip: 'kb', levers: [null, 'weight', 'reps'],
+    split: 'Sumo supersets / side-lunge supersets, one kettlebell', blurb: 'Hip supersets with one kettlebell: sumo work one day, side lunges the next.',
+    about: 'The hips with one kettlebell, in pairs. One day pairs sumo deadlifts and pulses with hip-flexor work; the other pairs side lunges and Cossack squats with adductor holds on the floor. They alternate. Abs finish every session. Level II moves you one weight up and Level III adds reps.',
+    names: ['Sumo', 'Yokozuna', 'Ozeki', 'Sekiwake', 'Komusubi', 'Maegashira', 'Dohyo', 'Mawashi', 'Shiko', 'Tachiai', 'Oshi', 'Yori', 'Uwate', 'Shitate', 'Kachi', 'Basho', 'Banzuke', 'Rikishi', 'Gyoji', 'Heya'],
+    cycle: ['sumo', 'side'],
+    dayTypes: {
+      sumo: { label: 'Sumo supersets', short: 'Sumo', blocks: [SS('Sumo supersets', ['kb_sumo_deadlift', 'hipFlex', 'sumo_pulse', 'adductorBw', 'adductorLoad', 'hipFlex'])] },
+      side: { label: 'Side-lunge supersets', short: 'Side', blocks: [SS('Side-lunge supersets', ['lateral_lunge', 'adductorBw', 'cossack_squat', 'hipFlex', 'adductorLoad', 'adductorBw'])] },
+    },
+  },
+  {
+    id: 'floor-hip-ladders', name: 'Floor Hip Ladders', subject: 'Hips & adductors', minutes: [24, 29], equip: 'bw', levers: [null, 'reps', 'holds'],
+    split: 'Adductor & flexor ladder / hip circuit, no gear', blurb: 'Short hip sessions with no gear: an adductor ladder one day, a hip circuit the next.',
+    about: 'Inner thighs and hip flexors on the floor, no equipment. One day is a ladder of adductor and glute reps, one of each, then two, then three, with hip-flexor work after; the other is a circuit of side-lying, frog and Copenhagen work. They alternate. Abs finish every session. Level II adds reps and Level III holds longer.',
+    names: ['Rung', 'Step', 'Stair', 'Tread', 'Riser', 'Landing', 'Flight', 'Banister', 'Newel', 'Baluster', 'Handrail', 'Stile', 'Ladderback', 'Ramp', 'Terrace', 'Tier', 'Ledge', 'Shelf', 'Sill', 'Perch'],
+    cycle: ['ladder', 'circuit'],
+    dayTypes: {
+      ladder: { label: 'Adductor ladder', short: 'Ladder', blocks: [L('Hip ladder', ['adductorReps', 'gluteReps']), S('Hip flexors', ['hipFlex', 'adductorBw', 'hipFlex?'])] },
+      circuit: { label: 'Hip circuit', short: 'Circuit', blocks: [C('Hip circuit', ['adductorBw', 'hipFlex', 'adductorBw', 'hipGlute'], { values: [2, 3, 4] })] },
+    },
+  },
+  // Calves & lower legs +4
+  {
+    id: 'calf-volume', name: 'Calf Volume', subject: 'Calves & lower legs', minutes: P23_LONG, levers: [null, 'weight', 'reps'],
+    split: 'Heavy calves / bent-knee & shins / springs & raises', blurb: 'Three lower-leg days: heavy raises, bent-knee raises and shins, then hops and raises.',
+    about: 'Calves and shins across three days. Heavy dumbbell raises lead the first; bent-knee raises for the deeper calf muscle and tibialis work for the shins the second; hops, pogo jumps and single-leg raises the third. Straight sets throughout. Abs finish every session. Level II moves you one weight up and Level III adds reps.',
+    names: ['Achilles', 'Heel', 'Ankle', 'Arch', 'Instep', 'Sole', 'Ball', 'Toe', 'Tendon', 'Spring Step', 'Tiptoe', 'Stride', 'Footfall', 'Tread', 'Footstep', 'Stamp', 'Pace', 'Gait', 'Spring Heel', 'Fleet Foot'],
+    cycle: ['heavy', 'shin', 'spring'],
+    dayTypes: {
+      heavy: { label: 'Heavy calves', short: 'Heavy', blocks: [S('Heavy calves', ['db_calf_raise', 'calfReps', 'db_calf_raise', 'calf', 'shin?'])] },
+      shin: { label: 'Bent-knee & shins', short: 'Shins', blocks: [S('Bent-knee & shins', ['bent_knee_calf_raise', 'shin', 'calf', 'shin', 'calfReps?'])] },
+      spring: { label: 'Springs & raises', short: 'Springs', blocks: [S('Springs & raises', ['calfPlyo', 'single_leg_calf_raise', 'calfPlyo', 'calf', 'shin?'])] },
+    },
+  },
+  {
+    id: 'calves-month', name: 'Calves Month', subject: 'Calves & lower legs', days: 30, minutes: P23_LONG, levers: [null, 'reps', 'weight'],
+    split: 'Calf EMOM & raises / calf & shin circuit, 30 days', blurb: 'A month of lower legs: an EMOM and raises one day, a calf and shin circuit the next.',
+    about: 'A month for the calves and shins. One day is an EMOM of raises, hops and shin work, a set at the top of every minute, then heavy raises in straight sets; the other is a circuit of the same, round after round. Every ten days the level steps up. Abs finish every session. Level II adds reps and Level III moves you one weight up.',
+    names: ['Gazelle', 'Impala', 'Springbok', 'Kudu', 'Eland', 'Oryx', 'Dik-dik', 'Klipspringer', 'Duiker', 'Steenbok', 'Gerenuk', 'Nyala', 'Bongo', 'Sitatunga', 'Waterbuck', 'Reedbuck', 'Topi', 'Hartebeest', 'Blesbok', 'Sable'],
+    cycle: ['emom', 'circuit'],
+    dayTypes: {
+      emom: { label: 'EMOM & raises', short: 'EMOM', blocks: [E('Calf EMOM', ['calf', 'calfPlyo', 'shin', 'calfReps'], { values: [12, 14, 16] }), S('Heavy raises', ['db_calf_raise', 'calfReps', 'shin?'])] },
+      circuit: { label: 'Calf & shin circuit', short: 'Circuit', blocks: [C('Calf & shin circuit', ['calf', 'shin', 'calfPlyo', 'calfReps', 'shin'], { values: [3, 4, 5] })] },
+    },
+  },
+  {
+    id: 'calf-tabata-ladder', name: 'Calf Tabata Ladder', subject: 'Calves & lower legs', minutes: P23_MID, levers: [null, 'reps', 'tempo'],
+    split: 'Calf tabatas & raises / raise & hop ladder', blurb: 'Lower legs two ways: calf Tabatas and raises one day, a raise-and-hop ladder the next.',
+    about: 'Calves for work capacity and for strength. One day is Tabatas of raises, hops and shin work, then heavy raises in straight sets; the other is a ladder of raises and hops, one of each, then two, then three, with shins after. They alternate. Abs finish every session. Level II adds reps and Level III slows every rep down.',
+    names: ['Skip', 'Hopscotch', 'Jump Rope', 'Double Dutch', 'Hop Step', 'Bunny Hop', 'Kangaroo', 'Wallaby', 'Jerboa', 'Pogo', 'Springer', 'Bouncer', 'Trampoline', 'Coil', 'Leaf Spring', 'Mainspring', 'Hairspring', 'Rebound', 'Recoil', 'Ricochet'],
+    cycle: ['tabata', 'ladder'],
+    dayTypes: {
+      tabata: { label: 'Tabatas & raises', short: 'Tabata', blocks: [T('Calf tabatas', ['calfBw', 'calfPlyo', 'shin']), S('Heavy raises', ['db_calf_raise', 'calfReps', 'shin?'])] },
+      ladder: { label: 'Raise & hop ladder', short: 'Ladder', blocks: [L('Lower-leg ladder', ['calfReps', 'plyoReps']), S('Shins & calves', ['shin', 'calf', 'shin?'])] },
+    },
+  },
+  {
+    id: 'barefoot-express', name: 'Barefoot Express', subject: 'Calves & lower legs', minutes: [22, 27], equip: 'bw', levers: [null, 'reps', 'holds'],
+    split: 'Calf & shin circuit / hop EMOM, no gear', blurb: 'Short lower-leg sessions with no gear: a calf and shin circuit, or a hop EMOM.',
+    about: 'Calves and shins in a short slot, barefoot and without equipment. One day is a circuit of raises, tiptoe and heel walks, and shin work; the other an EMOM of hops, skips and single-leg raises, a set at the top of every minute. They alternate. Abs finish every session. Level II adds reps and Level III holds longer.',
+    names: ['Pebble', 'Sand', 'Shingle', 'Dune', 'Strand', 'Beach', 'Shore', 'Cove', 'Bay', 'Spit', 'Dune Grass', 'Tidepool', 'Seashell', 'Driftwood', 'Boardwalk', 'Pier End', 'Sandcastle', 'Footprint', 'Barefoot', 'Low Tide'],
+    cycle: ['circuit', 'emom'],
+    dayTypes: {
+      circuit: { label: 'Calf & shin circuit', short: 'Circuit', blocks: [C('Calf & shin circuit', ['calfBw', 'shin', 'calfBw', 'shin'], { values: [2, 3, 4] })] },
+      emom: { label: 'Hop EMOM', short: 'EMOM', blocks: [E('Hop EMOM', ['calfPlyo', 'calfBw', 'calfPlyo', 'shin'], { values: [12, 14, 16] })] },
+    },
+  },
+].map((c) => ({ ...c, added: 23, catalogue: 13 }));
+CONFIGS.push(...P23_T6);
+
 // Phase 23: the new programs' ids in shelf order, appended to programs.config.js's ORDER after every older program
-CONFIGS.order23 = [...IIS.map((c) => c.id), ...P23_T3.map((c) => c.id), ...P23_T4.map((c) => c.id), ...P23_T5.map((c) => c.id)];
+CONFIGS.order23 = [...IIS.map((c) => c.id), ...P23_T3.map((c) => c.id), ...P23_T4.map((c) => c.id), ...P23_T5.map((c) => c.id), ...P23_T6.map((c) => c.id)];
 module.exports = CONFIGS;

@@ -1115,6 +1115,104 @@ const ABOUT = {
 };
 CONFIGS.forEach((c) => { if (ABOUT[c.id]) c.about = ABOUT[c.id]; });
 
+// Phase 23 ticket 6: Core & abs +8 (the rest of ticket 6 is in configs/strength.js), by ticket 3's rules: half 35–38 min,
+// a quarter 31–35, a quarter shorter; a fifth at 30 days; gear in the subject's shares (most of it without equipment).
+const P23_LONG = [34.5, 38.4], P23_MID = [31, 35];
+const P23_CORE = [
+  {
+    id: 'core-volume', name: 'Core Volume', subject: 'Core & abs', minutes: P23_LONG, levers: [null, 'weight', 'reps'],
+    split: 'Anti-extension / rotation / hollow & loaded', blurb: 'Three core days: resisting the arch, twisting and resisting the twist, then hollows and loaded work.',
+    about: 'The whole core across three days. Planks, body saws and dead bugs teach the trunk not to arch; woodchops, side planks and twists train it to turn and to stop turning; hollow holds and weighted work finish the cycle. Straight sets throughout. Abs finish every session. Level II moves you one weight up and Level III adds reps.',
+    names: ['Keel', 'Hull', 'Mast', 'Boom', 'Rudder', 'Tiller', 'Spar', 'Yardarm', 'Bowsprit', 'Bulkhead', 'Ballast', 'Bilge', 'Gunwale', 'Transom', 'Stern', 'Prow', 'Capstan', 'Windlass', 'Halyard', 'Rigging'],
+    cycle: ['anti', 'rot', 'hollow'],
+    dayTypes: {
+      anti: { label: 'Anti-extension', short: 'Anti', blocks: [S('Anti-extension', ['coreAnti', 'weighted_dead_bug', 'coreAnti', 'core2', 'coreAnti?'])] },
+      rot: { label: 'Rotation', short: 'Rotate', blocks: [S('Rotation', ['db_woodchop', 'coreRot', 'weighted_side_plank', 'coreRot', 'db_side_bend?'])] },
+      hollow: { label: 'Hollow & loaded', short: 'Hollow', blocks: [S('Hollow & loaded', ['coreHollow', 'absW', 'coreHollow', 'suitcase_march', 'absW?'])] },
+    },
+  },
+  {
+    id: 'core-month', name: 'Core Month', subject: 'Core & abs', days: 30, minutes: P23_LONG, equip: 'bw', levers: [null, 'reps', 'holds'],
+    split: 'Core EMOM & holds / long core circuit, 30 days', blurb: 'A month of core with no gear: an EMOM and holds one day, a long circuit the next.',
+    about: 'A month of core work with no equipment. One day is an EMOM of anti-extension, rotation and hollow moves, a set at the top of every minute, then plank and hollow holds in straight sets; the other is a long circuit of the same, round after round. Every ten days the level steps up. Abs finish every session. Level II adds reps and Level III holds longer.',
+    names: ['Moon', 'Crescent', 'Gibbous', 'Half Moon', 'Full Moon', 'New Moon', 'Waxing', 'Waning', 'Harvest Moon', 'Hunter Moon', 'Blue Moon', 'Moonrise', 'Moonset', 'Eclipse', 'Perigee', 'Apogee', 'Lunar', 'Selene', 'Luna', 'Phase'],
+    cycle: ['emom', 'circuit'],
+    dayTypes: {
+      emom: { label: 'Core EMOM & holds', short: 'EMOM', blocks: [E('Core EMOM', ['coreAnti', 'coreRot', 'coreHollow', 'core2'], { values: [12, 14, 16] }), S('Holds', ['coreAnti', 'coreHollow', 'core2?'])] },
+      circuit: { label: 'Long core circuit', short: 'Circuit', blocks: [C('Core circuit', ['coreHollow', 'coreRot', 'coreAnti', 'core2', 'coreRot'], { values: [3, 4, 5] })] },
+    },
+  },
+  {
+    id: 'floor-core-long', name: 'Floor Core Long', subject: 'Core & abs', minutes: P23_LONG, equip: 'bw', levers: [null, 'variation', 'reps'],
+    split: 'Hollow & anti / rotation & side, sets then a circuit, no gear', blurb: 'Long floor core sessions: straight sets, then a circuit, with no gear.',
+    about: 'A long core session on the floor. Each day opens with three moves in straight sets, hollows and planks one day, twists and side planks the next, then a circuit of four more. They alternate. Abs finish every session. Level II brings harder variations and Level III adds reps.',
+    names: ['Granite', 'Basalt', 'Marble', 'Slate', 'Flint', 'Quartz', 'Obsidian', 'Gneiss', 'Schist', 'Shale', 'Limestone', 'Sandstone', 'Chalk', 'Jasper', 'Agate', 'Onyx', 'Jade', 'Garnet', 'Feldspar', 'Mica'],
+    cycle: ['front', 'side'],
+    dayTypes: {
+      front: { label: 'Hollow & anti', short: 'Front', blocks: [S('Hollow & anti', ['coreHollow', 'coreAnti', 'coreHollow']), C('Core circuit', ['core2', 'coreAnti', 'coreRot', 'coreHollow'], { values: [2, 3, 4] })] },
+      side: { label: 'Rotation & side', short: 'Side', blocks: [S('Rotation & side', ['coreRot', 'side_plank', 'coreRot']), C('Core circuit', ['coreAnti', 'coreRot', 'core2', 'coreHollow'], { values: [2, 3, 4] })] },
+    },
+  },
+  {
+    id: 'bell-core-long', name: 'Bell Core Long', subject: 'Core & abs', minutes: P23_LONG, equip: 'kb', levers: [null, 'reps', 'weight'],
+    split: 'Bell carries & holds / bell rotation EMOM / bell core circuit', blurb: 'Long core sessions with one kettlebell: carries and holds, a rotation EMOM, then a circuit.',
+    about: 'The core trained with one kettlebell in three ways. Suitcase marches, waiter walks and bottoms-up holds make it brace; windmills, halos and seated passes on the minute make it rotate; and a circuit of pull-throughs, get-ups and passes ties it together. Three days rotate. Abs finish every session. Level II adds reps and Level III moves you one weight up.',
+    names: ['Lantern', 'Lamp', 'Torch', 'Candle', 'Taper', 'Wick', 'Beacon Fire', 'Brazier', 'Sconce', 'Chandelier', 'Gaslight', 'Lamplight', 'Firefly', 'Glowworm', 'Ember', 'Cinder', 'Spark', 'Flare', 'Flicker', 'Glimmer'],
+    cycle: ['carry', 'emom', 'circuit'],
+    dayTypes: {
+      carry: { label: 'Bell carries & holds', short: 'Carry', blocks: [S('Carries & holds', ['suitcase_march', 'kb_waiter_walk', 'kb_bottoms_up_hold', 'kbCore2', 'suitcase_march?'])] },
+      emom: { label: 'Bell rotation EMOM', short: 'EMOM', blocks: [E('Bell rotation EMOM', ['kb_windmill', 'kb_halo', 'kb_seated_pass', 'kb_around_body'], { values: [16, 18, 20] }), S('Bell core', ['kbCore2', 'kb_plank_pull_through?'])] },
+      circuit: { label: 'Bell core circuit', short: 'Circuit', blocks: [C('Bell core circuit', ['kb_plank_pull_through', 'turkish_getup', 'kb_flamingo_pass', 'suitcase_march', 'kbCore2'], { values: [3, 4, 5] })] },
+    },
+  },
+  {
+    id: 'weighted-core-month', name: 'Weighted Core Month', subject: 'Core & abs', days: 30, minutes: P23_MID, levers: [null, 'weight', 'tempo'],
+    split: 'Weighted front / weighted twist, 30 days', blurb: 'A month of core with weights: loaded dead bugs and holds, then woodchops and side work.',
+    about: 'A month of core work with dumbbells. One day loads the front of the trunk with weighted dead bugs, holds and carries; the other loads the twist with woodchops, weighted side planks and side bends. They alternate. Every ten days the level steps up. Abs finish every session. Level II moves you one weight up and Level III slows every rep down.',
+    names: ['Ballast Stone', 'Sinker', 'Plumb', 'Plummet', 'Counterweight', 'Pendulum', 'Bob', 'Lead Weight', 'Ingot Bar', 'Paperweight', 'Kettle Weight', 'Dumbbell', 'Barbell', 'Plate', 'Disc', 'Collar Weight', 'Sandbag', 'Stone Lift', 'Atlas', 'Millstone'],
+    cycle: ['front', 'twist'],
+    dayTypes: {
+      front: { label: 'Weighted front', short: 'Front', blocks: [S('Weighted front', ['weighted_dead_bug', 'absW', 'farmer_carry', 'absW?'])] },
+      twist: { label: 'Weighted twist', short: 'Twist', blocks: [S('Weighted twist', ['db_woodchop', 'weighted_side_plank', 'db_side_bend', 'absW?'])] },
+    },
+  },
+  {
+    id: 'core-circuit-plus', name: 'Core Circuit Plus', subject: 'Core & abs', minutes: P23_MID, equip: 'bw', levers: [null, 'reps', 'variation'],
+    split: 'Core circuit A / B / C, no gear', blurb: 'Three core circuits that rotate: front, sides, then hollow and twist.',
+    about: 'Core work in circuits, no equipment, three of them in turn. The first works the front of the trunk, the second the sides, the third hollow holds and twists. Five moves go round and round with a short rest after each lap. Abs finish every session. Level II adds reps and Level III brings harder variations.',
+    names: ['Orbit', 'Lap', 'Circuit Board', 'Loop', 'Ring Road', 'Roundabout', 'Carousel', 'Merry-go-round', 'Whirligig', 'Turntable', 'Spinner', 'Rotor', 'Flywheel', 'Cogwheel', 'Sprocket', 'Pulley', 'Gyre', 'Eddy', 'Vortex', 'Whirlpool'],
+    cycle: ['front', 'side', 'mix'],
+    dayTypes: {
+      front: { label: 'Front circuit', short: 'Front', blocks: [C('Front circuit', ['coreAnti', 'coreHollow', 'core2', 'coreAnti', 'coreHollow'], { values: [3, 4, 5] })] },
+      side: { label: 'Side circuit', short: 'Side', blocks: [C('Side circuit', ['coreRot', 'side_plank', 'coreRot', 'core2', 'coreRot'], { values: [3, 4, 5] })] },
+      mix: { label: 'Hollow & twist circuit', short: 'Mix', blocks: [C('Hollow & twist circuit', ['coreHollow', 'coreRot', 'coreAnti', 'coreHollow', 'coreRot'], { values: [3, 4, 5] })] },
+    },
+  },
+  {
+    id: 'core-emom-express', name: 'Core EMOM Express', subject: 'Core & abs', minutes: [20, 25], equip: 'bw', levers: [null, 'reps', 'variation'],
+    split: 'Rotation EMOM / anti-extension EMOM, short', blurb: 'Short core sessions on the clock: twists one day, planks and dead bugs the next.',
+    about: 'Core on the minute, in a short slot. One day the EMOM is rotation, twists and side planks; the other is anti-extension, planks, body saws and dead bugs. A set at the top of every minute, rest for what is left. Abs finish every session. Level II adds reps and Level III brings harder variations.',
+    names: ['Tick', 'Tock', 'Second Hand', 'Minute Hand', 'Pendulum Swing', 'Escapement', 'Balance Wheel', 'Crown', 'Dial', 'Bezel', 'Lug', 'Chime Hour', 'Cuckoo', 'Sundial', 'Hourglass', 'Water Clock', 'Metronome', 'Stopwatch', 'Timer', 'Chronograph'],
+    cycle: ['rot', 'anti'],
+    dayTypes: {
+      rot: { label: 'Rotation EMOM', short: 'Rotate', blocks: [E('Rotation EMOM', ['coreRot', 'side_plank', 'coreRot', 'core2'], { values: [10, 12, 14] })] },
+      anti: { label: 'Anti-extension EMOM', short: 'Anti', blocks: [E('Anti-extension EMOM', ['coreAnti', 'dead_bug', 'coreAnti', 'coreHollow'], { values: [10, 12, 14] })] },
+    },
+  },
+  {
+    id: 'hollow-and-plank-express', name: 'Hollow and Plank Express', subject: 'Core & abs', minutes: [20, 25], equip: 'bw', levers: [null, 'holds', 'variation'],
+    split: 'Hollows / planks & sides, short', blurb: 'Short core sessions of holds: hollows one day, front and side planks the next.',
+    about: 'Two core shapes held well, in a short slot. One day is hollow holds, hollow rocks and leg raises in straight sets; the other is front planks, side planks and plank reaches. They alternate. Abs finish every session. Level II holds longer and Level III brings harder variations.',
+    names: ['Arc', 'Bow', 'Curve', 'Crescent Moon', 'Banana', 'Canoe', 'Cradle', 'Hammock', 'Saucer', 'Bowl', 'Board', 'Plank Bridge', 'Beam', 'Rail', 'Slab', 'Ironing Board', 'Tabletop', 'Deck', 'Floorboard', 'Lath'],
+    cycle: ['hollow', 'plank'],
+    dayTypes: {
+      hollow: { label: 'Hollows', short: 'Hollow', blocks: [S('Hollows', ['hollow_hold', 'coreHollow', 'hollow_rock', 'coreHollow?'])] },
+      plank: { label: 'Planks & sides', short: 'Plank', blocks: [S('Planks & sides', ['plank', 'side_plank', 'coreAnti', 'coreRot?'])] },
+    },
+  },
+].map((c) => ({ ...c, added: 23, catalogue: 13 }));
+CONFIGS.push(...P23_CORE);
+
 // Phase 23: the new programs' ids in shelf order, appended to programs.config.js's ORDER after every older program
-CONFIGS.order23 = [];
+CONFIGS.order23 = P23_CORE.map((c) => c.id);
 module.exports = CONFIGS;
