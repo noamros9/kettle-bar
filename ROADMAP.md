@@ -2,7 +2,7 @@
 
 The index: where we are, what comes next, and the two phases being built now. Every other phase's decisions live at the
 top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase comes up. Decision numbers are global
-(the next one is **321**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
+(the next one is **323**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
 ## Resume here (11 Oct 2026, morning)
 - **Phase 23 is building** (new fitness programs): tickets 1, 2, 1c, 3–10 and 9b merged (#352–#354, #360–#362,
@@ -87,6 +87,8 @@ Numbered 20 because 19 is super programs.
 - **Cut the test and CI times** ([#265](https://github.com/noamros9/kettle-bar/issues/265)). Already done: only the
   affected UI specs run locally; the sync tests run ~35% faster; CI runs in Playwright's image and cancels older runs;
   Markdown-only commits skip the tests. More workers don't help on 2 cores.
+  **322 ·** Next after Phase 23: a build cache that reuses a program's days while its config and catalogue are
+  unchanged (the pins already hash them), so a build does only new or changed programs; planned by our method then. *(11 Oct)*
 
 ## Decided against (don't re-suggest)
 - **Logging weights or reps per set**: done / not done only.

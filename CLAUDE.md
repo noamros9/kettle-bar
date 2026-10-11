@@ -94,7 +94,9 @@ read only when needed. Decisions with a long "why": [docs/adr/](docs/adr/).
     `npx playwright test tests-ui/<the ticket's spec>.spec.js tests-ui/renders.spec.js --project=phone-light`. The
     specs mapped to the changed modules and the **full suite, light and dark, run in CI on the PR, and the ticket
     merges only when that run is green**. A new spec or module still gets its line in `scripts/ui-affected.js`'s MAP
-    (`npm run test:ui:affected` stays for a wider local run when a change is risky);
+    (`npm run test:ui:affected` stays for a wider local run when a change is risky). These runs build the whole library
+    first, the one exception to decision 312 (over 4 min at 1,000 programs, so Playwright waits up to 600 s, decision
+    321): start them in the background and run nothing else heavy meanwhile;
   - when programs could be affected: `rm -rf data && node build.js` on main and on the branch, `diff -r` shows only
     new program files, and no existing pin in `tests/fixtures/program-days.json` changes (never re-pin);
   - `index.html` stays under the 1 MB gzip gate (Noam, 6 Oct 2026: Phase 22 ticket 1b moves the build's check to it);
