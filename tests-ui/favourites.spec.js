@@ -34,17 +34,17 @@ test('hide a subject in Settings: no chip, no shelf, not counted; showing it aga
   const yoga = CONFIGS.filter((c) => c.subject === 'Yoga').length;
   await app.open('#settings');
   const group = app.page.getByRole('group', { name: 'Hide Mind & body subjects' });
-  await group.getByRole('button', { name: 'Yoga' }).click();
-  await expect(group.getByRole('button', { name: 'Yoga' })).toHaveAttribute('aria-pressed', 'true');
+  await group.getByRole('button', { name: 'Yoga', exact: true }).click(); // not Power yoga, Yin yoga or Yoga flow (Phase 23)
+  await expect(group.getByRole('button', { name: 'Yoga', exact: true })).toHaveAttribute('aria-pressed', 'true');
   expect(await app.sidewaysScroll()).toBe(0);
 
   await app.go('#programs');
   await expect(app.page.locator('.eyebrow').first()).toHaveText(`${CONFIGS.length - yoga} programs`);
-  await expect(subjects(app).getByRole('button', { name: /^Yoga/ })).toHaveCount(0);
+  await expect(subjects(app).getByRole('button', { name: /^Yoga \d+$/ })).toHaveCount(0);
   await expect(app.page.locator('.pgroup h2', { hasText: /^Yoga$/ })).toHaveCount(0);
 
   await app.go('#settings');
-  await app.page.getByRole('group', { name: 'Hide Mind & body subjects' }).getByRole('button', { name: 'Yoga' }).click();
+  await app.page.getByRole('group', { name: 'Hide Mind & body subjects' }).getByRole('button', { name: 'Yoga', exact: true }).click();
   await app.go('#programs');
   await expect(app.page.locator('.eyebrow').first()).toHaveText(`${CONFIGS.length} programs`);
 });

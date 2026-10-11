@@ -96,8 +96,8 @@
     ['strength', 'Get stronger', ['Signature', 'Strength', 'Pull-ups', 'Legs & glutes', 'Kettlebell only', 'Bodyweight', 'Busy week', 'Grip & forearms', 'Kettlebell complexes', 'Climber / pull strength', 'Chest', 'Back', 'Shoulders', 'Arms', 'Hips & adductors', 'Calves & lower legs', 'Neck & traps', 'Beach body', 'Hip power & thrust', 'Carry & hold', 'Strip & show-off']],
     ['fitness', 'Fitness & cardio', ['Conditioning', 'HIIT', 'Plyometrics', 'Running prep', 'Court & field sports', 'Bedroom stamina', 'Endurance & control', 'Quickie']],
     ['fight', 'Fighting skills', ['Boxing', 'Kickboxing', 'Fighter']],
-    ['flex', 'Flexibility & mobility', ['Yoga', 'Pilates', 'Flexibility', 'Mobility & posture', 'Sex positions', 'Flexible & bendy']],
-    ['balance', 'Core, balance & sport', ['Core & abs', 'Balance & stability', 'Athlete']],
+    ['flex', 'Flexibility & mobility', ['Yoga', 'Pilates', 'Power yoga', 'Yin yoga', 'Yoga flow', 'Kettlebell Pilates', 'Flexibility', 'Mobility & posture', 'Sex positions', 'Flexible & bendy']],
+    ['balance', 'Core, balance & sport', ['Core & abs', 'Mat core', 'Balance & stability', 'Athlete']],
     ['gentle', 'Gentle, or a sore back', ['Gentle / low impact', 'Back care', 'Calm strength', 'Back & knees care']],
     ['mix', 'A bit of everything', ['Balanced week', 'Strength & stretch', 'Variety']],
     ['couple', 'For two, after dark', ['Couples', 'Her pleasure', 'Date night warm-up', 'Positions tour', 'Morning glory / Sunday', 'Explicit', 'Rough', 'Kink-lite', 'Body play', 'Rimming', 'Edging', 'Massage', 'Strip and tease', 'Shower and bath', 'Pool', 'Hot tub', 'Balcony', 'Doorframe']], // Phase 18: couples, and the solo training that's for her; Explicit (Phase 20); Rough and Kink-lite (Phase 22); Body play and Rimming (Phase 22); Edging and Massage (Phase 22); Strip and tease, and Shower and bath (Phase 22); Pool and Hot tub (Phase 22); Balcony and Doorframe (Phase 22)
