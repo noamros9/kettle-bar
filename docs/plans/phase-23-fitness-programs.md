@@ -35,6 +35,8 @@ decisions is today's catalogue 13 (renumbered by 105).
   cloud machine, 312); the 1 MB page gate may be raised if the library needs it. *(10 Oct)*
 - **318 · The new programs stay out of Build your own and random workouts until the close**: the recipe book skips
   `added: 23` (`HELD` in `recipe-book.js`), so those screens don't shift every ticket; ticket 13 lets them all in. *(10 Oct)*
+- **321 · Local UI runs wait up to 600 s for the build** (was 240): at 1,000 programs the whole-library build alone
+  passed 240 s on the 2-core machine; CI builds in its own step and is unaffected. *(11 Oct)*
 
 **More Yoga, Pilates and Variety** ([#216](https://github.com/noamros9/kettle-bar/issues/216), grilled 8 Oct)
 - **230 · #216 is built in this phase**, in its Yoga, Pilates and Variety tickets. *(8 Oct)*
