@@ -216,6 +216,14 @@ const IDS = [
     // Phase 23 ticket 6, continued: Core & abs (mind-body.js, after the cardio family file)
     'core-volume', 'core-month', 'floor-core-long',
     'bell-core-long', 'weighted-core-month', 'core-circuit-plus', 'core-emom-express', 'hollow-and-plank-express',
+    // Phase 23 ticket 9: Yoga, Pilates, Back care (mind-body.js)
+    'yoga-volume', 'vinyasa-long', 'hip-opening-long', 'arm-balance-yoga', 'yin-yang-yoga',
+    'yoga-month', 'twist-and-bend-month', 'yoga-35', 'moon-flow', 'yoga-core-35',
+    'balance-month', 'yoga-express', 'twist-and-fold', 'bedtime-yoga', 'pilates-volume',
+    'advanced-mat', 'pilates-long-flow', 'side-and-back-pilates', 'pilates-power-long', 'pilates-month',
+    'pilates-35', 'pilates-core-month', 'pilates-glute-35', 'pilates-express', 'standing-wall-pilates',
+    'pilates-quick-core', 'back-care-long', 'back-care-month', 'strong-back-plus', 'back-reset-35',
+    'back-care-express',
     // Phase 23 ticket 8, continued: Fighter (mixed.js, the last family file)
     'fighter-volume', 'fighter-month', 'cage-strength', 'bell-fighter', 'fighter-35',
     'fighter-flow-35', 'fighter-express',
