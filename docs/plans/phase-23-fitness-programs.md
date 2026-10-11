@@ -105,7 +105,7 @@ decisions is today's catalogue 13 (renumbered by 105).
 | 8 | Combat +20 | content | 1 | `content/p23-combat` | done (PR #369) |
 | 1c | Yoga and Pilates exercises doubled, catalogue 14 (235, 237) | content | – | `content/p23-yoga-pilates-ex` | done (PR #354) |
 | 9 | Yoga, Pilates, Back care +31 | content | 1, 1c | `content/p23-yoga-pilates` | done (PR #370) |
-| 9b | Five new Yoga and Pilates subjects +40 | content | 1c, 9 | `content/p23-yoga-pilates-new` | todo |
+| 9b | Five new Yoga and Pilates subjects +40 | content | 1c, 9 | `content/p23-yoga-pilates-new` | done (PR #371) |
 | 10 | Mobility & care +23 | content | 1 | `content/p23-mobility` | todo |
 | 11 | Mixed +29 | content | 1 | `content/p23-mixed` | todo |
 | 12 | Variety +15 | content | 1 | `content/p23-variety` | todo |

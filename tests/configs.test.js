@@ -224,6 +224,15 @@ const IDS = [
     'pilates-35', 'pilates-core-month', 'pilates-glute-35', 'pilates-express', 'standing-wall-pilates',
     'pilates-quick-core', 'back-care-long', 'back-care-month', 'strong-back-plus', 'back-reset-35',
     'back-care-express',
+    // Phase 23 ticket 9b: Power yoga, Yin yoga, Yoga flow, Mat core, Kettlebell Pilates (mind-body.js)
+    'power-yoga-volume', 'power-yoga-month', 'power-yoga-ladder', 'twisting-power', 'power-yoga-35',
+    'power-core-month', 'power-yoga-express', 'power-yoga-20', 'yin-volume', 'yin-month',
+    'yin-and-breath', 'yin-full-body', 'yin-35', 'yin-whole-month', 'yin-express',
+    'yin-before-bed', 'joint-flow-volume', 'joint-flow-month', 'morning-joint-flow', 'spine-and-hip-flow',
+    'yoga-flow-35', 'flow-and-balance-month', 'joint-flow-express', 'desk-joint-flow', 'mat-core-volume',
+    'mat-core-month', 'teaser-builder', 'oblique-mat', 'mat-core-35', 'deep-core-month',
+    'mat-core-express', 'mat-core-15', 'bell-pilates-volume', 'bell-pilates-month', 'bell-pilates-full',
+    'bell-pilates-strength', 'bell-pilates-35', 'bell-pilates-core-month', 'bell-pilates-express', 'bell-pilates-15',
     // Phase 23 ticket 8, continued: Fighter (mixed.js, the last family file)
     'fighter-volume', 'fighter-month', 'cage-strength', 'bell-fighter', 'fighter-35',
     'fighter-flow-35', 'fighter-express',

@@ -1572,6 +1572,465 @@ const P23_BACK = [
 ].map((c) => ({ ...c, added: 23, catalogue: 13 }));
 CONFIGS.push(...P23_YP, ...P23_BACK);
 
+// Phase 23 ticket 9b: five new subjects of 8 (decision 232), at catalogue 14 (237): Power yoga, Yin yoga and Yoga flow
+// on the Yoga side, Mat core and Kettlebell Pilates on the Pilates side. Ticket 3's spread, a fifth at 30 days, no gear
+// but Kettlebell Pilates (one bell, every day), no abs finisher.
+const YIN = (title, slots, scale = 3) => F(title, slots, { scale, cap: 180, values: [1] });
+const P23_YP_NEW = [
+  // Power yoga +8
+  {
+    id: 'power-yoga-volume', name: 'Power Yoga Volume', subject: 'Power yoga', minutes: P23_LONG, equip: 'bw', absSlots: [], levers: [null, 'variation', 'holds'],
+    split: 'Standing power / arm strength / balance power', blurb: 'Three strong yoga practices: standing power, arm strength, then balance.',
+    about: 'Yoga that makes you sweat. Each practice opens with sun salutations, then long standing sequences one day, chaturangas, planks and arm balances the next, and powerful balances the third. Three days rotate and each closes with a short rest. Level II brings harder poses and Level III holds them longer.',
+    names: ['Blaze Flow', 'Ember Flow', 'Kindle', 'Torchlight', 'Furnace Flow', 'Hearth', 'Bonfire Flow', 'Firewalk', 'Heatwave', 'Scorch', 'Sear', 'Smoulder', 'Glow Flow', 'Radiant', 'Incandescent', 'White Heat', 'Red Hot', 'Molten', 'Lava', 'Magma'],
+    cycle: ['stand', 'arms', 'balance'],
+    dayTypes: {
+      stand: { label: 'Standing power', short: 'Stand', blocks: [SUN, SUN, F('Standing power', ['warrior_flow', 'ygStand', 'ygStand', 'chair_pose', 'ygStand', 'ygStand', 'ygStand']), F('Standing power 2', ['crescent_lunge', 'ygStand', 'ygStand', 'ygBalance']), F('Rest', ['ygRest', 'ygRest'])] },
+      arms: { label: 'Arm strength', short: 'Arms', blocks: [SUN, SUN, F('Arm strength', ['chaturanga', 'plank', 'ygCore', 'ygCore', 'crow_pose', 'ygCore', 'ygCore']), F('Standing', ['ygStand', 'ygStand', 'ygBalance', 'ygStand']), F('Rest', ['ygRest', 'ygRest'])] },
+      balance: { label: 'Balance power', short: 'Balance', blocks: [SUN, SUN, F('Balance power', ['ygStand', 'ygBalance', 'ygBalance', 'ygStand', 'ygBalance', 'ygBalance', 'ygStand']), F('Core', ['ygCore', 'ygCore', 'ygCore']), F('Rest', ['ygRest', 'ygRest'])] },
+    },
+  },
+  {
+    id: 'power-yoga-month', name: 'Power Yoga Month', subject: 'Power yoga', days: 30, minutes: P23_LONG, equip: 'bw', absSlots: [], levers: [null, 'variation', 'variation'],
+    split: 'Power flow & core / power flow & backbends, 30 days', blurb: 'A month of strong yoga: a power flow with core, or with backbends.',
+    about: 'A month of power yoga. Every day opens with sun salutations and a long standing flow; then core work one day and backbends the next, with a short rest to close. They alternate. Every ten days the level steps up. Both later levels bring harder poses.',
+    names: ['Fire Month', 'Heat Week', 'Burn Day', 'Sweat Day', 'Strong Day', 'Steady Heat', 'Rising Heat', 'Full Heat', 'Peak Heat', 'Cool Down Day', 'Ignite', 'Fuel', 'Stoke', 'Fan the Flame', 'Keep Burning', 'Slow Burn Yoga', 'Long Burn', 'Afterburn Yoga', 'Embers Glow', 'Coals'],
+    cycle: ['core', 'back'],
+    dayTypes: {
+      core: { label: 'Power flow & core', short: 'Core', blocks: [SUN, SUN, F('Power flow', ['ygStand', 'ygStand', 'chair_pose', 'ygStand', 'ygBalance', 'ygStand', 'ygStand']), F('Core', ['ygCore', 'ygCore', 'ygCore', 'ygCore']), F('Rest', ['ygRest', 'ygRest'])] },
+      back: { label: 'Power flow & backbends', short: 'Back', blocks: [SUN, SUN, F('Power flow', ['crescent_lunge', 'ygStand', 'ygStand', 'ygStand', 'ygBalance', 'ygStand', 'ygStand']), F('Backbends', ['ygBack', 'ygBack', 'ygBack', 'ygBack']), F('Rest', ['ygRest', 'ygRest'])] },
+    },
+  },
+  {
+    id: 'power-yoga-ladder', name: 'Power Yoga Ladder', subject: 'Power yoga', minutes: P23_LONG, equip: 'bw', absSlots: [], levers: [null, 'holds', 'variation'],
+    split: 'Building flows A / B', blurb: 'Power yoga that builds: each flow adds a pose and goes round again.',
+    about: 'A practice that grows as you go. Sun salutations, then a short standing flow; then the same flow with more poses added, then more again, before core and a rest. Two practices alternate. Level II holds every pose longer and Level III brings harder poses.',
+    names: ['Rung One', 'Rung Two', 'Rung Three', 'Build Up', 'Stack Up', 'Add On', 'Layer', 'Tier One', 'Tier Two', 'Tier Three', 'Grow', 'Climb', 'Ascend', 'Mount', 'Rise', 'Elevate', 'Raise', 'Lift Off', 'Higher', 'Top Rung'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Building flow A', short: 'A', blocks: [SUN, F('Flow 1', ['ygStand', 'ygStand', 'ygStand']), F('Flow 2', ['ygStand', 'ygStand', 'ygStand', 'ygBalance', 'ygStand']), F('Flow 3', ['ygStand', 'ygStand', 'ygBalance', 'ygStand', 'ygStand', 'ygBalance', 'ygStand']), F('Core & rest', ['ygCore', 'ygCore', 'ygRest'])] },
+      b: { label: 'Building flow B', short: 'B', blocks: [SUN, F('Flow 1', ['ygStand', 'ygBalance', 'ygStand']), F('Flow 2', ['ygStand', 'ygStand', 'ygBalance', 'ygStand', 'ygStand']), F('Flow 3', ['ygStand', 'ygBalance', 'ygStand', 'ygStand', 'ygBalance', 'ygStand', 'ygStand']), F('Backbend & rest', ['ygBack', 'ygBack', 'ygRest'])] },
+    },
+  },
+  {
+    id: 'twisting-power', name: 'Twisting Power', subject: 'Power yoga', minutes: P23_LONG, equip: 'bw', absSlots: [], levers: [null, 'variation', 'holds'],
+    split: 'Twisting power flow / lunge & warrior power flow', blurb: 'Strong flows with deep twists one day, lunges and warriors the next.',
+    about: 'Power yoga with a theme each day. One practice drives through twisting chairs, revolved lunges and revolved triangles; the other through crescent lunges, warriors and humble warrior. Both open with sun salutations and close with core and a rest. They alternate. Level II brings harder poses and Level III holds them longer.',
+    names: ['Cyclone Flow', 'Typhoon', 'Hurricane', 'Tornado', 'Gyre Flow', 'Swirl Flow', 'Spin Flow', 'Torque Flow', 'Wrung', 'Spiral Flow', 'Lunge Line', 'Warrior Line', 'Front Line', 'Battle Line', 'Shield Wall', 'Spear', 'Lance', 'Sabre', 'Rapier', 'Scimitar'],
+    cycle: ['twist', 'warrior'],
+    dayTypes: {
+      twist: { label: 'Twisting power', short: 'Twist', blocks: [SUN, SUN, F('Twisting flow', ['twisting_chair', 'revolved_crescent', 'ygStand', 'revolved_triangle', 'prayer_twist', 'ygStand', 'revolved_side_angle']), F('Core', ['ygCore', 'ygCore', 'ygCore']), F('Rest', ['supine_twist', 'ygRest'])] },
+      warrior: { label: 'Lunge & warrior power', short: 'Warrior', blocks: [SUN, SUN, F('Warrior flow', ['crescent_lunge', 'warrior_one', 'warrior_two', 'humble_warrior', 'ygStand', 'ygStand', 'ygStand']), F('Core', ['ygCore', 'ygCore', 'ygCore']), F('Rest', ['ygRest', 'ygRest'])] },
+    },
+  },
+  {
+    id: 'power-yoga-35', name: 'Power Yoga 35', subject: 'Power yoga', minutes: P23_MID, equip: 'bw', absSlots: [], levers: [null, 'variation', 'variation'],
+    split: 'Power flow A / B, 35 minutes', blurb: 'Thirty-five minutes of strong, flowing yoga.',
+    about: 'Power yoga for about half an hour. Sun salutations, a strong standing flow, core poses and a short rest. Two practices alternate, so the poses change. Both later levels bring harder poses.',
+    names: ['Spark Flow', 'Strike', 'Flare Up', 'Kindling Flow', 'Matchstick', 'Fuse Flow', 'Short Fuse', 'Live Coal', 'Hot Spot', 'Flashfire', 'Heat Up', 'Warm Up Flow', 'Fire Up', 'Light Up', 'Power Up', 'Charge Up', 'Rev Up', 'Gear Up', 'Step Up', 'Fire Away'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Power flow A', short: 'A', blocks: [SUN, SUN, F('Standing', ['ygStand', 'ygStand', 'chair_pose', 'ygStand', 'ygBalance', 'ygStand']), F('Core', ['ygCore', 'ygCore', 'ygCore']), F('Rest', ['ygRest'])] },
+      b: { label: 'Power flow B', short: 'B', blocks: [SUN, SUN, F('Standing', ['crescent_lunge', 'ygStand', 'ygStand', 'ygBalance', 'ygStand', 'ygStand']), F('Core', ['ygCore', 'ygCore', 'ygCore']), F('Rest', ['ygRest'])] },
+    },
+  },
+  {
+    id: 'power-core-month', name: 'Power Core Month', subject: 'Power yoga', days: 30, minutes: P23_MID, equip: 'bw', absSlots: [], levers: [null, 'holds', 'variation'],
+    split: 'Core power / standing power, 30 days', blurb: 'A month of power yoga: core-heavy days and standing-heavy days in turn.',
+    about: 'A month that alternates the centre and the legs. One day is planks, boats, dolphin and arm balances after the sun salutations; the other is long standing poses and balances. They alternate. Every ten days the level steps up. Level II holds every pose longer and Level III brings harder poses.',
+    names: ['Plank Month', 'Boat Month', 'Dolphin Month', 'Crow Month', 'Chair Month', 'Warrior Month', 'Lunge Month', 'Tree Month', 'Eagle Month', 'Moon Month', 'Strong Centre', 'Strong Legs', 'Strong Arms', 'Strong Back', 'Strong Breath', 'Strong Focus', 'Strong Hold', 'Strong Flow', 'Strong Finish', 'Strong Start'],
+    cycle: ['core', 'stand'],
+    dayTypes: {
+      core: { label: 'Core power', short: 'Core', blocks: [SUN, SUN, F('Core power', ['plank', 'ygCore', 'ygCore', 'ygCore', 'ygCore', 'ygCore']), F('Standing', ['ygStand', 'ygStand', 'ygBalance']), F('Rest', ['ygRest'])] },
+      stand: { label: 'Standing power', short: 'Stand', blocks: [SUN, SUN, F('Standing power', ['ygStand', 'ygStand', 'ygBalance', 'ygStand', 'ygStand', 'ygBalance']), F('Core', ['ygCore', 'ygCore']), F('Rest', ['ygRest'])] },
+    },
+  },
+  {
+    id: 'power-yoga-express', name: 'Power Yoga Express', subject: 'Power yoga', minutes: [22, 27], equip: 'bw', absSlots: [], levers: [null, 'variation', 'holds'],
+    split: 'Sun & standing / sun & core, short', blurb: 'Short power yoga: sun salutations, then standing poses or core.',
+    about: 'Power yoga in a short slot. Sun salutations, then a quick standing flow one day and a core sequence the next. They alternate. Level II brings harder poses and Level III holds them longer.',
+    names: ['Quick Fire', 'Fast Flame', 'Hot Minute', 'Flash Flow', 'Rapid Flow', 'Swift Flow', 'Short Burn', 'Mini Blaze', 'Pocket Fire', 'Lunch Fire', 'Break Fire', 'Desk Fire', 'Morning Fire', 'Noon Fire', 'Dusk Fire', 'Night Fire', 'Spark Plug Flow', 'Pilot Light', 'Tealight', 'Matchlight'],
+    cycle: ['stand', 'core'],
+    dayTypes: {
+      stand: { label: 'Sun & standing', short: 'Stand', blocks: [SUN, SUN, F('Standing', ['ygStand', 'ygStand', 'ygBalance', 'ygStand', 'ygStand?', 'ygStand?']), F('Rest', ['ygRest'])] },
+      core: { label: 'Sun & core', short: 'Core', blocks: [SUN, SUN, F('Core', ['ygCore', 'ygCore', 'ygCore', 'ygCore', 'ygCore?', 'ygCore?']), F('Rest', ['ygRest'])] },
+    },
+  },
+  {
+    id: 'power-yoga-20', name: 'Power Yoga 20', subject: 'Power yoga', minutes: [18, 22], equip: 'bw', absSlots: [], levers: [null, 'variation', 'variation'],
+    split: 'Twenty-minute power flow A / B', blurb: 'Twenty minutes of strong yoga: salutations and a standing flow.',
+    about: 'Power yoga in twenty minutes. Sun salutations, then a standing flow with a balance or two, and a brief rest. Two practices alternate. Both later levels bring harder poses.',
+    names: ['Twenty Flow', 'Score', 'Twenty Fire', 'Twenty Heat', 'Twenty Burn', 'Twenty Sweat', 'Twenty Strong', 'Twenty Steady', 'Twenty Bright', 'Twenty Bold', 'Twenty Brave', 'Twenty Fierce', 'Twenty Keen', 'Twenty Sharp', 'Twenty Quick', 'Twenty Swift', 'Twenty Lively', 'Twenty Zest', 'Twenty Pep', 'Twenty Vim'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Power flow A', short: 'A', blocks: [SUN, F('Standing', ['ygStand', 'ygStand', 'ygBalance', 'ygStand']), F('Rest', ['ygRest'])] },
+      b: { label: 'Power flow B', short: 'B', blocks: [SUN, F('Standing', ['ygStand', 'ygBalance', 'ygStand', 'ygStand']), F('Rest', ['ygRest'])] },
+    },
+  },
+  // Yin yoga +8
+  {
+    id: 'yin-volume', name: 'Yin Volume', subject: 'Yin yoga', minutes: P23_LONG, equip: 'bw', absSlots: [], levers: [null, 'holds', 'holds'],
+    split: 'Hips / spine / legs & shoulders', blurb: 'Three long yin practices: the hips, the spine, then legs and shoulders.',
+    about: 'Long, quiet yin practices of a few poses held for minutes each. Dragon, frog and sleeping swan open the hips; caterpillar, saddle and melting heart the spine; shoelace, square and deer the legs and shoulders. Three days rotate and each ends in a long rest. Both later levels hold every pose longer.',
+    names: ['Stillness', 'Silence', 'Quiet', 'Hush Pose', 'Calm', 'Serene', 'Tranquil', 'Placid', 'Peace', 'Ease', 'Rest Easy', 'Let Be', 'Surrender', 'Yield', 'Soften Pose', 'Melt', 'Sink', 'Settle Pose', 'Drift Pose', 'Float Pose'],
+    cycle: ['hips', 'spine', 'legs'],
+    dayTypes: {
+      hips: { label: 'Yin hips', short: 'Hips', blocks: [YIN('Hip holds', ['ygYinHips', 'ygYinHips', 'ygYinHips', 'ygYinHips', 'ygYinHips?', 'ygYinHips?', 'ygYinHips?', 'ygYinHips?', 'ygYinHips?'], 4), YIN('Rest', ['ygRest', 'ygRest'], 2)] },
+      spine: { label: 'Yin spine', short: 'Spine', blocks: [YIN('Spine holds', ['ygYinSpine', 'ygYinSpine', 'ygYinSpine', 'ygYinSpine', 'ygYinSpine?', 'ygYinSpine?', 'ygYinSpine?', 'ygYinSpine?', 'ygYinSpine?'], 4), YIN('Rest', ['ygRest', 'ygRest'], 2)] },
+      legs: { label: 'Yin legs & shoulders', short: 'Legs', blocks: [YIN('Leg & shoulder holds', ['ygYin', 'ygYin', 'ygYin', 'ygYin', 'ygYin?', 'ygYin?', 'ygYin?', 'ygYin?', 'ygYin?'], 4), YIN('Rest', ['ygRest', 'ygRest'], 2)] },
+    },
+  },
+  {
+    id: 'yin-month', name: 'Yin Month', subject: 'Yin yoga', days: 30, minutes: P23_LONG, equip: 'bw', absSlots: [], levers: [null, 'holds', 'holds'],
+    split: 'Yin hips / yin spine, 30 days', blurb: 'A month of long yin holds: hips one day, spine the next.',
+    about: 'A month of slowing down. One day holds hip shapes for minutes at a time, the other spine shapes, and both end with a long rest. They alternate. Every ten days the level steps up. Both later levels hold every pose longer.',
+    names: ['New Leaf', 'Fallen Leaf', 'Pine Needle', 'Moss', 'Lichen', 'Fern', 'Frond', 'Dewdrop', 'Raindrop', 'Snowflake', 'Pond', 'Lake', 'Tarn', 'Mere', 'Loch', 'Fjord', 'Cove Still', 'Harbour', 'Haven', 'Sanctuary'],
+    cycle: ['hips', 'spine'],
+    dayTypes: {
+      hips: { label: 'Yin hips', short: 'Hips', blocks: [YIN('Hip holds', ['ygYinHips', 'ygYinHips', 'ygYinHips', 'ygYinHips', 'ygYinHips?', 'ygYinHips?', 'ygYinHips?', 'ygYinHips?', 'ygYinHips?'], 4), YIN('Rest', ['ygRest', 'ygRest'], 2)] },
+      spine: { label: 'Yin spine', short: 'Spine', blocks: [YIN('Spine holds', ['ygYinSpine', 'ygYinSpine', 'ygYinSpine', 'ygYinSpine', 'ygYinSpine?', 'ygYinSpine?', 'ygYinSpine?', 'ygYinSpine?', 'ygYinSpine?'], 4), YIN('Rest', ['ygRest', 'ygRest'], 2)] },
+    },
+  },
+  {
+    id: 'yin-and-breath', name: 'Yin and Breath', subject: 'Yin yoga', minutes: P23_LONG, equip: 'bw', absSlots: [], levers: [null, 'holds', 'holds'],
+    split: 'Yin holds & a gentle opening A / B', blurb: 'A few gentle movements, then long yin holds and a quiet close.',
+    about: 'Yin with a softer start. A short opening of cat-cow and easy hip and spine movements warms you, then five yin shapes held for minutes each, then a long rest. Two practices alternate between hips and spine. Both later levels hold every pose longer.',
+    names: ['First Breath', 'Deep Breath', 'Slow Breath', 'Long Breath', 'Soft Breath', 'Even Breath', 'Full Breath', 'Quiet Breath', 'Warm Breath', 'Cool Breath', 'Belly Breath', 'Side Breath', 'Back Breath', 'Box Breath', 'Sigh', 'Hum', 'Whisper', 'Murmur', 'Rustle', 'Breeze'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Opening & yin hips', short: 'A', blocks: [F('Opening', ['cat_cow_flow', 'mbHip', 'mbSpine', 'mbHip', 'mbHip?']), YIN('Yin holds', ['ygYinHips', 'ygYin', 'ygYinHips', 'ygYin?', 'ygYinHips?', 'ygYinHips?', 'ygYinHips?', 'ygYinHips?'], 4), YIN('Rest', ['ygRest', 'ygRest'], 2)] },
+      b: { label: 'Opening & yin spine', short: 'B', blocks: [F('Opening', ['cat_cow_flow', 'mbSpine', 'mbShoulder', 'mbSpine', 'mbSpine?']), YIN('Yin holds', ['ygYinSpine', 'ygYin', 'ygYinSpine', 'ygYin?', 'ygYinSpine?', 'ygYinSpine?', 'ygYinSpine?', 'ygYinSpine?'], 4), YIN('Rest', ['ygRest', 'ygRest'], 2)] },
+    },
+  },
+  {
+    id: 'yin-full-body', name: 'Yin Full Body', subject: 'Yin yoga', minutes: P23_LONG, equip: 'bw', absSlots: [], levers: [null, 'holds', 'holds'],
+    split: 'Whole-body yin A / B', blurb: 'Long yin practices that pass through hips, legs, spine and shoulders.',
+    about: 'Yin for the whole body in one practice. Hips first, then the legs, then the spine and shoulders, each shape held for minutes. Two orders alternate. A long rest closes every practice. Both later levels hold every pose longer.',
+    names: ['Whole', 'Entire', 'Complete', 'Total Rest', 'Full Circle', 'Round Trip', 'Head to Toe', 'Top to Tail', 'End to End', 'All Over', 'Through and Through', 'Inside Out', 'Every Joint', 'Every Limb', 'Body Map', 'Body Scan', 'Body Tour', 'Body Walk', 'Body Rest', 'Body Calm'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Whole-body yin A', short: 'A', blocks: [YIN('Hips & legs', ['ygYinHips', 'ygYin', 'ygYinHips?', 'ygYinHips?', 'ygYinHips?'], 4), YIN('Spine & shoulders', ['ygYinSpine', 'ygYin', 'ygYinSpine?', 'ygYinSpine?', 'ygYinSpine?'], 4), YIN('Rest', ['ygRest', 'ygRest'], 2)] },
+      b: { label: 'Whole-body yin B', short: 'B', blocks: [YIN('Spine & shoulders', ['ygYinSpine', 'ygYin', 'ygYinSpine?', 'ygYinSpine?', 'ygYinSpine?'], 4), YIN('Hips & legs', ['ygYinHips', 'ygYin', 'ygYinHips?', 'ygYinHips?', 'ygYinHips?'], 4), YIN('Rest', ['ygRest', 'ygRest'], 2)] },
+    },
+  },
+  {
+    id: 'yin-35', name: 'Yin 35', subject: 'Yin yoga', minutes: P23_MID, equip: 'bw', absSlots: [], levers: [null, 'holds', 'holds'],
+    split: 'Yin hips / yin spine, 35 minutes', blurb: 'Thirty-five minutes of yin: hips one day, spine the next.',
+    about: 'Yin for about half an hour. Five shapes held for minutes each, hips one day and spine the next, then a rest. They alternate. Both later levels hold every pose longer.',
+    names: ['Half Hour Still', 'Slow Half', 'Calm Half', 'Quiet Half', 'Soft Half', 'Easy Half', 'Gentle Half', 'Still Half', 'Low Light', 'Dim Light', 'Lamp Low', 'Candle Low', 'Ember Low', 'Tide Low', 'Wind Low', 'Breath Low', 'Voice Low', 'Sky Low', 'Sun Low', 'Moon Low'],
+    cycle: ['hips', 'spine'],
+    dayTypes: {
+      hips: { label: 'Yin hips', short: 'Hips', blocks: [YIN('Hip holds', ['ygYinHips', 'ygYinHips', 'ygYinHips', 'ygYinHips?', 'ygYinHips?', 'ygYinHips?', 'ygYinHips?', 'ygYinHips?', 'ygYinHips?', 'ygYinHips?'], 4), YIN('Rest', ['ygRest'], 2)] },
+      spine: { label: 'Yin spine', short: 'Spine', blocks: [YIN('Spine holds', ['ygYinSpine', 'ygYinSpine', 'ygYinSpine', 'ygYinSpine?', 'ygYinSpine?', 'ygYinSpine?', 'ygYinSpine?', 'ygYinSpine?', 'ygYinSpine?', 'ygYinSpine?'], 4), YIN('Rest', ['ygRest'], 2)] },
+    },
+  },
+  {
+    id: 'yin-whole-month', name: 'Yin Whole Month', subject: 'Yin yoga', days: 30, minutes: P23_MID, equip: 'bw', absSlots: [], levers: [null, 'holds', 'holds'],
+    split: 'Yin legs & hips / yin spine & shoulders / yin rest, 30 days', blurb: 'A month of yin in three practices: legs and hips, spine and shoulders, then a long rest day.',
+    about: 'A month of yin in three shapes. Legs and hips one day, spine and shoulders the next, and a third day of the gentlest shapes and the longest rest. Three days rotate. Every ten days the level steps up. Both later levels hold every pose longer.',
+    names: ['Root Day', 'Trunk Day', 'Branch Day', 'Leaf Day', 'Seed Day', 'Soil', 'Loam', 'Clay', 'Silt', 'Peat', 'Bark Day', 'Sap Day', 'Ring', 'Grain Day', 'Knot Day', 'Burl', 'Heartwood', 'Sapwood', 'Cambium', 'Pith'],
+    cycle: ['legs', 'spine', 'rest'],
+    dayTypes: {
+      legs: { label: 'Yin legs & hips', short: 'Legs', blocks: [YIN('Leg & hip holds', ['ygYinHips', 'ygYin', 'ygYinHips', 'ygYin?', 'ygYinHips?', 'ygYinHips?', 'ygYinHips?', 'ygYinHips?'], 4), YIN('Rest', ['ygRest'], 2)] },
+      spine: { label: 'Yin spine & shoulders', short: 'Spine', blocks: [YIN('Spine & shoulder holds', ['ygYinSpine', 'ygYin', 'ygYinSpine', 'ygYin?', 'ygYinSpine?', 'ygYinSpine?', 'ygYinSpine?', 'ygYinSpine?'], 4), YIN('Rest', ['ygRest'], 2)] },
+      rest: { label: 'Yin rest', short: 'Rest', blocks: [YIN('Gentle holds', ['ygYinSpine', 'ygYinHips', 'ygYinSpine', 'ygYinHips?', 'ygYinSpine?', 'ygYinHips?', 'ygYinSpine?', 'ygYinSpine?'], 4), YIN('Long rest', ['ygRest', 'ygRest'], 4)] },
+    },
+  },
+  {
+    id: 'yin-express', name: 'Yin Express', subject: 'Yin yoga', minutes: [22, 27], equip: 'bw', absSlots: [], levers: [null, 'holds', 'holds'],
+    split: 'Yin hips / yin spine, short', blurb: 'Short yin: four long holds and a rest.',
+    about: 'Yin in under half an hour. Four shapes held for minutes each, hips one day and spine the next, then a rest. They alternate. Both later levels hold every pose longer.',
+    names: ['Short Still', 'Brief Calm', 'Small Quiet', 'Pocket Peace', 'Pause Pose Yin', 'Stop', 'Rest Stop', 'Lay-by', 'Halt', 'Standstill', 'Idle', 'Moor', 'Anchor Yin', 'Dock', 'Berth', 'Mooring', 'Haven Yin', 'Shelter', 'Refuge', 'Retreat'],
+    cycle: ['hips', 'spine'],
+    dayTypes: {
+      hips: { label: 'Yin hips', short: 'Hips', blocks: [YIN('Hip holds', ['ygYinHips', 'ygYinHips', 'ygYinHips?', 'ygYinHips?', 'ygYinHips?', 'ygYinHips?', 'ygYinHips?', 'ygYinHips?'], 4), YIN('Rest', ['ygRest'], 2)] },
+      spine: { label: 'Yin spine', short: 'Spine', blocks: [YIN('Spine holds', ['ygYinSpine', 'ygYinSpine', 'ygYinSpine?', 'ygYinSpine?', 'ygYinSpine?', 'ygYinSpine?', 'ygYinSpine?', 'ygYinSpine?'], 4), YIN('Rest', ['ygRest'], 2)] },
+    },
+  },
+  {
+    id: 'yin-before-bed', name: 'Yin Before Bed', subject: 'Yin yoga', minutes: [18, 22], equip: 'bw', absSlots: [], levers: [null, 'holds', 'holds'],
+    split: 'Bedtime yin A / B, short', blurb: 'Twenty minutes of yin before sleep: three long holds and a rest.',
+    about: 'Yin for the end of the day. Three gentle shapes held for minutes each, then a long rest on your back. Two practices alternate. Both later levels hold every pose longer.',
+    names: ['Moon Rest', 'Star Rest', 'Night Rest', 'Late Rest', 'Bed Rest', 'Pillow Rest', 'Quilt Rest', 'Dream Rest', 'Sleep Rest', 'Snooze Rest', 'Dusk Rest', 'Dark Rest', 'Owl Rest', 'Hush Rest', 'Lull', 'Lullaby Yin', 'Nod', 'Doze Yin', 'Slumber Yin', 'Goodnight'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Bedtime yin A', short: 'A', blocks: [YIN('Holds', ['ygYinHips', 'ygYinSpine', 'ygYinHips?', 'ygYinHips?', 'ygYinSpine?', 'ygYinHips?', 'ygYinHips?'], 4), YIN('Rest', ['ygRest'], 3)] },
+      b: { label: 'Bedtime yin B', short: 'B', blocks: [YIN('Holds', ['ygYinSpine', 'ygYinHips', 'ygYinSpine?', 'ygYinSpine?', 'ygYinHips?', 'ygYinSpine?', 'ygYinSpine?'], 4), YIN('Rest', ['ygRest'], 3)] },
+    },
+  },
+  // Yoga flow +8
+  {
+    id: 'joint-flow-volume', name: 'Joint Flow Volume', subject: 'Yoga flow', minutes: P23_LONG, equip: 'bw', absSlots: [], levers: [null, 'holds', 'variation'],
+    split: 'Hips & knees / spine / shoulders & wrists', blurb: 'Long yoga flows joint by joint: hips and knees, the spine, then shoulders and wrists.',
+    about: 'Yoga that moves each joint through all it can do. Hip circles, shin-box and lunges for the hips and knees; cat-cow, spinal waves and twists for the spine; wrist rocks, threading the needle and shoulder openers for the upper body. Three days rotate and each ends with a rest. Level II holds every pose longer and Level III brings harder poses.',
+    names: ['Hinge Joint', 'Ball Socket', 'Pivot Joint', 'Saddle Joint', 'Gliding', 'Condyle', 'Knee Cap', 'Elbow Joint', 'Wrist Joint', 'Ankle Joint', 'Hip Joint', 'Shoulder Joint', 'Neck Joint', 'Spine Joint', 'Jaw Joint', 'Toe Joint', 'Finger Joint', 'Cartilage', 'Ligament', 'Synovial'],
+    cycle: ['hips', 'spine', 'shoulders'],
+    dayTypes: {
+      hips: { label: 'Hips & knees', short: 'Hips', blocks: [F('Hip circles', ['mbHip', 'mbHip', 'mbHip', 'mbHip']), F('Hip flow', ['low_lunge', 'ygHips', 'skandasana', 'ygHips', 'garland_pose', 'ygHips']), F('Standing', ['ygStand', 'ygStand', 'ygBalance']), F('Rest', ['ygRest', 'ygRest'])] },
+      spine: { label: 'Spine', short: 'Spine', blocks: [F('Spine waves', ['cat_cow_flow', 'mbSpine', 'mbSpine', 'mbSpine']), F('Spine flow', ['ygStand', 'ygFloor', 'ygBack', 'ygFloor', 'ygBack', 'ygFloor']), F('Standing', ['ygStand', 'prayer_twist', 'ygStand']), F('Rest', ['supine_twist', 'ygRest'])] },
+      shoulders: { label: 'Shoulders & wrists', short: 'Shoulders', blocks: [F('Shoulder circles', ['mbShoulder', 'mbShoulder', 'mbShoulder', 'mbShoulder']), F('Upper flow', ['fxUpper', 'ygCore', 'fxUpper', 'ygStand', 'fxUpper', 'ygCore']), F('Standing', ['ygStand', 'ygStand', 'ygBalance']), F('Rest', ['ygRest', 'ygRest'])] },
+    },
+  },
+  {
+    id: 'joint-flow-month', name: 'Joint Flow Month', subject: 'Yoga flow', days: 30, minutes: P23_LONG, equip: 'bw', absSlots: [], levers: [null, 'holds', 'holds'],
+    split: 'Lower-body flow / upper-body flow, 30 days', blurb: 'A month of joint-by-joint flows: lower body one day, upper body the next.',
+    about: 'A month of moving well. One day flows through ankles, knees and hips, from circles to lunges and squats; the other through the spine, shoulders and wrists. They alternate and end with a rest. Every ten days the level steps up. Both later levels hold every pose longer.',
+    names: ['Oil Can', 'Grease', 'Lubricant', 'Loosen Up', 'Free Moving', 'Smooth Running', 'Well Oiled', 'Fluid', 'Supple Joint', 'Easy Joint', 'Open Joint', 'Free Joint', 'Light Joint', 'Clear Joint', 'Swing Joint', 'Glide Joint', 'Slide Joint', 'Roll Joint', 'Spin Joint', 'Turn Joint'],
+    cycle: ['lower', 'upper'],
+    dayTypes: {
+      lower: { label: 'Lower-body flow', short: 'Lower', blocks: [F('Circles', ['mbHip', 'mbHip', 'mbHip', 'ankle_rocks']), F('Lower flow', ['low_lunge', 'ygHips', 'ygStand', 'ygHips', 'garland_pose', 'ygStand']), F('Balance', ['ygBalance', 'ygBalance', 'ygStand']), F('Rest', ['ygRest', 'ygRest'])] },
+      upper: { label: 'Upper-body flow', short: 'Upper', blocks: [F('Circles', ['mbShoulder', 'mbShoulder', 'mbSpine', 'mbSpine']), F('Upper flow', ['fxUpper', 'ygCore', 'ygBack', 'fxUpper', 'ygFloor', 'ygBack']), F('Standing', ['ygStand', 'ygStand', 'prayer_twist']), F('Rest', ['ygRest', 'ygRest'])] },
+    },
+  },
+  {
+    id: 'morning-joint-flow', name: 'Morning Joint Flow', subject: 'Yoga flow', minutes: P23_LONG, equip: 'bw', absSlots: [], levers: [null, 'holds', 'variation'],
+    split: 'Head to toe A / B', blurb: 'A long morning flow that moves every joint from the neck down to the ankles.',
+    about: 'A long morning practice that wakes every joint in order. Neck and shoulders first, then the spine, then hips, knees and ankles, then sun salutations and standing poses that use them all, and a short rest. Two orders alternate. Level II holds every pose longer and Level III brings harder poses.',
+    names: ['Neck First', 'Shoulders Next', 'Spine Third', 'Hips Fourth', 'Knees Fifth', 'Ankles Last', 'Top Down', 'Crown Down', 'Head Start', 'Toe End', 'Wake Neck', 'Wake Spine', 'Wake Hips', 'Wake Feet', 'Rise and Roll', 'Rise and Turn', 'Rise and Reach', 'Rise and Bend', 'Rise and Stand', 'Rise and Shine'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Head to toe A', short: 'A', blocks: [F('Neck & shoulders', ['chin_tucks', 'mbShoulder', 'mbShoulder', 'thread_the_needle']), F('Spine', ['cat_cow_flow', 'mbSpine', 'mbSpine']), F('Hips & legs', ['mbHip', 'mbHip', 'ankle_rocks', 'low_lunge']), SUN, F('Standing', ['ygStand', 'ygStand', 'ygBalance', 'ygStand']), F('Rest', ['ygRest'])] },
+      b: { label: 'Head to toe B', short: 'B', blocks: [F('Neck & shoulders', ['mbShoulder', 'wrist_rocks', 'mbShoulder', 'fxUpper']), F('Spine', ['mbSpine', 'cat_cow_flow', 'mbSpine']), F('Hips & legs', ['mbHip', 'ygHips', 'mbHip', 'garland_pose']), SUN, F('Standing', ['ygStand', 'ygBalance', 'ygStand', 'ygStand']), F('Rest', ['ygRest'])] },
+    },
+  },
+  {
+    id: 'spine-and-hip-flow', name: 'Spine and Hip Flow', subject: 'Yoga flow', minutes: P23_LONG, equip: 'bw', absSlots: [], levers: [null, 'holds', 'holds'],
+    split: 'Spine flow / hip flow, long', blurb: 'Long flows for the two places that stiffen most: the spine and the hips.',
+    about: 'Long, slow flows for the spine and hips. One day waves, bends and twists the spine in every direction; the other circles, lunges and squats through the hips. Both close with a rest. They alternate. Both later levels hold every pose longer.',
+    names: ['Spine Line Flow', 'Hip Line Flow', 'Wave Spine', 'Circle Hip', 'Curl Spine', 'Open Hip', 'Bend Spine', 'Turn Hip', 'Twist Spine', 'Swing Hip', 'Arch Spine', 'Drop Hip', 'Lift Spine', 'Roll Hip', 'Flow Spine', 'Ease Hip', 'Soft Spine', 'Free Hip', 'Long Spine', 'Deep Hip'],
+    cycle: ['spine', 'hips'],
+    dayTypes: {
+      spine: { label: 'Spine flow', short: 'Spine', blocks: [F('Waves', ['cat_cow_flow', 'mbSpine', 'mbSpine', 'mbSpine']), F('Bends', ['ygBack', 'ygFloor', 'ygBack', 'ygFloor', 'ygBack']), F('Twists', ['prayer_twist', 'ygStand', 'ygFloor', 'malasana_twist']), F('Rest', ['supine_twist', 'ygRest'])] },
+      hips: { label: 'Hip flow', short: 'Hips', blocks: [F('Circles', ['mbHip', 'mbHip', 'mbHip', 'mbHip']), F('Lunges & squats', ['low_lunge', 'ygHips', 'skandasana', 'garland_pose', 'ygHips']), F('Floor', ['ygHips', 'fxHips', 'ygHips', 'fxHips']), F('Rest', ['ygRest', 'ygRest'])] },
+    },
+  },
+  {
+    id: 'yoga-flow-35', name: 'Yoga Flow 35', subject: 'Yoga flow', minutes: P23_MID, equip: 'bw', absSlots: [], levers: [null, 'holds', 'variation'],
+    split: 'Lower joints / upper joints, 35 minutes', blurb: 'Thirty-five minutes of joint-by-joint yoga: lower body, or upper body.',
+    about: 'Joint-by-joint yoga for about half an hour. One day the ankles, knees and hips, the other the spine, shoulders and wrists, each moved through circles and then into poses. They alternate and close with a rest. Level II holds every pose longer and Level III brings harder poses.',
+    names: ['Lower Loop', 'Upper Loop', 'Lower Line', 'Upper Line', 'Lower Wave', 'Upper Wave', 'Lower Turn', 'Upper Turn', 'Lower Reach', 'Upper Reach', 'Lower Ease', 'Upper Ease Flow', 'Lower Calm', 'Upper Calm', 'Lower Open', 'Upper Open', 'Lower Free', 'Upper Free', 'Lower Light', 'Upper Light'],
+    cycle: ['lower', 'upper'],
+    dayTypes: {
+      lower: { label: 'Lower joints', short: 'Lower', blocks: [F('Circles', ['mbHip', 'mbHip', 'ankle_rocks', 'mbHip?', 'mbHip?']), F('Lower flow', ['low_lunge', 'ygHips', 'ygStand', 'garland_pose', 'ygStand', 'ygHips?', 'ygStand?']), F('Rest', ['ygRest', 'ygRest'])] },
+      upper: { label: 'Upper joints', short: 'Upper', blocks: [F('Circles', ['mbShoulder', 'wrist_rocks', 'mbSpine', 'mbShoulder?', 'mbSpine?']), F('Upper flow', ['fxUpper', 'ygCore', 'ygBack', 'fxUpper', 'ygStand', 'fxUpper?', 'ygCore?']), F('Rest', ['ygRest', 'ygRest'])] },
+    },
+  },
+  {
+    id: 'flow-and-balance-month', name: 'Flow and Balance Month', subject: 'Yoga flow', days: 30, minutes: P23_MID, equip: 'bw', absSlots: [], levers: [null, 'holds', 'variation'],
+    split: 'Joint flow & balance / joint flow & floor, 30 days', blurb: 'A month of joint flows, then balances one day and floor poses the next.',
+    about: 'A month of moving joints that then have to hold you. Each day opens with circles and a joint flow, then balances on one leg one day and floor poses the next, with a rest to close. They alternate. Every ten days the level steps up. Level II holds every pose longer and Level III brings harder poses.',
+    names: ['Steady Joint', 'Still Joint', 'Strong Joint', 'Calm Joint', 'Tall Joint', 'Proud Joint', 'True Joint', 'Sure Joint', 'Firm Joint', 'Solid Joint', 'Balanced Joint', 'Level Joint', 'Even Joint', 'Fair Joint', 'Fine Joint', 'Good Joint', 'Kind Joint', 'Warm Joint', 'Bright Joint', 'Clear Flow'],
+    cycle: ['balance', 'floor'],
+    dayTypes: {
+      balance: { label: 'Joint flow & balance', short: 'Balance', blocks: [F('Circles', ['mbHip', 'mbShoulder', 'mbSpine']), F('Joint flow', ['low_lunge', 'ygStand', 'ygHips', 'ygStand']), F('Balances', ['ygBalance', 'ygBalance', 'ygBalance', 'ygStand']), F('Rest', ['ygRest'])] },
+      floor: { label: 'Joint flow & floor', short: 'Floor', blocks: [F('Circles', ['mbSpine', 'mbHip', 'mbShoulder']), F('Joint flow', ['cat_cow_flow', 'ygFloor', 'ygHips', 'ygFloor']), F('Floor', ['ygFloor', 'ygHips', 'ygFloor', 'ygBack']), F('Rest', ['ygRest'])] },
+    },
+  },
+  {
+    id: 'joint-flow-express', name: 'Joint Flow Express', subject: 'Yoga flow', minutes: [20, 25], equip: 'bw', absSlots: [], levers: [null, 'holds', 'holds'],
+    split: 'Lower joints / upper joints, short', blurb: 'Short joint flows: lower body one day, upper body the next.',
+    about: 'Joint-by-joint yoga in a short slot. Circles and an easy flow for the hips, knees and ankles one day, the spine, shoulders and wrists the next, and a rest. They alternate. Both later levels hold every pose longer.',
+    names: ['Quick Joint', 'Swift Joint', 'Brisk Joint', 'Short Joint', 'Small Joint', 'Light Joint Flow', 'Easy Flow', 'Simple Flow', 'Plain Flow', 'Little Flow', 'Mini Joint', 'Pocket Joint', 'Desk Joint', 'Break Joint', 'Lunch Joint', 'Coffee Joint', 'Tea Joint', 'Dawn Joint', 'Dusk Joint', 'Night Joint'],
+    cycle: ['lower', 'upper'],
+    dayTypes: {
+      lower: { label: 'Lower joints', short: 'Lower', blocks: [F('Circles', ['mbHip', 'mbHip', 'ankle_rocks', 'mbHip?', 'mbHip?']), F('Lower flow', ['low_lunge', 'ygHips', 'garland_pose', 'ygStand', 'ygHips?', 'ygStand?']), F('Rest', ['ygRest'])] },
+      upper: { label: 'Upper joints', short: 'Upper', blocks: [F('Circles', ['mbShoulder', 'wrist_rocks', 'mbSpine', 'mbShoulder?', 'mbSpine?']), F('Upper flow', ['fxUpper', 'ygCore', 'ygBack', 'fxUpper', 'fxUpper?', 'ygCore?']), F('Rest', ['ygRest'])] },
+    },
+  },
+  {
+    id: 'desk-joint-flow', name: 'Desk Joint Flow', subject: 'Yoga flow', minutes: [13, 17], equip: 'bw', absSlots: [], levers: [null, 'holds', 'holds'],
+    split: 'Neck & shoulders / hips & spine, 15 minutes', blurb: 'Fifteen minutes for the joints a desk stiffens: neck and shoulders, or hips and spine.',
+    about: 'Fifteen minutes for a day at a desk. Neck, shoulders and wrists one day; hips and spine the next, moved through circles and a few easy poses. They alternate. Both later levels hold every pose longer.',
+    names: ['Desk Neck', 'Desk Shoulders', 'Desk Wrists', 'Desk Hips', 'Desk Spine', 'Desk Back', 'Chair Escape', 'Screen Break', 'Keyboard Break', 'Mouse Break', 'Meeting Break', 'Inbox Break', 'Call Break', 'Commute Flow', 'Office Flow', 'Cubicle Flow', 'Standing Desk', 'Home Office', 'Coffee Run', 'Water Cooler'],
+    cycle: ['upper', 'lower'],
+    dayTypes: {
+      upper: { label: 'Neck & shoulders', short: 'Upper', blocks: [F('Neck & shoulders', ['chin_tucks', 'mbShoulder', 'wrist_rocks', 'thread_the_needle', 'fxUpper']), F('Rest', ['ygRest'])] },
+      lower: { label: 'Hips & spine', short: 'Lower', blocks: [F('Hips & spine', ['cat_cow_flow', 'mbHip', 'mbSpine', 'low_lunge', 'ygHips']), F('Rest', ['ygRest'])] },
+    },
+  },
+  // Mat core +8
+  {
+    id: 'mat-core-volume', name: 'Mat Core Volume', subject: 'Mat core', minutes: P23_LONG, equip: 'bw', absSlots: [], levers: [null, 'reps', 'variation'],
+    split: 'Front core / obliques / back & control', blurb: 'Three long Pilates core sessions: the front, the sides, then the back and control.',
+    about: 'Pilates mat work with the core first, always. The abdominal series and teasers for the front; criss-cross, side bends and twists for the obliques; then swimming, swan and rolling for the back and control. Each opens with the hundred. Three days rotate. Level II adds reps and Level III brings harder moves.',
+    names: ['Navel', 'Ribcage Close', 'Pelvic Floor', 'Transverse', 'Rectus', 'Oblique Line', 'Lumbar Line', 'Hip Crest', 'Sternum Line', 'Waistline', 'Midriff', 'Abdomen', 'Trunk Line', 'Torso Line', 'Core Wall', 'Inner Corset', 'Deep Six', 'Inner Unit', 'Girdle Line', 'Engine'],
+    cycle: ['front', 'side', 'back'],
+    dayTypes: {
+      front: { label: 'Front core', short: 'Front', blocks: [F('Warm-up', ['hundred', 'roll_up'], ONCE), F('Front 1', ['plAbs', 'plAbs', 'plAbs', 'plAbs', 'plAbs', 'plAbs?', 'plAbs?']), F('Front 2', ['plAbs', 'plAbs', 'teaser_prep', 'plAbs', 'plAbs', 'plAbs?', 'plAbs?']), F('Roll', ['plRoll', 'plRoll', 'plRoll', 'plRoll', 'plRoll?', 'plRoll?'])] },
+      side: { label: 'Obliques', short: 'Side', blocks: [F('Warm-up', ['hundred', 'spine_stretch'], ONCE), F('Obliques 1', ['criss_cross', 'plSide', 'plAbs', 'plSide', 'plAbs', 'plSide?', 'plAbs?']), F('Obliques 2', ['pilates_side_bend', 'plSide', 'plAbs', 'plSide', 'plAbs', 'plSide?', 'plAbs?']), F('Roll', ['saw', 'plRoll', 'plRoll', 'plRoll', 'plRoll?', 'plRoll?'])] },
+      back: { label: 'Back & control', short: 'Back', blocks: [F('Warm-up', ['hundred', 'roll_up'], ONCE), F('Back', ['plBack', 'plBack', 'plBack', 'plBack', 'plBack', 'plBack?', 'plBack?']), F('Control', ['plRoll', 'plAbs', 'plRoll', 'plAbs', 'plRoll', 'plRoll?', 'plAbs?']), F('Abs', ['plAbs', 'plAbs', 'plAbs', 'plAbs', 'plAbs?', 'plAbs?'])] },
+    },
+  },
+  {
+    id: 'mat-core-month', name: 'Mat Core Month', subject: 'Mat core', days: 30, minutes: P23_LONG, equip: 'bw', absSlots: [], levers: [null, 'reps', 'reps'],
+    split: 'Abdominal series / core & back, 30 days', blurb: 'A month of Pilates core: the abdominal series one day, core and back the next.',
+    about: 'A month of core from the Pilates mat. One day is the full abdominal series twice over with rolling; the other mixes core with back extension and control. They alternate and open with the hundred. Every ten days the level steps up. Both later levels add reps.',
+    names: ['Core Week One', 'Core Week Two', 'Core Week Three', 'Core Week Four', 'Core Day One', 'Core Day Ten', 'Core Day Twenty', 'Core Day Thirty', 'Core Base', 'Core Build', 'Core Peak', 'Core Hold', 'Core Lift', 'Core Curl', 'Core Roll', 'Core Reach', 'Core Twist', 'Core Stretch', 'Core Breath', 'Core Finish'],
+    cycle: ['abs', 'back'],
+    dayTypes: {
+      abs: { label: 'Abdominal series', short: 'Abs', blocks: [F('Warm-up', ['hundred', 'roll_up'], ONCE), F('Series 1', ['plAbs', 'plAbs', 'plAbs', 'plAbs', 'plAbs', 'plAbs?', 'plAbs?']), F('Series 2', ['plAbs', 'plAbs', 'plAbs', 'plAbs', 'plAbs', 'plAbs?', 'plAbs?']), F('Roll', ['plRoll', 'plRoll', 'plRoll', 'plRoll', 'plRoll?', 'plRoll?'])] },
+      back: { label: 'Core & back', short: 'Back', blocks: [F('Warm-up', ['hundred', 'spine_stretch'], ONCE), F('Core', ['plAbs', 'plAbs', 'plAbs', 'plAbs', 'plAbs', 'plAbs?', 'plAbs?']), F('Back', ['plBack', 'plBack', 'plBack', 'plBack', 'plBack', 'plBack?', 'plBack?']), F('Control', ['plRoll', 'plRoll', 'plRoll', 'plAbs', 'plRoll?', 'plRoll?'])] },
+    },
+  },
+  {
+    id: 'teaser-builder', name: 'Teaser Builder', subject: 'Mat core', minutes: P23_LONG, equip: 'bw', absSlots: [], levers: [null, 'variation', 'reps'],
+    split: 'Toward the teaser A / B', blurb: 'Long Pilates core sessions that build toward the full teaser.',
+    about: 'Core work with a goal: the teaser. Chest lifts, straight-leg stretches, teaser preps and single-leg teasers build the pieces, then the full teaser and control balance test them. Two sessions alternate. Level II brings harder moves and Level III adds reps.',
+    names: ['Teaser One', 'Teaser Two', 'Teaser Three', 'Teaser Prep', 'Half Teaser', 'Full Teaser', 'V Hold', 'V Rise', 'V Lower', 'V Sit', 'Balance Point', 'Sit Bones', 'Tailbone', 'Long Legs', 'Long Arms', 'Lift Off Mat', 'Float Up', 'Hover', 'Peel Up', 'Roll Down Slow'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Toward the teaser A', short: 'A', blocks: [F('Warm-up', ['hundred', 'roll_up'], ONCE), F('Pieces', ['chest_lift', 'plAbs', 'teaser_prep', 'plAbs', 'single_leg_teaser', 'plAbs?', 'plAbs?']), F('Core', ['plAbs', 'plAbs', 'plAbs', 'plAbs', 'plAbs', 'plAbs?', 'plAbs?']), F('Test', ['teaser', 'plRoll', 'plRoll', 'plRoll', 'plRoll?', 'plRoll?'])] },
+      b: { label: 'Toward the teaser B', short: 'B', blocks: [F('Warm-up', ['hundred', 'roll_up'], ONCE), F('Pieces', ['single_straight_leg', 'double_straight_leg', 'teaser_prep', 'plAbs', 'single_leg_teaser', 'plAbs?', 'plAbs?']), F('Core & back', ['plAbs', 'plBack', 'plAbs', 'plBack', 'plAbs', 'plAbs?', 'plBack?']), F('Test', ['teaser', 'control_balance', 'plRoll', 'plRoll', 'plRoll?', 'plRoll?'])] },
+    },
+  },
+  {
+    id: 'oblique-mat', name: 'Oblique Mat', subject: 'Mat core', minutes: P23_LONG, equip: 'bw', absSlots: [], levers: [null, 'reps', 'variation'],
+    split: 'Twist & side bend / side plank & rotation', blurb: 'Long Pilates sessions for the sides of the core: twists, side bends and side planks.',
+    about: 'The obliques on the Pilates mat. One day is criss-cross, saw, spine twist, corkscrew and side bends; the other is side planks, star, hip twists and mermaid. Both open with the hundred and close with rolling. They alternate. Level II adds reps and Level III brings harder moves.',
+    names: ['Corkscrew Mat', 'Saw Mat', 'Twist Mat', 'Side Mat', 'Star Mat', 'Mermaid Mat', 'Bend Mat', 'Turn Mat', 'Wring Mat', 'Coil Mat', 'Spiral Mat', 'Helix Mat', 'Swivel Mat', 'Rotor Mat', 'Pivot Mat', 'Torque Mat', 'Wind Mat', 'Swirl Mat', 'Whirl Mat', 'Twirl Mat'],
+    cycle: ['twist', 'plank'],
+    dayTypes: {
+      twist: { label: 'Twist & side bend', short: 'Twist', blocks: [F('Warm-up', ['hundred', 'spine_stretch'], ONCE), F('Twists', ['criss_cross', 'saw', 'spine_twist', 'corkscrew', 'plAbs', 'plAbs?']), F('Side bends', ['pilates_side_bend', 'mermaid', 'plSide', 'plSide', 'plAbs', 'plSide?']), F('Roll', ['plRoll', 'plRoll', 'plRoll', 'plRoll', 'plRoll?'])] },
+      plank: { label: 'Side plank & rotation', short: 'Plank', blocks: [F('Warm-up', ['hundred', 'roll_up'], ONCE), F('Side planks', ['star_side_plank', 'plSide', 'plSide', 'plSide', 'plAbs', 'plSide?']), F('Rotation', ['hip_twist', 'plAbs', 'plAbs', 'pilates_bicycle', 'plAbs', 'plAbs?']), F('Roll', ['plRoll', 'plRoll', 'plRoll', 'plRoll', 'plRoll?'])] },
+    },
+  },
+  {
+    id: 'mat-core-35', name: 'Mat Core 35', subject: 'Mat core', minutes: P23_MID, equip: 'bw', absSlots: [], levers: [null, 'reps', 'variation'],
+    split: 'Core & roll A / B, 35 minutes', blurb: 'Thirty-five minutes of Pilates core and rolling.',
+    about: 'Pilates core for about half an hour. The hundred, two rounds of core work and a rolling finish. Two sessions alternate, so the moves change. Level II adds reps and Level III brings harder moves.',
+    names: ['Core Thirty', 'Core Half', 'Core Hour Half', 'Core Window', 'Core Slot', 'Core Session', 'Core Class', 'Core Hour', 'Core Lesson', 'Core Drill', 'Core Set', 'Core Round', 'Core Bout', 'Core Spell', 'Core Stint', 'Core Shift', 'Core Turn', 'Core Go', 'Core Run', 'Core Pass'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Core & roll A', short: 'A', blocks: [F('Warm-up', ['hundred', 'roll_up'], ONCE), F('Core 1', ['plAbs', 'plAbs', 'plAbs', 'plAbs', 'plAbs', 'plAbs?', 'plAbs?']), F('Core 2', ['plAbs', 'plSide', 'plAbs', 'plBack', 'plAbs', 'plAbs?', 'plSide?']), F('Roll', ['plRoll', 'plRoll', 'plRoll', 'plRoll?', 'plRoll?'])] },
+      b: { label: 'Core & roll B', short: 'B', blocks: [F('Warm-up', ['hundred', 'spine_stretch'], ONCE), F('Core 1', ['plAbs', 'plAbs', 'plSide', 'plAbs', 'plAbs', 'plAbs?', 'plAbs?']), F('Core 2', ['plAbs', 'plBack', 'plAbs', 'plSide', 'plAbs', 'plAbs?', 'plBack?']), F('Roll', ['plRoll', 'plRoll', 'plRoll', 'plRoll?', 'plRoll?'])] },
+    },
+  },
+  {
+    id: 'deep-core-month', name: 'Deep Core Month', subject: 'Mat core', days: 30, minutes: P23_MID, equip: 'bw', absSlots: [], levers: [null, 'reps', 'variation'],
+    split: 'Front & control / sides & back, 30 days', blurb: 'A month of Pilates deep core: front and control, then sides and back.',
+    about: 'A month for the deep core. One day works the front of the trunk with control moves that keep the pelvis still; the other works the sides and the back. Both open with the hundred. They alternate. Every ten days the level steps up. Level II adds reps and Level III brings harder moves.',
+    names: ['Deep Front', 'Deep Side', 'Deep Back', 'Deep Hold', 'Deep Lift', 'Deep Curl', 'Deep Roll', 'Deep Reach', 'Deep Twist', 'Deep Stretch', 'Deep Breath Core', 'Deep Draw', 'Deep Scoop', 'Deep Hollow', 'Deep Press', 'Deep Lengthen', 'Deep Stack', 'Deep Wrap', 'Deep Zip', 'Deep Set'],
+    cycle: ['front', 'side'],
+    dayTypes: {
+      front: { label: 'Front & control', short: 'Front', blocks: [F('Warm-up', ['hundred', 'roll_up'], ONCE), F('Front', ['plAbs', 'plAbs', 'plAbs', 'plAbs', 'plAbs', 'plAbs?', 'plAbs?', 'plAbs?']), F('Control', ['plRoll', 'plAbs', 'plRoll', 'plAbs', 'plRoll?', 'plAbs?', 'plRoll?']), F('Roll', ['plRoll', 'plRoll', 'plRoll?', 'plRoll?', 'plRoll?'])] },
+      side: { label: 'Sides & back', short: 'Side', blocks: [F('Warm-up', ['hundred', 'spine_stretch'], ONCE), F('Sides', ['plSide', 'plAbs', 'plSide', 'plAbs', 'plSide', 'plSide?', 'plAbs?', 'plSide?']), F('Back', ['plBack', 'plBack', 'plBack', 'plBack', 'plBack?', 'plBack?', 'plBack?']), F('Roll', ['plRoll', 'plRoll', 'plRoll?', 'plRoll?', 'plRoll?'])] },
+    },
+  },
+  {
+    id: 'mat-core-express', name: 'Mat Core Express', subject: 'Mat core', minutes: [20, 25], equip: 'bw', absSlots: [], levers: [null, 'reps', 'variation'],
+    split: 'Front & roll / sides & back, short', blurb: 'Short Pilates core: front and rolling, or sides and back.',
+    about: 'Pilates core in a short slot. The hundred, then front-of-core work and rolling one day, side and back work the next. They alternate. Level II adds reps and Level III brings harder moves.',
+    names: ['Core Snap', 'Core Zip', 'Core Pop Up', 'Core Hop', 'Core Skip', 'Core Jog', 'Core Dart', 'Core Dash', 'Core Whiz', 'Core Fizz', 'Core Buzz', 'Core Hum', 'Core Purr', 'Core Ping Pong', 'Core Bounce', 'Core Flick', 'Core Flip', 'Core Spin', 'Core Swish', 'Core Swoop'],
+    cycle: ['front', 'side'],
+    dayTypes: {
+      front: { label: 'Front & roll', short: 'Front', blocks: [F('Warm-up', ['hundred'], ONCE), F('Front', ['plAbs', 'plAbs', 'plAbs', 'plAbs', 'plAbs', 'plAbs?', 'plAbs?']), F('Roll', ['plRoll', 'plRoll', 'plRoll', 'plRoll', 'plRoll?', 'plRoll?'])] },
+      side: { label: 'Sides & back', short: 'Side', blocks: [F('Warm-up', ['hundred'], ONCE), F('Sides', ['plSide', 'plAbs', 'plSide', 'plAbs', 'plSide', 'plSide?', 'plAbs?']), F('Back', ['plBack', 'plBack', 'plBack', 'plBack', 'plBack?', 'plBack?'])] },
+    },
+  },
+  {
+    id: 'mat-core-15', name: 'Mat Core 15', subject: 'Mat core', minutes: [13, 17], equip: 'bw', absSlots: [], levers: [null, 'reps', 'reps'],
+    split: 'Fifteen-minute core A / B', blurb: 'Fifteen minutes of Pilates core: the hundred and the abdominal series.',
+    about: 'Pilates core in fifteen minutes. The hundred, then the abdominal series with a rolling move. Two sessions alternate. Both later levels add reps.',
+    names: ['Core Minute', 'Core Moment', 'Core Instant', 'Core Second', 'Core Blink', 'Core Wink', 'Core Jiffy', 'Core Trice', 'Core Flash Mat', 'Core Breath Mat', 'Core Beat Mat', 'Core Pulse Mat', 'Core Tick Mat', 'Core Tock', 'Core Chime', 'Core Bell', 'Core Ding', 'Core Dong', 'Core Ring', 'Core Peal'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Core A', short: 'A', blocks: [F('Warm-up', ['hundred'], ONCE), F('Abs', ['plAbs', 'plAbs', 'plAbs', 'plAbs', 'plAbs?', 'plRoll?', 'plAbs?', 'plAbs?'])] },
+      b: { label: 'Core B', short: 'B', blocks: [F('Warm-up', ['hundred'], ONCE), F('Abs', ['plAbs', 'plAbs', 'plRoll', 'plAbs', 'plAbs?', 'plAbs?', 'plRoll?', 'plAbs?'])] },
+    },
+  },
+  // Kettlebell Pilates +8 (one bell every day)
+  {
+    id: 'bell-pilates-volume', name: 'Bell Pilates Volume', subject: 'Kettlebell Pilates', minutes: P23_LONG, equip: 'kb', absSlots: [], levers: [null, 'reps', 'weight'],
+    split: 'Bell core / bell glutes & legs / bell back & sides', blurb: 'Three long Pilates sessions with a light kettlebell: core, glutes and legs, back and sides.',
+    about: 'Pilates with a light kettlebell in your hands. Bell roll-ups, chest lifts and teasers for the core; bell bridges and plié pulses for the glutes and legs; bell saws, twists and side-lying lifts for the back and sides. Mat moves fill between. Three days rotate. Level II adds reps and Level III moves you one weight up.',
+    names: ['Bell Hundred', 'Bell Roll', 'Bell Lift', 'Bell Teaser', 'Bell Saw', 'Bell Twist', 'Bell Bridge', 'Bell Plié', 'Bell Reach', 'Bell Press', 'Bell Curl', 'Bell Side', 'Bell Swan', 'Bell Mermaid', 'Bell Seal', 'Bell Rocker', 'Bell Circle', 'Bell Hover', 'Bell Hold', 'Bell Flow'],
+    cycle: ['core', 'glutes', 'back'],
+    dayTypes: {
+      core: { label: 'Bell core', short: 'Core', blocks: [F('Warm-up', ['hundred', 'kb_roll_up'], ONCE), F('Bell core', ['kb_chest_lift', 'plKb', 'plAbs', 'kb_teaser', 'plKb', 'plAbs?', 'plAbs?']), F('Bell core 2', ['kb_dead_bug_press', 'plAbs', 'plKb', 'plAbs', 'plKb', 'plAbs?', 'plAbs?']), F('Roll', ['plRoll', 'plRoll', 'plRoll', 'plRoll?', 'plRoll?'])] },
+      glutes: { label: 'Bell glutes & legs', short: 'Glutes', blocks: [F('Warm-up', ['hundred', 'roll_up'], ONCE), F('Bell glutes', ['kb_pilates_bridge', 'plKb', 'plGlute', 'kb_plie_pulse', 'plKb', 'plGlute?', 'plGlute?']), F('Legs', ['plGlute', 'plKb', 'plGlute', 'plSide', 'plKb', 'plGlute?', 'plGlute?']), F('Abs', ['plAbs', 'plAbs', 'plAbs', 'plAbs?', 'plAbs?'])] },
+      back: { label: 'Bell back & sides', short: 'Back', blocks: [F('Warm-up', ['hundred', 'spine_stretch'], ONCE), F('Bell back', ['kb_saw', 'plKb', 'plBack', 'kb_overhead_reach', 'plKb', 'plBack?', 'plBack?']), F('Bell sides', ['kb_side_lying_lift', 'plSide', 'kb_pilates_twist', 'plSide', 'plKb', 'plSide?', 'plSide?']), F('Roll', ['plRoll', 'plRoll', 'plRoll', 'plRoll?', 'plRoll?'])] },
+    },
+  },
+  {
+    id: 'bell-pilates-month', name: 'Bell Pilates Month', subject: 'Kettlebell Pilates', days: 30, minutes: P23_LONG, equip: 'kb', absSlots: [], levers: [null, 'reps', 'reps'],
+    split: 'Bell core & roll / bell glutes & sides, 30 days', blurb: 'A month of kettlebell Pilates: core and rolling, then glutes and sides.',
+    about: 'A month of Pilates with a light bell. One day is bell roll-ups, teasers and chest lifts with the abdominal series; the other bell bridges, plié pulses and side-lying lifts with the side series. They alternate and open with the hundred. Every ten days the level steps up. Both later levels add reps.',
+    names: ['Bell Week One', 'Bell Week Two', 'Bell Week Three', 'Bell Week Four', 'Bell Day One', 'Bell Day Ten', 'Bell Day Twenty', 'Bell Day Thirty', 'Bell Base', 'Bell Build', 'Bell Peak', 'Bell Steady', 'Bell Smooth', 'Bell Long', 'Bell Strong', 'Bell Light', 'Bell Easy', 'Bell Control', 'Bell Precise', 'Bell Done'],
+    cycle: ['core', 'glutes'],
+    dayTypes: {
+      core: { label: 'Bell core & roll', short: 'Core', blocks: [F('Warm-up', ['hundred', 'kb_roll_up'], ONCE), F('Bell core', ['kb_chest_lift', 'plKb', 'plAbs', 'kb_teaser', 'plKb', 'plAbs', 'plAbs?', 'plAbs?']), F('Core', ['plAbs', 'plKb', 'plAbs', 'plKb', 'plAbs', 'plAbs?', 'plAbs?']), F('Roll', ['plRoll', 'plRoll', 'plRoll', 'plRoll?', 'plRoll?'])] },
+      glutes: { label: 'Bell glutes & sides', short: 'Glutes', blocks: [F('Warm-up', ['hundred', 'roll_up'], ONCE), F('Bell glutes', ['kb_pilates_bridge', 'plKb', 'kb_plie_pulse', 'plGlute', 'plKb', 'plGlute', 'plGlute?', 'plGlute?']), F('Bell sides', ['kb_side_lying_lift', 'plSide', 'plKb', 'plSide', 'plKb', 'plSide?', 'plSide?']), F('Abs', ['plAbs', 'plAbs', 'plAbs', 'plAbs?', 'plAbs?'])] },
+    },
+  },
+  {
+    id: 'bell-pilates-full', name: 'Bell Pilates Full', subject: 'Kettlebell Pilates', minutes: P23_LONG, equip: 'kb', absSlots: [], levers: [null, 'weight', 'reps'],
+    split: 'Full bell Pilates A / B', blurb: 'Long, whole-body Pilates sessions with a light kettlebell all the way through.',
+    about: 'A whole Pilates session with a light kettlebell from start to finish. Bell roll-ups and chest lifts, bell bridges and plié pulses, bell saws and twists, then mat rolling to close. Two orders alternate. Level II moves you one weight up and Level III adds reps.',
+    names: ['Bell All', 'Bell Whole', 'Bell Total', 'Bell Every', 'Bell Through', 'Bell Round', 'Bell Circuit Mat', 'Bell Loop', 'Bell Chain', 'Bell Thread', 'Bell String', 'Bell Line', 'Bell Path', 'Bell Trail', 'Bell Track', 'Bell Route', 'Bell Way', 'Bell Road', 'Bell Lane', 'Bell Journey'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Full bell Pilates A', short: 'A', blocks: [F('Warm-up', ['hundred', 'kb_roll_up'], ONCE), F('Bell front', ['kb_chest_lift', 'plKb', 'kb_teaser', 'plKb', 'plAbs']), F('Bell glutes', ['kb_pilates_bridge', 'kb_plie_pulse', 'plKb', 'plGlute', 'plKb']), F('Bell sides', ['kb_saw', 'kb_pilates_twist', 'plKb', 'plSide']), F('Roll', ['plRoll', 'plRoll'])] },
+      b: { label: 'Full bell Pilates B', short: 'B', blocks: [F('Warm-up', ['hundred', 'roll_up'], ONCE), F('Bell sides', ['kb_side_lying_lift', 'plKb', 'kb_pilates_twist', 'plKb', 'plSide']), F('Bell back', ['kb_overhead_reach', 'plKb', 'plBack', 'kb_saw', 'plKb']), F('Bell front', ['kb_dead_bug_press', 'plKb', 'plAbs', 'plKb']), F('Roll', ['plRoll', 'plRoll'])] },
+    },
+  },
+  {
+    id: 'bell-pilates-strength', name: 'Bell Pilates Strength', subject: 'Kettlebell Pilates', minutes: P23_LONG, equip: 'kb', absSlots: [], levers: [null, 'weight', 'reps'],
+    split: 'Bell Pilates & slow bell lifts A / B', blurb: 'Kettlebell Pilates, then slow bell lifts for strength under control.',
+    about: 'Pilates control with a little more strength. Each session is a bell Pilates sequence, then slow straight sets of goblet squats, halos and windmills with the same bell, then rolling on the mat. Two sessions alternate. Level II moves you one weight up and Level III adds reps.',
+    names: ['Slow Bell Pilates', 'Steady Bell', 'Control Bell', 'Calm Bell Mat', 'Even Bell', 'Smooth Bell', 'Patient Bell Mat', 'Mindful Bell Mat', 'Careful Bell', 'Exact Bell', 'Precise Bell', 'Clean Bell', 'Neat Bell', 'Tidy Bell', 'Quiet Bell Mat', 'Soft Bell Mat', 'Gentle Bell Mat', 'Light Bell Mat', 'Easy Bell Mat', 'Still Bell Mat'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Bell Pilates & lifts A', short: 'A', blocks: [F('Warm-up', ['hundred', 'kb_roll_up'], ONCE), F('Bell Pilates', ['kb_chest_lift', 'plKb', 'kb_pilates_bridge', 'plKb', 'plAbs', 'plKb']), S('Slow bell', ['goblet_squat', 'kb_halo', 'kb_windmill']), F('Roll', ['plRoll', 'plRoll', 'plRoll'])] },
+      b: { label: 'Bell Pilates & lifts B', short: 'B', blocks: [F('Warm-up', ['hundred', 'roll_up'], ONCE), F('Bell Pilates', ['kb_saw', 'plKb', 'kb_plie_pulse', 'plKb', 'plSide', 'plKb']), S('Slow bell', ['kb_sumo_deadlift', 'kb_halo', 'kb_windmill']), F('Roll', ['plRoll', 'plRoll', 'plRoll'])] },
+    },
+  },
+  {
+    id: 'bell-pilates-35', name: 'Bell Pilates 35', subject: 'Kettlebell Pilates', minutes: P23_MID, equip: 'kb', absSlots: [], levers: [null, 'reps', 'weight'],
+    split: 'Bell core / bell glutes & sides, 35 minutes', blurb: 'Thirty-five minutes of kettlebell Pilates: core one day, glutes and sides the next.',
+    about: 'Kettlebell Pilates for about half an hour. One day is bell core moves with the abdominal series; the other bell bridges, pliés and side work. Both open with the hundred and close with rolling. They alternate. Level II adds reps and Level III moves you one weight up.',
+    names: ['Bell Thirty', 'Bell Half', 'Bell Window', 'Bell Slot', 'Bell Session', 'Bell Class', 'Bell Lesson', 'Bell Drill Mat', 'Bell Set Mat', 'Bell Turn', 'Bell Go', 'Bell Run Mat', 'Bell Pass', 'Bell Stint', 'Bell Spell', 'Bell Shift', 'Bell Bout Mat', 'Bell Round Mat', 'Bell Lap', 'Bell Leg'],
+    cycle: ['core', 'glutes'],
+    dayTypes: {
+      core: { label: 'Bell core', short: 'Core', blocks: [F('Warm-up', ['hundred', 'kb_roll_up'], ONCE), F('Bell core', ['kb_chest_lift', 'plKb', 'plAbs', 'kb_teaser', 'plKb', 'plAbs?', 'plAbs?', 'plAbs?']), F('Core', ['plAbs', 'plKb', 'plAbs', 'plAbs', 'plAbs?', 'plAbs?', 'plAbs?']), F('Roll', ['plRoll', 'plRoll', 'plRoll?', 'plRoll?', 'plRoll?'])] },
+      glutes: { label: 'Bell glutes & sides', short: 'Glutes', blocks: [F('Warm-up', ['hundred', 'roll_up'], ONCE), F('Bell glutes', ['kb_pilates_bridge', 'plKb', 'kb_plie_pulse', 'plGlute', 'plKb', 'plGlute?', 'plGlute?', 'plGlute?']), F('Sides', ['kb_side_lying_lift', 'plSide', 'plKb', 'plSide', 'plSide?', 'plSide?', 'plSide?']), F('Roll', ['plRoll', 'plRoll', 'plRoll?', 'plRoll?', 'plRoll?'])] },
+    },
+  },
+  {
+    id: 'bell-pilates-core-month', name: 'Bell Pilates Core Month', subject: 'Kettlebell Pilates', days: 30, minutes: P23_MID, equip: 'kb', absSlots: [], levers: [null, 'reps', 'weight'],
+    split: 'Bell front / bell twist & back, 30 days', blurb: 'A month of kettlebell Pilates core: the front, then twists and the back.',
+    about: 'A month of core with a light bell. One day loads the front of the trunk with bell roll-ups, chest lifts and dead-bug presses; the other twists and reaches with bell saws, twists and overhead reaches. They alternate. Every ten days the level steps up. Level II adds reps and Level III moves you one weight up.',
+    names: ['Bell Front', 'Bell Back', 'Bell Left', 'Bell Right', 'Bell Up', 'Bell Down', 'Bell In', 'Bell Out', 'Bell Over', 'Bell Under', 'Bell High', 'Bell Low', 'Bell Near', 'Bell Far', 'Bell Long Reach', 'Bell Short Reach', 'Bell Wide', 'Bell Narrow', 'Bell Centre', 'Bell Edge'],
+    cycle: ['front', 'twist'],
+    dayTypes: {
+      front: { label: 'Bell front', short: 'Front', blocks: [F('Warm-up', ['hundred', 'kb_roll_up'], ONCE), F('Bell front', ['kb_chest_lift', 'plKb', 'kb_dead_bug_press', 'plAbs', 'plKb', 'plAbs?', 'plAbs?', 'plAbs?']), F('Abs', ['plAbs', 'plAbs', 'plKb', 'plAbs', 'plAbs?', 'plAbs?', 'plAbs?']), F('Roll', ['plRoll', 'plRoll', 'plRoll?', 'plRoll?', 'plRoll?'])] },
+      twist: { label: 'Bell twist & back', short: 'Twist', blocks: [F('Warm-up', ['hundred', 'spine_stretch'], ONCE), F('Bell twist', ['kb_saw', 'kb_pilates_twist', 'plKb', 'plAbs', 'plKb', 'plAbs?', 'plAbs?', 'plAbs?']), F('Back', ['kb_overhead_reach', 'plBack', 'plKb', 'plBack', 'plBack?', 'plBack?', 'plBack?']), F('Roll', ['plRoll', 'plRoll', 'plRoll?', 'plRoll?', 'plRoll?'])] },
+    },
+  },
+  {
+    id: 'bell-pilates-express', name: 'Bell Pilates Express', subject: 'Kettlebell Pilates', minutes: [20, 25], equip: 'kb', absSlots: [], levers: [null, 'reps', 'weight'],
+    split: 'Bell core / bell glutes, short', blurb: 'Short kettlebell Pilates: core one day, glutes the next.',
+    about: 'Kettlebell Pilates in a short slot. The hundred, then bell core moves one day and bell glute moves the next, and a rolling finish. They alternate. Level II adds reps and Level III moves you one weight up.',
+    names: ['Bell Quick', 'Bell Snap', 'Bell Zip', 'Bell Dash Mat', 'Bell Dart', 'Bell Hop Mat', 'Bell Skip Mat', 'Bell Pop', 'Bell Fizz', 'Bell Buzz', 'Bell Whiz', 'Bell Zoom', 'Bell Swift', 'Bell Brisk', 'Bell Nippy', 'Bell Rapid', 'Bell Speedy', 'Bell Fleet', 'Bell Hasty', 'Bell Prompt'],
+    cycle: ['core', 'glutes'],
+    dayTypes: {
+      core: { label: 'Bell core', short: 'Core', blocks: [F('Warm-up', ['hundred'], ONCE), F('Bell core', ['kb_roll_up', 'plKb', 'plAbs', 'kb_chest_lift', 'plKb', 'plAbs', 'plAbs?', 'plAbs?', 'plAbs?']), F('Roll', ['plRoll', 'plRoll', 'plRoll?', 'plRoll?', 'plRoll?'])] },
+      glutes: { label: 'Bell glutes', short: 'Glutes', blocks: [F('Warm-up', ['hundred'], ONCE), F('Bell glutes', ['kb_pilates_bridge', 'plKb', 'plGlute', 'kb_plie_pulse', 'plKb', 'plGlute', 'plGlute?', 'plGlute?', 'plGlute?']), F('Roll', ['plRoll', 'plRoll', 'plRoll?', 'plRoll?', 'plRoll?'])] },
+    },
+  },
+  {
+    id: 'bell-pilates-15', name: 'Bell Pilates 15', subject: 'Kettlebell Pilates', minutes: [13, 17], equip: 'kb', absSlots: [], levers: [null, 'reps', 'reps'],
+    split: 'Fifteen-minute bell Pilates A / B', blurb: 'Fifteen minutes of Pilates with a light kettlebell.',
+    about: 'Kettlebell Pilates in fifteen minutes. The hundred, then a short run of bell Pilates moves. Two sessions alternate. Both later levels add reps.',
+    names: ['Bell Fifteen', 'Bell Quarter', 'Bell Brief', 'Bell Mini', 'Bell Small', 'Bell Little', 'Bell Pocket', 'Bell Pinch', 'Bell Dab', 'Bell Dot', 'Bell Speck', 'Bell Spot', 'Bell Touch', 'Bell Tap Mat', 'Bell Pat', 'Bell Nudge', 'Bell Poke', 'Bell Prod', 'Bell Jab Mat', 'Bell Hint'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Bell Pilates A', short: 'A', blocks: [F('Warm-up', ['hundred'], ONCE), F('Bell Pilates', ['kb_roll_up', 'plKb', 'plAbs', 'plKb', 'plKb?', 'plAbs?', 'plKb?', 'plRoll?'])] },
+      b: { label: 'Bell Pilates B', short: 'B', blocks: [F('Warm-up', ['hundred'], ONCE), F('Bell Pilates', ['kb_pilates_bridge', 'plKb', 'plGlute', 'plKb', 'plSide?', 'plKb?', 'plGlute?', 'plKb?'])] },
+    },
+  },
+].map((c) => ({ ...c, added: 23, catalogue: 14 }));
+CONFIGS.push(...P23_YP_NEW);
+
 // Phase 23: the new programs' ids in shelf order, appended to programs.config.js's ORDER after every older program
-CONFIGS.order23 = [...P23_CORE, ...P23_YP, ...P23_BACK].map((c) => c.id);
+CONFIGS.order23 = [...P23_CORE, ...P23_YP, ...P23_BACK, ...P23_YP_NEW].map((c) => c.id);
 module.exports = CONFIGS;

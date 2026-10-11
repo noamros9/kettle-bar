@@ -33,7 +33,7 @@
   const FAMILIES = [
     ['Strength', ['Signature', 'Strength', 'Pull-ups', 'Legs & glutes', 'Kettlebell only', 'Bodyweight', 'Busy week', 'Grip & forearms', 'Kettlebell complexes', 'Climber / pull strength', 'Chest', 'Back', 'Shoulders', 'Arms', 'Hips & adductors', 'Calves & lower legs', 'Neck & traps']],
     ['Cardio & combat', ['Conditioning', 'HIIT', 'Plyometrics', 'Boxing', 'Kickboxing', 'Running prep', 'Court & field sports']],
-    ['Mind & body', ['Core & abs', 'Mobility & posture', 'Yoga', 'Pilates', 'Flexibility', 'Balance & stability', 'Gentle / low impact', 'Back care']],
+    ['Mind & body', ['Core & abs', 'Mobility & posture', 'Yoga', 'Pilates', 'Power yoga', 'Yin yoga', 'Yoga flow', 'Mat core', 'Kettlebell Pilates', 'Flexibility', 'Balance & stability', 'Gentle / low impact', 'Back care']],
     ['Mixed', ['Strength & stretch', 'Fighter', 'Athlete', 'Balanced week', 'Calm strength', 'Variety', 'Beach body', 'Bedroom stamina', 'Sex positions', 'Couples', 'Endurance & control', 'Hip power & thrust', 'Carry & hold', 'Flexible & bendy', 'Strip & show-off', 'Her pleasure', 'Quickie', 'Back & knees care', 'Date night warm-up', 'Positions tour', 'Morning glory / Sunday', 'Explicit', 'Rough', 'Kink-lite', 'Body play', 'Rimming', 'Edging', 'Massage', 'Strip and tease', 'Shower and bath', 'Pool', 'Hot tub', 'Balcony', 'Doorframe']],
   ];
   // Shelf groups (Phase 17): the Programs page tabs, finer than the four families. Every family subject sits in exactly
@@ -43,7 +43,7 @@
     ['Muscles', ['Chest', 'Back', 'Shoulders', 'Arms', 'Legs & glutes', 'Hips & adductors', 'Calves & lower legs', 'Neck & traps', 'Core & abs', 'Grip & forearms']],
     ['Cardio', ['Conditioning', 'HIIT', 'Plyometrics', 'Running prep', 'Court & field sports']],
     ['Combat', ['Boxing', 'Kickboxing', 'Fighter']],
-    ['Yoga & Pilates', ['Yoga', 'Pilates']],
+    ['Yoga & Pilates', ['Yoga', 'Pilates', 'Power yoga', 'Yin yoga', 'Yoga flow', 'Mat core', 'Kettlebell Pilates']], // Phase 23 (232): five new subjects after Yoga and Pilates
     ['Mobility & care', ['Mobility & posture', 'Flexibility', 'Balance & stability', 'Gentle / low impact', 'Back care']],
     ['Mixed', ['Strength & stretch', 'Athlete', 'Balanced week', 'Calm strength']],
     ['Variety', ['Variety']],

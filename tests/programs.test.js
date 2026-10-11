@@ -271,8 +271,9 @@ test('an exercise index that arrives after its source was replaced is dropped, n
 // Phase 23 (docs/plans/phase-23-fitness-programs.md, decisions 83, 87, 184, 185, 205): the new fitness programs. Built
 // here one config at a time (never the whole library): per subject the new count, catalogue 13, some Phase 22 moves in
 // every program, the minutes spread, a fifth at 30 days, gear in the subject's old shares, no two alike.
-const P23 = { Strength: 10, 'Busy week': 9, Bodyweight: 10, 'Kettlebell only': 9, 'Kettlebell complexes': 5, 'Pull-ups': 8, 'Climber / pull strength': 4, Chest: 4, Back: 4, Shoulders: 4, Arms: 4, 'Neck & traps': 4, 'Grip & forearms': 5, 'Legs & glutes': 9, 'Hips & adductors': 4, 'Calves & lower legs': 4, 'Core & abs': 8, Conditioning: 7, HIIT: 7, Plyometrics: 6, 'Running prep': 5, 'Court & field sports': 5, Boxing: 7, Kickboxing: 6, Fighter: 7, Yoga: 14, Pilates: 12, 'Back care': 5 }; // tickets 3–9;
-const CAT14 = new Set(['Yoga', 'Pilates']); // decision 237: yoga and Pilates programs build at catalogue 14, on its doubled exercises later tickets add their subjects here
+const P23 = { Strength: 10, 'Busy week': 9, Bodyweight: 10, 'Kettlebell only': 9, 'Kettlebell complexes': 5, 'Pull-ups': 8, 'Climber / pull strength': 4, Chest: 4, Back: 4, Shoulders: 4, Arms: 4, 'Neck & traps': 4, 'Grip & forearms': 5, 'Legs & glutes': 9, 'Hips & adductors': 4, 'Calves & lower legs': 4, 'Core & abs': 8, Conditioning: 7, HIIT: 7, Plyometrics: 6, 'Running prep': 5, 'Court & field sports': 5, Boxing: 7, Kickboxing: 6, Fighter: 7, Yoga: 14, Pilates: 12, 'Back care': 5, 'Power yoga': 8, 'Yin yoga': 8, 'Yoga flow': 8, 'Mat core': 8, 'Kettlebell Pilates': 8 }; // tickets 3–9b; later tickets add their subjects here
+const NEW23 = ['Power yoga', 'Yin yoga', 'Yoga flow', 'Mat core', 'Kettlebell Pilates']; // ticket 9b (232): new subjects, so no older programs to share gear with
+const CAT14 = new Set(['Yoga', 'Pilates', ...NEW23]); // decision 237: yoga and Pilates programs build at catalogue 14, on its doubled exercises
 const { CONFIGS: ALL_CONFIGS, buildConfig } = require('../program-builder.js');
 const { EX: EX23 } = require('../exercises.js');
 const new23 = (s) => ALL_CONFIGS.filter((c) => c.subject === s && c.added === 23 && !c.step);
@@ -307,7 +308,7 @@ test('Phase 23: the minutes spread per subject (half 35–38, a quarter 31–35,
 });
 
 test('Phase 23: gear in each subject\'s old shares (full gear, one kettlebell, no equipment), within one program', () => {
-  Object.keys(P23).forEach((s) => {
+  Object.keys(P23).filter((s) => !NEW23.includes(s)).forEach((s) => {
     const old = ALL_CONFIGS.filter((c) => c.subject === s && c.added !== 23), list = new23(s);
     ['all', 'kb', 'bw'].forEach((g) => {
       const share = old.filter((c) => (c.equip || 'all') === g).length / old.length;
@@ -329,4 +330,23 @@ test('Phase 23: no two programs of a subject share split and formats; names are 
       assert.equal(new Set(c.names).size, 20, `${c.id}: 20 day names`);
     });
   });
+});
+
+// Phase 23 ticket 9b (decision 232): five new subjects of 8 on the Yoga & Pilates shelf, each in one family and one shelf
+// group; Yin holds long (at least a minute on average); Kettlebell Pilates uses the bell every day, the rest no gear
+test('Phase 23 ticket 9b: the five new subjects, their shelves, Yin holds and the bell in Kettlebell Pilates', () => {
+  const { FAMILIES, SHELVES } = require('../app/library.js');
+  NEW23.forEach((s) => {
+    assert.equal(FAMILIES.filter(([, l]) => l.includes(s)).length, 1, `${s} in one family`);
+    assert.equal(SHELVES.filter(([, l]) => l.includes(s)).length, 1, `${s} in one shelf group`);
+    assert.ok(SHELVES.find(([g]) => g === 'Yoga & Pilates')[1].includes(s), `${s} on Yoga & Pilates`);
+    assert.ok(new23(s).every((c) => (c.equip || 'all') === (s === 'Kettlebell Pilates' ? 'kb' : 'bw')), `${s} gear`);
+  });
+  new23('Yin yoga').forEach((c) => {
+    const holds = buildConfig(c).days.flatMap((d) => d.blocks.flatMap((b) => b.items)).filter((it) => EX23[it.ex].u === 'sec');
+    assert.ok(holds.reduce((t, it) => t + it.n, 0) / holds.length >= 60, `${c.id} holds average a minute`);
+  });
+  new23('Kettlebell Pilates').forEach((c) => buildConfig(c).days.forEach((d) => {
+    assert.ok(d.blocks.some((b) => b.items.some((it) => EX23[it.ex].load === 'kb')), `${c.id} d${d.day} uses the bell`);
+  }));
 });
