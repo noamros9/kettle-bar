@@ -271,7 +271,8 @@ test('an exercise index that arrives after its source was replaced is dropped, n
 // Phase 23 (docs/plans/phase-23-fitness-programs.md, decisions 83, 87, 184, 185, 205): the new fitness programs. Built
 // here one config at a time (never the whole library): per subject the new count, catalogue 13, some Phase 22 moves in
 // every program, the minutes spread, a fifth at 30 days, gear in the subject's old shares, no two alike.
-const P23 = { Strength: 10, 'Busy week': 9, Bodyweight: 10, 'Kettlebell only': 9, 'Kettlebell complexes': 5, 'Pull-ups': 8, 'Climber / pull strength': 4, Chest: 4, Back: 4, Shoulders: 4, Arms: 4, 'Neck & traps': 4, 'Grip & forearms': 5, 'Legs & glutes': 9, 'Hips & adductors': 4, 'Calves & lower legs': 4, 'Core & abs': 8, Conditioning: 7, HIIT: 7, Plyometrics: 6, 'Running prep': 5, 'Court & field sports': 5, Boxing: 7, Kickboxing: 6, Fighter: 7 }; // tickets 3–8; later tickets add their subjects here
+const P23 = { Strength: 10, 'Busy week': 9, Bodyweight: 10, 'Kettlebell only': 9, 'Kettlebell complexes': 5, 'Pull-ups': 8, 'Climber / pull strength': 4, Chest: 4, Back: 4, Shoulders: 4, Arms: 4, 'Neck & traps': 4, 'Grip & forearms': 5, 'Legs & glutes': 9, 'Hips & adductors': 4, 'Calves & lower legs': 4, 'Core & abs': 8, Conditioning: 7, HIIT: 7, Plyometrics: 6, 'Running prep': 5, 'Court & field sports': 5, Boxing: 7, Kickboxing: 6, Fighter: 7, Yoga: 14, Pilates: 12, 'Back care': 5 }; // tickets 3–9;
+const CAT14 = new Set(['Yoga', 'Pilates']); // decision 237: yoga and Pilates programs build at catalogue 14, on its doubled exercises later tickets add their subjects here
 const { CONFIGS: ALL_CONFIGS, buildConfig } = require('../program-builder.js');
 const { EX: EX23 } = require('../exercises.js');
 const new23 = (s) => ALL_CONFIGS.filter((c) => c.subject === s && c.added === 23 && !c.step);
@@ -280,14 +281,14 @@ const band = (c) => (mid(c) >= 35 && mid(c) <= 38 ? 'long' : mid(c) >= 31 && mid
 const spread = (list) => ({ long: Math.round(list.length / 2), mid: Math.round(list.length / 4) });
 const formatsOf = (c) => [...new Set(Object.values(c.dayTypes).flatMap((t) => (t.blocks || []).map((b) => b.f)))].sort().join('+');
 
-test('Phase 23: each subject\'s new count, at catalogue 13, each program using some Phase 22 exercises', () => {
+test('Phase 23: each subject\'s new count, at catalogue 13 (yoga and Pilates 14), each program using its catalogue\'s new exercises', () => {
   Object.entries(P23).forEach(([s, n]) => {
     const list = new23(s);
     assert.equal(list.length, n, s);
     list.forEach((c) => {
-      assert.equal(c.catalogue, 13, c.id);
+      assert.equal(c.catalogue, CAT14.has(s) ? 14 : 13, c.id);
       const p = buildConfig(c);
-      assert.ok(p.days.some((d) => d.blocks.some((b) => b.items.some((it) => EX23[it.ex].added === 13))), `${c.id} uses an added: 13 exercise`);
+      assert.ok(p.days.some((d) => d.blocks.some((b) => b.items.some((it) => EX23[it.ex].added === c.catalogue))), `${c.id} uses an added: ${c.catalogue} exercise`);
     });
   });
 });
