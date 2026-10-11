@@ -13,8 +13,8 @@ const itemsOf = (d) => [...d.blocks.flatMap((b) => b.items), ...d.warmup.items, 
 const SUBJECTS = {
   Yoga: { count: 14, abs: false, formats: ['flow'] },
   Pilates: { count: 12, abs: false, formats: ['flow'] },
-  Boxing: { count: 13, abs: true, formats: ['bouts', 'circuit', 'tabata', 'straight', 'emom'] },
-  Kickboxing: { count: 12, abs: true, formats: ['bouts', 'circuit', 'tabata', 'straight'] },
+  Boxing: { count: 20, abs: true, formats: ['bouts', 'circuit', 'tabata', 'straight', 'emom'] },
+  Kickboxing: { count: 18, abs: true, formats: ['bouts', 'circuit', 'tabata', 'straight'] },
   Flexibility: { count: 12, abs: false, formats: ['flow', 'circuit'] },
   'Mobility & posture': { count: 12, abs: false, formats: ['flow', 'circuit'] },
   'Balance & stability': { count: 12, abs: true, formats: ['circuit', 'straight', 'emom'] },
@@ -45,7 +45,7 @@ const SUBJECTS = {
   'Busy week': { count: 26, abs: true, formats: ['circuit', 'superset', 'amrap', 'emom', 'straight', 'tabata', 'ladder'] }, // 17, then Phase 23's 9; ladder as Twenty Ladder's
   // Mixed (Phase 6): abs depends on the day type, so it has its own test below
   'Strength & stretch': { count: 14, abs: undefined, formats: ['straight', 'superset', 'flow'] },
-  Fighter: { count: 14, abs: undefined, formats: ['bouts', 'straight', 'superset', 'circuit', 'emom', 'amrap', 'tabata', 'flow'] },
+  Fighter: { count: 21, abs: undefined, formats: ['bouts', 'straight', 'superset', 'circuit', 'emom', 'amrap', 'tabata', 'flow'] },
   Athlete: { count: 14, abs: undefined, formats: ['straight', 'superset', 'circuit'] },
   // Phase 16: every day is different (its own test below)
   // Phase 16: after-dark (Mixed, abs by day type)
@@ -139,8 +139,8 @@ test('the core programs opt in to the new catalogue (catalogue: 5): their abs fi
   assert.ok(optIn.some((p) => p.days.some((d) => d.blocks.at(-1).items.some((it) => fresh.has(it.ex)))));
 });
 
-test('the library: 856 programs in 66 subjects (736, then Phase 23\'s 15 Signature IIs, ticket 3\'s 29, ticket 4\'s 26, ticket 5\'s 25, ticket 6\'s 25 and ticket 7\'s 30)', () => {
-  assert.equal(programs.length, 886);
+test('the library: 856 programs in 66 subjects (736, then Phase 23\'s 15 Signature IIs, ticket 3\'s 29, ticket 4\'s 26, ticket 5\'s 25, ticket 6\'s 25, ticket 7\'s 30 and ticket 8\'s 20)', () => {
+  assert.equal(programs.length, 906);
   assert.equal(new Set(programs.map((p) => p.subject)).size, 66);
 });
 
