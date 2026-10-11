@@ -21,15 +21,15 @@ const SUBJECTS = {
   'Kettlebell Pilates': { count: 8, abs: false, formats: ['flow', 'straight'] },
   Boxing: { count: 20, abs: true, formats: ['bouts', 'circuit', 'tabata', 'straight', 'emom'] },
   Kickboxing: { count: 18, abs: true, formats: ['bouts', 'circuit', 'tabata', 'straight'] },
-  Flexibility: { count: 12, abs: false, formats: ['flow', 'circuit'] },
-  'Mobility & posture': { count: 12, abs: false, formats: ['flow', 'circuit'] },
-  'Balance & stability': { count: 12, abs: true, formats: ['circuit', 'straight', 'emom'] },
+  Flexibility: { count: 18, abs: false, formats: ['flow', 'circuit'] },
+  'Mobility & posture': { count: 18, abs: false, formats: ['flow', 'circuit'] },
+  'Balance & stability': { count: 18, abs: true, formats: ['circuit', 'straight', 'emom'] },
   HIIT: { count: 21, abs: true, formats: ['circuit', 'amrap', 'emom', 'tabata', 'ladder'] },
   Plyometrics: { count: 18, abs: true, formats: ['straight', 'circuit', 'emom'] },
   'Grip & forearms': { count: 14, abs: true, formats: ['straight', 'circuit', 'superset', 'emom'] },
   'Kettlebell complexes': { count: 14, abs: true, formats: ['circuit', 'emom', 'ladder', 'amrap', 'straight'] },
   'Climber / pull strength': { count: 12, abs: true, formats: ['straight', 'ladder', 'circuit', 'emom', 'superset'] },
-  'Gentle / low impact': { count: 10, abs: false, formats: ['circuit', 'flow', 'straight', 'emom'] },
+  'Gentle / low impact': { count: 15, abs: false, formats: ['circuit', 'flow', 'straight', 'emom'] },
   'Back care': { count: 14, abs: false, formats: ['straight', 'flow', 'circuit'] },
   // Phase 16: muscle focus
   Chest: { count: 12, abs: true, formats: ['straight', 'superset', 'circuit', 'emom', 'ladder', 'amrap'] },
@@ -145,8 +145,8 @@ test('the core programs opt in to the new catalogue (catalogue: 5): their abs fi
   assert.ok(optIn.some((p) => p.days.some((d) => d.blocks.at(-1).items.some((it) => fresh.has(it.ex)))));
 });
 
-test('the library: 977 programs in 71 subjects (736, then Phase 23\'s 15 Signature IIs, ticket 3\'s 29, ticket 4\'s 26, ticket 5\'s 25, ticket 6\'s 25, ticket 7\'s 30, ticket 8\'s 20, ticket 9\'s 31 and ticket 9b\'s 40)', () => {
-  assert.equal(programs.length, 977);
+test('the library: 1000 programs in 71 subjects (736, then Phase 23\'s 15 Signature IIs, ticket 3\'s 29, ticket 4\'s 26, ticket 5\'s 25, ticket 6\'s 25, ticket 7\'s 30, ticket 8\'s 20, ticket 9\'s 31, ticket 9b\'s 40 and ticket 10\'s 23)', () => {
+  assert.equal(programs.length, 1000);
   assert.equal(new Set(programs.map((p) => p.subject)).size, 71);
 });
 

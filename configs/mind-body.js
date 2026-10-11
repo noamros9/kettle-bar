@@ -2031,6 +2031,273 @@ const P23_YP_NEW = [
 ].map((c) => ({ ...c, added: 23, catalogue: 14 }));
 CONFIGS.push(...P23_YP_NEW);
 
+// Phase 23 ticket 10: Mobility & posture +6, Flexibility +6, Balance & stability +6, Gentle / low impact +5, at
+// catalogue 13, by ticket 3's rules; gear like each subject's (one Balance program with weights); abs only in Balance.
+const P23_CARE = [
+  // Mobility & posture +6
+  {
+    id: 'mobility-volume', name: 'Mobility Volume', subject: 'Mobility & posture', minutes: P23_LONG, equip: 'bw', absSlots: [], levers: [null, 'reps', 'reps'],
+    split: 'Hips & ankles / spine / shoulders & posture', blurb: 'Three long mobility sessions: hips and ankles, the spine, then shoulders and posture.',
+    about: 'Mobility with time to reach every joint. Hip circles, shin-box and frog rocks for the hips with ankle work; spinal waves, thoracic bridges and twists for the spine; wall slides, Y raises and wrist rocks for the shoulders and posture. Each mixes flows with a control circuit. Three days rotate. Both later levels add reps.',
+    names: ['Hinge Oil', 'Socket', 'Range', 'Reach', 'Arc Range', 'Sweep', 'Circle', 'Orbit Joint', 'Glide Range', 'Open Range', 'Full Range', 'End Range', 'Mid Range', 'Inner Range', 'Outer Range', 'Free Range', 'Long Range', 'Wide Range', 'Deep Range', 'True Range'],
+    cycle: ['hips', 'spine', 'shoulders'],
+    dayTypes: {
+      hips: { label: 'Hips & ankles', short: 'Hips', blocks: [F('Hip flow', ['hip_cars', 'mbHip', 'mbHip', 'ninety_ninety', 'mbHip', 'mbHip', 'mbHip?', 'mbHip?']), C('Hip control', ['hip_airplane', 'deep_squat_hold', 'ankle_rocks', 'mbHip', 'mbHip?'], { values: [2, 3, 4] }), F('Stretch', ['fxHips', 'fxQuad', 'fxHips?', 'fxHam?'])] },
+      spine: { label: 'Spine', short: 'Spine', blocks: [F('Spine flow', ['cat_cow', 'mbSpine', 'mbSpine', 'open_book', 'mbSpine', 'mbSpine', 'mbSpine?', 'mbSpine?']), C('Spine control', ['bird_dog', 'mbSpine', 'jefferson_curl', 'mbSpine', 'mbSpine?'], { values: [2, 3, 4] }), F('Stretch', ['fxSpine', 'childs_pose', 'fxSpine?', 'fxSpine?'])] },
+      shoulders: { label: 'Shoulders & posture', short: 'Shoulders', blocks: [F('Shoulder flow', ['shoulder_cars', 'mbShoulder', 'mbShoulder', 'thread_the_needle', 'mbShoulder', 'mbShoulder', 'mbShoulder?', 'mbShoulder?']), C('Posture circuit', ['wall_slides', 'prone_ytw', 'chin_tucks', 'mbPosture', 'mbPosture?'], { values: [2, 3, 4] }), F('Stretch', ['fxUpper', 'fxUpper', 'fxUpper?', 'fxSpine?'])] },
+    },
+  },
+  {
+    id: 'mobility-month', name: 'Mobility Month', subject: 'Mobility & posture', days: 30, minutes: P23_LONG, equip: 'bw', absSlots: [], levers: [null, 'reps', 'reps'],
+    split: 'Lower-body mobility / upper-body mobility, 30 days', blurb: 'A month of long mobility sessions: lower body one day, upper body the next.',
+    about: 'A month of moving better. One day takes the ankles, knees and hips through flows and a control circuit; the other the spine, shoulders and wrists. Each ends with a few stretches. They alternate. Every ten days the level steps up. Both later levels add reps.',
+    names: ['Unlock', 'Unbolt', 'Unlatch', 'Unhook', 'Unclasp', 'Unbuckle', 'Unfasten', 'Unpin', 'Unclip', 'Unseal', 'Unstick', 'Unjam', 'Unblock', 'Unbind', 'Untie', 'Unknot Joint', 'Unwrap', 'Unroll', 'Unfold Joint', 'Unfurl'],
+    cycle: ['lower', 'upper'],
+    dayTypes: {
+      lower: { label: 'Lower-body mobility', short: 'Lower', blocks: [F('Lower flow', ['ankle_rocks', 'hip_cars', 'mbHip', 'mbHip', 'ninety_ninety', 'mbHip', 'mbHip?', 'mbHip?']), C('Lower control', ['hip_airplane', 'deep_squat_hold', 'mbHip', 'adductor_rockback', 'mbHip?'], { values: [2, 3, 4] }), F('Stretch', ['fxHips', 'fxHam', 'fxQuad?', 'fxHips?'])] },
+      upper: { label: 'Upper-body mobility', short: 'Upper', blocks: [F('Upper flow', ['cat_cow', 'mbSpine', 'mbShoulder', 'mbSpine', 'mbShoulder', 'mbSpine', 'mbShoulder?', 'mbSpine?']), C('Upper control', ['wall_slides', 'prone_ytw', 'mbPosture', 'mbShoulder', 'mbPosture?'], { values: [2, 3, 4] }), F('Stretch', ['fxUpper', 'fxSpine', 'fxUpper?', 'fxSpine?'])] },
+    },
+  },
+  {
+    id: 'posture-long', name: 'Posture Long', subject: 'Mobility & posture', minutes: P23_LONG, equip: 'bw', absSlots: [], levers: [null, 'reps', 'reps'],
+    split: 'Upper back & neck / hips & spine, long', blurb: 'Long posture sessions: the upper back and neck, then the hips and spine.',
+    about: 'For standing and sitting taller. One day opens the chest and strengthens the upper back and neck with circuits of Y raises, snow angels and chin tucks; the other frees the hips and spine with flows and a glute circuit. They alternate. Both later levels add reps.',
+    names: ['Stand Tall', 'Sit Tall', 'Walk Tall', 'Chest Up', 'Chin In', 'Shoulders Back', 'Head High', 'Long Neck', 'Open Chest', 'Proud Chest', 'Straight Spine', 'Lifted', 'Level Shoulders', 'Square Hips', 'Even Stance', 'Plumb Line Pose', 'Upright Walk', 'Crown Up', 'Spine Up', 'Posture'],
+    cycle: ['upper', 'lower'],
+    dayTypes: {
+      upper: { label: 'Upper back & neck', short: 'Upper', blocks: [F('Open', ['open_book', 'fxUpper', 'mbShoulder', 'fxUpper', 'mbShoulder?', 'fxUpper?']), C('Back & neck circuit', ['prone_y_raise', 'reverse_snow_angel', 'chin_tucks', 'prone_neck_lift', 'mbPosture', 'trapsBw?'], { values: [2, 3, 4, 5] }), F('Stretch', ['fxUpper', 'fxSpine', 'fxUpper?'])] },
+      lower: { label: 'Hips & spine', short: 'Lower', blocks: [F('Hips & spine', ['cat_cow', 'mbSpine', 'mbHip', 'mbSpine', 'mbHip?', 'mbSpine?']), C('Glutes & trunk', ['glute_bridge', 'bird_dog', 'standing_knee_hold', 'mbHip', 'clamshell', 'mbSpine?'], { values: [2, 3, 4, 5] }), F('Stretch', ['fxHips', 'fxQuad', 'fxHips?'])] },
+    },
+  },
+  {
+    id: 'mobility-35', name: 'Mobility 35', subject: 'Mobility & posture', minutes: P23_MID, equip: 'bw', absSlots: [], levers: [null, 'reps', 'reps'],
+    split: 'Joint flow & control A / B, 35 minutes', blurb: 'Thirty-five minutes of mobility: a joint flow, then a control circuit.',
+    about: 'Mobility for about half an hour. A flow through the hips, spine and shoulders, then a circuit of slow control moves, then a few stretches. Two sessions alternate, so the joints worked change. Both later levels add reps.',
+    names: ['Loose Hinge', 'Free Swing', 'Easy Turn', 'Smooth Glide', 'Clean Arc', 'Full Sweep', 'Quiet Joint', 'Light Step', 'Soft Knee', 'Open Hip', 'Long Spine Flow', 'Wide Shoulder', 'Gentle Neck', 'Free Wrist', 'Easy Ankle', 'Clear Path', 'Open Door', 'Wide Gate', 'Free Wheel', 'Loose Limb'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Flow & control A', short: 'A', blocks: [F('Joint flow', ['hip_cars', 'mbHip', 'mbSpine', 'mbHip', 'mbSpine', 'mbHip?', 'mbSpine?']), C('Control', ['hip_airplane', 'ninety_ninety', 'mbHip', 'deep_squat_hold?'], { values: [2, 3, 4] }), F('Stretch', ['fxHips', 'fxHam?', 'fxHips?'])] },
+      b: { label: 'Flow & control B', short: 'B', blocks: [F('Joint flow', ['shoulder_cars', 'mbShoulder', 'mbSpine', 'mbShoulder', 'mbSpine', 'mbShoulder?', 'mbSpine?']), C('Control', ['wall_slides', 'prone_ytw', 'mbPosture', 'mbShoulder?'], { values: [2, 3, 4] }), F('Stretch', ['fxUpper', 'fxSpine?', 'fxUpper?'])] },
+    },
+  },
+  {
+    id: 'spine-care-35', name: 'Spine Care 35', subject: 'Mobility & posture', minutes: P23_MID, equip: 'bw', absSlots: [], levers: [null, 'reps', 'reps'],
+    split: 'Spine flow & control / spine & hips circuit, 35 minutes', blurb: 'Thirty-five minutes for the spine: a flow and control one day, a spine and hip circuit the next.',
+    about: 'Half an hour that keeps the whole spine moving. One day is a flow of waves, bends and twists, then slow control moves; the other a circuit of spine and hip mobility with glute work. They alternate. Both later levels add reps.',
+    names: ['Atlas Bone', 'Axis', 'C7', 'T4', 'T12', 'L3', 'L5', 'S1', 'Neck Curve', 'Back Curve', 'Low Curve', 'Spinal Wave', 'Segment', 'Vertebral', 'Column Flow', 'Stack Flow', 'Rod', 'Rope Spine', 'Chain Spine', 'Spring Spine'],
+    cycle: ['flow', 'circuit'],
+    dayTypes: {
+      flow: { label: 'Spine flow & control', short: 'Flow', blocks: [F('Spine flow', ['cat_cow', 'mbSpine', 'mbSpine', 'open_book', 'mbSpine', 'mbSpine?', 'mbSpine?']), C('Control', ['bird_dog', 'jefferson_curl', 'mbSpine', 'mbSpine?'], { values: [2, 3, 4] }), F('Stretch', ['fxSpine', 'childs_pose', 'fxSpine?'])] },
+      circuit: { label: 'Spine & hips circuit', short: 'Circuit', blocks: [C('Spine & hips', ['mbSpine', 'mbHip', 'glute_bridge', 'mbSpine', 'mbHip', 'bird_dog?'], { values: [2, 3, 4, 5] }), F('Stretch', ['fxSpine', 'fxHips', 'fxSpine?', 'fxHips?'])] },
+    },
+  },
+  {
+    id: 'mobility-express', name: 'Mobility Express', subject: 'Mobility & posture', minutes: [18, 23], equip: 'bw', absSlots: [], levers: [null, 'reps', 'reps'],
+    split: 'Lower joints / upper joints, short', blurb: 'Short mobility: hips and ankles one day, spine and shoulders the next.',
+    about: 'Mobility in a short slot. One day circles and opens the ankles and hips, the other the spine and shoulders, each finished with a short control circuit. They alternate. Both later levels add reps.',
+    names: ['Quick Range', 'Short Range', 'Fast Range', 'Small Range', 'Mini Range', 'Pocket Range', 'Desk Range', 'Lunch Range', 'Break Range', 'Dawn Range', 'Dusk Range', 'Night Range', 'Morning Range', 'Midday Range', 'Evening Range', 'Weekend Range', 'Travel Range', 'Hotel Range', 'Office Range', 'Home Range'],
+    cycle: ['lower', 'upper'],
+    dayTypes: {
+      lower: { label: 'Lower joints', short: 'Lower', blocks: [F('Lower flow', ['ankle_rocks', 'hip_cars', 'mbHip', 'mbHip', 'mbHip?', 'mbHip?']), C('Control', ['hip_airplane', 'mbHip', 'deep_squat_hold?'], { values: [1, 2, 3] })] },
+      upper: { label: 'Upper joints', short: 'Upper', blocks: [F('Upper flow', ['cat_cow', 'mbSpine', 'mbShoulder', 'mbSpine', 'mbShoulder?', 'mbSpine?']), C('Control', ['wall_slides', 'prone_ytw', 'mbPosture?'], { values: [1, 2, 3] })] },
+    },
+  },
+  // Flexibility +6
+  {
+    id: 'flexibility-volume', name: 'Flexibility Volume', subject: 'Flexibility', minutes: P23_LONG, equip: 'bw', absSlots: [], levers: [null, 'holds', 'holds'],
+    split: 'Hamstrings & splits / hips & straddle / shoulders & spine', blurb: 'Three long stretch sessions: hamstrings and splits, hips and straddle, then shoulders and spine.',
+    about: 'Flexibility with the time it needs. Long holds for the hamstrings and front splits, for the hips, groin and straddle, and for the shoulders, chest and spine. Each opens with a short flow and ends on its deepest stretch. Three days rotate. Both later levels hold every stretch longer.',
+    names: ['Elastic', 'Stretch Band', 'Bungee', 'Rubber', 'Spring Coil', 'Taffy', 'Toffee Pull', 'Caramel', 'Dough', 'Putty', 'Clay Flex', 'Wax', 'Silk', 'Ribbon', 'Streamer', 'Kite Tail', 'Banner', 'Pennant', 'Flag', 'Sail'],
+    cycle: ['hams', 'hips', 'upper'],
+    dayTypes: {
+      hams: { label: 'Hamstrings & splits', short: 'Hams', blocks: [F('Open', ['cat_cow', 'forward_fold', 'elephant_walk'], { values: [1] }), F('Hamstrings', ['fxHam', 'fxHam', 'half_split', 'fxHam', 'fxHam?', 'fxHam?']), F('Splits', ['fxSplit', 'fxQuad', 'fxSplit', 'fxQuad', 'fxSplit?', 'fxQuad?']), F('Deepest', ['front_split'], { values: [1] })] },
+      hips: { label: 'Hips & straddle', short: 'Hips', blocks: [F('Open', ['cat_cow', 'garland_pose', 'butterfly'], { values: [1] }), F('Hips', ['fxHips', 'fxHips', 'pigeon_pose', 'fxHips', 'fxHips?', 'fxHips?']), F('Straddle', ['fxStraddle', 'frog_pose', 'fxStraddle', 'fxStraddle', 'fxStraddle?', 'fxHips?']), F('Deepest', ['pancake'], { values: [1] })] },
+      upper: { label: 'Shoulders & spine', short: 'Upper', blocks: [F('Open', ['cat_cow', 'puppy_pose', 'thread_the_needle'], { values: [1] }), F('Shoulders & chest', ['fxUpper', 'fxUpper', 'chest_opener', 'fxUpper', 'fxUpper?', 'fxUpper?']), F('Spine', ['fxSpine', 'fxSpine', 'camel_pose', 'fxSpine', 'fxSpine?', 'fxSpine?'])] },
+    },
+  },
+  {
+    id: 'flexibility-month', name: 'Flexibility Month', subject: 'Flexibility', days: 30, minutes: P23_LONG, equip: 'bw', absSlots: [], levers: [null, 'holds', 'holds'],
+    split: 'Lower-body stretch / upper-body stretch, 30 days', blurb: 'A month of long stretching: lower body one day, upper body and spine the next.',
+    about: 'A month of patient stretching. One day holds the hamstrings, quads, hips and groin; the other the shoulders, chest and spine. Each opens with a short flow. They alternate. Every ten days the level steps up. Both later levels hold every stretch longer.',
+    names: ['Lengthen Day', 'Reach Day', 'Fold Day', 'Open Day', 'Release Day', 'Soften Day', 'Ease Day', 'Breathe Day', 'Melt Day', 'Sink Day', 'Settle Day', 'Lean Day', 'Drape', 'Hang', 'Dangle', 'Droop', 'Sag', 'Slump Free', 'Unspool', 'Uncoil'],
+    cycle: ['lower', 'upper'],
+    dayTypes: {
+      lower: { label: 'Lower-body stretch', short: 'Lower', blocks: [F('Open', ['cat_cow', 'forward_fold', 'low_lunge'], { values: [1] }), F('Legs', ['fxHam', 'fxQuad', 'fxHam', 'fxSplit', 'fxHam?', 'fxQuad?']), F('Hips & groin', ['fxHips', 'fxStraddle', 'fxHips', 'fxStraddle', 'fxHips?', 'fxStraddle?'])] },
+      upper: { label: 'Upper-body stretch', short: 'Upper', blocks: [F('Open', ['cat_cow', 'puppy_pose', 'chair_lat_stretch'], { values: [1] }), F('Shoulders & chest', ['fxUpper', 'fxUpper', 'fxUpper', 'fxUpper', 'fxUpper?', 'fxUpper?']), F('Spine', ['fxSpine', 'fxSpine', 'fxSpine', 'fxSpine', 'fxSpine?', 'fxSpine?'])] },
+    },
+  },
+  {
+    id: 'active-flex-long', name: 'Active Flex Long', subject: 'Flexibility', minutes: P23_LONG, equip: 'bw', absSlots: [], levers: [null, 'holds', 'reps'],
+    split: 'Hip range circuit & stretch / shoulder range circuit & stretch, long', blurb: 'Long sessions of strength at the end of your range, then long stretches.',
+    about: 'Flexibility you can use. Each day is a circuit of strength at the end of your range, Cossack squats, Copenhagen planks and knee holds one day, Y raises, wall slides and snow angels the next, then long stretches for the same areas. They alternate. Level II holds every stretch longer and Level III adds reps.',
+    names: ['Strong Reach', 'Strong Fold', 'Strong Split', 'Strong Lunge', 'Strong Squat', 'Strong Arch', 'Strong Twist', 'Strong Open', 'Strong Lean', 'Strong Drop', 'Active Reach', 'Active Fold', 'Active Split', 'Active Lunge', 'Active Squat', 'Active Arch', 'Active Twist', 'Active Open', 'Active Lean', 'Active Drop'],
+    cycle: ['hips', 'shoulders'],
+    dayTypes: {
+      hips: { label: 'Hip range & stretch', short: 'Hips', blocks: [C('Hip range', ['cossack_squat', 'copenhagen_plank', 'standing_knee_hold', 'mbHip', 'hip_airplane?'], { values: [2, 3, 4] }), F('Hip stretch', ['fxHips', 'fxStraddle', 'fxHam', 'fxHips', 'fxSplit', 'fxHips?', 'fxHam?', 'fxStraddle?'])] },
+      shoulders: { label: 'Shoulder range & stretch', short: 'Shoulders', blocks: [C('Shoulder range', ['prone_y_raise', 'wall_slides', 'prone_ytw', 'reverse_snow_angel', 'mbShoulder?'], { values: [2, 3, 4] }), F('Shoulder stretch', ['fxUpper', 'fxSpine', 'fxUpper', 'fxSpine', 'fxUpper', 'fxUpper?', 'fxSpine?', 'fxUpper?'])] },
+    },
+  },
+  {
+    id: 'flexibility-35', name: 'Flexibility 35', subject: 'Flexibility', minutes: P23_MID, equip: 'bw', absSlots: [], levers: [null, 'holds', 'holds'],
+    split: 'Legs & hips / upper body & spine, 35 minutes', blurb: 'Thirty-five minutes of stretching: legs and hips, or upper body and spine.',
+    about: 'Stretching for about half an hour. One day holds the hamstrings, quads and hips; the other the shoulders, chest and spine. Each opens with a short flow. They alternate. Both later levels hold every stretch longer.',
+    names: ['Stretch Out', 'Reach Out', 'Lean Out', 'Fold In', 'Open Out', 'Wind Down', 'Ease Off', 'Let Out', 'Spread Out', 'Fan Out', 'Lay Out', 'Roll Out', 'Shake Out Flex', 'Chill Out', 'Calm Down', 'Slow Down', 'Settle Down', 'Lie Down', 'Sit Back', 'Lean Back'],
+    cycle: ['lower', 'upper'],
+    dayTypes: {
+      lower: { label: 'Legs & hips', short: 'Lower', blocks: [F('Open', ['cat_cow', 'low_lunge'], { values: [1] }), F('Legs', ['fxHam', 'fxQuad', 'fxHam', 'fxSplit', 'fxHam?', 'fxQuad?']), F('Hips', ['fxHips', 'fxHips', 'fxStraddle', 'fxHips?', 'fxStraddle?'])] },
+      upper: { label: 'Upper body & spine', short: 'Upper', blocks: [F('Open', ['cat_cow', 'puppy_pose'], { values: [1] }), F('Shoulders', ['fxUpper', 'fxUpper', 'fxUpper', 'fxUpper', 'fxUpper?', 'fxUpper?']), F('Spine', ['fxSpine', 'fxSpine', 'fxSpine', 'fxSpine?', 'fxSpine?'])] },
+    },
+  },
+  {
+    id: 'middle-split', name: 'Middle Split', subject: 'Flexibility', minutes: P23_MID, equip: 'bw', absSlots: [], levers: [null, 'holds', 'holds'],
+    split: 'Straddle & groin / hips & hamstrings', blurb: 'Toward the middle split and pancake: straddle and groin, then hips and hamstrings.',
+    about: 'Working toward the middle split. One day holds straddles, frog and butterfly shapes for the groin; the other the hips and hamstrings that hold the split back. Both end on a straddle or pancake. They alternate. Both later levels hold every stretch longer.',
+    names: ['Straddle', 'Pancake', 'Frog Hold', 'Butterfly Hold', 'Wide Seat', 'Side Split', 'Box Split', 'Middle Line', 'Inner Thigh', 'Groin Line', 'Saddle Seat', 'Horse Stance', 'Wide Fold', 'Wide Lean', 'Wide Reach', 'Wide Sit', 'Wide Open', 'Wide Ease', 'Wide Drop', 'Wide Settle'],
+    cycle: ['straddle', 'hips'],
+    dayTypes: {
+      straddle: { label: 'Straddle & groin', short: 'Straddle', blocks: [F('Open', ['cat_cow', 'butterfly'], { values: [1] }), F('Straddle', ['fxStraddle', 'frog_pose', 'fxStraddle', 'fxStraddle', 'fxStraddle?', 'fxHips?']), F('Groin', ['fxHips', 'fxStraddle', 'fxHips', 'fxHips?']), F('Deepest', ['seated_straddle'], { values: [1] })] },
+      hips: { label: 'Hips & hamstrings', short: 'Hips', blocks: [F('Open', ['cat_cow', 'wide_leg_fold'], { values: [1] }), F('Hips', ['fxHips', 'fxHips', 'fxHips', 'fxHips?', 'fxHips?']), F('Hamstrings', ['fxHam', 'fxHam', 'fxHam', 'fxHam?', 'fxHam?']), F('Deepest', ['pancake'], { values: [1] })] },
+    },
+  },
+  {
+    id: 'flexibility-express', name: 'Flexibility Express', subject: 'Flexibility', minutes: [18, 23], equip: 'bw', absSlots: [], levers: [null, 'holds', 'holds'],
+    split: 'Lower stretch / upper stretch, short', blurb: 'Short stretching: legs and hips one day, shoulders and spine the next.',
+    about: 'Stretching in a short slot. One day holds the legs and hips, the other the shoulders and spine. They alternate. Both later levels hold every stretch longer.',
+    names: ['Quick Stretch', 'Short Stretch', 'Fast Stretch', 'Mini Stretch', 'Pocket Stretch', 'Desk Stretch', 'Lunch Stretch', 'Break Stretch', 'Dawn Stretch', 'Dusk Stretch', 'Night Stretch', 'Wake Stretch', 'Bed Stretch', 'Couch Stretch Day', 'Floor Stretch', 'Mat Stretch', 'Wall Stretch', 'Door Stretch', 'Chair Stretch', 'Step Stretch'],
+    cycle: ['lower', 'upper'],
+    dayTypes: {
+      lower: { label: 'Lower stretch', short: 'Lower', blocks: [F('Legs & hips', ['fxHam', 'fxQuad', 'fxHips', 'couch_stretch', 'fxHam?', 'fxHips?', 'fxStraddle?'])] },
+      upper: { label: 'Upper stretch', short: 'Upper', blocks: [F('Shoulders & spine', ['fxUpper', 'fxSpine', 'chair_lat_stretch', 'fxUpper', 'fxSpine?', 'fxUpper?', 'fxSpine?'])] },
+    },
+  },
+  // Balance & stability +6
+  {
+    id: 'balance-volume', name: 'Balance Volume', subject: 'Balance & stability', minutes: P23_LONG, equip: 'bw', levers: [null, 'reps', 'variation'],
+    split: 'Still balance / moving balance / single-leg strength', blurb: 'Three long balance days: still holds, moving balance, then single-leg strength.',
+    about: 'Balance trained three ways. One day holds still on one leg in harder and harder positions; the next moves, reaching, stepping up and stepping out; the third builds single-leg strength with pistols, single-leg deadlifts and Copenhagen planks. Circuits and straight sets. Abs finish every session. Level II adds reps and Level III brings harder variations.',
+    names: ['Flamingo Stand', 'Stork Stand', 'Heron Stand', 'Crane Stand', 'Egret Stand', 'Tightrope Walk', 'Beam Walk', 'Rail Walk', 'Log Walk', 'Rope Walk', 'Ledge Walk', 'Kerb Walk', 'Wall Walk Balance', 'Stepping Stones', 'Balance Board', 'Wobble Board', 'Slackline', 'High Wire', 'Unicycle', 'Pogo Balance'],
+    cycle: ['still', 'moving', 'strength'],
+    dayTypes: {
+      still: { label: 'Still balance', short: 'Still', blocks: [C('Still balance', ['blStatic', 'blStatic', 'blStrength', 'blStatic', 'blStatic?'], { values: [2, 3, 4, 5] }), S('Strength', ['blStrength', 'blStrength', 'blStrength?'])] },
+      moving: { label: 'Moving balance', short: 'Moving', blocks: [C('Moving balance', ['blDynamic', 'step_up_balance', 'blDynamic', 'blPower', 'blDynamic?'], { values: [2, 3, 4, 5] }), S('Strength', ['blStrength', 'blStrength', 'blDynamic?'])] },
+      strength: { label: 'Single-leg strength', short: 'Strength', blocks: [S('Single-leg strength', ['pistol_box_squat', 'single_leg_rdl_bw', 'blStrength', 'copenhagen_plank', 'blStrength', 'blStrength?']), C('Balance', ['blStatic', 'blDynamic', 'blStatic?'], { values: [2, 3, 4] })] },
+    },
+  },
+  {
+    id: 'balance-month-plus', name: 'Balance Month Plus', subject: 'Balance & stability', days: 30, minutes: P23_LONG, equip: 'bw', levers: [null, 'reps', 'reps'],
+    split: 'Balance EMOM & strength / balance circuit & hops, 30 days', blurb: 'A month of balance: an EMOM and strength one day, a circuit and hops the next.',
+    about: 'A month to steady your feet. One day is an EMOM of holds, reaches and single-leg moves, a set at the top of every minute, then single-leg strength; the other a balance circuit, then hops with stuck landings. They alternate. Every ten days the level steps up. Abs finish every session. Both later levels add reps.',
+    names: ['Steady Week', 'Still Week', 'Sure Week', 'Firm Week', 'Level Week', 'Calm Week', 'Poised Week', 'Rooted Week', 'Grounded Week', 'Centred Week', 'Steady Day', 'Still Day', 'Sure Day', 'Firm Day', 'Level Day', 'Calm Day', 'Poised Day', 'Rooted Day', 'Grounded Day', 'Centred Day'],
+    cycle: ['emom', 'circuit'],
+    dayTypes: {
+      emom: { label: 'Balance EMOM & strength', short: 'EMOM', blocks: [E('Balance EMOM', ['blStatic', 'blDynamic', 'blStrength', 'blDynamic'], { values: [12, 14, 16] }), S('Strength', ['blStrength', 'blStrength', 'single_leg_rdl_bw', 'blStrength?'])] },
+      circuit: { label: 'Balance circuit & hops', short: 'Circuit', blocks: [C('Balance circuit', ['blStatic', 'blDynamic', 'step_up_balance', 'blStatic', 'blDynamic?'], { values: [2, 3, 4] }), S('Hops & sticks', ['single_leg_hop_stick', 'blPower', 'lateral_bound_hold', 'blPower?'])] },
+    },
+  },
+  {
+    id: 'loaded-balance-long', name: 'Loaded Balance Long', subject: 'Balance & stability', minutes: P23_LONG, levers: [null, 'weight', 'reps'],
+    split: 'Loaded single leg / carries & offset holds', blurb: 'Balance with weights: single-leg lifts one day, carries and offset holds the next.',
+    about: 'Balance under load. One day is single-leg deadlifts, split squats and step-ups with dumbbells, and balance holds between; the other is suitcase marches, waiter walks, farmer carries and single-leg holds with a weight off to one side. They alternate. Abs finish every session. Level II moves you one weight up and Level III adds reps.',
+    names: ['Weighted Stand', 'Offset', 'Lopsided', 'Uneven', 'Tilted', 'Counterbalance', 'Ballast Stand', 'Load Bearing', 'Cargo', 'Freight', 'Pack Mule', 'Porter', 'Sherpa', 'Carrier', 'Courier', 'Bearer', 'Hauler', 'Lifter', 'Holder', 'Keeper'],
+    cycle: ['single', 'carry'],
+    dayTypes: {
+      single: { label: 'Loaded single leg', short: 'Single', blocks: [S('Loaded single leg', ['single_leg_rdl', 'split_squat', 'blStatic', 'singleLeg?', 'db_step_up?', 'singleLeg?']), C('Balance', ['blStatic', 'blDynamic', 'blStatic?'], { values: [1, 2, 3, 4] })] },
+      carry: { label: 'Carries & offset holds', short: 'Carry', blocks: [S('Carries', ['suitcase_march', 'farmer_carry', 'suitcase_march', 'blStrength', 'kb_waiter_walk?']), C('Offset holds', ['blStatic', 'single_leg_rdl', 'blDynamic', 'blStatic?'], { values: [2, 3, 4] })] },
+    },
+  },
+  {
+    id: 'balance-35', name: 'Balance 35', subject: 'Balance & stability', minutes: P23_MID, equip: 'bw', levers: [null, 'reps', 'variation'],
+    split: 'Balance circuit & strength A / B, 35 minutes', blurb: 'Thirty-five minutes of balance: a circuit, then single-leg strength.',
+    about: 'Balance for about half an hour. A circuit of still and moving balance, then single-leg strength in straight sets. Two sessions alternate. Abs finish every session. Level II adds reps and Level III brings harder variations.',
+    names: ['Even Stand', 'Fair Stand', 'True Stand', 'Plumb Stand', 'Square Stand', 'Upright Stand', 'Tall Stand', 'Strong Stand', 'Calm Stand', 'Quiet Stand', 'Still Stand', 'Light Stand', 'Easy Stand', 'Free Stand', 'Open Stand', 'Clear Stand', 'Bright Stand', 'Sharp Stand', 'Keen Stand', 'Steady Stand'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Circuit & strength A', short: 'A', blocks: [C('Balance circuit', ['blStatic', 'blDynamic', 'blStatic', 'blDynamic?'], { values: [2, 3, 4] }), S('Strength', ['blStrength', 'blStrength', 'blStrength?'])] },
+      b: { label: 'Circuit & strength B', short: 'B', blocks: [C('Balance circuit', ['blDynamic', 'step_up_balance', 'blStatic', 'blPower?'], { values: [2, 3, 4] }), S('Strength', ['blStrength', 'single_leg_rdl_bw', 'blStrength?'])] },
+    },
+  },
+  {
+    id: 'ground-up-balance', name: 'Ground-Up Balance', subject: 'Balance & stability', minutes: P23_MID, equip: 'bw', levers: [null, 'reps', 'reps'],
+    split: 'Feet & ankles / knees & hips', blurb: 'Balance from the ground up: feet and ankles, then knees and hips.',
+    about: 'Balance that starts at the feet. One day trains the feet, ankles and calves with raises, walks and holds; the other the knees and hips with step-ups, reaches and airplanes. They alternate. Abs finish every session. Both later levels add reps.',
+    names: ['Arch Up', 'Toe Grip', 'Heel Down', 'Ankle Lock', 'Foot Tripod', 'Big Toe', 'Little Toe', 'Heel Toe', 'Instep Lift', 'Sole Press', 'Knee Track', 'Knee Line', 'Hip Level', 'Hip Hike', 'Hip Hinge', 'Ankle Roll', 'Ankle Rock', 'Foot Flex', 'Foot Point', 'Foot Spread'],
+    cycle: ['feet', 'hips'],
+    dayTypes: {
+      feet: { label: 'Feet & ankles', short: 'Feet', blocks: [C('Feet & ankles', ['single_leg_calf_raise', 'heel_to_toe_walk', 'blStatic', 'tiptoe_walk', 'ankle_rocks?'], { values: [2, 3, 4] }), S('Calves & shins', ['calfBw', 'shin', 'blStatic?'])] },
+      hips: { label: 'Knees & hips', short: 'Hips', blocks: [C('Knees & hips', ['step_up_balance', 'blDynamic', 'hip_airplane', 'blStatic', 'blDynamic?'], { values: [2, 3, 4] }), S('Single-leg strength', ['blStrength', 'single_leg_rdl_bw', 'blStrength?'])] },
+    },
+  },
+  {
+    id: 'balance-express', name: 'Balance Express', subject: 'Balance & stability', minutes: [20, 25], equip: 'bw', levers: [null, 'reps', 'reps'],
+    split: 'Still EMOM / moving circuit, short', blurb: 'Short balance sessions: still holds on the minute, or a moving circuit.',
+    about: 'Balance in a short slot. One day is an EMOM of still holds and single-leg strength; the other a circuit of reaches, steps and hops. They alternate. Abs finish every session. Both later levels add reps.',
+    names: ['Quick Balance', 'Short Balance', 'Fast Balance', 'Mini Balance', 'Pocket Balance', 'Desk Balance', 'Kitchen Balance', 'Queue Balance', 'Bus Balance', 'Brush Balance', 'Kettle Balance', 'Dawn Balance', 'Dusk Balance', 'Night Balance', 'Lunch Balance', 'Break Balance', 'Hall Balance', 'Stair Balance', 'Door Balance', 'Rug Balance'],
+    cycle: ['still', 'moving'],
+    dayTypes: {
+      still: { label: 'Still EMOM', short: 'Still', blocks: [E('Still EMOM', ['blStatic', 'blStrength', 'blStatic'], { values: [10, 12, 14] })] },
+      moving: { label: 'Moving circuit', short: 'Moving', blocks: [C('Moving circuit', ['blDynamic', 'step_up_balance', 'blPower', 'blDynamic?'], { values: [2, 3, 4] })] },
+    },
+  },
+  // Gentle / low impact +5
+  {
+    id: 'gentle-volume', name: 'Gentle Volume', subject: 'Gentle / low impact', minutes: P23_LONG, equip: 'bw', absSlots: [], levers: [null, 'reps', 'reps'],
+    split: 'Gentle strength / easy cardio & balance / gentle flow', blurb: 'Three longer gentle sessions: easy strength, easy cardio and balance, then a floor flow.',
+    about: 'Gentle training with more time in it. One day is easy strength from a chair and the wall; the next marching, step-touches and arm drives with balance holds; the third a slow floor flow for the back and hips. Three days rotate. Nothing jumps. Both later levels add reps.',
+    names: ['Easy Does It', 'Steady On', 'Gently', 'Softly', 'Slowly', 'Kindly', 'Calmly', 'Lightly', 'Carefully', 'Patiently', 'Little by Little', 'Step by Step', 'Bit by Bit', 'Day by Day', 'Bit More', 'Keep Going', 'Carry On', 'Go Easy', 'Take Care', 'Well Done'],
+    cycle: ['strength', 'cardio', 'flow'],
+    dayTypes: {
+      strength: { label: 'Gentle strength', short: 'Strength', blocks: [C('Gentle strength', ['sit_to_stand', 'wall_pushup', 'glute_bridge', 'gentleStrength', 'gentleStrength', 'gentleStrength?'], { values: [2, 3, 4, 5] }), F('Stretch', ['backMove', 'backMove', 'backMove?', 'backMove?'])] },
+      cardio: { label: 'Easy cardio & balance', short: 'Cardio', blocks: [E('Easy cardio', ['standing_march', 'gentleCardio', 'step_touch', 'gentleCardio'], { values: [12, 14, 16] }), C('Balance', ['gentleBalance', 'gentleBalance', 'gentleBalance?'], { values: [2, 3, 4] }), F('Stretch', ['backMove', 'backMove?'])] },
+      flow: { label: 'Gentle flow', short: 'Flow', blocks: [F('Floor flow', ['pelvic_tilt', 'knee_hug', 'backMove', 'backMove', 'mbHip', 'backMove', 'backMove?', 'mbHip?']), F('Hips & back', ['mbHip', 'backMove', 'mbSpine', 'backMove', 'mbHip?', 'backMove?']), F('Rest flow', ['backMove', 'childs_pose', 'ygRest', 'backMove?', 'ygRest?'])] },
+    },
+  },
+  {
+    id: 'gentle-month', name: 'Gentle Month', subject: 'Gentle / low impact', days: 30, minutes: P23_LONG, equip: 'bw', absSlots: [], levers: [null, 'reps', 'reps'],
+    split: 'Gentle strength & stretch / easy cardio & flow, 30 days', blurb: 'A month of gentle sessions: strength and a stretch, then easy cardio and a flow.',
+    about: 'A month of easy, steady work. One day is gentle strength in straight sets, then a stretch flow; the other easy cardio on the minute, then a floor flow. Nothing jumps. They alternate. Every ten days the level steps up. Both later levels add reps.',
+    names: ['Gentle Week One', 'Gentle Week Two', 'Gentle Week Three', 'Gentle Week Four', 'Gentle Day One', 'Gentle Day Ten', 'Gentle Day Twenty', 'Gentle Day Thirty', 'Soft Start', 'Easy Middle', 'Calm End', 'Light Load', 'Low Gear', 'First Gear', 'Second Gear', 'Easy Gear', 'Cruise', 'Coast', 'Glide Along', 'Amble'],
+    cycle: ['strength', 'cardio'],
+    dayTypes: {
+      strength: { label: 'Gentle strength & stretch', short: 'Strength', blocks: [S('Gentle strength', ['sit_to_stand', 'wall_pushup', 'glute_bridge', 'bird_dog', 'gentleStrength', 'gentleStrength?']), F('Stretch flow', ['backMove', 'backMove', 'mbHip', 'backMove', 'backMove?', 'ygRest?'])] },
+      cardio: { label: 'Easy cardio & flow', short: 'Cardio', blocks: [E('Easy cardio', ['standing_march', 'gentleCardio', 'step_touch', 'gentleCardio'], { values: [14, 16, 18, 20] }), F('Floor flow', ['pelvic_tilt', 'knee_hug', 'backMove', 'backMove', 'mbHip', 'backMove?', 'ygRest?', 'backMove?'])] },
+    },
+  },
+  {
+    id: 'gentle-circuit-long', name: 'Gentle Circuit Long', subject: 'Gentle / low impact', minutes: P23_LONG, equip: 'bw', absSlots: [], levers: [null, 'reps', 'tempo'],
+    split: 'Gentle circuit A / B, long', blurb: 'Longer gentle circuits of chair, wall and floor moves, then an easy stretch.',
+    about: 'A longer gentle circuit. Sit-to-stands, wall push-ups, bridges, bird dogs, knee push-ups and marching go round with a rest after each lap, then an easy stretch on the floor. Two circuits alternate. Nothing jumps. Level II adds reps and Level III slows every rep down.',
+    names: ['Round and Round', 'Lap One', 'Lap Two', 'Lap Three', 'Lap Four', 'Lap Five', 'Easy Lap', 'Gentle Lap', 'Slow Lap', 'Calm Lap', 'Kind Lap', 'Soft Lap', 'Light Lap', 'Steady Lap', 'Patient Lap', 'Warm Lap Gentle', 'Last Lap Gentle', 'Home Lap', 'Garden Lap', 'Park Lap'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Gentle circuit A', short: 'A', blocks: [C('Gentle circuit', ['sit_to_stand', 'wall_pushup', 'glute_bridge', 'standing_march', 'gentleStrength', 'gentleBalance', 'gentleStrength?'], { values: [2, 3, 4, 5] }), F('Stretch', ['backMove', 'backMove', 'backMove?', 'ygRest?'])] },
+      b: { label: 'Gentle circuit B', short: 'B', blocks: [C('Gentle circuit', ['gentleStrength', 'bird_dog', 'step_touch', 'gentleStrength', 'clamshell', 'gentleCardio', 'gentleBalance?'], { values: [2, 3, 4, 5] }), F('Stretch', ['backMove', 'backMove', 'backMove?', 'ygRest?'])] },
+    },
+  },
+  {
+    id: 'gentle-35', name: 'Gentle 35', subject: 'Gentle / low impact', minutes: P23_MID, equip: 'bw', absSlots: [], levers: [null, 'reps', 'reps'],
+    split: 'Gentle strength & balance / easy cardio & stretch, 35 minutes', blurb: 'Thirty-five minutes of gentle work: strength and balance, or easy cardio and a stretch.',
+    about: 'Gentle training for about half an hour. One day is easy strength in straight sets with balance holds after; the other easy cardio on the minute with a stretch after. Nothing jumps. They alternate. Both later levels add reps.',
+    names: ['Half Hour Easy', 'Half Hour Calm', 'Half Hour Soft', 'Half Hour Light', 'Half Hour Steady', 'Half Hour Gentle', 'Half Hour Kind', 'Half Hour Slow', 'Half Hour Warm', 'Half Hour Quiet', 'Tea Time', 'Elevenses', 'Afternoon Walk', 'Evening Stroll', 'Morning Amble', 'Garden Path', 'Park Bench', 'Porch Step', 'Front Step', 'Back Step'],
+    cycle: ['strength', 'cardio'],
+    dayTypes: {
+      strength: { label: 'Gentle strength & balance', short: 'Strength', blocks: [S('Gentle strength', ['sit_to_stand', 'wall_pushup', 'glute_bridge', 'gentleStrength', 'gentleStrength?']), C('Balance', ['gentleBalance', 'gentleBalance', 'gentleBalance?'], { values: [2, 3, 4] })] },
+      cardio: { label: 'Easy cardio & stretch', short: 'Cardio', blocks: [E('Easy cardio', ['standing_march', 'gentleCardio', 'step_touch', 'gentleCardio'], { values: [12, 14, 16, 18, 20] }), F('Stretch', ['backMove', 'backMove', 'backMove', 'mbHip', 'backMove?', 'ygRest?', 'backMove?'])] },
+    },
+  },
+  {
+    id: 'gentle-express', name: 'Gentle Express', subject: 'Gentle / low impact', minutes: [15, 20], equip: 'bw', absSlots: [], levers: [null, 'reps', 'reps'],
+    split: 'Gentle circuit / easy flow, short', blurb: 'Short gentle sessions: an easy circuit, or a slow floor flow.',
+    about: 'Gentle training in a short slot. One day is an easy circuit of chair, wall and floor moves; the other a slow floor flow for the back and hips. Nothing jumps. They alternate. Both later levels add reps.',
+    names: ['Little Lift', 'Little Step', 'Little Stretch', 'Little Walk', 'Little Bend', 'Little Reach', 'Little Turn', 'Little Push', 'Little Pull', 'Little Rise', 'Small Lift', 'Small Step', 'Small Stretch', 'Small Walk', 'Small Bend', 'Small Reach', 'Small Turn', 'Small Push', 'Small Pull', 'Small Rise'],
+    cycle: ['circuit', 'flow'],
+    dayTypes: {
+      circuit: { label: 'Gentle circuit', short: 'Circuit', blocks: [C('Gentle circuit', ['sit_to_stand', 'gentleStrength', 'gentleCardio', 'gentleStrength?'], { values: [2, 3, 4] })] },
+      flow: { label: 'Easy flow', short: 'Flow', blocks: [F('Floor flow', ['pelvic_tilt', 'knee_hug', 'backMove', 'backMove', 'mbHip', 'backMove?', 'ygRest?', 'backMove?', 'mbHip?'])] },
+    },
+  },
+].map((c) => ({ ...c, added: 23, catalogue: 13 }));
+CONFIGS.push(...P23_CARE);
+
 // Phase 23: the new programs' ids in shelf order, appended to programs.config.js's ORDER after every older program
-CONFIGS.order23 = [...P23_CORE, ...P23_YP, ...P23_BACK, ...P23_YP_NEW].map((c) => c.id);
+CONFIGS.order23 = [...P23_CORE, ...P23_YP, ...P23_BACK, ...P23_YP_NEW, ...P23_CARE].map((c) => c.id);
 module.exports = CONFIGS;

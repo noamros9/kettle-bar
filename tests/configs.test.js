@@ -233,6 +233,12 @@ const IDS = [
     'mat-core-month', 'teaser-builder', 'oblique-mat', 'mat-core-35', 'deep-core-month',
     'mat-core-express', 'mat-core-15', 'bell-pilates-volume', 'bell-pilates-month', 'bell-pilates-full',
     'bell-pilates-strength', 'bell-pilates-35', 'bell-pilates-core-month', 'bell-pilates-express', 'bell-pilates-15',
+    // Phase 23 ticket 10: Mobility & posture, Flexibility, Balance & stability, Gentle / low impact (mind-body.js)
+    'mobility-volume', 'mobility-month', 'posture-long', 'mobility-35', 'spine-care-35',
+    'mobility-express', 'flexibility-volume', 'flexibility-month', 'active-flex-long', 'flexibility-35',
+    'middle-split', 'flexibility-express', 'balance-volume', 'balance-month-plus', 'loaded-balance-long',
+    'balance-35', 'ground-up-balance', 'balance-express', 'gentle-volume', 'gentle-month',
+    'gentle-circuit-long', 'gentle-35', 'gentle-express',
     // Phase 23 ticket 8, continued: Fighter (mixed.js, the last family file)
     'fighter-volume', 'fighter-month', 'cage-strength', 'bell-fighter', 'fighter-35',
     'fighter-flow-35', 'fighter-express',
