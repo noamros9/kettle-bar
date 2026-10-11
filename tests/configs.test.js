@@ -197,6 +197,12 @@ const IDS = [
     'bell-shoulder-strength', 'shoulder-express', 'arm-volume', 'arm-month', 'bodyweight-arm-strength',
     'arm-express', 'neck-volume', 'traps-month', 'desk-neck-plus', 'neck-ladder-express',
     'grip-volume', 'grip-month', 'grip-and-lift-long', 'forearm-supersets', 'grip-express',
+    // Phase 23 ticket 6: Legs & glutes, Hips & adductors, Calves & lower legs (strength.js), then Core & abs (mind-body.js)
+    'legs-volume', 'four-day-legs', 'heavy-legs-month', 'glute-volume', 'bell-legs-long',
+    'tempo-legs', 'leg-month', 'legs-express', 'quick-glutes', 'hip-volume',
+    'hips-month', 'bell-hip-supersets', 'floor-hip-ladders', 'calf-volume', 'calves-month',
+    'calf-tabata-ladder', 'barefoot-express', 'core-volume', 'core-month', 'floor-core-long',
+    'bell-core-long', 'weighted-core-month', 'core-circuit-plus', 'core-emom-express', 'hollow-and-plank-express',
 ];
 
 test('the config ids, in order, are today\'s list', () => {

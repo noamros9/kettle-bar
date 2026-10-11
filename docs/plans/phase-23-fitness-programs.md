@@ -100,7 +100,7 @@ decisions is today's catalogue 13 (renumbered by 105).
 | 3 | Strength, Busy week, Bodyweight +29 | content | 1 | `content/p23-strength` | done (PR #360) |
 | 4 | Kettlebells and pulls +26 | content | 1 | `content/p23-bells-pulls` | done (PR #361) |
 | 5 | Upper-body muscles and grip +25 | content | 1 | `content/p23-muscles-upper` | done (PR #362) |
-| 6 | Legs, hips, calves, core +25 | content | 1 | `content/p23-muscles-lower` | todo |
+| 6 | Legs, hips, calves, core +25 | content | 1 | `content/p23-muscles-lower` | done (PR #367) |
 | 7 | Cardio +30 | content | 1 | `content/p23-cardio` | todo |
 | 8 | Combat +20 | content | 1 | `content/p23-combat` | todo |
 | 1c | Yoga and Pilates exercises doubled, catalogue 14 (235, 237) | content | – | `content/p23-yoga-pilates-ex` | done (PR #354) |
@@ -112,7 +112,7 @@ decisions is today's catalogue 13 (renumbered by 105).
 | 12b | Weekly mix and Surprise +16 | content | 9b, 12 | `content/p23-variety-new` | todo |
 | 13 | Close the phase: measure again, archive | plan | 2–12b | `plan/p23-close` | todo |
 
-Tickets 3–6 edit `configs/strength.js`, 7–8 `configs/cardio-combat.js`, 9–10 `configs/mind-body.js`, 11–12
+Tickets 3–6 edit `configs/strength.js` (ticket 6's Core & abs is in `configs/mind-body.js`, its family file), 7–8 `configs/cardio-combat.js`, 9–10 `configs/mind-body.js`, 11–12
 `configs/mixed.js`: after ticket 1, two tickets of different family files can build at once (CLAUDE.md cap of 2).
 The pins file is regenerated after each rebase (`npm run pin`), never merged by hand.
 
