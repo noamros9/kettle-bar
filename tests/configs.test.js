@@ -197,11 +197,20 @@ const IDS = [
     'bell-shoulder-strength', 'shoulder-express', 'arm-volume', 'arm-month', 'bodyweight-arm-strength',
     'arm-express', 'neck-volume', 'traps-month', 'desk-neck-plus', 'neck-ladder-express',
     'grip-volume', 'grip-month', 'grip-and-lift-long', 'forearm-supersets', 'grip-express',
-    // Phase 23 ticket 6: Legs & glutes, Hips & adductors, Calves & lower legs (strength.js), then Core & abs (mind-body.js)
+    // Phase 23 ticket 6: Legs & glutes, Hips & adductors, Calves & lower legs (strength.js); its Core & abs is below
     'legs-volume', 'four-day-legs', 'heavy-legs-month', 'glute-volume', 'bell-legs-long',
     'tempo-legs', 'leg-month', 'legs-express', 'quick-glutes', 'hip-volume',
     'hips-month', 'bell-hip-supersets', 'floor-hip-ladders', 'calf-volume', 'calves-month',
-    'calf-tabata-ladder', 'barefoot-express', 'core-volume', 'core-month', 'floor-core-long',
+    'calf-tabata-ladder', 'barefoot-express',
+    // Phase 23 ticket 7: Conditioning, HIIT, Plyometrics, Running prep, Court & field sports (cardio-combat.js)
+    'long-engine', 'conditioning-month', 'dumbbell-conditioning', 'swing-and-sprint', 'conditioning-35',
+    'tabata-hour-glass', 'quick-engine', 'hiit-long-burn', 'hiit-month', 'hiit-pyramid-long',
+    'bell-hiit-long', 'hiit-35', 'hiit-amrap-plus', 'hiit-express', 'plyo-volume',
+    'plyo-month', 'loaded-jumps', 'plyo-35', 'single-leg-power', 'plyo-express',
+    'runner-volume', 'runner-month', 'stride-builder', 'runner-strength-35', 'runner-express',
+    'court-volume', 'court-month', 'field-strength-long', 'agility-35', 'court-express',
+    // Phase 23 ticket 6, continued: Core & abs (mind-body.js, after the cardio family file)
+    'core-volume', 'core-month', 'floor-core-long',
     'bell-core-long', 'weighted-core-month', 'core-circuit-plus', 'core-emom-express', 'hollow-and-plank-express',
 ];
 

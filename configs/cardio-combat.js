@@ -946,6 +946,352 @@ const ABOUT = {
 };
 CONFIGS.forEach((c) => { if (ABOUT[c.id]) c.about = ABOUT[c.id]; });
 
+// Phase 23 ticket 7: Conditioning +7, HIIT +7, Plyometrics +6, Running prep +5, Court & field sports +5, by ticket 3's
+// rules: half 35–38 min, a quarter 31–35, a quarter shorter; a fifth at 30 days; gear in each subject's old shares.
+const P23_LONG = [34.5, 38.4], P23_MID = [31, 35];
+const P23_T7 = [
+  // Conditioning +7
+  {
+    id: 'long-engine', name: 'Long Engine', subject: 'Conditioning', minutes: P23_LONG, levers: [null, 'reps', 'weight'],
+    split: 'Long circuit & AMRAP / long EMOM & Tabata', blurb: 'Long conditioning days: a circuit then an AMRAP, or an EMOM then Tabatas.',
+    about: 'Conditioning with time to build. One day is a long full-body circuit of lifts and cardio, then an AMRAP to finish; the other is an EMOM of the same kinds of moves, a set at the top of every minute, then two Tabatas. They alternate. Abs finish every session. Level II adds reps and Level III moves you one weight up.',
+    names: ['Piston', 'Cylinder', 'Crankshaft', 'Camshaft', 'Valve', 'Spark Plug', 'Carburettor', 'Turbo', 'Intercooler', 'Manifold', 'Gearbox', 'Clutch', 'Driveshaft', 'Differential', 'Radiator', 'Throttle', 'Ignition', 'Exhaust', 'Torque', 'Redline'],
+    cycle: ['circuit', 'emom'],
+    dayTypes: {
+      circuit: { label: 'Circuit & AMRAP', short: 'Circuit', blocks: [C('Long circuit', ['total', 'squat2', 'cardio', 'backRow', 'pushLoad2', 'hiit'], { values: [2, 3, 4] }), A('AMRAP', ['kbBallistic', 'chestBw', 'cardio'], { values: [6, 8, 10] })] },
+      emom: { label: 'EMOM & Tabata', short: 'EMOM', blocks: [E('Long EMOM', ['hinge2', 'cardio', 'pushLoad2', 'hiit', 'row2'], { values: [15, 18, 20] }), T('Tabata 1', ['hiit', 'legsBw2'], { values: [1] }), T('Tabata 2', ['cardio', 'core2'], { values: [1] })] },
+    },
+  },
+  {
+    id: 'conditioning-month', name: 'Conditioning Month', subject: 'Conditioning', days: 30, minutes: P23_LONG, levers: [null, 'reps', 'variation'],
+    split: 'Ladder & AMRAP / circuit & Tabata / EMOM, 30 days', blurb: 'A month of conditioning: a ladder and AMRAP, a circuit and Tabatas, then a long EMOM.',
+    about: 'A month that hits every kind of conditioning. One day climbs a ladder then empties the tank in an AMRAP, the next goes round a full-body circuit then two Tabatas, the third is one long EMOM. Three days rotate. Every ten days the level steps up. Abs finish every session. Level II adds reps and Level III brings harder variations.',
+    names: ['Ironman', 'Decathlon', 'Heptathlon', 'Pentathlon', 'Biathlon', 'Triathlon', 'Duathlon', 'Aquathlon', 'Ultra', 'Marathon', 'Relay', 'Steeplechase', 'Hurdles', 'Sprint Medley', 'Cross Country', 'Fell Run', 'Iron Mile', 'Grand Tour', 'Gauntlet', 'Endurance'],
+    cycle: ['ladder', 'circuit', 'emom'],
+    dayTypes: {
+      ladder: { label: 'Ladder & AMRAP', short: 'Ladder', blocks: [L('Ladder 1', ['total', 'push']), L('Ladder 2', ['cardio', 'squat2']), A('AMRAP', ['hiit', 'row2', 'core2'], { values: [6, 8, 10] })] },
+      circuit: { label: 'Circuit & Tabata', short: 'Circuit', blocks: [C('Circuit', ['kbBallistic', 'lunge2', 'chestBw', 'backRow', 'cardio'], { values: [2, 3, 4] }), T('Tabata 1', ['hiit', 'legsBw2'], { values: [1] }), T('Tabata 2', ['cardio', 'coreRot'], { values: [1] })] },
+      emom: { label: 'Long EMOM', short: 'EMOM', blocks: [E('Long EMOM', ['total', 'cardio', 'squat2', 'hiit', 'pushLoad2', 'cardio'], { values: [24, 27, 30] })] },
+    },
+  },
+  {
+    id: 'dumbbell-conditioning', name: 'Dumbbell Conditioning', subject: 'Conditioning', minutes: P23_LONG, levers: [null, 'weight', 'reps'],
+    split: 'Dumbbell AMRAPs / dumbbell ladders', blurb: 'Long dumbbell conditioning: two AMRAPs one day, two ladders the next.',
+    about: 'Conditioning with the dumbbells in your hands the whole time. One day is two AMRAPs of thrusters, snatches, rows and lunges, as many rounds as you can; the other is two ladders of the same lifts, one rep each, then two, then three. They alternate. Abs finish every session. Level II moves you one weight up and Level III adds reps.',
+    names: ['Iron Lung', 'Steel Heart', 'Bronze Back', 'Copper Legs', 'Brass Neck', 'Tin Man', 'Zinc', 'Nickel', 'Cobalt', 'Chrome', 'Titanium', 'Tungsten', 'Pewter', 'Gunmetal', 'Cast Iron', 'Pig Iron', 'Wrought Iron', 'Alloy', 'Damascus', 'Carbon'],
+    cycle: ['amrap', 'ladder'],
+    dayTypes: {
+      amrap: { label: 'Dumbbell AMRAPs', short: 'AMRAP', blocks: [A('AMRAP 1', ['total', 'row2', 'lunge2'], { values: [10, 12, 14] }), A('AMRAP 2', ['db_thruster', 'pushLoad2', 'hinge2', 'cardio'], { values: [10, 12, 14] })] },
+      ladder: { label: 'Dumbbell ladders', short: 'Ladder', blocks: [L('Ladder 1', ['total', 'row2']), L('Ladder 2', ['squat2', 'pushLoad2']), L('Ladder 3', ['hinge2', 'cardio'])] },
+    },
+  },
+  {
+    id: 'swing-and-sprint', name: 'Swing and Sprint', subject: 'Conditioning', minutes: P23_LONG, levers: [null, 'reps', 'weight'],
+    split: 'Swing EMOM & sprint Tabatas / bell circuit & AMRAP', blurb: 'Swings and sprints: a swing EMOM and Tabatas, or a bell circuit and an AMRAP.',
+    about: 'Kettlebell power with cardio in between. One day is an EMOM of swings, snatches and cleans, then Tabatas of sprints on the spot and fast moves; the other is a kettlebell circuit, then an AMRAP of bell and bodyweight moves. They alternate. Abs finish every session. Level II adds reps and Level III moves you one weight up.',
+    names: ['Pendulum', 'Swingball', 'Trapeze', 'Rope Swing', 'Tyre Swing', 'Porch Swing', 'Hammock Swing', 'Swingboat', 'Wrecking Ball', 'Plumb Line', 'Metronome Arm', 'Bell Rope', 'Censer', 'Thurible', 'Lasso', 'Bolas', 'Sling', 'Slingshot', 'Catapult', 'Trebuchet'],
+    cycle: ['emom', 'circuit'],
+    dayTypes: {
+      emom: { label: 'Swing EMOM & Tabatas', short: 'EMOM', blocks: [E('Swing EMOM', ['kbBallistic', 'kb_swing', 'kbBallistic', 'cardio'], { values: [14, 16, 18] }), T('Sprint Tabatas', ['hiitSec', 'hiit', 'hiitSec'], { values: [1] })] },
+      circuit: { label: 'Bell circuit & AMRAP', short: 'Circuit', blocks: [C('Bell circuit', ['kbBallistic', 'goblet_squat', 'kb_row', 'kb_press', 'hiit'], { values: [2, 3, 4] }), A('AMRAP', ['kb_swing', 'burpee', 'cardio'], { values: [6, 8, 10] })] },
+    },
+  },
+  {
+    id: 'conditioning-35', name: 'Conditioning 35', subject: 'Conditioning', minutes: P23_MID, levers: [null, 'reps', 'reps'],
+    split: 'EMOM & AMRAP / circuit & ladder', blurb: 'Thirty-five minutes of conditioning: an EMOM and an AMRAP, or a circuit and a ladder.',
+    about: 'Conditioning that fits about half an hour. One day is an EMOM of lifts and cardio, then an AMRAP; the other a full-body circuit, then a ladder of two moves. They alternate. Abs finish every session. Both later levels add reps.',
+    names: ['Thirty-Five', 'Mile Marker', 'Kilometre', 'Furlong', 'League', 'Fathom', 'Cubit', 'Span', 'Hand', 'Rod', 'Chain', 'Perch Length', 'Pole', 'Link', 'Yard', 'Foot', 'Inch', 'Nautical Mile', 'Knot', 'Rood'],
+    cycle: ['emom', 'circuit'],
+    dayTypes: {
+      emom: { label: 'EMOM & AMRAP', short: 'EMOM', blocks: [E('EMOM', ['total', 'cardio', 'squat2', 'hiit'], { values: [12, 14, 16] }), A('AMRAP', ['row2', 'chestBw', 'cardio'], { values: [6, 8, 10] })] },
+      circuit: { label: 'Circuit & ladder', short: 'Circuit', blocks: [C('Circuit', ['kbBallistic', 'lunge2', 'pushLoad2', 'backRow', 'hiit'], { values: [2, 3, 4] }), L('Ladder', ['cardio', 'push'])] },
+    },
+  },
+  {
+    id: 'tabata-hour-glass', name: 'Tabata Hourglass', subject: 'Conditioning', minutes: P23_MID, levers: [null, 'reps', 'variation'],
+    split: 'Tabatas, then a ladder / Tabatas, then an AMRAP', blurb: 'Rounds of Tabatas, then a ladder one day and an AMRAP the next.',
+    about: 'Tabatas first, twenty seconds hard and ten seconds rest, eight times over, three of them in a row. Then one day climbs a ladder of a lift and a cardio move, and the other runs an AMRAP. They alternate. Abs finish every session. Level II adds reps and Level III brings harder variations.',
+    names: ['Sand Glass', 'Egg Timer', 'Grain of Sand', 'Trickle', 'Drip', 'Dribble', 'Seep', 'Leak', 'Spill', 'Pour', 'Cascade', 'Rapids', 'Torrent', 'Flood', 'Deluge', 'Downpour', 'Cloudburst', 'Monsoon', 'Squall', 'Gale'],
+    cycle: ['ladder', 'amrap'],
+    dayTypes: {
+      ladder: { label: 'Tabatas & ladder', short: 'Ladder', blocks: [T('Tabatas', ['hiit', 'squat2', 'cardio', 'push', 'hiit', 'core2'], { values: [1, 2] }), L('Ladder', ['total', 'cardio'])] },
+      amrap: { label: 'Tabatas & AMRAP', short: 'AMRAP', blocks: [T('Tabatas', ['cardio', 'lunge2', 'hiit', 'row2', 'cardio', 'coreRot'], { values: [1, 2] }), A('AMRAP', ['kbBallistic', 'chestBw', 'hiit'], { values: [6, 8, 10] })] },
+    },
+  },
+  {
+    id: 'quick-engine', name: 'Quick Engine', subject: 'Conditioning', minutes: [23, 27], levers: [null, 'reps', 'weight'],
+    split: 'Dumbbell EMOM / bell & body AMRAP, short', blurb: 'Short conditioning: a dumbbell EMOM one day, a bell-and-bodyweight AMRAP the next.',
+    about: 'A short, hard session. One day is an EMOM of dumbbell lifts and cardio, a set at the top of every minute; the other is an AMRAP of kettlebell and bodyweight moves, as many rounds as you can. They alternate. Abs finish every session. Level II adds reps and Level III moves you one weight up.',
+    names: ['Spark', 'Kindling', 'Tinder', 'Match', 'Fuse Wire', 'Fire Starter', 'Flint Strike', 'Firebrand', 'Blaze', 'Bonfire', 'Wildfire', 'Inferno', 'Firestorm', 'Flame', 'Flashpoint', 'Hotshot', 'Firecrest', 'Firebird', 'Phoenix', 'Salamander'],
+    cycle: ['emom', 'amrap'],
+    dayTypes: {
+      emom: { label: 'Dumbbell EMOM', short: 'EMOM', blocks: [E('Dumbbell EMOM', ['total', 'row2', 'cardio', 'squat2'], { values: [14, 16, 18] })] },
+      amrap: { label: 'Bell & body AMRAP', short: 'AMRAP', blocks: [A('Bell & body AMRAP', ['kbBallistic', 'chestBw', 'hiit', 'lunge2'], { values: [14, 16, 18] })] },
+    },
+  },
+  // HIIT +7
+  {
+    id: 'hiit-long-burn', name: 'HIIT Long Burn', subject: 'HIIT', minutes: P23_LONG, equip: 'bw', levers: [null, 'reps', 'variation'],
+    split: 'Circuit & Tabatas / EMOM & AMRAP, long', blurb: 'Long no-gear HIIT: a circuit and Tabatas one day, an EMOM and an AMRAP the next.',
+    about: 'A long HIIT session with no equipment. One day is a circuit of jumps, pushes and legs, then Tabatas, twenty seconds hard and ten seconds rest; the other is an EMOM then an AMRAP of the same kind of moves. They alternate. Abs finish every session. Level II adds reps and Level III brings harder variations.',
+    names: ['Solar Flare', 'Sunspot', 'Corona', 'Prominence', 'Photosphere', 'Chromosphere', 'Solar Wind', 'Aurora', 'Nova', 'Supernova', 'Pulsar', 'Quasar', 'Red Giant', 'White Dwarf', 'Blue Giant', 'Magnetar', 'Neutron Star', 'Comet Tail', 'Meteor Shower', 'Fireball'],
+    cycle: ['circuit', 'emom'],
+    dayTypes: {
+      circuit: { label: 'Circuit & Tabatas', short: 'Circuit', blocks: [C('HIIT circuit', ['hiit', 'pushBw2', 'legsBw2', 'hiit', 'coreRot'], { values: [3, 4, 5] }), T('Tabata 1', ['hiit', 'hiitSec'], { values: [1] }), T('Tabata 2', ['plyoLow', 'core2'], { values: [1] })] },
+      emom: { label: 'EMOM & AMRAP', short: 'EMOM', blocks: [E('HIIT EMOM', ['hiit', 'legsBw2', 'hiitSec', 'pushBw2'], { values: [14, 16, 18] }), A('AMRAP', ['hiit', 'chestBw', 'plyoLow', 'coreAnti'], { values: [10, 12, 14] })] },
+    },
+  },
+  {
+    id: 'hiit-month', name: 'HIIT Month', subject: 'HIIT', days: 30, minutes: P23_LONG, equip: 'bw', levers: [null, 'reps', 'reps'],
+    split: 'Tabatas & AMRAP / ladders / EMOM & circuit, 30 days', blurb: 'A month of HIIT with no gear: Tabatas and an AMRAP, ladders, then an EMOM and a circuit.',
+    about: 'A month of high-intensity work in three shapes. One day is Tabatas back to back and a short AMRAP, the next two ladders that build a rep at a time, the third an EMOM then a circuit. Three days rotate. Every ten days the level steps up. Abs finish every session. Both later levels add reps.',
+    names: ['Lightning', 'Thunderclap', 'Fork Lightning', 'Sheet Lightning', 'Ball Lightning', 'Heat Lightning', 'Thunderhead', 'Anvil Cloud', 'Supercell', 'Downburst', 'Microburst', 'Hailstone', 'Sleet', 'Updraft', 'Wind Shear', 'Twister', 'Waterspout', 'Dust Devil', 'Whirlwind', 'Cyclone'],
+    cycle: ['tabata', 'ladder', 'emom'],
+    dayTypes: {
+      tabata: { label: 'Tabatas & AMRAP', short: 'Tabata', blocks: [T('Tabatas', ['hiit', 'legsBw2', 'hiitSec', 'pushBw2', 'plyoLow', 'core2', 'hiit', 'coreRot'], { values: [2] }), A('AMRAP', ['hiit', 'pushBw2', 'legsBw2'], { values: [8, 10, 12] })] },
+      ladder: { label: 'Ladders', short: 'Ladder', blocks: [L('Ladder 1', ['hiit', 'pushBw2']), L('Ladder 2', ['plyoLow', 'legsBw2']), L('Ladder 3', ['hiit', 'coreHollow'])] },
+      emom: { label: 'EMOM & circuit', short: 'EMOM', blocks: [E('HIIT EMOM', ['hiit', 'hiitSec', 'legsBw2', 'pushBw2'], { values: [12, 14, 16] }), C('Circuit', ['plyoLow', 'chestBw', 'hiit', 'coreAnti'], { values: [2, 3, 4] })] },
+    },
+  },
+  {
+    id: 'hiit-pyramid-long', name: 'HIIT Pyramid Long', subject: 'HIIT', minutes: P23_LONG, equip: 'bw', levers: [null, 'variation', 'reps'],
+    split: 'Three ladders / two ladders & Tabatas', blurb: 'HIIT pyramids: three ladders one day, two ladders and Tabatas the next.',
+    about: 'Pyramids of reps, no equipment. One day climbs three ladders of a jump and a strength move, one rep each, then two, then three; the other climbs two ladders and then runs four Tabatas. They alternate. Abs finish every session. Level II brings harder variations and Level III adds reps.',
+    names: ['Giza', 'Saqqara', 'Dahshur', 'Meidum', 'Teotihuacan', 'Chichen Itza', 'Tikal', 'Uxmal', 'Palenque', 'Ziggurat', 'Step Pyramid', 'Bent Pyramid', 'Red Pyramid', 'Capstone', 'Pyramidion', 'Obelisk', 'Sphinx', 'Pharaoh', 'Scarab', 'Ankh'],
+    cycle: ['ladders', 'mixed'],
+    dayTypes: {
+      ladders: { label: 'Three ladders', short: 'Ladders', blocks: [L('Ladder 1', ['hiit', 'pushBw2']), L('Ladder 2', ['plyoLow', 'legsBw2']), L('Ladder 3', ['hiit', 'core2'])] },
+      mixed: { label: 'Ladders & Tabatas', short: 'Mixed', blocks: [L('Ladder 1', ['hiit', 'chestBw']), L('Ladder 2', ['plyoLow', 'coreHollow']), T('Tabatas', ['hiitSec', 'legsBw2', 'hiit', 'coreRot'], { values: [1] })] },
+    },
+  },
+  {
+    id: 'bell-hiit-long', name: 'Bell HIIT Long', subject: 'HIIT', minutes: P23_LONG, equip: 'kb', levers: [null, 'reps', 'weight'],
+    split: 'Bell EMOM & Tabatas / bell circuit & AMRAP', blurb: 'Long HIIT with one kettlebell: an EMOM and Tabatas, or a circuit and an AMRAP.',
+    about: 'High-intensity work built around one kettlebell. One day is an EMOM of swings, snatches and squats, then Tabatas mixing the bell with jumps; the other is a circuit of the same, then an AMRAP of swings and burpees. They alternate. Abs finish every session. Level II adds reps and Level III moves you one weight up.',
+    names: ['Cannonball', 'Shot Put', 'Hammer Throw', 'Discus', 'Javelin', 'Caber', 'Stone Put', 'Weight Throw', 'Bowling Ball', 'Wrecking Swing', 'Iron Ball', 'Ball and Chain', 'Flail', 'Mace', 'Morning Star', 'Maul', 'Sledge', 'Gavel', 'Cudgel', 'Club'],
+    cycle: ['emom', 'circuit'],
+    dayTypes: {
+      emom: { label: 'Bell EMOM & Tabatas', short: 'EMOM', blocks: [E('Bell EMOM', ['kbBallistic', 'hiit', 'kbLower2', 'hiit'], { values: [14, 16, 18] }), T('Tabatas', ['kbSwing', 'hiit', 'kbBallistic', 'core2'], { values: [1] })] },
+      circuit: { label: 'Bell circuit & AMRAP', short: 'Circuit', blocks: [C('Bell circuit', ['kb_swing', 'hiit', 'kbLower2', 'kbBallistic', 'hiit'], { values: [2, 3, 4] }), A('AMRAP', ['kb_swing', 'burpee', 'goblet_squat'], { values: [8, 10, 12] })] },
+    },
+  },
+  {
+    id: 'hiit-35', name: 'HIIT 35', subject: 'HIIT', minutes: P23_MID, equip: 'bw', levers: [null, 'reps', 'variation'],
+    split: 'EMOM & Tabatas / circuit & ladder, 35 minutes', blurb: 'Thirty-five minutes of no-gear HIIT: an EMOM and Tabatas, or a circuit and a ladder.',
+    about: 'HIIT for about half an hour, no equipment. One day is an EMOM of jumps and strength moves, then Tabatas; the other a circuit, then a ladder of a jump and a push. They alternate. Abs finish every session. Level II adds reps and Level III brings harder variations.',
+    names: ['Flash Fire', 'Quick Burn', 'Hot Coal', 'Live Wire', 'High Voltage', 'Short Circuit', 'Surge Protector', 'Power Line', 'Circuit Breaker', 'Fuse Box', 'Dynamo', 'Generator', 'Battery', 'Capacitor', 'Transformer', 'Conductor', 'Insulator', 'Resistor', 'Diode', 'Transistor'],
+    cycle: ['emom', 'circuit'],
+    dayTypes: {
+      emom: { label: 'EMOM & Tabatas', short: 'EMOM', blocks: [E('HIIT EMOM', ['hiit', 'legsBw2', 'hiitSec', 'pushBw2'], { values: [12, 14, 16] }), T('Tabatas', ['hiit', 'core2'], { values: [1] })] },
+      circuit: { label: 'Circuit & ladder', short: 'Circuit', blocks: [C('HIIT circuit', ['plyoLow', 'chestBw', 'hiit', 'legsBw2', 'coreRot'], { values: [2, 3, 4] }), L('Ladder', ['hiit', 'pushBw2'])] },
+    },
+  },
+  {
+    id: 'hiit-amrap-plus', name: 'HIIT AMRAP Plus', subject: 'HIIT', minutes: P23_MID, equip: 'bw', levers: [null, 'variation', 'reps'],
+    split: 'Two AMRAPs A / B', blurb: 'Two no-gear AMRAPs a day, with a short rest between them.',
+    about: 'As many rounds as you can, twice. Each day is two AMRAPs of jumps, pushes, legs and core, with a short rest between; two days alternate so the moves change. Count your rounds and beat them next time. Abs finish every session. Level II brings harder variations and Level III adds reps.',
+    names: ['Rally', 'Volley', 'Salvo', 'Barrage', 'Fusillade', 'Broadside', 'Cannonade', 'Bombardment', 'Blitz', 'Onslaught', 'Sortie', 'Charge', 'Assault', 'Raid', 'Foray', 'Sally', 'Push', 'Drive', 'Thrust', 'Advance'],
+    cycle: ['a', 'b'],
+    dayTypes: {
+      a: { label: 'Two AMRAPs A', short: 'A', blocks: [A('AMRAP 1', ['hiit', 'pushBw2', 'legsBw2'], { values: [10, 12, 14] }), A('AMRAP 2', ['plyoLow', 'chestBw', 'coreRot'], { values: [10, 12, 14] })] },
+      b: { label: 'Two AMRAPs B', short: 'B', blocks: [A('AMRAP 1', ['hiitSec', 'legsBw2', 'hiit'], { values: [10, 12, 14] }), A('AMRAP 2', ['hiit', 'pushBw2', 'coreAnti'], { values: [10, 12, 14] })] },
+    },
+  },
+  {
+    id: 'hiit-express', name: 'HIIT Express', subject: 'HIIT', minutes: [20, 25], equip: 'bw', levers: [null, 'reps', 'reps'],
+    split: 'Tabatas / EMOM, short', blurb: 'Short no-gear HIIT: Tabatas one day, an EMOM the next.',
+    about: 'HIIT when time is short and there is no equipment. One day is Tabatas, twenty seconds hard and ten seconds rest, eight times over each; the other an EMOM of jumps and strength moves. They alternate. Abs finish every session. Both later levels add reps.',
+    names: ['Blink', 'Wink', 'Jiffy', 'Trice', 'Instant', 'Moment', 'Heartbeat', 'Breath', 'Split Second', 'Nanosecond', 'Flicker Fast', 'Snap Shot', 'Quick Draw', 'Fast Track', 'Shortcut', 'Express Lane', 'Rush Hour', 'Speedway', 'Fast Lane', 'Overtake'],
+    cycle: ['tabata', 'emom'],
+    dayTypes: {
+      tabata: { label: 'Tabatas', short: 'Tabata', blocks: [T('Tabatas', ['hiit', 'legsBw2', 'plyoLow', 'core2'], { values: [2, 3] })] },
+      emom: { label: 'HIIT EMOM', short: 'EMOM', blocks: [E('HIIT EMOM', ['hiit', 'pushBw2', 'hiitSec', 'legsBw2'], { values: [12, 14, 16] })] },
+    },
+  },
+  // Plyometrics +6
+  {
+    id: 'plyo-volume', name: 'Plyo Volume', subject: 'Plyometrics', minutes: P23_LONG, equip: 'bw', levers: [null, 'reps', 'variation'],
+    split: 'Vertical / horizontal / lateral & upper', blurb: 'Three plyometric days: jump up, jump out, then side to side with upper-body power.',
+    about: 'Plyometrics in every direction across three days. Squat jumps, tuck jumps and pogo hops go up; broad jumps and bounds go out; skaters and lateral bounds go sideways, with clap and explosive push-ups for the upper body. Straight sets with full rests, so every jump is a good one. Abs finish every session. Level II adds reps and Level III brings harder variations.',
+    names: ['Kangaroo Rat', 'Springhare', 'Galago', 'Tarsier', 'Sifaka', 'Flea', 'Grasshopper', 'Cricket', 'Locust', 'Froghopper', 'Click Beetle', 'Springtail', 'Tree Frog', 'Leopard Frog', 'Bullfrog', 'Hare', 'Jackrabbit', 'Klipspringer Leap', 'Ibex', 'Chamois'],
+    cycle: ['up', 'out', 'side'],
+    dayTypes: {
+      up: { label: 'Vertical', short: 'Up', blocks: [S('Vertical', ['plyoVert', 'plyoLow', 'plyoVert', 'plyoLow', 'plyoVert?'])] },
+      out: { label: 'Horizontal', short: 'Out', blocks: [S('Horizontal', ['broad_jump', 'bounding', 'plyoLow', 'plyoLat', 'plyoLow?'])] },
+      side: { label: 'Lateral & upper', short: 'Side', blocks: [S('Lateral & upper', ['plyoLat', 'plyoUp', 'plyoLat', 'plyoUp', 'plyoLow?'])] },
+    },
+  },
+  {
+    id: 'plyo-month', name: 'Plyo Month', subject: 'Plyometrics', days: 30, minutes: P23_LONG, equip: 'bw', levers: [null, 'variation', 'reps'],
+    split: 'Jump sets & EMOM / jump circuit, 30 days', blurb: 'A month of jumping: straight sets and an EMOM one day, a jump circuit the next.',
+    about: 'A month of jumps. One day is straight sets of vertical and broad jumps, then an EMOM of hops and bounds, a set at the top of every minute; the other is a circuit of jumps, push-ups and landings. They alternate. Every ten days the level steps up. Abs finish every session. Level II brings harder variations and Level III adds reps.',
+    names: ['Takeoff', 'Liftoff', 'Launch', 'Ascent', 'Apex', 'Zenith', 'Summit', 'Crest', 'Peak', 'Pinnacle', 'Hang Time', 'Airtime', 'Glide', 'Soar', 'Float', 'Drift', 'Descent', 'Touchdown', 'Landing Gear', 'Stick It'],
+    cycle: ['sets', 'circuit'],
+    dayTypes: {
+      sets: { label: 'Jump sets & EMOM', short: 'Sets', blocks: [S('Jump sets', ['plyoVert', 'broad_jump', 'plyoLow', 'plyoUp?']), E('Jump EMOM', ['plyoLat', 'plyoLow', 'plyoVert', 'plyoUp'], { values: [12, 14, 16] })] },
+      circuit: { label: 'Jump circuit', short: 'Circuit', blocks: [C('Jump circuit', ['plyoLow', 'plyoUp', 'plyoLat', 'plyoVert', 'legsBw2'], { values: [4, 5, 6] })] },
+    },
+  },
+  {
+    id: 'loaded-jumps', name: 'Loaded Jumps', subject: 'Plyometrics', minutes: P23_LONG, levers: [null, 'reps', 'weight'],
+    split: 'Jump & squat contrast / jump & hinge contrast', blurb: 'Contrast training: a heavy lift, then a jump, so the jump gets more out of the legs.',
+    about: 'Heavy then fast. Each straight set pairs a lift with a jump straight after it, squats then squat jumps one day, deadlifts and swings then broad jumps the next, so the jump gets more from muscles the lift has woken up. They alternate. Abs finish every session. Level II adds reps and Level III moves you one weight up.',
+    names: ['Coiled', 'Primed', 'Cocked', 'Loaded', 'Wound Up', 'Charged', 'Armed', 'Set', 'Ready', 'Poised', 'Tensed', 'Braced', 'Drawn', 'Taut', 'Strung', 'Sprung', 'Released', 'Fired', 'Launched', 'Unleashed'],
+    cycle: ['squat', 'hinge'],
+    dayTypes: {
+      squat: { label: 'Jump & squat', short: 'Squat', blocks: [S('Jump & squat contrast', ['squat2', 'plyoVert', 'squat2', 'plyoLow', 'lunge2', 'plyoLat'])] },
+      hinge: { label: 'Jump & hinge', short: 'Hinge', blocks: [S('Jump & hinge contrast', ['hinge2', 'broad_jump', 'kb_swing', 'plyoLow', 'hinge2', 'bounding'])] },
+    },
+  },
+  {
+    id: 'plyo-35', name: 'Plyo 35', subject: 'Plyometrics', minutes: P23_MID, equip: 'bw', levers: [null, 'reps', 'reps'],
+    split: 'Jump EMOM / bound circuit, 35 minutes', blurb: 'Thirty-five minutes of jumps: an EMOM one day, a bound circuit the next.',
+    about: 'Jumping for about half an hour. One day is an EMOM of vertical, broad and lateral jumps, a set at the top of every minute; the other a circuit of bounds, hops and explosive push-ups. They alternate. Abs finish every session. Both later levels add reps.',
+    names: ['Bounce House', 'Pogo Stick', 'Spring Board', 'Diving Board', 'Springbok Jump', 'Kangaroo Hop', 'Frog Leap', 'Leapfrog', 'Hopper', 'Skipper', 'Jumper', 'Leaper', 'Vaulter', 'High Jumper', 'Long Jumper', 'Triple Jump', 'Pole Vault', 'Hurdler', 'Steeplejack', 'Sky Walker'],
+    cycle: ['emom', 'circuit'],
+    dayTypes: {
+      emom: { label: 'Jump EMOM', short: 'EMOM', blocks: [E('Jump EMOM', ['plyoVert', 'broad_jump', 'plyoLat', 'plyoLow'], { values: [16, 18, 20] })] },
+      circuit: { label: 'Bound circuit', short: 'Circuit', blocks: [C('Bound circuit', ['bounding', 'plyoLat', 'plyoUp', 'single_leg_hops', 'plyoLow'], { values: [3, 4, 5] })] },
+    },
+  },
+  {
+    id: 'single-leg-power', name: 'Single-Leg Power', subject: 'Plyometrics', minutes: P23_MID, equip: 'bw', levers: [null, 'variation', 'reps'],
+    split: 'Hops & sticks / bounds & landings, EMOM then sets', blurb: 'One leg at a time: hops and stuck landings, then bounds, on the minute and in sets.',
+    about: 'Power one leg at a time. Each day opens with an EMOM, single-leg hops and stuck landings one day, bounds and skaters the next, then straight sets of single-leg strength to finish. They alternate. Abs finish every session. Level II brings harder variations and Level III adds reps.',
+    names: ['Flamingo', 'Heron', 'Stork', 'Crane', 'Egret', 'Ibis', 'Spoonbill', 'Avocet', 'Stilt', 'Curlew', 'Godwit', 'Sandpiper', 'Plover', 'Lapwing', 'Oystercatcher', 'Turnstone', 'Dunlin', 'Knot Bird', 'Snipe', 'Woodcock'],
+    cycle: ['hop', 'bound'],
+    dayTypes: {
+      hop: { label: 'Hops & sticks', short: 'Hop', blocks: [E('Hop EMOM', ['single_leg_hops', 'single_leg_hop_stick', 'plyoLow', 'single_leg_hops'], { values: [10, 12, 14] }), S('Single leg', ['legsBw2', 'single_leg_bridge', 'legsBw2?'])] },
+      bound: { label: 'Bounds & landings', short: 'Bound', blocks: [E('Bound EMOM', ['bounding', 'skater_jumps', 'plyoLat', 'plyoLow'], { values: [10, 12, 14] }), S('Single leg', ['legsBw2', 'cossack_squat', 'legsBw2?'])] },
+    },
+  },
+  {
+    id: 'plyo-express', name: 'Plyo Express', subject: 'Plyometrics', minutes: [22, 27], equip: 'bw', levers: [null, 'reps', 'variation'],
+    split: 'Up & down / side & push, short', blurb: 'Short jump sessions: vertical and drop work, or lateral jumps and push-ups.',
+    about: 'Plyometrics in a short slot. One day is straight sets of jumps up and drops down; the other lateral jumps and explosive push-ups. Full rests keep every rep sharp. Abs finish every session. Level II adds reps and Level III brings harder variations.',
+    names: ['Pop', 'Spring Up', 'Jolt', 'Jerk', 'Twitch', 'Kick', 'Burst', 'Boom', 'Blast', 'Bounce Back', 'Snap Back', 'Rebound Jump', 'Recoil Jump', 'Springload', 'Quick Hop', 'Hip Hop', 'Hop To', 'Jump Start', 'Kickstart', 'Pep'],
+    cycle: ['up', 'side'],
+    dayTypes: {
+      up: { label: 'Up & down', short: 'Up', blocks: [S('Up & down', ['plyoVert', 'plyoLow', 'plyoVert', 'plyoLow?'])] },
+      side: { label: 'Side & push', short: 'Side', blocks: [S('Side & push', ['plyoLat', 'plyoUp', 'plyoLat', 'plyoUp?'])] },
+    },
+  },
+  // Running prep +5
+  {
+    id: 'runner-volume', name: 'Runner Volume', subject: 'Running prep', minutes: P23_LONG, equip: 'bw', levers: [null, 'reps', 'tempo'],
+    split: 'Drills & legs / calves & core / hills & hips', blurb: 'Three runner days: drills and leg strength, calves and core, then hill legs and hips.',
+    about: 'The strength running needs, across three days. Running drills and single-leg strength one day; calves, shins and a runner\'s core the next; hill-style drives, lunges and hip work the third. Straight sets and short circuits. Abs finish every session. Level II adds reps and Level III slows every rep down.',
+    names: ['Parkrun', 'Fun Run', 'Fell', 'Trail', 'Towpath', 'Bridleway', 'Footpath', 'Greenway', 'Ridgeway', 'Coast Path', 'Canal Path', 'Forest Track', 'Moor', 'Heath', 'Downs', 'Wold', 'Dale', 'Glen', 'Gorge', 'Ravine'],
+    cycle: ['drills', 'calves', 'hills'],
+    dayTypes: {
+      drills: { label: 'Drills & legs', short: 'Drills', blocks: [C('Drills', ['runDrill', 'runFast', 'runDrill'], { values: [2, 3] }), S('Leg strength', ['runLegs', 'singleLeg', 'runLegs', 'runLegs?'])] },
+      calves: { label: 'Calves & core', short: 'Calves', blocks: [S('Calves & core', ['calfBw', 'shin', 'coreAnti', 'calfBw', 'coreRot', 'runPlyo?'])] },
+      hills: { label: 'Hills & hips', short: 'Hills', blocks: [S('Hills & hips', ['wall_drive', 'runLegs', 'runPlyo', 'hipGlute', 'runLegs', 'clamshell?'])] },
+    },
+  },
+  {
+    id: 'runner-month', name: 'Runner Month', subject: 'Running prep', days: 30, minutes: P23_LONG, equip: 'bw', levers: [null, 'reps', 'reps'],
+    split: 'Speed EMOM & legs / runner circuit, 30 days', blurb: 'A month for runners: a speed EMOM and leg work one day, a runner circuit the next.',
+    about: 'A month of strength and speed for running. One day is an EMOM of drills and fast feet, a set at the top of every minute, then single-leg strength in straight sets; the other a long circuit of bounds, legs, calves and core. They alternate. Every ten days the level steps up. Abs finish every session. Both later levels add reps.',
+    names: ['5K', '10K', 'Half', 'Full', 'Tempo Run', 'Long Run', 'Easy Run', 'Recovery Run', 'Fartlek', 'Strides', 'Hill Reps', 'Track Reps', 'Negative Split', 'Even Pace', 'Kick', 'Finish Line', 'Start Gun', 'Bib Number', 'Medal', 'Personal Best'],
+    cycle: ['emom', 'circuit'],
+    dayTypes: {
+      emom: { label: 'Speed EMOM & legs', short: 'EMOM', blocks: [E('Speed EMOM', ['runDrill', 'runFast', 'runPlyo', 'runFast'], { values: [12, 14, 16] }), S('Single leg', ['runLegs', 'singleLeg', 'runLegs?'])] },
+      circuit: { label: 'Runner circuit', short: 'Circuit', blocks: [C('Runner circuit', ['runPlyo', 'runLegs', 'calfBw', 'coreAnti', 'runLegs'], { values: [3, 4, 5] })] },
+    },
+  },
+  {
+    id: 'stride-builder', name: 'Stride Builder', subject: 'Running prep', minutes: P23_LONG, equip: 'bw', levers: [null, 'variation', 'reps'],
+    split: 'Drills & AMRAP / bounds & single-leg sets', blurb: 'A longer stride: drills and an AMRAP one day, bounds and single-leg work the next.',
+    about: 'For a longer, springier stride. One day is a drill circuit, then an AMRAP of fast feet, hops and lunges; the other is bounds and pogo hops in straight sets, then single-leg strength. They alternate. Abs finish every session. Level II brings harder variations and Level III adds reps.',
+    names: ['Gait Line', 'Footstrike', 'Cadence', 'Turnover', 'Push-off', 'Toe-off', 'Midstance', 'Swing Phase', 'Arm Swing', 'Knee Drive', 'Heel Lift', 'Lean', 'Posture', 'Rhythm', 'Flow State', 'Glide Step', 'Bounce Step', 'Spring Step', 'Long Stride', 'Lope'],
+    cycle: ['drills', 'bounds'],
+    dayTypes: {
+      drills: { label: 'Drills & AMRAP', short: 'Drills', blocks: [C('Drill circuit', ['runDrill', 'runDrill', 'runFast', 'runDrill'], { values: [2, 3, 4] }), A('AMRAP', ['runFast', 'runPlyo', 'runLegs', 'coreAnti'], { values: [10, 12, 14] })] },
+      bounds: { label: 'Bounds & single leg', short: 'Bounds', blocks: [S('Bounds', ['bounding', 'pogo_hops', 'runPlyo']), S('Single leg', ['runLegs', 'singleLeg', 'runLegs', 'runLegs?'])] },
+    },
+  },
+  {
+    id: 'runner-strength-35', name: 'Runner Strength 35', subject: 'Running prep', minutes: P23_MID, equip: 'bw', levers: [null, 'tempo', 'reps'],
+    split: 'Hips & single leg / calves, feet & core, 35 minutes', blurb: 'Thirty-five minutes of runner strength: hips and single legs, or calves, feet and core.',
+    about: 'The strength that keeps runners running. One day trains the hips and single-leg strength, bridges, clamshells and lunges; the other the calves, shins and feet with a runner\'s core. Straight sets throughout. They alternate. Abs finish every session. Level II slows every rep down and Level III adds reps.',
+    names: ['Pacer', 'Harrier', 'Strider', 'Jogger', 'Sprinter', 'Miler', 'Distance', 'Fell Runner', 'Trail Runner', 'Road Runner', 'Rabbit', 'Hare and Hounds', 'Courser', 'Racer', 'Dasher', 'Galloper', 'Trotter', 'Ambler', 'Rambler', 'Wanderer'],
+    cycle: ['hips', 'feet'],
+    dayTypes: {
+      hips: { label: 'Hips & single leg', short: 'Hips', blocks: [S('Hips & single leg', ['single_leg_bridge', 'runLegs', 'clamshell', 'singleLeg', 'runLegs', 'hipGlute?'])] },
+      feet: { label: 'Calves, feet & core', short: 'Feet', blocks: [S('Calves, feet & core', ['single_leg_calf_raise', 'shin', 'calfBw', 'coreAnti', 'coreRot', 'calfPlyo?'])] },
+    },
+  },
+  {
+    id: 'runner-express', name: 'Runner Express', subject: 'Running prep', minutes: [22, 27], equip: 'bw', levers: [null, 'reps', 'reps'],
+    split: 'Drill & hop circuit / runner AMRAP, short', blurb: 'Short runner sessions: a drill and hop circuit, or a runner AMRAP.',
+    about: 'Running prep in a short slot. One day is a circuit of drills, hops and single-leg work; the other an AMRAP of fast feet, bounds, lunges and core. They alternate. Abs finish every session. Both later levels add reps.',
+    names: ['Warm Lap', 'Cool Lap', 'Victory Lap', 'Home Straight', 'Back Straight', 'Bend', 'Lane One', 'Lane Eight', 'Inside Lane', 'Outside Lane', 'Bell Lap', 'Split Time', 'Lap Time', 'Kick Lap', 'Pace Lap', 'Tempo Lap', 'Stride Out', 'Shake Out', 'Jog On', 'Run Home'],
+    cycle: ['circuit', 'amrap'],
+    dayTypes: {
+      circuit: { label: 'Drill & hop circuit', short: 'Circuit', blocks: [C('Drill & hop circuit', ['runDrill', 'calfPlyo', 'runLegs', 'runDrill', 'runPlyo'], { values: [2, 3, 4] })] },
+      amrap: { label: 'Runner AMRAP', short: 'AMRAP', blocks: [A('Runner AMRAP', ['runFast', 'runPlyo', 'runLegs', 'coreAnti'], { values: [14, 16, 18] })] },
+    },
+  },
+  // Court & field sports +5
+  {
+    id: 'court-volume', name: 'Court Volume', subject: 'Court & field sports', minutes: P23_LONG, equip: 'bw', levers: [null, 'reps', 'variation'],
+    split: 'Agility circuit & power sets / reaction EMOM & legs', blurb: 'Long court sessions: agility and power one day, reaction work and legs the next.',
+    about: 'The movement court and field sports ask for, in long sessions. One day is an agility circuit of shuffles, cuts and backpedals, then power jumps in straight sets; the other an EMOM of split steps and reactions, then leg strength for cutting. They alternate. Abs finish every session. Level II adds reps and Level III brings harder variations.',
+    names: ['Baseline', 'Sideline', 'Touchline', 'Byline', 'Halfway Line', 'Centre Circle', 'Penalty Spot', 'Free Throw', 'Three-Point', 'Key', 'Paint', 'Service Box', 'Tramline', 'Net Cord', 'Crease', 'Pitch', 'Wicket', 'End Zone', 'Goal Line', 'Try Line'],
+    cycle: ['agility', 'react'],
+    dayTypes: {
+      agility: { label: 'Agility & power', short: 'Agility', blocks: [C('Agility circuit', ['courtMove', 'courtPower', 'courtMove', 'courtMove'], { values: [3, 4, 5] }), S('Power', ['courtPower', 'broad_jump', 'courtPower?'])] },
+      react: { label: 'Reaction EMOM & legs', short: 'React', blocks: [E('Reaction EMOM', ['split_step', 'courtMove', 'courtPower', 'courtMove'], { values: [12, 14, 16] }), S('Cutting legs', ['courtLegs', 'cossack_squat', 'courtLegs', 'copenhagen_plank?'])] },
+    },
+  },
+  {
+    id: 'court-month', name: 'Court Month', subject: 'Court & field sports', days: 30, minutes: P23_LONG, equip: 'bw', levers: [null, 'reps', 'reps'],
+    split: 'Tabatas & legs / agility AMRAP & power, 30 days', blurb: 'A month for court and field: Tabatas and legs one day, an agility AMRAP and power the next.',
+    about: 'A month of game fitness. One day is Tabatas of footwork and power, then cutting strength in straight sets; the other an AMRAP of shuttles, shuffles and jumps, then power work. They alternate. Every ten days the level steps up. Abs finish every session. Both later levels add reps.',
+    names: ['Kick-off', 'First Half', 'Half Time', 'Second Half', 'Extra Time', 'Overtime', 'Sudden Death', 'Tie-break', 'Deuce', 'Advantage', 'Match Point', 'Set Point', 'Break Point', 'Final Whistle', 'Buzzer', 'Time-out', 'Fast Break', 'Counter', 'Turnover', 'Rebound'],
+    cycle: ['tabata', 'amrap'],
+    dayTypes: {
+      tabata: { label: 'Tabatas & legs', short: 'Tabata', blocks: [T('Footwork Tabatas', ['courtMove', 'courtPower', 'hiitSec', 'courtMove'], { values: [1] }), S('Cutting legs', ['courtLegs', 'copenhagen_plank', 'courtLegs', 'courtLegs?'])] },
+      amrap: { label: 'Agility AMRAP & power', short: 'AMRAP', blocks: [A('Agility AMRAP', ['shuttle_touch', 'courtMove', 'courtPower', 'courtMove'], { values: [12, 14, 16] }), S('Power', ['courtPower', 'plyoLat', 'courtPower?'])] },
+    },
+  },
+  {
+    id: 'field-strength-long', name: 'Field Strength Long', subject: 'Court & field sports', minutes: P23_LONG, levers: [null, 'weight', 'reps'],
+    split: 'Power & lower lifts / power & upper lifts, long', blurb: 'Long sessions of jumps then lifts: lower-body strength one day, upper the next.',
+    about: 'Strength for contact and speed, with time for it. Each day opens with power jumps, then lifts in straight sets: squats, hinges and lunges one day, presses, rows and carries the next. They alternate. Abs finish every session. Level II moves you one weight up and Level III adds reps.',
+    names: ['Scrum', 'Lineout', 'Maul Push', 'Ruck', 'Tackle', 'Hand-off', 'Sidestep', 'Dummy', 'Offload', 'Breakdown', 'Blitz Defence', 'Drop Goal', 'Conversion', 'Penalty Kick', 'Grubber', 'Up and Under', 'Box Kick', 'Garryowen', 'Haka', 'Pack'],
+    cycle: ['lower', 'upper'],
+    dayTypes: {
+      lower: { label: 'Power & lower', short: 'Lower', blocks: [S('Power', ['courtPower', 'broad_jump']), S('Lower lifts', ['squat2', 'hinge2', 'lunge2', 'courtLegs', 'squat2?'])] },
+      upper: { label: 'Power & upper', short: 'Upper', blocks: [S('Power', ['courtPower', 'plyoUp']), S('Upper lifts', ['pushLoad2', 'row2', 'farmer_carry', 'shoulders2', 'backRow?'])] },
+    },
+  },
+  {
+    id: 'agility-35', name: 'Agility 35', subject: 'Court & field sports', minutes: P23_MID, equip: 'bw', levers: [null, 'reps', 'variation'],
+    split: 'Agility EMOM / footwork circuit & legs, 35 minutes', blurb: 'Thirty-five minutes of agility: an EMOM one day, a footwork circuit and legs the next.',
+    about: 'Quick feet for about half an hour. One day is an EMOM of shuffles, cuts and first-step jumps, a set at the top of every minute; the other a footwork circuit, then leg strength for changing direction. They alternate. Abs finish every session. Level II adds reps and Level III brings harder variations.',
+    names: ['Dribble', 'Crossover', 'Spin Move', 'Jab Step', 'Pivot Foot', 'Euro Step', 'Step Back', 'Fadeaway', 'Pick', 'Roll', 'Screen', 'Cut', 'Backdoor', 'Give and Go', 'Alley-oop', 'Layup', 'Dunk', 'Rebound Leap', 'Block', 'Steal'],
+    cycle: ['emom', 'circuit'],
+    dayTypes: {
+      emom: { label: 'Agility EMOM', short: 'EMOM', blocks: [E('Agility EMOM', ['courtMove', 'courtPower', 'courtMove', 'courtLegs', 'courtMove'], { values: [20, 22, 25] })] },
+      circuit: { label: 'Footwork circuit & legs', short: 'Circuit', blocks: [C('Footwork circuit', ['courtMove', 'split_step', 'courtMove', 'courtPower'], { values: [2, 3, 4] }), S('Legs', ['courtLegs', 'cossack_squat', 'courtLegs?'])] },
+    },
+  },
+  {
+    id: 'court-express', name: 'Court Express', subject: 'Court & field sports', minutes: [22, 27], equip: 'bw', levers: [null, 'reps', 'reps'],
+    split: 'Footwork Tabatas / power circuit, short', blurb: 'Short court sessions: footwork Tabatas one day, a power circuit the next.',
+    about: 'Game fitness in a short slot. One day is Tabatas of shuffles, fast feet and first-step jumps; the other a circuit of power jumps, cuts and cutting strength. They alternate. Abs finish every session. Both later levels add reps.',
+    names: ['Serve', 'Return', 'Lob', 'Smash', 'Drop Shot', 'Volley Shot', 'Slice', 'Topspin', 'Backhand', 'Forehand', 'Ace', 'Let', 'Fault', 'Rally Shot', 'Passing Shot', 'Half Volley', 'Overhead', 'Chip', 'Dink', 'Drive Shot'],
+    cycle: ['tabata', 'circuit'],
+    dayTypes: {
+      tabata: { label: 'Footwork Tabatas', short: 'Tabata', blocks: [T('Footwork Tabatas', ['courtMove', 'hiitSec', 'courtPower', 'courtMove'], { values: [3, 4] })] },
+      circuit: { label: 'Power circuit', short: 'Circuit', blocks: [C('Power circuit', ['courtPower', 'courtMove', 'courtLegs', 'courtPower', 'coreRot'], { values: [2, 3, 4] })] },
+    },
+  },
+].map((c) => ({ ...c, added: 23, catalogue: 13 }));
+CONFIGS.push(...P23_T7);
+
 // Phase 23: the new programs' ids in shelf order, appended to programs.config.js's ORDER after every older program
-CONFIGS.order23 = [];
+CONFIGS.order23 = P23_T7.map((c) => c.id);
 module.exports = CONFIGS;

@@ -101,7 +101,7 @@ decisions is today's catalogue 13 (renumbered by 105).
 | 4 | Kettlebells and pulls +26 | content | 1 | `content/p23-bells-pulls` | done (PR #361) |
 | 5 | Upper-body muscles and grip +25 | content | 1 | `content/p23-muscles-upper` | done (PR #362) |
 | 6 | Legs, hips, calves, core +25 | content | 1 | `content/p23-muscles-lower` | done (PR #367) |
-| 7 | Cardio +30 | content | 1 | `content/p23-cardio` | todo |
+| 7 | Cardio +30 | content | 1 | `content/p23-cardio` | done (PR #368) |
 | 8 | Combat +20 | content | 1 | `content/p23-combat` | todo |
 | 1c | Yoga and Pilates exercises doubled, catalogue 14 (235, 237) | content | – | `content/p23-yoga-pilates-ex` | done (PR #354) |
 | 9 | Yoga, Pilates, Back care +31 | content | 1, 1c | `content/p23-yoga-pilates` | todo |
