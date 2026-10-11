@@ -209,9 +209,16 @@ const IDS = [
     'plyo-month', 'loaded-jumps', 'plyo-35', 'single-leg-power', 'plyo-express',
     'runner-volume', 'runner-month', 'stride-builder', 'runner-strength-35', 'runner-express',
     'court-volume', 'court-month', 'field-strength-long', 'agility-35', 'court-express',
+    // Phase 23 ticket 8: Boxing, Kickboxing (cardio-combat.js); its Fighter is at the end (mixed.js)
+    'boxing-volume', 'boxing-month', 'boxing-and-bells', 'combo-builder', 'boxing-35',
+    'body-shot-boxing', 'boxing-express', 'kickboxing-volume', 'kickboxing-month', 'kick-power-long',
+    'kickboxing-35', 'kick-tabata-strength', 'kickboxing-express',
     // Phase 23 ticket 6, continued: Core & abs (mind-body.js, after the cardio family file)
     'core-volume', 'core-month', 'floor-core-long',
     'bell-core-long', 'weighted-core-month', 'core-circuit-plus', 'core-emom-express', 'hollow-and-plank-express',
+    // Phase 23 ticket 8, continued: Fighter (mixed.js, the last family file)
+    'fighter-volume', 'fighter-month', 'cage-strength', 'bell-fighter', 'fighter-35',
+    'fighter-flow-35', 'fighter-express',
 ];
 
 test('the config ids, in order, are today\'s list', () => {

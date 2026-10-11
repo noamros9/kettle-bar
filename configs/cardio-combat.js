@@ -1292,6 +1292,157 @@ const P23_T7 = [
 ].map((c) => ({ ...c, added: 23, catalogue: 13 }));
 CONFIGS.push(...P23_T7);
 
+// Phase 23 ticket 8: Boxing +7, Kickboxing +6 (Fighter +7 is in configs/mixed.js, its family file), by ticket 3's rules.
+const P23_T8 = [
+  // Boxing +7
+  {
+    id: 'boxing-volume', name: 'Boxing Volume', subject: 'Boxing', minutes: P23_LONG, equip: 'bw', levers: [null, 'variation', 'variation'],
+    split: 'Long bouts & circuit / long bouts & Tabatas', blurb: 'Long boxing sessions: plenty of rounds, then a circuit or Tabatas.',
+    about: 'Boxing with the rounds a real session has. Each day is a long run of shadowboxing bouts, jabs and crosses, power combinations, slips and rolls, then a bodyweight circuit one day and Tabatas the next. They alternate. Abs finish every session. Both later levels bring longer combinations and harder moves.',
+    names: ['Jab', 'Cross', 'Hook', 'Uppercut', 'Overhand', 'Haymaker', 'Counterpunch', 'Body Shot', 'Liver Shot', 'Check Hook', 'Pivot', 'Slip', 'Roll', 'Parry', 'Catch', 'Clinch', 'Feint', 'Southpaw', 'Orthodox', 'Peekaboo'],
+    cycle: ['circuit', 'tabata'],
+    dayTypes: {
+      circuit: { label: 'Bouts & circuit', short: 'Circuit', blocks: [B('Bouts', ['bxBasic', 'bxPower', 'bxDefense', 'bxBasic', 'bxPower', 'bxMove?']), C('Circuit', ['chestBw', 'legsBw2', 'hiit', 'coreRot'], { values: [1, 2, 3] })] },
+      tabata: { label: 'Bouts & Tabatas', short: 'Tabata', blocks: [B('Bouts', ['bxMove', 'bxBasic', 'bxPower', 'bxDefense', 'bxPower', 'bxBasic?']), T('Tabatas', ['hiit', 'core2'], { values: [1, 2] })] },
+    },
+  },
+  {
+    id: 'boxing-month', name: 'Boxing Month', subject: 'Boxing', days: 30, minutes: P23_LONG, equip: 'bw', levers: [null, 'variation', 'variation'],
+    split: 'Bouts & EMOM / bouts & strength / bouts & Tabatas, 30 days', blurb: 'A month of boxing: bouts every day, then an EMOM, strength or Tabatas in turn.',
+    about: 'A month built like a fight camp. Every day opens with shadowboxing bouts, then the work changes: an EMOM of conditioning, straight sets of push-ups, squats and core, or Tabatas. Three days rotate. Every ten days the level steps up. Abs finish every session. Both later levels bring longer combinations and harder moves.',
+    names: ['Camp Day', 'Roadwork', 'Sparring Day', 'Pad Day', 'Bag Day', 'Rope Day', 'Mitt Work', 'Film Study', 'Weight Cut', 'Media Day', 'Open Workout', 'Fight Week Two', 'Taper', 'Weigh-in', 'Fight Eve', 'Ring Night', 'Corner', 'Cutman', 'Trainer', 'Promoter'],
+    cycle: ['emom', 'strength', 'tabata'],
+    dayTypes: {
+      emom: { label: 'Bouts & EMOM', short: 'EMOM', blocks: [B('Bouts', ['bxBasic', 'bxPower', 'bxDefense', 'bxMove', 'bxBasic?']), E('EMOM', ['burpee', 'chestBw', 'hiit', 'coreRot'], { values: [8, 10, 12] })] },
+      strength: { label: 'Bouts & strength', short: 'Strength', blocks: [B('Bouts', ['bxPower', 'bxBasic', 'bxDefense', 'bxPower', 'bxBasic?']), S('Strength', ['chestBw', 'legsBw2', 'pushBw2', 'coreAnti?'])] },
+      tabata: { label: 'Bouts & Tabatas', short: 'Tabata', blocks: [B('Bouts', ['bxMove', 'bxBasic', 'bxPower', 'bxDefense', 'bxPower?']), T('Tabatas', ['hiit', 'coreRot', 'cardio', 'core2'], { values: [1, 2] })] },
+    },
+  },
+  {
+    id: 'boxing-and-bells', name: 'Boxing and Bells', subject: 'Boxing', minutes: P23_LONG, levers: [null, 'variation', 'variation'],
+    split: 'Bouts & bell power / bouts & dumbbell strength', blurb: 'Bouts, then strength with weights: kettlebell power one day, dumbbells the next.',
+    about: 'Boxing with the strength behind the punches. Each day is a long block of bouts, then weights: swings, cleans and push presses one day, rows, presses and rotational core with dumbbells the next. They alternate. Abs finish every session. Both later levels bring longer combinations and harder moves.',
+    names: ['Heavy Bag', 'Speed Bag', 'Double-End', 'Maize Bag', 'Uppercut Bag', 'Focus Mitt', 'Thai Pad', 'Body Shield', 'Hand Wrap', 'Mouthguard', 'Headgear', 'Gloves', 'Ring Rope', 'Turnbuckle', 'Canvas', 'Apron', 'Stool', 'Spit Bucket', 'Bell Ring', 'Scorecard'],
+    cycle: ['bell', 'db'],
+    dayTypes: {
+      bell: { label: 'Bouts & bell power', short: 'Bell', blocks: [B('Bouts', ['bxBasic', 'bxPower', 'bxDefense', 'bxPower', 'bxBasic?']), S('Bell power', ['kbBallistic', 'kb_push_press', 'kb_swing', 'coreRot?'])] },
+      db: { label: 'Bouts & dumbbell strength', short: 'Dumbbell', blocks: [B('Bouts', ['bxMove', 'bxBasic', 'bxPower', 'bxDefense', 'bxPower?']), S('Dumbbell strength', ['backRow', 'pushLoad2', 'db_woodchop', 'shoulders2?'])] },
+    },
+  },
+  {
+    id: 'combo-builder', name: 'Combo Builder', subject: 'Boxing', minutes: P23_LONG, equip: 'bw', levers: [null, 'variation', 'variation'],
+    split: 'Two-punch to six-punch bouts / defence & counter bouts', blurb: 'Bouts that grow from two punches to six, then defence and counters.',
+    about: 'Long boxing sessions built around combinations. One day the bouts climb from jab-cross to four, five and six punches; the other drills slips, rolls and pulls with the counter that follows, then straight sets of push-ups and squats. They alternate. Abs finish every session. Both later levels bring longer combinations and harder moves.',
+    names: ['One-Two', 'Three', 'Four Count', 'Five Count', 'Six Count', 'Double Up', 'Triple Jab', 'Stack', 'String', 'Chain Punch', 'Flurry', 'Volley Punch', 'Barrage Punch', 'Combination', 'Sequence', 'Pattern', 'Rhythm Punch', 'Cadence Punch', 'Tempo Punch', 'Beat'],
+    cycle: ['combo', 'defence'],
+    dayTypes: {
+      combo: { label: 'Combination bouts', short: 'Combos', blocks: [B('Combination bouts', ['bxBasic', 'bxBasic', 'bxPower', 'bxPower', 'six_punch', 'bxPower', 'bxBasic?'])] },
+      defence: { label: 'Defence & counter', short: 'Defence', blocks: [B('Defence bouts', ['bxDefense', 'pull_counter', 'bxDefense', 'shoulder_roll', 'bxMove']), S('Strength', ['pushBw2', 'legsBw2', 'coreRot?'])] },
+    },
+  },
+  {
+    id: 'boxing-35', name: 'Boxing 35', subject: 'Boxing', minutes: P23_MID, equip: 'bw', levers: [null, 'variation', 'variation'],
+    split: 'Bouts & EMOM / bouts & circuit, 35 minutes', blurb: 'Thirty-five minutes of boxing: bouts, then an EMOM or a circuit.',
+    about: 'Boxing for about half an hour. Each day opens with shadowboxing bouts, then an EMOM of punches and conditioning one day and a bodyweight circuit the next. They alternate. Abs finish every session. Both later levels bring longer combinations and harder moves.',
+    names: ['Round One', 'Round Two', 'Round Three', 'Round Four', 'Round Five', 'Round Six', 'Round Seven', 'Round Eight', 'Round Nine', 'Round Ten', 'Round Eleven', 'Round Twelve', 'Championship Round', 'Decision', 'Split Decision', 'Unanimous', 'Majority', 'Draw', 'Rematch', 'Title Shot'],
+    cycle: ['emom', 'circuit'],
+    dayTypes: {
+      emom: { label: 'Bouts & EMOM', short: 'EMOM', blocks: [B('Bouts', ['bxBasic', 'bxPower', 'bxDefense', 'bxMove?']), E('EMOM', ['punches', 'chestBw', 'hiit', 'coreRot'], { values: [8, 10, 12] })] },
+      circuit: { label: 'Bouts & circuit', short: 'Circuit', blocks: [B('Bouts', ['bxMove', 'bxBasic', 'bxPower', 'bxDefense?']), C('Circuit', ['pushBw2', 'legsBw2', 'burpee', 'coreAnti'], { values: [1, 2, 3] })] },
+    },
+  },
+  {
+    id: 'body-shot-boxing', name: 'Body Shot Boxing', subject: 'Boxing', minutes: P23_MID, equip: 'bw', levers: [null, 'variation', 'variation'],
+    split: 'Body & head bouts / punch Tabatas & core', blurb: 'Body shots and head shots in bouts, then punch Tabatas and core work.',
+    about: 'Boxing that goes to the body. One day is bouts of body hooks, body-head doubles and level changes; the other is Tabatas of fast punches, then core straight sets, since body shots are taken as much as thrown. They alternate. Abs finish every session. Both later levels bring longer combinations and harder moves.',
+    names: ['Solar Plexus', 'Rib Shot', 'Kidney', 'Gut Punch', 'Short Rib', 'Floating Rib', 'Belly', 'Midsection', 'Torso', 'Ribcage', 'Sternum', 'Diaphragm', 'Flank', 'Side Body', 'Breadbasket', 'Engine Room', 'Middle', 'Core Shot', 'Body Blow', 'Low Blow'],
+    cycle: ['body', 'tabata'],
+    dayTypes: {
+      body: { label: 'Body & head bouts', short: 'Body', blocks: [B('Body & head bouts', ['body_head', 'body_cross_hook', 'bxPower', 'jab_body_hook', 'bxDefense', 'bxBasic?'])] },
+      tabata: { label: 'Punch Tabatas & core', short: 'Tabata', blocks: [T('Punch Tabatas', ['bxBasic', 'bxPower', 'bxBasic', 'bxPower'], { values: [2, 3] }), S('Core', ['coreRot', 'coreAnti', 'coreHollow?'])] },
+    },
+  },
+  {
+    id: 'boxing-express', name: 'Boxing Express', subject: 'Boxing', minutes: [22, 27], equip: 'bw', levers: [null, 'variation', 'variation'],
+    split: 'Short bouts / footwork bouts & EMOM, short', blurb: 'Short boxing sessions: straight bouts, or footwork bouts and a short EMOM.',
+    about: 'Boxing in a short slot. One day is a run of bouts, punches, power and defence; the other is footwork bouts, then a short EMOM of punches and push-ups. They alternate. Abs finish every session. Both later levels bring longer combinations and harder moves.',
+    names: ['Quick Jab', 'Flick Jab', 'Snap Jab', 'Pawing Jab', 'Range Finder', 'Double Tap', 'Stiff Jab', 'Pop Shot', 'Lead Hook', 'Rear Hand', 'Short Hook', 'Inside', 'Outside', 'Angle', 'Step Off', 'Cut Off', 'Ring Centre', 'Ropes', 'Corner Trap', 'Escape'],
+    cycle: ['bouts', 'feet'],
+    dayTypes: {
+      bouts: { label: 'Short bouts', short: 'Bouts', blocks: [B('Bouts', ['bxBasic', 'bxPower', 'bxDefense', 'bxBasic?', 'bxPower?'])] },
+      feet: { label: 'Footwork bouts & EMOM', short: 'Feet', blocks: [B('Footwork bouts', ['bxMove', 'hook_pivot', 'bxBasic?']), E('EMOM', ['punches', 'chestBw', 'hiitSec'], { values: [6, 8, 10] })] },
+    },
+  },
+  // Kickboxing +6
+  {
+    id: 'kickboxing-volume', name: 'Kickboxing Volume', subject: 'Kickboxing', minutes: P23_LONG, equip: 'bw', levers: [null, 'variation', 'variation'],
+    split: 'Kick & knee bouts & circuit / combo bouts & Tabatas', blurb: 'Long kickboxing sessions: kicks and knees, then combinations, with conditioning after.',
+    about: 'Kickboxing with time for every weapon. One day is a long run of kick and knee bouts, then a bodyweight circuit; the other is bouts of punch-and-kick combinations, then Tabatas. They alternate. Abs finish every session. Both later levels bring longer combinations and harder moves.',
+    names: ['Roundhouse', 'Teep', 'Low Kick', 'High Kick', 'Switch Kick', 'Push Kick', 'Side Kick', 'Back Kick', 'Axe Kick', 'Hook Kick', 'Knee', 'Flying Knee', 'Elbow', 'Clinch Work', 'Sweep', 'Check', 'Block', 'Shin Guard', 'Ring Craft', 'Muay'],
+    cycle: ['kick', 'combo'],
+    dayTypes: {
+      kick: { label: 'Kick & knee bouts & circuit', short: 'Kicks', blocks: [B('Kick & knee bouts', ['kkKick', 'kkKnee', 'kkKick', 'kkCombo', 'kkKnee', 'kkKick?']), C('Circuit', ['legsBw2', 'pushBw2', 'hiit', 'coreRot'], { values: [1, 2, 3] })] },
+      combo: { label: 'Combo bouts & Tabatas', short: 'Combos', blocks: [B('Combo bouts', ['kkCombo', 'bxBasic', 'kkCombo', 'kkSpin', 'kkCombo', 'bxPower?']), T('Tabatas', ['hiit', 'core2'], { values: [1, 2] })] },
+    },
+  },
+  {
+    id: 'kickboxing-month', name: 'Kickboxing Month', subject: 'Kickboxing', days: 30, minutes: P23_LONG, equip: 'bw', levers: [null, 'variation', 'variation'],
+    split: 'Kick bouts & legs / combo bouts & core, 30 days', blurb: 'A month of kickboxing: kick bouts and leg strength, then combos and core.',
+    about: 'A month of kickboxing. One day is kick and knee bouts, then straight sets for the legs that throw them; the other is combination bouts, then a core circuit for the turn behind every kick. They alternate. Every ten days the level steps up. Abs finish every session. Both later levels bring longer combinations and harder moves.',
+    names: ['Thai Camp', 'Wai Kru', 'Ram Muay', 'Mongkol', 'Pra Jiad', 'Nak Muay', 'Kru', 'Lumpinee', 'Rajadamnern', 'Sarama', 'Clinch Day', 'Pad Round', 'Kick Day', 'Knee Day', 'Shin Day', 'Run Day', 'Rest Day', 'Fight Day', 'Fight Card', 'Main Event'],
+    cycle: ['kick', 'combo'],
+    dayTypes: {
+      kick: { label: 'Kick bouts & legs', short: 'Kicks', blocks: [B('Kick bouts', ['kkKick', 'kkKnee', 'kkKick', 'kkKnee', 'kkKick?']), S('Legs', ['legsBw2', 'cossack_squat', 'single_leg_rdl_bw', 'legsBw2?'])] },
+      combo: { label: 'Combo bouts & core', short: 'Combos', blocks: [B('Combo bouts', ['kkCombo', 'bxBasic', 'kkCombo', 'kkSpin', 'kkCombo?']), C('Core circuit', ['coreRot', 'coreAnti', 'coreHollow', 'coreRot'], { values: [2, 3] })] },
+    },
+  },
+  {
+    id: 'kick-power-long', name: 'Kick Power Long', subject: 'Kickboxing', minutes: P23_LONG, equip: 'bw', levers: [null, 'variation', 'variation'],
+    split: 'Power kick bouts & plyo / knee bouts & hip strength', blurb: 'Kicks with more behind them: power bouts and jumps, then knees and hip strength.',
+    about: 'Kickboxing for power. One day is bouts of hard kicks and combinations, then jumps in straight sets for the hips and legs that drive them; the other is knee and clinch bouts, then hip-flexor and adductor strength. They alternate. Abs finish every session. Both later levels bring longer combinations and harder moves.',
+    names: ['Thunder Kick', 'Iron Shin', 'Steel Knee', 'Hammer Kick', 'Axe Swing', 'Sickle', 'Scythe', 'Reaper', 'Whip Kick', 'Lash', 'Crack', 'Snap Kick', 'Chop', 'Cleave', 'Splitter', 'Breaker Kick', 'Bonebreaker', 'Hard Shin', 'Teak', 'Ironwood'],
+    cycle: ['power', 'knee'],
+    dayTypes: {
+      power: { label: 'Power bouts & plyo', short: 'Power', blocks: [B('Power kick bouts', ['kkKick', 'kkCombo', 'kkKick', 'kkSpin', 'kkCombo?']), S('Plyo', ['plyoLat', 'plyoVert', 'plyoLow', 'plyoLat?'])] },
+      knee: { label: 'Knee bouts & hips', short: 'Knees', blocks: [B('Knee bouts', ['kkKnee', 'clinch_knees', 'kkKnee', 'kkCombo', 'kkKnee?']), S('Hip strength', ['standing_knee_hold', 'adductorBw', 'hipFlex', 'cossack_squat?'])] },
+    },
+  },
+  {
+    id: 'kickboxing-35', name: 'Kickboxing 35', subject: 'Kickboxing', minutes: P23_MID, equip: 'bw', levers: [null, 'variation', 'variation'],
+    split: 'Bouts & kick circuit / bouts & strength, 35 minutes', blurb: 'Thirty-five minutes of kickboxing: bouts, then a kick circuit or strength.',
+    about: 'Kickboxing for about half an hour. Each day opens with bouts of kicks, knees and punches, then a circuit of kicks and conditioning one day and straight sets of strength the next. They alternate. Abs finish every session. Both later levels bring longer combinations and harder moves.',
+    names: ['Bangkok', 'Chiang Mai', 'Phuket', 'Pattaya', 'Krabi', 'Ayutthaya', 'Sukhothai', 'Isan', 'Korat', 'Udon', 'Hat Yai', 'Hua Hin', 'Koh Samui', 'Koh Tao', 'Pai', 'Lampang', 'Nan', 'Trang', 'Surin', 'Buriram'],
+    cycle: ['circuit', 'strength'],
+    dayTypes: {
+      circuit: { label: 'Bouts & kick circuit', short: 'Circuit', blocks: [B('Bouts', ['kkKick', 'kkCombo', 'kkKnee', 'bxBasic?']), C('Kick circuit', ['kkKick', 'hiit', 'kkKnee', 'coreRot'], { values: [1, 2, 3] })] },
+      strength: { label: 'Bouts & strength', short: 'Strength', blocks: [B('Bouts', ['kkCombo', 'kkKick', 'kkSpin', 'kkKnee?']), S('Strength', ['legsBw2', 'pushBw2', 'singleLeg', 'coreAnti?'])] },
+    },
+  },
+  {
+    id: 'kick-tabata-strength', name: 'Kick Tabata Strength', subject: 'Kickboxing', minutes: P23_MID, equip: 'bw', levers: [null, 'variation', 'variation'],
+    split: 'Kick Tabatas & legs / knee Tabatas & core', blurb: 'Kick Tabatas then leg strength, or knee Tabatas then core.',
+    about: 'Kickboxing on the Tabata clock, twenty seconds hard and ten seconds rest. One day is kick Tabatas, then straight sets for the legs; the other is knee and punch Tabatas, then core work for the turn of the hips. They alternate. Abs finish every session. Both later levels bring longer combinations and harder moves.',
+    names: ['Twenty On', 'Ten Off', 'Eight Rounds', 'Four Minutes', 'Interval', 'Set Piece', 'Round Robin', 'Burst Kick', 'Rapid Fire', 'Quick Feet', 'Fast Hands', 'Hot Shins', 'Last Round', 'Final Ten', 'Empty Tank', 'Second Wind', 'Gas Tank', 'Engine Kick', 'Turbo Kick', 'Overdrive'],
+    cycle: ['kick', 'knee'],
+    dayTypes: {
+      kick: { label: 'Kick Tabatas & legs', short: 'Kicks', blocks: [T('Kick Tabatas', ['kkKick', 'kkCombo', 'kkKick', 'kkCombo'], { values: [2, 3] }), S('Legs', ['legsBw2', 'single_leg_rdl_bw', 'legsBw2?'])] },
+      knee: { label: 'Knee Tabatas & core', short: 'Knees', blocks: [T('Knee Tabatas', ['kkKnee', 'bxBasic', 'kkKnee', 'bxPower'], { values: [2, 3] }), S('Core', ['coreRot', 'coreAnti', 'coreRot?'])] },
+    },
+  },
+  {
+    id: 'kickboxing-express', name: 'Kickboxing Express', subject: 'Kickboxing', minutes: [22, 27], equip: 'bw', levers: [null, 'variation', 'variation'],
+    split: 'Kick bouts / combo bouts, short', blurb: 'Short kickboxing sessions: kick bouts one day, combination bouts the next.',
+    about: 'Kickboxing in a short slot. One day is bouts of kicks and knees; the other bouts of punch-and-kick combinations. They alternate. Abs finish every session. Both later levels bring longer combinations and harder moves.',
+    names: ['Quick Kick', 'Flash Kick', 'Snap Teep', 'Light Feet', 'Fast Shin', 'Swift Knee', 'Short Round', 'Mini Bout', 'Sharp Shot', 'Clean Kick', 'Crisp', 'Tidy', 'Neat', 'Brisk', 'Nimble', 'Agile', 'Spry', 'Deft', 'Lithe', 'Fleet'],
+    cycle: ['kick', 'combo'],
+    dayTypes: {
+      kick: { label: 'Kick bouts', short: 'Kicks', blocks: [B('Kick bouts', ['kkKick', 'kkKnee', 'kkKick', 'kkKnee', 'kkKick?'])] },
+      combo: { label: 'Combo bouts', short: 'Combos', blocks: [B('Combo bouts', ['kkCombo', 'bxBasic', 'kkCombo', 'kkCombo?', 'kkSpin?'])] },
+    },
+  },
+].map((c) => ({ ...c, added: 23, catalogue: 13 }));
+CONFIGS.push(...P23_T8);
+
 // Phase 23: the new programs' ids in shelf order, appended to programs.config.js's ORDER after every older program
-CONFIGS.order23 = P23_T7.map((c) => c.id);
+CONFIGS.order23 = [...P23_T7, ...P23_T8].map((c) => c.id);
 module.exports = CONFIGS;

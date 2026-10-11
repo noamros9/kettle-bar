@@ -1791,6 +1791,92 @@ const CONFIGS = [
   },
 ];
 
+// Phase 23 ticket 8: Fighter +7 (Boxing and Kickboxing are in configs/cardio-combat.js), by ticket 3's rules; each block
+// tagged with its family, as in the older Fighter programs.
+const P23_LONG = [34.5, 38.4], P23_MID = [31, 35];
+const P23_FIGHTER = [
+  {
+    id: 'fighter-volume', name: 'Fighter Volume', subject: 'Fighter', minutes: P23_LONG, levers: [null, 'reps', 'weight'],
+    split: 'Boxing & upper strength / kickboxing & legs / bouts & power circuit', blurb: 'Three fighter days: boxing and upper strength, kickboxing and legs, then bouts and a power circuit.',
+    about: 'A fighter\'s week in three days. Boxing bouts lead into presses and rows; kickboxing bouts into squats, hinges and lunges; and mixed bouts into a circuit of power lifts. Every session ends with abs. Level II adds reps and Level III moves you one weight up.',
+    names: ['Contender', 'Challenger', 'Champion', 'Title Holder', 'Belt', 'Undercard', 'Co-Main', 'Headliner', 'Prospect', 'Journeyman', 'Veteran', 'Gatekeeper', 'Dark Horse', 'Underdog', 'Favourite', 'Comeback', 'Upset', 'Knockout', 'Stoppage', 'Submission'],
+    cycle: ['box', 'kick', 'cond'],
+    dayTypes: {
+      box: { label: 'Boxing & upper strength', short: 'Box', blocks: [B('Boxing bouts', ['bxBasic', 'bxPower', 'bxDefense', 'bxPower?'], BOUTS), S('Upper strength', ['pushLoad2', 'backRow', 'shoulders2', 'row2', 'arms?'], LIFT)] },
+      kick: { label: 'Kickboxing & legs', short: 'Kick', blocks: [B('Kickboxing bouts', ['kkKick', 'kkCombo', 'kkKnee', 'kkCombo?'], BOUTS), S('Legs', ['squat2', 'hinge2', 'lunge2', 'glute2', 'calf?'], LIFT)] },
+      cond: { label: 'Bouts & power circuit', short: 'Power', blocks: [B('Bouts', ['bxBasic', 'kkKick', 'bxPower', 'kkCombo', 'bxDefense?'], BOUTS), C('Power circuit', ['total', 'squat2', 'kbBallistic', 'pushLoad2'], { ...LIFT, values: [2, 3, 4] })] },
+    },
+  },
+  {
+    id: 'fighter-month', name: 'Fighter Month', subject: 'Fighter', days: 30, minutes: P23_LONG, equip: 'bw', levers: [null, 'reps', 'reps'],
+    split: 'Bouts & strength / bouts & EMOM / bouts, core & flow, 30 days', blurb: 'A month of fight training with no gear: bouts every day, then strength, an EMOM, or core and a flow.',
+    about: 'A month of fight training without equipment. Every day opens with bouts, then the work changes: bodyweight strength in straight sets, an EMOM of sprawls and push-ups, or a core circuit and a mobility flow. Three days rotate. Every ten days the level steps up. Abs finish the first two. Both later levels add reps.',
+    names: ['Sparring', 'Shadow', 'Footwork Drill', 'Bag Round', 'Pad Round Two', 'Clinch Drill', 'Takedown Defence', 'Sprawl Drill', 'Ground Escape', 'Cage Work', 'Octagon', 'Corner Talk', 'Game Plan', 'Scouting', 'Tape Study', 'Camp Week', 'Peak Week', 'Cut Week', 'Fight Week Final', 'Walkout'],
+    cycle: ['strength', 'emom', 'flow'],
+    dayTypes: {
+      strength: { label: 'Bouts & strength', short: 'Strength', blocks: [B('Bouts', ['bxBasic', 'bxPower', 'bxDefense', 'bxBasic?'], BOUTS), S('Strength', ['pushBw2', 'legsBw2', 'pullBw', 'singleLeg', 'chestBw?'], LIFT)] },
+      emom: { label: 'Bouts & EMOM', short: 'EMOM', blocks: [B('Bouts', ['kkCombo', 'kkKick', 'kkKnee', 'kkCombo?'], BOUTS), E('Fighter EMOM', ['sprawl', 'chestBw', 'legsBw2', 'pushBw2'], { ...LIFT, values: [10, 12, 14] })] },
+      flow: { label: 'Bouts, core & flow', short: 'Flow', absSlots: [], blocks: [B('Bouts', ['bxMove', 'bxBasic', 'kkKick', 'bxPower?'], BOUTS), C('Core', ['coreRot', 'coreAnti', 'coreHollow', 'coreRot'], { ...CORE, values: [2, 3] }), F('Mobility flow', ['mbHip', 'fxHips', 'mbShoulder', 'mbSpine', 'ygRest?'], FLOW)] },
+    },
+  },
+  {
+    id: 'cage-strength', name: 'Cage Strength', subject: 'Fighter', minutes: P23_LONG, levers: [null, 'weight', 'reps'],
+    split: 'Bouts & pull-push supersets / bouts & lower supersets', blurb: 'Bouts, then strength in supersets: pull and push one day, legs and hips the next.',
+    about: 'Strength for the clinch and the scramble. Each day opens with bouts, then supersets with weights: rows paired with presses and carries one day, squats paired with hinges and adductor work the next. They alternate. Abs finish every session. Level II moves you one weight up and Level III adds reps.',
+    names: ['Underhook', 'Overhook', 'Collar Tie', 'Wrist Control', 'Body Lock', 'Double Leg', 'Single Leg', 'Sprawl', 'Whizzer', 'Crossface', 'Head Position', 'Hand Fight', 'Frame', 'Shrimp', 'Bridge Out', 'Sweep', 'Pass', 'Mount', 'Back Take', 'Scramble'],
+    cycle: ['upper', 'lower'],
+    dayTypes: {
+      upper: { label: 'Bouts & pull-push', short: 'Upper', blocks: [B('Bouts', ['bxBasic', 'bxPower', 'kkKnee', 'bxDefense?'], BOUTS), SS('Pull & push', ['backRow', 'pushLoad2', 'row2', 'farmer_carry', 'gripPull', 'shoulders2'], LIFT)] },
+      lower: { label: 'Bouts & lower', short: 'Lower', blocks: [B('Bouts', ['kkKick', 'kkCombo', 'kkKnee', 'kkCombo?'], BOUTS), SS('Legs & hips', ['squat2', 'hinge2', 'lunge2', 'adductor', 'glute2', 'neck'], LIFT)] },
+    },
+  },
+  {
+    id: 'bell-fighter', name: 'Bell Fighter', subject: 'Fighter', minutes: P23_LONG, equip: 'kb', levers: [null, 'reps', 'weight'],
+    split: 'Bouts & bell power / bouts & bell strength', blurb: 'Bouts, then one kettlebell: swings and cleans one day, presses and squats the next.',
+    about: 'Fight training with one kettlebell. Each day opens with boxing or kickboxing bouts; then the bell, swings, cleans and snatches for power one day, presses, squats and windmills for strength the next. They alternate. Abs finish every session. Level II adds reps and Level III moves you one weight up.',
+    names: ['Bell Brawler', 'Iron Fist', 'Steel Hook', 'Cast Jab', 'Forged Cross', 'Hammer Hand', 'Anvil Chin', 'Bell Ringer', 'Gong Show', 'Clang Round', 'Iron Round', 'Heavy Round', 'Bell Round', 'Swing Round', 'Clean Round', 'Snatch Round', 'Press Round', 'Squat Round', 'Mill Round', 'Last Bell'],
+    cycle: ['power', 'strength'],
+    dayTypes: {
+      power: { label: 'Bouts & bell power', short: 'Power', blocks: [B('Bouts', ['bxBasic', 'bxPower', 'bxDefense', 'bxPower?'], BOUTS), S('Bell power', ['kbBallistic', 'kb_swing', 'kbBallistic', 'kbCx', 'kb_swing?'], LIFT)] },
+      strength: { label: 'Bouts & bell strength', short: 'Strength', blocks: [B('Bouts', ['kkKick', 'kkCombo', 'kkKnee', 'kkCombo?'], BOUTS), S('Bell strength', ['kbUpper2', 'kbLower2', 'kb_windmill', 'kbUpper2', 'kbLower2?'], LIFT)] },
+    },
+  },
+  {
+    id: 'fighter-35', name: 'Fighter 35', subject: 'Fighter', minutes: P23_MID, levers: [null, 'reps', 'weight'],
+    split: 'Bouts & strength circuit / bouts & strength AMRAP, 35 minutes', blurb: 'Thirty-five minutes of fight training: bouts, then a strength circuit or a strength AMRAP.',
+    about: 'Fight training for about half an hour. Each day opens with bouts, then a strength circuit of lifts and bodyweight moves one day and an AMRAP of swings, goblet squats and push-ups the next. They alternate. Abs finish every session. Level II adds reps and Level III moves you one weight up.',
+    names: ['Bantam', 'Flyweight', 'Featherweight', 'Lightweight', 'Welterweight', 'Middleweight', 'Cruiserweight', 'Heavyweight', 'Light Heavy', 'Super Middle', 'Super Feather', 'Super Bantam', 'Super Fly', 'Strawweight', 'Atomweight', 'Catchweight', 'Openweight', 'Pound for Pound', 'Weigh Scale', 'Making Weight'],
+    cycle: ['circuit', 'amrap'],
+    dayTypes: {
+      circuit: { label: 'Bouts & strength circuit', short: 'Circuit', blocks: [B('Bouts', ['bxBasic', 'bxPower', 'bxDefense?'], BOUTS), C('Strength circuit', ['squat2', 'backRow', 'chestBw', 'hinge2', 'coreRot'], { ...LIFT, values: [2, 3, 4] })] },
+      amrap: { label: 'Bouts & strength AMRAP', short: 'AMRAP', blocks: [B('Bouts', ['kkKick', 'kkCombo', 'kkKnee?'], BOUTS), A('Strength AMRAP', ['kb_swing', 'goblet_squat', 'pushBw2', 'legsBw2'], { ...LIFT, values: [8, 10, 12] })] },
+    },
+  },
+  {
+    id: 'fighter-flow-35', name: 'Fighter Flow 35', subject: 'Fighter', minutes: P23_MID, equip: 'bw', levers: [null, 'reps', 'reps'],
+    split: 'Bouts, Tabatas & hip flow / bouts, strength & shoulder flow', blurb: 'Bouts, then Tabatas or strength, and a mobility flow to close, with no gear.',
+    about: 'Fight training that leaves you looser than it found you. Each day opens with bouts; then Tabatas and a hip flow one day, bodyweight strength and a shoulder and spine flow the next. They alternate. No abs finisher, since the flow closes the session. Both later levels add reps.',
+    names: ['Water', 'Bamboo', 'Willow', 'Reed', 'River Stone', 'Current', 'Stream', 'Brook', 'Rill', 'Spring Water', 'Mist', 'Rain', 'Dew', 'Frost', 'Snowfall', 'Thaw', 'Still Water', 'Deep Water', 'Running Water', 'Be Water'],
+    cycle: ['tabata', 'strength'],
+    dayTypes: {
+      tabata: { label: 'Bouts, Tabatas & hip flow', short: 'Tabata', absSlots: [], blocks: [B('Bouts', ['kkKick', 'kkCombo', 'kkKnee?'], BOUTS), T('Tabatas', ['hiit', 'coreRot', 'cardio', 'core2'], { ...COND, values: [1, 2] }), F('Hip flow', ['mbHip', 'fxHips', 'ygHips', 'ygRest?'], FLOW)] },
+      strength: { label: 'Bouts, strength & shoulder flow', short: 'Strength', absSlots: [], blocks: [B('Bouts', ['bxBasic', 'bxPower', 'bxDefense?'], BOUTS), S('Strength', ['pushBw2', 'legsBw2', 'pullBw', 'coreAnti?'], LIFT), F('Shoulder & spine flow', ['mbShoulder', 'fxUpper', 'mbSpine', 'ygRest?'], FLOW)] },
+    },
+  },
+  {
+    id: 'fighter-express', name: 'Fighter Express', subject: 'Fighter', minutes: [24, 29], equip: 'bw', levers: [null, 'reps', 'reps'],
+    split: 'Bouts & sprawl EMOM / bouts & core circuit, short', blurb: 'Short fight sessions: bouts, then a sprawl EMOM or a core circuit.',
+    about: 'Fight training in a short slot, no gear. Each day opens with a few bouts, then an EMOM of sprawls, push-ups and squats one day and a core circuit the next. They alternate. Abs finish every session. Both later levels add reps.',
+    names: ['Flash KO', 'One Punch', 'Early Stoppage', 'First Round', 'Quick Finish', 'Blitzkrieg', 'Ambush', 'Sucker Punch', 'Lightning Round', 'Speed Round', 'Sprint Round', 'Short Notice', 'Late Replacement', 'Fill-in', 'Walk-up', 'Pop-up Fight', 'Smoker', 'Exhibition', 'Showcase', 'Tune-up'],
+    cycle: ['emom', 'core'],
+    dayTypes: {
+      emom: { label: 'Bouts & sprawl EMOM', short: 'EMOM', blocks: [B('Bouts', ['bxBasic', 'bxPower', 'bxDefense?'], BOUTS), E('Sprawl EMOM', ['sprawl', 'chestBw', 'legsBw2'], { ...LIFT, values: [6, 8, 10] })] },
+      core: { label: 'Bouts & core circuit', short: 'Core', blocks: [B('Bouts', ['kkKick', 'kkCombo', 'kkKnee?'], BOUTS), C('Core circuit', ['coreRot', 'coreAnti', 'coreHollow'], { ...CORE, values: [2, 3] })] },
+    },
+  },
+].map((c) => ({ ...c, added: 23, catalogue: 13 }));
+CONFIGS.push(...P23_FIGHTER);
+
 // Phase 23: the new programs' ids in shelf order, appended to programs.config.js's ORDER after every older program
-CONFIGS.order23 = [];
+CONFIGS.order23 = P23_FIGHTER.map((c) => c.id);
 module.exports = CONFIGS;

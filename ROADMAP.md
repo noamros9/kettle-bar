@@ -4,12 +4,13 @@ The index: where we are, what comes next, and the two phases being built now. Ev
 top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase comes up. Decision numbers are global
 (the next one is **321**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
-## Resume here (10 Oct 2026, evening)
-- **Phase 23 is building** (new fitness programs): tickets 1, 2, 1c, 3, 4, 5 merged (#352–#354, #360–#362): the 15
-  Signature IIs, 77 yoga and Pilates exercises at catalogue 14, and 80 new programs in Strength, Busy week, Bodyweight,
-  the kettlebell and pull subjects, and the upper-body muscles and grip. **Next: ticket 6** (legs, hips, calves, core
-  +25), then 7, 8 … per [its plan](docs/plans/phase-23-fitness-programs.md); pause for Noam's go after every 3 (316).
-  The new programs stay out of Build your own and random workouts until ticket 13 (318). **Opus builds alone this week**
+## Resume here (11 Oct 2026)
+- **Phase 23 is building** (new fitness programs): tickets 1, 2, 1c, 3–8 merged (#352–#354, #360–#362, #367–#369): the
+  15 Signature IIs, 77 yoga and Pilates exercises at catalogue 14, and 155 new programs: Strength, Busy week, Bodyweight,
+  kettlebells and pulls, every muscle subject, Core & abs, the cardio subjects and combat (Boxing, Kickboxing, Fighter).
+  Library 906. **Paused for Noam's go (316)**; next: ticket 9 (Yoga, Pilates, Back care +31), then 9b, 10 … per
+  [its plan](docs/plans/phase-23-fitness-programs.md). Core & abs (ticket 6) is in `configs/mind-body.js` and Fighter
+  (ticket 8) in `configs/mixed.js`, their family files. The new programs stay out of Build your own and random workouts until ticket 13 (318). **Opus builds alone this week**
   (295): Grok is away, so no Grok tickets; Phase 20 waits for it.
 - **Rules added 10 Oct** (CLAUDE.md): no local coverage run or whole-library build (308, 312); a UI ticket runs its own
   specs and the smoke check locally (309); CI polls every 30 s; the build stops on a changed pin and `npm run pin`
