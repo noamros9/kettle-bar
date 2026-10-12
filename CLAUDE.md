@@ -48,6 +48,9 @@ read only when needed. Decisions with a long "why": [docs/adr/](docs/adr/).
     CI — the same bar as Claude's own tickets.
   - Review fails → Grok gets the findings for one fix round. Still failing → Claude finishes the ticket and says so
     in the PR.
+- **Three tickets, then wait (Noam, 12 Oct 2026; was Phase 23's decision 316):** in every phase, Claude builds and
+  merges three tickets, then stops and waits for Noam's explicit go before the next three, unless he explicitly says
+  otherwise for that stretch ("you can do 13 too"). A go counts for the next three only.
 - **NEVER MORE THAN 2 TICKETS BUILDING AT ONCE (Noam, 6 Oct 2026). A hard cap, not a target.** Building = a Grok
   run or Claude's own build; a PR only waiting on CI doesn't count. Before starting any ticket, count what is
   building; at 2, the next one waits. Why: the machine has 2 cores (a third checkout slows every test run), and
