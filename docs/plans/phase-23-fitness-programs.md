@@ -225,6 +225,19 @@ The pins file is regenerated after each rebase (`npm run pin`), never merged by 
 The page is at 22% of its 1 MB gzip gate. No end-state guess (317): ticket 13 measures again with the real programs,
 and CI's phone tests would show a slower Programs page first. So no ticket 1b.
 
+**12 Oct 2026, the close** (ticket 13; CI's Library size step after the build of #378, 1,060 programs):
+
+| File | Raw | Gzipped |
+|---|---|---|
+| index.html | 982.8 KB | 233.4 KB |
+| data/library.json | 275.4 KB | 49.6 KB |
+| data/finder.json | 581.1 KB | 122.4 KB |
+| data/muscles.json | 327.3 KB | 62.7 KB |
+| data/index.json | 2905.3 KB | 116.8 KB |
+
++324 programs moved the page 224.5 → 233.4 KB gzipped: 23% of its 1 MB gate, so no split (137). The recipe book
+(`data/recipes.json`, fetched apart from the page) is 756 KB raw / 103 KB gzipped; its guard moved to 900 / 120 KB.
+
 ## Challenge round
 - **Weakest assumption: "a step harder" has something to step to at Level III.** The catalogue has three levels of
   reps; a II's Level III is past them. The plan adds a set (or round) there, which changes the day's time: a
