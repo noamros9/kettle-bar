@@ -5,11 +5,11 @@ top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase c
 (the next one is **323**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
 ## Resume here (12 Oct 2026, morning)
-- **Phase 23 is building** (new fitness programs): tickets 1, 2, 1c, 3–11 and 9b merged (#352–#354, #360–#362,
-  #367–#372, #374): the 15 Signature IIs, 77 yoga and Pilates exercises at catalogue 14, and 278 new programs, including
-  five new subjects on the Yoga & Pilates shelf and the four Mixed subjects (ticket 11). Library 1,029 programs in 71
-  subjects. Noam gave the go on 12 Oct for 11, 12, 12b **and** 13 (the close), so no pause before 13. Next: ticket 12
-  (Variety +15), then 12b and 13 per [its plan](docs/plans/phase-23-fitness-programs.md). Ticket 13 lets the new
+- **Phase 23 is building** (new fitness programs): tickets 1, 2, 1c, 3–12 and 9b merged (#352–#354, #360–#362,
+  #367–#372, #374, #375): the 15 Signature IIs, 77 yoga and Pilates exercises at catalogue 14, and 293 new programs, including
+  five new subjects on the Yoga & Pilates shelf, the four Mixed subjects (ticket 11) and Variety doubled (ticket 12).
+  Library 1,044 programs in 71 subjects. Noam gave the go on 12 Oct for 11, 12, 12b **and** 13 (the close), so no pause before 13. Next: ticket 12b
+  (Weekly mix and Surprise +16), then 13 per [its plan](docs/plans/phase-23-fitness-programs.md). Ticket 13 lets the new
   programs (and the five new subjects) into Build your own and random workouts (318): until then `recipes.test` skips
   subjects whose programs are all held. **Opus builds alone this week** (295): Grok is away, so no Grok tickets; Phase 20
   waits for it.

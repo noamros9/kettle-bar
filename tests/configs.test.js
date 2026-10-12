@@ -249,6 +249,10 @@ const IDS = [
     'balanced-three-way-month', 'full-spectrum', 'bell-week', 'balanced-month-35', 'floor-week-35',
     'balanced-express', 'quick-balance', 'calm-volume', 'unhurried-month', 'tempo-and-yin',
     'calm-floor', 'calm-strength-35', 'calm-bell-35', 'calm-express',
+    // Phase 23 ticket 12: Variety (mixed.js)
+    'variety-volume', 'variety-month', 'heavy-roulette', 'sweat-and-lift-shuffle', 'body-tour',
+    'fighter-shuffle-month', 'athlete-shuffle', 'floor-roulette-long', 'variety-35', 'kettlebell-shuffle-35',
+    'core-and-cardio-roulette', 'bodyweight-shuffle-35', 'variety-express', 'lower-roulette', 'push-pull-roulette',
 ];
 
 test('the config ids, in order, are today\'s list', () => {
