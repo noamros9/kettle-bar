@@ -110,7 +110,7 @@ decisions is today's catalogue 13 (renumbered by 105).
 | 9b | Five new Yoga and Pilates subjects +40 | content | 1c, 9 | `content/p23-yoga-pilates-new` | done (PR #371) |
 | 10 | Mobility & care +23 | content | 1 | `content/p23-mobility` | done (PR #372) |
 | 11 | Mixed +29 | content | 1 | `content/p23-mixed` | done (PR #374) |
-| 12 | Variety +15 | content | 1 | `content/p23-variety` | todo |
+| 12 | Variety +15 | content | 1 | `content/p23-variety` | done (PR #375) |
 | 12b | Weekly mix and Surprise +16 | content | 9b, 12 | `content/p23-variety-new` | todo |
 | 13 | Close the phase: measure again, archive | plan | 2–12b | `plan/p23-close` | todo |
 
