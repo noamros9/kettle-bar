@@ -13,7 +13,7 @@ const cat = require('../exercises.js');
 const CONFIGS = require('../programs.config.js');
 const { FAMILIES } = require('../app/library.js');
 
-const SUBJECTS = FAMILIES.flatMap(([, list]) => list).filter((s) => s !== 'Variety' && !['Couples', 'Date night warm-up', 'Positions tour', 'Morning glory / Sunday', 'Explicit', 'Rough', 'Kink-lite', 'Body play', 'Rimming', 'Edging', 'Massage', 'Strip and tease', 'Shower and bath', 'Pool', 'Hot tub', 'Balcony', 'Doorframe'].includes(s)) // Variety (Phase 16) is not in build your own: 60 one-off day types are not a subject to pick; nor Couples (Phase 18), Explicit (Phase 20), Rough and Kink-lite (Phase 22), Body play and Rimming (Phase 22), Edging and Massage (Phase 22), Strip and tease and Shower and bath (Phase 22), Pool and Hot tub (Phase 22), or Balcony and Doorframe (Phase 22): sessions for two
+const SUBJECTS = FAMILIES.flatMap(([, list]) => list).filter((s) => s !== 'Variety' && s !== 'Surprise' && !['Couples', 'Date night warm-up', 'Positions tour', 'Morning glory / Sunday', 'Explicit', 'Rough', 'Kink-lite', 'Body play', 'Rimming', 'Edging', 'Massage', 'Strip and tease', 'Shower and bath', 'Pool', 'Hot tub', 'Balcony', 'Doorframe'].includes(s)) // Variety (Phase 16) and Surprise (Phase 23, a Variety program too) are not in build your own: 60 one-off day types are not a subject to pick; nor Couples (Phase 18), Explicit (Phase 20), Rough and Kink-lite (Phase 22), Body play and Rimming (Phase 22), Edging and Massage (Phase 22), Strip and tease and Shower and bath (Phase 22), Pool and Hot tub (Phase 22), or Balcony and Doorframe (Phase 22): sessions for two
   .filter((s) => CONFIGS.some((c) => c.subject === s && (c.added || 0) < require('../recipe-book.js').HELD)); // a subject whose programs are all held (Phase 23's new ones, decision 318) has no day types until the phase's last ticket
 const MINUTES = [20, 25, 30, 35, 40];
 const EQUIPS = ['all', 'kb', 'bw'];
@@ -199,7 +199,7 @@ test('make: what the config holds', () => {
   assert.equal(cfg.subject, 'Strength');
   assert.equal(cfg.equip, 'kb');
   assert.deepEqual(cfg.levers, [null, 'weight', 'reps']);
-  assert.equal(cfg.catalogue, 13, 'the newest catalogue (Phase 22)');
+  assert.equal(cfg.catalogue, 14, 'the newest catalogue (Phase 23)');
   assert.equal(cfg.cycle.length, 4);
   assert.equal(new Set(cfg.cycle).size, 4);
   assert.equal(typeof cfg.about, 'string');
@@ -303,7 +303,7 @@ test('make: a choice that is not a choice is refused', () => {
 test('recipeFor: a recipe buildDay accepts, from a day type', () => {
   const t = R.pick({ subjects: ['Strength'], equipment: 'kb', minutes: 30 })[0];
   const r = R.recipeFor(t, { minutes: 30, equipment: 'kb', levers: ['weight', 'reps'] });
-  assert.deepEqual([r.minutes, r.equip, r.levers, r.catalogue, r.key, r.label], [[28, 32], 'kb', [null, 'weight', 'reps'], 13, t.key, t.label]);
+  assert.deepEqual([r.minutes, r.equip, r.levers, r.catalogue, r.key, r.label], [[28, 32], 'kb', [null, 'weight', 'reps'], 14, t.key, t.label]);
   const d = Builder.buildDay(r, { day: 1, level: 1, rnd: Builder.makeRnd('r'), memory: Builder.newMemory() }, cat);
   assert.equal(d.title, t.label);
 });
@@ -335,12 +335,12 @@ test('the builder builds the made config in the page too: no Node calls, same da
   assert.equal(sandbox.require, undefined);
 });
 
-test('the recipe book file is small (under 500 KB raw, 70 KB gzipped) and is not in index.html', () => {
+test('the recipe book file is small (under 900 KB raw, 120 KB gzipped) and is not in index.html', () => {
   const { render } = require('../build.js');
   const out = require('./helpers/library.js').rendered(), json = out['data/recipes.json'];
   const gz = zlib.gzipSync(json).length;
   console.log(`# data/recipes.json: ${json.length} bytes raw, ${gz} bytes gzipped; ${R.pick({}).length} day types, ${R.book().specs.length} specs`);
-  assert.ok(json.length < 500 * 1024 && gz < 70 * 1024, `${json.length} raw, ${gz} gzipped`); // 300 / 40 KB until Phase 16 (306 KB with the muscle subjects and after-dark, ~470 KB expected after its +50%); 140 / 20 KB until Phase 14: each new program's day types add about 1 KB raw; the book loads only when Build your own opens // the mix parts (ticket 7) are about 17 KB raw, 4 KB gzipped
+  assert.ok(json.length < 900 * 1024 && gz < 120 * 1024, `${json.length} raw, ${gz} gzipped`); // 500 / 70 KB until Phase 23 (756 / 103 KB with its 309 programs and catalogue 14); 300 / 40 KB until Phase 16 (306 KB with the muscle subjects and after-dark, ~470 KB expected after its +50%); 140 / 20 KB until Phase 14: each new program's day types add about 1 KB raw; the book loads only when Build your own opens // the mix parts (ticket 7) are about 17 KB raw, 4 KB gzipped
   assert.equal(json, JSON.stringify(R.book()));
   assert.ok(!out['index.html'].includes('RECIPE_BOOK') && !out['index.html'].includes('"specs"'), 'the page does not carry the book');
   assert.ok(!out['index.html'].includes('function recipeFor') && out['data/recipes.js'].includes('KBRecipes'), 'its code is data/recipes.js');

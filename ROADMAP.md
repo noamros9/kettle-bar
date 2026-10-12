@@ -4,15 +4,15 @@ The index: where we are, what comes next, and the two phases being built now. Ev
 top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase comes up. Decision numbers are global
 (the next one is **323**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
-## Resume here (12 Oct 2026, morning)
-- **Phase 23 is building** (new fitness programs): tickets 1, 2, 1c, 3–12, 9b and 12b merged (#352–#354, #360–#362,
-  #367–#372, #374–#376): the 15 Signature IIs, 77 yoga and Pilates exercises at catalogue 14, and 309 new programs, including
-  seven new subjects (five on the Yoga & Pilates shelf; Weekly mix and Surprise on the Variety shelf), the four Mixed
-  subjects and Variety doubled. Library 1,060 programs in 73 subjects. Noam gave the go on 12 Oct for 11, 12, 12b **and** 13 (the close), so no pause before 13. Next: ticket 13
-  (the close) per [its plan](docs/plans/phase-23-fitness-programs.md). Ticket 13 lets the new
-  programs (and the seven new subjects) into Build your own and random workouts (318): until then `recipes.test` skips
-  subjects whose programs are all held. **Opus builds alone this week** (295): Grok is away, so no Grok tickets; Phase 20
-  waits for it.
+## Resume here (12 Oct 2026)
+- **Phase 23's tickets are all merged** (#352–#354, #360–#362, #367–#377): the 15 Signature IIs, 77 yoga and Pilates
+  exercises at catalogue 14, and 309 new programs, seven new subjects among them. Library 1,060 programs in 73 subjects.
+  Ticket 13 opened catalogue 14 for own programs and random workouts and let the phase's programs into them (264, 318).
+  Left: the size measured by CI (a `Library size` step after the build, since this machine builds no whole library),
+  recorded in the plan's "Measured", and the phase archived, in one Markdown PR. **Next: Phase 37** (the finish flow).
+  **Opus builds alone this week** (295): Grok is away, so no Grok tickets; Phase 20 waits for it.
+- **12 Oct:** the whole-library build passed Playwright's 600 s wait (321) on the cloud machine at 1,060 programs, so
+  local UI runs time out; UI tickets lean on the PR's CI until the build cache (322) lands.
 - **Rules added 10 Oct** (CLAUDE.md): no local coverage run or whole-library build (308, 312); a UI ticket runs its own
   specs and the smoke check locally (309); CI polls every 30 s; the build stops on a changed pin and `npm run pin`
   builds only this phase's programs; `npm run check:new` before pushing a content ticket; one ticket pushed at a time,

@@ -111,7 +111,7 @@ test('options(combination): what a mix allows; refusals come from what the parts
   const sy = R.options(['Strength', 'Yoga']);
   assert.deepEqual(Object.keys(sy).sort(), ['equipment', 'formats', 'levers', 'reason', 'subjects']);
   assert.equal(sy.reason, null);
-  assert.deepEqual(sy.equipment, { all: [20, 25, 30, 35, 40], kb: [20, 25, 30, 35, 40], bw: [] }, 'strength has no blocks without gear');
+  assert.deepEqual(sy.equipment, { all: [20, 25, 30, 35, 40], kb: [20, 25, 30, 35, 40], bw: [20, 25, 30, 35, 40] }, 'strength has blocks without gear too (Phase 23\'s no-equipment Strength programs)');
   assert.deepEqual(sy.levers, [R.options('Strength').levers, R.options('Yoga').levers]);
   assert.ok(sy.formats.includes('flow') && sy.formats.includes('straight'));
   // order matters: yoga then strength ends with abs, which take time: no 20 or 25 minutes
@@ -298,8 +298,10 @@ test('own: states, fit, names and the summary line for a mix', () => {
   const st = Own.states(recipes, c);
   assert.deepEqual([st.minutes[20].ok, st.minutes[30].ok], [false, true]);
   assert.equal(st.minutes[20].reason, 'No 20-minute Yoga + Strength days with all equipment.');
-  assert.equal(st.equipment.bw.reason, 'No Yoga + Strength days with no equipment.');
-  assert.equal(Own.fit(recipes, { ...c, equipment: 'bw' }).equipment, 'all');
+  assert.equal(st.equipment.bw.ok, true, 'Strength has no-equipment days since Phase 23');
+  const pull = Own.toggle(recipes, Own.defaults(recipes, 'Yoga'), 'Pull-ups'); // a pick with no no-equipment days
+  assert.equal(Own.states(recipes, pull).equipment.bw.reason, 'No Yoga + Pull-ups days with no equipment.');
+  assert.equal(Own.fit(recipes, { ...pull, equipment: 'bw' }).equipment, 'all');
   assert.deepEqual(Own.fit(recipes, { ...c, levers: ['holds', 'flying', 'weight', 'holds'] }).levers, ['holds', 'variation', 'weight', 'weight'], 'a lever a subject does not have: one of its own');
   // a pick that can make nothing keeps its gear and minutes (the page greys those picks out; nothing to move to)
   const none = Own.fit(recipes, { ...c, subjects: ['Signature', 'Strength', 'Pull-ups'], levers: ['reps', 'reps', 'reps', 'reps', 'reps', 'reps'], minutes: 25 });

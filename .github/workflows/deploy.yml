@@ -66,6 +66,9 @@ jobs:
       - name: Build
         if: steps.passed.outputs.cache-hit != 'true'
         run: npm run build
+      - name: Library size (decision 317; the cloud machine builds no whole library, so CI measures it)
+        if: steps.passed.outputs.cache-hit != 'true'
+        run: npm run size
       - name: Collect the site
         if: steps.passed.outputs.cache-hit != 'true'
         run: |

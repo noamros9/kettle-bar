@@ -11,7 +11,9 @@ its own progress. Identified by an id (`three-split-60`, `iron-ppl`).
 **Signature program**: one of the five hand-shaped straight-set splits (Three-, Four-, Two-, Five-Split 60,
 Full-Body Duo 60), each followed on its shelf by two **variations**: *Tempo* (levers `[null, 'tempo', 'tempo']`) and
 *Harder Moves* (`[null, 'variation', 'variation']`), the same split with a different way of getting harder (`four-split-60-tempo`,
-`four-split-60-harder`). Three-Split 60's variations are generated look-alikes, since it is frozen. The other 123 are
+`four-split-60-harder`). Three-Split 60's variations are generated look-alikes, since it is frozen. Phase 23 gave all
+15 a **II** (`four-split-60-ii`, `four-split-60-tempo-ii`, …): the same days, blocks and length one level up (a II's
+Level I is the original's Level II), on the shelf after the originals; an original's page offers it once its day 60 is done. The other 123 are
 **library programs**, five or six per **Subject**.
 
 **Subject**: a library shelf: signature, strength, pull-ups, legs & glutes, kettlebell only, bodyweight, busy week

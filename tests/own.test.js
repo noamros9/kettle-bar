@@ -147,7 +147,8 @@ test('ids: own-safe, lower case, different each time; the default name follows t
 });
 
 // ---- the catalogue source ----
-const record = (name, seed, extra = {}) => saved({ name, choices: choices(), seed, catalogue: 5, ...extra }, extra.createdAt || 'T');
+// catalogue 13: today's book has kettlebell-only Strength day types (Phase 23's, ticket 13) whose pools fill only from 13
+const record = (name, seed, extra = {}) => saved({ name, choices: choices(), seed, catalogue: 13, ...extra }, extra.createdAt || 'T');
 
 test('source with a cache: a rename (or another program changing) reuses the built days; a new config rebuilds', () => {
   let builds = 0;
@@ -272,7 +273,7 @@ test('boot with own programs stored and the recipe book unavailable (offline, ne
 
 // ---- the core rule: a program you are halfway through never changes when the recipe book does ----
 test('a saved program builds byte-identical days after the recipe book changes: a day type dropped, one added', () => {
-  const entry = { name: 'Mine', choices: choices({ split: 4 }), seed: 'keep-me', catalogue: 5 };
+  const entry = { name: 'Mine', choices: choices({ split: 4 }), seed: 'keep-me', catalogue: 13 }; // see record() above
   const record = JSON.parse(JSON.stringify(saved(entry, 'T'))); // as it comes back from the device or the cloud
   const before = days(Own.programOf(deps, Own.fromRecord('x', record)));
   const book = JSON.parse(JSON.stringify(R.book()));
