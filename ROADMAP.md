@@ -4,15 +4,15 @@ The index: where we are, what comes next, and the two phases being built now. Ev
 top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase comes up. Decision numbers are global
 (the next one is **324**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
-## Resume here (12 Oct 2026)
-- **Phase 23's tickets are all merged** (#352–#354, #360–#362, #367–#377): the 15 Signature IIs, 77 yoga and Pilates
-  exercises at catalogue 14, and 309 new programs, seven new subjects among them. Library 1,060 programs in 73 subjects.
-  Ticket 13 opened catalogue 14 for own programs and random workouts and let the phase's programs into them (264, 318).
-  Left: the size measured by CI (a `Library size` step after the build, since this machine builds no whole library),
-  recorded in the plan's "Measured", and the phase archived, in one Markdown PR. **Next: Phase 37** (the finish flow).
-  **Opus builds alone this week** (295): Grok is away, so no Grok tickets; Phase 20 waits for it.
-- **12 Oct:** the whole-library build passed Playwright's 600 s wait (321) on the cloud machine at 1,060 programs, so
-  local UI runs time out; UI tickets lean on the PR's CI until the build cache (322) lands.
+## Resume here (12 Oct 2026, noon)
+- **Phase 23 is done** (#352–#378), archived in [docs/roadmap-archive.md](docs/roadmap-archive.md): 309 new programs
+  and the 15 Signature IIs; library 1,060 programs in 73 subjects; own programs and random workouts at catalogue 14
+  with every program in. Its six Plyometrics programs got the subject's long rests and new pins (323, Noam's exception).
+- **Next: the build cache (322, Backlog)**, planned by our method (grill Noam first): at 1,060 programs the
+  whole-library build passes Playwright's 600 s wait (321) and the recipe book takes ~17 min on the cloud machine, so
+  UI tickets lean on the PR's CI until it lands. **Then Phase 37** ([#356](https://github.com/noamros9/kettle-bar/issues/356),
+  [plan](docs/plans/phase-37-finish-flow.md)); re-read its Challenge round first (136). **Opus builds alone this week**
+  (295): Grok is away, so no Grok tickets; Phase 20 waits for it. CI now prints the library size as notices.
 - **Rules added 10 Oct** (CLAUDE.md): no local coverage run or whole-library build (308, 312); a UI ticket runs its own
   specs and the smoke check locally (309); CI polls every 30 s; the build stops on a changed pin and `npm run pin`
   builds only this phase's programs; `npm run check:new` before pushing a content ticket; one ticket pushed at a time,
@@ -30,21 +30,20 @@ right after Phase 22 (216). **223 ·** 8 Oct: quick fixes after 22; Export, day 
 
 | # | Phase | Issue | Plan | Status |
 |---|---|---|---|---|
-| 1 | 23 · New fitness programs, the Signature IIs, Yoga, Pilates and Variety doubled | [#216](https://github.com/noamros9/kettle-bar/issues/216) | [plan](docs/plans/phase-23-fitness-programs.md) | building |
-| 2 | 37 · The finish flow: a 30 s breather, then the cool-down by itself | [#356](https://github.com/noamros9/kettle-bar/issues/356) | [plan](docs/plans/phase-37-finish-flow.md) | planned |
-| 3 | 24 · Architecture and code review, then the fixes | [#187](https://github.com/noamros9/kettle-bar/issues/187), [#188](https://github.com/noamros9/kettle-bar/issues/188) | [plan](docs/plans/phase-24-review.md) | planned |
-| 4 | 25 · "Do now": one exercise for dead time | [#200](https://github.com/noamros9/kettle-bar/issues/200) | [plan](docs/plans/phase-25-do-now.md) | planned |
-| 5 | 32 · Export an exercise, a day or a program | [#224](https://github.com/noamros9/kettle-bar/issues/224) | [plan](docs/plans/phase-32-export.md) | planned |
-| 6 | 33 · Day to day II: weekdays, a day note, pause, compare, programs that use this, sync status | [#291](https://github.com/noamros9/kettle-bar/issues/291)–[#296](https://github.com/noamros9/kettle-bar/issues/296) | [plan](docs/plans/phase-33-day-to-day-2.md) | planned |
-| 7 | 26 · Longer programs, half at 35–38 min | [#198](https://github.com/noamros9/kettle-bar/issues/198) | [plan](docs/plans/phase-26-longer-programs.md) | planned |
-| 8 | 34 · Short days: 15-min circuits, a 10-min rest-day flow | [#110](https://github.com/noamros9/kettle-bar/issues/110) | [plan](docs/plans/phase-34-short-days.md) | planned |
-| 9 | 27 · Calisthenics: twelve skills, 25 programs | [#199](https://github.com/noamros9/kettle-bar/issues/199) | [plan](docs/plans/phase-27-calisthenics.md) | planned |
-| 10 | 19 · Super programs: 120 days from several programs | [#186](https://github.com/noamros9/kettle-bar/issues/186) | [plan](docs/plans/phase-19-super-programs.md) | planned |
-| 11 | 36 · Logical sessions: an order and a place per set for every couple session | – | [plan](docs/plans/phase-36-logical-sessions.md) | planned |
-| 12 | 20 · After dark refined, the Explicit set, +50% programs (tickets 8b–23 left) | [#202](https://github.com/noamros9/kettle-bar/issues/202) | [plan](docs/plans/phase-20-after-dark-explicit.md) | paused after ticket 8; waits for Grok |
-| 13 | 35 · Catalogue 14: threesomes (their own kind and in every act), every act at every place | – | [plan](docs/plans/phase-35-threesomes-and-places.md) | planned (tickets in the plan) |
-| 14 | 28 · Explicit drawings and loops | [#249](https://github.com/noamros9/kettle-bar/issues/249) | [plan](docs/plans/phase-28-explicit-drawings.md) | planned |
-| 15 | 29 · Stories from the couple workouts, in Drive | [#225](https://github.com/noamros9/kettle-bar/issues/225) | [plan](docs/plans/phase-29-stories.md) | planned, last |
+| 1 | 37 · The finish flow: a 30 s breather, then the cool-down by itself | [#356](https://github.com/noamros9/kettle-bar/issues/356) | [plan](docs/plans/phase-37-finish-flow.md) | planned |
+| 2 | 24 · Architecture and code review, then the fixes | [#187](https://github.com/noamros9/kettle-bar/issues/187), [#188](https://github.com/noamros9/kettle-bar/issues/188) | [plan](docs/plans/phase-24-review.md) | planned |
+| 3 | 25 · "Do now": one exercise for dead time | [#200](https://github.com/noamros9/kettle-bar/issues/200) | [plan](docs/plans/phase-25-do-now.md) | planned |
+| 4 | 32 · Export an exercise, a day or a program | [#224](https://github.com/noamros9/kettle-bar/issues/224) | [plan](docs/plans/phase-32-export.md) | planned |
+| 5 | 33 · Day to day II: weekdays, a day note, pause, compare, programs that use this, sync status | [#291](https://github.com/noamros9/kettle-bar/issues/291)–[#296](https://github.com/noamros9/kettle-bar/issues/296) | [plan](docs/plans/phase-33-day-to-day-2.md) | planned |
+| 6 | 26 · Longer programs, half at 35–38 min | [#198](https://github.com/noamros9/kettle-bar/issues/198) | [plan](docs/plans/phase-26-longer-programs.md) | planned |
+| 7 | 34 · Short days: 15-min circuits, a 10-min rest-day flow | [#110](https://github.com/noamros9/kettle-bar/issues/110) | [plan](docs/plans/phase-34-short-days.md) | planned |
+| 8 | 27 · Calisthenics: twelve skills, 25 programs | [#199](https://github.com/noamros9/kettle-bar/issues/199) | [plan](docs/plans/phase-27-calisthenics.md) | planned |
+| 9 | 19 · Super programs: 120 days from several programs | [#186](https://github.com/noamros9/kettle-bar/issues/186) | [plan](docs/plans/phase-19-super-programs.md) | planned |
+| 10 | 36 · Logical sessions: an order and a place per set for every couple session | – | [plan](docs/plans/phase-36-logical-sessions.md) | planned |
+| 11 | 20 · After dark refined, the Explicit set, +50% programs (tickets 8b–23 left) | [#202](https://github.com/noamros9/kettle-bar/issues/202) | [plan](docs/plans/phase-20-after-dark-explicit.md) | paused after ticket 8; waits for Grok |
+| 12 | 35 · Catalogue 14: threesomes (their own kind and in every act), every act at every place | – | [plan](docs/plans/phase-35-threesomes-and-places.md) | planned (tickets in the plan) |
+| 13 | 28 · Explicit drawings and loops | [#249](https://github.com/noamros9/kettle-bar/issues/249) | [plan](docs/plans/phase-28-explicit-drawings.md) | planned |
+| 14 | 29 · Stories from the couple workouts, in Drive | [#225](https://github.com/noamros9/kettle-bar/issues/225) | [plan](docs/plans/phase-29-stories.md) | planned, last |
 
 - **295 · Grok away the week of 9 Oct**: Opus builds 31 → 30 → 23 … alone, in order; Phase 20 (Grok writes its
   text) moves to just before 35, after Phase 36. *(9 Oct)*

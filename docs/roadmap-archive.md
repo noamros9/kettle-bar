@@ -470,3 +470,56 @@ group chips on the Muscles and Exercises pages, and a done day done again with e
   old apps ignore it, backups carry it as an optional section, merges take the union. *(technical)*
 **When**
 - **216 · Right after Phase 22 (now after Phase 31, 223)**, before Phase 20's tickets 9–15.
+
+## Phase 23: new fitness programs, the Signature IIs, Yoga, Pilates and Variety doubled (done, 12 Oct 2026)
+Plan and tickets: [docs/plans/phase-23-fitness-programs.md](plans/phase-23-fitness-programs.md), issue
+[#216](https://github.com/noamros9/kettle-bar/issues/216). Grilled 6–8 Oct 2026; built 10–12 Oct (#352–#354, #360–#362,
+#367–#378): 15 Signature IIs, 77 yoga and Pilates exercises at catalogue 14, and 309 programs in every fitness subject
+plus seven new ones (Power yoga, Yin yoga, Yoga flow, Mat core, Kettlebell Pilates, Weekly mix, Surprise). Library
+1,060 programs in 73 subjects; own programs and random workouts at catalogue 14 with all of them. Measured at the start
+and the close in [its plan](plans/phase-23-fitness-programs.md#measured).
+**What gets built**
+- **83 · +50% programs in every fitness subject**, rounded (not After dark or couple), mixing old and new exercises. *(6 Oct)*
+- **138 · That's 309 programs (was 233)**: 253 in today's subjects, Strength +10 down to Chest +4, and 56 in #216's
+  new ones; with the IIs, 324 (was 248). Recount at the start. *(7 Oct; 8 Oct)*
+- **84 · A "II" of every Signature program**: same days, blocks and length, a step harder, built at catalogue 13. The
+  originals never change. *(6 Oct)*
+- **85 · "A step harder" = a level up**: a II's Level I is the original's Level II. *(6 Oct)*
+- **86 · All 15 get a II**, on the Signature shelf after their originals. *(6 Oct)*
+- **171 · A II's Level III may run up to 3 min long.** *(7 Oct)*
+- **201 · Own cards, plus "Ready for II"** on the original's page once its day 60 is done. *(7 Oct)*
+
+**How they're made**
+- **87 · Built to the longer-programs spread** from the start: half 35–38, a quarter 31–35, a quarter shorter. *(6 Oct)*
+- **185 · A fifth are 30 days** (about 62, was 47); the IIs stay 60. **205 ·** The 30-day ones follow the same spread. *(7 Oct)*
+- **184 · Gear like each subject's today** (same share of full gear, kettlebell-only, no-equipment). *(7 Oct)*
+- **88 · Names and blurbs in today's style**, no separate review. **199 ·** No "New" marking. *(6–7 Oct)*
+
+**When and how big**
+- **96 · After Phase 20's tickets 9–15.** *(6 Oct)*
+- **137 · Measure the library at ~1,140 programs (was ~1,060); split it only if the Programs page slows.** *(7 Oct)*
+- **316 · Pause after every 3 tickets**: Claude stops and waits for Noam's explicit go before the next three. *(10 Oct)*
+- **317 · Measure today and at the close only** (no placeholder end state; nothing builds the whole library on the
+  cloud machine, 312); the 1 MB page gate may be raised if the library needs it. *(10 Oct)*
+- **318 · The new programs stay out of Build your own and random workouts until the close**: the recipe book skips
+  `added: 23` (`HELD` in `recipe-book.js`), so those screens don't shift every ticket; ticket 13 lets them all in. *(10 Oct)*
+- **323 · Phase 23's six Plyometrics programs get the subject's long rests** (60 / 90 s), re-pinned: ticket 7 left them on
+  the default rests; Noam allowed the re-pin, an exception to "never re-pin". *(12 Oct)*
+- **321 · Local UI runs wait up to 600 s for the build** (was 240): at 1,000 programs the whole-library build alone
+  passed 240 s on the 2-core machine; CI builds in its own step and is unaffected. *(11 Oct)*
+
+**More Yoga, Pilates and Variety** ([#216](https://github.com/noamros9/kettle-bar/issues/216), grilled 8 Oct)
+- **230 · #216 is built in this phase**, in its Yoga, Pilates and Variety tickets. *(8 Oct)*
+- **231 · Yoga, Pilates and Variety double** (14 → 28, 12 → 24, 15 → 30), instead of +50% (was +7, +6, +8). *(8 Oct)*
+- **232 · Seven new subjects, 8 programs each**, on top: Power yoga, Yin yoga, Yoga flow (was Mobility flow) (Yoga); Mat core,
+  Kettlebell Pilates (Pilates); Weekly mix, Surprise (Variety shelf). *(8 Oct)*
+- **233 · Weekly mix**: a 7-day rotation, each program its own order (was one order for all), each day a different shelf group (Strength, Muscles, Cardio, Combat, Yoga &
+  Pilates, Mobility & care, Mixed). *(8 Oct)*
+- **234 · Surprise**: every day a different fitness subject, no pattern; never After dark. *(8 Oct)*
+- **235 · Yoga and Pilates exercises double on their count after Phase 22**: yoga 88+, Pilates 66+ (about +44, +33),
+  Yin poses among them. *(8 Oct)*
+- **236 · The same rules as the rest of the phase**: the spread (87), a fifth 30 days (185), gear like the subject (184). *(8 Oct)*
+- **237 · Catalogue numbers**: the new yoga and Pilates exercises open catalogue 14 (`added: 14`), Phase 34's breathing
+  drills take 15, Phase 27's skills move to 16. *(technical, 8 Oct)*
+- **264 · Build your own and random workouts get catalogue 14 at the phase's last ticket**, all at once (as 121). *(8 Oct)*
+- **265 · Yin & Deep Stretch stays on the Yoga shelf**; programs never move shelves. *(8 Oct)*
