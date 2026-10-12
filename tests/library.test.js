@@ -50,17 +50,17 @@ const SUBJECTS = {
   Bodyweight: { count: 29, abs: true, formats: ['superset', 'straight', 'circuit', 'amrap'] }, // 19, then Phase 23's 10
   'Busy week': { count: 26, abs: true, formats: ['circuit', 'superset', 'amrap', 'emom', 'straight', 'tabata', 'ladder'] }, // 17, then Phase 23's 9; ladder as Twenty Ladder's
   // Mixed (Phase 6): abs depends on the day type, so it has its own test below
-  'Strength & stretch': { count: 14, abs: undefined, formats: ['straight', 'superset', 'flow'] },
+  'Strength & stretch': { count: 21, abs: undefined, formats: ['straight', 'superset', 'flow'] },
   Fighter: { count: 21, abs: undefined, formats: ['bouts', 'straight', 'superset', 'circuit', 'emom', 'amrap', 'tabata', 'flow'] },
-  Athlete: { count: 14, abs: undefined, formats: ['straight', 'superset', 'circuit'] },
+  Athlete: { count: 21, abs: undefined, formats: ['straight', 'superset', 'circuit'] },
   // Phase 16: every day is different (its own test below)
   // Phase 16: after-dark (Mixed, abs by day type)
   'Beach body': { count: 10, abs: undefined, formats: ['straight', 'superset', 'circuit', 'tabata', 'amrap', 'emom', 'flow'] },
   'Bedroom stamina': { count: 10, abs: undefined, formats: ['straight', 'circuit', 'emom', 'amrap', 'tabata', 'flow'] },
   'Sex positions': { count: 10, abs: undefined, formats: ['straight', 'circuit', 'tabata', 'flow'] },
   Variety: { count: 15, abs: undefined, formats: ['straight', 'superset', 'circuit', 'emom', 'amrap', 'tabata', 'flow'] }, // flow: the stretch some days end with
-  'Balanced week': { count: 15, abs: undefined, formats: ['straight', 'superset', 'circuit', 'emom', 'amrap', 'tabata', 'ladder', 'bouts', 'flow'] },
-  'Calm strength': { count: 14, abs: undefined, formats: ['straight', 'superset', 'circuit', 'flow'] },
+  'Balanced week': { count: 23, abs: undefined, formats: ['straight', 'superset', 'circuit', 'emom', 'amrap', 'tabata', 'ladder', 'bouts', 'flow'] },
+  'Calm strength': { count: 21, abs: undefined, formats: ['straight', 'superset', 'circuit', 'flow'] },
 };
 
 for (const [subject, want] of Object.entries(SUBJECTS)) {
@@ -145,8 +145,8 @@ test('the core programs opt in to the new catalogue (catalogue: 5): their abs fi
   assert.ok(optIn.some((p) => p.days.some((d) => d.blocks.at(-1).items.some((it) => fresh.has(it.ex)))));
 });
 
-test('the library: 1000 programs in 71 subjects (736, then Phase 23\'s 15 Signature IIs, ticket 3\'s 29, ticket 4\'s 26, ticket 5\'s 25, ticket 6\'s 25, ticket 7\'s 30, ticket 8\'s 20, ticket 9\'s 31, ticket 9b\'s 40 and ticket 10\'s 23)', () => {
-  assert.equal(programs.length, 1000);
+test('the library: 1029 programs in 71 subjects (736, then Phase 23\'s 15 Signature IIs, ticket 3\'s 29, ticket 4\'s 26, ticket 5\'s 25, ticket 6\'s 25, ticket 7\'s 30, ticket 8\'s 20, ticket 9\'s 31, ticket 9b\'s 40, ticket 10\'s 23 and ticket 11\'s 29)', () => {
+  assert.equal(programs.length, 1029);
   assert.equal(new Set(programs.map((p) => p.subject)).size, 71);
 });
 
@@ -469,5 +469,21 @@ test('Phase 16 Mixed programs in the older subjects: every main block tagged, tw
     assert.ok(familiesOf(d).length >= 2, `${p.id} d${d.day}: a mixed day`);
     if (mainOf(d).at(-1).format === 'flow') assert.notEqual(d.blocks.at(-1).kind, 'abs', `${p.id} d${d.day}: abs after a flow`);
     if (p.subject === 'Balanced week') assert.deepEqual(familiesOf(d).sort(), ['Cardio & combat', 'Mind & body', 'Strength'], `${p.id} d${d.day}: all three families`);
+  }));
+});
+
+// Phase 23 ticket 11: the Mixed subjects' new programs (and ticket 8's Fighter) to the same rules; Athlete leads with jumps,
+// Calm strength closes with yin
+test('Phase 23 Mixed programs: every main block tagged, two families or more every day, no abs after a flow', () => {
+  const OLDER = ['Strength & stretch', 'Fighter', 'Athlete', 'Balanced week', 'Calm strength'];
+  const list = programs.filter((p) => OLDER.includes(p.subject) && cfgOf[p.id].added === 23);
+  assert.equal(list.length, 36);
+  list.forEach((p) => p.days.forEach((d) => {
+    assert.ok(mainOf(d).every((b) => FAMILY_TAGS.includes(b.family)), `${p.id} d${d.day}`);
+    assert.ok(familiesOf(d).length >= 2, `${p.id} d${d.day}: a mixed day`);
+    if (mainOf(d).at(-1).format === 'flow') assert.notEqual(d.blocks.at(-1).kind, 'abs', `${p.id} d${d.day}: abs after a flow`);
+    if (p.subject === 'Balanced week') assert.deepEqual(familiesOf(d).sort(), ['Cardio & combat', 'Mind & body', 'Strength'], `${p.id} d${d.day}: all three families`);
+    if (p.subject === 'Athlete') assert.equal(mainOf(d)[0].family, 'Cardio & combat', `${p.id} d${d.day}: jumps first`);
+    if (p.subject === 'Calm strength') assert.equal(mainOf(d).at(-1).family, 'Mind & body', `${p.id} d${d.day}: a calm finish`);
   }));
 });
