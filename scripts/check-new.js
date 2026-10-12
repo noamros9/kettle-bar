@@ -51,6 +51,8 @@ function problemsOf(c) {
   }
   const s = sentences(c.about || '').length;
   if (s < 3 || s > 6) out.push(`about: ${s} sentences`);
+  const first = (sentences(c.about || '')[0] || '').trim().length;
+  if (first > 130) out.push(`about: first sentence is ${first} characters (130 at most, builder.test.js)`);
   if (new Set(c.names || []).size !== 20) out.push(`names: ${new Set(c.names || []).size}`);
   return [...new Set(out)];
 }

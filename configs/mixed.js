@@ -2343,6 +2343,185 @@ const P23_VARIETY = [
 ].map((c) => ({ ...c, added: 23, catalogue: 13 }));
 CONFIGS.push(...P23_VARIETY);
 
+// Phase 23 ticket 12b (232–234): Weekly mix and Surprise, 8 each, on the Variety shelf, at catalogue 14 (237: their
+// yoga and Pilates days draw the doubled moves). Ticket 3's spread, a fifth at 30 days; gear like Variety's (6 full, 1
+// kettlebell, 1 none).
+// Weekly mix (233): a 7-day rotation, one day from each fitness shelf group, each program its own order. A day type
+// says its `group`, and a hard strength day says the `area` it loads, so two neighbouring days (the week wraps) never
+// load the same area and a full-body day never sits next to another.
+const wm = (group, label, short, blocks, extra = {}) => ({ group, label, short, blocks, ...extra });
+const WM = {
+  // Strength
+  strLower: wm('Strength', 'Strength: legs & hips', 'Legs', [S('Lower strength', ['squat2', 'hinge2', 'lunge2', 'thrust?'], LIFT), F('Hip stretch', ['fxHips', 'fxHam', 'ygRest?'], FLOW)], { absSlots: [], area: 'lower' }),
+  strUpper: wm('Strength', 'Strength: press & pull', 'Upper', [S('Upper strength', ['chestPress', 'backRow', 'shoulderPress', 'row2?'], LIFT), F('Shoulder stretch', ['fxUpper', 'chest_opener', 'thread_the_needle', 'puppy_pose?', 'ygRest?'], FLOW)], { absSlots: [], area: 'upper' }),
+  strFull: wm('Strength', 'Strength: full body', 'Full', [S('Full-body strength', ['squat2', 'chestPress', 'hinge2', 'backRow', 'total?'], LIFT), C('Core', ['coreAnti', 'coreRot'], CORE)], { area: 'full' }),
+  strLowerKb: wm('Strength', 'Bell strength: legs & hips', 'Legs', [S('Bell lower', ['goblet_squat', 'kb_deadlift', 'kbLower2', 'kb_swing?'], LIFT), F('Hip stretch', ['fxHips', 'fxHam', 'ygRest?'], FLOW)], { absSlots: [], area: 'lower' }),
+  strFullBw: wm('Strength', 'Bodyweight strength: full body', 'Full', [S('Bodyweight strength', ['legsBw2', 'pushBw2', 'pullBw', 'singleLeg', 'chestBw?'], LIFT), C('Core', ['coreAnti', 'coreRot'], CORE)], { area: 'full' }),
+  // Muscles
+  musChestBack: wm('Muscles', 'Muscles: chest & back', 'Chest', [SS('Chest & back', ['chestPress', 'backRow', 'chest2', 'row2', 'chestIso', 'backRear'], LIFT), T('Finisher', ['hiit', 'cardio'], CARDIO_TABATA)], { area: 'upper' }),
+  musLegs: wm('Muscles', 'Muscles: legs & glutes', 'Legs', [S('Legs & glutes', ['squat2', 'lunge2', 'thrust', 'calf', 'hipGlute?'], LIFT), T('Finisher', ['hiit', 'cardio'], CARDIO_TABATA)], { area: 'lower' }),
+  musArms: wm('Muscles', 'Muscles: shoulders & arms', 'Arms', [SS('Shoulders & arms', ['shoulderPress', 'biceps2', 'shoulderRaise', 'triceps2', 'shoulderHealth', 'biceps2'], LIFT), T('Finisher', ['hiit', 'cardio'], CARDIO_TABATA)], { area: 'upper' }),
+  musCore: wm('Muscles', 'Muscles: core & grip', 'Core', [C('Core & abs', ['coreAnti', 'coreRot', 'coreHollow', 'core2'], { ...CORE, values: [2, 3, 4] }), S('Grip', ['farmer_carry', 'gripHold', 'gripCurl?'], LIFT)]),
+  musUpperKb: wm('Muscles', 'Bell muscles: shoulders, back & arms', 'Upper', [SS('Bell upper', ['kb_press', 'kb_row', 'kbUpper2', 'kb_floor_press', 'kbUpper2', 'kb_dead_stop_row'], LIFT), T('Finisher', ['kb_swing', 'hiit'], CARDIO_TABATA)], { area: 'upper' }),
+  musUpperBw: wm('Muscles', 'Bodyweight muscles: chest, back & arms', 'Upper', [SS('Upper body', ['pushBw2', 'backBw', 'chestBw', 'pullBw', 'armsBw', 'shoulderBw'], LIFT), T('Finisher', ['hiit', 'cardio'], CARDIO_TABATA)], { area: 'upper' }),
+  // Cardio
+  cardCond: wm('Cardio', 'Cardio: conditioning circuit', 'Circuit', [C('Conditioning', ['hiit', 'total', 'cardio', 'plyoLow'], { ...CARDIO, values: [2, 3, 4] }), C('Core', ['coreAnti', 'coreRot'], CORE)]),
+  cardHiit: wm('Cardio', 'Cardio: HIIT EMOM', 'HIIT', [E('HIIT EMOM', ['hiit', 'cardio', 'plyoLow'], { ...CARDIO, values: [8, 10, 12, 14, 16] }), C('Core', ['coreAnti', 'coreRot', 'coreHollow?'], { ...CORE, values: [1, 2, 3] }), F('Stretch', ['fxHips', 'fxHam', 'ygRest', 'ygRest?'], FLOW)], { absSlots: [] }),
+  cardJumps: wm('Cardio', 'Cardio: jumps & skips', 'Jumps', [C('Jumps & skips', ['plyoLow', 'plyoLat', 'calfPlyo', 'hiitSec', 'hiit?'], { ...CARDIO, values: [2, 3, 4, 5] }), C('Core', ['coreAnti', 'coreRot', 'coreHollow?'], { ...CORE, values: [1, 2, 3] }), F('Mobility', ['mbHip', 'fxHips', 'fxQuad', 'ygRest?'], FLOW)], { absSlots: [] }),
+  cardKb: wm('Cardio', 'Cardio: bell conditioning', 'Bell', [C('Bell conditioning', ['kb_swing', 'kbBallistic', 'hiit', 'cardio'], { ...CARDIO, values: [2, 3, 4] }), C('Core', ['kbCore2', 'coreRot'], CORE)]),
+  // Combat
+  comBox: wm('Combat', 'Combat: boxing', 'Boxing', [B('Boxing bouts', ['bxBasic', 'bxPower', 'bxDefense', 'bxMove?'], BOUTS), C('Core', ['coreRot', 'coreHollow'], CORE)]),
+  comKick: wm('Combat', 'Combat: kickboxing', 'Kick', [B('Kickboxing bouts', ['kkKick', 'kkCombo', 'kkKnee', 'kkCombo?', 'kkKick?', 'kkKnee?'], BOUTS), C('Core', ['coreRot', 'coreHollow', 'coreAnti?'], { ...CORE, values: [1, 2, 3] }), F('Hip flow', ['mbHip', 'fxHips', 'ygHips', 'ygRest?'], FLOW)], { absSlots: [] }),
+  // Yoga & Pilates
+  yoga: wm('Yoga & Pilates', 'Yoga: power flow, Pilates & push-ups', 'Yoga', [F('Power yoga', ['ygStand', 'ygStand', 'ygBalance', 'ygCore', 'ygBack', 'ygStand', 'ygHips', 'ygStand?', 'ygBalance?', 'ygRest?'], FLOW), C('Push-ups & squats', ['pushBw2', 'legsBw2'], { ...LIFT, values: [1, 2, 3] }), F('Pilates', ['hundred', 'plAbs', 'plSide', 'plRoll?', 'plBack?'], PILATES)], { absSlots: [] }),
+  pilates: wm('Yoga & Pilates', 'Pilates, bridges & yoga stretch', 'Pilates', [F('Pilates series', ['hundred', 'plAbs', 'plRoll', 'plBack', 'plGlute', 'plSide', 'plAbs?', 'plRoll?', 'plSide?'], PILATES), C('Bridges & rows', ['thrustBw', 'backBw'], { ...LIFT, values: [1, 2, 3] }), F('Yoga stretch', ['ygHips', 'ygFloor', 'ygBack', 'ygFloor?', 'ygRest?'], FLOW)], { absSlots: [] }),
+  // Mobility & care
+  mob: wm('Mobility & care', 'Mobility, balance & single leg', 'Mobility', [F('Mobility flow', ['mbHip', 'mbSpine', 'mbShoulder', 'fxHips', 'mbHip', 'fxUpper?', 'ygRest?'], FLOW), C('Balance', ['blStatic', 'blDynamic', 'blPower?'], { ...BAL, values: [1, 2, 3] }), C('Single leg', ['singleLeg', 'blStrength'], { ...LIFT, values: [1, 2, 3] })], { absSlots: [] }),
+  care: wm('Mobility & care', 'Back care, gentle strength & stretch', 'Care', [C('Back care', ['backStrength', 'bird_dog', 'backMove', 'backStrength?'], { ...CORE, values: [1, 2, 3, 4] }), C('Gentle strength', ['gentleStrength', 'thrustBw'], { ...LIFT, values: [1, 2, 3] }), F('Long stretch', ['fxHam', 'fxHips', 'fxUpper', 'ygFloor', 'ygRest?'], FLOW)], { absSlots: [] }),
+  // Mixed
+  mixLower: wm('Mixed', 'Mixed: lift, sweat & stretch (legs)', 'Mix', [S('Lift', ['squat2', 'hinge2', 'lunge2?'], LIFT), T('Tabata', ['hiit', 'cardio'], CARDIO_TABATA), F('Stretch', ['fxHips', 'fxHam', 'ygRest?'], FLOW)], { absSlots: [], area: 'lower' }),
+  mixUpper: wm('Mixed', 'Mixed: lift, sweat & stretch (upper)', 'Mix', [S('Lift', ['chestPress', 'backRow', 'shoulderPress?'], LIFT), T('Tabata', ['hiit', 'cardio'], CARDIO_TABATA), F('Stretch', ['fxUpper', 'ygRest', 'ygRest?'], FLOW)], { absSlots: [], area: 'upper' }),
+  mixKb: wm('Mixed', 'Mixed: bell, bouts & stretch', 'Mix', [S('Bell lift', ['goblet_squat', 'kb_deadlift', 'kbLower2?'], LIFT), B('Bouts', ['bxBasic', 'bxPower'], BOUTS), F('Stretch', ['fxHips', 'fxHam', 'ygRest?'], FLOW)], { absSlots: [], area: 'lower' }),
+  mixBw: wm('Mixed', 'Mixed: legs, sweat & stretch', 'Mix', [S('Legs', ['legsBw2', 'thrustBw', 'legsBw?'], LIFT), T('Tabata', ['hiit', 'plyoLow'], CARDIO_TABATA), F('Stretch', ['fxHips', 'fxHam', 'ygRest?'], FLOW)], { absSlots: [], area: 'lower' }),
+};
+const week = (keys) => ({ cycle: keys, dayTypes: Object.fromEntries(keys.map((k) => [k, WM[k]])) });
+
+// Surprise (234): each day type is one fitness subject's kind of work, dealt in rounds (variety.js `surprise`).
+// [subject, VT key]: the subject's day is that Variety day type, labelled with the subject
+// `only` narrows each day type's own formats, or replaces them where fewer than three would be left (combat in long days)
+const surprise = (pairs, second = {}, only) => {
+  const types = vtypes(pairs.map(([, k]) => k), second);
+  return Object.fromEntries(pairs.map(([s, k]) => {
+    const both = only && types[k].formats.filter((f) => only.includes(f));
+    const formats = !only ? types[k].formats : both.length >= 3 ? both : only.filter((f) => !(types[k].absSlots && f === 'amrap'));
+    return [k, { ...types[k], formats, label: s, short: s, from: s }];
+  }));
+};
+const SUR_ALL = [['Strength', 'full'], ['Kettlebell complexes', 'kbCx'], ['Pull-ups', 'pull'], ['Chest', 'chest'], ['Back', 'back'], ['Shoulders', 'shoulders'], ['Arms', 'arms'], ['Legs & glutes', 'legs'], ['Hips & adductors', 'glutes'], ['Calves & lower legs', 'calves'], ['Grip & forearms', 'forearms'], ['HIIT', 'hiit'], ['Plyometrics', 'plyo'], ['Running prep', 'run'], ['Court & field sports', 'court'], ['Boxing', 'box'], ['Kickboxing', 'kick'], ['Core & abs', 'core'], ['Pilates', 'pilates'], ['Balance & stability', 'balance']];
+
+const P23_WEEKLY = [
+  // ---- Weekly mix ----
+  {
+    id: 'weekly-mix', name: 'Weekly Mix', subject: 'Weekly mix', minutes: P23_LONG, levers: [null, 'weight', 'reps'],
+    split: 'Strength / boxing / chest & back / yoga / mixed / HIIT / mobility', blurb: 'A week that visits every shelf: strength, combat, muscles, yoga, a mixed day, HIIT and mobility.',
+    about: 'Seven days, one from each part of the library, then the week starts again. Legs and hips on the strength day, boxing bouts, chest and back, a power yoga flow, a mixed day of lifting, sweating and stretching, a HIIT EMOM and a mobility and balance day. No two neighbouring days load the same muscles. Level II moves you one weight up and Level III adds reps.',
+    names: ['Monday Iron', 'Tuesday Gloves', 'Wednesday Pump', 'Thursday Flow', 'Friday Mix', 'Saturday Sweat', 'Sunday Ease', 'New Week', 'Full Week', 'Seven Shelves', 'Week Tour', 'Round the Week', 'Every Day Its Own', 'Weekday', 'Weekend', 'Midweek', 'Week Start', 'Week End', 'Seven Days', 'Week Done'],
+    ...week(['strLower', 'comBox', 'musChestBack', 'yoga', 'mixLower', 'cardHiit', 'mob']),
+  },
+  {
+    id: 'weekly-mix-month', name: 'Weekly Mix Month', subject: 'Weekly mix', days: 30, minutes: P23_LONG, levers: [null, 'reps', 'weight'],
+    split: 'Legs / circuit / upper strength / Pilates / kickboxing / mixed / mobility, 30 days', blurb: 'A month of weeks that each visit every shelf, a day from each.',
+    about: 'A month built from seven-day weeks, each day from a different part of the library. Legs and glutes, a conditioning circuit, upper-body strength, Pilates, kickboxing bouts, a mixed day and a mobility day take turns in that order. No two neighbouring days load the same muscles. Every ten days the level steps up: more reps at Level II, one weight up at Level III.',
+    names: ['Week One', 'Week Two', 'Week Three', 'Week Four', 'Leftover Days', 'Month of Weeks', 'Shelf Day', 'Tour Day', 'Mix Day', 'Visit Day', 'Rotation', 'Cycle Day', 'Round Day', 'Lap', 'Loop', 'Circuit Week', 'Turn', 'Wheel Week', 'Orbit', 'Full Orbit'],
+    ...week(['musLegs', 'cardCond', 'strUpper', 'pilates', 'comKick', 'mixUpper', 'mob']),
+  },
+  {
+    id: 'seven-shelves', name: 'Seven Shelves', subject: 'Weekly mix', minutes: P23_LONG, levers: [null, 'weight', 'reps'],
+    split: 'Kickboxing / full-body strength / jumps / core & grip / yoga / mixed / back care', blurb: 'Seven days from seven shelves: kicks, a full-body lift, jumps, core, yoga, a mixed day and back care.',
+    about: 'A week that takes one day from each shelf in its own order. Kickboxing bouts, a full-body strength day, jumps and skips, core and grip, a power yoga flow with Pilates, a mixed upper-body day and a back-care day with a long stretch. The full-body day never sits next to another hard lifting day. Level II moves you one weight up and Level III adds reps.',
+    names: ['First Shelf', 'Second Shelf', 'Third Shelf', 'Fourth Shelf', 'Fifth Shelf', 'Sixth Shelf', 'Seventh Shelf', 'Top Shelf', 'Bottom Shelf', 'Middle Shelf', 'Bookcase', 'Library Day', 'Browse', 'Borrow', 'Return', 'Catalogue', 'Index', 'Spine Out', 'Dog-eared', 'Shelved'],
+    ...week(['comKick', 'strFull', 'cardJumps', 'musCore', 'yoga', 'mixUpper', 'care']),
+  },
+  {
+    id: 'bell-weekly-mix', name: 'Bell Weekly Mix', subject: 'Weekly mix', minutes: P23_LONG, equip: 'kb', gear: 'One kettlebell and a mat.', levers: [null, 'reps', 'weight'],
+    split: 'Bell legs / boxing / bell upper / mobility / bell & bouts / bell cardio / yoga', blurb: 'A week from every shelf with one kettlebell: bell strength, boxing, bell cardio, yoga and mobility.',
+    about: 'A full week from every part of the library, with one kettlebell. Bell legs and hips, boxing bouts, bell presses and rows, a mobility and balance day, a mixed day of bell lifts and bouts, bell conditioning and a power yoga flow take turns. No two neighbouring days load the same muscles. Level II adds reps and Level III asks for a heavier bell.',
+    names: ['Bell Week', 'Bell Shelf', 'Bell Tour', 'Bell Round', 'Bell Visit', 'Bell Rotation', 'Bell Cycle', 'Bell Lap', 'Bell Loop', 'Bell Seven', 'Bell Monday', 'Bell Midweek', 'Bell Weekend', 'Bell Sunday', 'Bell Start', 'Bell Finish', 'Bell Turn', 'Bell Wheel', 'Bell Orbit', 'Bell Done'],
+    ...week(['strLowerKb', 'comBox', 'musUpperKb', 'mob', 'mixKb', 'cardKb', 'yoga']),
+  },
+  {
+    id: 'weekly-mix-35', name: 'Weekly Mix 35', subject: 'Weekly mix', days: 30, minutes: P23_MID, levers: [null, 'weight', 'reps'],
+    split: 'Upper strength / HIIT / legs / boxing / mixed / Pilates / mobility, 30 days, 35 minutes', blurb: 'A month of thirty-five-minute days, each week visiting every shelf.',
+    about: 'A month of weeks in about thirty-five minutes a day. Upper-body strength, a HIIT EMOM, legs and glutes, boxing, a mixed upper-body day, Pilates and a mobility day take turns, one from each shelf. No two neighbouring days load the same muscles. Every ten days the level steps up: one weight up at Level II, more reps at Level III.',
+    names: ['Short Week One', 'Short Week Two', 'Short Week Three', 'Short Week Four', 'Short Tour', 'Short Shelf', 'Short Visit', 'Short Round', 'Short Lap', 'Short Loop', 'Short Turn', 'Short Cycle', 'Short Rotation', 'Short Orbit', 'Short Monday', 'Short Midweek', 'Short Friday', 'Short Weekend', 'Short Sunday', 'Short Done'],
+    ...week(['strUpper', 'cardHiit', 'musLegs', 'comBox', 'mixUpper', 'pilates', 'mob']),
+  },
+  {
+    id: 'no-gear-weekly-mix', name: 'No-Gear Weekly Mix', subject: 'Weekly mix', minutes: P23_MID, equip: 'bw', levers: [null, 'reps', 'tempo'],
+    split: 'Full body / kickboxing / upper body / HIIT / Pilates / legs mix / mobility, no equipment', blurb: 'A week from every shelf with no equipment, in about thirty-five minutes.',
+    about: 'Every part of the library in a week, on the floor. Bodyweight strength for the whole body, kickboxing bouts, push-ups and floor pulls, a HIIT EMOM, Pilates, a mixed legs day and a mobility day take turns. No two neighbouring days load the same muscles. Level II adds reps and Level III slows every rep down.',
+    names: ['Floor Week', 'Floor Tour', 'Floor Shelf', 'Floor Visit', 'Floor Round', 'Floor Lap', 'Floor Loop', 'Floor Turn', 'Floor Cycle', 'Floor Rotation', 'Floor Orbit', 'Floor Monday', 'Floor Midweek', 'Floor Friday', 'Floor Weekend', 'Floor Sunday', 'Floor Start', 'Floor Seven', 'Floor Week Done', 'Floor Again'],
+    ...week(['strFullBw', 'comKick', 'musUpperBw', 'cardHiit', 'pilates', 'mixBw', 'mob']),
+  },
+  {
+    id: 'weekly-mix-express', name: 'Weekly Mix Express', subject: 'Weekly mix', minutes: [24, 29], levers: [null, 'weight', 'reps'],
+    split: 'Mixed / boxing / upper strength / circuit / core & grip / yoga / mobility, short', blurb: 'Every shelf in a week, under half an hour a day.',
+    about: 'A short day from each part of the library, a week at a time. A mixed legs day, boxing, upper-body strength, a conditioning circuit, core and grip, power yoga and a mobility day take turns. Each one is under half an hour. Level II moves you one weight up and Level III adds reps.',
+    names: ['Quick Week', 'Quick Tour', 'Quick Shelf', 'Quick Visit', 'Quick Round', 'Quick Lap', 'Quick Loop', 'Quick Turn', 'Quick Cycle', 'Quick Rotation', 'Quick Orbit', 'Quick Monday', 'Quick Midweek', 'Quick Friday', 'Quick Weekend', 'Quick Sunday', 'Quick Start', 'Quick Seven', 'Quick Done', 'Quick Again'],
+    ...week(['mixLower', 'comBox', 'strUpper', 'cardCond', 'musCore', 'yoga', 'mob']),
+  },
+  {
+    id: 'weekly-mix-25', name: 'Weekly Mix 25', subject: 'Weekly mix', minutes: [22, 27], levers: [null, 'reps', 'weight'],
+    split: 'Shoulders & arms / HIIT / legs strength / kickboxing / Pilates / mixed / back care, 25 minutes', blurb: 'Twenty-five minutes a day, a week through every shelf.',
+    about: 'The library in a week, about twenty-five minutes a day. Shoulders and arms, a HIIT EMOM, leg strength, kickboxing, Pilates, a mixed upper-body day and back care take turns. No two neighbouring days load the same muscles. Level II adds reps and Level III moves you one weight up.',
+    names: ['Pocket Week', 'Pocket Tour', 'Pocket Shelf', 'Pocket Visit', 'Pocket Round', 'Pocket Lap', 'Pocket Loop', 'Pocket Turn', 'Pocket Cycle', 'Pocket Rotation', 'Pocket Orbit', 'Pocket Monday', 'Pocket Midweek', 'Pocket Friday', 'Pocket Weekend', 'Pocket Sunday', 'Pocket Start', 'Pocket Seven', 'Pocket Done', 'Pocket Again'],
+    ...week(['musArms', 'cardHiit', 'strLower', 'comKick', 'pilates', 'mixUpper', 'care']),
+  },
+  // ---- Surprise ----
+  {
+    id: 'surprise-me', variety: true, surprise: true, name: 'Surprise Me', subject: 'Surprise', minutes: P23_LONG, levers: [null, 'weight', 'reps'],
+    formats: LONG_F, split: 'Every day a different subject · twenty subjects', blurb: 'Every day a different subject from the library, and all twenty before any comes back.',
+    about: 'Every day borrows a different subject from the library. Chest one day, conditioning the next, then Pilates, calves, running prep, fighter legs and more. All twenty come once before any comes back, each time in a different format. Strength days end with a short burst of cardio or core; the rest end with a short lift. Level II moves you one weight up and Level III adds reps.',
+    names: ['Lucky Dip Two', 'Mystery Day', 'Blind Pick', 'Pot Luck', 'Wild Draw', 'Surprise Party', 'Unwrapped', 'Gift Box', 'Jack in the Box', 'Pop Up', 'Out of the Hat', 'Rabbit', 'Magic Trick', 'Sleight of Hand', 'Reveal', 'Twist Ending', 'Plot Turn', 'Cliffhanger', 'Spoiler', 'Ta-da'],
+    dayTypes: surprise([...SUR_ALL.filter(([, k]) => k !== 'box' && k !== 'kick'), ['Fighter', 'fightLegs'], ['Conditioning', 'cond']], { full: 'sweat', kbCx: 'core', pull: 'core', chest: 'sweat', back: 'core', shoulders: 'sweat', arms: 'core', legs: 'sweat', glutes: 'core', calves: 'sweat', forearms: 'core', hiit: 'lift', plyo: 'lift', run: 'lift', court: 'lift', fightLegs: 'sweat', cond: 'lift', core: 'lift', pilates: 'lift', balance: 'lift' }, LONG_F),
+  },
+  {
+    id: 'surprise-month', variety: true, surprise: true, days: 30, name: 'Surprise Month', subject: 'Surprise', minutes: P23_LONG, levers: [null, 'reps', 'weight'],
+    formats: LONG_F, split: 'Every day a different subject · 30 days, fifteen subjects', blurb: 'A month where every day comes from a different subject, all fifteen before any repeats.',
+    about: 'A month of borrowed days. Each comes from a different subject, strength, legs, back, shoulders, HIIT, jumps, fighter core, running, core, Pilates, balance and more, and all fifteen come once before any comes back. Each time it is a different format. Every ten days the level steps up: more reps at Level II, one weight up at Level III.',
+    names: ['Month of Surprises', 'Day One Surprise', 'Ten Surprises', 'Twenty Surprises', 'Thirty Surprises', 'Calendar Surprise', 'Advent Box', 'Daily Box', 'Daily Draw Two', 'Next Box', 'Next Door', 'Behind the Door', 'Open the Door', 'Peek', 'Guess', 'Hunch', 'Whim', 'Fancy', 'Caprice', 'Final Box'],
+    dayTypes: surprise([['Strength', 'full'], ['Legs & glutes', 'legs'], ['Back', 'back'], ['Shoulders', 'shoulders'], ['Chest', 'chest'], ['Kettlebell complexes', 'kbCx'], ['HIIT', 'hiit'], ['Plyometrics', 'plyo'], ['Conditioning', 'cond'], ['Fighter', 'fightCore'], ['Running prep', 'run'], ['Core & abs', 'core'], ['Pilates', 'pilates'], ['Balance & stability', 'balance'], ['Mobility & posture', 'mobility']],
+      { full: 'sweat', legs: 'sweat', back: 'core', shoulders: 'sweat', chest: 'core', kbCx: 'sweat', hiit: 'lift', plyo: 'lift', cond: 'lift', fightCore: 'sweat', run: 'lift', core: 'lift', pilates: 'lift', balance: 'lift', mobility: 'lift' }, LONG_F),
+  },
+  {
+    id: 'strength-surprise', variety: true, surprise: true, name: 'Strength Surprise', subject: 'Surprise', minutes: P23_LONG, levers: [null, 'weight', 'weight'],
+    formats: LONG_F, split: 'Every day a different subject · the strength and muscle shelves', blurb: 'Every day a different strength or muscle subject, sixteen of them, before any repeats.',
+    about: 'Strength from sixteen subjects, one a day. Strength, kettlebell work, complexes, pull-ups, chest, back, shoulders, arms, legs, hips, calves, grip, core and more each come once before any comes back, in straight sets, supersets, a circuit or an EMOM. A short Tabata, a core circuit or, after legs and hips, a stretch follows. Both later levels move you a weight up.',
+    names: ['Iron Surprise', 'Heavy Surprise', 'Strong Surprise', 'Loaded Box', 'Iron Box', 'Steel Box', 'Plate Box', 'Bar Box', 'Bell Box', 'Rack Box', 'Iron Pick', 'Iron Draw Two', 'Iron Gift', 'Iron Reveal', 'Iron Twist', 'Iron Mystery', 'Iron Hat', 'Iron Trick', 'Iron Party', 'Iron Ta-da'],
+    dayTypes: surprise([['Strength', 'full'], ['Kettlebell only', 'kb'], ['Kettlebell complexes', 'kbCx'], ['Pull-ups', 'pull'], ['Bodyweight', 'fullBw'], ['Chest', 'chest'], ['Back', 'back'], ['Shoulders', 'shoulders'], ['Arms', 'arms'], ['Legs & glutes', 'legs'], ['Hips & adductors', 'glutes'], ['Calves & lower legs', 'calves'], ['Grip & forearms', 'forearms'], ['Core & abs', 'core'], ['Busy week', 'upper'], ['Climber / pull strength', 'upperBack']],
+      { full: 'sweat', kb: 'core', kbCx: 'sweat', pull: 'core', fullBw: 'sweat', chest: 'core', back: 'sweat', shoulders: 'core', arms: 'sweat', legs: 'flowLong', glutes: 'flowLong', calves: 'core', forearms: 'sweat', core: 'lift', upper: 'core', upperBack: 'sweat' }, LONG_F),
+  },
+  {
+    id: 'move-surprise', variety: true, surprise: true, name: 'Move Surprise', subject: 'Surprise', minutes: P23_LONG, levers: [null, 'reps', 'variation'],
+    formats: LONG_F, split: 'Every day a different subject · cardio, combat, yoga and care', blurb: 'Every day a different subject from the moving shelves: cardio, combat, yoga, Pilates and care.',
+    about: 'Twenty subjects from the cardio, combat, yoga and mobility shelves, one a day. HIIT, jumps, running, court work, boxing, kickboxing, Pilates, balance, back care, mobility and more each come once before any comes back, then a short lift. Each time it is a different format. Level II adds reps and Level III brings harder moves.',
+    names: ['Move Box', 'Move Pick', 'Move Draw', 'Move Gift', 'Move Reveal', 'Move Twist', 'Move Mystery', 'Move Hat', 'Move Trick', 'Move Party', 'Move Dip', 'Move Luck', 'Move Wheel', 'Move Card', 'Move Spin', 'Move Toss', 'Move Shuffle', 'Move Deal', 'Move Joker', 'Move Ta-da'],
+    dayTypes: surprise([['Conditioning', 'cond'], ['HIIT', 'hiit'], ['Plyometrics', 'plyo'], ['Running prep', 'run'], ['Court & field sports', 'court'], ['Boxing', 'box'], ['Kickboxing', 'kick'], ['Fighter', 'combos'], ['Athlete', 'power'], ['Core & abs', 'core'], ['Pilates', 'pilates'], ['Mat core', 'rolls'], ['Yoga', 'yogaStrength'], ['Balance & stability', 'balance'], ['Mobility & posture', 'mobility'], ['Back care', 'backCare'], ['Gentle / low impact', 'gentle'], ['Flexibility', 'hips'], ['Kettlebell Pilates', 'bellCore'], ['Neck & traps', 'posture']],
+      every(['cond', 'hiit', 'plyo', 'run', 'court', 'box', 'kick', 'combos', 'power', 'core', 'pilates', 'rolls', 'yogaStrength', 'balance', 'mobility', 'backCare', 'gentle', 'hips', 'bellCore', 'posture'], 'lift')),
+  },
+  {
+    id: 'surprise-35', variety: true, surprise: true, days: 30, name: 'Surprise 35', subject: 'Surprise', minutes: P23_MID, levers: [null, 'weight', 'reps'],
+    formats: LIFT_F, split: 'Every day a different subject · 30 days, 35 minutes', blurb: 'A month of thirty-five-minute days, each from a different subject, all twelve before any repeats.',
+    about: 'A month of half-hour days, each borrowed from a different subject. Chest, back, legs, shoulders, arms, HIIT, jumps, boxing, core, Pilates, balance and kettlebell work each come once before any comes back. Each time it is a different format, with a short finisher or lift after. Every ten days the level steps up: one weight up at Level II, more reps at Level III.',
+    names: ['Half Hour Surprise', 'Short Surprise', 'Quick Box', 'Small Box', 'Little Gift', 'Small Reveal', 'Short Twist', 'Short Mystery', 'Short Hat', 'Short Trick', 'Short Party', 'Short Dip', 'Short Pick', 'Short Draw', 'Short Luck', 'Short Wheel', 'Short Card', 'Short Spin', 'Short Joker', 'Short Ta-da'],
+    dayTypes: surprise([['Chest', 'chest'], ['Back', 'back'], ['Legs & glutes', 'legs'], ['Shoulders', 'shoulders'], ['Arms', 'arms'], ['Kettlebell only', 'kb'], ['HIIT', 'hiit'], ['Plyometrics', 'plyo'], ['Boxing', 'box'], ['Core & abs', 'core'], ['Pilates', 'pilates'], ['Balance & stability', 'balance']],
+      { chest: 'sweat', back: 'core', legs: 'sweat', shoulders: 'core', arms: 'sweat', kb: 'core', hiit: 'lift', plyo: 'lift', box: 'lift', core: 'lift', pilates: 'lift', balance: 'lift' }),
+  },
+  {
+    id: 'bell-surprise', variety: true, surprise: true, name: 'Bell Surprise', subject: 'Surprise', minutes: P23_MID, equip: 'kb', levers: [null, 'reps', 'weight'],
+    formats: LIFT_F, split: 'Every day a different subject · one kettlebell, 35 minutes', blurb: 'One kettlebell and a different subject every day, all twenty before any repeats.',
+    about: 'Twenty subjects with one kettlebell, one a day. Bell legs, presses, pulls, hips, grip, core, complexes and conditioning share the deck with boxing, HIIT, jumps, Pilates, yoga, mobility and back care, and each comes once before any comes back. Each time it is a different format, with a short finisher or bell lift after. Level II adds reps and Level III asks for a heavier bell.',
+    names: ['Bell Box Two', 'Bell Gift', 'Bell Reveal', 'Bell Twist', 'Bell Mystery', 'Bell Hat', 'Bell Trick', 'Bell Party', 'Bell Dip', 'Bell Pick Two', 'Bell Luck Two', 'Bell Wheel Two', 'Bell Card Two', 'Bell Spin Three', 'Bell Toss Two', 'Bell Shuffle Two', 'Bell Deal Two', 'Bell Joker Two', 'Bell Surprise Day', 'Bell Ta-da'],
+    dayTypes: surprise([['Kettlebell only', 'kb'], ['Kettlebell complexes', 'kbCx'], ['Legs & glutes', 'kbLegs'], ['Shoulders', 'kbPress'], ['Back', 'kbPull'], ['Hips & adductors', 'kbHips'], ['Grip & forearms', 'kbGrip'], ['Core & abs', 'kbCore'], ['Conditioning', 'kbCardio'], ['Strength', 'kbFull'], ['Busy week', 'kbSwing'], ['Kettlebell Pilates', 'bellCore'], ['Boxing', 'box'], ['Kickboxing', 'kick'], ['HIIT', 'hiit'], ['Plyometrics', 'plyo'], ['Pilates', 'pilates'], ['Yoga', 'yogaStrength'], ['Mobility & posture', 'mobility'], ['Back care', 'backCare']],
+      { kb: 'sweat', kbCx: 'core', kbLegs: 'sweat', kbPress: 'core', kbPull: 'sweat', kbHips: 'core', kbGrip: 'sweat', kbCore: 'liftKb', kbCardio: 'liftKb', kbFull: 'core', kbSwing: 'core', bellCore: 'liftKb', box: 'liftKb', kick: 'liftKb', hiit: 'liftKb', plyo: 'liftKb', pilates: 'liftKb', yogaStrength: 'liftKb', mobility: 'liftKb', backCare: 'liftKb' }),
+  },
+  {
+    id: 'surprise-express', variety: true, surprise: true, name: 'Surprise Express', subject: 'Surprise', minutes: [20, 25], levers: [null, 'reps', 'weight'],
+    formats: SHORT_F, split: 'Every day a different subject · timed formats, short', blurb: 'A short, timed day from a different subject every day, all twenty before any repeats.',
+    about: 'Twenty subjects, one short day each, before any comes back. Each comes as a circuit, an EMOM, an AMRAP or a Tabata, from chest and back to boxing, HIIT, Pilates and balance. About twenty minutes and done. Abs finish every session. Level II adds reps and Level III moves you one weight up.',
+    names: ['Snap Surprise', 'Flash Box', 'Quick Gift', 'Quick Reveal', 'Quick Twist', 'Quick Mystery', 'Quick Hat', 'Quick Trick', 'Quick Party', 'Quick Dip', 'Quick Pick Two', 'Quick Luck Two', 'Quick Wheel Two', 'Quick Card Two', 'Quick Spin Two', 'Quick Toss Two', 'Quick Shuffle', 'Quick Deal Two', 'Quick Joker Two', 'Quick Ta-da'],
+    dayTypes: surprise(SUR_ALL, {}, SHORT_F),
+  },
+  {
+    id: 'floor-surprise', variety: true, surprise: true, name: 'Floor Surprise', subject: 'Surprise', minutes: [22, 27], equip: 'bw', levers: [null, 'reps', 'tempo'],
+    formats: LIFT_F, split: 'Every day a different subject · no equipment, short', blurb: 'No gear, and every day a different subject, all twenty before any repeats.',
+    about: 'Twenty subjects you can do on the floor, one a day. Bodyweight strength, push-ups, floor pulls, legs, glutes, shoulders, arms, HIIT, jumps, boxing, kickboxing, core, Pilates, yoga, mobility, balance, back care and more each come once before any comes back, each time in a different format. Abs finish the days that end in work, not in a stretch. Level II adds reps and Level III slows every rep down.',
+    names: ['Floor Box', 'Floor Gift', 'Floor Reveal', 'Floor Twist', 'Floor Mystery', 'Floor Hat', 'Floor Trick', 'Floor Party', 'Floor Dip', 'Floor Pick Two', 'Floor Luck Two', 'Floor Wheel Two', 'Floor Card Two', 'Floor Spin Two', 'Floor Toss Two', 'Floor Shuffle', 'Floor Deal Two', 'Floor Joker Two', 'Floor Surprise Day', 'Floor Ta-da'],
+    dayTypes: surprise([['Bodyweight', 'fullBw'], ['Chest', 'pushBw'], ['Back', 'pullBw'], ['Legs & glutes', 'legsBw'], ['Hips & adductors', 'glutesBw'], ['Shoulders', 'shouldersBw'], ['Arms', 'armsBw'], ['HIIT', 'hiit'], ['Plyometrics', 'plyo'], ['Boxing', 'box'], ['Kickboxing', 'kick'], ['Running prep', 'run'], ['Core & abs', 'core'], ['Pilates', 'pilates'], ['Yoga', 'yogaStrength'], ['Mobility & posture', 'mobility'], ['Balance & stability', 'balance'], ['Back care', 'backCare'], ['Gentle / low impact', 'gentle'], ['Mat core', 'rolls']]),
+  },
+].map((c) => ({ ...c, added: 23, catalogue: 14 }));
+CONFIGS.push(...P23_WEEKLY);
+
 // Phase 23: the new programs' ids in shelf order, appended to programs.config.js's ORDER after every older program
-CONFIGS.order23 = [...P23_FIGHTER, ...P23_MIXED, ...P23_VARIETY].map((c) => c.id);
+CONFIGS.order23 = [...P23_FIGHTER, ...P23_MIXED, ...P23_VARIETY, ...P23_WEEKLY].map((c) => c.id);
 module.exports = CONFIGS;

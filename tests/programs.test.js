@@ -271,9 +271,10 @@ test('an exercise index that arrives after its source was replaced is dropped, n
 // Phase 23 (docs/plans/phase-23-fitness-programs.md, decisions 83, 87, 184, 185, 205): the new fitness programs. Built
 // here one config at a time (never the whole library): per subject the new count, catalogue 13, some Phase 22 moves in
 // every program, the minutes spread, a fifth at 30 days, gear in the subject's old shares, no two alike.
-const P23 = { Strength: 10, 'Busy week': 9, Bodyweight: 10, 'Kettlebell only': 9, 'Kettlebell complexes': 5, 'Pull-ups': 8, 'Climber / pull strength': 4, Chest: 4, Back: 4, Shoulders: 4, Arms: 4, 'Neck & traps': 4, 'Grip & forearms': 5, 'Legs & glutes': 9, 'Hips & adductors': 4, 'Calves & lower legs': 4, 'Core & abs': 8, Conditioning: 7, HIIT: 7, Plyometrics: 6, 'Running prep': 5, 'Court & field sports': 5, Boxing: 7, Kickboxing: 6, Fighter: 7, Yoga: 14, Pilates: 12, 'Back care': 5, 'Power yoga': 8, 'Yin yoga': 8, 'Yoga flow': 8, 'Mat core': 8, 'Kettlebell Pilates': 8, 'Mobility & posture': 6, Flexibility: 6, 'Balance & stability': 6, 'Gentle / low impact': 5, 'Strength & stretch': 7, Athlete: 7, 'Balanced week': 8, 'Calm strength': 7, Variety: 15 }; // tickets 3–12; later tickets add their subjects here
+const P23 = { Strength: 10, 'Busy week': 9, Bodyweight: 10, 'Kettlebell only': 9, 'Kettlebell complexes': 5, 'Pull-ups': 8, 'Climber / pull strength': 4, Chest: 4, Back: 4, Shoulders: 4, Arms: 4, 'Neck & traps': 4, 'Grip & forearms': 5, 'Legs & glutes': 9, 'Hips & adductors': 4, 'Calves & lower legs': 4, 'Core & abs': 8, Conditioning: 7, HIIT: 7, Plyometrics: 6, 'Running prep': 5, 'Court & field sports': 5, Boxing: 7, Kickboxing: 6, Fighter: 7, Yoga: 14, Pilates: 12, 'Back care': 5, 'Power yoga': 8, 'Yin yoga': 8, 'Yoga flow': 8, 'Mat core': 8, 'Kettlebell Pilates': 8, 'Mobility & posture': 6, Flexibility: 6, 'Balance & stability': 6, 'Gentle / low impact': 5, 'Strength & stretch': 7, Athlete: 7, 'Balanced week': 8, 'Calm strength': 7, Variety: 15, 'Weekly mix': 8, Surprise: 8 }; // tickets 3–12b
 const NEW23 = ['Power yoga', 'Yin yoga', 'Yoga flow', 'Mat core', 'Kettlebell Pilates']; // ticket 9b (232): new subjects, so no older programs to share gear with
-const CAT14 = new Set(['Yoga', 'Pilates', ...NEW23]); // decision 237: yoga and Pilates programs build at catalogue 14, on its doubled exercises
+const NEW23B = ['Weekly mix', 'Surprise']; // ticket 12b (232): new subjects on the Variety shelf
+const CAT14 = new Set(['Yoga', 'Pilates', ...NEW23, ...NEW23B]); // decision 237: yoga and Pilates programs build at catalogue 14, on its doubled exercises, and so do Weekly mix and Surprise, whose days draw from them
 const { CONFIGS: ALL_CONFIGS, buildConfig } = require('../program-builder.js');
 const { EX: EX23 } = require('../exercises.js');
 const new23 = (s) => ALL_CONFIGS.filter((c) => c.subject === s && c.added === 23 && !c.step);
@@ -308,7 +309,7 @@ test('Phase 23: the minutes spread per subject (half 35–38, a quarter 31–35,
 });
 
 test('Phase 23: gear in each subject\'s old shares (full gear, one kettlebell, no equipment), within one program', () => {
-  Object.keys(P23).filter((s) => !NEW23.includes(s)).forEach((s) => {
+  Object.keys(P23).filter((s) => !NEW23.includes(s) && !NEW23B.includes(s)).forEach((s) => {
     const old = ALL_CONFIGS.filter((c) => c.subject === s && c.added !== 23), list = new23(s);
     ['all', 'kb', 'bw'].forEach((g) => {
       const share = old.filter((c) => (c.equip || 'all') === g).length / old.length;
@@ -349,4 +350,30 @@ test('Phase 23 ticket 9b: the five new subjects, their shelves, Yin holds and th
   new23('Kettlebell Pilates').forEach((c) => buildConfig(c).days.forEach((d) => {
     assert.ok(d.blocks.some((b) => b.items.some((it) => EX23[it.ex].load === 'kb')), `${c.id} d${d.day} uses the bell`);
   }));
+});
+
+// Phase 23 ticket 12b (decisions 232, 233): Weekly mix is a 7-day rotation, one day from each fitness shelf group, each
+// program in its own order; neighbouring days (the week wraps) never load the same area, and a full-body day sits next
+// to no other hard day. Both new subjects sit in the Mixed family and the Variety shelf group; Weekly mix gear as Variety's.
+test('Phase 23 ticket 12b: Weekly mix visits all seven groups each week, in its own order, never loading an area twice running', () => {
+  const GROUPS = ['Strength', 'Muscles', 'Cardio', 'Combat', 'Yoga & Pilates', 'Mobility & care', 'Mixed'];
+  const list = new23('Weekly mix'), orders = new Set();
+  list.forEach((c) => {
+    const p = buildConfig(c), group = (d) => c.dayTypes[d.type].group, area = (i) => c.dayTypes[c.cycle[i % 7]].area;
+    assert.equal(c.cycle.length, 7, c.id);
+    assert.deepEqual(p.days.slice(0, 7).map(group).sort(), [...GROUPS].sort(), `${c.id}: days 1–7`);
+    assert.equal(group(p.days[7]), group(p.days[0]), `${c.id}: day 8 is day 1's group`);
+    for (let i = 0; i < 7; i++) {
+      const a = area(i), b = area(i + 1);
+      if (a && b) assert.ok(a !== b && a !== 'full' && b !== 'full', `${c.id}: days ${i + 1} and ${i + 2} both load ${a}/${b}`);
+    }
+    orders.add(c.cycle.map((k) => c.dayTypes[k].group).join(' > '));
+  });
+  assert.equal(orders.size, list.length, 'each program its own order');
+  const { FAMILIES, SHELVES } = require('../app/library.js');
+  NEW23B.forEach((s) => {
+    assert.ok(FAMILIES.find(([f]) => f === 'Mixed')[1].includes(s), `${s} in Mixed`);
+    assert.ok(SHELVES.find(([g]) => g === 'Variety')[1].includes(s), `${s} on the Variety shelf`);
+    assert.deepEqual(['all', 'kb', 'bw'].map((g) => new23(s).filter((c) => (c.equip || 'all') === g).length), [6, 1, 1], `${s} gear`);
+  });
 });

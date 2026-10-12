@@ -253,6 +253,10 @@ const IDS = [
     'variety-volume', 'variety-month', 'heavy-roulette', 'sweat-and-lift-shuffle', 'body-tour',
     'fighter-shuffle-month', 'athlete-shuffle', 'floor-roulette-long', 'variety-35', 'kettlebell-shuffle-35',
     'core-and-cardio-roulette', 'bodyweight-shuffle-35', 'variety-express', 'lower-roulette', 'push-pull-roulette',
+    // Phase 23 ticket 12b: Weekly mix and Surprise (mixed.js)
+    'weekly-mix', 'weekly-mix-month', 'seven-shelves', 'bell-weekly-mix', 'weekly-mix-35',
+    'no-gear-weekly-mix', 'weekly-mix-express', 'weekly-mix-25', 'surprise-me', 'surprise-month',
+    'strength-surprise', 'move-surprise', 'surprise-35', 'bell-surprise', 'surprise-express', 'floor-surprise',
 ];
 
 test('the config ids, in order, are today\'s list', () => {

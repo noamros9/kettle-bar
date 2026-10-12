@@ -17,6 +17,28 @@ function makeRnd(seedText) {
   return () => { seed = (seed * 1664525 + 1013904223) % 4294967296; return seed / 4294967296; };
 }
 
+// Surprise (Phase 23, 234): each day type is a subject, dealt in rounds: every one once, in a shuffled order, before
+// any comes back, and never the same one two days running. Each takes its formats in the deck's order, a different
+// one from yesterday's when it has one.
+function dealRounds(cfg, deck, days, rnd) {
+  const keys = Object.keys(cfg.dayTypes);
+  const left = Object.fromEntries(keys.map((k) => [k, deck.filter(([d]) => d === k).map(([, f]) => f)]));
+  const dealt = [];
+  while (dealt.length < days) {
+    const round = keys.slice();
+    for (let i = round.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [round[i], round[j]] = [round[j], round[i]]; }
+    const prev = dealt[dealt.length - 1];
+    if (prev && round[0] === prev[0]) round.push(round.shift());
+    round.slice(0, days - dealt.length).forEach((k) => {
+      const last = dealt[dealt.length - 1];
+      if (!left[k].length) throw new Error(`${cfg.id}: ${k} has no format left for another round`);
+      const i = Math.max(0, left[k].findIndex((f) => !last || f !== last[1]));
+      dealt.push([k, left[k].splice(i, 1)[0]]);
+    });
+  }
+  return dealt;
+}
+
 function expand(cfg) {
   if (!cfg.variety) return cfg;
   const days = dayCountOf(cfg);
@@ -32,7 +54,7 @@ function expand(cfg) {
   const rnd = makeRnd(cfg.id);
   for (let i = deck.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [deck[i], deck[j]] = [deck[j], deck[i]]; }
   // deal: a new day type and a new format from yesterday's if the deck has one, else a new day type, else the next
-  const dealt = [];
+  const dealt = cfg.surprise ? dealRounds(cfg, deck, days, rnd) : [];
   while (dealt.length < days) {
     const prev = dealt[dealt.length - 1];
     let i = prev ? deck.findIndex(([k, f]) => k !== prev[0] && f !== prev[1]) : 0;

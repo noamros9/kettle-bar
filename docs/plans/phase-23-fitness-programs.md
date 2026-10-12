@@ -111,7 +111,7 @@ decisions is today's catalogue 13 (renumbered by 105).
 | 10 | Mobility & care +23 | content | 1 | `content/p23-mobility` | done (PR #372) |
 | 11 | Mixed +29 | content | 1 | `content/p23-mixed` | done (PR #374) |
 | 12 | Variety +15 | content | 1 | `content/p23-variety` | done (PR #375) |
-| 12b | Weekly mix and Surprise +16 | content | 9b, 12 | `content/p23-variety-new` | todo |
+| 12b | Weekly mix and Surprise +16 | content | 9b, 12 | `content/p23-variety-new` | done (PR #376) |
 | 13 | Close the phase: measure again, archive | plan | 2–12b | `plan/p23-close` | todo |
 
 Tickets 3–6 edit `configs/strength.js` (ticket 6's Core & abs is in `configs/mind-body.js`, its family file), 7–8 `configs/cardio-combat.js` (ticket 8's Fighter is in `configs/mixed.js`, its family file), 9–10 `configs/mind-body.js`, 11–12

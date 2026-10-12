@@ -85,3 +85,53 @@ test('build your own leaves Variety programs out of its recipe book (60 one-off 
   assert.ok(book.skipped.includes('variety-test'));
   assert.ok(!book.subjects.some((s) => s[0] === 'Variety'));
 });
+
+// Phase 23 ticket 12b (decision 234): Surprise deals by subject: every day type (one per subject) once, in a shuffled
+// order, before any comes back; never the same one two days running; no (day type, format) twice
+test('Surprise: rounds of every day type once, never the same two days running, no pair twice', () => {
+  const cfg = expand(base({ surprise: true }));
+  const kinds = cfg.cycle.map((k) => k.split('-')[0]), n = 10;
+  for (let r = 0; r * n < 60; r++) assert.equal(new Set(kinds.slice(r * n, r * n + n)).size, Math.min(n, 60 - r * n), `round ${r + 1}`);
+  kinds.forEach((k, i) => { if (i) assert.notEqual(k, kinds[i - 1], `day ${i + 1}`); });
+  assert.equal(new Set(cfg.cycle).size, 60);
+  assert.equal(expand(base({ surprise: true, days: 30 })).cycle.length, 30);
+});
+
+test('Surprise: two day types still alternate round after round', () => {
+  const two = base({ surprise: true, days: 30 });
+  const many = ['straight', 'circuit', 'emom', 'amrap', 'tabata', 'ladder', 'superset'];
+  two.dayTypes = { push: { ...two.dayTypes.push, formats: [...many, ...many, 'straight'] }, pull: { ...two.dayTypes.pull, formats: [...many, ...many, 'circuit'] } };
+  const kinds = expand(two).cycle.map((k) => k.split('-')[0]);
+  assert.equal(kinds.length, 30);
+  kinds.forEach((k, i) => { if (i) assert.notEqual(k, kinds[i - 1], `day ${i + 1}`); });
+});
+
+test('Surprise: a day type with only yesterday\'s format left takes it', () => {
+  const one = base({ surprise: true, days: 30 });
+  one.dayTypes = Object.fromEntries(Array.from({ length: 30 }, (_, i) => [`t${i}`, { ...one.dayTypes.push, label: `T${i}`, formats: ['emom'] }]));
+  assert.ok(expand(one).cycle.every((k) => k.endsWith('-emom')));
+});
+
+test('Surprise: refused when a day type runs out of formats before the last round', () => {
+  const b = base({ surprise: true, formats: ['straight', 'circuit', 'emom', 'amrap', 'tabata', 'ladder', 'superset'] });
+  b.dayTypes.core.formats = ['emom'];
+  assert.throws(() => expand(b), /core has no format left for another round/);
+});
+
+test('Surprise programs in the library: a subject a day, each once before any comes back, never After dark', () => {
+  const { FAMILIES, SHELVES } = require('../app/library.js');
+  const afterDark = SHELVES.find(([g]) => g === 'After dark')[1], fitness = FAMILIES.flatMap(([, l]) => l).filter((s) => !afterDark.includes(s));
+  const list = CONFIGS.filter((c) => c.subject === 'Surprise');
+  assert.equal(list.length, 8);
+  list.forEach((c) => {
+    const from = c.cycle.map((k) => c.dayTypes[k].from), n = new Set(from).size;
+    assert.ok(n >= 12, `${c.id}: ${n} subjects`);
+    from.forEach((s) => assert.ok(fitness.includes(s) && !['Variety', 'Weekly mix', 'Surprise', 'Signature'].includes(s), `${c.id}: ${s}`));
+    for (let r = 0; r * n < from.length; r++) assert.equal(new Set(from.slice(r * n, r * n + n)).size, Math.min(n, from.length - r * n), `${c.id} round ${r + 1}`);
+    from.forEach((s, i) => { if (i) assert.notEqual(s, from[i - 1], `${c.id} day ${i + 1}`); });
+  });
+});
+
+test('Surprise leaves every other Variety program\'s deal as it was', () => {
+  CONFIGS.filter((c) => c.variety && c.subject === 'Variety').forEach((c) => assert.ok(!c.surprise, c.id));
+});
