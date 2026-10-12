@@ -35,6 +35,8 @@ decisions is today's catalogue 13 (renumbered by 105).
   cloud machine, 312); the 1 MB page gate may be raised if the library needs it. *(10 Oct)*
 - **318 · The new programs stay out of Build your own and random workouts until the close**: the recipe book skips
   `added: 23` (`HELD` in `recipe-book.js`), so those screens don't shift every ticket; ticket 13 lets them all in. *(10 Oct)*
+- **323 · Phase 23's six Plyometrics programs get the subject's long rests** (60 / 90 s), re-pinned: ticket 7 left them on
+  the default rests; Noam allowed the re-pin, an exception to "never re-pin". *(12 Oct)*
 - **321 · Local UI runs wait up to 600 s for the build** (was 240): at 1,000 programs the whole-library build alone
   passed 240 s on the 2-core machine; CI builds in its own step and is unaffected. *(11 Oct)*
 

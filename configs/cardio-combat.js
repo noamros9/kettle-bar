@@ -1110,7 +1110,7 @@ const P23_T7 = [
   },
   // Plyometrics +6
   {
-    id: 'plyo-volume', name: 'Plyo Volume', subject: 'Plyometrics', minutes: P23_LONG, equip: 'bw', levers: [null, 'reps', 'variation'],
+    id: 'plyo-volume', name: 'Plyo Volume', subject: 'Plyometrics', minutes: P23_LONG, equip: 'bw', rests: { set: 60, exercise: 90 }, levers: [null, 'reps', 'variation'],
     split: 'Vertical / horizontal / lateral & upper', blurb: 'Three plyometric days: jump up, jump out, then side to side with upper-body power.',
     about: 'Plyometrics in every direction across three days. Squat jumps, tuck jumps and pogo hops go up; broad jumps and bounds go out; skaters and lateral bounds go sideways, with clap and explosive push-ups for the upper body. Straight sets with full rests, so every jump is a good one. Abs finish every session. Level II adds reps and Level III brings harder variations.',
     names: ['Kangaroo Rat', 'Springhare', 'Galago', 'Tarsier', 'Sifaka', 'Flea', 'Grasshopper', 'Cricket', 'Locust', 'Froghopper', 'Click Beetle', 'Springtail', 'Tree Frog', 'Leopard Frog', 'Bullfrog', 'Hare', 'Jackrabbit', 'Klipspringer Leap', 'Ibex', 'Chamois'],
@@ -1122,7 +1122,7 @@ const P23_T7 = [
     },
   },
   {
-    id: 'plyo-month', name: 'Plyo Month', subject: 'Plyometrics', days: 30, minutes: P23_LONG, equip: 'bw', levers: [null, 'variation', 'reps'],
+    id: 'plyo-month', name: 'Plyo Month', subject: 'Plyometrics', days: 30, minutes: P23_LONG, equip: 'bw', rests: { set: 60, exercise: 90 }, levers: [null, 'variation', 'reps'],
     split: 'Jump sets & EMOM / jump circuit, 30 days', blurb: 'A month of jumping: straight sets and an EMOM one day, a jump circuit the next.',
     about: 'A month of jumps. One day is straight sets of vertical and broad jumps, then an EMOM of hops and bounds, a set at the top of every minute; the other is a circuit of jumps, push-ups and landings. They alternate. Every ten days the level steps up. Abs finish every session. Level II brings harder variations and Level III adds reps.',
     names: ['Takeoff', 'Liftoff', 'Launch', 'Ascent', 'Apex', 'Zenith', 'Summit', 'Crest', 'Peak', 'Pinnacle', 'Hang Time', 'Airtime', 'Glide', 'Soar', 'Float', 'Drift', 'Descent', 'Touchdown', 'Landing Gear', 'Stick It'],
@@ -1133,7 +1133,7 @@ const P23_T7 = [
     },
   },
   {
-    id: 'loaded-jumps', name: 'Loaded Jumps', subject: 'Plyometrics', minutes: P23_LONG, levers: [null, 'reps', 'weight'],
+    id: 'loaded-jumps', name: 'Loaded Jumps', subject: 'Plyometrics', minutes: P23_LONG, rests: { set: 60, exercise: 90 }, levers: [null, 'reps', 'weight'],
     split: 'Jump & squat contrast / jump & hinge contrast', blurb: 'Contrast training: a heavy lift, then a jump, so the jump gets more out of the legs.',
     about: 'Heavy then fast. Each straight set pairs a lift with a jump straight after it, squats then squat jumps one day, deadlifts and swings then broad jumps the next, so the jump gets more from muscles the lift has woken up. They alternate. Abs finish every session. Level II adds reps and Level III moves you one weight up.',
     names: ['Coiled', 'Primed', 'Cocked', 'Loaded', 'Wound Up', 'Charged', 'Armed', 'Set', 'Ready', 'Poised', 'Tensed', 'Braced', 'Drawn', 'Taut', 'Strung', 'Sprung', 'Released', 'Fired', 'Launched', 'Unleashed'],
@@ -1144,7 +1144,7 @@ const P23_T7 = [
     },
   },
   {
-    id: 'plyo-35', name: 'Plyo 35', subject: 'Plyometrics', minutes: P23_MID, equip: 'bw', levers: [null, 'reps', 'reps'],
+    id: 'plyo-35', name: 'Plyo 35', subject: 'Plyometrics', minutes: P23_MID, equip: 'bw', rests: { set: 60, exercise: 90 }, levers: [null, 'reps', 'reps'],
     split: 'Jump EMOM / bound circuit, 35 minutes', blurb: 'Thirty-five minutes of jumps: an EMOM one day, a bound circuit the next.',
     about: 'Jumping for about half an hour. One day is an EMOM of vertical, broad and lateral jumps, a set at the top of every minute; the other a circuit of bounds, hops and explosive push-ups. They alternate. Abs finish every session. Both later levels add reps.',
     names: ['Bounce House', 'Pogo Stick', 'Spring Board', 'Diving Board', 'Springbok Jump', 'Kangaroo Hop', 'Frog Leap', 'Leapfrog', 'Hopper', 'Skipper', 'Jumper', 'Leaper', 'Vaulter', 'High Jumper', 'Long Jumper', 'Triple Jump', 'Pole Vault', 'Hurdler', 'Steeplejack', 'Sky Walker'],
@@ -1155,7 +1155,7 @@ const P23_T7 = [
     },
   },
   {
-    id: 'single-leg-power', name: 'Single-Leg Power', subject: 'Plyometrics', minutes: P23_MID, equip: 'bw', levers: [null, 'variation', 'reps'],
+    id: 'single-leg-power', name: 'Single-Leg Power', subject: 'Plyometrics', minutes: P23_MID, equip: 'bw', rests: { set: 60, exercise: 90 }, levers: [null, 'variation', 'reps'],
     split: 'Hops & sticks / bounds & landings, EMOM then sets', blurb: 'One leg at a time: hops and stuck landings, then bounds, on the minute and in sets.',
     about: 'Power one leg at a time. Each day opens with an EMOM, single-leg hops and stuck landings one day, bounds and skaters the next, then straight sets of single-leg strength to finish. They alternate. Abs finish every session. Level II brings harder variations and Level III adds reps.',
     names: ['Flamingo', 'Heron', 'Stork', 'Crane', 'Egret', 'Ibis', 'Spoonbill', 'Avocet', 'Stilt', 'Curlew', 'Godwit', 'Sandpiper', 'Plover', 'Lapwing', 'Oystercatcher', 'Turnstone', 'Dunlin', 'Knot Bird', 'Snipe', 'Woodcock'],
@@ -1166,7 +1166,7 @@ const P23_T7 = [
     },
   },
   {
-    id: 'plyo-express', name: 'Plyo Express', subject: 'Plyometrics', minutes: [22, 27], equip: 'bw', levers: [null, 'reps', 'variation'],
+    id: 'plyo-express', name: 'Plyo Express', subject: 'Plyometrics', minutes: [22, 27], equip: 'bw', rests: { set: 60, exercise: 90 }, levers: [null, 'reps', 'variation'],
     split: 'Up & down / side & push, short', blurb: 'Short jump sessions: vertical and drop work, or lateral jumps and push-ups.',
     about: 'Plyometrics in a short slot. One day is straight sets of jumps up and drops down; the other lateral jumps and explosive push-ups. Full rests keep every rep sharp. Abs finish every session. Level II adds reps and Level III brings harder variations.',
     names: ['Pop', 'Spring Up', 'Jolt', 'Jerk', 'Twitch', 'Kick', 'Burst', 'Boom', 'Blast', 'Bounce Back', 'Snap Back', 'Rebound Jump', 'Recoil Jump', 'Springload', 'Quick Hop', 'Hip Hop', 'Hop To', 'Jump Start', 'Kickstart', 'Pep'],
