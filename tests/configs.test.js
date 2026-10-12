@@ -242,6 +242,13 @@ const IDS = [
     // Phase 23 ticket 8, continued: Fighter (mixed.js, the last family file)
     'fighter-volume', 'fighter-month', 'cage-strength', 'bell-fighter', 'fighter-35',
     'fighter-flow-35', 'fighter-express',
+    // Phase 23 ticket 11: Strength & stretch, Athlete, Balanced week, Calm strength (mixed.js)
+    'stretch-volume', 'stretch-month', 'open-lift-open', 'strength-and-yoga-flow', 'stretch-35',
+    'bell-and-flow-35', 'floor-strength-and-stretch', 'athlete-volume', 'athlete-month', 'sprint-and-lift',
+    'swing-athlete', 'athlete-35', 'quick-feet-35', 'athlete-express', 'balanced-volume',
+    'balanced-three-way-month', 'full-spectrum', 'bell-week', 'balanced-month-35', 'floor-week-35',
+    'balanced-express', 'quick-balance', 'calm-volume', 'unhurried-month', 'tempo-and-yin',
+    'calm-floor', 'calm-strength-35', 'calm-bell-35', 'calm-express',
 ];
 
 test('the config ids, in order, are today\'s list', () => {
