@@ -82,7 +82,7 @@ test('Combat, Variety and After dark are their own tabs (Phase 17)', async ({ ap
   expect(await chipTexts(subjects(app))).toEqual(['All', 'Boxing', 'Kickboxing', 'Fighter']);
   await expect(app.page.locator('.pgroup').filter({ has: app.page.locator('h2', { hasText: /^Fighter$/ }) }).locator('.pcard')).toHaveCount(6);
   await family(app).getByRole('button', { name: 'Variety' }).click();
-  await expect(app.page.locator('.pgroup h2')).toHaveText(['Variety']);
+  await expect(app.page.locator('.pgroup h2')).toHaveText(['Variety', 'Weekly mix', 'Surprise']); // Phase 23 (232)
   await expect(app.page.locator('[data-open-prog="every-day-different"]')).toHaveCount(1);
   await family(app).getByRole('button', { name: 'After dark' }).click();
   await expect(app.page.locator('.pgroup h2')).toHaveText(subjectsOf('After dark')); // Phase 18 adds subjects as they land

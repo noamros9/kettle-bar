@@ -38,6 +38,13 @@ for Phase 8's stats; single-family programs' blocks have none.
 **Variety program** (Phase 16): a program with `variety: true` and no cycle: no two of its days share a day type and
 format ("Every day is different"). Subject *Variety*, in Mixed.
 
+**Weekly mix** (Phase 23, 233): a 7-day rotation with one day from each fitness shelf group (Strength, Muscles, Cardio,
+Combat, Yoga & Pilates, Mobility & care, Mixed), each program in its own order; a day type says its `group`, and a hard
+day the `area` it loads, so neighbouring days never load the same one. In Mixed, on the Variety shelf.
+
+**Surprise** (Phase 23, 234): a Variety program with `surprise: true`: each day type is one fitness subject's work
+(its `from`), dealt in rounds, every subject once before any comes back. In Mixed, on the Variety shelf.
+
 **After-dark program** (Phase 16): a Mixed-family program for looks, stamina or positions (hip, adductor and back
 mobility with the strength to hold them).
 
