@@ -11,9 +11,9 @@ const Own = require('../app/own.js');
 const recipes = R.of(R.book());
 const hash = (x) => crypto.createHash('sha256').update(JSON.stringify(x)).digest('hex').slice(0, 16);
 
-test('the book is at catalogue 13: new own programs are made at it', () => {
-  assert.equal(R.book().catalogue, 13);
-  assert.equal(recipes.make({ subjects: ['Strength'], split: 3, minutes: 30, equipment: 'all', levers: ['weight', 'reps'] }, 's').catalogue, 13);
+test('the book is at catalogue 13 or later (14 since Phase 23): new own programs are made at it', () => {
+  assert.ok(R.book().catalogue >= 13);
+  assert.equal(recipes.make({ subjects: ['Strength'], split: 3, minutes: 30, equipment: 'all', levers: ['weight', 'reps'] }, 's').catalogue, R.book().catalogue);
 });
 
 // A record stores its config (app/own.js): this one was made by the catalogue-12 book on 9 Oct 2026.

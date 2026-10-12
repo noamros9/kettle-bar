@@ -157,7 +157,8 @@ function generate({ configs = require('./programs.config.js'), families = FAMILI
       }
       types.push({ ...type, ...trial.get(trialKey) });
       // its blocks as parts of a mix: blocks that stand on their own, of a subject that is one family, resting like REST
-      if (family === 'Mixed' || json(r.rests) !== json(Builder.REST)) return;
+      // Plyometrics by name too: Phase 23's six rest like REST, but the subject is still not mixed (it was built to rest longer)
+      if (family === 'Mixed' || json(r.rests) !== json(Builder.REST) || cfg.subject === 'Plyometrics') return;
       r.blocks.forEach((block, bi) => {
         const key = `${subject}|${json(block)}`;
         if (block.slots.length < 3 || partSeen.has(key)) return;
