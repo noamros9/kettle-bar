@@ -2,7 +2,7 @@
 
 The index: where we are, what comes next, and the two phases being built now. Every other phase's decisions live at the
 top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase comes up. Decision numbers are global
-(the next one is **323**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
+(the next one is **324**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
 ## Resume here (12 Oct 2026)
 - **Phase 23's tickets are all merged** (#352–#354, #360–#362, #367–#377): the 15 Signature IIs, 77 yoga and Pilates
