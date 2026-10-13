@@ -592,3 +592,20 @@ found on the way is [#404](https://github.com/noamros9/kettle-bar/issues/404).
   goes to CI. *(13 Oct)*
 - **335 · Playwright's 600 s wait for the test server stays** (321): a ceiling that still covers a cold build. *(13 Oct)*
 - **336 · No local coverage run, still** (308): CI's unit step is 92 s now. *(13 Oct)*
+
+## Phase 25: "Do now", one exercise for dead time (done, 13 Oct 2026)
+Plan and tickets: [docs/plans/phase-25-do-now.md](plans/phase-25-do-now.md), issue
+[#200](https://github.com/noamros9/kettle-bar/issues/200). Grilled 7 Oct; built 13 Oct (#407–#409): `app/now.js` (43 quiet
+no-gear exercises, Random and What I missed, 20–30 s), a card on the Programs page and the "Do now" home-screen shortcut
+(`#now`), Start with a silent get-ready and one beep, Done kept as a random record (`choices: { now }`): counted in
+Stats and History, not a trained day.
+- **142 · A card on the Programs page and a home-screen shortcut** (`#now`).
+- **174 · The shortcut opens the card**; nothing is picked until a tap.
+- **143 · Two buttons each time: Random and What I missed** (least-loaded muscle). No equipment, quiet (no jumping,
+  nothing on the floor), 20–30 s. **174 ·** What I missed looks back 7 days.
+- **144 · Timed and counted** in Stats and History.
+- **180 · A beep at the end, no voice.**
+- **181 · Not a trained day**: the rest-day card, Today's workout and the next random workout's level stay as they
+  were; History gives it its own small mark.
+- **145 · Stored as a random workout** (`choices: { now }`): no new collection, no rules change, backups already carry
+  it. *(technical)*
