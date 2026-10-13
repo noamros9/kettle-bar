@@ -552,3 +552,14 @@ the `build-cache` branch that `npm run cache:pull` fetches. main's build 45 s 鈫
 - **331 路 main's run makes the recipe trials into the cache too**: the build never makes them (the committed book is
   fresh), so a pulled cache had none; a job after the tests makes them, checks the book equals the committed one, then
   publishes the cache (branch and artifact). *(13 Oct)*
+
+## Phase 37: the finish flow, a breather and then the cool-down (done, 13 Oct 2026)
+Plan and tickets: [docs/plans/phase-37-finish-flow.md](plans/phase-37-finish-flow.md), issue
+[#356](https://github.com/noamros9/kettle-bar/issues/356). Grilled 10 Oct; built 13 Oct (#389, #390): the last set starts a
+30 s breather by itself ("Breather 路 cool-down next"), its end runs the cool-down (the voice says "Cool-down"), and the
+cool-down's end leaves "Cool-down done 路 Workout complete" at 0:00; a day without a cool-down, or one already run, ends
+at "Workout finished".
+- **319 路 Its own small phase, right after Phase 23** (#356). *(10 Oct)*
+- **320 路 Breather, then the cool-down, nothing after it**: the last set starts a 30 s breather by itself, then the
+  cool-down flow starts; when it ends nothing waits (no 30 s on the timer); a day without a cool-down ends at
+  "Workout finished". *(10 Oct)*
