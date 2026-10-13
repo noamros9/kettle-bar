@@ -200,3 +200,24 @@ test('Clear all resets the search and every filter', async ({ app }) => {
   await expect(app.page.getByRole('button', { name: 'Clear all' })).toHaveCount(0);
   expect(new URL(app.page.url()).hash).toBe('#exercises');
 });
+
+// Phase 24 ticket 4 (review V, A2): figures are drawn only when their card comes near the screen, so the page's
+// HTML is a fraction of what it was and a redraw is fast
+test('figures draw when near view: none far down at first, the first screen at once, the last one once scrolled to', async ({ app }) => {
+  await app.open('#exercises');
+  const boxes = app.page.locator('#exresults .figbox');
+  await expect(boxes.first().locator('svg.fig')).toBeVisible();
+  const drawn = await boxes.evaluateAll((l) => l.filter((b) => b.querySelector('svg.fig')).length);
+  expect(drawn).toBeGreaterThan(0);
+  expect(drawn).toBeLessThan(total / 4);
+  const last = boxes.last();
+  await expect(last.locator('svg.fig')).toHaveCount(0);
+  await last.scrollIntoViewIfNeeded();
+  await expect(last.locator('svg.fig')).toBeVisible();
+  const cdp = await app.page.context().newCDPSession(app.page);
+  await cdp.send('Emulation.setCPUThrottlingRate', { rate: 4 });
+  const ms = await app.data(() => { const a = performance.now(); render(); return performance.now() - a; });
+  await cdp.send('Emulation.setCPUThrottlingRate', { rate: 1 });
+  expect(ms).toBeLessThan(1200); // 3,038 ms before (review V); ~480 ms after, measured on the cloud machine
+  expect(await app.data(() => document.getElementById('app').innerHTML.length)).toBeLessThan(1024 * 1024);
+});
