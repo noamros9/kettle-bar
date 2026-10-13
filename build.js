@@ -6,6 +6,7 @@
 const fs = require('fs');
 const path = require('path');
 const { buildAll } = require('./program-builder.js');
+const { cachedBuild } = require('./build-cache.js');
 const { pinProblems } = require('./scripts/pins.js');
 const { summarize, slim, usageIndex } = require('./app/programs.js');
 const { refresh } = require('./recipe-book.js');
@@ -59,8 +60,12 @@ function render(programs = buildAll()) {
 }
 
 if (require.main === module) {
+  // the build cache (build-cache.js, decisions 324-328): a program whose key is unchanged is read from .build-cache/
+  // (KB_BUILD_CACHE moves it), not built; `node build.js --cold` (or KB_COLD=1) builds everything and refills it
+  const cold = process.argv.includes('--cold') || process.env.KB_COLD === '1';
+  const { programs, stats } = cachedBuild({ cold, ...(process.env.KB_BUILD_CACHE && { dir: path.resolve(process.env.KB_BUILD_CACHE) }) });
+  console.log(`build cache: ${stats.hits} read, ${stats.misses} built${cold ? ' (cold)' : ''}`);
   // the gate (scripts/pins.js): a pinned program whose days changed stops the build before anything is written
-  const programs = buildAll();
   const problems = pinProblems(programs, JSON.parse(fs.readFileSync(path.join(__dirname, 'tests/fixtures/program-days.json'), 'utf8')));
   if (problems.length) { console.error(`The build stops: ${problems.length} pinned program(s) changed.\n${problems.join('\n')}`); process.exit(1); }
   const out = render(programs);
