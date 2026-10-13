@@ -1,7 +1,7 @@
 # The build cache: rebuild only what changed
 
 Backlog item 322 ([#265](https://github.com/noamros9/kettle-bar/issues/265), cut the test and CI times). Grilled 13 Oct
-2026 (Noam); decisions 324–329 below. Right after Phase 23, before Phase 37. Opus builds (295).
+2026 (Noam); decisions 324–330 below. Right after Phase 23, before Phase 37. Opus builds (295).
 
 ## Decisions
 Grilled 13 Oct 2026 with Noam (global decision numbers).
@@ -20,6 +20,10 @@ Grilled 13 Oct 2026 with Noam (global decision numbers).
 - **327 · main's run proves it**: on every push to `main`, CI also builds cold and diffs that against the cached
   build; any difference fails the run. *(13 Oct)*
 
+- **330 · Cloud sessions pull it from a git branch**: Actions artifacts download from blob storage, which the cloud
+  session's proxy blocks; main's run force-pushes the cache to a one-commit orphan `build-cache` branch, and
+  `cache:pull` fetches it with git (the artifact stays for Noam's machine). *(13 Oct)*
+
 **How it's built**
 - **329 · Three tickets**: program days, then the recipe book, then CI. *(13 Oct)*
 
@@ -37,7 +41,8 @@ out. The pin gate (`scripts/pins.js`) still checks every program, cached or not.
 | 1 | Program days from the cache (324, 325, 328) | build | – | `build/cache-days` | done (PR #382) |
 | 2 | The recipe book per day type (324, 325, 328) | build | 1 | `build/cache-recipes` | done (PR #383) |
 | 3 | CI saves the cache and proves it on main (326, 327) | ci | 2 | `ci/build-cache` | done (PR #384) |
-| 4 | Close it | plan | 3 | `plan/build-cache-close` | todo |
+| 3b | The cache on a git branch for cloud sessions (330) | ci | 3 | `ci/build-cache-branch` | todo |
+| 4 | Close it | plan | 3b | `plan/build-cache-close` | todo |
 
 ### 1. Program days from the cache
 - **Build:** a new `build-cache.js` (Node only): `codeHash(files)`, `keyOf(cfg)` = SHA-256 of the code hash
@@ -81,6 +86,18 @@ out. The pin gate (`scripts/pins.js`) still checks every program, cached or not.
   artifacts listing and unpacks it to the given folder; with none it says so and exits 0.
 - **Done when:** a PR run shows misses on its first run and hits on a rerun; `main`'s cold diff runs and passes; a
   fresh clone with `npm run cache:pull` builds the library with all hits.
+
+### 3b. The cache on a git branch for cloud sessions (330)
+- **Build:** main's run (after the cold diff passes) commits `.build-cache/` as the only commit of an orphan
+  `build-cache` branch and force-pushes it (`contents: write` for that job only). `scripts/cache-pull.js` tries
+  `git fetch --depth 1 origin build-cache` and unpacks that tree into the folder (`git archive | tar -x`), falling back
+  to the artifact.
+- **Files:** `.github/workflows/deploy.yml`, `scripts/cache-pull.js`, `tests/cache-pull.test.js`, `tests/ci.test.js` if
+  it checks permissions.
+- **Test first:** `tests/cache-pull.test.js`: the branch route is tried first, the artifact only when the fetch fails,
+  and nothing found is still not an error.
+- **Done when:** main's run pushes the branch; in a fresh cloud session `npm run cache:pull` then `node build.js`
+  reports every program read.
 
 ### 4. Close it
 - Move the decisions to `docs/roadmap-archive.md`, drop the row and the Backlog line, note the build times before and

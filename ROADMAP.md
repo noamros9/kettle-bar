@@ -2,14 +2,14 @@
 
 The index: where we are, what comes next, and the two phases being built now. Every other phase's decisions live at the
 top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase comes up. Decision numbers are global
-(the next one is **330**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
+(the next one is **331**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
 ## Resume here (13 Oct 2026, morning)
 - **Phase 23 is done** (#352–#378), archived in [docs/roadmap-archive.md](docs/roadmap-archive.md): library 1,060
   programs in 73 subjects.
-- **Now: the build cache** ([plan](docs/plans/build-cache.md)), grilled 13 Oct (324–329): program days and the recipe
-  book come from `.build-cache/` when their key (code, config, catalogue slice) is unchanged; CI saves the cache and
-  proves it with a cold diff on `main`. Three tickets, then wait for Noam's go. **Then Phase 37**
+- **Now: the build cache** ([plan](docs/plans/build-cache.md), 324–330): tickets 1–3 merged 13 Oct (#382–#384); main's
+  cold diff passed. Next, after Noam's go: 3b (330), the cache on an orphan git branch so cloud sessions can pull it
+  (artifact downloads are blocked here), then close it. **Then Phase 37**
   ([#356](https://github.com/noamros9/kettle-bar/issues/356)); re-read its Challenge round first (136).
 - **Opus builds alone** (295): Grok is away, so no Grok tickets; Phase 20 and 35 wait for it.
 - **Working rules** are in [CLAUDE.md](CLAUDE.md): three tickets then wait, at most 2 building, no local coverage run
