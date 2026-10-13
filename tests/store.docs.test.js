@@ -234,8 +234,8 @@ test('progress: device strings and the cloud document are exactly what they were
   });
   assert.equal(JSON.stringify(remote.docs.p), '{"done":{"1":"2026-09-29T10:00:00.000Z","2":"2026-09-29T10:00:00.000Z"},"swaps":[{"day":3,"ex":"pushup","to":"pike_pushup","onward":true}],"past":[],"updatedAt":"2026-09-29T10:00:00.000Z"}');
   assert.deepEqual(Object.keys(remote.docs), ['p']);
-  assert.deepEqual(calls[0], ['subscribe', 'progress', 'p']);
-  assert.ok(calls.slice(1).every((c) => c[0] === 'write' && c[1] === 'progress' && c[2] === 'p'));
+  // progress is listened to as one collection (Phase 24 ticket 5, decision 332): no per-program listener here
+  assert.ok(calls.length > 0 && calls.every((c) => c[0] === 'write' && c[1] === 'progress' && c[2] === 'p'));
   assert.equal(Object.keys(storage.m).length, 3, 'no account-data keys appear');
 });
 

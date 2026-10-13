@@ -4,6 +4,8 @@
      remote = { kind, account?,
                 subscribe(collection, id, onData(doc | null), onErr) -> unsubscribe,
                 subscribeAll?(collection, onDocs({ id: doc }), onErr) -> unsubscribe,
+                (progress is listened to as one collection when subscribeAll is there, Phase 24 ticket 5, decision 332;
+                 a remote without it is followed program by program)
                 write(collection, id, doc) -> Promise, remove?(collection, id) -> Promise }
    Progress: collection 'progress', one cloud document per program (users/{uid}/progress/{pid}); its shape belongs to
    Program Progress (app/progress.js), and every write sends the whole value, so a tick never wipes a swap.
@@ -31,6 +33,9 @@
     const listeners = { change: [], status: [], docs: [], outbox: [] };
     const emit = (ev, x) => listeners[ev].forEach((f) => f(x));
     const progress = {};
+    // progressAll: the one progress listener (Phase 24 ticket 5, decision 332) when the remote can list a collection;
+    // lastCloud: each program's last delivered document as JSON, so a collection snapshot hands on only what changed
+    let progressAll = null, lastCloud = null;
     let remote = null, unsubs = [], progressUnsubs = {}, seen = {}, docSeen = {}, queue = Promise.resolve(), docQueue = Promise.resolve(), readonly = false, auth = null, status = 'local';
     const keys = (pid) => ({ done: 'kb-progress-' + pid, swaps: 'kb-swaps-' + pid, past: 'kb-past-' + pid, short: 'kb-short-' + pid, again: 'kb-again-' + pid });
     const fromDevice = (pid) => { const k = keys(pid); return P.fromDevice({ done: read(k.done), swaps: read(k.swaps), past: read(k.past), short: read(k.short), again: read(k.again) }); };
@@ -94,7 +99,10 @@
       detach(true);
       remote = r; seen = {}; readonly = false; setStatus('ok');
       docSeen = {};
-      programIds.forEach(follow);
+      // progress: one listener on the collection when the remote can list it (was one per program: 1,060 at sign-in);
+      // a remote that can't (older adapters, some tests) is followed program by program as before
+      if (r.subscribeAll) { lastCloud = null; progressAll = r.subscribeAll('progress', onProgressDocs, (e) => { if (typeof console !== 'undefined') console.warn('sync error', e); setStatus('err'); }); }
+      else programIds.forEach(follow);
       // account data: an error here (e.g. the rules for the new collections are not published) is not a sync problem for progress
       if (r.subscribeAll) D.COLLECTIONS.forEach((c) => unsubs.push(r.subscribeAll(c, (docs) => onDocs(c, docs), (e) => console.warn('sync error (' + c + ')', e))));
       // waiting deletes of programs no longer here (their progress isn't followed)
@@ -113,9 +121,19 @@
       const r = remote;
       progressUnsubs[pid] = r.subscribe('progress', pid, (doc) => onRemote(pid, P.fromDoc(doc)), (e) => { if (typeof console !== 'undefined') console.warn('sync error', e); setStatus('err'); });
     }
+    // a snapshot of the whole progress collection: the first one is every program's first sync (a program with no
+    // document gets null, as its own listener used to); later ones pass on only the programs whose document changed
+    function onProgressDocs(docs) {
+      const first = lastCloud === null, before = lastCloud || {};
+      lastCloud = {};
+      Object.entries(docs).forEach(([pid, d]) => { lastCloud[pid] = JSON.stringify(d); });
+      programIds.slice().forEach((pid) => {
+        if (first || before[pid] !== lastCloud[pid]) onRemote(pid, P.fromDoc(docs[pid] || null));
+      });
+    }
     function detach(silent) {
-      [...unsubs, ...Object.values(progressUnsubs)].forEach((u) => { try { u(); } catch (e) { /* already gone */ } });
-      unsubs = []; progressUnsubs = {}; remote = null;
+      [...unsubs, ...Object.values(progressUnsubs), ...(progressAll ? [progressAll] : [])].forEach((u) => { try { u(); } catch (e) { /* already gone */ } });
+      unsubs = []; progressUnsubs = {}; progressAll = null; lastCloud = null; remote = null;
       if (!silent) setStatus(auth ? 'signin' : 'local');
     }
     function onRemote(pid, cloud) {
@@ -187,7 +205,9 @@
       if (programIds.includes(pid)) return;
       programIds.push(pid);
       progress[pid] = fromDevice(pid);
-      if (remote) follow(pid);
+      // with the one listener: its first sync now, from the last snapshot (or with the first one, still to come)
+      if (remote && progressAll) { if (lastCloud) onRemote(pid, P.fromDoc(lastCloud[pid] ? JSON.parse(lastCloud[pid]) : null)); }
+      else if (remote) follow(pid);
       emit('change', pid);
     }
     function dropProgram(pid) {
