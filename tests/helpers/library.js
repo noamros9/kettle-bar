@@ -33,10 +33,13 @@ function cached(name, make, dir = CACHE) {
   return JSON.parse(JSON.stringify(value));
 }
 
-const library = () => cached('library', () => require('../../program-builder.js').buildAll());
+// the library through the build cache (Phase 24 ticket 10): CI restores .build-cache before the unit tests, so a run
+// reads the programs main already built instead of building all 1,060 again
+const fromBuildCache = (opts) => require('../../build-cache.js').cachedBuild(opts);
+const library = () => cached('library', () => fromBuildCache().programs);
 const rendered = () => cached('rendered', () => require('../../build.js').render(library())); // the shared build, not a second one (Phase 31 ticket 5)
 // the library's programs with these ids, in the library's order (Phase 31 ticket 5: test files read the one shared
 // build instead of building their sets again under coverage); parsed once per test file
 let shared = null;
 const built = (ids) => (shared || (shared = library())).filter((p) => ids.includes(p.id));
-module.exports = { library, rendered, built, hash, sources, cached };
+module.exports = { library, rendered, built, hash, sources, cached, fromBuildCache };

@@ -39,3 +39,12 @@ test('storing a new cache drops the copies (and crashed writes) left by older so
     assert.deepEqual(fs.readdirSync(dir).sort(), [`library-${hash()}.json`, 'rendered-old.json']);
   } finally { fs.rmSync(dir, { recursive: true, force: true }); }
 });
+// Phase 24 ticket 10: the helper builds through the build cache, so a restored cache spares the run a whole-library build
+test('the shared library comes through the build cache: a second build of the same programs reads them all', () => {
+  const { fromBuildCache } = require('./helpers/library.js');
+  const configs = require('../program-builder.js').CONFIGS.slice(0, 3);
+  const dir = path.join(__dirname, '..', 'test-results', 'build-cache', 'helper');
+  fs.rmSync(dir, { recursive: true, force: true });
+  assert.deepEqual(fromBuildCache({ configs, dir }).stats, { hits: 0, misses: 3 });
+  assert.deepEqual(fromBuildCache({ configs, dir }).stats, { hits: 3, misses: 0 });
+});
