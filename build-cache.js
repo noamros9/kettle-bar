@@ -9,13 +9,18 @@
        program also its saved days file).
      cached(configs, build, { dir, key, cold }) -> { programs, stats: { hits, misses } }: reads <dir>/days/<id>.json
        ({ key, program }) on a matching key, else builds and writes it. `cold` reads nothing but still writes.
-     cachedBuild({ configs, build, dir, cold }) -> the same with the library's configs, builder and key. */
+     cachedBuild({ configs, build, dir, cold }) -> the same with the library's configs, builder and key.
+     recipeMemo({ dir, code, EX }) -> memo(inputs, make): the recipe book's trials (recipe-book.js generate). `inputs` is
+       [kind, ..., catalogue], everything the trial reads; a value is kept in <dir>/recipes/<key>.json under the recipe
+       code hash (RECIPE_CODE), the inputs and that catalogue's slice. memo.stats { hits, misses }; memo.missed lists
+       the inputs it made. */
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 
 const ROOT = __dirname;
 const CODE = ['program-builder.js', 'formats.js', 'app/length.js', 'build-cache.js'];
+const RECIPE_CODE = [...CODE, 'recipes.js', 'recipe-book.js', 'app/library.js'];
 
 const sha = (...parts) => {
   const h = crypto.createHash('sha256');
@@ -33,19 +38,23 @@ const codeHash = (files = CODE) => sha(...files.map((f) => `${f}\n${read(f)}`), 
 
 const sliceOf = (EX, catalogue) => Object.values(EX).filter((e) => (e.added || 0) <= (catalogue || 0));
 
-function makeKey({ code, EX, root = ROOT }) {
+const slicer = (EX) => {
   const slices = new Map();
-  const slice = (cat) => {
+  return (cat) => {
     if (!slices.has(cat)) slices.set(cat, sha(JSON.stringify(sliceOf(EX, cat))));
     return slices.get(cat);
   };
+};
+
+function makeKey({ code, EX, root = ROOT }) {
+  const slice = slicer(EX);
   return (cfg) => sha(code, JSON.stringify(cfg), slice(cfg.catalogue || 0), cfg.frozen ? fs.readFileSync(path.join(root, cfg.frozen), 'utf8') : '');
 }
 
-function readHit(file, key) {
+function readHit(file, key, field = 'program') {
   try {
     const saved = JSON.parse(fs.readFileSync(file, 'utf8'));
-    return saved.key === key ? saved.program : null;
+    return saved.key === key ? saved[field] : null;
   } catch {
     return null; // missing or corrupt: build it again
   }
@@ -73,4 +82,23 @@ function cachedBuild({ configs, build, dir = path.join(ROOT, '.build-cache'), co
   return cached(configs || B.CONFIGS, build || B.buildConfig, { dir, key, cold });
 }
 
-module.exports = { codeHash, exercisesCode, sliceOf, makeKey, cached, cachedBuild };
+function recipeMemo({ dir = path.join(ROOT, '.build-cache'), code = codeHash(RECIPE_CODE), EX = require('./exercises.js').EX } = {}) {
+  const slice = slicer(EX), folder = path.join(dir, 'recipes');
+  fs.mkdirSync(folder, { recursive: true });
+  const memo = (inputs, make) => {
+    const key = sha(code, slice(inputs[inputs.length - 1]), JSON.stringify(inputs));
+    const file = path.join(folder, `${key}.json`);
+    const hit = readHit(file, key, 'value');
+    if (hit !== null) { memo.stats.hits++; return hit; }
+    const value = make();
+    memo.stats.misses++;
+    memo.missed.push(inputs);
+    fs.writeFileSync(file, JSON.stringify({ key, value }));
+    return value;
+  };
+  memo.stats = { hits: 0, misses: 0 };
+  memo.missed = [];
+  return memo;
+}
+
+module.exports = { RECIPE_CODE, recipeMemo, codeHash, exercisesCode, sliceOf, makeKey, cached, cachedBuild };
