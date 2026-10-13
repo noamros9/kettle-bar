@@ -47,6 +47,19 @@
           "type": "image/png"
         }
       ]
+    },
+    {
+      "name": "Do now",
+      "short_name": "Do now",
+      "description": "One quiet exercise for a spare minute",
+      "url": "./#now",
+      "icons": [
+        {
+          "src": "icons/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
     }
   ]
 }

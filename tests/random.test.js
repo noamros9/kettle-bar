@@ -265,3 +265,49 @@ test('a workout whose warm-up has no format of its own (plain strength) keeps th
   random.start(made, { id: 'r1' });
   assert.deepEqual(random.open().day.warmup, made.day.warmup);
 });
+
+// ---- Phase 25 ticket 2: Do now is kept as a random-workout record, choices { now } (145) ----
+const Backup = require('../app/backup.js');
+const doNowOf = (ex = 'wall_sit', mode = 'random', seconds = 25, level = 2) => ({ ex, seconds, level, mode, seed: 's' });
+
+test('a Do now is written as a random record: its name, choices { now }, a one-exercise day of its seconds', () => {
+  const { store, random, clock } = setup();
+  const id = random.doNow(doNowOf('wall_sit', 'missed', 25, 2));
+  const rec = store.doc('random', id);
+  assert.equal(rec.name, 'Do now: Wall sit');
+  assert.deepEqual(rec.choices, { now: 'missed' });
+  assert.equal(rec.level, 2);
+  assert.equal(rec.time, new Date(clock.t).toISOString());
+  assert.deepEqual(rec.day.blocks.map((b) => b.items.map((it) => [it.ex, it.n])), [[['wall_sit', 25]]]);
+  assert.equal(rec.day.est, 25 / 60);
+  // a reps exercise: its level's reps, timed by the seconds
+  const id2 = random.doNow(doNowOf('calf_raise', 'random', 30, 1));
+  assert.deepEqual(store.doc('random', id2).day.blocks[0].items.map((it) => [it.ex, it.n]), [['calf_raise', cat.EX.calf_raise.r[0]]]);
+});
+
+test('a Do now counts in stats (marked now) but never sets the next random workout\'s level', () => {
+  const { random, clock } = setup();
+  started(random, strengthKb, 's1', 3); random.done();
+  clock.t += 3600e3;
+  const id = random.doNow(doNowOf('neck_circles', 'random', 20, 1));
+  const now = random.entries().find((e) => e.day === id);
+  assert.equal(now.now, true);
+  assert.equal(random.entries().filter((e) => !e.now).length, 1);
+  assert.deepEqual(random.levels().map((l) => l.level), [3], 'only the workout');
+  const v = Stats.dayVolume(random.dayOf(id), cat.EX);
+  assert.ok(v.workoutMin > 0 && Object.keys(v.muscles).length > 0);
+});
+
+test('recentNow names the last three Do nows, newest first', () => {
+  const { random, clock } = setup();
+  ['wall_sit', 'calf_raise', 'neck_circles', 'arm_circles'].forEach((ex) => { clock.t += 60e3; random.doNow(doNowOf(ex)); });
+  assert.deepEqual(random.recentNow(), ['arm_circles', 'neck_circles', 'calf_raise']);
+});
+
+test('a Do now record round-trips through a backup export and import', () => {
+  const { store, random } = setup();
+  const id = random.doNow(doNowOf('wall_sit'));
+  const file = JSON.stringify(Backup.exportProgress({}, { now: () => 'n', random: store.docs('random') }));
+  const back = Backup.parseBackup(file, { known: [] });
+  assert.deepEqual(back.random[id], store.doc('random', id));
+});

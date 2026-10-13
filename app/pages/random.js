@@ -20,7 +20,7 @@ const familyOfChoice = (c) => c.family || familyOfSubject(c.subject || c.subject
 // Rest-day flow (Phase 7 ticket 3): on a day with nothing marked done, a card offers a short mobility or flexibility
 // flow; it opens the random workout's sheet with that choice. "Not today" hides it until tomorrow (on this device).
 const REST_KEY = 'kb-rest-dismissed';
-const doneTimes = () => doneEntries().map((e) => e.time);
+const doneTimes = () => doneEntries().filter((e) => !e.now).map((e) => e.time); // a Do now is not a trained day (181)
 function restCard() {
   let dismissed = null; try { dismissed = localStorage.getItem(REST_KEY); } catch (e) { /* blocked: shown */ }
   if (random.current() || !KBRandom.restDay(doneTimes(), new Date(), dismissed)) return '';

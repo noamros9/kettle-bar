@@ -80,10 +80,10 @@ test('the page is a whole document with the manifest, Firebase sync and service 
   assert.match(html, /serviceWorker.register\("sw.js"\)/);
 });
 
-test('the installed app has a "Today\'s workout" shortcut to #today', () => {
+test('the installed app has a "Today\'s workout" shortcut to #today and a "Do now" one to #now (Phase 25)', () => {
   const manifest = JSON.parse(require('fs').readFileSync(require('path').join(__dirname, '../manifest.webmanifest'), 'utf8'));
-  assert.deepEqual(manifest.shortcuts.map((s) => [s.name, s.url]), [["Today's workout", './#today']]);
-  assert.ok(manifest.shortcuts[0].icons.length > 0);
+  assert.deepEqual(manifest.shortcuts.map((s) => [s.name, s.url]), [["Today's workout", './#today'], ['Do now', './#now']]);
+  manifest.shortcuts.forEach((s) => assert.ok(s.icons.length > 0, s.name));
 });
 
 test('the page carries each module without its documentation: no file-top comment, no whole-line // comments', () => {

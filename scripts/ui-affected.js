@@ -36,8 +36,9 @@ const MAP = [
   [/^app\/day\.js$/, ['swap', 'travel', 'warmup', 'short', 'resume', 'skip']],
   [/^(firebase-sync\.js|firebase-config\.js)$/, ['sync']],
   // the pages (architecture review IV); ui.js and pages/core.js are under every page: the smoke check covers them
-  [/^app\/pages\/programs\.js$/, ['library', 'favourites', 'finder']],
+  [/^app\/pages\/programs\.js$/, ['library', 'favourites', 'finder', 'now']],
   [/^app\/pages\/random\.js$/, ['random', 'skip']],
+  [/^(app\/now\.js|app\/pages\/now\.js)$/, ['now']], // Do now (Phase 25)
   [/^app\/pages\/build\.js$/, ['build', 'share']],
   [/^app\/pages\/program\.js$/, ['rounds', 'shortcut', 'variety']],
   [/^app\/pages\/day\.js$/, ['workout', 'flow', 'bouts', 'bigtimer', 'swap', 'travel', 'short', 'warmup', 'finish', 'resume', 'skip']],

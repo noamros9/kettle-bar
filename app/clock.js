@@ -54,7 +54,7 @@ const T = {
     if (this.left <= 0) {
       this.left = 0; this.running = false; clearInterval(this.iv);
       const ph = this.phase || { end: 'long' };
-      this.beep(ph.end);
+      if (ph.end !== 'none') this.beep(ph.end); // 'none': a silent end (Do now's get-ready, decision 180)
       if (ph.sayEnd) this.speak(ph.sayEnd);
       const next = this.queue.shift();
       if (next) { this.begin(next); return; }
