@@ -13,7 +13,7 @@ Grilled 7 Oct 2026 with Noam (global decision numbers).
 - **180 · A beep at the end, no voice.**
 - **181 · Not a trained day**: the rest-day card, Today's workout and the next random workout's level stay as they
   were; History gives it its own small mark.
-- **145 · Stored as a random workout** (`choice: { now }`): no new collection, no rules change, backups already carry
+- **145 · Stored as a random workout** (`choices: { now }`): no new collection, no rules change, backups already carry
   it. *(technical)*
 
 ## What lands
@@ -24,7 +24,7 @@ Grilled 7 Oct 2026 with Noam (global decision numbers).
 - **The pool** (143): no equipment, quiet (no jumping, nothing on the floor), doable in work clothes: a hand-picked
   list in `app/now.js`, checked by a test. **What I missed** picks from the exercises whose first main muscle had the
   least load in the last 7 days (Stats' muscle load over done days, random workouts and Do nows).
-- **Counted** (144, 145): **Done** writes a record in `users/{uid}/random/{id}`: `{ name, choice: { now: mode }, seed,
+- **Counted** (144, 145): **Done** writes a record in `users/{uid}/random/{id}`: `{ name, choices: { now: mode }, seed,
   level, day, time }`, a one-block day of one exercise. Stats and History count it under Random workouts, named "Do
   now". No rules change, and backups already carry the `random` collection.
 
@@ -39,7 +39,7 @@ Grilled 7 Oct 2026 with Noam (global decision numbers).
 | # | Ticket | Tier | Blocked by | Branch | Status |
 |---|---|---|---|---|---|
 | 0 | This plan | plan | – | `plan/unplanned-phases` | done (PR #281) |
-| 1 | The pool and the pick (`app/now.js`) | feature | – | `feature/do-now-pick` | todo |
+| 1 | The pool and the pick (`app/now.js`) | feature | – | `feature/do-now-pick` | done (PR #407) |
 | 2 | The page, the card, the shortcut, Done | feature | 1 | `feature/do-now-page` | todo |
 | 3 | Close the phase: CONTEXT.md, archive | plan | 2 | `plan/p25-close` | todo |
 
@@ -61,9 +61,9 @@ Grilled 7 Oct 2026 with Noam (global decision numbers).
 ### 2. The page, the card, the shortcut, Done
 - **Build:** `app/pages/now.js` renders `#now` (`#now/missed` for the other mode): the exercise card as the exercise
   page draws it, a big Start that runs one hold through the Clock (3 s get-ready, the timer, one beep), **Another**
-  (a new seed), **Done** (writes the record through `app/random.js`'s record path with `choice.now`, then back to
+  (a new seed), **Done** (writes the record through `app/random.js`'s record path with `choices.now`, then back to
   Programs). The Programs page gets the card with the two buttons. `manifest.webmanifest` gets the shortcut
-  (`./#now`). Stats name a record with `choice.now` "Do now" and give it no program day.
+  (`./#now`). Stats name a record with `choices.now` "Do now" and give it no program day.
 - **Files:** `app/pages/now.js`, `app/pages/programs.js`, `app/main.js` (route), `app/random.js` (record a Do now),
   `app/stats.js` (name), `manifest.webmanifest`, `app/styles.css`, `sw.js` (the new script in the cache list),
   `tests-ui/now.spec.js`, `tests/random.test.js`, `tests/stats.test.js`, `scripts/ui-affected.js`.
@@ -74,10 +74,14 @@ Grilled 7 Oct 2026 with Noam (global decision numbers).
   green.
 
 ## Challenge round
+Re-read 13 Oct before ticket 1 (136): a random-workout record keeps its choice as `choices` (not `choice`), fixed above;
+the 7-day load is `KBStats.dayVolume` summed, so no export was needed; the pool is 43 exercises picked from the
+catalogue by its own fields (no `mat` pose, no gear, not cardio or couple) and a word check for jumps.
+
 - **Weakest assumption: that a random-workout record can hold a Do now without breaking old readers.** Stats, the
   History calendar, backup diff and the level of the last done day (`random.levelOf`) all read `random` records.
   A Do now must not set the level of the next random workout (it isn't a workout). **Plan edit:** ticket 2's test
-  checks `levelOf` skips `choice.now` records, and History shows them with their own small mark, not as a workout.
+  checks `levelOf` skips `choices.now` records, and History shows them with their own small mark, not as a workout.
 - **What I hadn't read:** whether the exercise catalogue marks standing vs floor beyond `mat` on poses, and how the
   Clock runs a lone hold outside a Workout Session. Ticket 1 reads `exercises.js`'s pose fields first; ticket 2 reads
   `app/clock.js` and may need a one-phase plan helper from `app/session.js`.
