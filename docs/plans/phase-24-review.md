@@ -45,7 +45,7 @@ Grilled 7 Oct 2026 with Noam (global decision numbers).
 | 6 | Own-program pins (C1) | test | 3 | `test/own-pins` | done (PR #397) |
 | 7 | Programs search refreshes only its results (A3) | feature | 3 | `fix/program-search` | done (PR #398) |
 | 8 | The offline cache drops old program lists (A5) | feature | 3 | `fix/offline-prune` | done (PR #399) |
-| 9 | Slow tests: delete or cheapen (186) | test | 3 | `test/slow-tests` | todo |
+| 9 | Slow tests: delete or cheapen (186) | test | 3 | `test/slow-tests` | done (PR #400) |
 | 10 | CI: the build cache before the unit tests; finder smoke when it matters (A6) | ci | 9 | `ci/unit-cache` | todo |
 | 11 | The recipe cache in its own workflow (A7) | ci | 10 | `ci/recipe-workflow` | todo |
 | 12 | One "needs gear" rule, and the dead code (C3, C2) | refactor | 3 | `refactor/gear-rule` | todo |
@@ -139,9 +139,10 @@ Tickets 1 and 2 only write their own findings file, so they can run at once (the
 ### 9. Slow tests: delete or cheapen (186)
 - **Build:** per [the code review's table](../reviews/code-review.md#tests-that-dont-earn-their-keep-186): drop
   `library-cache`'s `buildAll()` comparison; `recipes`' every-subject test with one seed; `programs`' Phase 23 count
-  test reads `built(ids)`; `build`'s +100 programs test renders 50 and 150; delete `catalogue8`'s and `catalogue9`'s
-  "never draw" tests (pins cover them); `skip.spec.js:95` finds its day through `data/index.json` instead of
-  building the library.
+  test reads the shared build; `build`'s +100 programs test renders 50 and 150; `skip.spec.js:95` finds its day through
+  `data/index.json` instead of building the library. `catalogue8`'s and `catalogue9`'s "never draw" tests stay (a
+  closer read: they rebuild every older config at catalogue 7 and 8, so they catch a leak into a pool no pinned program
+  draws from, and no library program is at catalogue 7).
 - **Files:** those test files only.
 - **Test first:** nothing new: each change keeps or removes a check; the PR lists what still covers each removed one.
 - **Done when:** CI green; the unit step and the phone jobs measured faster than run 38359068531 (402 s; 338 / 200 s).

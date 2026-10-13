@@ -152,13 +152,17 @@ test('options(subject): the equipment and minutes it allows, its formats and lev
   })));
 });
 
-test('make: for every subject, every equipment it allows, and 20 / 30 / 40 minutes: 60 days inside the range', () => {
+test('make: for every subject, every equipment it allows, and 20 / 30 / 40 minutes (a seed each, the lever sets in turn): 60 days inside the range', () => {
   const t0 = Date.now();
   let combos = 0;
+  // one seed per combination (Phase 24 ticket 9, 186: was three); the lever sets still take turns over a subject's
+  // combinations, so each subject is built with all three
   SUBJECTS.forEach((subject) => {
     const allowed = R.options(subject).equipment;
+    let turn = 0;
     EQUIPS.forEach((eq) => [20, 30, 40].filter((m) => allowed[eq].includes(m)).forEach((m) => {
-      ['a', 'b', 'c'].forEach((seed, k) => {
+      [['a', 'b', 'c'][turn % 3]].forEach((seed) => {
+        const k = turn++ % 3;
         const cfg = R.make(choice(subject, eq, m, { levers: leversFor(subject, k) }), seed);
         const p = built(cfg);
         assert.equal(p.subject, subject);

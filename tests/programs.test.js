@@ -275,7 +275,10 @@ const P23 = { Strength: 10, 'Busy week': 9, Bodyweight: 10, 'Kettlebell only': 9
 const NEW23 = ['Power yoga', 'Yin yoga', 'Yoga flow', 'Mat core', 'Kettlebell Pilates']; // ticket 9b (232): new subjects, so no older programs to share gear with
 const NEW23B = ['Weekly mix', 'Surprise']; // ticket 12b (232): new subjects on the Variety shelf
 const CAT14 = new Set(['Yoga', 'Pilates', ...NEW23, ...NEW23B]); // decision 237: yoga and Pilates programs build at catalogue 14, on its doubled exercises, and so do Weekly mix and Surprise, whose days draw from them
-const { CONFIGS: ALL_CONFIGS, buildConfig } = require('../program-builder.js');
+const { CONFIGS: ALL_CONFIGS } = require('../program-builder.js');
+// the shared build of the library (Phase 24 ticket 9, 186: these tests built 309 programs again under coverage)
+let libMap = null;
+const buildConfig = (c) => (libMap || (libMap = new Map(require('./helpers/library.js').library().map((p) => [p.id, p])))).get(c.id);
 const { EX: EX23 } = require('../exercises.js');
 const new23 = (s) => ALL_CONFIGS.filter((c) => c.subject === s && c.added === 23 && !c.step);
 const mid = (c) => (c.minutes[0] + c.minutes[1]) / 2;

@@ -25,8 +25,9 @@ test('the page carries no programs (Phase 16 ticket 1): no days, no program list
 });
 
 test('a program adds only its id to the first download (Phase 16): 100 more programs cost under 1 KB gzipped', () => {
-  const real = require('./helpers/library.js').library();
-  const more = real.slice(0, 100).map((p) => ({ ...p, id: p.id + '-copy' }));
+  // 50 programs against 150 (Phase 24 ticket 9, 186: was the whole library rendered twice); the difference is the point
+  const real = require('./helpers/library.js').library().slice(0, 50);
+  const more = Array.from({ length: 100 }, (_, i) => ({ ...real[i % 50], id: `${real[i % 50].id}-copy${i}` }));
   const gz = (ps) => require('zlib').gzipSync(render(ps)['index.html']).length;
   assert.ok(gz([...real, ...more]) - gz(real) < 1024, `${gz([...real, ...more]) - gz(real)} bytes for 100 programs`);
 });

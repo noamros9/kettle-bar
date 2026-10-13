@@ -6,11 +6,12 @@ const fs = require('fs');
 const path = require('path');
 const { library, hash, sources, cached } = require('./helpers/library.js');
 
-test('the cached library is what buildAll() makes, and each call is a fresh copy', () => {
+test('the cached library has every program in order, and each call is a fresh copy', () => {
   const a = library(), b = library();
   assert.notEqual(a, b);
   assert.deepEqual(a.map((p) => p.id), require('../program-builder.js').CONFIGS.map((c) => c.id));
-  assert.equal(JSON.stringify(a), JSON.stringify(require('../program-builder.js').buildAll()));
+  // (Phase 24 ticket 9, 186: it no longer builds the library again to compare: the cache holds buildAll()'s own output,
+  // and the next test proves a stale copy is never read)
 });
 
 test('the cache is named by a hash of every source, so a changed source is never read from a stale copy', () => {
