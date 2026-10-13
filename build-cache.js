@@ -54,7 +54,10 @@ function makeKey({ code, EX, root = ROOT }) {
 function readHit(file, key, field = 'program') {
   try {
     const saved = JSON.parse(fs.readFileSync(file, 'utf8'));
-    return saved.key === key ? saved[field] : null;
+    if (saved.key !== key) return null;
+    const now = new Date();
+    fs.utimesSync(file, now, now); // read: kept when CI prunes what no build touched for 14 days
+    return saved[field];
   } catch {
     return null; // missing or corrupt: build it again
   }

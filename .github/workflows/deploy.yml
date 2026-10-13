@@ -63,9 +63,48 @@ jobs:
       - name: Name the failures
         if: failure()
         run: node scripts/unit-failures.js unit.log
+      # the build cache (decision 326): programs and recipe trials whose keys are unchanged are read, not made
+      - name: Restore the build cache
+        if: steps.passed.outputs.cache-hit != 'true'
+        uses: actions/cache/restore@v4
+        with:
+          path: .build-cache
+          key: build-cache-${{ github.run_id }}
+          restore-keys: build-cache-
       - name: Build
         if: steps.passed.outputs.cache-hit != 'true'
-        run: npm run build
+        run: npm run build | tee build.log && grep '^build cache' build.log | sed 's/^/::notice title=Build cache::/'
+        shell: bash
+      # decision 327: main's run also builds cold, from no cache, and the two builds must match byte for byte
+      - name: A cold build matches the cached one
+        if: github.event_name == 'push' && steps.passed.outputs.cache-hit != 'true'
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/warm" && cp -r index.html version.json data "$RUNNER_TEMP/warm/"
+          KB_BUILD_CACHE="$RUNNER_TEMP/cold-cache" node build.js --cold
+          if ! diff -rq "$RUNNER_TEMP/warm/data" data > diff.txt || ! cmp -s "$RUNNER_TEMP/warm/index.html" index.html || ! cmp -s "$RUNNER_TEMP/warm/version.json" version.json; then
+            echo "::error title=Build cache::the cached build differs from a cold one"; head -20 diff.txt; exit 1
+          fi
+          echo "::notice title=Build cache::the cold build matches the cached one"
+      # files no build has read or written for 14 days go before the cache is saved (a hit refreshes a file's time)
+      - name: Save the build cache
+        if: success() && steps.passed.outputs.cache-hit != 'true'
+        shell: bash
+        run: find .build-cache -type f -mtime +14 -delete
+      - uses: actions/cache/save@v4
+        if: success() && steps.passed.outputs.cache-hit != 'true'
+        continue-on-error: true
+        with:
+          path: .build-cache
+          key: build-cache-${{ github.run_id }}
+      # a fresh session pulls this with `npm run cache:pull`
+      - uses: actions/upload-artifact@v7
+        if: success() && github.event_name == 'push' && steps.passed.outputs.cache-hit != 'true'
+        with:
+          name: build-cache
+          path: .build-cache/
+          retention-days: 7
+          include-hidden-files: true
       - name: Library size (decision 317; the cloud machine builds no whole library, so CI measures it)
         if: steps.passed.outputs.cache-hit != 'true'
         run: npm run size | tee size.txt && sed 's/^/::notice title=Library size::/' size.txt
@@ -123,6 +162,14 @@ jobs:
         run: node scripts/tested-tree.js
         env:
           GH_TOKEN: ${{ github.token }}
+      # the build cache (decision 326): programs and recipe trials whose keys are unchanged are read, not made
+      - name: Restore the build cache
+        if: steps.tested.outputs.tested != 'true' && steps.passed.outputs.cache-hit != 'true'
+        uses: actions/cache/restore@v4
+        with:
+          path: .build-cache
+          key: build-cache-${{ github.run_id }}
+          restore-keys: build-cache-
       # Decision 307: build in its own step; the test server then only serves (the build inside its start timed out)
       - name: Build
         if: steps.tested.outputs.tested != 'true' && steps.passed.outputs.cache-hit != 'true'
