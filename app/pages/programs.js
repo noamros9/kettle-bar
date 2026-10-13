@@ -25,7 +25,9 @@ const skipList = () => KBLibrary.skipped(store.doc('prefs', 'main'), EX);
 const toggleSkip = (id) => setPref('skip', KBLibrary.toggleIn(skipList(), id));
 const STAR = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2l2.7 5.6 6.1.8-4.5 4.2 1.1 6.1L12 17l-5.4 2.9 1.1-6.1-4.5-4.2 6.1-.8z"/></svg>';
 const starButton = (p) => { const on = isFavourite(p.id); return `<button class="star" data-star="${esc(p.id)}" aria-pressed="${on}" aria-label="${on ? 'Remove' : 'Add'} ${esc(p.name)} ${on ? 'from' : 'to'} favourites">${STAR}</button>`; };
-function viewPrograms() {
+// The page in parts (Phase 24 ticket 7, review V A3): typing in the search redraws the counter, your programs and
+// favourites, and the results (programsParts), never the field itself
+function programsParts() {
   const last = lastPid();
   const found = KBLibrary.searchPrograms(programs.list(), progQuery), searching = !!progQuery.trim();
   const all = found.filter((p) => p.source !== 'own'); // your own programs have their own shelf
@@ -49,18 +51,39 @@ function viewPrograms() {
   const menuLine = (k, name, label) => `<button class="lenline" data-filter-menu="${k}" aria-expanded="${filterMenu === k}">${name}: <b>${esc(label)}</b> <span aria-hidden="true">${filterMenu === k ? '▴' : '▾'}</span></button>`;
   const menuChips = (k, what, list) => `<div class="filters" role="group" aria-label="Filter by ${what}">${list.map((l) => `<button class="fchip acc" data-filter="${k}:${l.key}" aria-pressed="${l.pressed}">${esc(l.label)}</button>`).join('')}</div>`;
   const chip = (x) => `<button class="fchip acc" data-filter="subject:${esc(x.key)}" aria-pressed="${x.pressed}">${esc(x.name)} <span class="fcount">${x.count}</span></button>`;
-  return `<div class="eyebrow">${esc(lib.counter)}</div><h1>Programs</h1>
+  return {
+    counter: lib.counter,
+    mine: `${yours}${favs}`,
+    results: `<div class="ftabs" role="group" aria-label="Filter by family">${lib.families.map((f) => tab('family', f)).join('')}</div>
+    <div class="filters" role="group" aria-label="Filter by subject">${lib.subjects.map(chip).join('')}</div>
+    <div class="lenlines">${menuLine('len', 'Length', lib.lengthLabel)}${menuLine('equip', 'Equipment', lib.equipLabel)}</div>
+    ${filterMenu === 'len' ? menuChips('len', 'length', lib.lengths) : filterMenu === 'equip' ? menuChips('equip', 'equipment', lib.equips) : ''}
+    ${pickSheet()}${groups || `<p class="lede" style="margin-top:24px">${progQuery.trim() ? `No programs match “${esc(progQuery.trim())}” with these filters.` : 'No programs match these filters.'}</p>`}${randomSheet()}`,
+  };
+}
+function viewPrograms() {
+  const p = programsParts();
+  return `<div class="eyebrow" id="prog-count">${esc(p.counter)}</div><h1>Programs</h1>
     <p class="lede">Every program starts at intermediate, with a matched warm-up and cool-down, and most end each workout with abs. Progress is kept per program.</p>
     <div class="pbtns"><button class="btn buildbtn" data-go="build">Build your own</button><button class="btn ghost buildbtn" data-random-open="1">${random.current() ? 'Random workout · continue' : 'Random workout'}</button><button class="btn ghost buildbtn" data-pick-open="1">Help me pick</button></div>
     ${askBlock()}
     ${randomNotice ? `<p class="hint rnotice" role="status">${esc(randomNotice)}</p>` : ''}${restCard()}
-    ${yours}${favs}
+    <div id="prog-mine">${p.mine}</div>
     <label class="exsearch progsearch"><span class="sr">Search programs</span><input id="prog-search" type="search" placeholder="Search programs by name or subject" value="${esc(progQuery)}" autocomplete="off" enterkeyhint="search"></label>
-    <div class="ftabs" role="group" aria-label="Filter by family">${lib.families.map((f) => tab('family', f)).join('')}</div>
-    <div class="filters" role="group" aria-label="Filter by subject">${lib.subjects.map(chip).join('')}</div>
-    <div class="lenlines">${menuLine('len', 'Length', lib.lengthLabel)}${menuLine('equip', 'Equipment', lib.equipLabel)}</div>
-    ${filterMenu === 'len' ? menuChips('len', 'length', lib.lengths) : filterMenu === 'equip' ? menuChips('equip', 'equipment', lib.equips) : ''}
-    ${pickSheet()}${groups || `<p class="lede" style="margin-top:24px">${progQuery.trim() ? `No programs match “${esc(progQuery.trim())}” with these filters.` : 'No programs match these filters.'}</p>`}${randomSheet()}`;
+    <div id="prog-results">${p.results}</div>`;
+}
+// a keystroke in the search: the parts again, at most once a frame; the family row keeps its sideways scroll
+let progRefreshQueued = false;
+function progRefresh() {
+  if (progRefreshQueued) return; progRefreshQueued = true;
+  requestAnimationFrame(() => {
+    progRefreshQueued = false;
+    const res = $('#prog-results'), mine = $('#prog-mine'), n = $('#prog-count');
+    if (!res || route.view !== 'programs') return;
+    const row = $('.ftabs', res), x = row ? row.scrollLeft : 0, p = programsParts();
+    res.innerHTML = p.results; if (mine) mine.innerHTML = p.mine; if (n) n.textContent = p.counter;
+    const again = $('.ftabs', res); if (again) again.scrollLeft = x;
+  });
 }
 
 /* Help me pick (Phase 15 ticket 2): goal, minutes and gear as taps; the top five with their why line (KBFinder.pick) */

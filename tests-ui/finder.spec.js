@@ -168,3 +168,25 @@ test('signed in: a finder that fails to load says so, and asking again tries aga
     await expect(page.locator('.askout')).toContainText('Pilates');
   } finally { await one.context.close(); }
 });
+
+// Phase 24 ticket 7 (review V A3): typing redraws only the results, never the field, and quickly
+test('name search keeps the same field element and redraws only the results, under 150 ms a keystroke at 4× CPU', async ({ app }) => {
+  await app.open('#programs');
+  await app.data(() => { window.__field = document.getElementById('prog-search'); });
+  await field(app).click();
+  await app.page.keyboard.type('yoga');
+  await expect(app.page.locator('.eyebrow').first()).not.toHaveText(/^1,?0\d\d programs$/);
+  expect(await app.data(() => document.getElementById('prog-search') === window.__field)).toBe(true);
+  const cdp = await app.page.context().newCDPSession(app.page);
+  await cdp.send('Emulation.setCPUThrottlingRate', { rate: 4 });
+  const ms = await app.data(() => new Promise((done) => {
+    const f = document.getElementById('prog-search'), a = performance.now();
+    f.value = 'yoga f'; f.dispatchEvent(new Event('input', { bubbles: true }));
+    requestAnimationFrame(() => setTimeout(() => done(performance.now() - a)));
+  }));
+  await cdp.send('Emulation.setCPUThrottlingRate', { rate: 1 });
+  expect(ms).toBeLessThan(150);
+  await expect(field(app)).toHaveValue('yoga f');
+  await field(app).fill('');
+  await expect(app.page.locator('.shelfmore').first()).toBeVisible();
+});

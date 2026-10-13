@@ -228,10 +228,7 @@ document.addEventListener('input', (e) => {
   if (e.target.id === 'own-name') ownState.text = e.target.value;
   if (e.target.id === 'ask-q') askState.q = e.target.value; // kept through redraws
   if (e.target.id === 'ex-search') { exSearch.q = e.target.value; exRefresh(); }
-  if (e.target.id === 'prog-search') { // the whole page redraws (shelves, chips, counter), then the field gets its focus back
-    progQuery = e.target.value; const at = e.target.selectionStart; render();
-    const i = $('#prog-search'); if (i) { i.focus(); i.setSelectionRange(at, at); }
-  }
+  if (e.target.id === 'prog-search') { progQuery = e.target.value; progRefresh(); } // the results only (Phase 24 ticket 7)
 });
 document.addEventListener('submit', (e) => {
   if (e.target.dataset.ownForm) { e.preventDefault(); ownRenameSave(); }
