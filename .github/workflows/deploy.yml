@@ -59,6 +59,9 @@ jobs:
         if: steps.tested.outputs.tested != 'true' && steps.passed.outputs.cache-hit != 'true'
         run: npm run test:coverage 2>&1 | tee unit.log; exit ${PIPESTATUS[0]}
         shell: bash
+      - name: REVIEW timings (throwaway)
+        if: always()
+        run: node scripts/_review-timings.js unit unit.log
       # each failing test (and a coverage shortfall) as an annotation on the PR, readable without the raw log
       - name: Name the failures
         if: failure()
@@ -168,9 +171,13 @@ jobs:
         run: npm run build
       - name: Phone UI tests
         if: steps.tested.outputs.tested != 'true' && steps.passed.outputs.cache-hit != 'true'
-        run: npx playwright test --project=phone-${{ matrix.theme }}
+        run: npx playwright test --project=phone-${{ matrix.theme }} 2>&1 | tee ui.log; exit ${PIPESTATUS[0]}
+        shell: bash
         env:
           UI_PREBUILT: '1'
+      - name: REVIEW timings (throwaway)
+        if: always()
+        run: node scripts/_review-timings.js ui ui.log
       - name: Keep the screenshots
         if: always()
         uses: actions/upload-artifact@v7
