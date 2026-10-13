@@ -167,10 +167,10 @@ read only when needed. Decisions with a long "why": [docs/adr/](docs/adr/).
   `.build-cache/` (gitignored), not made. Run `npm run cache:pull` at the start of a cloud session to fill it from
   main's newest run; `node build.js --cold` builds everything. main's CI run builds cold too and fails on any difference.
 - `npm run build` rewrites `recipes/book.json`: restore it (`git checkout recipes/book.json`) before committing.
-- **Nothing that builds the whole library runs on this machine (decision 312, Noam, 10 Oct 2026):** test files marked
-  `// ci-only` on their first line build or read all the programs; the commit hook skips them and only CI runs them.
-  Locally, only light, single-purpose tests; for a heavy change, push and read the PR's CI result instead of timing it
-  here (a slow-test fix measured with slow local runs only made more slow runs).
+- **The whole library builds here only when warm (decision 312, Noam, 10 Oct 2026; relaxed 13 Oct, 334):** after
+  `npm run cache:pull` a whole-library build takes ~12 s, so `node build.js`, `// ci-only` test files and wider UI runs
+  may run locally; a cold one (builder code changed, 4+ min) still goes to CI. The commit hook still skips `// ci-only`
+  files, and the full unit suite with coverage stays in CI (308, kept 13 Oct, 336).
 - Committed tests never write outside the repo (screenshots go to `test-results/`); review screenshots for Noam go to
   `/home/claude/kettle-bar-shots/` from a throwaway script or spec that isn't committed. CI (the deploy) must stay green:
   after merging, don't wait on main's Test and deploy run; start the next ticket, and check that run is green before

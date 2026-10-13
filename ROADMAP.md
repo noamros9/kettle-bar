@@ -2,14 +2,15 @@
 
 The index: where we are, what comes next, and the two phases being built now. Every other phase's decisions live at the
 top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase comes up. Decision numbers are global
-(the next one is **334**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
+(the next one is **337**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
 ## Resume here (13 Oct 2026, afternoon)
 - **Phase 24 is done** (#391–#405, archived): both reviews in and every fix-now finding built; A4 is #393, a flaky Back
   test is #404. CI is faster: a PR's test job ~2.5 min (was ~6), the finder smoke only when a finder file changes.
 - **Also done today:** the build cache (#381–#388) and Phase 37, the finish flow (#389–#390). Start a cloud session with
   `npm run cache:pull`; the recipe cache runs in its own workflow after each green main run.
-- **Open for Noam:** can 312 (no local whole-library build) and 321 (600 s UI wait) relax (a warm build is ~12 s)?
+- **Rules decided 13 Oct (CLAUDE.md):** whole-library builds may run here when warm, after `cache:pull` (334, 312
+  relaxed); the 600 s UI wait stays (335); no local coverage run, still (336).
 - **Next: Phase 25** ("Do now", [#200](https://github.com/noamros9/kettle-bar/issues/200),
   [plan](docs/plans/phase-25-do-now.md)); re-read its Challenge round first (136). Waits for Noam's go.
 - **Opus builds alone** (295): Grok is away, so no Grok tickets; Phases 20 and 35 wait for it.

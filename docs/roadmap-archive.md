@@ -587,3 +587,8 @@ found on the way is [#404](https://github.com/noamros9/kettle-bar/issues/404).
   of to each of 1,060 programs; the documents and their shape stay as they are. Noam's exception to 187. *(13 Oct)*
 - **333 · Triage (13 Oct):** A2, A3, A5, A6, A7, C1, C2, C3 and the slow tests are fixed here (tickets 4–12, three at a
   time); A4 is issue [#393](https://github.com/noamros9/kettle-bar/issues/393). *(13 Oct)*
+**Working rules, decided at the close (13 Oct)**
+- **334 · Whole-library builds may run here when warm** (312 relaxed): after `cache:pull` (~12 s); a cold one still
+  goes to CI. *(13 Oct)*
+- **335 · Playwright's 600 s wait for the test server stays** (321): a ceiling that still covers a cold build. *(13 Oct)*
+- **336 · No local coverage run, still** (308): CI's unit step is 92 s now. *(13 Oct)*
