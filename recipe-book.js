@@ -121,7 +121,9 @@ const NEWEST = 14;
 // and random workouts all at once at its last ticket, which moves this on. Phase 23's are in; nothing is held now.
 const HELD = 24;
 
-function generate({ configs = require('./programs.config.js'), families = FAMILIES, catalogue = NEWEST, held = HELD } = {}) {
+// `memo(inputs, make)` (build-cache.js recipeMemo, decision 324) keeps each trial: a stale book runs only the new or
+// changed ones; without it every trial runs
+function generate({ configs = require('./programs.config.js'), families = FAMILIES, catalogue = NEWEST, held = HELD, memo = (inputs, make) => make() } = {}) {
   const isHeld = (c) => (c.added || 0) >= held;
   const familyOf = new Map(families.flatMap(([f, list]) => list.map((s) => [s, f])));
   // the levers a subject's programs use at Level II and III: what a choice for that subject may pick
@@ -148,12 +150,14 @@ function generate({ configs = require('./programs.config.js'), families = FAMILI
       // equipment and fit depend on the spec and the subject's levers: tried once for each
       const trialKey = `${index}|${subject}`;
       if (!trial.has(trialKey)) {
-        const hydrated = { program: r.program, key, label: r.label, blocks: r.blocks, absSlots: r.absSlots, rests: r.rests, levers: type.levers }, fit = [];
-        const gear = leastGear((eq) => builds(hydrated, 30, eq, catalogue, []));
-        EQUIPS.slice(EQUIPS.indexOf(gear)).forEach((eq) => {
-          fit.push(Recipes.GRID.reduce((bits, m, i) => bits | (near(r.minutes, m) && builds(hydrated, m, eq, catalogue, subjects[subject][2]) ? 1 << i : 0), 0));
-        });
-        trial.set(trialKey, { equip: gear, fit });
+        const hydrated = { program: r.program, key, label: r.label, blocks: r.blocks, absSlots: r.absSlots, rests: r.rests, levers: type.levers };
+        trial.set(trialKey, memo(['trial', hydrated, r.minutes, subjects[subject][2], catalogue], () => {
+          const fit = [], gear = leastGear((eq) => builds(hydrated, 30, eq, catalogue, []));
+          EQUIPS.slice(EQUIPS.indexOf(gear)).forEach((eq) => {
+            fit.push(Recipes.GRID.reduce((bits, m, i) => bits | (near(r.minutes, m) && builds(hydrated, m, eq, catalogue, subjects[subject][2]) ? 1 << i : 0), 0));
+          });
+          return { equip: gear, fit };
+        }));
       }
       types.push({ ...type, ...trial.get(trialKey) });
       // its blocks as parts of a mix: blocks that stand on their own, of a subject that is one family, resting like REST
@@ -163,7 +167,7 @@ function generate({ configs = require('./programs.config.js'), families = FAMILI
         if (block.slots.length < 3 || partSeen.has(key)) return;
         partSeen.add(key);
         const tried = `${json(block)}|${subjects[subject][2]}`;
-        if (!partTrial.has(tried)) partTrial.set(tried, partFit(block, [], subjects[subject][2], catalogue));
+        if (!partTrial.has(tried)) partTrial.set(tried, memo(['part', block, subjects[subject][2], catalogue], () => partFit(block, [], subjects[subject][2], catalogue)));
         const made = partTrial.get(tried);
         parts.push([subject, index, bi, made.equip, made.fit]);
       });
@@ -172,7 +176,7 @@ function generate({ configs = require('./programs.config.js'), families = FAMILI
   // the abs finisher of a mix whose last block is strength: it levels by that subject's lever, so every strength lever is tried
   const strengthLevers = Recipes.LEVERS.filter((l) => subjects.some(([, f, ls]) => f === 'Strength' && ls.includes(l)));
   const abs = Builder.ABS_SLOTS;
-  const mix = { rests: intern(restTables, json, Builder.REST), abs: abs.join(' '), absFit: partFit(null, abs, strengthLevers, catalogue).fit, parts };
+  const mix = { rests: intern(restTables, json, Builder.REST), abs: abs.join(' '), absFit: memo(['abs', abs, strengthLevers, catalogue], () => partFit(null, abs, strengthLevers, catalogue)).fit, parts };
   return { v: 2, catalogue, skipped, subjects, rests: restTables, specs, types, mix };
 }
 
@@ -200,10 +204,17 @@ function load(file, make, write) {
   }
   return made;
 }
+// a stale book made through the build cache (decision 324): only new or changed trials run; .build-cache/, or
+// KB_BUILD_CACHE. `last` holds the made book's memo, so `npm run recipes` can say what it read and ran.
+let last = null;
+function generateCached({ dir = process.env.KB_BUILD_CACHE ? path.resolve(process.env.KB_BUILD_CACHE) : undefined, ...opts } = {}) {
+  last = require('./build-cache.js').recipeMemo({ dir });
+  return generate({ ...opts, memo: last });
+}
 let cached;
-const book = () => (cached = cached || load(FILE, generate, false));
+const book = () => (cached = cached || load(FILE, generateCached, false));
 // npm run recipes, and build.js: the committed file is fresh, or made again and rewritten
-const refresh = ({ file = FILE, make = generate } = {}) => load(file, make, true);
+const refresh = ({ file = FILE, make = generateCached } = {}) => load(file, make, true);
 /* node:coverage ignore next 2 */ // npm run recipes
-if (require.main === module) { refresh(); console.log('recipes/book.json is fresh'); }
-module.exports = { generate, book, hash, refresh, stored, FILE, INPUTS, NEWEST, HELD };
+if (require.main === module) { refresh(); console.log(`recipes/book.json is fresh${last ? ` (build cache: ${last.stats.hits} trials read, ${last.stats.misses} run)` : ''}`); }
+module.exports = { generate, generateCached, book, hash, refresh, stored, FILE, INPUTS, NEWEST, HELD };
