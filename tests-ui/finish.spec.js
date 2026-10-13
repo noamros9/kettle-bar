@@ -87,3 +87,53 @@ test('marking the last day done offers What next: Start Round 2 and same-family 
   await app.go('#p-three-split-60');
   await expect(app.page.getByRole('heading', { name: 'What next?' })).toBeVisible();
 });
+
+// Phase 37 (320): the last set starts a 30 s breather by itself, then the cool-down runs by itself, and its end leaves
+// "Workout complete" with nothing armed on the timer
+test('the last set runs a breather, then the cool-down by itself, and leaves the timer at Workout complete', async ({ app }, testInfo) => {
+  const { page } = app;
+  await page.addInitScript(() => {
+    window.SpeechSynthesisUtterance = class { constructor(text) { this.text = text; } };
+    window.kbSaid = [];
+    Object.defineProperty(window, 'speechSynthesis', { value: { speak(u) { window.kbSaid.push(u.text); }, cancel() {} } });
+  });
+  await page.clock.install();
+  await app.open('#p-three-split-60-d1');
+  const cool = await app.data(() => {
+    const d = programs.day('three-split-60', 1), s = KBSession.createSession(programs.get('three-split-60'), d, { EX: KBEx.EX });
+    return { first: KBEx.EX[d.cooldown.items[0].ex].name, secs: s.plan({ type: 'stretch', key: 'cool' }).phases.reduce((t, p) => t + p.sec, 0) };
+  });
+  await tickEverySet(app);
+  await expect(page.locator('#tlabel')).toHaveText('Breather · cool-down next');
+  await expect(page.locator('#tsub')).toHaveText(`First: ${cool.first}`);
+  await expect(page.locator('#tclock')).toHaveText('0:30');
+  await page.locator('#tlabel').scrollIntoViewIfNeeded();
+  await page.screenshot({ path: `test-results/shots/${testInfo.project.name}/finish-breather.png` });
+  await page.clock.runFor(31000);
+  await expect(page.locator('#tlabel')).toHaveText(`Get ready · ${cool.first}`);
+  expect(await page.evaluate(() => window.kbSaid)).toContain('Cool-down');
+  await page.clock.runFor(cool.secs * 1000 + 2000);
+  await expect(page.locator('#tlabel')).toHaveText('Cool-down done');
+  await expect(page.locator('#tsub')).toHaveText('Workout complete');
+  await expect(page.locator('#tclock')).toHaveText('0:00');
+  await expect(page.locator('#tgo')).toHaveText('Start');
+  await expect(page.locator('[data-stretch="cool"]')).toHaveText('✓ Done · run again');
+  expect(await app.sidewaysScroll()).toBe(0);
+  await page.screenshot({ path: `test-results/shots/${testInfo.project.name}/finish-complete.png` });
+});
+
+test('a cool-down already run: the last set just finishes, no breather', async ({ app }) => {
+  const { page } = app;
+  await page.clock.install();
+  await app.open('#p-three-split-60-d1');
+  await page.locator('[data-stretch="cool"]').click();
+  const secs = await app.data(() => {
+    const d = programs.day('three-split-60', 1), s = KBSession.createSession(programs.get('three-split-60'), d, { EX: KBEx.EX });
+    return s.plan({ type: 'stretch', key: 'cool' }).phases.reduce((t, p) => t + p.sec, 0);
+  });
+  await page.clock.runFor(secs * 1000 + 2000);
+  await expect(page.locator('[data-stretch="cool"]')).toHaveText('✓ Done · run again');
+  await tickEverySet(app);
+  await expect(page.locator('#tlabel')).toHaveText('Workout finished');
+  await expect(page.locator('#tsub')).toHaveText('Every set is done');
+});

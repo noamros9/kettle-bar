@@ -82,8 +82,8 @@ const T = {
     clearInterval(this.iv); this.iv = setInterval(() => this.tick(), 200);
     this.wake(true); this.paint();
   },
-  start(sec, label, sub) {
-    if (sec) { this.run([{ sec, label, sub, end: 'long' }]); return; }
+  start(sec, label, sub, more = {}) {
+    if (sec) { this.run([{ sec, label, sub, end: 'long', ...more }]); return; }
     if (!this.phase) this.phase = { sec: this.dur, end: 'long' };
     const l = $('#tlabel').textContent;
     if (l === 'Go' || l === 'Rest timer' || l === 'Workout finished') this.setLabel('Rest', 'Counting down');
@@ -96,11 +96,18 @@ const T = {
     if (this.running) { this.endAt += d * 1000; this.tick(); } else this.left = Math.min(600, Math.max(0, this.left + d)) || this.dur;
     this.paint();
   },
-  // carry out a Workout Session instruction
-  apply(ins) {
+  // carry out a Workout Session instruction; a rest with `then` hands that target to runThen when it runs out (the
+  // breather starting the cool-down, Phase 37); a clear that is `idle` leaves 0:00, nothing armed
+  apply(ins, runThen) {
     if (!ins || ins.none) return;
-    if (ins.rest) this.start(ins.rest.sec, ins.rest.label, ins.rest.sub);
-    else if (ins.clear) { this.clear(); this.setLabel(ins.clear.label, ins.clear.sub); }
+    if (ins.rest) {
+      const { then, sayEnd } = ins.rest;
+      this.start(ins.rest.sec, ins.rest.label, ins.rest.sub, { ...(sayEnd ? { sayEnd } : {}), ...(then && runThen ? { onEnd: () => runThen(then) } : {}) });
+    } else if (ins.clear) {
+      this.clear();
+      if (ins.clear.idle) { this.left = 0; this.paint(); }
+      this.setLabel(ins.clear.label, ins.clear.sub);
+    }
   },
   // run a Workout Session plan; onDone fires when its last phase ends
   runPlan(plan, onDone) {
