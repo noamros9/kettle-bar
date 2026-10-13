@@ -1,7 +1,6 @@
 // Exercises I skip (Phase 13 ticket 1): "Skip this exercise" on the exercise page, Settings → Exercises I skip lists
 // them with Unskip. Kept as `skip: [exercise id]` in the synced prefs, only while not empty.
 const { test, expect } = require('./fixtures.js');
-const { library } = require('../tests/helpers/library.js');
 
 const skipBtn = (app) => app.page.locator('.expage-skip [data-skip]');
 const section = (app) => app.page.locator('section.setting', { has: app.page.getByRole('heading', { name: 'Exercises I skip' }) });
@@ -94,9 +93,15 @@ test('a random workout swaps what I skip too', async ({ app }) => {
 
 test('an exercise I skip with no stand-in stays on its day, marked', async ({ app }) => {
   // heel raises have no stand-in (nothing else is led by the calves)
-  const p = library().find((q) => q.days.some((d) => d.blocks.some((b) => b.items.some((it) => it.ex === 'heel_raise'))));
-  const n = p.days.find((d) => d.blocks.some((b) => b.items.some((it) => it.ex === 'heel_raise'))).day;
-  await app.open(`#p-${p.id}-d${n}`);
+  // the first program the built usage index lists, then its first day with them (Phase 24 ticket 9, 186: the spec built the
+  // whole library in the test worker to find it, ~70 s)
+  await app.open('#exercises');
+  const { pid, n } = await app.data(async () => {
+    const pid = (await (await fetch('data/index.json')).json()).heel_raise[0];
+    const p = await (await fetch(`data/${pid}.json`)).json();
+    return { pid, n: p.days.find((d) => d.blocks.some((b) => b.items.some((it) => it.ex === 'heel_raise'))).day };
+  });
+  await app.go(`#p-${pid}-d${n}`);
   await app.data(() => store.setDoc('prefs', 'main', { skip: ['heel_raise'] }));
   await expect(app.page.locator('article.ex').filter({ hasText: 'You skip this, no stand-in' }).first()).toBeVisible();
   await expect(app.page.locator('.skipnote')).toContainText('stay');

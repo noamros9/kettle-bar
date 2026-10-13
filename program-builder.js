@@ -689,7 +689,11 @@
     return { ...saved, subject: cfg.subject, about: cfg.about, split: cfg.split, minutes: cfg.minutes, equip: cfg.equip || 'all', formats: ['straight'], dayTypes: b.dayTypesOf(cfg) };
   }
   const buildConfig = (cfg) => (cfg.frozen ? buildFrozen(cfg) : b.build(cfg));
-  module.exports = { ...api, buildConfig, buildAll: () => CONFIGS.map(buildConfig), CONFIGS, POOLS: b.POOLS, poolsAt: b.poolsAt, mergedAt: b.mergedAt, REST: b.REST, timing: b.timing };
+  // buildAll: the whole library, built once per test run by scripts/warm-test-cache.js outside coverage (Phase 24 ticket 9:
+  // no unit test builds it again under coverage just to compare)
+  /* node:coverage ignore next */
+  const buildAll = () => CONFIGS.map(buildConfig);
+  module.exports = { ...api, buildConfig, buildAll, CONFIGS, POOLS: b.POOLS, poolsAt: b.poolsAt, mergedAt: b.mergedAt, REST: b.REST, timing: b.timing };
   /* node:coverage ignore next 2 */
 })(typeof window !== 'undefined' ? window : globalThis, typeof module !== 'undefined' && module.exports ? require('./formats.js') : window.KBFormats,
   typeof module !== 'undefined' && module.exports ? require('./app/length.js') : window.KBLength);
