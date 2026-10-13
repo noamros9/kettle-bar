@@ -162,6 +162,9 @@ read only when needed. Decisions with a long "why": [docs/adr/](docs/adr/).
   (`build.js`) stops before writing anything if a pinned program is missing or its days changed (`scripts/pins.js`).
   `npm run pin` builds only this phase's programs (`added: 23` and later): it adds pins for new ones and checks the ones
   they have. Existing pins are never changed by hand; the full check runs in CI.
+- **The build cache (decisions 324–328):** programs and recipe-book trials whose keys are unchanged are read from
+  `.build-cache/` (gitignored), not made. Run `npm run cache:pull` at the start of a cloud session to fill it from
+  main's newest run; `node build.js --cold` builds everything. main's CI run builds cold too and fails on any difference.
 - `npm run build` rewrites `recipes/book.json`: restore it (`git checkout recipes/book.json`) before committing.
 - **Nothing that builds the whole library runs on this machine (decision 312, Noam, 10 Oct 2026):** test files marked
   `// ci-only` on their first line build or read all the programs; the commit hook skips them and only CI runs them.
