@@ -33,7 +33,7 @@ Grilled 7 Oct 2026 with Noam (global decision numbers).
 | # | Ticket | Tier | Blocked by | Branch | Status |
 |---|---|---|---|---|---|
 | 0 | This plan | plan | – | `plan/unplanned-phases` | done (PR #281) |
-| 1 | Architecture review V: measure, then read | review | – | `review/architecture-5` | todo |
+| 1 | Architecture review V: measure, then read | review | – | `review/architecture-5` | done (PR #391) |
 | 2 | Code review | review | – | `review/code` | todo |
 | 3 | Triage: fix tickets added to this plan, ADRs, issues | plan | 1, 2 | `plan/p24-triage` | todo |
 | 4+ | The fixes (from ticket 3) | feature | 3 | – | todo |
