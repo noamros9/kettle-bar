@@ -249,6 +249,10 @@ day once. Do it again on the day page, or the ✓ on a done tile, adds a date; a
 
 ## Code
 
+**Own-program pins** (Phase 24, 13 Oct 2026): `tests/fixtures/own-days.json`, stored own-program records (one per
+recipe-book subject and four mixes) with the SHA-256 of the days each builds; a builder change that trips them would
+reshuffle saved own programs, so it is a decision, not a fix.
+
 **Build cache** (planned 13 Oct 2026, [plan](docs/plans/build-cache.md)): `.build-cache/`, gitignored, where the build
 keeps each program's days and each recipe-book trial under a **cache key** (the builder code's hash, the config, and
 the **catalogue slice**: the exercises it can draw at its own catalogue). A matching key is read, not built; `--cold`
