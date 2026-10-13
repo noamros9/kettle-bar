@@ -2,16 +2,15 @@
 
 The index: where we are, what comes next, and the two phases being built now. Every other phase's decisions live at the
 top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase comes up. Decision numbers are global
-(the next one is **332**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
+(the next one is **334**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
 ## Resume here (13 Oct 2026, late morning)
 - **Phase 37 is done** (#389, #390, archived): the last set runs a 30 s breather, then the cool-down by itself.
 - **The build cache is done** (#381–#388): main's build 45 s → 5 s, a warm local build 11.6 s; main's run builds cold
   and diffs (327) and makes the recipe trials (331). **Start a cloud session with `npm run cache:pull`.** Open for
   Noam: can 312 (no local whole-library build) and 321 (600 s UI wait) relax?
-- **Next: Phase 24** (architecture and code review, [#187](https://github.com/noamros9/kettle-bar/issues/187),
-  [#188](https://github.com/noamros9/kettle-bar/issues/188), [plan](docs/plans/phase-24-review.md)); re-read its
-  Challenge round first (136). Waits for Noam's go.
+- **Now: Phase 24** ([plan](docs/plans/phase-24-review.md)): both reviews in (#391, #392), triaged 13 Oct (332–333):
+  fixes 4–12 build three at a time; A4 is issue #393. Noam still to delete the `review/timings-throwaway` branch.
 - **Opus builds alone** (295): Grok is away, so no Grok tickets; Phases 20 and 35 wait for it.
 - **Working rules** are in [CLAUDE.md](CLAUDE.md): three tickets then wait, at most 2 building, no local coverage run
   or whole-library build (308, 312), one ticket pushed at a time, CI polled every 30 s.
@@ -22,7 +21,7 @@ right after Phase 22 (216). **223 ·** 8 Oct: quick fixes after 22; Export, day 
 
 | # | Phase | Issue | Plan | Status |
 |---|---|---|---|---|
-| 1 | 24 · Architecture and code review, then the fixes | [#187](https://github.com/noamros9/kettle-bar/issues/187), [#188](https://github.com/noamros9/kettle-bar/issues/188) | [plan](docs/plans/phase-24-review.md) | planned |
+| 1 | 24 · Architecture and code review, then the fixes | [#187](https://github.com/noamros9/kettle-bar/issues/187), [#188](https://github.com/noamros9/kettle-bar/issues/188) | [plan](docs/plans/phase-24-review.md) | building (fixes 4–12) |
 | 2 | 25 · "Do now": one exercise for dead time | [#200](https://github.com/noamros9/kettle-bar/issues/200) | [plan](docs/plans/phase-25-do-now.md) | planned |
 | 3 | 32 · Export an exercise, a day or a program | [#224](https://github.com/noamros9/kettle-bar/issues/224) | [plan](docs/plans/phase-32-export.md) | planned |
 | 4 | 33 · Day to day II: weekdays, a day note, pause, compare, programs that use this, sync status | [#291](https://github.com/noamros9/kettle-bar/issues/291)–[#296](https://github.com/noamros9/kettle-bar/issues/296) | [plan](docs/plans/phase-33-day-to-day-2.md) | planned |

@@ -89,3 +89,6 @@ the step 4.6 min) and 170 in dark (5.6 min).
 
 Together the proposals save about 3.5 min of unit test time (~1.5–2 min of the step on 2 workers) and 1–1.2 min per
 phone test job, with nothing caught less. A6 (architecture) adds the build-cache restore before the unit step.
+
+## Triage (Phase 24 ticket 3, 13 Oct)
+- **C1:** fix now, ticket 6. **C2** and **C3:** fix now, ticket 12. **The slow tests:** fix now, ticket 9 (186).
