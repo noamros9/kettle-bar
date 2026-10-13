@@ -41,7 +41,7 @@ out. The pin gate (`scripts/pins.js`) still checks every program, cached or not.
 | 1 | Program days from the cache (324, 325, 328) | build | – | `build/cache-days` | done (PR #382) |
 | 2 | The recipe book per day type (324, 325, 328) | build | 1 | `build/cache-recipes` | done (PR #383) |
 | 3 | CI saves the cache and proves it on main (326, 327) | ci | 2 | `ci/build-cache` | done (PR #384) |
-| 3b | The cache on a git branch for cloud sessions (330) | ci | 3 | `ci/build-cache-branch` | todo |
+| 3b | The cache on a git branch for cloud sessions (330) | ci | 3 | `ci/build-cache-branch` | done (PR #386) |
 | 4 | Close it | plan | 3b | `plan/build-cache-close` | todo |
 
 ### 1. Program days from the cache

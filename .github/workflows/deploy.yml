@@ -24,6 +24,11 @@ concurrency:
 jobs:
   test:
     runs-on: ubuntu-24.04
+    # decision 330: main's run pushes the build cache to its own branch (contents: write, this job only)
+    permissions:
+      contents: write
+      actions: read
+      pull-requests: read
     # Playwright's own image has the browser and its system libraries: no install step (it took 6 to 20+ minutes
     # of apt-get). Its version must match @playwright/test in package.json (tests/ci.test.js checks).
     container:
@@ -105,6 +110,18 @@ jobs:
           path: .build-cache/
           retention-days: 7
           include-hidden-files: true
+      # decision 330: cloud sessions can't download artifacts (blob storage is blocked there), so the cache is also the
+      # one commit of an orphan build-cache branch, which `npm run cache:pull` fetches with git
+      - name: Push the build cache to its branch
+        if: success() && github.event_name == 'push' && steps.passed.outputs.cache-hit != 'true'
+        shell: bash
+        run: |
+          cd .build-cache
+          git init -q -b build-cache
+          git add -A
+          git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -qm "build cache for ${GITHUB_SHA}"
+          git push -qf "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" build-cache
+          rm -rf .git
       - name: Library size (decision 317; the cloud machine builds no whole library, so CI measures it)
         if: steps.passed.outputs.cache-hit != 'true'
         run: npm run size | tee size.txt && sed 's/^/::notice title=Library size::/' size.txt
