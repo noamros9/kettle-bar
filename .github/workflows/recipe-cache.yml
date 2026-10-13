@@ -1,0 +1,68 @@
+# Decision 331, in its own workflow since Phase 24 ticket 11 (review V A7): after a green Test and deploy run on main,
+# the recipe book's trials go into the build cache (the build never makes them: the committed book is fresh), the book
+# made that way must equal recipes/book.json, and the whole cache is then what a session pulls: the build-cache branch
+# (330, git: cloud sessions) and the artifact (326, Noam's machine). As a job of Test and deploy it held main's queue
+# (the next main run waited for it: 7.7 min when cold); here it has its own queue.
+name: Recipe cache
+on:
+  workflow_run:
+    workflows: [Test and deploy]
+    types: [completed]
+    branches: [main]
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: recipe-cache
+  cancel-in-progress: false
+
+jobs:
+  recipe-cache:
+    if: github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push'
+    runs-on: ubuntu-24.04
+    container:
+      image: mcr.microsoft.com/playwright:v1.56.0-noble
+      options: --user 1001
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - run: npm ci
+      - name: Restore the build cache
+        uses: actions/cache/restore@v4
+        with:
+          path: .build-cache
+          key: build-cache-${{ github.run_id }}-book
+          restore-keys: build-cache-
+      - name: The recipe book's trials into the cache, and the book they make matches the committed one
+        shell: bash
+        run: node scripts/recipe-cache.js | tee recipe.log && sed 's/^/::notice title=Recipe cache::/' recipe.log
+      - run: find .build-cache -type f -mtime +14 -delete
+      - uses: actions/cache/save@v4
+        continue-on-error: true
+        with:
+          path: .build-cache
+          key: build-cache-${{ github.run_id }}-book
+      # a fresh session pulls this with `npm run cache:pull`: the branch first, the artifact on Noam's machine
+      - uses: actions/upload-artifact@v7
+        with:
+          name: build-cache
+          path: .build-cache/
+          retention-days: 7
+          include-hidden-files: true
+      - name: Push the build cache to its branch
+        shell: bash
+        env:
+          SHA: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          cd .build-cache
+          git init -q -b build-cache
+          git add -A
+          git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -qm "build cache for ${SHA}"
+          git push -qf "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" build-cache
+          rm -rf .git
