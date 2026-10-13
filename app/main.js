@@ -99,6 +99,10 @@ const ACTIONS = [
   ['bookRetry', () => { bookError = null; render(); }],
   ['randomOpen', () => randomOpen()],
   ['restOpen', () => restOpen()],
+  ['now', (v) => nowPick(v)], // Do now (Phase 25)
+  ['nowStart', () => nowStart()],
+  ['nowAnother', () => nowPick(nowState.mode)],
+  ['nowDone', () => nowDone()],
   ['travel', (v) => setTravel(v || null)],
   ['star', (v) => toggleFavourite(v)],
   ['hide', (v) => toggleHidden(v)],

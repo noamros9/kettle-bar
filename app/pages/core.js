@@ -55,6 +55,7 @@ function parseHash() {
   if (h === 'programs') return { view: 'programs' };
   if (h === 'build') return { view: 'build' };
   if (h === 'random') return { view: 'random' };
+  if (h === 'now') return { view: 'now' }; // Do now (Phase 25): the card and the home-screen shortcut
   const lib = h.match(/^exercises(?:\?muscle=([a-z_]+))?$/); // #234: the muscle picked rides in the URL; an unknown one is none
   if (lib) return { view: 'library', muscle: lib[1] && MUSCLE_NAMES[lib[1]] ? lib[1] : null };
   if (h === 'settings') return { view: 'settings' };
@@ -142,7 +143,7 @@ function render(scrollTop) {
   const wasKey = wasChosen ? wasChosen.dataset.filter : null;
   drewLoading = needsProgram && stillLoading([route.pid]).length > 0;
   if (drewLoading) app.innerHTML = loadingView(route.pid);
-  else app.innerHTML = v === 'programs' ? viewPrograms() : v === 'build' ? viewBuild() : v === 'random' ? viewRandom() : v === 'add' ? viewAdd() : v === 'library' ? viewLibrary() : v === 'settings' ? viewSettings() : v === 'stats' ? viewStats() : v === 'muscles' ? viewMuscles() : v === 'exercise' ? viewExercise() : v === 'day' ? viewDay() : viewProgram();
+  else app.innerHTML = v === 'programs' ? viewPrograms() : v === 'build' ? viewBuild() : v === 'random' ? viewRandom() : v === 'now' ? viewNow() : v === 'add' ? viewAdd() : v === 'library' ? viewLibrary() : v === 'settings' ? viewSettings() : v === 'stats' ? viewStats() : v === 'muscles' ? viewMuscles() : v === 'exercise' ? viewExercise() : v === 'day' ? viewDay() : viewProgram();
   const section = v === 'library' || v === 'exercise' ? 'library' : v === 'settings' || v === 'stats' || v === 'muscles' ? v : 'programs';
   document.querySelectorAll('.top [data-go]').forEach((b) => b.setAttribute('aria-current', b.dataset.go === section ? 'page' : 'false'));
   // the family tabs are a scrolling row: a redraw keeps it where it was (Phase 17 ticket 2: it snapped back mid-swipe);
@@ -158,7 +159,7 @@ function render(scrollTop) {
   drawFigs(app);
   stopAnimation();
   if (v === 'exercise') startAnimation(route.ex);
-  const showTimer = v === 'day' || (v === 'random' && !!random.current());
+  const showTimer = v === 'day' || (v === 'random' && !!random.current()) || (v === 'now' && !!nowState);
   $('#timer').hidden = !showTimer; document.body.classList.toggle('has-timer', showTimer);
   if (scrollTop) window.scrollTo(0, 0);
 }

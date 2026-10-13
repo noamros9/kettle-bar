@@ -131,6 +131,7 @@ const familyOfName = (subject) => (KBLibrary.FAMILIES.find(([, list]) => list.in
 function infoOf(e) {
   if (e.pid === 'random') {
     const c = (store.doc('random', e.day) || {}).choices || {};
+    if (c.now) return { family: 'Do now', subject: 'Do now' }; // Phase 25: its own line in the Time tab
     return { family: c.family || familyOfName(c.subject || (c.subjects || [])[0]), subject: 'Random workouts' };
   }
   const sm = programs.summary(e.pid), p = programs.get(e.pid);

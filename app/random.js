@@ -27,7 +27,10 @@
        random.done() -> its id: the record is written to the account and the device forgets the open workout; null when
                         none is open        random.discard(): forgotten, nothing written
        random.entries() -> [{ pid: 'random', day: id, time }] for stats   random.dayOf(id) -> the day as done (swaps applied)
-       random.levels() -> [{ time, level }] of the done ones
+       random.levels() -> [{ time, level }] of the done ones (never a Do now)
+       random.doNow({ ex, seconds, level, mode, seed }) -> its id: a Do now (Phase 25) written as a record, { name: 'Do now:
+                        <exercise>', choices: { now: mode }, seed, level, day (one block, one exercise), swaps: [], time };
+                        entries() marks it `now: true`        random.recentNow() -> the last three Do nows' exercises
 
    The open workout lives on the device only (`kb-random-open`: made + { id, swaps, startedAt }), as a day's saved
    session does, and is forgotten after 12 hours; its Workout Session is saved under `kb-session-random-<id>`.
@@ -156,15 +159,27 @@
       return o.id;
     }
 
+    // Do now (Phase 25, decision 145): one exercise, kept as a random record with choices { now: mode }; it counts in
+    // stats (entries, marked `now`) but is not a trained day: it never sets the next random workout's level
+    function doNow({ ex, seconds, level, mode, seed }) {
+      const e = cat.EX[ex], id = newId(now());
+      const n = e.u === 'sec' ? seconds : e.r[level - 1];
+      const day = { day: 1, type: 'now', name: e.name, title: 'Do now', level, est: seconds / 60, blocks: [{ title: 'Do now', sets: 1, items: [{ ex, n }] }] };
+      store.setDoc('random', id, { name: 'Do now: ' + e.name, choices: { now: mode }, seed, level, day, swaps: [], time: new Date(now()).toISOString() });
+      return id;
+    }
+    const isNow = (r) => isObject(r.choices) && typeof r.choices.now === 'string';
     const valid = (r) => isObject(r) && typeof r.time === 'string' && !Number.isNaN(Date.parse(r.time)) && [1, 2, 3].includes(r.level)
       && knownDay(r.day) && (r.swaps === undefined || Array.isArray(r.swaps));
     const records = () => { const docs = store.docs('random'); return Object.keys(docs).filter((id) => valid(docs[id])).map((id) => [id, docs[id]]); };
     return {
-      start, current, open, done,
+      start, current, open, done, doNow,
       discard() { const o = current(); if (o) forget(o.id); },
-      entries: () => records().map(([id, r]) => ({ pid: 'random', day: id, time: r.time })),
+      entries: () => records().map(([id, r]) => ({ pid: 'random', day: id, time: r.time, ...(isNow(r) ? { now: true } : {}) })),
       dayOf(id) { const r = store.doc('random', id); return valid(r) ? S.applySwaps(r.day, r.swaps, cat) : undefined; },
-      levels: () => records().map(([, r]) => ({ time: r.time, level: r.level })),
+      levels: () => records().filter(([, r]) => !isNow(r)).map(([, r]) => ({ time: r.time, level: r.level })),
+      // the exercises of the last three Do nows, newest first (a pick skips them)
+      recentNow: () => records().filter(([, r]) => isNow(r)).sort((a, b) => (a[1].time < b[1].time ? 1 : -1)).slice(0, 3).map(([, r]) => r.day.blocks[0].items[0].ex),
     };
   }
 

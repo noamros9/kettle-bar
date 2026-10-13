@@ -67,7 +67,7 @@ function viewPrograms() {
     <p class="lede">Every program starts at intermediate, with a matched warm-up and cool-down, and most end each workout with abs. Progress is kept per program.</p>
     <div class="pbtns"><button class="btn buildbtn" data-go="build">Build your own</button><button class="btn ghost buildbtn" data-random-open="1">${random.current() ? 'Random workout · continue' : 'Random workout'}</button><button class="btn ghost buildbtn" data-pick-open="1">Help me pick</button></div>
     ${askBlock()}
-    ${randomNotice ? `<p class="hint rnotice" role="status">${esc(randomNotice)}</p>` : ''}${restCard()}
+    ${randomNotice ? `<p class="hint rnotice" role="status">${esc(randomNotice)}</p>` : ''}${nowNotice ? `<p class="hint rnotice" role="status">${esc(nowNotice)}</p>` : ''}${restCard()}${nowCard()}
     <div id="prog-mine">${p.mine}</div>
     <label class="exsearch progsearch"><span class="sr">Search programs</span><input id="prog-search" type="search" placeholder="Search programs by name or subject" value="${esc(progQuery)}" autocomplete="off" enterkeyhint="search"></label>
     <div id="prog-results">${p.results}</div>`;

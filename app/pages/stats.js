@@ -134,6 +134,7 @@ function historyTab() {
 function historyDay(c) {
   const row = (e) => {
     const d = dayOf(e.pid, e.day, e.round);
+    if (e.pid === 'random' && ((store.doc('random', e.day) || {}).choices || {}).now) { const rec = store.doc('random', e.day); return `<li class="hwork hnow"><span class="eyebrow">Do now</span><b>${esc((rec.name || 'Do now').replace(/^Do now: /, ''))}</b><span>${Math.round(d.est * 60)} s</span></li>`; } // Phase 25: its own small mark
     if (e.pid === 'random') { const rec = store.doc('random', e.day) || {}; return `<li class="hwork"><span class="eyebrow">Random workout</span><b>${esc((rec.name || 'Random workout').replace(/^Random: /, ''))}</b><span>${fmtMin(d.est)} · level ${ROMAN[d.level]}</span></li>`; }
     const sm = programs.summary(e.pid), key = `${e.pid}:${e.day}:${e.time}`;
     // Phase 30 (215): a date of the current round can be removed (asks first); a past round's stays as it was
