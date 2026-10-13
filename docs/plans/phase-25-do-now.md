@@ -41,7 +41,7 @@ Grilled 7 Oct 2026 with Noam (global decision numbers).
 | 0 | This plan | plan | – | `plan/unplanned-phases` | done (PR #281) |
 | 1 | The pool and the pick (`app/now.js`) | feature | – | `feature/do-now-pick` | done (PR #407) |
 | 2 | The page, the card, the shortcut, Done | feature | 1 | `feature/do-now-page` | done (PR #408) |
-| 3 | Close the phase: CONTEXT.md, archive | plan | 2 | `plan/p25-close` | todo |
+| 3 | Close the phase: CONTEXT.md, archive | plan | 2 | `plan/p25-close` | done (PR #409) |
 
 ### 1. The pool and the pick
 - **Build:** `app/now.js` (pure, Node and page, `KBNow`): `POOL` (about 40 exercise ids: standing or seated, no

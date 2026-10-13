@@ -180,6 +180,12 @@ app does not log what was actually lifted.
 Shoulders, Arms; Abs & obliques, Lower back; Glutes & hips, Thighs, Lower legs) and their muscles. One definition,
 `MUSCLE_GROUPS` in `exercises.js` (`groupOf(muscle)`), read by Stats → Muscles, the Muscles page and the Exercises page.
 
+**Do now** (Phase 25, built 13 Oct 2026): one quiet, no-equipment exercise for 20–30 s from `KBNow.POOL` (43 standing
+or seated moves), picked at random or for the first main muscle with the least load in the last 7 days (**What I
+missed**), never one of the last three. A card on the Programs page and the home-screen shortcut (`#now`). Done, it is
+a random-workout record with `choices: { now }`: counted in Stats (its own "Do now" line) and History (its own mark),
+never a trained day (the rest-day card stays, the next random workout's level is untouched).
+
 ## Exercises
 
 **Exercise**: an entry in the **Exercise Catalogue** with reps per level, muscles, cue, equipment and
@@ -318,15 +324,12 @@ by a pose's `two` field.
 **Pelvic mark** (Phase 20): a small filled mark at a stick figure's hip, drawn only when that figure's pose carries
 `mark: 1`, in `--mark`.
 
-## Planned words (7 Oct 2026; built in Phases 19 and 25–29)
+## Planned words (7 Oct 2026; built in Phases 19 and 26–29)
 
 **Super program** (Phase 19): a 120-day program of its own, made of 3–6 library programs that take turns day by day,
 weighted per super; each level (40 days) takes each part's days of that level, evenly spaced. Its own progress; each
 day says which program it comes from (`from`). Ready-made on the Super shelf, or your own.
 
-**Do now** (Phase 25): one quiet, no-equipment exercise for 20–30 s, picked at random or for the muscle you trained
-least this week (**What I missed**). Done, it is a random-workout record with `choice.now`, counted in Stats and
-History, never setting the level of the next random workout.
 
 **Re-timed program** (Phase 26): a library program lengthened by `long: [lo, hi]`: built as before, then sets,
 rounds and slots added on top; its old picks never move.
