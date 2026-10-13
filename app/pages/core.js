@@ -150,6 +150,7 @@ function render(scrollTop) {
       if (t.right > b.right) row.scrollLeft += t.right - b.right + 4; else if (t.left < b.left) row.scrollLeft -= b.left - t.left + 4;
     }
   }
+  drawFigs(app);
   stopAnimation();
   if (v === 'exercise') startAnimation(route.ex);
   const showTimer = v === 'day' || (v === 'random' && !!random.current());

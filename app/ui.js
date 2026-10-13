@@ -13,6 +13,19 @@ const $ = (s, r = document) => r.querySelector(s);
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const figCache = {};
 const fig = (id) => figCache[id] || (figCache[id] = figureSVG(EX[id], EX[id].name + ' illustration'));
+// a card's figure drawn only when it comes within a screen of view (Phase 24 ticket 4, review V A2: the Exercises page
+// drew 1,447 figures, 3.7 MB of HTML, on every redraw). lazyFig(id) leaves an empty box; drawFigs() fills the ones near
+// view and watches the rest; it runs after every render and every partial refresh that adds boxes.
+const lazyFig = (id) => `<div class="figbox" data-fig="${id}"></div>`;
+let figWatch = null;
+const fillFig = (box) => { if (box.dataset.fig && EX[box.dataset.fig]) box.innerHTML = fig(box.dataset.fig); box.removeAttribute('data-fig'); };
+function drawFigs(root = document) {
+  const boxes = root.querySelectorAll('.figbox[data-fig]');
+  if (!boxes.length) return;
+  if (typeof IntersectionObserver === 'undefined') { boxes.forEach(fillFig); return; }
+  if (!figWatch) figWatch = new IntersectionObserver((list) => list.forEach((en) => { if (en.isIntersecting) { figWatch.unobserve(en.target); fillFig(en.target); } }), { rootMargin: '100% 0px' });
+  boxes.forEach((b) => figWatch.observe(b));
+}
 const LETTERS = 'ABCDEF';
 const CHECK = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3.2 3L13 4.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 let rerenderQueued = false, touching = false, rerenderWaiting = false;

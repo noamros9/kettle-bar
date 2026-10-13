@@ -68,7 +68,7 @@ function subChips(subjects, fam, chip) {
 function exResults() {
   const r = exFound();
   const chip = (k, key, label, on, count) => `<button class="fchip acc" data-exf="${k}:${key}" aria-pressed="${on}">${esc(label)}${count === undefined ? '' : ` <span class="fcount">${count}</span>`}</button>`;
-  const card = (e) => `<article class="ex"><button class="exlink" data-ex="${e.id}" aria-label="${esc(e.name)}: how to and muscles worked"><div class="figbox">${fig(e.id)}</div><div class="nm">${esc(e.name)}</div></button>${e.load ? `<div class="ld">${esc(LOAD[e.load])}</div>` : ''}<p class="cue">${esc(e.cue)}</p></article>`;
+  const card = (e) => `<article class="ex"><button class="exlink" data-ex="${e.id}" aria-label="${esc(e.name)}: how to and muscles worked">${lazyFig(e.id)}<div class="nm">${esc(e.name)}</div></button>${e.load ? `<div class="ld">${esc(LOAD[e.load])}</div>` : ''}<p class="cue">${esc(e.cue)}</p></article>`;
   const fam = r.families.find((c) => c.pressed).key;
   const sub = (r.subjects.find((c) => c.pressed) || { key: 'all' }).key;
   const groupOf = (e) => { const x = KBLibrary.familyOf(e); return fam === 'all' ? x.family : x.subject; };
@@ -122,7 +122,7 @@ function muscleResults() {
   const names = picked.map((m) => MUSCLE_NAMES[m]).join(' + ');
   const list = Object.values(EX).filter((e) => e.cat !== 'couple' && (musclePick.gear === 'all' || KBLibrary.gearOf(e) === musclePick.gear)); // couple exercises (Phase 18) need two: not a way to train a muscle alone
   const { main, also } = KBLibrary.splitByMuscles(list, picked);
-  const card = (e) => `<article class="ex"><button class="exlink" data-ex="${e.id}" aria-label="${esc(e.name)}: how to and muscles worked"><div class="figbox">${fig(e.id)}</div><div class="nm">${esc(e.name)}</div></button>${e.load ? `<div class="ld">${esc(LOAD[e.load])}</div>` : ''}<p class="cue">${esc(e.cue)}</p></article>`;
+  const card = (e) => `<article class="ex"><button class="exlink" data-ex="${e.id}" aria-label="${esc(e.name)}: how to and muscles worked">${lazyFig(e.id)}<div class="nm">${esc(e.name)}</div></button>${e.load ? `<div class="ld">${esc(LOAD[e.load])}</div>` : ''}<p class="cue">${esc(e.cue)}</p></article>`;
   const section = (id, title, sub, l) => `<section class="libcat" aria-labelledby="${id}"><h2 id="${id}">${title}</h2><p class="muted">${sub(l.length)}</p>${l.length ? `<div class="exgrid">${l.map(card).join('')}</div>` : ''}</section>`;
   const or = picked.map((m) => MUSCLE_NAMES[m]).join(' or ');
   const gear = `<div class="filters" role="group" aria-label="Filter by equipment">${KBLibrary.GEAR.map(([k, label]) => `<button class="fchip acc" data-mgear="${k}" aria-pressed="${musclePick.gear === k}">${esc(label)}</button>`).join('')}</div>`;
@@ -149,10 +149,10 @@ function viewMuscles() {
     <div id="mmap">${muscleMap()}</div><div id="mresults">${muscleResults()}</div>`;
 }
 // redraw the map and the results only (keeps the scroll where you tapped)
-function muscleRefresh() { const a = $('#mmap'), b = $('#mresults'), e = $('#app .eyebrow'); if (a) a.innerHTML = muscleMap(); if (b) b.innerHTML = muscleResults(); if (e && route.view === 'muscles') e.textContent = musclePick.muscles.length ? musclePick.muscles.map((m) => MUSCLE_NAMES[m]).join(' + ') : 'Front and back'; }
+function muscleRefresh() { const a = $('#mmap'), b = $('#mresults'), e = $('#app .eyebrow'); if (a) a.innerHTML = muscleMap(); if (b) { b.innerHTML = muscleResults(); drawFigs(b); } if (e && route.view === 'muscles') e.textContent = musclePick.muscles.length ? musclePick.muscles.map((m) => MUSCLE_NAMES[m]).join(' + ') : 'Front and back'; }
 function exMuscle(m) { musclePick.muscles = m === null ? [] : KBLibrary.toggleIn(musclePick.muscles, m); muscleRefresh(); }
 // redraw the counter, the map and the results only (typing in the search field keeps its focus)
-function exRefresh() { const box = $('#exresults'), n = $('#excount'); if (box) box.innerHTML = exResults(); if (n) n.textContent = exCounter(exFound()); }
+function exRefresh() { const box = $('#exresults'), n = $('#excount'); if (box) { box.innerHTML = exResults(); drawFigs(box); } if (n) n.textContent = exCounter(exFound()); }
 // a muscle pick replaces the one picked (tapping it again unpicks it) and replaces the URL, so it adds no Back step
 function exFilter(k, v) {
   if (k === 'muscle') { exSearch.muscle = exSearch.muscle === v ? null : v; history.replaceState(null, '', '#exercises' + (exSearch.muscle ? '?muscle=' + exSearch.muscle : '')); }
