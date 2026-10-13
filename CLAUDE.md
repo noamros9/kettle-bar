@@ -161,7 +161,8 @@ read only when needed. Decisions with a long "why": [docs/adr/](docs/adr/).
 - **Pins (Noam, 10 Oct 2026):** `tests/fixtures/program-days.json` holds a SHA-256 of each program's days. The build
   (`build.js`) stops before writing anything if a pinned program is missing or its days changed (`scripts/pins.js`).
   `npm run pin` builds only this phase's programs (`added: 23` and later): it adds pins for new ones and checks the ones
-  they have. Existing pins are never changed by hand; the full check runs in CI.
+  they have. Existing pins are never changed by hand; the full check runs in CI. Own programs have pins too
+  (`tests/fixtures/own-days.json`, Phase 24 ticket 6): a builder change that trips them is a decision for Noam.
 - **The build cache (decisions 324–328):** programs and recipe-book trials whose keys are unchanged are read from
   `.build-cache/` (gitignored), not made. Run `npm run cache:pull` at the start of a cloud session to fill it from
   main's newest run; `node build.js --cold` builds everything. main's CI run builds cold too and fails on any difference.

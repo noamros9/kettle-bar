@@ -1,0 +1,10443 @@
+{
+ "pin-signature": {
+  "record": {
+   "name": "Signature",
+   "choices": {
+    "subjects": [
+     "Signature"
+    ],
+    "split": 3,
+    "minutes": 35,
+    "equipment": "all",
+    "formats": [
+     "straight"
+    ],
+    "levers": [
+     "reps",
+     "weight"
+    ]
+   },
+   "seed": "pin-Signature",
+   "catalogue": 14,
+   "config": {
+    "subject": "Signature",
+    "blurb": "3 days a cycle, about 35 minutes each.",
+    "about": "A signature program built from your choices: 3 days in a cycle, about 35 minutes a day.",
+    "split": "Full body + abs / Upper body + abs / Chest",
+    "minutes": [
+     33,
+     37
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "weight"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Full body + abs",
+      "short": "Full body",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Full body",
+        "slots": [
+         "squat",
+         "pushLoad",
+         "hinge",
+         "row",
+         "total?"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs"
+      ],
+      "minutes": [
+       33,
+       37
+      ]
+     },
+     "d2": {
+      "label": "Upper body + abs",
+      "short": "Upper",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Upper body",
+        "slots": [
+         "push",
+         "pullBar",
+         "shoulders",
+         "row",
+         "arms?"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs"
+      ],
+      "minutes": [
+       33,
+       37
+      ]
+     },
+     "d3": {
+      "label": "Chest",
+      "short": "Chest",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Chest",
+        "slots": [
+         "pushLoad",
+         "push",
+         "push",
+         "pushLoad",
+         "triceps?"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs"
+      ],
+      "minutes": [
+       33,
+       37
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "0398ac3f8bf6139bfc88f76180a295bdc172effbe01d41f63f8892b3352f9449"
+ },
+ "pin-strength": {
+  "record": {
+   "name": "Strength",
+   "choices": {
+    "subjects": [
+     "Strength"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "straight",
+     "superset"
+    ],
+    "levers": [
+     "reps",
+     "weight"
+    ]
+   },
+   "seed": "pin-Strength",
+   "catalogue": 14,
+   "config": {
+    "subject": "Strength",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A strength program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Big five A / Lunge & overhead / Deadlift day",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "weight"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Big five A",
+      "short": "A",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Big five",
+        "slots": [
+         "squat2",
+         "chestPress",
+         "hinge2",
+         "backRow",
+         "farmer_carry"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Lunge & overhead",
+      "short": "C",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Full body C",
+        "slots": [
+         "db_lunge",
+         "db_shoulder_press",
+         "one_arm_row",
+         "close_grip_press",
+         "db_calf_raise?"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Deadlift day",
+      "short": "Deadlift",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Deadlift day",
+        "slots": [
+         "hinge2",
+         "glute2",
+         "backBar",
+         "biceps2?"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "5f3feed85007d939f9b48f0d53e3b5581aeac37f38440574d88e2def388e2a8c"
+ },
+ "pin-pull-ups": {
+  "record": {
+   "name": "Pull-ups",
+   "choices": {
+    "subjects": [
+     "Pull-ups"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "ladder",
+     "straight",
+     "emom",
+     "superset"
+    ],
+    "levers": [
+     "reps",
+     "weight"
+    ]
+   },
+   "seed": "pin-Pull-ups",
+   "catalogue": 14,
+   "config": {
+    "subject": "Pull-ups",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A pull-ups program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Legs / Pull-up strength / Bar & push",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "weight"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Legs",
+      "short": "Legs",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Legs",
+        "slots": [
+         "squat2",
+         "hinge2",
+         "lunge2",
+         "glute2",
+         "calf?"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Pull-up strength",
+      "short": "Strength",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Pull-up strength",
+        "slots": [
+         "pullBarMain",
+         "backBar",
+         "backRow",
+         "pullBar2",
+         "biceps2?"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Bar & push",
+      "short": "Push",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Pull-ups",
+        "slots": [
+         "pullBarMain",
+         "backBar"
+        ]
+       },
+       {
+        "f": "straight",
+        "title": "Push",
+        "slots": [
+         "chestPress",
+         "shoulderPress",
+         "triceps2?"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "3b69ab3d5caf91546a776f6dfc994121e72d086b7887861c479074dcc2c7c42b"
+ },
+ "pin-conditioning": {
+  "record": {
+   "name": "Conditioning",
+   "choices": {
+    "subjects": [
+     "Conditioning"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "circuit",
+     "amrap",
+     "emom",
+     "tabata",
+     "ladder"
+    ],
+    "levers": [
+     "reps",
+     "weight"
+    ]
+   },
+   "seed": "pin-Conditioning",
+   "catalogue": 14,
+   "config": {
+    "subject": "Conditioning",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A conditioning program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Legs & cardio / Tabatas & ladder / Lower Tabatas",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "weight"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Legs & cardio",
+      "short": "A",
+      "blocks": [
+       {
+        "f": "tabata",
+        "title": "Tabatas",
+        "slots": [
+         "cardio",
+         "legsBw",
+         "cardio",
+         "legsBw"
+        ]
+       },
+       {
+        "f": "amrap",
+        "title": "Kettlebell AMRAP",
+        "slots": [
+         "kbBallistic",
+         "kbLower"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Tabatas & ladder",
+      "short": "Ladder",
+      "blocks": [
+       {
+        "f": "tabata",
+        "title": "Tabatas",
+        "slots": [
+         "hiit",
+         "squat2",
+         "cardio",
+         "push",
+         "hiit",
+         "core2"
+        ],
+        "values": [
+         1,
+         2
+        ]
+       },
+       {
+        "f": "ladder",
+        "title": "Ladder",
+        "slots": [
+         "total",
+         "cardio"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Lower Tabatas",
+      "short": "Lower",
+      "blocks": [
+       {
+        "f": "tabata",
+        "title": "Lower Tabatas",
+        "slots": [
+         "squat2",
+         "lunge2",
+         "kb_swing",
+         "thrust"
+        ],
+        "values": [
+         2,
+         3,
+         4
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "acf267685100ba11b48f833ecb28c6d8a0ce6ed0a7a1362b2395fdcf98393f83"
+ },
+ "pin-core-abs": {
+  "record": {
+   "name": "Core & abs",
+   "choices": {
+    "subjects": [
+     "Core & abs"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "straight",
+     "circuit",
+     "emom"
+    ],
+    "levers": [
+     "reps",
+     "holds"
+    ]
+   },
+   "seed": "pin-Core & abs",
+   "catalogue": 14,
+   "config": {
+    "subject": "Core & abs",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A core & abs program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Lift & chop / Carry & press / Hollow & twist circuit",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "holds"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Lift & chop",
+      "short": "Chop",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Loaded rotation",
+        "slots": [
+         "kb_windmill",
+         "kb_halo",
+         "absW",
+         "kbCore2",
+         "absW?"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Carry & press",
+      "short": "Carry",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Carries & holds",
+        "slots": [
+         "suitcase_march",
+         "farmer_carry",
+         "kb_bottoms_up_hold",
+         "absW",
+         "carry?"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Hollow & twist circuit",
+      "short": "Mix",
+      "blocks": [
+       {
+        "f": "circuit",
+        "title": "Hollow & twist circuit",
+        "slots": [
+         "coreHollow",
+         "coreRot",
+         "coreAnti",
+         "coreHollow",
+         "coreRot"
+        ],
+        "values": [
+         3,
+         4,
+         5
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "d64c4082b6ca50a698b18048d1010297804a92cf6d61644cf95cfac4b7ae0c63"
+ },
+ "pin-mobility-posture": {
+  "record": {
+   "name": "Mobility & posture",
+   "choices": {
+    "subjects": [
+     "Mobility & posture"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "circuit",
+     "straight",
+     "flow"
+    ],
+    "levers": [
+     "reps",
+     "tempo"
+    ]
+   },
+   "seed": "pin-Mobility & posture",
+   "catalogue": 14,
+   "config": {
+    "subject": "Mobility & posture",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A mobility & posture program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Joint circles / Lower-body mobility / Hips & spine circuit",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "tempo"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Joint circles",
+      "short": "Circles",
+      "blocks": [
+       {
+        "f": "flow",
+        "title": "Joint circles",
+        "slots": [
+         "hip_cars",
+         "shoulder_cars",
+         "ankle_rocks",
+         "mbSpine",
+         "mbSpine?"
+        ]
+       },
+       {
+        "f": "circuit",
+        "title": "Control",
+        "slots": [
+         "hip_airplane",
+         "ninety_ninety",
+         "prone_ytw",
+         "mbHip?"
+        ],
+        "values": [
+         2,
+         3
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Lower-body mobility",
+      "short": "Lower",
+      "blocks": [
+       {
+        "f": "flow",
+        "title": "Lower flow",
+        "slots": [
+         "ankle_rocks",
+         "hip_cars",
+         "mbHip",
+         "mbHip",
+         "ninety_ninety",
+         "mbHip",
+         "mbHip?",
+         "mbHip?"
+        ]
+       },
+       {
+        "f": "circuit",
+        "title": "Lower control",
+        "slots": [
+         "hip_airplane",
+         "deep_squat_hold",
+         "mbHip",
+         "adductor_rockback",
+         "mbHip?"
+        ],
+        "values": [
+         2,
+         3,
+         4
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Stretch",
+        "slots": [
+         "fxHips",
+         "fxHam",
+         "fxQuad?",
+         "fxHips?"
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Hips & spine circuit",
+      "short": "Hips",
+      "blocks": [
+       {
+        "f": "circuit",
+        "title": "Hips & spine",
+        "slots": [
+         "glute_bridge",
+         "bird_dog",
+         "open_book",
+         "standing_knee_hold",
+         "mbSpine?"
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "0202c20c5f27cffe94c161ba1cfd01bf14ab551c9f1af53d5a202a34ce636761"
+ },
+ "pin-kettlebell-only": {
+  "record": {
+   "name": "Kettlebell only",
+   "choices": {
+    "subjects": [
+     "Kettlebell only"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "straight",
+     "emom",
+     "circuit"
+    ],
+    "levers": [
+     "reps",
+     "weight"
+    ]
+   },
+   "seed": "pin-Kettlebell only",
+   "catalogue": 14,
+   "config": {
+    "subject": "Kettlebell only",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A kettlebell only program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "EMOM / Complex B / Press & dip",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "weight"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "EMOM",
+      "short": "EMOM",
+      "blocks": [
+       {
+        "f": "emom",
+        "title": "Bell EMOM",
+        "slots": [
+         "kbBallistic",
+         "kbUpper2",
+         "kbLower2",
+         "kbCore2"
+        ],
+        "values": [
+         12,
+         14,
+         16
+        ]
+       },
+       {
+        "f": "straight",
+        "title": "Strength",
+        "slots": [
+         "kbUpper2",
+         "kbLower2?"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Complex B",
+      "short": "B",
+      "blocks": [
+       {
+        "f": "emom",
+        "title": "Complex EMOM",
+        "slots": [
+         "kbLower",
+         "kbBallistic",
+         "kbUpper"
+        ],
+        "values": [
+         10,
+         12,
+         14,
+         16
+        ]
+       },
+       {
+        "f": "straight",
+        "title": "Strength",
+        "slots": [
+         "kbUpper",
+         "kbLower?"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Press & dip",
+      "short": "Press",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Press & dip",
+        "slots": [
+         "kb_press",
+         "floor_dip",
+         "kb_floor_press",
+         "close_grip_pushup"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "090f363455120c83420d756e7084a6e29a271c5cd5644e869140c6dc49d31bb0"
+ },
+ "pin-busy-week": {
+  "record": {
+   "name": "Busy week",
+   "choices": {
+    "subjects": [
+     "Busy week"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "superset",
+     "emom",
+     "ladder",
+     "circuit",
+     "amrap",
+     "straight",
+     "tabata"
+    ],
+    "levers": [
+     "reps",
+     "weight"
+    ]
+   },
+   "seed": "pin-Busy week",
+   "catalogue": 14,
+   "config": {
+    "subject": "Busy week",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A busy week program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Supersets & Tabatas A / Supersets & Tabatas B / Lower AMRAP",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "weight"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Supersets & Tabatas A",
+      "short": "A",
+      "blocks": [
+       {
+        "f": "superset",
+        "title": "Supersets",
+        "slots": [
+         "squat2",
+         "chestPress",
+         "hinge2",
+         "backRow"
+        ],
+        "values": [
+         2,
+         3,
+         4
+        ]
+       },
+       {
+        "f": "tabata",
+        "title": "Tabata 1",
+        "slots": [
+         "hiit",
+         "push"
+        ],
+        "values": [
+         1
+        ]
+       },
+       {
+        "f": "tabata",
+        "title": "Tabata 2",
+        "slots": [
+         "total",
+         "coreRot"
+        ],
+        "values": [
+         1
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Supersets & Tabatas B",
+      "short": "B",
+      "blocks": [
+       {
+        "f": "superset",
+        "title": "Supersets",
+        "slots": [
+         "lunge2",
+         "pushLoad2",
+         "glute2",
+         "row2"
+        ],
+        "values": [
+         2,
+         3,
+         4
+        ]
+       },
+       {
+        "f": "tabata",
+        "title": "Tabata 1",
+        "slots": [
+         "hiit",
+         "lunge2"
+        ],
+        "values": [
+         1
+        ]
+       },
+       {
+        "f": "tabata",
+        "title": "Tabata 2",
+        "slots": [
+         "kbBallistic",
+         "core2"
+        ],
+        "values": [
+         1
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Lower AMRAP",
+      "short": "Lower",
+      "blocks": [
+       {
+        "f": "amrap",
+        "title": "Lower AMRAP",
+        "slots": [
+         "squat2",
+         "hinge2",
+         "lunge2",
+         "glute2"
+        ],
+        "values": [
+         12,
+         14,
+         16,
+         18
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "5f7c1ab9c757da1f6ba9a7e558bae830460e4bebc541b506d4fca2e78ebc5291"
+ },
+ "pin-bodyweight": {
+  "record": {
+   "name": "Bodyweight",
+   "choices": {
+    "subjects": [
+     "Bodyweight"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "circuit",
+     "straight",
+     "superset",
+     "amrap"
+    ],
+    "levers": [
+     "reps",
+     "variation"
+    ]
+   },
+   "seed": "pin-Bodyweight",
+   "catalogue": 14,
+   "config": {
+    "subject": "Bodyweight",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A bodyweight program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Chest & arms / Pseudo-planche & pike / Hotel A",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "variation"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Chest & arms",
+      "short": "Chest",
+      "blocks": [
+       {
+        "f": "superset",
+        "title": "Chest & arms",
+        "slots": [
+         "chestBw",
+         "armsBw",
+         "chestBw",
+         "armsBw"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Pseudo-planche & pike",
+      "short": "Press",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Pressing skills",
+        "slots": [
+         "pseudo_planche_pushup",
+         "pike_pushup",
+         "pike_hold",
+         "archer_pushup"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Hotel A",
+      "short": "A",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Full body A",
+        "slots": [
+         "chestBw",
+         "backBw",
+         "legsBw2",
+         "thrustBw"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "a31700197a45973e74f48ac3417f95efc3fca95678a0c141d0d17069fa2abfff"
+ },
+ "pin-legs-glutes": {
+  "record": {
+   "name": "Legs & glutes",
+   "choices": {
+    "subjects": [
+     "Legs & glutes"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "straight"
+    ],
+    "levers": [
+     "reps",
+     "weight"
+    ]
+   },
+   "seed": "pin-Legs & glutes",
+   "catalogue": 14,
+   "config": {
+    "subject": "Legs & glutes",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A legs & glutes program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Hinge day / Glutes & hamstrings / Upper body",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "weight"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Hinge day",
+      "short": "Hinge",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Hinge day",
+        "slots": [
+         "hinge2",
+         "hip_thrust",
+         "lunge2",
+         "hinge2",
+         "glute2?"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Glutes & hamstrings",
+      "short": "Back",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Glutes & hamstrings",
+        "slots": [
+         "hinge2",
+         "hip_thrust",
+         "legsBw2",
+         "glute2",
+         "hinge2?"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Upper body",
+      "short": "Upper",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Upper body",
+        "slots": [
+         "backRow",
+         "chestPress",
+         "shoulderRaise",
+         "biceps2?"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "cae61ce0d3cf1a073b63cb7c0bd1dc4414bef72ad7e5757d06271a357a35cbda"
+ },
+ "pin-yoga": {
+  "record": {
+   "name": "Yoga",
+   "choices": {
+    "subjects": [
+     "Yoga"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "flow"
+    ],
+    "levers": [
+     "holds",
+     "variation"
+    ]
+   },
+   "seed": "pin-Yoga",
+   "catalogue": 14,
+   "config": {
+    "subject": "Yoga",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A yoga program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Salutations & warriors / Core & backbends / Twists",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "holds",
+     "variation"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Salutations & warriors",
+      "short": "Warriors",
+      "blocks": [
+       {
+        "f": "flow",
+        "title": "Sun salutations",
+        "slots": [
+         "sun_salutation"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Warrior flow",
+        "slots": [
+         "warrior_one",
+         "warrior_two",
+         "ygStand",
+         "ygStand",
+         "ygStand?",
+         "ygStand?"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Floor & rest",
+        "slots": [
+         "ygHips",
+         "ygBack",
+         "ygRest",
+         "ygRest?"
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Core & backbends",
+      "short": "Back",
+      "blocks": [
+       {
+        "f": "flow",
+        "title": "Sun salutations",
+        "slots": [
+         "sun_salutation"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Core",
+        "slots": [
+         "ygCore",
+         "ygCore",
+         "ygCore",
+         "ygCore",
+         "ygCore"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Backbends",
+        "slots": [
+         "ygBack",
+         "ygBack",
+         "ygBack",
+         "ygBack",
+         "ygBack",
+         "ygFloor"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Rest",
+        "slots": [
+         "ygRest",
+         "ygRest",
+         "ygRest"
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Twists",
+      "short": "Twists",
+      "blocks": [
+       {
+        "f": "flow",
+        "title": "Sun salutations",
+        "slots": [
+         "sun_salutation"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Twisting flow",
+        "slots": [
+         "twisting_chair",
+         "ygStand",
+         "seated_twist",
+         "ygStand",
+         "ygHips",
+         "ygStand?"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Core",
+        "slots": [
+         "ygCore",
+         "ygCore?"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Rest",
+        "slots": [
+         "supine_twist",
+         "ygRest?"
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "684f05a93480e62a8fa5da6a52d9db17e01b740cfb73e4340f4525d3bd3abfd6"
+ },
+ "pin-pilates": {
+  "record": {
+   "name": "Pilates",
+   "choices": {
+    "subjects": [
+     "Pilates"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "flow"
+    ],
+    "levers": [
+     "reps",
+     "variation"
+    ]
+   },
+   "seed": "pin-Pilates",
+   "catalogue": 14,
+   "config": {
+    "subject": "Pilates",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A pilates program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Glutes & legs / Back extension & glutes / Abs",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "variation"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Glutes & legs",
+      "short": "Glutes",
+      "blocks": [
+       {
+        "f": "flow",
+        "title": "Warm-up",
+        "slots": [
+         "hundred"
+        ],
+        "values": [
+         1
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Glutes",
+        "slots": [
+         "pelvic_curl",
+         "plGlute",
+         "plGlute",
+         "clam",
+         "plGlute",
+         "plGlute"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Legs",
+        "slots": [
+         "plie_squat",
+         "standing_leg_lift",
+         "standing_side_leg_lift",
+         "heel_raise",
+         "plSide"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Abs",
+        "slots": [
+         "plAbs",
+         "plAbs",
+         "plAbs",
+         "plAbs"
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Back extension & glutes",
+      "short": "Back",
+      "blocks": [
+       {
+        "f": "flow",
+        "title": "Warm-up",
+        "slots": [
+         "hundred",
+         "spine_stretch"
+        ],
+        "values": [
+         1
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Back extension",
+        "slots": [
+         "plBack",
+         "swan_dive",
+         "plBack",
+         "breast_stroke",
+         "plBack",
+         "plBack"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Glutes",
+        "slots": [
+         "plGlute",
+         "plGlute",
+         "plGlute",
+         "plGlute",
+         "plGlute"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Abs",
+        "slots": [
+         "plAbs",
+         "plAbs",
+         "plAbs",
+         "plAbs",
+         "plRoll"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Sides",
+        "slots": [
+         "plSide",
+         "plSide"
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Abs",
+      "short": "Abs",
+      "blocks": [
+       {
+        "f": "flow",
+        "title": "Warm-up",
+        "slots": [
+         "hundred",
+         "roll_up"
+        ],
+        "values": [
+         1
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Abs 1",
+        "slots": [
+         "plAbs",
+         "plAbs",
+         "plAbs",
+         "plAbs",
+         "plAbs"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Abs 2",
+        "slots": [
+         "plAbs",
+         "plAbs",
+         "plAbs",
+         "plAbs",
+         "plAbs"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Back",
+        "slots": [
+         "plBack",
+         "plBack",
+         "plSide"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Roll",
+        "slots": [
+         "plRoll",
+         "plRoll",
+         "plRoll",
+         "plRoll"
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "fe6964508ae126c0533ca29ea5ab91fe85c9a941718f6a54d9e82d7e04d6f787"
+ },
+ "pin-boxing": {
+  "record": {
+   "name": "Boxing",
+   "choices": {
+    "subjects": [
+     "Boxing"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "bouts",
+     "circuit",
+     "tabata",
+     "straight",
+     "emom"
+    ],
+    "levers": [
+     "variation",
+     "variation"
+    ]
+   },
+   "seed": "pin-Boxing",
+   "catalogue": 14,
+   "config": {
+    "subject": "Boxing",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A boxing program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Bouts & strength / Bouts + Tabata B / Feet A",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "variation",
+     "variation"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Bouts & strength",
+      "short": "Strength",
+      "blocks": [
+       {
+        "f": "bouts",
+        "title": "Bouts",
+        "slots": [
+         "bxPower",
+         "bxBasic",
+         "bxDefense?"
+        ]
+       },
+       {
+        "f": "straight",
+        "title": "Strength",
+        "slots": [
+         "chestBw",
+         "legsBw2",
+         "coreAnti?"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Bouts + Tabata B",
+      "short": "B",
+      "blocks": [
+       {
+        "f": "bouts",
+        "title": "Bouts",
+        "slots": [
+         "bxMove",
+         "bxPower",
+         "bxBasic",
+         "bxBasic?"
+        ]
+       },
+       {
+        "f": "tabata",
+        "title": "Tabata",
+        "slots": [
+         "cardio",
+         "cardio",
+         "core",
+         "cardio"
+        ],
+        "values": [
+         1,
+         2
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Feet A",
+      "short": "A",
+      "blocks": [
+       {
+        "f": "bouts",
+        "title": "Bouts",
+        "slots": [
+         "bxMove",
+         "bxBasic",
+         "bxMove",
+         "bxBasic?",
+         "bxDefense?"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "424db25b287bde291a82ba8fc96aac7c13833aefd0abb71a80ea58ca29541903"
+ },
+ "pin-kickboxing": {
+  "record": {
+   "name": "Kickboxing",
+   "choices": {
+    "subjects": [
+     "Kickboxing"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "bouts",
+     "tabata",
+     "circuit",
+     "straight"
+    ],
+    "levers": [
+     "reps",
+     "variation"
+    ]
+   },
+   "seed": "pin-Kickboxing",
+   "catalogue": 14,
+   "config": {
+    "subject": "Kickboxing",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A kickboxing program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Kicks & knees A / Kick bouts / Knees B",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "variation"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Kicks & knees A",
+      "short": "A",
+      "blocks": [
+       {
+        "f": "bouts",
+        "title": "Bouts",
+        "slots": [
+         "teep",
+         "roundhouse",
+         "kkKnee",
+         "bxBasic",
+         "kkKick?",
+         "kkCombo?"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Kick bouts",
+      "short": "Kicks",
+      "blocks": [
+       {
+        "f": "bouts",
+        "title": "Kick bouts",
+        "slots": [
+         "kkKick",
+         "kkKnee",
+         "kkKick",
+         "kkKnee",
+         "kkKick?"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Knees B",
+      "short": "B",
+      "blocks": [
+       {
+        "f": "bouts",
+        "title": "Bouts",
+        "slots": [
+         "knee_strike",
+         "kkKick",
+         "clinch_knees",
+         "bxBasic",
+         "kkCombo?",
+         "kkKnee?"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "3e66beb23aed91a7ac041c292dbc975214528ac29aa276f385f4a91ecc0de21c"
+ },
+ "pin-flexibility": {
+  "record": {
+   "name": "Flexibility",
+   "choices": {
+    "subjects": [
+     "Flexibility"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "flow",
+     "circuit"
+    ],
+    "levers": [
+     "reps",
+     "holds"
+    ]
+   },
+   "seed": "pin-Flexibility",
+   "catalogue": 14,
+   "config": {
+    "subject": "Flexibility",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A flexibility program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Shoulders & spine / Straddle & groin / Legs & hips",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "holds"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Shoulders & spine",
+      "short": "Upper",
+      "blocks": [
+       {
+        "f": "flow",
+        "title": "Open",
+        "slots": [
+         "cat_cow",
+         "puppy_pose",
+         "thread_the_needle"
+        ],
+        "values": [
+         1
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Shoulders & chest",
+        "slots": [
+         "fxUpper",
+         "fxUpper",
+         "chest_opener",
+         "fxUpper",
+         "fxUpper?",
+         "fxUpper?"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Spine",
+        "slots": [
+         "fxSpine",
+         "fxSpine",
+         "camel_pose",
+         "fxSpine",
+         "fxSpine?",
+         "fxSpine?"
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Straddle & groin",
+      "short": "Straddle",
+      "blocks": [
+       {
+        "f": "flow",
+        "title": "Open",
+        "slots": [
+         "cat_cow",
+         "butterfly"
+        ],
+        "values": [
+         1
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Straddle",
+        "slots": [
+         "fxStraddle",
+         "frog_pose",
+         "fxStraddle",
+         "fxStraddle",
+         "fxStraddle?",
+         "fxHips?"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Groin",
+        "slots": [
+         "fxHips",
+         "fxStraddle",
+         "fxHips",
+         "fxHips?"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Deepest",
+        "slots": [
+         "seated_straddle"
+        ],
+        "values": [
+         1
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Legs & hips",
+      "short": "Lower",
+      "blocks": [
+       {
+        "f": "flow",
+        "title": "Open",
+        "slots": [
+         "cat_cow",
+         "low_lunge"
+        ],
+        "values": [
+         1
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Legs",
+        "slots": [
+         "fxHam",
+         "fxQuad",
+         "fxHam",
+         "fxSplit",
+         "fxHam?",
+         "fxQuad?"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Hips",
+        "slots": [
+         "fxHips",
+         "fxHips",
+         "fxStraddle",
+         "fxHips?",
+         "fxStraddle?"
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "f789c73460b901467d918054b9e7ba13ff306114536f15daf1424b7ce820cce7"
+ },
+ "pin-balance-stability": {
+  "record": {
+   "name": "Balance & stability",
+   "choices": {
+    "subjects": [
+     "Balance & stability"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "circuit",
+     "straight",
+     "emom"
+    ],
+    "levers": [
+     "reps",
+     "weight"
+    ]
+   },
+   "seed": "pin-Balance & stability",
+   "catalogue": 14,
+   "config": {
+    "subject": "Balance & stability",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A balance & stability program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Feet & ankles / EMOM B / Single-leg loaded A",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "weight"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Feet & ankles",
+      "short": "Feet",
+      "blocks": [
+       {
+        "f": "circuit",
+        "title": "Feet & ankles",
+        "slots": [
+         "heel_to_toe_walk",
+         "single_leg_calf_raise",
+         "blStatic",
+         "ankle_rocks",
+         "blStatic?"
+        ],
+        "values": [
+         2,
+         3,
+         4
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "EMOM B",
+      "short": "B",
+      "blocks": [
+       {
+        "f": "emom",
+        "title": "Balance EMOM",
+        "slots": [
+         "blPower",
+         "blDynamic",
+         "blStrength",
+         "blStatic"
+        ],
+        "values": [
+         8,
+         10,
+         12,
+         14
+        ]
+       },
+       {
+        "f": "straight",
+        "title": "Single-leg strength",
+        "slots": [
+         "blStrength",
+         "blStrength?"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Single-leg loaded A",
+      "short": "A",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Single-leg strength",
+        "slots": [
+         "singleLeg",
+         "single_leg_rdl",
+         "blStatic",
+         "suitcase_march",
+         "singleLeg?"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "a1364c451cb25d78bb7481d293e5a3007fa33ea86b6840cf37ae18e412e74cf4"
+ },
+ "pin-hiit": {
+  "record": {
+   "name": "HIIT",
+   "choices": {
+    "subjects": [
+     "HIIT"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "circuit",
+     "amrap",
+     "emom",
+     "tabata",
+     "ladder"
+    ],
+    "levers": [
+     "reps",
+     "weight"
+    ]
+   },
+   "seed": "pin-HIIT",
+   "catalogue": 14,
+   "config": {
+    "subject": "HIIT",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A hiit program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Ladder + Tabata / Bell circuit / Ladders",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "weight"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Ladder + Tabata",
+      "short": "A",
+      "blocks": [
+       {
+        "f": "ladder",
+        "title": "Pyramid ladder",
+        "slots": [
+         "hiit",
+         "push",
+         "legsBw"
+        ]
+       },
+       {
+        "f": "tabata",
+        "title": "Tabata",
+        "slots": [
+         "hiit",
+         "core",
+         "hiit",
+         "core"
+        ],
+        "values": [
+         1,
+         2
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Bell circuit",
+      "short": "Circuit",
+      "blocks": [
+       {
+        "f": "circuit",
+        "title": "Bell circuit",
+        "slots": [
+         "kb_swing",
+         "hiit",
+         "kb_snatch",
+         "goblet_squat",
+         "hiit?"
+        ],
+        "values": [
+         3,
+         4,
+         5
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Ladders",
+      "short": "Ladder",
+      "blocks": [
+       {
+        "f": "ladder",
+        "title": "Ladder 1",
+        "slots": [
+         "hiit",
+         "pushBw2"
+        ]
+       },
+       {
+        "f": "ladder",
+        "title": "Ladder 2",
+        "slots": [
+         "plyoLow",
+         "legsBw2"
+        ]
+       },
+       {
+        "f": "ladder",
+        "title": "Ladder 3",
+        "slots": [
+         "hiit",
+         "coreHollow"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "ac1d569c54d954d0d0519fff8069892b22597c54b5cace40fc5fbcff633c2ecd"
+ },
+ "pin-plyometrics": {
+  "record": {
+   "name": "Plyometrics",
+   "choices": {
+    "subjects": [
+     "Plyometrics"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "straight",
+     "circuit",
+     "emom"
+    ],
+    "levers": [
+     "reps",
+     "weight"
+    ]
+   },
+   "seed": "pin-Plyometrics",
+   "catalogue": 14,
+   "config": {
+    "subject": "Plyometrics",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A plyometrics program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Horizontal / Jump & squat EMOM / Jump EMOM B",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "weight"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 60,
+     "exercise": 90,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Horizontal",
+      "short": "Out",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Horizontal",
+        "slots": [
+         "broad_jump",
+         "bounding",
+         "plyoLow",
+         "plyoLat",
+         "plyoLow?"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Jump & squat EMOM",
+      "short": "Squat",
+      "blocks": [
+       {
+        "f": "emom",
+        "title": "Jump & squat EMOM",
+        "slots": [
+         "plyoVert",
+         "squat2",
+         "plyoUp",
+         "pushLoad2"
+        ],
+        "values": [
+         12,
+         14,
+         16
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Jump EMOM B",
+      "short": "B",
+      "blocks": [
+       {
+        "f": "emom",
+        "title": "Jump EMOM",
+        "slots": [
+         "plyoLat",
+         "plyoLow",
+         "plyoUp",
+         "plyoVert"
+        ],
+        "values": [
+         8,
+         10,
+         12,
+         14
+        ]
+       },
+       {
+        "f": "straight",
+        "title": "Strength",
+        "slots": [
+         "pushBw2"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "6c5a1ae16e54f6ae7bfe449f56331c4d0cc4ec678a97740997e5374229fee4aa"
+ },
+ "pin-strength-stretch": {
+  "record": {
+   "name": "Strength & stretch",
+   "choices": {
+    "subjects": [
+     "Strength & stretch"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "straight",
+     "flow",
+     "superset"
+    ],
+    "levers": [
+     "reps",
+     "weight"
+    ]
+   },
+   "seed": "pin-Strength & stretch",
+   "catalogue": 14,
+   "config": {
+    "subject": "Strength & stretch",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A strength & stretch program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Pull & spine flow / Shoulders & neck stretch / Pull & open",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "weight"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Pull & spine flow",
+      "short": "Pull",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Pull",
+        "slots": [
+         "backRow",
+         "backBar",
+         "row2",
+         "backRear",
+         "biceps2?"
+        ],
+        "family": "Strength"
+       },
+       {
+        "f": "flow",
+        "title": "Spine flow",
+        "slots": [
+         "mbSpine",
+         "thread_the_needle",
+         "fxSpine",
+         "ygFloor",
+         "ygRest?"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "holds",
+         "holds"
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Shoulders & neck stretch",
+      "short": "Shoulders",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Shoulders",
+        "slots": [
+         "shoulderPress",
+         "shoulderRaise",
+         "shoulderHealth",
+         "triceps2?"
+        ],
+        "family": "Strength"
+       },
+       {
+        "f": "flow",
+        "title": "Neck & shoulder stretch",
+        "slots": [
+         "chin_tucks",
+         "cross_body_shoulder",
+         "fxUpper",
+         "ygRest?"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "holds",
+         "holds"
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Pull & open",
+      "short": "Pull",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Pull strength",
+        "slots": [
+         "pullBar2",
+         "row2",
+         "row2",
+         "biceps?"
+        ],
+        "family": "Strength"
+       },
+       {
+        "f": "flow",
+        "title": "Back & shoulder stretch",
+        "slots": [
+         "puppy_pose",
+         "thread_the_needle",
+         "fxUpper",
+         "fxSpine",
+         "fxUpper?"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "holds",
+         "holds"
+        ],
+        "scale": 2,
+        "cap": 90
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "dc229f59347e0edc475085180745f30aead798d85fc3ec99989d2e37fe4421b0"
+ },
+ "pin-fighter": {
+  "record": {
+   "name": "Fighter",
+   "choices": {
+    "subjects": [
+     "Fighter"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "bouts",
+     "flow",
+     "straight",
+     "circuit",
+     "superset",
+     "tabata",
+     "amrap",
+     "emom"
+    ],
+    "levers": [
+     "reps",
+     "weight"
+    ]
+   },
+   "seed": "pin-Fighter",
+   "catalogue": 14,
+   "config": {
+    "subject": "Fighter",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A fighter program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Clinch, AMRAP & flow / Bouts & conditioning / Bouts & reset",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "weight"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Clinch, AMRAP & flow",
+      "short": "Clinch",
+      "blocks": [
+       {
+        "f": "bouts",
+        "title": "Clinch & combo bouts",
+        "slots": [
+         "clinch_knees",
+         "kkCombo",
+         "bxBasic",
+         "kkKnee?"
+        ],
+        "family": "Cardio & combat",
+        "lever": [
+         null,
+         "variation",
+         "variation"
+        ]
+       },
+       {
+        "f": "amrap",
+        "title": "AMRAP",
+        "slots": [
+         "pushBw2",
+         "legsBw2",
+         "cardio"
+        ],
+        "family": "Cardio & combat"
+       },
+       {
+        "f": "flow",
+        "title": "Hips & spine flow",
+        "slots": [
+         "mbHip",
+         "mbSpine",
+         "ygHips",
+         "mbSpine?"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "holds",
+         "holds"
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Bouts & conditioning",
+      "short": "Burn",
+      "blocks": [
+       {
+        "f": "bouts",
+        "title": "Bouts",
+        "slots": [
+         "bxPower",
+         "bxBasic",
+         "bxDefense",
+         "bxPower?"
+        ],
+        "family": "Cardio & combat",
+        "lever": [
+         null,
+         "variation",
+         "variation"
+        ]
+       },
+       {
+        "f": "circuit",
+        "title": "Conditioning",
+        "slots": [
+         "cardio",
+         "legsBw2",
+         "pushBw2",
+         "cardio"
+        ],
+        "family": "Cardio & combat"
+       },
+       {
+        "f": "flow",
+        "title": "Cool-down flow",
+        "slots": [
+         "mbHip",
+         "mbSpine",
+         "mbShoulder",
+         "mbSpine?"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "holds",
+         "holds"
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Bouts & reset",
+      "short": "Reset",
+      "blocks": [
+       {
+        "f": "bouts",
+        "title": "Bouts",
+        "slots": [
+         "bxBasic",
+         "kkKick",
+         "bxPower",
+         "kkCombo",
+         "bxDefense?"
+        ],
+        "family": "Cardio & combat",
+        "lever": [
+         null,
+         "variation",
+         "variation"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Hips & shoulders flow",
+        "slots": [
+         "mbHip",
+         "mbShoulder",
+         "ygHips",
+         "mbSpine",
+         "fxHips?"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "holds",
+         "holds"
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "9c209978ed0f89255129050b0a170cdd3708951c38d0701986794a0318b77c5a"
+ },
+ "pin-athlete": {
+  "record": {
+   "name": "Athlete",
+   "choices": {
+    "subjects": [
+     "Athlete"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "straight",
+     "circuit",
+     "superset"
+    ],
+    "levers": [
+     "reps",
+     "weight"
+    ]
+   },
+   "seed": "pin-Athlete",
+   "catalogue": 14,
+   "config": {
+    "subject": "Athlete",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A athlete program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Bound & balance / Bound & balance / Bound & balance",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "weight"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 60,
+     "exercise": 90,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Bound & balance",
+      "short": "Bound",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Bounds",
+        "slots": [
+         "plyoLat",
+         "plyoLat",
+         "plyoLow?"
+        ],
+        "family": "Cardio & combat",
+        "lever": [
+         null,
+         "reps",
+         "variation"
+        ]
+       },
+       {
+        "f": "straight",
+        "title": "Single-leg strength",
+        "slots": [
+         "singleLeg",
+         "legsBw2",
+         "legsBw2?"
+        ],
+        "family": "Strength"
+       },
+       {
+        "f": "circuit",
+        "title": "Balance",
+        "slots": [
+         "blPower",
+         "blDynamic",
+         "blStatic?"
+        ],
+        "family": "Mind & body"
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Bound & balance",
+      "short": "Bound",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Bounds",
+        "slots": [
+         "plyoLat",
+         "plyoLat",
+         "plyoLow?"
+        ],
+        "family": "Cardio & combat",
+        "lever": [
+         null,
+         "reps",
+         "variation"
+        ]
+       },
+       {
+        "f": "straight",
+        "title": "Single-leg strength",
+        "slots": [
+         "singleLeg",
+         "legsBw2",
+         "legsBw2?"
+        ],
+        "family": "Strength"
+       },
+       {
+        "f": "circuit",
+        "title": "Balance",
+        "slots": [
+         "blPower",
+         "blDynamic",
+         "blStatic?"
+        ],
+        "family": "Mind & body"
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Bound & balance",
+      "short": "Bound",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Bounds",
+        "slots": [
+         "plyoLat",
+         "plyoLat",
+         "plyoLow?"
+        ],
+        "family": "Cardio & combat",
+        "lever": [
+         null,
+         "reps",
+         "variation"
+        ]
+       },
+       {
+        "f": "straight",
+        "title": "Single-leg strength",
+        "slots": [
+         "singleLeg",
+         "legsBw2",
+         "legsBw2?"
+        ],
+        "family": "Strength"
+       },
+       {
+        "f": "circuit",
+        "title": "Balance",
+        "slots": [
+         "blPower",
+         "blDynamic",
+         "blStatic?"
+        ],
+        "family": "Mind & body"
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "c502d5d6a96cd2a5dc52c96e8b9e77dc75087b9cb1e6722936f62a6da0f20cfc"
+ },
+ "pin-balanced-week": {
+  "record": {
+   "name": "Balanced week",
+   "choices": {
+    "subjects": [
+     "Balanced week"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "superset",
+     "tabata",
+     "flow",
+     "straight",
+     "circuit",
+     "amrap",
+     "emom",
+     "ladder",
+     "bouts"
+    ],
+    "levers": [
+     "reps",
+     "weight"
+    ]
+   },
+   "seed": "pin-Balanced week",
+   "catalogue": 14,
+   "config": {
+    "subject": "Balanced week",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A balanced week program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Supersets, AMRAP & flow / Legs, Tabata & hip flow / Circuit, AMRAP & flow",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "weight"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Supersets, AMRAP & flow",
+      "short": "AMRAP",
+      "blocks": [
+       {
+        "f": "superset",
+        "title": "Strength",
+        "slots": [
+         "squat2",
+         "backRow",
+         "chestPress",
+         "hinge2"
+        ],
+        "family": "Strength"
+       },
+       {
+        "f": "amrap",
+        "title": "AMRAP",
+        "slots": [
+         "hiit",
+         "kbBallistic",
+         "cardio"
+        ],
+        "family": "Cardio & combat",
+        "lever": [
+         null,
+         "reps",
+         "reps"
+        ],
+        "values": [
+         5,
+         6,
+         7
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Flow",
+        "slots": [
+         "ygStand",
+         "ygHips",
+         "ygRest",
+         "ygRest?"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "holds",
+         "holds"
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Legs, Tabata & hip flow",
+      "short": "Legs",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Legs",
+        "slots": [
+         "legsBw2",
+         "singleLeg",
+         "legsBw2",
+         "singleLeg?",
+         "legsBw2?"
+        ],
+        "family": "Strength"
+       },
+       {
+        "f": "tabata",
+        "title": "Tabata",
+        "slots": [
+         "hiit",
+         "legsBw2",
+         "hiit",
+         "cardio"
+        ],
+        "family": "Cardio & combat",
+        "lever": [
+         null,
+         "reps",
+         "reps"
+        ],
+        "values": [
+         1,
+         2
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Hip flow",
+        "slots": [
+         "ygHips",
+         "mbHip",
+         "fxHips",
+         "ygHips?"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "holds",
+         "holds"
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Circuit, AMRAP & flow",
+      "short": "Circuit",
+      "blocks": [
+       {
+        "f": "circuit",
+        "title": "Strength circuit",
+        "slots": [
+         "pushBw2",
+         "legsBw2",
+         "pullBw",
+         "core2"
+        ],
+        "family": "Strength"
+       },
+       {
+        "f": "amrap",
+        "title": "AMRAP",
+        "slots": [
+         "hiit",
+         "cardio",
+         "hiit"
+        ],
+        "family": "Cardio & combat",
+        "lever": [
+         null,
+         "reps",
+         "reps"
+        ],
+        "values": [
+         5,
+         6
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Flow",
+        "slots": [
+         "sun_salutation",
+         "ygStand",
+         "ygRest?"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "holds",
+         "holds"
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "1e81c4a490f6c28c4e00387172f4f8fc89160572bd666fb824afe135780c6b91"
+ },
+ "pin-calm-strength": {
+  "record": {
+   "name": "Calm strength",
+   "choices": {
+    "subjects": [
+     "Calm strength"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "flow",
+     "straight",
+     "superset",
+     "circuit"
+    ],
+    "levers": [
+     "reps",
+     "weight"
+    ]
+   },
+   "seed": "pin-Calm strength",
+   "catalogue": 14,
+   "config": {
+    "subject": "Calm strength",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A calm strength program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Pilates, slow supersets & yin B / Pilates, slow upper & yin / Pilates, slow bodyweight & yin",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "weight"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Pilates, slow supersets & yin B",
+      "short": "B",
+      "blocks": [
+       {
+        "f": "flow",
+        "title": "Pilates series",
+        "slots": [
+         "hundred",
+         "plGlute",
+         "plSide",
+         "plAbs"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "reps",
+         "reps"
+        ]
+       },
+       {
+        "f": "superset",
+        "title": "Slow supersets",
+        "slots": [
+         "lunge2",
+         "backBar",
+         "shoulderPress",
+         "thrust",
+         "hinge2",
+         "chest2"
+        ],
+        "family": "Strength"
+       },
+       {
+        "f": "flow",
+        "title": "Yin",
+        "slots": [
+         "ygYinSpine",
+         "ygYinSpine?"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "holds",
+         "holds"
+        ],
+        "scale": 3,
+        "cap": 120,
+        "values": [
+         1
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Pilates, slow upper & yin",
+      "short": "Upper",
+      "blocks": [
+       {
+        "f": "flow",
+        "title": "Pilates series",
+        "slots": [
+         "hundred",
+         "plAbs",
+         "plBack",
+         "plRoll"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "reps",
+         "reps"
+        ]
+       },
+       {
+        "f": "straight",
+        "title": "Slow upper",
+        "slots": [
+         "chestPress",
+         "backRow",
+         "shoulderPress",
+         "row2",
+         "biceps2?"
+        ],
+        "family": "Strength"
+       },
+       {
+        "f": "flow",
+        "title": "Yin",
+        "slots": [
+         "ygYinSpine",
+         "ygYinSpine?"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "holds",
+         "holds"
+        ],
+        "scale": 3,
+        "cap": 120,
+        "values": [
+         1
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Pilates, slow bodyweight & yin",
+      "short": "Pilates",
+      "blocks": [
+       {
+        "f": "flow",
+        "title": "Pilates series",
+        "slots": [
+         "hundred",
+         "plAbs",
+         "plBack",
+         "plGlute"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "reps",
+         "reps"
+        ]
+       },
+       {
+        "f": "straight",
+        "title": "Slow bodyweight",
+        "slots": [
+         "pushBw2",
+         "legsBw2",
+         "pullBw",
+         "thrustBw",
+         "chestBw?"
+        ],
+        "family": "Strength"
+       },
+       {
+        "f": "flow",
+        "title": "Yin",
+        "slots": [
+         "ygYinHips",
+         "ygYinHips?"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "holds",
+         "holds"
+        ],
+        "scale": 3,
+        "cap": 120,
+        "values": [
+         1
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "7eb039a0cff2f633d09b89c2bf6b485f495edb00f691d963d5c2c4ddb430ad7b"
+ },
+ "pin-running-prep": {
+  "record": {
+   "name": "Running prep",
+   "choices": {
+    "subjects": [
+     "Running prep"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "circuit",
+     "straight",
+     "emom",
+     "amrap"
+    ],
+    "levers": [
+     "reps",
+     "variation"
+    ]
+   },
+   "seed": "pin-Running prep",
+   "catalogue": 14,
+   "config": {
+    "subject": "Running prep",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A running prep program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Bounce / Bound / Bounce",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "variation"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 60,
+     "exercise": 90,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Bounce",
+      "short": "Bounce",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Bounces",
+        "slots": [
+         "pogo_hops",
+         "split_step",
+         "runPlyo",
+         "runDrill",
+         "runPlyo?"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Bound",
+      "short": "Bound",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Bounds",
+        "slots": [
+         "bounding",
+         "single_leg_hops",
+         "runPlyo",
+         "runDrill",
+         "runPlyo?"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Bounce",
+      "short": "Bounce",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Bounces",
+        "slots": [
+         "pogo_hops",
+         "split_step",
+         "runPlyo",
+         "runDrill",
+         "runPlyo?"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "7f1a3138e1d0aa742fbd721ec2b781d213101ef928a7cafcd3678b590bfd61ef"
+ },
+ "pin-court-field-sports": {
+  "record": {
+   "name": "Court & field sports",
+   "choices": {
+    "subjects": [
+     "Court & field sports"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "circuit",
+     "emom",
+     "straight",
+     "tabata",
+     "amrap"
+    ],
+    "levers": [
+     "reps",
+     "weight"
+    ]
+   },
+   "seed": "pin-Court & field sports",
+   "catalogue": 14,
+   "config": {
+    "subject": "Court & field sports",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A court & field sports program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Reaction circuit / Upper & core / Footwork Tabatas",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "weight"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Reaction circuit",
+      "short": "Circuit",
+      "blocks": [
+       {
+        "f": "circuit",
+        "title": "Reaction circuit",
+        "slots": [
+         "split_step",
+         "courtMove",
+         "courtPower",
+         "courtMove",
+         "courtLegs?"
+        ],
+        "values": [
+         3,
+         4,
+         5
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Upper & core",
+      "short": "Upper",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Jump",
+        "slots": [
+         "courtPower"
+        ]
+       },
+       {
+        "f": "straight",
+        "title": "Upper & core",
+        "slots": [
+         "pushLoad2",
+         "row2",
+         "farmer_carry",
+         "shoulders2?"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Footwork Tabatas",
+      "short": "Tabata",
+      "blocks": [
+       {
+        "f": "tabata",
+        "title": "Footwork Tabatas",
+        "slots": [
+         "courtMove",
+         "hiitSec",
+         "courtPower",
+         "courtMove"
+        ],
+        "values": [
+         3,
+         4
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "f243cdca3e2a8cd1e2ba291209bb0e2154cd2e2384a0459225163037c8980437"
+ },
+ "pin-grip-forearms": {
+  "record": {
+   "name": "Grip & forearms",
+   "choices": {
+    "subjects": [
+     "Grip & forearms"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "straight",
+     "circuit",
+     "superset",
+     "emom"
+    ],
+    "levers": [
+     "reps",
+     "weight"
+    ]
+   },
+   "seed": "pin-Grip & forearms",
+   "catalogue": 14,
+   "config": {
+    "subject": "Grip & forearms",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A grip & forearms program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Heavy pulls / Forearm curls / Holds & carries",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "weight"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Heavy pulls",
+      "short": "Pulls",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Heavy pulls",
+        "slots": [
+         "gripPull",
+         "gripPull",
+         "gripPull",
+         "gripHold?"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Forearm curls",
+      "short": "Curls",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Forearm curls",
+        "slots": [
+         "wrist_curl",
+         "reverse_wrist_curl",
+         "reverse_curl",
+         "gripCurl",
+         "gripCurl?"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Holds & carries",
+      "short": "Holds",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Holds & carries",
+        "slots": [
+         "farmer_carry",
+         "gripHold",
+         "gripHold",
+         "gripHold?"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "e10c87572d875aa511eda264f5c4cbf066f16a43ac474931bf4151105bb74b8c"
+ },
+ "pin-kettlebell-complexes": {
+  "record": {
+   "name": "Kettlebell complexes",
+   "choices": {
+    "subjects": [
+     "Kettlebell complexes"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "circuit",
+     "emom",
+     "ladder",
+     "amrap",
+     "straight"
+    ],
+    "levers": [
+     "reps",
+     "weight"
+    ]
+   },
+   "seed": "pin-Kettlebell complexes",
+   "catalogue": 14,
+   "config": {
+    "subject": "Kettlebell complexes",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A kettlebell complexes program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Sumo complex / Heavy complex B / AMRAP A",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "weight"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Sumo complex",
+      "short": "Sumo",
+      "blocks": [
+       {
+        "f": "circuit",
+        "title": "Sumo complex",
+        "slots": [
+         "kb_sumo_deadlift",
+         "sumo_pulse",
+         "lateral_lunge",
+         "kbCxLower"
+        ],
+        "values": [
+         3,
+         4,
+         5
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Heavy complex B",
+      "short": "B",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Heavy complex B",
+        "slots": [
+         "kb_swing",
+         "kb_high_pull",
+         "kb_push_press",
+         "kbCxLower?"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "AMRAP A",
+      "short": "A",
+      "blocks": [
+       {
+        "f": "amrap",
+        "title": "Long AMRAP",
+        "slots": [
+         "kb_clean",
+         "kbCxUpper",
+         "kbCxLower",
+         "kbCx",
+         "kbCxCore"
+        ],
+        "values": [
+         10,
+         12
+        ]
+       },
+       {
+        "f": "amrap",
+        "title": "Short AMRAP",
+        "slots": [
+         "kbCx",
+         "kbCxCore"
+        ],
+        "values": [
+         5,
+         6
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "8cebc7f78dd661c12a385a30f34e854916db8bf0e8bae36352cf34815c3d0e02"
+ },
+ "pin-climber-pull-strength": {
+  "record": {
+   "name": "Climber / pull strength",
+   "choices": {
+    "subjects": [
+     "Climber / pull strength"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "straight",
+     "ladder",
+     "circuit",
+     "emom",
+     "superset"
+    ],
+    "levers": [
+     "reps",
+     "weight"
+    ]
+   },
+   "seed": "pin-Climber / pull strength",
+   "catalogue": 14,
+   "config": {
+    "subject": "Climber / pull strength",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A climber / pull strength program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Pull / Pull EMOM & core / Pull & push",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "weight"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Pull",
+      "short": "Pull",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Pull-ups",
+        "slots": [
+         "climbPull",
+         "climbPull",
+         "climbPull",
+         "climbBack?"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Pull EMOM & core",
+      "short": "Pull",
+      "blocks": [
+       {
+        "f": "emom",
+        "title": "Pull EMOM",
+        "slots": [
+         "climbPull",
+         "climbPull",
+         "barCore"
+        ],
+        "values": [
+         8,
+         10,
+         12
+        ]
+       },
+       {
+        "f": "straight",
+        "title": "Core",
+        "slots": [
+         "coreHollow",
+         "coreAnti?"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Pull & push",
+      "short": "Pull · Push",
+      "blocks": [
+       {
+        "f": "superset",
+        "title": "Pull & push",
+        "slots": [
+         "climbPull",
+         "pushBw2",
+         "climbPull",
+         "pike_pushup",
+         "climbHold",
+         "pushBw2"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "85e9323f41554db78635e263cc952c111b5c8a53d9fe990b0c7f90dd7abdd56c"
+ },
+ "pin-gentle-low-impact": {
+  "record": {
+   "name": "Gentle / low impact",
+   "choices": {
+    "subjects": [
+     "Gentle / low impact"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "circuit",
+     "flow",
+     "straight",
+     "emom"
+    ],
+    "levers": [
+     "reps",
+     "holds"
+    ]
+   },
+   "seed": "pin-Gentle / low impact",
+   "catalogue": 14,
+   "config": {
+    "subject": "Gentle / low impact",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A gentle / low impact program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Easy cardio & balance / Strength & stretch A / Gentle flow",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "holds"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Easy cardio & balance",
+      "short": "Cardio",
+      "blocks": [
+       {
+        "f": "emom",
+        "title": "Easy cardio",
+        "slots": [
+         "standing_march",
+         "gentleCardio",
+         "step_touch",
+         "gentleCardio"
+        ],
+        "values": [
+         12,
+         14,
+         16
+        ]
+       },
+       {
+        "f": "circuit",
+        "title": "Balance",
+        "slots": [
+         "gentleBalance",
+         "gentleBalance",
+         "gentleBalance?"
+        ],
+        "values": [
+         2,
+         3,
+         4
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Stretch",
+        "slots": [
+         "backMove",
+         "backMove?"
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Strength & stretch A",
+      "short": "A",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Strength",
+        "slots": [
+         "sit_to_stand",
+         "wall_pushup",
+         "glute_bridge",
+         "gentleStrength?"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Stretch",
+        "slots": [
+         "backMove",
+         "backMove",
+         "backMove?"
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Gentle flow",
+      "short": "Flow",
+      "blocks": [
+       {
+        "f": "flow",
+        "title": "Floor flow",
+        "slots": [
+         "pelvic_tilt",
+         "knee_hug",
+         "backMove",
+         "backMove",
+         "mbHip",
+         "backMove",
+         "backMove?",
+         "mbHip?"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Hips & back",
+        "slots": [
+         "mbHip",
+         "backMove",
+         "mbSpine",
+         "backMove",
+         "mbHip?",
+         "backMove?"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Rest flow",
+        "slots": [
+         "backMove",
+         "childs_pose",
+         "ygRest",
+         "backMove?",
+         "ygRest?"
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "a5977894ef76907db924639a9de6eca6919cf388d443b2bf06d8cad905d2d9d5"
+ },
+ "pin-back-care": {
+  "record": {
+   "name": "Back care",
+   "choices": {
+    "subjects": [
+     "Back care"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "straight",
+     "flow",
+     "circuit"
+    ],
+    "levers": [
+     "reps",
+     "weight"
+    ]
+   },
+   "seed": "pin-Back care",
+   "catalogue": 14,
+   "config": {
+    "subject": "Back care",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A back care program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Upper back & neck / Strength circuit / Spine flow & sets",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "weight"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Upper back & neck",
+      "short": "Upper",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Upper back & neck",
+        "slots": [
+         "prone_y_raise",
+         "reverse_snow_angel",
+         "prone_neck_lift",
+         "trapsBw",
+         "chin_tucks"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Shoulder flow",
+        "slots": [
+         "thread_the_needle",
+         "mbShoulder",
+         "open_book",
+         "mbSpine",
+         "childs_pose?"
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Strength circuit",
+      "short": "Circuit",
+      "blocks": [
+       {
+        "f": "circuit",
+        "title": "Back circuit",
+        "slots": [
+         "mcgill_curl_up",
+         "bird_dog",
+         "side_plank_knee",
+         "glute_bridge",
+         "backStrength",
+         "prone_ytw"
+        ],
+        "values": [
+         3,
+         4,
+         5,
+         6
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Spine flow & sets",
+      "short": "Flow",
+      "blocks": [
+       {
+        "f": "flow",
+        "title": "Spine flow",
+        "slots": [
+         "cat_cow",
+         "backMove",
+         "spinal_wave",
+         "backMove",
+         "mbHip",
+         "backMove?"
+        ]
+       },
+       {
+        "f": "straight",
+        "title": "Glutes & upper back",
+        "slots": [
+         "glute_bridge",
+         "clamshell",
+         "prone_y_raise",
+         "backStrength?"
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "68d19d97533b5280cacdf0b5b7f3bfcc538b9f09a518bc0969aa6d77c62fc530"
+ },
+ "pin-chest": {
+  "record": {
+   "name": "Chest",
+   "choices": {
+    "subjects": [
+     "Chest"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "straight",
+     "superset",
+     "circuit",
+     "emom",
+     "ladder",
+     "amrap"
+    ],
+    "levers": [
+     "reps",
+     "weight"
+    ]
+   },
+   "seed": "pin-Chest",
+   "catalogue": 14,
+   "config": {
+    "subject": "Chest",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A chest program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Press & fly B / Chest / Legs & back",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "weight"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Press & fly B",
+      "short": "B",
+      "blocks": [
+       {
+        "f": "superset",
+        "title": "Press & fly",
+        "slots": [
+         "chestPress",
+         "chestBw",
+         "chestIso",
+         "triceps2"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Chest",
+      "short": "Chest",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Chest",
+        "slots": [
+         "kb_floor_press",
+         "chestBw",
+         "pushup_hold",
+         "chestBw?"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Legs & back",
+      "short": "Legs",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Legs & back",
+        "slots": [
+         "kbLower2",
+         "kb_dead_stop_row",
+         "kbLower2",
+         "kb_row?"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "ab08074cfa9c9ded7e57f90a4586ad56fffaa44a44c1fb9aac0e284fbfdb257d"
+ },
+ "pin-back": {
+  "record": {
+   "name": "Back",
+   "choices": {
+    "subjects": [
+     "Back"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "straight",
+     "superset",
+     "circuit",
+     "emom",
+     "ladder"
+    ],
+    "levers": [
+     "reps",
+     "weight"
+    ]
+   },
+   "seed": "pin-Back",
+   "catalogue": 14,
+   "config": {
+    "subject": "Back",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A back program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Rows / Bell back circuit / Back supersets",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "weight"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Rows",
+      "short": "Rows",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Rows",
+        "slots": [
+         "backRow",
+         "backRow",
+         "backRear",
+         "biceps2?"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Bell back circuit",
+      "short": "Circuit",
+      "blocks": [
+       {
+        "f": "circuit",
+        "title": "Bell back circuit",
+        "slots": [
+         "kb_row",
+         "kb_high_pull",
+         "backBw",
+         "kb_dead_stop_row"
+        ],
+        "values": [
+         2,
+         3,
+         4
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Back supersets",
+      "short": "Pump",
+      "blocks": [
+       {
+        "f": "superset",
+        "title": "Back supersets",
+        "slots": [
+         "backRow",
+         "backRear",
+         "backBar",
+         "biceps2",
+         "backRow",
+         "backRear"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "18372f1b8c2a9bb63ec2f16ccf912a9cd229150b16bc528ac0f3830e7ff18282"
+ },
+ "pin-shoulders": {
+  "record": {
+   "name": "Shoulders",
+   "choices": {
+    "subjects": [
+     "Shoulders"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "straight",
+     "superset",
+     "circuit",
+     "emom",
+     "ladder"
+    ],
+    "levers": [
+     "reps",
+     "weight"
+    ]
+   },
+   "seed": "pin-Shoulders",
+   "catalogue": 14,
+   "config": {
+    "subject": "Shoulders",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A shoulders program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Heavy press / Ladder & triceps / Raise supersets",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "weight"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Heavy press",
+      "short": "Heavy",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Heavy press",
+        "slots": [
+         "db_shoulder_press",
+         "arnold_press",
+         "shoulderRaise",
+         "trapsPool?"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Ladder & triceps",
+      "short": "Triceps",
+      "blocks": [
+       {
+        "f": "ladder",
+        "title": "Shoulder ladder",
+        "slots": [
+         "shoulderRaise",
+         "shoulderPress"
+        ]
+       },
+       {
+        "f": "straight",
+        "title": "Helpers",
+        "slots": [
+         "triceps2",
+         "shoulderHealth"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Raise supersets",
+      "short": "Raises",
+      "blocks": [
+       {
+        "f": "superset",
+        "title": "Raise supersets",
+        "slots": [
+         "lateral_raise",
+         "reverse_fly",
+         "upright_row",
+         "external_rotation"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "daab7c4b95bc6c797286ee2c46abee962c784e3b3c2ba81856b40b1e3a69c930"
+ },
+ "pin-arms": {
+  "record": {
+   "name": "Arms",
+   "choices": {
+    "subjects": [
+     "Arms"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "straight",
+     "superset",
+     "circuit",
+     "emom",
+     "ladder"
+    ],
+    "levers": [
+     "reps",
+     "weight"
+    ]
+   },
+   "seed": "pin-Arms",
+   "catalogue": 14,
+   "config": {
+    "subject": "Arms",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A arms program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Biceps & triceps / Biceps / Dips & presses",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "weight"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Biceps & triceps",
+      "short": "Arms",
+      "blocks": [
+       {
+        "f": "superset",
+        "title": "Biceps & triceps",
+        "slots": [
+         "biceps2",
+         "triceps2",
+         "biceps2",
+         "triceps2",
+         "biceps2",
+         "triceps2"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Biceps",
+      "short": "Biceps",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Biceps",
+        "slots": [
+         "biceps2",
+         "biceps2",
+         "biceps2",
+         "gripCurl",
+         "biceps2?"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Dips & presses",
+      "short": "Triceps",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Dips & presses",
+        "slots": [
+         "floor_dip",
+         "triceps2",
+         "close_grip_pushup",
+         "triceps2?"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "b877b43274dba4718bca6b0dbc433f57480eadbab2f2a6fab74252b292e1ca2b"
+ },
+ "pin-hips-adductors": {
+  "record": {
+   "name": "Hips & adductors",
+   "choices": {
+    "subjects": [
+     "Hips & adductors"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "straight",
+     "superset",
+     "circuit",
+     "emom",
+     "ladder"
+    ],
+    "levers": [
+     "reps",
+     "holds"
+    ]
+   },
+   "seed": "pin-Hips & adductors",
+   "catalogue": 14,
+   "config": {
+    "subject": "Hips & adductors",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A hips & adductors program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Upper body / Sumo / Hip flexors",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "holds"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Upper body",
+      "short": "Upper",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Upper body",
+        "slots": [
+         "chestPress",
+         "backRow",
+         "shoulderPress",
+         "triceps2?"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Sumo",
+      "short": "Sumo",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Sumo",
+        "slots": [
+         "sumo_pulse",
+         "kb_sumo_deadlift",
+         "adductorBw",
+         "lateral_lunge?"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Hip flexors",
+      "short": "Flexors",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Hip flexors",
+        "slots": [
+         "hipFlex",
+         "adductor",
+         "hipFlex",
+         "adductorBw",
+         "hipFlex?"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "61654745176f534a5186b2e5789169c80e4b7d56ef6922e3cfb5672215a9da00"
+ },
+ "pin-calves-lower-legs": {
+  "record": {
+   "name": "Calves & lower legs",
+   "choices": {
+    "subjects": [
+     "Calves & lower legs"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "straight",
+     "superset",
+     "circuit",
+     "emom",
+     "tabata",
+     "ladder"
+    ],
+    "levers": [
+     "reps",
+     "holds"
+    ]
+   },
+   "seed": "pin-Calves & lower legs",
+   "catalogue": 14,
+   "config": {
+    "subject": "Calves & lower legs",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A calves & lower legs program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Calf circuit A / Raise & hop ladder / Springs",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "holds"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Calf circuit A",
+      "short": "A",
+      "blocks": [
+       {
+        "f": "circuit",
+        "title": "Calf circuit",
+        "slots": [
+         "calf",
+         "shin",
+         "calfPlyo",
+         "calf",
+         "shin?"
+        ],
+        "values": [
+         3,
+         4,
+         5
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Raise & hop ladder",
+      "short": "Ladder",
+      "blocks": [
+       {
+        "f": "ladder",
+        "title": "Lower-leg ladder",
+        "slots": [
+         "calfReps",
+         "plyoReps"
+        ]
+       },
+       {
+        "f": "straight",
+        "title": "Shins & calves",
+        "slots": [
+         "shin",
+         "calf",
+         "shin?"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Springs",
+      "short": "Springs",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Springs",
+        "slots": [
+         "calfPlyo",
+         "calf",
+         "shin",
+         "calfPlyo?"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "3b6dc6a36bd9eb8c7cc5d1ccaad6e8377cd31cd610025d5aba033b0039498c38"
+ },
+ "pin-neck-traps": {
+  "record": {
+   "name": "Neck & traps",
+   "choices": {
+    "subjects": [
+     "Neck & traps"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "straight",
+     "superset",
+     "circuit",
+     "emom",
+     "ladder"
+    ],
+    "levers": [
+     "reps",
+     "holds"
+    ]
+   },
+   "seed": "pin-Neck & traps",
+   "catalogue": 14,
+   "config": {
+    "subject": "Neck & traps",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A neck & traps program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Neck & shrugs / Neck circuit B / Neck & loaded traps",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "holds"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Neck & shrugs",
+      "short": "Neck",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Neck & shrugs",
+        "slots": [
+         "neck",
+         "neck",
+         "traps2",
+         "neck",
+         "traps2?"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Neck circuit B",
+      "short": "B",
+      "blocks": [
+       {
+        "f": "circuit",
+        "title": "Neck circuit",
+        "slots": [
+         "traps2",
+         "neck",
+         "trapsBw",
+         "neck",
+         "trapsBw?"
+        ],
+        "values": [
+         3,
+         4,
+         5
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Neck & loaded traps",
+      "short": "Shrugs",
+      "blocks": [
+       {
+        "f": "superset",
+        "title": "Neck & traps",
+        "slots": [
+         "neck",
+         "traps2",
+         "neck",
+         "traps2",
+         "neck",
+         "trapsBw"
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "67eb68af15264c4aaa0811ebefc310fc6daaf4be04ed44899ab87b3832796ec9"
+ },
+ "pin-beach-body": {
+  "record": {
+   "name": "Beach body",
+   "choices": {
+    "subjects": [
+     "Beach body"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "straight",
+     "tabata",
+     "superset",
+     "circuit",
+     "amrap",
+     "flow",
+     "emom"
+    ],
+    "levers": [
+     "reps",
+     "holds"
+    ]
+   },
+   "seed": "pin-Beach body",
+   "catalogue": 14,
+   "config": {
+    "subject": "Beach body",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A beach body program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Obliques & HIIT / Abs & HIIT / Burn & stretch",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "holds"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Obliques & HIIT",
+      "short": "Obliques",
+      "blocks": [
+       {
+        "f": "circuit",
+        "title": "Obliques",
+        "slots": [
+         "coreRot",
+         "side_plank",
+         "coreRot",
+         "absW"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "reps",
+         "reps"
+        ],
+        "values": [
+         3,
+         4
+        ]
+       },
+       {
+        "f": "tabata",
+        "title": "HIIT",
+        "slots": [
+         "hiit",
+         "cardio",
+         "hiit",
+         "cardio"
+        ],
+        "family": "Cardio & combat",
+        "lever": [
+         null,
+         "reps",
+         "reps"
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Abs & HIIT",
+      "short": "Abs",
+      "blocks": [
+       {
+        "f": "circuit",
+        "title": "Abs",
+        "slots": [
+         "coreHollow",
+         "absW",
+         "coreAnti",
+         "coreHollow"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "reps",
+         "reps"
+        ],
+        "values": [
+         3,
+         4
+        ]
+       },
+       {
+        "f": "tabata",
+        "title": "HIIT",
+        "slots": [
+         "hiit",
+         "hiit",
+         "cardio",
+         "hiit"
+        ],
+        "family": "Cardio & combat",
+        "lever": [
+         null,
+         "reps",
+         "reps"
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Burn & stretch",
+      "short": "Burn",
+      "blocks": [
+       {
+        "f": "circuit",
+        "title": "HIIT",
+        "slots": [
+         "hiit",
+         "cardio",
+         "hiit",
+         "thrustBw"
+        ],
+        "family": "Cardio & combat",
+        "lever": [
+         null,
+         "reps",
+         "reps"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Stretch",
+        "slots": [
+         "ygHips",
+         "fxHips",
+         "ygRest",
+         "ygRest?"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "holds",
+         "holds"
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "b66d86d5f1c0a801aeb85f76d05d47d55041001dcaf7b5c26c3dfeefef38b0b7"
+ },
+ "pin-bedroom-stamina": {
+  "record": {
+   "name": "Bedroom stamina",
+   "choices": {
+    "subjects": [
+     "Bedroom stamina"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "circuit",
+     "emom",
+     "straight",
+     "flow",
+     "amrap",
+     "tabata"
+    ],
+    "levers": [
+     "reps",
+     "holds"
+    ]
+   },
+   "seed": "pin-Bedroom stamina",
+   "catalogue": 14,
+   "config": {
+    "subject": "Bedroom stamina",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A bedroom stamina program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Quads & hips / Control & stretch / Pelvic control & stretch",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "holds"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Quads & hips",
+      "short": "Quads",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Quads & hips",
+        "slots": [
+         "posLegs",
+         "sumo_pulse",
+         "lunge2?",
+         "adductor?"
+        ],
+        "family": "Strength"
+       },
+       {
+        "f": "circuit",
+        "title": "Core",
+        "slots": [
+         "coreAnti",
+         "coreHollow"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "reps",
+         "reps"
+        ],
+        "values": [
+         2
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Control & stretch",
+      "short": "Control",
+      "blocks": [
+       {
+        "f": "circuit",
+        "title": "Glutes & control",
+        "slots": [
+         "single_leg_bridge",
+         "pelvic_floor_hold",
+         "bridge_hold",
+         "pelvic",
+         "thrustBw?"
+        ],
+        "family": "Strength"
+       },
+       {
+        "f": "flow",
+        "title": "Hip stretch",
+        "slots": [
+         "fxHips",
+         "ygHips",
+         "fxStraddle",
+         "ygRest",
+         "ygRest?"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "holds",
+         "holds"
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Pelvic control & stretch",
+      "short": "Control",
+      "blocks": [
+       {
+        "f": "circuit",
+        "title": "Glute & pelvic holds",
+        "slots": [
+         "bridge_hold",
+         "pelvic_floor_hold",
+         "glute_bridge",
+         "pelvic_floor_hold"
+        ],
+        "family": "Strength"
+       },
+       {
+        "f": "flow",
+        "title": "Deep hip stretch",
+        "slots": [
+         "fxHips",
+         "fxStraddle",
+         "ygHips",
+         "ygRest",
+         "ygRest?"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "holds",
+         "holds"
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "76edc9c8952b7fdd797d699f04f0d123dcbf90f3a7968af8c365902f58b15e10"
+ },
+ "pin-sex-positions": {
+  "record": {
+   "name": "Sex positions",
+   "choices": {
+    "subjects": [
+     "Sex positions"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "circuit",
+     "flow",
+     "straight",
+     "tabata"
+    ],
+    "levers": [
+     "reps",
+     "holds"
+    ]
+   },
+   "seed": "pin-Sex positions",
+   "catalogue": 14,
+   "config": {
+    "subject": "Sex positions",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A sex positions program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Thighs & hips / Bend & hold / Hips strong",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "holds"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Thighs & hips",
+      "short": "Thighs",
+      "blocks": [
+       {
+        "f": "circuit",
+        "title": "Inner thighs",
+        "slots": [
+         "sumo_pulse",
+         "adductor",
+         "deep_squat_hold",
+         "adductor"
+        ],
+        "family": "Strength"
+       },
+       {
+        "f": "flow",
+        "title": "Deep hips",
+        "slots": [
+         "garland_pose",
+         "fxHips",
+         "fxStraddle",
+         "ygRest",
+         "ygRest?"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "holds",
+         "holds"
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Bend & hold",
+      "short": "Bend",
+      "blocks": [
+       {
+        "f": "circuit",
+        "title": "Holds",
+        "slots": [
+         "posHold",
+         "bridge_hold",
+         "plank",
+         "posHold?"
+        ],
+        "family": "Strength"
+       },
+       {
+        "f": "flow",
+        "title": "Backbends & twists",
+        "slots": [
+         "ygBack",
+         "fxSpine",
+         "ygBack",
+         "ygRest",
+         "ygRest?"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "holds",
+         "holds"
+        ],
+        "scale": 2,
+        "cap": 90
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Hips strong",
+      "short": "Strong",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Hip strength",
+        "slots": [
+         "thrust",
+         "adductor",
+         "cossack_squat",
+         "hipFlex?"
+        ],
+        "family": "Strength"
+       },
+       {
+        "f": "flow",
+        "title": "Stretch",
+        "slots": [
+         "fxHips",
+         "ygRest",
+         "ygRest?"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "holds",
+         "holds"
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "bc9b8189e1a6a076aa094d5f9823b1b70af3a61662d19a6b1ba056234f022f5a"
+ },
+ "pin-endurance-control": {
+  "record": {
+   "name": "Endurance & control",
+   "choices": {
+    "subjects": [
+     "Endurance & control"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "circuit",
+     "straight",
+     "flow",
+     "tabata",
+     "emom"
+    ],
+    "levers": [
+     "reps",
+     "holds"
+    ]
+   },
+   "seed": "pin-Endurance & control",
+   "catalogue": 14,
+   "config": {
+    "subject": "Endurance & control",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A endurance & control program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Holds & yin / Breath flow / Control & breath",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "holds"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Holds & yin",
+      "short": "Holds",
+      "blocks": [
+       {
+        "f": "circuit",
+        "title": "Holds",
+        "slots": [
+         "posHold",
+         "bridge_hold",
+         "posHold",
+         "pelvic_floor_hold",
+         "posHold?"
+        ],
+        "family": "Strength",
+        "values": [
+         2,
+         3,
+         4,
+         5
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Yin",
+        "slots": [
+         "ygYinHips",
+         "ygYinSpine",
+         "ygRest?"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "holds",
+         "holds"
+        ],
+        "scale": 3,
+        "cap": 120,
+        "values": [
+         1
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Breath flow",
+      "short": "Flow",
+      "blocks": [
+       {
+        "f": "circuit",
+        "title": "Pelvic floor",
+        "slots": [
+         "pelvic_floor_hold",
+         "bridge_hold",
+         "dead_bug",
+         "pelvic"
+        ],
+        "family": "Strength",
+        "lever": [
+         null,
+         "reps",
+         "reps"
+        ],
+        "values": [
+         3,
+         4
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Breath flow",
+        "slots": [
+         "ygHips",
+         "ygBack",
+         "ygRest",
+         "ygYinHips",
+         "ygBack?",
+         "ygHips?",
+         "ygRest?"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "holds",
+         "holds"
+        ],
+        "scale": 2,
+        "cap": 90
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Control & breath",
+      "short": "Control",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Slow hips",
+        "slots": [
+         "bridge_hold",
+         "thrust",
+         "pelvic_floor_hold",
+         "pelvic"
+        ],
+        "family": "Strength",
+        "lever": [
+         null,
+         "tempo",
+         "holds"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Breathe",
+        "slots": [
+         "ygHips",
+         "ygYinHips",
+         "ygRest",
+         "ygRest?"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "holds",
+         "holds"
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "584b5755cd51803a920e197904b418f88062f83db28d4a5d3433fd1ad3b89194"
+ },
+ "pin-hip-power-thrust": {
+  "record": {
+   "name": "Hip power & thrust",
+   "choices": {
+    "subjects": [
+     "Hip power & thrust"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "straight",
+     "circuit",
+     "emom",
+     "flow",
+     "tabata",
+     "ladder"
+    ],
+    "levers": [
+     "reps",
+     "weight"
+    ]
+   },
+   "seed": "pin-Hip power & thrust",
+   "catalogue": 14,
+   "config": {
+    "subject": "Hip power & thrust",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A hip power & thrust program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Thrust Tabata / Fast / Thrust ladders",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "weight"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Thrust Tabata",
+      "short": "Tabata",
+      "blocks": [
+       {
+        "f": "tabata",
+        "title": "Thrust Tabata",
+        "slots": [
+         "thrustBw",
+         "hiit"
+        ],
+        "family": "Cardio & combat",
+        "values": [
+         2,
+         3
+        ]
+       },
+       {
+        "f": "straight",
+        "title": "Glutes",
+        "slots": [
+         "hip_thrust",
+         "glute2"
+        ],
+        "family": "Strength"
+       },
+       {
+        "f": "flow",
+        "title": "Hip stretch",
+        "slots": [
+         "fxHips",
+         "ygRest"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "holds",
+         "holds"
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Fast",
+      "short": "Fast",
+      "blocks": [
+       {
+        "f": "emom",
+        "title": "Swing EMOM",
+        "slots": [
+         "kbBallistic",
+         "thrust",
+         "hiit"
+        ],
+        "family": "Cardio & combat",
+        "values": [
+         10,
+         12,
+         14
+        ]
+       },
+       {
+        "f": "circuit",
+        "title": "Core",
+        "slots": [
+         "coreHollow",
+         "pelvic_floor_hold"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "reps",
+         "reps"
+        ],
+        "values": [
+         2
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Thrust ladders",
+      "short": "Ladder",
+      "blocks": [
+       {
+        "f": "ladder",
+        "title": "Thrust ladder",
+        "slots": [
+         "hip_thrust",
+         "kbBallistic"
+        ],
+        "family": "Strength"
+       },
+       {
+        "f": "circuit",
+        "title": "Core",
+        "slots": [
+         "coreAnti",
+         "pelvic"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "reps",
+         "reps"
+        ],
+        "values": [
+         2,
+         3
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "9c4e11869f117b004d9511d75aab55eaae394590670d7898bab9eada11f24795"
+ },
+ "pin-carry-hold": {
+  "record": {
+   "name": "Carry & hold",
+   "choices": {
+    "subjects": [
+     "Carry & hold"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "straight",
+     "circuit",
+     "emom",
+     "superset",
+     "tabata"
+    ],
+    "levers": [
+     "reps",
+     "holds"
+    ]
+   },
+   "seed": "pin-Carry & hold",
+   "catalogue": 14,
+   "config": {
+    "subject": "Carry & hold",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A carry & hold program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Wall holds / Holds & core / Holds",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "holds"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Wall holds",
+      "short": "Holds",
+      "blocks": [
+       {
+        "f": "circuit",
+        "title": "Wall holds",
+        "slots": [
+         "wall_sit",
+         "posHold",
+         "calf_raise_hold",
+         "posHold"
+        ],
+        "family": "Strength",
+        "values": [
+         2,
+         3,
+         4
+        ]
+       },
+       {
+        "f": "circuit",
+        "title": "Core",
+        "slots": [
+         "coreAnti",
+         "coreHollow"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "reps",
+         "reps"
+        ],
+        "values": [
+         2
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Holds & core",
+      "short": "Holds",
+      "blocks": [
+       {
+        "f": "circuit",
+        "title": "Holds",
+        "slots": [
+         "gripHold",
+         "posHold",
+         "climbHold",
+         "posHold"
+        ],
+        "family": "Strength",
+        "values": [
+         2,
+         3,
+         4
+        ]
+       },
+       {
+        "f": "circuit",
+        "title": "Core",
+        "slots": [
+         "coreHollow",
+         "coreAnti"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "reps",
+         "reps"
+        ],
+        "values": [
+         2,
+         3
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Holds",
+      "short": "Holds",
+      "blocks": [
+       {
+        "f": "circuit",
+        "title": "Holds",
+        "slots": [
+         "wall_sit",
+         "posHold",
+         "gripHold",
+         "posHold"
+        ],
+        "family": "Strength",
+        "values": [
+         2,
+         3,
+         4
+        ]
+       },
+       {
+        "f": "tabata",
+        "title": "Finisher",
+        "slots": [
+         "hiit",
+         "posLegs"
+        ],
+        "family": "Cardio & combat",
+        "values": [
+         1
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "b205bf556b2e2e393015556751b1f00f404c9eab01e8f9e3e8540741ca0734a4"
+ },
+ "pin-flexible-bendy": {
+  "record": {
+   "name": "Flexible & bendy",
+   "choices": {
+    "subjects": [
+     "Flexible & bendy"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "straight",
+     "flow",
+     "circuit"
+    ],
+    "levers": [
+     "reps",
+     "holds"
+    ]
+   },
+   "seed": "pin-Flexible & bendy",
+   "catalogue": 14,
+   "config": {
+    "subject": "Flexible & bendy",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A flexible & bendy program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Straddle flow / Straddle flow / Straddle flow",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "holds"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Straddle flow",
+      "short": "Flow",
+      "blocks": [
+       {
+        "f": "circuit",
+        "title": "Warm hips",
+        "slots": [
+         "adductorBw",
+         "mbHip",
+         "adductorBw?"
+        ],
+        "family": "Strength",
+        "values": [
+         2,
+         3
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Straddle flow",
+        "slots": [
+         "fxStraddle",
+         "fxHips",
+         "fxStraddle",
+         "ygYinHips",
+         "ygRest?"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "holds",
+         "holds"
+        ],
+        "scale": 2,
+        "cap": 90
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Straddle flow",
+      "short": "Flow",
+      "blocks": [
+       {
+        "f": "circuit",
+        "title": "Warm hips",
+        "slots": [
+         "adductorBw",
+         "mbHip",
+         "adductorBw?"
+        ],
+        "family": "Strength",
+        "values": [
+         2,
+         3
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Straddle flow",
+        "slots": [
+         "fxStraddle",
+         "fxHips",
+         "fxStraddle",
+         "ygYinHips",
+         "ygRest?"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "holds",
+         "holds"
+        ],
+        "scale": 2,
+        "cap": 90
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Straddle flow",
+      "short": "Flow",
+      "blocks": [
+       {
+        "f": "circuit",
+        "title": "Warm hips",
+        "slots": [
+         "adductorBw",
+         "mbHip",
+         "adductorBw?"
+        ],
+        "family": "Strength",
+        "values": [
+         2,
+         3
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Straddle flow",
+        "slots": [
+         "fxStraddle",
+         "fxHips",
+         "fxStraddle",
+         "ygYinHips",
+         "ygRest?"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "holds",
+         "holds"
+        ],
+        "scale": 2,
+        "cap": 90
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "3e79551d3130d93237dda3eb3fb9f6147b3c7bb695ee7ea0a24352869cf93166"
+ },
+ "pin-strip-show-off": {
+  "record": {
+   "name": "Strip & show-off",
+   "choices": {
+    "subjects": [
+     "Strip & show-off"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "superset",
+     "tabata",
+     "circuit",
+     "emom",
+     "straight"
+    ],
+    "levers": [
+     "reps",
+     "weight"
+    ]
+   },
+   "seed": "pin-Strip & show-off",
+   "catalogue": 14,
+   "config": {
+    "subject": "Strip & show-off",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A strip & show-off program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Push-up pump / Arms / Chest & shoulders",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "weight"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Push-up pump",
+      "short": "Push",
+      "blocks": [
+       {
+        "f": "circuit",
+        "title": "Push-up pump",
+        "slots": [
+         "chestBw",
+         "armsBw",
+         "chestBw",
+         "shoulderBw"
+        ],
+        "family": "Strength",
+        "values": [
+         2,
+         3,
+         4
+        ]
+       },
+       {
+        "f": "tabata",
+        "title": "Abs",
+        "slots": [
+         "coreHollow",
+         "hiit"
+        ],
+        "family": "Cardio & combat",
+        "values": [
+         1,
+         2
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Arms",
+      "short": "Arms",
+      "blocks": [
+       {
+        "f": "superset",
+        "title": "Arms",
+        "slots": [
+         "biceps2",
+         "triceps2",
+         "biceps2",
+         "triceps2"
+        ],
+        "family": "Strength"
+       },
+       {
+        "f": "tabata",
+        "title": "Finisher",
+        "slots": [
+         "hiit",
+         "coreRot"
+        ],
+        "family": "Cardio & combat",
+        "values": [
+         1
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Chest & shoulders",
+      "short": "Chest",
+      "blocks": [
+       {
+        "f": "superset",
+        "title": "Chest & shoulders",
+        "slots": [
+         "chest2",
+         "shoulders2",
+         "chestIso",
+         "shoulderRaise"
+        ],
+        "family": "Strength"
+       },
+       {
+        "f": "tabata",
+        "title": "Finisher",
+        "slots": [
+         "hiit",
+         "coreHollow"
+        ],
+        "family": "Cardio & combat",
+        "values": [
+         1
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "bd2486c9706a2e80da71925aa6f9bdab732f2ee5619ecce7541cdfbd427236d5"
+ },
+ "pin-her-pleasure": {
+  "record": {
+   "name": "Her pleasure",
+   "choices": {
+    "subjects": [
+     "Her pleasure"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "circuit",
+     "flow",
+     "straight",
+     "tabata"
+    ],
+    "levers": [
+     "reps",
+     "holds"
+    ]
+   },
+   "seed": "pin-Her pleasure",
+   "catalogue": 14,
+   "config": {
+    "subject": "Her pleasure",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A her pleasure program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Neck & core / Hips & knees / Forearm endurance",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "holds"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Neck & core",
+      "short": "Neck",
+      "blocks": [
+       {
+        "f": "circuit",
+        "title": "Neck",
+        "slots": [
+         "neckReps",
+         "neck",
+         "neck",
+         "trapsBw?"
+        ],
+        "family": "Strength",
+        "values": [
+         2,
+         3,
+         4
+        ]
+       },
+       {
+        "f": "circuit",
+        "title": "Core",
+        "slots": [
+         "coreAnti",
+         "coreHollow",
+         "pelvic"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "reps",
+         "reps"
+        ],
+        "values": [
+         2,
+         3
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Hips & knees",
+      "short": "Hips",
+      "blocks": [
+       {
+        "f": "circuit",
+        "title": "Hips & knees",
+        "slots": [
+         "hipFlex",
+         "legsBw2",
+         "posLegs",
+         "hipFlex?"
+        ],
+        "family": "Strength",
+        "values": [
+         2,
+         3,
+         4
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Hips open",
+        "slots": [
+         "fxQuad",
+         "fxHips",
+         "ygHips",
+         "ygRest?"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "holds",
+         "holds"
+        ],
+        "scale": 2,
+        "cap": 90
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Forearm endurance",
+      "short": "Forearms",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Forearms",
+        "slots": [
+         "gripCurl",
+         "gripHold",
+         "gripCurl",
+         "carry?"
+        ],
+        "family": "Strength"
+       },
+       {
+        "f": "circuit",
+        "title": "Core",
+        "slots": [
+         "coreAnti",
+         "coreHollow"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "reps",
+         "reps"
+        ],
+        "values": [
+         1,
+         2
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "17eebd78ccc1b324faab68b3e360be331268cf89beb1c7c2a75550e408666dc9"
+ },
+ "pin-quickie": {
+  "record": {
+   "name": "Quickie",
+   "choices": {
+    "subjects": [
+     "Quickie"
+    ],
+    "split": 3,
+    "minutes": 25,
+    "equipment": "all",
+    "formats": [
+     "tabata",
+     "circuit",
+     "emom",
+     "amrap",
+     "superset"
+    ],
+    "levers": [
+     "reps",
+     "weight"
+    ]
+   },
+   "seed": "pin-Quickie",
+   "catalogue": 14,
+   "config": {
+    "subject": "Quickie",
+    "blurb": "3 days a cycle, about 25 minutes each.",
+    "about": "A quickie program built from your choices: 3 days in a cycle, about 25 minutes a day.",
+    "split": "Tabata & strength / Hot circuit / Strength & finisher",
+    "minutes": [
+     23,
+     27
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "weight"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Tabata & strength",
+      "short": "Tabata",
+      "blocks": [
+       {
+        "f": "tabata",
+        "title": "Tabata",
+        "slots": [
+         "hiit",
+         "thrustBw"
+        ],
+        "family": "Cardio & combat",
+        "values": [
+         1,
+         2,
+         3
+        ]
+       },
+       {
+        "f": "circuit",
+        "title": "Strength",
+        "slots": [
+         "squat2",
+         "push",
+         "hinge2?"
+        ],
+        "family": "Strength",
+        "values": [
+         2,
+         3,
+         4
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       23,
+       27
+      ]
+     },
+     "d2": {
+      "label": "Hot circuit",
+      "short": "Circuit",
+      "blocks": [
+       {
+        "f": "circuit",
+        "title": "Hot circuit",
+        "slots": [
+         "kbBallistic",
+         "hiit",
+         "squat2",
+         "push?"
+        ],
+        "family": "Cardio & combat",
+        "values": [
+         2,
+         3,
+         4,
+         5
+        ]
+       },
+       {
+        "f": "circuit",
+        "title": "Core",
+        "slots": [
+         "coreHollow",
+         "coreRot?"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "reps",
+         "reps"
+        ],
+        "values": [
+         1,
+         2,
+         3
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       23,
+       27
+      ]
+     },
+     "d3": {
+      "label": "Strength & finisher",
+      "short": "Strength",
+      "blocks": [
+       {
+        "f": "superset",
+        "title": "Strength",
+        "slots": [
+         "squat2",
+         "push",
+         "hinge2",
+         "row2"
+        ],
+        "family": "Strength"
+       },
+       {
+        "f": "tabata",
+        "title": "Finisher",
+        "slots": [
+         "hiit",
+         "thrustBw"
+        ],
+        "family": "Cardio & combat",
+        "values": [
+         1,
+         2
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       23,
+       27
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "364ec241b607c070232f27794644fadd7dbf080c265ae4633933a2cb0e812540"
+ },
+ "pin-back-knees-care": {
+  "record": {
+   "name": "Back & knees care",
+   "choices": {
+    "subjects": [
+     "Back & knees care"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "circuit",
+     "flow",
+     "straight"
+    ],
+    "levers": [
+     "reps",
+     "holds"
+    ]
+   },
+   "seed": "pin-Back & knees care",
+   "catalogue": 14,
+   "config": {
+    "subject": "Back & knees care",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A back & knees care program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Knee & hip mobility / Gentle strength / Back",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "holds"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Knee & hip mobility",
+      "short": "Mobility",
+      "blocks": [
+       {
+        "f": "circuit",
+        "title": "Ankles & hips",
+        "slots": [
+         "shin",
+         "mbHip",
+         "legsBw2",
+         "shin?"
+        ],
+        "family": "Strength",
+        "values": [
+         2,
+         3
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Hips & quads",
+        "slots": [
+         "fxQuad",
+         "fxHips",
+         "ygHips",
+         "fxQuad?",
+         "ygRest?"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "holds",
+         "holds"
+        ],
+        "scale": 2,
+        "cap": 90
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Gentle strength",
+      "short": "Strength",
+      "blocks": [
+       {
+        "f": "circuit",
+        "title": "Gentle strength",
+        "slots": [
+         "gentleStrength",
+         "backStrength",
+         "gentleStrength",
+         "backStrength?"
+        ],
+        "family": "Strength",
+        "values": [
+         2,
+         3
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Stretch",
+        "slots": [
+         "backMove",
+         "ygHips",
+         "backMove",
+         "ygRest",
+         "ygRest?"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "holds",
+         "holds"
+        ],
+        "scale": 2,
+        "cap": 90
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Back",
+      "short": "Back",
+      "blocks": [
+       {
+        "f": "circuit",
+        "title": "Back strength",
+        "slots": [
+         "backStrength",
+         "backStrength",
+         "thrustBw",
+         "backStrength?"
+        ],
+        "family": "Strength",
+        "values": [
+         2,
+         3,
+         4
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Back flow",
+        "slots": [
+         "backMove",
+         "backMove",
+         "backMove",
+         "ygRest",
+         "ygRest?"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "holds",
+         "holds"
+        ],
+        "scale": 2,
+        "cap": 90
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "ca6608e0dac6a5f0a9f639b16b48806892230216e7094960ed3701b5add2ed85"
+ },
+ "pin-power-yoga": {
+  "record": {
+   "name": "Power yoga",
+   "choices": {
+    "subjects": [
+     "Power yoga"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "flow"
+    ],
+    "levers": [
+     "holds",
+     "variation"
+    ]
+   },
+   "seed": "pin-Power yoga",
+   "catalogue": 14,
+   "config": {
+    "subject": "Power yoga",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A power yoga program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Standing power / Core power / Power flow A",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "holds",
+     "variation"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Standing power",
+      "short": "Stand",
+      "blocks": [
+       {
+        "f": "flow",
+        "title": "Sun salutations",
+        "slots": [
+         "sun_salutation"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Sun salutations",
+        "slots": [
+         "sun_salutation"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Standing power",
+        "slots": [
+         "ygStand",
+         "ygStand",
+         "ygBalance",
+         "ygStand",
+         "ygStand",
+         "ygBalance"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Core",
+        "slots": [
+         "ygCore",
+         "ygCore"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Rest",
+        "slots": [
+         "ygRest"
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Core power",
+      "short": "Core",
+      "blocks": [
+       {
+        "f": "flow",
+        "title": "Sun salutations",
+        "slots": [
+         "sun_salutation"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Sun salutations",
+        "slots": [
+         "sun_salutation"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Core power",
+        "slots": [
+         "plank",
+         "ygCore",
+         "ygCore",
+         "ygCore",
+         "ygCore",
+         "ygCore"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Standing",
+        "slots": [
+         "ygStand",
+         "ygStand",
+         "ygBalance"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Rest",
+        "slots": [
+         "ygRest"
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Power flow A",
+      "short": "A",
+      "blocks": [
+       {
+        "f": "flow",
+        "title": "Sun salutations",
+        "slots": [
+         "sun_salutation"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Sun salutations",
+        "slots": [
+         "sun_salutation"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Standing",
+        "slots": [
+         "ygStand",
+         "ygStand",
+         "chair_pose",
+         "ygStand",
+         "ygBalance",
+         "ygStand"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Core",
+        "slots": [
+         "ygCore",
+         "ygCore",
+         "ygCore"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Rest",
+        "slots": [
+         "ygRest"
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "54f72a90c76b23bca6fe1039fc98107d5df1466f039ea50a2751d7ee321e460f"
+ },
+ "pin-yin-yoga": {
+  "record": {
+   "name": "Yin yoga",
+   "choices": {
+    "subjects": [
+     "Yin yoga"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "flow"
+    ],
+    "levers": [
+     "holds",
+     "holds"
+    ]
+   },
+   "seed": "pin-Yin yoga",
+   "catalogue": 14,
+   "config": {
+    "subject": "Yin yoga",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A yin yoga program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Yin hips / Yin spine / Yin rest",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "holds",
+     "holds"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Yin hips",
+      "short": "Hips",
+      "blocks": [
+       {
+        "f": "flow",
+        "title": "Hip holds",
+        "slots": [
+         "ygYinHips",
+         "ygYinHips",
+         "ygYinHips",
+         "ygYinHips?",
+         "ygYinHips?",
+         "ygYinHips?",
+         "ygYinHips?",
+         "ygYinHips?",
+         "ygYinHips?",
+         "ygYinHips?"
+        ],
+        "scale": 4,
+        "cap": 180,
+        "values": [
+         1
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Rest",
+        "slots": [
+         "ygRest"
+        ],
+        "scale": 2,
+        "cap": 180,
+        "values": [
+         1
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Yin spine",
+      "short": "Spine",
+      "blocks": [
+       {
+        "f": "flow",
+        "title": "Spine holds",
+        "slots": [
+         "ygYinSpine",
+         "ygYinSpine",
+         "ygYinSpine",
+         "ygYinSpine",
+         "ygYinSpine?",
+         "ygYinSpine?",
+         "ygYinSpine?",
+         "ygYinSpine?",
+         "ygYinSpine?"
+        ],
+        "scale": 4,
+        "cap": 180,
+        "values": [
+         1
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Rest",
+        "slots": [
+         "ygRest",
+         "ygRest"
+        ],
+        "scale": 2,
+        "cap": 180,
+        "values": [
+         1
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Yin rest",
+      "short": "Rest",
+      "blocks": [
+       {
+        "f": "flow",
+        "title": "Gentle holds",
+        "slots": [
+         "ygYinSpine",
+         "ygYinHips",
+         "ygYinSpine",
+         "ygYinHips?",
+         "ygYinSpine?",
+         "ygYinHips?",
+         "ygYinSpine?",
+         "ygYinSpine?"
+        ],
+        "scale": 4,
+        "cap": 180,
+        "values": [
+         1
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Long rest",
+        "slots": [
+         "ygRest",
+         "ygRest"
+        ],
+        "scale": 4,
+        "cap": 180,
+        "values": [
+         1
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "bf3f04783d5a5e4ec1b7a498ebd3b4afb2faeac5cd8051a3d85dbe48e11d7f33"
+ },
+ "pin-yoga-flow": {
+  "record": {
+   "name": "Yoga flow",
+   "choices": {
+    "subjects": [
+     "Yoga flow"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "flow"
+    ],
+    "levers": [
+     "holds",
+     "variation"
+    ]
+   },
+   "seed": "pin-Yoga flow",
+   "catalogue": 14,
+   "config": {
+    "subject": "Yoga flow",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A yoga flow program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Lower joints / Joint flow & balance / Lower joints",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "holds",
+     "variation"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Lower joints",
+      "short": "Lower",
+      "blocks": [
+       {
+        "f": "flow",
+        "title": "Circles",
+        "slots": [
+         "mbHip",
+         "mbHip",
+         "ankle_rocks",
+         "mbHip?",
+         "mbHip?"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Lower flow",
+        "slots": [
+         "low_lunge",
+         "ygHips",
+         "ygStand",
+         "garland_pose",
+         "ygStand",
+         "ygHips?",
+         "ygStand?"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Rest",
+        "slots": [
+         "ygRest",
+         "ygRest"
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Joint flow & balance",
+      "short": "Balance",
+      "blocks": [
+       {
+        "f": "flow",
+        "title": "Circles",
+        "slots": [
+         "mbHip",
+         "mbShoulder",
+         "mbSpine"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Joint flow",
+        "slots": [
+         "low_lunge",
+         "ygStand",
+         "ygHips",
+         "ygStand"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Balances",
+        "slots": [
+         "ygBalance",
+         "ygBalance",
+         "ygBalance",
+         "ygStand"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Rest",
+        "slots": [
+         "ygRest"
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Lower joints",
+      "short": "Lower",
+      "blocks": [
+       {
+        "f": "flow",
+        "title": "Circles",
+        "slots": [
+         "mbHip",
+         "mbHip",
+         "ankle_rocks",
+         "mbHip?",
+         "mbHip?"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Lower flow",
+        "slots": [
+         "low_lunge",
+         "ygHips",
+         "garland_pose",
+         "ygStand",
+         "ygHips?",
+         "ygStand?"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Rest",
+        "slots": [
+         "ygRest"
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "1ef24ea874430eed509017ec9b2a5c83edb0f8be5d76f439a8d3b8bcb42b864e"
+ },
+ "pin-mat-core": {
+  "record": {
+   "name": "Mat core",
+   "choices": {
+    "subjects": [
+     "Mat core"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "flow"
+    ],
+    "levers": [
+     "reps",
+     "variation"
+    ]
+   },
+   "seed": "pin-Mat core",
+   "catalogue": 14,
+   "config": {
+    "subject": "Mat core",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A mat core program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Abdominal series / Side plank & rotation / Toward the teaser A",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "variation"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Abdominal series",
+      "short": "Abs",
+      "blocks": [
+       {
+        "f": "flow",
+        "title": "Warm-up",
+        "slots": [
+         "hundred",
+         "roll_up"
+        ],
+        "values": [
+         1
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Series 1",
+        "slots": [
+         "plAbs",
+         "plAbs",
+         "plAbs",
+         "plAbs",
+         "plAbs",
+         "plAbs?",
+         "plAbs?"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Series 2",
+        "slots": [
+         "plAbs",
+         "plAbs",
+         "plAbs",
+         "plAbs",
+         "plAbs",
+         "plAbs?",
+         "plAbs?"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Roll",
+        "slots": [
+         "plRoll",
+         "plRoll",
+         "plRoll",
+         "plRoll",
+         "plRoll?",
+         "plRoll?"
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Side plank & rotation",
+      "short": "Plank",
+      "blocks": [
+       {
+        "f": "flow",
+        "title": "Warm-up",
+        "slots": [
+         "hundred",
+         "roll_up"
+        ],
+        "values": [
+         1
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Side planks",
+        "slots": [
+         "star_side_plank",
+         "plSide",
+         "plSide",
+         "plSide",
+         "plAbs",
+         "plSide?"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Rotation",
+        "slots": [
+         "hip_twist",
+         "plAbs",
+         "plAbs",
+         "pilates_bicycle",
+         "plAbs",
+         "plAbs?"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Roll",
+        "slots": [
+         "plRoll",
+         "plRoll",
+         "plRoll",
+         "plRoll",
+         "plRoll?"
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Toward the teaser A",
+      "short": "A",
+      "blocks": [
+       {
+        "f": "flow",
+        "title": "Warm-up",
+        "slots": [
+         "hundred",
+         "roll_up"
+        ],
+        "values": [
+         1
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Pieces",
+        "slots": [
+         "chest_lift",
+         "plAbs",
+         "teaser_prep",
+         "plAbs",
+         "single_leg_teaser",
+         "plAbs?",
+         "plAbs?"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Core",
+        "slots": [
+         "plAbs",
+         "plAbs",
+         "plAbs",
+         "plAbs",
+         "plAbs",
+         "plAbs?",
+         "plAbs?"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Test",
+        "slots": [
+         "teaser",
+         "plRoll",
+         "plRoll",
+         "plRoll",
+         "plRoll?",
+         "plRoll?"
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "509db8b7fd94090c8559052db99a70bf061c720e1a8be85cf966f20c388c0ac0"
+ },
+ "pin-kettlebell-pilates": {
+  "record": {
+   "name": "Kettlebell Pilates",
+   "choices": {
+    "subjects": [
+     "Kettlebell Pilates"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "flow",
+     "straight"
+    ],
+    "levers": [
+     "reps",
+     "weight"
+    ]
+   },
+   "seed": "pin-Kettlebell Pilates",
+   "catalogue": 14,
+   "config": {
+    "subject": "Kettlebell Pilates",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A kettlebell pilates program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Bell core / Bell Pilates & lifts A / Bell twist & back",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "weight"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Bell core",
+      "short": "Core",
+      "blocks": [
+       {
+        "f": "flow",
+        "title": "Warm-up",
+        "slots": [
+         "hundred",
+         "kb_roll_up"
+        ],
+        "values": [
+         1
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Bell core",
+        "slots": [
+         "kb_chest_lift",
+         "plKb",
+         "plAbs",
+         "kb_teaser",
+         "plKb",
+         "plAbs?",
+         "plAbs?",
+         "plAbs?"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Core",
+        "slots": [
+         "plAbs",
+         "plKb",
+         "plAbs",
+         "plAbs",
+         "plAbs?",
+         "plAbs?",
+         "plAbs?"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Roll",
+        "slots": [
+         "plRoll",
+         "plRoll",
+         "plRoll?",
+         "plRoll?",
+         "plRoll?"
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Bell Pilates & lifts A",
+      "short": "A",
+      "blocks": [
+       {
+        "f": "flow",
+        "title": "Warm-up",
+        "slots": [
+         "hundred",
+         "kb_roll_up"
+        ],
+        "values": [
+         1
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Bell Pilates",
+        "slots": [
+         "kb_chest_lift",
+         "plKb",
+         "kb_pilates_bridge",
+         "plKb",
+         "plAbs",
+         "plKb"
+        ]
+       },
+       {
+        "f": "straight",
+        "title": "Slow bell",
+        "slots": [
+         "goblet_squat",
+         "kb_halo",
+         "kb_windmill"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Roll",
+        "slots": [
+         "plRoll",
+         "plRoll",
+         "plRoll"
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Bell twist & back",
+      "short": "Twist",
+      "blocks": [
+       {
+        "f": "flow",
+        "title": "Warm-up",
+        "slots": [
+         "hundred",
+         "spine_stretch"
+        ],
+        "values": [
+         1
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Bell twist",
+        "slots": [
+         "kb_saw",
+         "kb_pilates_twist",
+         "plKb",
+         "plAbs",
+         "plKb",
+         "plAbs?",
+         "plAbs?",
+         "plAbs?"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Back",
+        "slots": [
+         "kb_overhead_reach",
+         "plBack",
+         "plKb",
+         "plBack",
+         "plBack?",
+         "plBack?",
+         "plBack?"
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Roll",
+        "slots": [
+         "plRoll",
+         "plRoll",
+         "plRoll?",
+         "plRoll?",
+         "plRoll?"
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "09a41b1151338a46951df5deb204fdb090b8ae5bffd9ec305b23626bacad69bb"
+ },
+ "pin-weekly-mix": {
+  "record": {
+   "name": "Weekly mix",
+   "choices": {
+    "subjects": [
+     "Weekly mix"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "straight",
+     "flow",
+     "bouts",
+     "circuit",
+     "superset",
+     "tabata",
+     "emom"
+    ],
+    "levers": [
+     "reps",
+     "weight"
+    ]
+   },
+   "seed": "pin-Weekly mix",
+   "catalogue": 14,
+   "config": {
+    "subject": "Weekly mix",
+    "blurb": "3 days a cycle, about 30 minutes each.",
+    "about": "A weekly mix program built from your choices: 3 days in a cycle, about 30 minutes a day.",
+    "split": "Mixed: legs, sweat & stretch / Strength: press & pull / Bell strength: legs & hips",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "weight"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Mixed: legs, sweat & stretch",
+      "short": "Mix",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Legs",
+        "slots": [
+         "legsBw2",
+         "thrustBw",
+         "legsBw?"
+        ],
+        "family": "Strength"
+       },
+       {
+        "f": "tabata",
+        "title": "Tabata",
+        "slots": [
+         "hiit",
+         "plyoLow"
+        ],
+        "family": "Cardio & combat",
+        "lever": [
+         null,
+         "reps",
+         "reps"
+        ],
+        "values": [
+         1,
+         2
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Stretch",
+        "slots": [
+         "fxHips",
+         "fxHam",
+         "ygRest?"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "holds",
+         "holds"
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Strength: press & pull",
+      "short": "Upper",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Upper strength",
+        "slots": [
+         "chestPress",
+         "backRow",
+         "shoulderPress",
+         "row2?"
+        ],
+        "family": "Strength"
+       },
+       {
+        "f": "flow",
+        "title": "Shoulder stretch",
+        "slots": [
+         "fxUpper",
+         "chest_opener",
+         "thread_the_needle",
+         "puppy_pose?",
+         "ygRest?"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "holds",
+         "holds"
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Bell strength: legs & hips",
+      "short": "Legs",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Bell lower",
+        "slots": [
+         "goblet_squat",
+         "kb_deadlift",
+         "kbLower2",
+         "kb_swing?"
+        ],
+        "family": "Strength"
+       },
+       {
+        "f": "flow",
+        "title": "Hip stretch",
+        "slots": [
+         "fxHips",
+         "fxHam",
+         "ygRest?"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "holds",
+         "holds"
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "36a3665d4fd7ed2efaccc41b1f1410aa3bb265919c783999860d1a94f6bcfb6d"
+ },
+ "pin-strength-yoga": {
+  "record": {
+   "name": "Strength + Yoga",
+   "choices": {
+    "subjects": [
+     "Strength",
+     "Yoga"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "straight",
+     "superset",
+     "flow"
+    ],
+    "levers": [
+     "reps",
+     "weight",
+     "holds",
+     "variation"
+    ]
+   },
+   "seed": "pin-Strength+Yoga",
+   "catalogue": 14,
+   "config": {
+    "subject": "Strength + Yoga",
+    "mix": [
+     "Strength",
+     "Yoga"
+    ],
+    "blurb": "3 days a cycle, about 30 minutes each: Strength, then Yoga.",
+    "about": "A mix built from your choices: every day has a strength block, then a yoga block, about 30 minutes in all, 3 days in a cycle. Each block gets harder in its own way.",
+    "split": "Quads & hamstrings + Core flow / Shoulders & arms + Twisting flow / Shoulders & arms + Hips & rest",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "weight"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Quads & hamstrings + Core flow",
+      "short": "Mix 1",
+      "blocks": [
+       {
+        "f": "superset",
+        "title": "Quads & hamstrings",
+        "slots": [
+         "squat2",
+         "hinge2",
+         "lunge2",
+         "thrust",
+         "calf",
+         "shin"
+        ],
+        "family": "Strength",
+        "lever": [
+         null,
+         "reps",
+         "weight"
+        ],
+        "target": [
+         16,
+         20
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Core flow",
+        "slots": [
+         "ygCore",
+         "ygCore",
+         "ygStand",
+         "ygCore",
+         "ygCore",
+         "ygBalance",
+         "ygCore?"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "holds",
+         "variation"
+        ],
+        "target": [
+         9.5,
+         13.5
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Shoulders & arms + Twisting flow",
+      "short": "Mix 2",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Shoulders & arms",
+        "slots": [
+         "arnold_press",
+         "biceps",
+         "triceps",
+         "shoulders2",
+         "arms?"
+        ],
+        "family": "Strength",
+        "lever": [
+         null,
+         "reps",
+         "weight"
+        ],
+        "target": [
+         12.5,
+         16.5
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Twisting flow",
+        "slots": [
+         "twisting_chair",
+         "ygStand",
+         "seated_twist",
+         "ygStand",
+         "ygHips",
+         "ygStand?"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "holds",
+         "variation"
+        ],
+        "target": [
+         12.5,
+         16.5
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Shoulders & arms + Hips & rest",
+      "short": "Mix 3",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Shoulders & arms",
+        "slots": [
+         "shoulders2",
+         "biceps",
+         "triceps",
+         "shoulders2",
+         "arms?"
+        ],
+        "family": "Strength",
+        "lever": [
+         null,
+         "reps",
+         "weight"
+        ],
+        "target": [
+         21,
+         25
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Hips & rest",
+        "slots": [
+         "ygYinHips",
+         "ygYinHips?",
+         "ygRest?"
+        ],
+        "scale": 3,
+        "cap": 240,
+        "values": [
+         1
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "holds",
+         "variation"
+        ],
+        "target": [
+         4.5,
+         8.5
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "1ab862639e8a0b9f93ce5ab177785e64950103536250c1328dc57be000274726"
+ },
+ "pin-kettlebell-only-pilates": {
+  "record": {
+   "name": "Kettlebell only + Pilates",
+   "choices": {
+    "subjects": [
+     "Kettlebell only",
+     "Pilates"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "straight",
+     "emom",
+     "circuit",
+     "flow"
+    ],
+    "levers": [
+     "reps",
+     "weight",
+     "reps",
+     "variation"
+    ]
+   },
+   "seed": "pin-Kettlebell only+Pilates",
+   "catalogue": 14,
+   "config": {
+    "subject": "Kettlebell only + Pilates",
+    "mix": [
+     "Kettlebell only",
+     "Pilates"
+    ],
+    "blurb": "3 days a cycle, about 30 minutes each: Kettlebell only, then Pilates.",
+    "about": "A mix built from your choices: every day has a kettlebell only block, then a pilates block, about 30 minutes in all, 3 days in a cycle. Each block gets harder in its own way.",
+    "split": "Upper bell + Abs / Lower body + Abs / Swing strength + Abs",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "weight"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Upper bell + Abs",
+      "short": "Mix 1",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Upper bell",
+        "slots": [
+         "kb_press",
+         "kb_row",
+         "kb_floor_press",
+         "kb_high_pull?"
+        ],
+        "family": "Strength",
+        "lever": [
+         null,
+         "reps",
+         "weight"
+        ],
+        "target": [
+         21.5,
+         25.5
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Abs",
+        "slots": [
+         "plAbs",
+         "plAbs",
+         "plAbs",
+         "plRoll"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "reps",
+         "variation"
+        ],
+        "target": [
+         3.5,
+         7.5
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "Lower body + Abs",
+      "short": "Mix 2",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Lower body",
+        "slots": [
+         "kbLower2",
+         "kbLower",
+         "kbLower2",
+         "kbLower",
+         "kbCore2?"
+        ],
+        "family": "Strength",
+        "lever": [
+         null,
+         "reps",
+         "weight"
+        ],
+        "target": [
+         21.5,
+         25.5
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Abs",
+        "slots": [
+         "plAbs",
+         "plAbs",
+         "plAbs",
+         "plAbs"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "reps",
+         "variation"
+        ],
+        "target": [
+         4,
+         8
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Swing strength + Abs",
+      "short": "Mix 3",
+      "blocks": [
+       {
+        "f": "straight",
+        "title": "Swing strength",
+        "slots": [
+         "kb_swing",
+         "kbLower",
+         "kbBallistic",
+         "kbLower?"
+        ],
+        "family": "Strength",
+        "lever": [
+         null,
+         "reps",
+         "weight"
+        ],
+        "target": [
+         20.5,
+         24.5
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Abs",
+        "slots": [
+         "plAbs",
+         "plAbs",
+         "plAbs",
+         "plAbs",
+         "plRoll?"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "reps",
+         "variation"
+        ],
+        "target": [
+         5,
+         9
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "5e60ea3ac55543f86e7d26c4a4b4f5a380324ebdb056612881cfd089372c3c73"
+ },
+ "pin-boxing-flexibility-legs-glutes": {
+  "record": {
+   "name": "Boxing + Flexibility + Legs & glutes",
+   "choices": {
+    "subjects": [
+     "Boxing",
+     "Flexibility",
+     "Legs & glutes"
+    ],
+    "split": 3,
+    "minutes": 35,
+    "equipment": "all",
+    "formats": [
+     "bouts",
+     "circuit",
+     "tabata",
+     "straight",
+     "emom",
+     "flow"
+    ],
+    "levers": [
+     "variation",
+     "variation",
+     "reps",
+     "holds",
+     "reps",
+     "weight"
+    ]
+   },
+   "seed": "pin-Boxing+Flexibility+Legs & glutes",
+   "catalogue": 14,
+   "config": {
+    "subject": "Boxing + Flexibility + Legs & glutes",
+    "mix": [
+     "Boxing",
+     "Flexibility",
+     "Legs & glutes"
+    ],
+    "blurb": "3 days a cycle, about 35 minutes each: Boxing, then Flexibility, then Legs & glutes, then abs.",
+    "about": "A mix built from your choices: every day has a boxing block, then a flexibility block, then a legs & glutes block, then abs, about 35 minutes in all, 3 days in a cycle. Each block gets harder in its own way.",
+    "split": "Boxer circuit + Open + Swing & hinge / Boxer circuit + Open + Bridge & thrust / Tabata + Open + Squats",
+    "minutes": [
+     33,
+     37
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "weight"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "Boxer circuit + Open + Swing & hinge",
+      "short": "Mix 1",
+      "blocks": [
+       {
+        "f": "circuit",
+        "title": "Boxer circuit",
+        "slots": [
+         "push",
+         "plyoLat",
+         "cardio",
+         "coreAnti"
+        ],
+        "values": [
+         1,
+         2,
+         3
+        ],
+        "family": "Cardio & combat",
+        "lever": [
+         null,
+         "variation",
+         "variation"
+        ],
+        "target": [
+         7,
+         11
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Open",
+        "slots": [
+         "cat_cow",
+         "forward_fold",
+         "elephant_walk"
+        ],
+        "values": [
+         1
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "reps",
+         "holds"
+        ],
+        "target": [
+         0,
+         4
+        ]
+       },
+       {
+        "f": "straight",
+        "title": "Swing & hinge",
+        "slots": [
+         "kb_swing",
+         "hinge2",
+         "db_good_morning",
+         "glute2",
+         "hinge2?"
+        ],
+        "family": "Strength",
+        "lever": [
+         null,
+         "reps",
+         "weight"
+        ],
+        "target": [
+         7,
+         11
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       33,
+       37
+      ]
+     },
+     "d2": {
+      "label": "Boxer circuit + Open + Bridge & thrust",
+      "short": "Mix 2",
+      "blocks": [
+       {
+        "f": "circuit",
+        "title": "Boxer circuit",
+        "slots": [
+         "chestBw",
+         "legsBw",
+         "burpee",
+         "coreRot"
+        ],
+        "values": [
+         1,
+         2,
+         3
+        ],
+        "family": "Cardio & combat",
+        "lever": [
+         null,
+         "variation",
+         "variation"
+        ],
+        "target": [
+         8,
+         12
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Open",
+        "slots": [
+         "cat_cow",
+         "puppy_pose",
+         "chair_lat_stretch"
+        ],
+        "values": [
+         1
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "reps",
+         "holds"
+        ],
+        "target": [
+         0,
+         4
+        ]
+       },
+       {
+        "f": "straight",
+        "title": "Bridge & thrust",
+        "slots": [
+         "hip_thrust",
+         "db_glute_bridge",
+         "thrust",
+         "hipGlute",
+         "gluteReps?"
+        ],
+        "family": "Strength",
+        "lever": [
+         null,
+         "reps",
+         "weight"
+        ],
+        "target": [
+         7,
+         11
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       33,
+       37
+      ]
+     },
+     "d3": {
+      "label": "Tabata + Open + Squats",
+      "short": "Mix 3",
+      "blocks": [
+       {
+        "f": "tabata",
+        "title": "Tabata",
+        "slots": [
+         "cardio",
+         "cardio",
+         "core",
+         "cardio"
+        ],
+        "values": [
+         1,
+         2
+        ],
+        "family": "Cardio & combat",
+        "lever": [
+         null,
+         "variation",
+         "variation"
+        ],
+        "target": [
+         7,
+         11
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Open",
+        "slots": [
+         "cat_cow",
+         "garland_pose",
+         "butterfly"
+        ],
+        "values": [
+         1
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "reps",
+         "holds"
+        ],
+        "target": [
+         0,
+         4
+        ]
+       },
+       {
+        "f": "straight",
+        "title": "Squats",
+        "slots": [
+         "squat2",
+         "squat2",
+         "lunge2",
+         "calf",
+         "legsBw2?"
+        ],
+        "family": "Strength",
+        "lever": [
+         null,
+         "reps",
+         "weight"
+        ],
+        "target": [
+         8,
+         12
+        ]
+       }
+      ],
+      "absSlots": [
+       "absW",
+       "abs",
+       "abs?"
+      ],
+      "minutes": [
+       33,
+       37
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "30420d5ce6ffe0d7d3639080fff67df0d140452bed161418b2c52e8a1eb91948"
+ },
+ "pin-hiit-mobility-posture": {
+  "record": {
+   "name": "HIIT + Mobility & posture",
+   "choices": {
+    "subjects": [
+     "HIIT",
+     "Mobility & posture"
+    ],
+    "split": 3,
+    "minutes": 30,
+    "equipment": "all",
+    "formats": [
+     "circuit",
+     "emom",
+     "tabata",
+     "ladder",
+     "amrap",
+     "flow"
+    ],
+    "levers": [
+     "reps",
+     "weight",
+     "reps",
+     "tempo"
+    ]
+   },
+   "seed": "pin-HIIT+Mobility & posture",
+   "catalogue": 14,
+   "config": {
+    "subject": "HIIT + Mobility & posture",
+    "mix": [
+     "HIIT",
+     "Mobility & posture"
+    ],
+    "blurb": "3 days a cycle, about 30 minutes each: HIIT, then Mobility & posture.",
+    "about": "A mix built from your choices: every day has a hiit block, then a mobility & posture block, about 30 minutes in all, 3 days in a cycle. Each block gets harder in its own way.",
+    "split": "HIIT EMOM + Spine flow / HIIT circuit + Control / Leg Tabatas + Control",
+    "minutes": [
+     28,
+     32
+    ],
+    "equip": "all",
+    "levers": [
+     null,
+     "reps",
+     "weight"
+    ],
+    "catalogue": 14,
+    "rests": {
+     "set": 30,
+     "exercise": 60,
+     "beforeAbs": 120,
+     "superset": 45,
+     "round": 60,
+     "block": 60
+    },
+    "cycle": [
+     "d1",
+     "d2",
+     "d3"
+    ],
+    "dayTypes": {
+     "d1": {
+      "label": "HIIT EMOM + Spine flow",
+      "short": "Mix 1",
+      "blocks": [
+       {
+        "f": "emom",
+        "title": "HIIT EMOM",
+        "slots": [
+         "hiit",
+         "legsBw",
+         "hiitSec",
+         "push"
+        ],
+        "values": [
+         12,
+         14,
+         16
+        ],
+        "family": "Cardio & combat",
+        "lever": [
+         null,
+         "reps",
+         "weight"
+        ],
+        "target": [
+         12.5,
+         16.5
+        ]
+       },
+       {
+        "f": "flow",
+        "title": "Spine flow",
+        "slots": [
+         "cat_cow",
+         "mbSpine",
+         "mbSpine",
+         "open_book",
+         "mbSpine",
+         "mbSpine",
+         "mbSpine?",
+         "mbSpine?"
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "reps",
+         "tempo"
+        ],
+        "target": [
+         12.5,
+         16.5
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d2": {
+      "label": "HIIT circuit + Control",
+      "short": "Mix 2",
+      "blocks": [
+       {
+        "f": "circuit",
+        "title": "HIIT circuit",
+        "slots": [
+         "hiit",
+         "pushBw2",
+         "legsBw2",
+         "hiit",
+         "coreRot"
+        ],
+        "values": [
+         3,
+         4,
+         5
+        ],
+        "family": "Cardio & combat",
+        "lever": [
+         null,
+         "reps",
+         "weight"
+        ],
+        "target": [
+         14,
+         18
+        ]
+       },
+       {
+        "f": "circuit",
+        "title": "Control",
+        "slots": [
+         "hip_airplane",
+         "ninety_ninety",
+         "prone_ytw",
+         "mbHip?"
+        ],
+        "values": [
+         2,
+         3
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "reps",
+         "tempo"
+        ],
+        "target": [
+         11,
+         15
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     },
+     "d3": {
+      "label": "Leg Tabatas + Control",
+      "short": "Mix 3",
+      "blocks": [
+       {
+        "f": "tabata",
+        "title": "Leg Tabatas",
+        "slots": [
+         "plyoLow",
+         "jump_lunge",
+         "skater_jumps",
+         "calfPlyo"
+        ],
+        "values": [
+         3,
+         4
+        ],
+        "family": "Cardio & combat",
+        "lever": [
+         null,
+         "reps",
+         "weight"
+        ],
+        "target": [
+         17,
+         21
+        ]
+       },
+       {
+        "f": "circuit",
+        "title": "Control",
+        "slots": [
+         "wall_slides",
+         "prone_ytw",
+         "mbPosture?"
+        ],
+        "values": [
+         1,
+         2,
+         3
+        ],
+        "family": "Mind & body",
+        "lever": [
+         null,
+         "reps",
+         "tempo"
+        ],
+        "target": [
+         7,
+         11
+        ]
+       }
+      ],
+      "absSlots": [],
+      "minutes": [
+       28,
+       32
+      ]
+     }
+    }
+   },
+   "createdAt": "2026-10-13T00:00:00.000Z",
+   "updatedAt": "2026-10-13T00:00:00.000Z"
+  },
+  "days": "5d1d3ca43c60c0d16333fe404d61dd58524108f90de37d47edd01db9415019f9"
+ }
+}
