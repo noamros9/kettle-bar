@@ -3158,11 +3158,13 @@
   }
   normalize(EX, MUS);
 
+  // what an exercise needs beyond its load: needs(e, 'bar') (Phase 24 ticket 12: the one place this is written)
+  const needs = (e, gear) => (e.equip || []).includes(gear);
   // Equipment a program allows: everything, kettlebell only (no dumbbells, no bar), or bodyweight.
   const EQUIP = {
     all: () => true,
-    kb: (e) => (!e.load || e.load === 'kb') && !(e.equip || []).includes('bar'),
-    bw: (e) => !e.load && !(e.equip || []).includes('bar'),
+    kb: (e) => (!e.load || e.load === 'kb') && !needs(e, 'bar'),
+    bw: (e) => !e.load && !needs(e, 'bar'),
   };
   const allowedIn = (equip, e) => EQUIP[equip || 'all'](e);
   // reps inside a timed format are a fraction of the straight-set number
@@ -3170,7 +3172,7 @@
     if (Formats.of({ format }).halveReps) return e.u === 'sec' ? Math.min(n, 30) : Math.max(3, Math.round(n * 0.5));
     return n;
   }
-  const api = { EX, LOAD, MUSCLE_NAMES, MUSCLE_GROUPS, groupOf, normalize, allowedIn, scaleReps };
+  const api = { EX, LOAD, MUSCLE_NAMES, MUSCLE_GROUPS, groupOf, normalize, allowedIn, scaleReps, needs };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBEx = api;
 })(typeof window !== 'undefined' ? window : globalThis, typeof module !== 'undefined' && module.exports ? require('./formats.js') : window.KBFormats);
