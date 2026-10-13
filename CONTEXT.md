@@ -249,6 +249,11 @@ day once. Do it again on the day page, or the ✓ on a done tile, adds a date; a
 
 ## Code
 
+**Build cache** (planned 13 Oct 2026, [plan](docs/plans/build-cache.md)): `.build-cache/`, gitignored, where the build
+keeps each program's days and each recipe-book trial under a **cache key** (the builder code's hash, the config, and
+the **catalogue slice**: the exercises it can draw at its own catalogue). A matching key is read, not built; `--cold`
+builds everything.
+
 **Day (module)**: a program day as you'll do it: swaps applied, its live Workout Session (ticks carry over when a
 swap changes the exercises), its alternatives, and swap / undo. The page renders it; stats read days through it.
 

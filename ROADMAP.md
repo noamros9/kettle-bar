@@ -2,27 +2,18 @@
 
 The index: where we are, what comes next, and the two phases being built now. Every other phase's decisions live at the
 top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase comes up. Decision numbers are global
-(the next one is **324**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
+(the next one is **330**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
-## Resume here (12 Oct 2026, noon)
-- **Phase 23 is done** (#352–#378), archived in [docs/roadmap-archive.md](docs/roadmap-archive.md): 309 new programs
-  and the 15 Signature IIs; library 1,060 programs in 73 subjects; own programs and random workouts at catalogue 14
-  with every program in. Its six Plyometrics programs got the subject's long rests and new pins (323, Noam's exception).
-- **Next: the build cache (322, Backlog)**, planned by our method (grill Noam first): at 1,060 programs the
-  whole-library build passes Playwright's 600 s wait (321) and the recipe book takes ~17 min on the cloud machine, so
-  UI tickets lean on the PR's CI until it lands. **Then Phase 37** ([#356](https://github.com/noamros9/kettle-bar/issues/356),
-  [plan](docs/plans/phase-37-finish-flow.md)); re-read its Challenge round first (136). **Opus builds alone this week**
-  (295): Grok is away, so no Grok tickets; Phase 20 waits for it. CI now prints the library size as notices.
-- **Rules added 10 Oct** (CLAUDE.md): no local coverage run or whole-library build (308, 312); a UI ticket runs its own
-  specs and the smoke check locally (309); CI polls every 30 s; the build stops on a changed pin and `npm run pin`
-  builds only this phase's programs; `npm run check:new` before pushing a content ticket; one ticket pushed at a time,
-  no stacked PRs; a PR run on a tree that already passed skips its tests; a PR behind main only by other files'
-  commits merges as it is. Failing CI tests show as PR annotations (#355).
-- **Next after 23: Phase 37** ([#356](https://github.com/noamros9/kettle-bar/issues/356), planned 10 Oct): the last
-  set starts a 30 s breather, then the cool-down by itself. Phase 35's tickets are all written: 13 subjects get 8
-  programs each, and it waits for Grok, like Phase 20.
-- **Working rules** are in [CLAUDE.md](CLAUDE.md): at most 2 tickets building, the next ticket at every checkpoint, one
-  phase at a time, every Grok ticket plans first.
+## Resume here (13 Oct 2026, morning)
+- **Phase 23 is done** (#352–#378), archived in [docs/roadmap-archive.md](docs/roadmap-archive.md): library 1,060
+  programs in 73 subjects.
+- **Now: the build cache** ([plan](docs/plans/build-cache.md)), grilled 13 Oct (324–329): program days and the recipe
+  book come from `.build-cache/` when their key (code, config, catalogue slice) is unchanged; CI saves the cache and
+  proves it with a cold diff on `main`. Three tickets, then wait for Noam's go. **Then Phase 37**
+  ([#356](https://github.com/noamros9/kettle-bar/issues/356)); re-read its Challenge round first (136).
+- **Opus builds alone** (295): Grok is away, so no Grok tickets; Phase 20 and 35 wait for it.
+- **Working rules** are in [CLAUDE.md](CLAUDE.md): three tickets then wait, at most 2 building, no local coverage run
+  or whole-library build (308, 312), one ticket pushed at a time, CI polled every 30 s.
 
 ## The order
 Set 7 Oct 2026 (decision 134): Noam put "Do now" right after the review and left the rest to Claude; Phase 30 goes
@@ -30,6 +21,7 @@ right after Phase 22 (216). **223 ·** 8 Oct: quick fixes after 22; Export, day 
 
 | # | Phase | Issue | Plan | Status |
 |---|---|---|---|---|
+| 0 | The build cache: rebuild only what changed (322) | [#265](https://github.com/noamros9/kettle-bar/issues/265) | [plan](docs/plans/build-cache.md) | planned |
 | 1 | 37 · The finish flow: a 30 s breather, then the cool-down by itself | [#356](https://github.com/noamros9/kettle-bar/issues/356) | [plan](docs/plans/phase-37-finish-flow.md) | planned |
 | 2 | 24 · Architecture and code review, then the fixes | [#187](https://github.com/noamros9/kettle-bar/issues/187), [#188](https://github.com/noamros9/kettle-bar/issues/188) | [plan](docs/plans/phase-24-review.md) | planned |
 | 3 | 25 · "Do now": one exercise for dead time | [#200](https://github.com/noamros9/kettle-bar/issues/200) | [plan](docs/plans/phase-25-do-now.md) | planned |
@@ -87,8 +79,7 @@ Numbered 20 because 19 is super programs.
 - **Cut the test and CI times** ([#265](https://github.com/noamros9/kettle-bar/issues/265)). Already done: only the
   affected UI specs run locally; the sync tests run ~35% faster; CI runs in Playwright's image and cancels older runs;
   Markdown-only commits skip the tests. More workers don't help on 2 cores.
-  **322 ·** Next after Phase 23: a build cache that reuses a program's days while its config and catalogue are
-  unchanged (the pins already hash them), so a build does only new or changed programs; planned by our method then. *(11 Oct)*
+  **322 ·** The build cache, planned 13 Oct: [plan](docs/plans/build-cache.md) (row 0). *(11 Oct)*
 
 ## Decided against (don't re-suggest)
 - **Logging weights or reps per set**: done / not done only.
