@@ -44,7 +44,7 @@ Grilled 7 Oct 2026 with Noam (global decision numbers).
 | 5 | One progress listener (A1, 332) | feature | 3 | `fix/one-progress-listener` | done (PR #396) |
 | 6 | Own-program pins (C1) | test | 3 | `test/own-pins` | done (PR #397) |
 | 7 | Programs search refreshes only its results (A3) | feature | 3 | `fix/program-search` | done (PR #398) |
-| 8 | The offline cache drops old program lists (A5) | feature | 3 | `fix/offline-prune` | todo |
+| 8 | The offline cache drops old program lists (A5) | feature | 3 | `fix/offline-prune` | done (PR #399) |
 | 9 | Slow tests: delete or cheapen (186) | test | 3 | `test/slow-tests` | todo |
 | 10 | CI: the build cache before the unit tests; finder smoke when it matters (A6) | ci | 9 | `ci/unit-cache` | todo |
 | 11 | The recipe cache in its own workflow (A7) | ci | 10 | `ci/recipe-workflow` | todo |

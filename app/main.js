@@ -283,7 +283,7 @@ function start() {
 }
 ownLink.refresh(); // your own programs are built from their stored configs: no recipe book, no wait
 // the program list first (Phase 16): from the cache at once after the first visit, else the network
-libraryFile.load().then((list) => { programs.setSource('library', librarySource(list)); start(); }, (e) => {
+libraryFile.load().then((list) => { programs.setSource('library', librarySource(list)); start(); pruneLists(); }, (e) => {
   $('#app').innerHTML = `<div class="empty"><h1>No programs yet</h1><p>${esc(e.message)}</p><button class="btn" onclick="location.reload()">Try again</button></div>`;
 });
 T.paint();

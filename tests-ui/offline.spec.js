@@ -62,3 +62,19 @@ test('the first download is small: the page carries only the program list, at mo
   const res = await app.page.goto('/index.html#programs');
   expect(require('zlib').gzipSync(await res.body()).length).toBeLessThan(350 * 1024); // gzipped, as Pages serves it
 });
+
+// Phase 24 ticket 8 (review V A5): each build that changed the program list left another copy in the cache
+test('older program lists in the offline cache go once the current one has loaded; the app still opens offline', async ({ app }) => {
+  await app.open('#programs');
+  await app.data(async () => {
+    const c = await caches.open('kettle-bar-v2');
+    for (const v of ['aaaaaaaaaaaa', 'bbbbbbbbbbbb']) await c.put(new URL(`data/library.json?v=${v}`, location.href).href, new Response('[]', { headers: { 'Content-Type': 'application/json' } }));
+  });
+  await app.page.reload(); await app.loaded();
+  const lists = () => app.data(async () => (await (await caches.open('kettle-bar-v2')).keys()).map((r) => r.url).filter((u) => u.includes('/data/library.json')).map((u) => new URL(u).search));
+  await expect.poll(lists).toEqual([await app.data(() => new URL(KB_LIBRARY.url, location.href).search)]);
+  app.allowErrors(/\/data\//);
+  await app.page.route('**/data/**', (r) => r.abort('internetdisconnected'));
+  await app.page.reload(); await app.page.locator('#app h1').waitFor(); await app.loaded();
+  await expect(app.page.locator('.pcard').first()).toBeVisible();
+});

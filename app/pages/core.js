@@ -17,6 +17,11 @@ const focusFile = KBLazy.lazyFile({ fetch: fetchJson, cache: offlineCache, url: 
 // the program list (data/library.json, Phase 16): not in the page. The catalogue starts with an empty library and boot
 // (main.js) waits for the list, which the service worker hands over from the cache at once after the first visit
 const libraryFile = KBLazy.lazyFile({ fetch: fetchJson, cache: offlineCache, url: KB_LIBRARY.url, unavailable: "The program list isn't available offline yet. Open the app once while online." });
+// older program lists left in the offline cache (Phase 24 ticket 8, review V A5): every build that changed the list
+// left its own data/library.json?v=…; once this one has loaded, the others go
+const pruneLists = () => (self.caches ? caches.open(OFFLINE_CACHE).then((c) => c.keys().then((keys) => Promise.all(keys
+  .filter((r) => { const u = new URL(r.url); return u.pathname.endsWith('/data/library.json') && u.href !== new URL(KB_LIBRARY.url, location.href).href; })
+  .map((r) => c.delete(r))))).catch(() => {}) : Promise.resolve());
 const librarySource = (summaries) => KBPrograms.fetched(summaries, { fetchJson, cache: offlineCache, name: 'library', usage: usageFile });
 const programs = KBPrograms.createProgramCatalogue(librarySource([]));
 let booted = false; // true once the program list is here and the first page has drawn; nothing draws before
