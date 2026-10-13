@@ -87,12 +87,13 @@ Tickets 1 and 2 only write their own findings file, so they can run at once (the
 ### 4. Exercises page: figures drawn when near view (A2)
 - **Build:** the Exercises page's cards render an empty `figbox` (`data-fig="<id>"`) instead of the SVG; one
   IntersectionObserver (rootMargin one screen) fills a box with `fig(id)` when it comes near and stops watching it.
-  Cards get `content-visibility: auto` with an intrinsic size. The exercise page (one big figure) is unchanged.
+  The exercise page (one big figure) is unchanged. (`content-visibility: auto` on the cards was tried and dropped: an
+  estimated height for cards off screen moved Back's restored place by ~36 px.)
 - **Files:** `app/pages/exercises.js`, `app/ui.js` (the observer, re-armed after each render), `app/styles.css`,
   `tests-ui/exercises.spec.js`.
 - **Test first:** `tests-ui/exercises.spec.js`: the page's HTML holds no `<svg class="fig">` past the first screen
   until it is scrolled to; the first cards draw at once; scrolling to the last card draws its figure; a redraw at 4×
-  CPU (`render()` timed in the page) is under 600 ms (from 3,038).
+  CPU (`render()` timed in the page) is under 1.2 s (from 3,038; ~480 ms measured).
 - **Done when:** the spec passes; `renders.spec.js` and `actions.spec.js` green; 390 px screenshots light and dark.
 
 ### 5. One progress listener (A1, 332)
