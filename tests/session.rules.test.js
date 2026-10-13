@@ -54,9 +54,14 @@ test('before the abs block the rest is 2 min', () => {
   assert.deepEqual(s.complete({ type: 'round', bi: 0, k: 2 }).rest, { sec: 120, label: 'Rest · abs next', sub: 'First: Plank' });
 });
 
-test('the last block ends the workout, pointing to the cool-down only when the day has one', () => {
-  assert.deepEqual(session([circuit]).complete({ type: 'block', bi: 0 }), { clear: { label: 'Workout finished', sub: 'Time for the cool-down stretches' } });
+// Phase 37 (320): the last set starts a 30 s breather that then runs the cool-down; a day without one, or whose
+// cool-down already ran, just ends
+test('the last block starts a 30 s breather into the cool-down, or ends the workout without one', () => {
+  assert.deepEqual(session([circuit]).complete({ type: 'block', bi: 0 }), { rest: { sec: 30, label: 'Breather · cool-down next', sub: 'First: Plank', then: { type: 'stretch', key: 'cool' }, sayEnd: 'Cool-down' } });
   assert.deepEqual(session([circuit], { cooldown: undefined }).complete({ type: 'block', bi: 0 }), { clear: { label: 'Workout finished', sub: 'Every set is done' } });
+  const s = session([circuit]);
+  s.complete({ type: 'stretch', key: 'cool' });
+  assert.deepEqual(s.complete({ type: 'block', bi: 0 }), { clear: { label: 'Workout finished', sub: 'Every set is done' } });
 });
 
 test('holds tick their set, never un-tick, and rest like a set', () => {
@@ -82,7 +87,7 @@ test('circuits: rest between rounds with the block title; tapping the last round
   const s = session([circuit]);
   assert.deepEqual(s.complete({ type: 'round', bi: 0, k: 1 }).rest, { sec: 60, label: 'Rest · round 2 of 2 next', sub: 'Circuit' });
   assert.equal(s.blockDone(0), false);
-  assert.ok(s.complete({ type: 'round', bi: 0, k: 2 }).clear);
+  assert.equal(s.complete({ type: 'round', bi: 0, k: 2 }).rest.then.key, 'cool'); // the last round: the breather (320)
   assert.equal(s.blockDone(0), true);
   assert.deepEqual(s.complete({ type: 'round', bi: 0, k: 2 }), { none: true });
   assert.equal(s.state(0).rounds, 1);
@@ -102,7 +107,8 @@ test('stretches: warm-up and cool-down each have their own done message', () => 
   const s = session([circuit]);
   assert.equal(s.stretchDone('cool'), false);
   assert.deepEqual(s.complete({ type: 'stretch', key: 'warm' }), { clear: { label: 'Warm-up done', sub: 'Start the first exercise' } });
-  assert.deepEqual(s.complete({ type: 'stretch', key: 'cool' }), { clear: { label: 'Cool-down done', sub: 'Workout complete' } });
+  // the cool-down's end leaves nothing armed: no 30 s waiting on the timer (320)
+  assert.deepEqual(s.complete({ type: 'stretch', key: 'cool' }), { clear: { label: 'Cool-down done', sub: 'Workout complete', idle: true } });
   assert.ok(s.stretchDone('cool'));
 });
 

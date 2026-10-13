@@ -16,13 +16,15 @@
 
    Targets: { type: 'set', bi, i, k } · { type: 'pair', bi, pi, k } · { type: 'round', bi, k }
             { type: 'hold', bi, i } · { type: 'block', bi } · { type: 'stretch', key: 'warm' | 'cool' }
-   Instruction: { rest: { sec, label, sub } } · { clear: { label, sub } } · { none: true }
+   Instruction: { rest: { sec, label, sub, then?, sayEnd? } } · { clear: { label, sub, idle? } } · { none: true }
+     then: a target whose plan runs when the rest ends (the breather into the cool-down); idle: nothing left armed
    Plan phases: { sec, label, sub, end: 'short'|'long', work?, say?, halfway?, sayEnd?, fig? }. Voice cues, for holds,
    sides, the poses of a guided flow and the combo of each bout: say when the phase starts, "Halfway" in the middle, sayEnd when it ends.
    fig: the exercise whose drawing the clock shows (guided flows). */
 (function (root, Formats) {
   const DEFAULT_RESTS = { set: 30, exercise: 60, beforeAbs: 120, superset: 45, round: 60, block: 60 };
   const LETTERS = 'ABCDEF';
+  const BREATHER = 30; // seconds between the last set and the cool-down (decision 320)
   const { TRANSITION, NAMES } = Formats; // the names of the formats and the seconds to move into each pose of a flow (formats.js)
 
   function unitText(e) {
@@ -63,11 +65,13 @@
       if (s.f === 'circuit') return s.rounds >= b.rounds;
       return s.done;
     }
-    // rest after a whole block: 1 min to the next block, 2 min before the abs, nothing after the last
+    // rest after a whole block: 1 min to the next block, 2 min before the abs; after the last, a 30 s breather whose end
+    // runs the cool-down (`then`, Phase 37, decision 320), or the end when the day has none or it already ran
     function afterBlock(bi) {
       const next = blocks[bi + 1];
       if (next) return { rest: { sec: next.kind === 'abs' ? R.beforeAbs : R.block, label: `Rest · ${next.kind === 'abs' ? 'abs' : next.title.toLowerCase()} next`, sub: `First: ${nm(next.items[0])}` } };
-      return { clear: { label: 'Workout finished', sub: day.cooldown ? 'Time for the cool-down stretches' : 'Every set is done' } };
+      if (day.cooldown && !stretched.cool) return { rest: { sec: BREATHER, label: 'Breather · cool-down next', sub: `First: ${nm(day.cooldown.items[0])}`, then: { type: 'stretch', key: 'cool' }, sayEnd: 'Cool-down' } };
+      return { clear: { label: 'Workout finished', sub: 'Every set is done' } };
     }
     function afterSet(bi, i, k) {
       const b = blocks[bi], it = b.items[i], sets = itemSets(b, it);
@@ -108,7 +112,7 @@
         case 'block': s.done = true; return afterBlock(t.bi);
         case 'stretch': {
           stretched[t.key] = true;
-          return { clear: t.key === 'warm' ? { label: 'Warm-up done', sub: 'Start the first exercise' } : { label: 'Cool-down done', sub: 'Workout complete' } };
+          return { clear: t.key === 'warm' ? { label: 'Warm-up done', sub: 'Start the first exercise' } : { label: 'Cool-down done', sub: 'Workout complete', idle: true } };
         }
         default: throw new Error('Unknown target ' + t.type);
       }

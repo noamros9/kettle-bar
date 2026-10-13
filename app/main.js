@@ -52,13 +52,15 @@ $('#signout').addEventListener('click', () => { $('#acct').hidden = true; store.
 const openDay = () => (route.view === 'random' ? random.open() : days.open(prog().id, route.day));
 const openKey = () => (route.view === 'random' ? 'random:1' : prog().id + ':' + route.day); // the swap sheet's day
 const openSession = () => openDay().session();
-function finish(target) { T.apply(openSession().complete(target)); rerender(); }
+// a rest that names a `then` (the breather after the last set) starts that plan when it runs out (Phase 37)
+const runThen = (target) => runPlanned(target, false);
+function finish(target) { T.apply(openSession().complete(target), runThen); rerender(); }
 // the workout clock starts with the first tick or Start; the day's session keeps that time
 function startClock() { S.start(); const ses = openSession(); if (ses.started() === null) ses.setStarted(S.startAt); }
 function tick(target) {
   T.unlockAudio(); startClock();
   const ins = openSession().complete(target);
-  if (!ins.none) { T.clear(); T.apply(ins); }
+  if (!ins.none) { T.clear(); T.apply(ins, runThen); }
   rerender();
 }
 function runPlanned(target, withClock = true) {

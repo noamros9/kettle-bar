@@ -20,7 +20,7 @@ by itself: last set, breather, cool-down, done.
 | # | Ticket | Tier | Blocked by | Branch | Status |
 |---|---|---|---|---|---|
 | 0 | This plan | plan | – | `plan/p37-and-p35-subjects` | done (PR #366) |
-| 1 | Breather, then the cool-down, nothing after it (320) | feature | – | `feature/finish-flow` | todo |
+| 1 | Breather, then the cool-down, nothing after it (320) | feature | – | `feature/finish-flow` | done (PR #389) |
 | 2 | Close the phase | plan | 1 | `plan/p37-close` | todo |
 
 ### 1. Breather, then the cool-down (320)
