@@ -217,4 +217,4 @@ const book = () => (cached = cached || load(FILE, generateCached, false));
 const refresh = ({ file = FILE, make = generateCached } = {}) => load(file, make, true);
 /* node:coverage ignore next 2 */ // npm run recipes
 if (require.main === module) { refresh(); console.log(`recipes/book.json is fresh${last ? ` (build cache: ${last.stats.hits} trials read, ${last.stats.misses} run)` : ''}`); }
-module.exports = { generate, generateCached, book, hash, refresh, stored, FILE, INPUTS, NEWEST, HELD };
+module.exports = { generate, generateCached, book, hash, refresh, stored, INPUTS, NEWEST, HELD };

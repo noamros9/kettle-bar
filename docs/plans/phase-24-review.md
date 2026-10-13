@@ -48,7 +48,7 @@ Grilled 7 Oct 2026 with Noam (global decision numbers).
 | 9 | Slow tests: delete or cheapen (186) | test | 3 | `test/slow-tests` | done (PR #400) |
 | 10 | CI: the build cache before the unit tests; finder smoke when it matters (A6) | ci | 9 | `ci/unit-cache` | done (PR #401) |
 | 11 | The recipe cache in its own workflow (A7) | ci | 10 | `ci/recipe-workflow` | done (PR #402) |
-| 12 | One "needs gear" rule, and the dead code (C3, C2) | refactor | 3 | `refactor/gear-rule` | todo |
+| 12 | One "needs gear" rule, and the dead code (C3, C2) | refactor | 3 | `refactor/gear-rule` | done (PR #403) |
 | 13 | Close the phase: archive, CONTEXT.md | plan | 4–12 | `plan/p24-close` | todo |
 
 Tickets 1 and 2 only write their own findings file, so they can run at once (the cap of 2).

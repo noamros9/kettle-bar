@@ -118,7 +118,6 @@ main{padding-block:24px 64px}
 .pcard b{font:800 30px/1 var(--display);text-transform:uppercase;display:block;margin-bottom:6px}
 .pcard p{margin:0;color:var(--muted);font-size:14px;max-width:60ch}
 .pcard .num{font:800 30px/1 var(--display)}
-.soon{margin-top:14px;padding:16px 18px;border:1.5px dashed var(--line);border-radius:10px;color:var(--muted);font-size:14px}
 
 /* workout */
 .crumbs{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:16px}

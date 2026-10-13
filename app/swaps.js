@@ -26,6 +26,7 @@
   const GUIDED = ['yoga', 'pilates', 'flex', 'mobility', 'boxing', 'kick', 'couple']; // couple (Phase 18): two people
 
   const TRAVEL = ['nobar', 'kb', 'bw'];
+  // pure on purpose (called without the catalogue); the same rule as KBEx.needs(e, 'bar')
   const travelAllows = (mode, e) => (!mode ? true : mode === 'nobar' ? !(e.equip || []).includes('bar') : TRAVEL_GEAR[mode](e));
   let TRAVEL_GEAR = null; // kb / bw: the catalogue's own rules (set from cat below)
   function alternatives(exId, block, program, cat, limits, loose = 0) {
@@ -37,7 +38,7 @@
     return Object.keys(EX).filter((id) => {
       const o = EX[id];
       return !inBlock.has(id) && !STRETCH.includes(o.cat) && kindOk(o) && (loose > 1 ? e.muscles.primary.includes(o.muscles.primary[0]) : o.muscles.primary[0] === main) && (loose > 0 || (o.u === 'sec') === isHold)
-        && cat.allowedIn(program.equip, o) && !(block.kind === 'abs' && (o.equip || []).includes('bar')) && travelAllows(travel, o) && !skip.includes(id);
+        && cat.allowedIn(program.equip, o) && !(block.kind === 'abs' && cat.needs(o, 'bar')) && travelAllows(travel, o) && !skip.includes(id);
     });
   }
 

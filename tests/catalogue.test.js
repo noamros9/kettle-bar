@@ -40,3 +40,13 @@ test('no exercise id is written twice (a second one would silently replace the f
   assert.equal(ids.length, Object.keys(EX).length);
   assert.deepEqual(ids.filter((id, i) => ids.indexOf(id) !== i), []);
 });
+
+// Phase 24 ticket 12 (code review C3): what an exercise needs beyond its load is asked in one place
+test('needs(e, gear): a bar move needs the bar; loaded and floor moves need none', () => {
+  const { EX, needs } = require('../exercises.js');
+  assert.equal(needs(EX.pullup, 'bar'), true);
+  assert.equal(needs(EX.kb_swing, 'bar'), false);
+  assert.equal(needs(EX.db_row, 'bar'), false);
+  assert.equal(needs(EX.pushup, 'bar'), false);
+  assert.equal(needs({ id: 'x' }, 'bar'), false);
+});

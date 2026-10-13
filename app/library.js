@@ -151,6 +151,7 @@
       .filter((x) => x.k > 0).sort((a, b) => b.k - a.k || b.s - a.s || a.i - b.i).slice(0, n).map((x) => x.pid);
   }
   const GEAR = [['all', 'Any equipment'], ['kb', 'Kettlebell'], ['db', 'Dumbbells'], ['bar', 'Pull-up bar'], ['none', 'No equipment']];
+  // the library has no catalogue at hand: the same bar rule as KBEx.needs(e, 'bar')
   const gearOf = (e) => (e.load === 'kb' ? 'kb' : e.load ? 'db' : (e.equip || []).includes('bar') ? 'bar' : 'none');
   const EX_FAMILIES = [
     ['warmup', 'Warm-up', [['dynamic', 'Dynamic moves'], ['joints', 'Joint circles'], ['activation', 'Activation']]],

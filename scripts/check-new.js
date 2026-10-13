@@ -10,7 +10,7 @@ const { travel } = require('../app/swaps.js');
 
 const { EX } = cat;
 const PHASE = 23;
-const bar = (e) => (e.equip || []).includes('bar');
+const bar = (e) => cat.needs(e, 'bar');
 const sentences = (t) => t.match(/[^.!?]+[.!?]+(\s|$)/g) || [];
 const FOCUS = {
   Chest: { own: ['chest'], helpers: ['triceps', 'front_delts'] },

@@ -38,7 +38,7 @@
   }
 
   function makeBuilder(cat) {
-    const { EX, allowedIn, scaleReps } = cat;
+    const { EX, allowedIn, scaleReps, needs } = cat;
 
     // ---------- exercise pools ----------
     const ids = (fn) => Object.keys(EX).filter((k) => fn(EX[k]));
@@ -370,8 +370,8 @@
       return {
         ...Object.fromEntries(Object.entries(adds).map(([name, list]) => [name, [...(POOLS[name] || []), ...list]])),
         mobility: has((e) => e.cat === 'warmup' || e.cat === 'cooldown'),
-        abs: has((e) => e.cat === 'abs' && e.id !== 'mountain_climber' && !(e.equip || []).includes('bar')),
-        absW: has((e) => e.cat === 'abs' && e.load && !(e.equip || []).includes('bar')),
+        abs: has((e) => e.cat === 'abs' && e.id !== 'mountain_climber' && !needs(e, 'bar')),
+        absW: has((e) => e.cat === 'abs' && e.load && !needs(e, 'bar')),
         warmups: has((e) => e.cat === 'warmup'),
         cooldowns: has((e) => e.cat === 'cooldown'),
         // Every catalogue-11 exercise, whatever order tickets 6 and 7 merge. Empty below catalogue 11.

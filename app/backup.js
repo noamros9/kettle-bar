@@ -254,7 +254,7 @@
   const pad = (n) => String(n).padStart(2, '0');
   const fileName = (d) => `${FORMAT}-${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}.json`;
 
-  const api = { exportProgress, fileName, parseBackup, diffProgress, planImport, dayRanges, nightlyFile, FORMAT, VERSION };
+  const api = { exportProgress, fileName, parseBackup, diffProgress, planImport, dayRanges, nightlyFile, FORMAT };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBBackup = api;
 })(typeof window !== 'undefined' ? window : globalThis, typeof module !== 'undefined' && module.exports ? require('./progress.js') : window.KBProgress, typeof module !== 'undefined' && module.exports ? require('./docs.js') : window.KBDocs);
