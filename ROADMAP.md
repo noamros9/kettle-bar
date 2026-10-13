@@ -5,13 +5,12 @@ top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase c
 (the next one is **331**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
 ## Resume here (13 Oct 2026, morning)
-- **Phase 23 is done** (#352–#378), archived in [docs/roadmap-archive.md](docs/roadmap-archive.md): library 1,060
-  programs in 73 subjects.
-- **Now: the build cache** ([plan](docs/plans/build-cache.md), 324–330): tickets 1–3 merged 13 Oct (#382–#384); main's
-  cold diff passed. Next, after Noam's go: 3b (330), the cache on an orphan git branch so cloud sessions can pull it
-  (artifact downloads are blocked here), then close it. **Then Phase 37**
-  ([#356](https://github.com/noamros9/kettle-bar/issues/356)); re-read its Challenge round first (136).
-- **Opus builds alone** (295): Grok is away, so no Grok tickets; Phase 20 and 35 wait for it.
+- **The build cache is done** (#381–#386, archived in [docs/roadmap-archive.md](docs/roadmap-archive.md)): main's build
+  45 s → 5 s; main's run builds cold and diffs (327). **At the start of a cloud session run `npm run cache:pull`** (3 s,
+  from the `build-cache` branch). Open for Noam: can 312 (no local whole-library build) and 321 (600 s UI wait) relax?
+- **Next: Phase 37** ([#356](https://github.com/noamros9/kettle-bar/issues/356), [plan](docs/plans/phase-37-finish-flow.md)):
+  breather, then the cool-down by itself. Re-read its Challenge round first (136). Waits for Noam's go.
+- **Opus builds alone** (295): Grok is away, so no Grok tickets; Phases 20 and 35 wait for it.
 - **Working rules** are in [CLAUDE.md](CLAUDE.md): three tickets then wait, at most 2 building, no local coverage run
   or whole-library build (308, 312), one ticket pushed at a time, CI polled every 30 s.
 
@@ -21,7 +20,6 @@ right after Phase 22 (216). **223 ·** 8 Oct: quick fixes after 22; Export, day 
 
 | # | Phase | Issue | Plan | Status |
 |---|---|---|---|---|
-| 0 | The build cache: rebuild only what changed (322) | [#265](https://github.com/noamros9/kettle-bar/issues/265) | [plan](docs/plans/build-cache.md) | planned |
 | 1 | 37 · The finish flow: a 30 s breather, then the cool-down by itself | [#356](https://github.com/noamros9/kettle-bar/issues/356) | [plan](docs/plans/phase-37-finish-flow.md) | planned |
 | 2 | 24 · Architecture and code review, then the fixes | [#187](https://github.com/noamros9/kettle-bar/issues/187), [#188](https://github.com/noamros9/kettle-bar/issues/188) | [plan](docs/plans/phase-24-review.md) | planned |
 | 3 | 25 · "Do now": one exercise for dead time | [#200](https://github.com/noamros9/kettle-bar/issues/200) | [plan](docs/plans/phase-25-do-now.md) | planned |
@@ -79,7 +77,7 @@ Numbered 20 because 19 is super programs.
 - **Cut the test and CI times** ([#265](https://github.com/noamros9/kettle-bar/issues/265)). Already done: only the
   affected UI specs run locally; the sync tests run ~35% faster; CI runs in Playwright's image and cancels older runs;
   Markdown-only commits skip the tests. More workers don't help on 2 cores.
-  **322 ·** The build cache, planned 13 Oct: [plan](docs/plans/build-cache.md) (row 0). *(11 Oct)*
+  **322 ·** The build cache is done (13 Oct, archived): builds read unchanged programs from `.build-cache/`.
 
 ## Decided against (don't re-suggest)
 - **Logging weights or reps per set**: done / not done only.

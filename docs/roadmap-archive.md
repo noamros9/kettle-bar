@@ -523,3 +523,29 @@ and the close in [its plan](plans/phase-23-fitness-programs.md#measured).
   drills take 15, Phase 27's skills move to 16. *(technical, 8 Oct)*
 - **264 · Build your own and random workouts get catalogue 14 at the phase's last ticket**, all at once (as 121). *(8 Oct)*
 - **265 · Yin & Deep Stretch stays on the Yoga shelf**; programs never move shelves. *(8 Oct)*
+
+## The build cache: rebuild only what changed (done, 13 Oct 2026)
+Plan and tickets: [docs/plans/build-cache.md](plans/build-cache.md), Backlog item 322 ([#265](https://github.com/noamros9/kettle-bar/issues/265)).
+Grilled and built 13 Oct (#381–#386, #387): program days and recipe-book trials come from `.build-cache/` while their key
+(builder code, config, catalogue slice) is unchanged; CI saves it, main's run builds cold and diffs, and pushes it to
+the `build-cache` branch that `npm run cache:pull` fetches. main's build 45 s → 5 s; measured in
+[its plan](plans/build-cache.md#measured-13-oct-2026-at-the-close).
+**What it covers**
+- **324 · Program days and the recipe book**: both are cached; the library, index, finder and muscle files stay rebuilt
+  every time (they're cheap). *(13 Oct)*
+- **325 · A change to the builder's code drops the whole cache**: every key carries a hash of the code that makes it,
+  so a code change is one cold build, never stale days. *(13 Oct)*
+- **328 · A catalogue change rebuilds only the programs whose pools changed**: a program's key hashes the exercises it
+  can draw at its own catalogue, not the whole of `exercises.js`; catalogue 14 leaves the ≤13 programs cached. *(13 Oct)*
+
+**Where it lives and how it's proved**
+- **326 · A gitignored folder, saved and restored by CI**: `.build-cache/` locally; CI restores and saves it with
+  `actions/cache`. *(13 Oct)*
+- **327 · main's run proves it**: on every push to `main`, CI also builds cold and diffs that against the cached
+  build; any difference fails the run. *(13 Oct)*
+- **330 · Cloud sessions pull it from a git branch**: Actions artifacts download from blob storage, which the cloud
+  session's proxy blocks; main's run force-pushes the cache to a one-commit orphan `build-cache` branch, and
+  `cache:pull` fetches it with git (the artifact stays for Noam's machine). *(13 Oct)*
+
+**How it's built**
+- **329 · Three tickets**: program days, then the recipe book, then CI. *(13 Oct)*

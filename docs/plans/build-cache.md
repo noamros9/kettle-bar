@@ -42,7 +42,7 @@ out. The pin gate (`scripts/pins.js`) still checks every program, cached or not.
 | 2 | The recipe book per day type (324, 325, 328) | build | 1 | `build/cache-recipes` | done (PR #383) |
 | 3 | CI saves the cache and proves it on main (326, 327) | ci | 2 | `ci/build-cache` | done (PR #384) |
 | 3b | The cache on a git branch for cloud sessions (330) | ci | 3 | `ci/build-cache-branch` | done (PR #386) |
-| 4 | Close it | plan | 3b | `plan/build-cache-close` | todo |
+| 4 | Close it | plan | 3b | `plan/build-cache-close` | done (PR #387) |
 
 ### 1. Program days from the cache
 - **Build:** a new `build-cache.js` (Node only): `codeHash(files)`, `keyOf(cfg)` = SHA-256 of the code hash
@@ -114,3 +114,11 @@ out. The pin gate (`scripts/pins.js`) still checks every program, cached or not.
 - **The lazier version:** cache only the recipe book (the 17 min) and leave the days; but the days are what push the
   UI build past 600 s, so both stay. A cloud session starts with an empty folder, so without ticket 3's
   `cache:pull` the local win is only within one session.
+
+## Measured (13 Oct 2026, at the close)
+- **CI build, main's Test and deploy:** 45 s cold (1,060 built, #384) → 5 s warm (1,060 read, 0 built, #386); the cold
+  diff on main takes 45–75 s and matched both times.
+- **`npm run cache:pull` in a cloud session:** 3 s from the `build-cache` branch, 1,060 programs in. The artifact route
+  is Forbidden here (blob storage), as expected.
+- Not measured: a warm whole-library build or UI run on this machine (decision 312 still stands); whether 312 and
+  Playwright's 600 s wait (321) can relax is Noam's call.
