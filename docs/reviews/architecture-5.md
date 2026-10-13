@@ -124,3 +124,10 @@ its 1 MB gate), so there is still no case for splitting the library (137).
 - **Sync redraws:** a sign-in with 20 started programs redraws once (the "each first reply redraws the page" of
   ticket 17.2 is fixed).
 - **Library parse:** ≤ 5 ms at 4×.
+
+## Triage (Phase 24 ticket 3, 13 Oct)
+- **A1:** fix now, ticket 5 (Noam's exception to 187, decision 332).
+- **A2:** fix now, ticket 4. **A3:** fix now, ticket 7. **A5:** fix now, ticket 8. **A6:** fix now, ticket 10.
+  **A7:** fix now, ticket 11.
+- **A4:** issue [#393](https://github.com/noamros9/kettle-bar/issues/393): ~10% of the boot, and every exercise name
+  would wait on a fetch; revisit with Phase 35 or 28.
