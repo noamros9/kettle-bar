@@ -1,7 +1,7 @@
 # The build cache: rebuild only what changed
 
 Backlog item 322 ([#265](https://github.com/noamros9/kettle-bar/issues/265), cut the test and CI times). Grilled 13 Oct
-2026 (Noam); decisions 324–330 below. Right after Phase 23, before Phase 37. Opus builds (295).
+2026 (Noam); decisions 324–331 below. Right after Phase 23, before Phase 37. Opus builds (295).
 
 ## Decisions
 Grilled 13 Oct 2026 with Noam (global decision numbers).
@@ -24,6 +24,10 @@ Grilled 13 Oct 2026 with Noam (global decision numbers).
   session's proxy blocks; main's run force-pushes the cache to a one-commit orphan `build-cache` branch, and
   `cache:pull` fetches it with git (the artifact stays for Noam's machine). *(13 Oct)*
 
+- **331 · main's run makes the recipe trials into the cache too**: the build never makes them (the committed book is
+  fresh), so a pulled cache had none; a job after the tests makes them, checks the book equals the committed one, then
+  publishes the cache (branch and artifact). *(13 Oct)*
+
 **How it's built**
 - **329 · Three tickets**: program days, then the recipe book, then CI. *(13 Oct)*
 
@@ -43,6 +47,7 @@ out. The pin gate (`scripts/pins.js`) still checks every program, cached or not.
 | 3 | CI saves the cache and proves it on main (326, 327) | ci | 2 | `ci/build-cache` | done (PR #384) |
 | 3b | The cache on a git branch for cloud sessions (330) | ci | 3 | `ci/build-cache-branch` | done (PR #386) |
 | 4 | Close it | plan | 3b | `plan/build-cache-close` | done (PR #387) |
+| 5 | The recipe trials into the cache on main (331) | ci | 4 | `ci/recipe-cache` | done (PR #388) |
 
 ### 1. Program days from the cache
 - **Build:** a new `build-cache.js` (Node only): `codeHash(files)`, `keyOf(cfg)` = SHA-256 of the code hash
@@ -104,6 +109,15 @@ out. The pin gate (`scripts/pins.js`) still checks every program, cached or not.
   after in the archive line, and see whether Playwright's 600 s wait (321) and decision 312 can relax (asked, not
   changed).
 
+### 5. The recipe trials into the cache on main (331)
+- **Build:** a `recipe-cache` job after `test` on main (beside the deploy): restores the cache, runs
+  `scripts/recipe-cache.js` (every trial through the memo; the book made must equal `recipes/book.json`), saves it, and
+  publishes the cache to the artifact and the `build-cache` branch (moved here from the test job).
+- **Files:** `.github/workflows/deploy.yml`, `scripts/recipe-cache.js`, `tests/recipe-cache.test.js`.
+- **Test first:** `tests/recipe-cache.test.js`: a matching book is ok with its counts; a differing one fails; a stale
+  committed book is left to the unit tests.
+- **Done when:** main's run shows the trials run (first time) and then read, and `cache:pull` brings `recipes/`.
+
 ## Challenge round
 - **Weakest assumption:** that a program's days depend only on its config, its catalogue's pools and the builder code.
   If the builder reads `EX` outside the pools (stand-ins, stretches, warm-ups) or another config, the key misses it and
@@ -120,5 +134,5 @@ out. The pin gate (`scripts/pins.js`) still checks every program, cached or not.
   diff on main takes 45–75 s and matched both times.
 - **`npm run cache:pull` in a cloud session:** 3 s from the `build-cache` branch, 1,060 programs in. The artifact route
   is Forbidden here (blob storage), as expected.
-- Not measured: a warm whole-library build or UI run on this machine (decision 312 still stands); whether 312 and
-  Playwright's 600 s wait (321) can relax is Noam's call.
+- **A warm local build on the cloud machine:** 11.6 s (`node build.js`, 1,060 read, 0 built) after `cache:pull`,
+  measured with Noam's OK; whether 312 and Playwright's 600 s wait (321) relax is Noam's call.
