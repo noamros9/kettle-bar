@@ -526,7 +526,7 @@ and the close in [its plan](plans/phase-23-fitness-programs.md#measured).
 
 ## The build cache: rebuild only what changed (done, 13 Oct 2026)
 Plan and tickets: [docs/plans/build-cache.md](plans/build-cache.md), Backlog item 322 ([#265](https://github.com/noamros9/kettle-bar/issues/265)).
-Grilled and built 13 Oct (#381–#386, #387): program days and recipe-book trials come from `.build-cache/` while their key
+Grilled and built 13 Oct (#381–#387, #388): program days and recipe-book trials come from `.build-cache/` while their key
 (builder code, config, catalogue slice) is unchanged; CI saves it, main's run builds cold and diffs, and pushes it to
 the `build-cache` branch that `npm run cache:pull` fetches. main's build 45 s → 5 s; measured in
 [its plan](plans/build-cache.md#measured-13-oct-2026-at-the-close).
@@ -549,3 +549,6 @@ the `build-cache` branch that `npm run cache:pull` fetches. main's build 45 s �
 
 **How it's built**
 - **329 · Three tickets**: program days, then the recipe book, then CI. *(13 Oct)*
+- **331 · main's run makes the recipe trials into the cache too**: the build never makes them (the committed book is
+  fresh), so a pulled cache had none; a job after the tests makes them, checks the book equals the committed one, then
+  publishes the cache (branch and artifact). *(13 Oct)*

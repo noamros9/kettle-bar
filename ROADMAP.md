@@ -2,14 +2,15 @@
 
 The index: where we are, what comes next, and the two phases being built now. Every other phase's decisions live at the
 top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase comes up. Decision numbers are global
-(the next one is **331**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
+(the next one is **332**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
 ## Resume here (13 Oct 2026, morning)
 - **The build cache is done** (#381–#386, archived in [docs/roadmap-archive.md](docs/roadmap-archive.md)): main's build
-  45 s → 5 s; main's run builds cold and diffs (327). **At the start of a cloud session run `npm run cache:pull`** (3 s,
-  from the `build-cache` branch). Open for Noam: can 312 (no local whole-library build) and 321 (600 s UI wait) relax?
+  45 s → 5 s, a warm local build 11.6 s; main's run builds cold and diffs (327) and makes the recipe trials too (331,
+  #388). **At the start of a cloud session run `npm run cache:pull`** (3 s, from the `build-cache` branch). Open for
+  Noam: can 312 (no local whole-library build) and 321 (600 s UI wait) relax?
 - **Next: Phase 37** ([#356](https://github.com/noamros9/kettle-bar/issues/356), [plan](docs/plans/phase-37-finish-flow.md)):
-  breather, then the cool-down by itself. Re-read its Challenge round first (136). Waits for Noam's go.
+  breather, then the cool-down by itself. Re-read its Challenge round first (136). Noam's go given 13 Oct.
 - **Opus builds alone** (295): Grok is away, so no Grok tickets; Phases 20 and 35 wait for it.
 - **Working rules** are in [CLAUDE.md](CLAUDE.md): three tickets then wait, at most 2 building, no local coverage run
   or whole-library build (308, 312), one ticket pushed at a time, CI polled every 30 s.
