@@ -691,7 +691,8 @@
   const buildConfig = (cfg) => (cfg.frozen ? buildFrozen(cfg) : b.build(cfg));
   // buildAll: the whole library, built once per test run by scripts/warm-test-cache.js outside coverage (Phase 24 ticket 9:
   // no unit test builds it again under coverage just to compare)
-  const buildAll = /* node:coverage ignore next */ () => CONFIGS.map(buildConfig);
+  /* node:coverage ignore next */
+  const buildAll = () => CONFIGS.map(buildConfig);
   module.exports = { ...api, buildConfig, buildAll, CONFIGS, POOLS: b.POOLS, poolsAt: b.poolsAt, mergedAt: b.mergedAt, REST: b.REST, timing: b.timing };
   /* node:coverage ignore next 2 */
 })(typeof window !== 'undefined' ? window : globalThis, typeof module !== 'undefined' && module.exports ? require('./formats.js') : window.KBFormats,
