@@ -55,6 +55,15 @@ jobs:
         run: node scripts/tested-tree.js
         env:
           GH_TOKEN: ${{ github.token }}
+      # the build cache (decision 326): programs and recipe trials whose keys are unchanged are read, not made; restored
+      # before the unit tests too, whose shared library comes through it (Phase 24 ticket 10)
+      - name: Restore the build cache
+        if: steps.passed.outputs.cache-hit != 'true'
+        uses: actions/cache/restore@v4
+        with:
+          path: .build-cache
+          key: build-cache-${{ github.run_id }}
+          restore-keys: build-cache-
       - name: Unit tests, 100% coverage on the core modules
         if: steps.tested.outputs.tested != 'true' && steps.passed.outputs.cache-hit != 'true'
         run: npm run test:coverage 2>&1 | tee unit.log; exit ${PIPESTATUS[0]}
@@ -63,14 +72,6 @@ jobs:
       - name: Name the failures
         if: failure()
         run: node scripts/unit-failures.js unit.log
-      # the build cache (decision 326): programs and recipe trials whose keys are unchanged are read, not made
-      - name: Restore the build cache
-        if: steps.passed.outputs.cache-hit != 'true'
-        uses: actions/cache/restore@v4
-        with:
-          path: .build-cache
-          key: build-cache-${{ github.run_id }}
-          restore-keys: build-cache-
       - name: Build
         if: steps.passed.outputs.cache-hit != 'true'
         run: npm run build | tee build.log && grep '^build cache' build.log | sed 's/^/::notice title=Build cache::/'
@@ -111,8 +112,15 @@ jobs:
       - name: Serve the Program finder's model with the app (pinned, every file's hash checked)
         if: steps.passed.outputs.cache-hit != 'true'
         run: node scripts/vendor-finder.js _site
-      - name: The finder's model loads in Chromium from our own site, understands a question, and makes the program vectors
+      # Phase 24 ticket 10: the smoke (98 s) on main always, on a PR only when a changed file can touch the finder
+      - name: Does this change touch the finder?
+        id: finder
         if: steps.passed.outputs.cache-hit != 'true'
+        run: node scripts/finder-needed.js
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - name: The finder's model loads in Chromium from our own site, understands a question, and makes the program vectors
+        if: steps.passed.outputs.cache-hit != 'true' && steps.finder.outputs.needed == 'true'
         run: node scripts/finder-smoke.js _site
       - uses: actions/upload-pages-artifact@v5
         if: steps.passed.outputs.cache-hit != 'true'
