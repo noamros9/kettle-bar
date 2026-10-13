@@ -563,3 +563,27 @@ at "Workout finished".
 - **320 · Breather, then the cool-down, nothing after it**: the last set starts a 30 s breather by itself, then the
   cool-down flow starts; when it ends nothing waits (no 30 s on the timer); a day without a cool-down ends at
   "Workout finished". *(10 Oct)*
+
+## Phase 24: architecture review V and code review, then the fixes (done, 13 Oct 2026)
+Plan and tickets: [docs/plans/phase-24-review.md](plans/phase-24-review.md), issues
+[#187](https://github.com/noamros9/kettle-bar/issues/187) and [#188](https://github.com/noamros9/kettle-bar/issues/188);
+findings in [docs/reviews/architecture-5.md](reviews/architecture-5.md) and [docs/reviews/code-review.md](reviews/code-review.md).
+Reviewed, triaged and fixed 13 Oct (#391–#403): the Exercises page redraw 3.0 → ~0.5 s and the Programs search
+keystroke 0.4 s → under 150 ms (4× CPU); sign-in 1,060 progress listeners → one; own programs pinned (58 records);
+old program lists leave the offline cache; slow tests cheaper (unit step 418 → 92 s with the cache restored first, the
+finder smoke only when it matters); the recipe cache in its own workflow; one needs-gear rule. A4 (the exercise
+catalogue in the first download) is [#393](https://github.com/noamros9/kettle-bar/issues/393); a flaky Back test
+found on the way is [#404](https://github.com/noamros9/kettle-bar/issues/404).
+- **139 · One phase for both reviews** (architecture V, #187, and the code review, #188).
+- **140 · After Phase 23**, so it reviews the library at full size before new features land.
+- **141 · Review just before fixing**: findings are triaged (fix now / issue / drop), fix tickets join this plan and
+  are built right away. Only what's too big for one ticket becomes an issue.
+- **186 · Tests that don't earn their keep are deleted** in the fix tickets; each PR says what still covers them.
+- **275 · Both reviews also look ahead** at what Phases 25–34 need (catalogues 14–16, new progress fields, export,
+  sync status), as "cheaper now" findings. *(8 Oct)*
+- **187 · A stored shape or sync rule that should change goes to Noam** and becomes an issue, never a fix here (old
+  backups must still import).
+- **332 · One progress listener, fixed in this phase** (A1): sign-in listens to the progress collection once instead
+  of to each of 1,060 programs; the documents and their shape stay as they are. Noam's exception to 187. *(13 Oct)*
+- **333 · Triage (13 Oct):** A2, A3, A5, A6, A7, C1, C2, C3 and the slow tests are fixed here (tickets 4–12, three at a
+  time); A4 is issue [#393](https://github.com/noamros9/kettle-bar/issues/393). *(13 Oct)*
