@@ -42,7 +42,7 @@ Grilled 7 Oct 2026 with Noam (global decision numbers).
 | 3 | Triage: fix tickets added to this plan, ADRs, issues | plan | 1, 2 | `plan/p24-triage` | done (PR #394) |
 | 4 | Exercises page: figures drawn when near view (A2) | feature | 3 | `fix/exercise-figures` | done (PR #395) |
 | 5 | One progress listener (A1, 332) | feature | 3 | `fix/one-progress-listener` | done (PR #396) |
-| 6 | Own-program pins (C1) | test | 3 | `test/own-pins` | todo |
+| 6 | Own-program pins (C1) | test | 3 | `test/own-pins` | done (PR #397) |
 | 7 | Programs search refreshes only its results (A3) | feature | 3 | `fix/program-search` | todo |
 | 8 | The offline cache drops old program lists (A5) | feature | 3 | `fix/offline-prune` | todo |
 | 9 | Slow tests: delete or cheapen (186) | test | 3 | `test/slow-tests` | todo |
