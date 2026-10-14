@@ -414,6 +414,10 @@ table.weeks tr.empty{color:var(--muted)}table.weeks tr.empty th{font-weight:400}
 .daysum span:first-child{color:var(--ink)}
 .roundbtn{margin-top:10px;font-size:14px;padding:8px 14px}
 /* Phase 33: pause, Start over, the rows at the top of Programs */
+/* Programs that use this (Phase 33) */
+.useslist{list-style:none;margin:8px 0;padding:0;display:grid;gap:6px}
+.usesrow{width:100%;text-align:left;display:grid;gap:2px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+.usesrow span{font-size:13px;color:var(--muted)}
 /* Compare (Phase 33) */
 .cmpvs{font-size:.6em;color:var(--muted)}
 .cmpwrap{overflow-x:auto;margin-top:12px}

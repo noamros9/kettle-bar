@@ -118,6 +118,7 @@ const ACTIONS = [
   ['backup', (v) => backupAction(v)],
   ['weekday', (v) => { const pid = prog().id, on = store.weekdays(pid), d = +v; store.setWeekdays(pid, on.includes(d) ? on.filter((x) => x !== d) : [...on, d]); }], // Phase 33
   ['compareOpen', () => { compareState = { pid: prog().id, q: '' }; render(); const i = $('#cmp-search'); if (i) i.focus(); }], // Phase 33
+  ['usesAll', (v) => { usesAll = usesAll === v ? null : v; render(); }], // Phase 33: Programs that use this
   ['compareAll', () => { compareAll = !compareAll; render(); }],
   ['compareClose', () => { compareState = null; rerender(); }],
   ['compareTo', (v) => { const a = compareState.pid; compareState = null; compareAll = false; go(`compare/${a}/${v}`); }],

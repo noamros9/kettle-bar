@@ -1,8 +1,10 @@
 /* ---------------- exercise page + library ---------------- */
 function usesEx(w, id) { return [...w.blocks.flatMap((b) => b.items), ...(w.warmup ? w.warmup.items : []), ...(w.cooldown ? w.cooldown.items : [])].some((it) => it.ex === id); }
-// "Also in" needs the exercise index (data/index.json): asked for when the first exercise page opens, the page draws again
+// "Programs that use this" (was "Also in") needs the exercise index (data/index.json): asked for when the first exercise page opens, the page draws again
 // when it is here; if it can't be had (offline, never cached) the card says so, and the next exercise tries again
 let usageLoading = false, usageError = null;
+const USES_SHOWN = 10;
+let usesAll = null; // the exercise whose every program is shown
 // "Skip this exercise" (Phase 13): the button and, when skipped, what that means
 function skipRow(e) {
   const on = skipList().includes(e.id);
@@ -17,7 +19,9 @@ function viewExercise() {
     usageLoading = true;
     programs.loadUsage().then(() => { usageLoading = false; rerender(); }, (err) => { usageLoading = false; usageError = { ex: e.id, message: err.message }; rerender(); });
   }
-  const others = programs.usageReady() ? programs.programsUsing(e.id).filter((id) => id !== p.id).map((id) => programs.summary(id)) : [];
+  // Phase 33 (256): every other program using it, library and your own, most days first, with how many days
+  const others = programs.usageReady() ? programs.usesOf(e.id).filter((u) => u.pid !== p.id).map((u) => ({ ...programs.summary(u.pid), uses: u.days })) : [];
+  const shownOthers = usesAll === e.id ? others : others.slice(0, USES_SHOWN);
   const names = (arr) => arr.map((k) => `<button class="chip" data-exmuscle-link="${k}" aria-label="Exercises that work ${MUSCLE_NAMES[k]}">${MUSCLE_NAMES[k]}</button>`).join(' '); // #234
   const stretch = e.cat === 'warmup' || e.cat === 'cooldown';
   const dose = KBExport.exerciseDose(e); // the exported text says it the same way (Phase 32)
@@ -39,7 +43,8 @@ function viewExercise() {
     </div>
     ${days.length ? `<div class="card" style="margin-top:16px"><h2>In ${esc(p.name)}</h2><div style="color:var(--muted);font-size:14px">Used on ${days.length} day${days.length > 1 ? 's' : ''}</div>
       <div class="daychips">${days.map((d) => `<button class="num" data-day="${d}" aria-label="Open day ${d}">${d}</button>`).join('')}</div></div>` : ''}
-    ${others.length ? `<div class="card" style="margin-top:16px"><h2>Also in</h2><div class="daychips">${others.map((q) => `<button class="progchip" data-open-prog="${q.id}">${esc(q.name)}</button>`).join('')}</div></div>` : usageError ? `<div class="card" style="margin-top:16px"><h2>Also in</h2><p class="muted" role="status">${esc(usageError.message)}</p></div>` : ''}`;
+    ${others.length ? `<div class="card usesof" style="margin-top:16px"><h2>Programs that use this</h2><ol class="useslist">${shownOthers.map((q) => `<li><button class="usesrow" data-open-prog="${q.id}"><b>${esc(q.name)}</b><span>${esc(q.source === 'own' ? 'Your program' : q.subject || '')}${q.uses ? ` · on ${plural(q.uses, 'day')}` : ''}</span></button></li>`).join('')}</ol>
+      ${others.length > USES_SHOWN ? `<button class="linkbtn" data-uses-all="${e.id}">${usesAll === e.id ? 'Show fewer' : `Show all ${others.length}`}</button>` : ''}</div>` : usageError ? `<div class="card" style="margin-top:16px"><h2>Programs that use this</h2><p class="muted" role="status">${esc(usageError.message)}</p></div>` : ''}`;
 }
 /* Exercises page: a search (name, muscle, cue) and chips by family and equipment, through KBLibrary.searchExercises.
    Typing redraws only the results, so the field keeps focus; the search stays while you look at an exercise and come back.

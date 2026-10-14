@@ -15,7 +15,7 @@ const cat = createProgramCatalogue(inlined(programs));
 
 test('lists every program without its days, with how many days and which exercises it uses', () => {
   assert.deepEqual(cat.ids(), ['a', 'b']);
-  assert.deepEqual(cat.list()[0], { id: 'a', name: 'Alpha', subject: 'Strength', source: 'library', dayCount: 2, exercises: ['arm_circle', 'pushup', 'row', 'squat'] });
+  assert.deepEqual(cat.list()[0], { id: 'a', name: 'Alpha', subject: 'Strength', source: 'library', dayCount: 2, exercises: ['arm_circle', 'pushup', 'row', 'squat'], uses: { arm_circle: 1, pushup: 1, row: 1, squat: 1 } });
   assert.equal(cat.summary('b').name, 'Bravo');
   assert.equal(cat.summary('zzz'), undefined);
   assert.ok(cat.has('a'));
@@ -196,7 +196,7 @@ test('setSource adds a source that was not there, and drops what the replaced so
 });
 
 // ---------- the slim summaries and the exercise index (ticket 7b) ----------
-const { slim, firstSentence, usageIndex } = require('../app/programs.js');
+const { slim, firstSentence, usageIndex, usageDays, withDays } = require('../app/programs.js');
 const slimSummaries = summaries.map(({ exercises, ...s }) => s); // the page's summaries have no exercise lists
 
 test('firstSentence: up to the first full stop, question or exclamation mark; a paragraph without one whole', () => {
@@ -212,8 +212,30 @@ test('slim keeps what the cards and filters need, with the first sentence of the
   assert.deepEqual(Object.keys(slim({ id: 'b', name: 'B', about: 'x', dayCount: 2 })), ['id', 'name', 'dayCount', 'about'], 'what a program does not have stays out');
 });
 
-test('usageIndex: exercise -> the programs that use it, in list order', () => {
+test('usageIndex: exercise -> the programs that use it, in list order; usageDays the days each uses it on, in the same order', () => {
   assert.deepEqual(usageIndex(programs), { arm_circle: ['a'], pushup: ['a'], row: ['a'], squat: ['a'], child_pose: ['b'], plank: ['b'] });
+  const two = [...programs, { id: 'c', name: 'C', days: [day(1, ['plank', 'plank']), day(2, ['plank']), day(3, ['row'])] }];
+  assert.deepEqual(usageIndex(two).plank, ['b', 'c']);
+  assert.deepEqual(usageDays(two).plank, [1, 2], 'a day counts once');
+  assert.deepEqual(usageDays(two).row, [1, 1]);
+  assert.deepEqual(withDays(usageIndex(two), usageDays(two)).plank, { b: 1, c: 2 });
+  assert.deepEqual(withDays(usageIndex(two), null), usageIndex(two), 'no day counts: the programs alone');
+  assert.deepEqual(withDays({ x: ['b'] }, {}), { x: { b: null } });
+});
+
+test('usesOf: most days first, then list order; own programs count from their summaries; an old index has no counts', async () => {
+  const two = [...programs, { id: 'c', name: 'C', days: [day(1, ['plank']), day(2, ['plank'])] }];
+  const lib = fetched(two.map(summarize).map(({ exercises, uses, ...x }) => x), { fetchJson: async () => null, cache: { get: async () => null, put: async () => {} }, usage: { load: async () => withDays(usageIndex(two), usageDays(two)) } });
+  const c = createProgramCatalogue(lib, ownSource([own('x', 'Mine', 'plank')]));
+  await c.loadUsage();
+  assert.deepEqual(c.usesOf('plank'), [{ pid: 'c', days: 2 }, { pid: 'own-x', days: 1 }, { pid: 'b', days: 1 }]);
+  assert.deepEqual(c.programsUsing('plank'), ['own-x', 'b', 'c'], 'programsUsing keeps list order');
+  const old = fetched(two.map(summarize).map(({ exercises, uses, ...x }) => x), { fetchJson: async () => null, cache: { get: async () => null, put: async () => {} }, usage: { load: async () => ({ plank: ['b', 'c'] }) } });
+  const o = createProgramCatalogue(old);
+  await o.loadUsage();
+  assert.deepEqual(o.usesOf('plank'), [{ pid: 'b', days: null }, { pid: 'c', days: null }]);
+  const bare = createProgramCatalogue({ name: 'own', first: true, summaries: [{ id: 'own-y', name: 'Bare', dayCount: 1, exercises: ['plank'] }], preloaded: [] });
+  assert.deepEqual(bare.usesOf('plank'), [{ pid: 'own-y', days: null }]);
 });
 
 test('a source with an exercise index: programsUsing waits for loadUsage, then follows the index; sources with lists need no index', async () => {

@@ -51,15 +51,39 @@ test('every exercise added in Phase 5 draws its figure on its page, and moves wh
   expect(bad).toEqual([]);
 });
 
-test('"Also in" lists the other programs that use the exercise, once the exercise index has loaded', async ({ app }) => {
-  test.skip(test.info().project.name !== 'phone-light', 'theme-independent');
+test('"Programs that use this" lists the others, most days first with "on N days"; 10, then Show all', async ({ app }, testInfo) => {
   await app.open('#ex-pushup');
-  const chips = app.page.locator('.progchip');
-  await expect(app.page.getByRole('heading', { name: 'Also in' })).toBeVisible();
-  const names = await chips.allTextContents();
-  const expected = await app.data(() => programs.programsUsing('pushup').filter((id) => id !== route.pid).map((id) => programs.summary(id).name));
-  expect(names).toEqual(expected);
-  expect(names.length).toBeGreaterThan(3);
-  await chips.first().click();
-  await expect(app.heading()).toHaveText(names[0]);
+  const rows = app.page.locator('.usesrow');
+  await expect(app.page.getByRole('heading', { name: 'Programs that use this' })).toBeVisible();
+  const want = await app.data(() => programs.usesOf('pushup').filter((u) => u.pid !== route.pid).map((u) => ({ name: programs.summary(u.pid).name, days: u.days })));
+  expect(want.length).toBeGreaterThan(10);
+  for (let i = 1; i < want.length; i++) expect(want[i - 1].days).toBeGreaterThanOrEqual(want[i].days);
+  await expect(rows).toHaveCount(10);
+  await expect(rows.first()).toContainText(want[0].name);
+  await expect(rows.first()).toContainText(`on ${want[0].days} days`);
+  if (testInfo.project.name === 'phone-light') expect(await app.sidewaysScroll()).toBe(0);
+  await app.page.locator('.usesof').screenshot({ path: testInfo.outputPath('uses.png') });
+  await app.page.getByRole('button', { name: `Show all ${want.length}` }).click();
+  await expect(rows).toHaveCount(want.length);
+  await rows.first().click();
+  await expect(app.heading()).toHaveText(want[0].name);
 });
+
+test('your own program that uses the exercise is in the list, counted on the device', async ({ app }) => {
+  test.skip(test.info().project.name !== 'phone-light', 'theme-independent');
+  await app.open('#programs');
+  await app.page.getByRole('button', { name: 'Build your own' }).click();
+  await app.page.getByRole('group', { name: 'Days in a cycle' }).waitFor();
+  await app.page.getByRole('button', { name: 'Save program' }).click();
+  await expect(app.heading()).toHaveText(/^My /);
+  const { pid, ex, days } = await app.data(() => { const p = prog(), ex = p.days[0].blocks[0].items[0].ex; return { pid: p.id, ex, days: p.days.filter((d) => d.blocks.some((b) => b.items.some((it) => it.ex === ex)) || [...(d.warmup ? d.warmup.items : []), ...(d.cooldown ? d.cooldown.items : [])].some((it) => it.ex === ex)).length }; });
+  await app.go('#p-three-split-60'); // the exercise page lists the programs other than the one it was opened from
+  await app.go(`#ex-${ex}`);
+  await app.page.getByRole('heading', { name: 'Programs that use this' }).waitFor();
+  const all = app.page.getByRole('button', { name: /^Show all/ });
+  if (await all.count()) await all.click();
+  const mine = app.page.locator(`.usesrow[data-open-prog="${pid}"]`);
+  await expect(mine).toContainText('Your program');
+  await expect(mine).toContainText(`on ${days} day${days === 1 ? '' : 's'}`);
+});
+
