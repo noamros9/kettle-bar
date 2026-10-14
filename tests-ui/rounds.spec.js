@@ -17,7 +17,7 @@ async function roundOneDone(app) {
 test('start Round 2: review each rest-of-program swap, then day 1 again with "Round 2" everywhere', async ({ app }, testInfo) => {
   const s = await roundOneDone(app);
   await app.go('#p-iron-ppl');
-  await app.page.getByRole('button', { name: 'Start Round 2' }).click();
+  await app.page.getByRole('button', { name: /^Start over/ }).click(); // Phase 33: Start over, "Round 2" under it
   const sheet = app.page.getByRole('dialog', { name: 'Start Round 2' });
   await expect(sheet).toContainText('Round 1 stays in your stats');
   const keepA = sheet.getByRole('checkbox', { name: `Keep ${s.toA} instead of ${s.a}` });

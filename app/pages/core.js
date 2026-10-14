@@ -2,7 +2,8 @@
 /* ---------------- routing ----------------
    #today (the logo, home, and the home-screen shortcut) · #programs · #exercises · #muscles · #stats · #settings · #ex-<id> · #p-<pid> · #p-<pid>-d<n>   (#d<n> = Three-Split 60, kept for old links)
    · #add=<code> (a program someone shared: its preview and Add this program) · #random (the open random workout)
-   · #print/<ex-id | p-pid-dn | p-pid | random> (Phase 32: the print view, app/pages/print.js) */
+   · #print/<ex-id | p-pid-dn | p-pid | random> (Phase 32: the print view, app/pages/print.js)
+   · #row/<favourites | progress | paused> (Phase 33: a row of the Programs page, every card stacked) */
 // every program, through the Program Catalogue (today: all inlined in the page)
 const OFFLINE_CACHE = 'kettle-bar-v2'; // the service worker's cache; the page writes loaded programs into it too
 const offlineCache = {
@@ -43,12 +44,15 @@ const loadBook = () => fetchBuildFiles().then(([code, book]) => {
 // the first library program: the fallback wherever "some program" is needed (your own programs are listed before it)
 const firstPid = () => programs.list().find((s) => s.source === 'library').id;
 const lastPid = () => { try { const v = localStorage.getItem('kb-last-program'); return programs.has(v) ? v : null; } catch (e) { return null; } };
-// the program of the workout marked done most recently (any round), or nothing before the first one
-const lastDonePid = () => {
+// the program of the workout marked done most recently (any round), or nothing before the first one; skipPaused
+// (Today's workout, Phase 33, 252): a paused program is never picked, the next most recent is
+const lastDonePid = ({ skipPaused } = {}) => {
   let last = null;
-  programs.ids().forEach((pid) => store.entries(pid).forEach((e) => { if (!last || e.time > last.time) last = e; }));
+  programs.ids().filter((pid) => !(skipPaused && store.isPaused(pid))).forEach((pid) => store.entries(pid).forEach((e) => { if (!last || e.time > last.time) last = e; }));
   return last && last.pid;
 };
+// Today's workout: the program of your last workout, else the one opened last, else the first; never a paused one
+const todayPid = () => { const opened = lastPid(); return lastDonePid({ skipPaused: true }) || (opened && !store.isPaused(opened) ? opened : null) || firstPid(); };
 const rememberPid = (pid) => { try { localStorage.setItem('kb-last-program', pid); } catch (e) {} };
 let route = { view: 'program', pid: null, day: null }; // set at boot, once the program list is here
 function parseHash() {
@@ -63,11 +67,13 @@ function parseHash() {
   // home (the logo) and the home-screen shortcut: the next day not done in the program of the workout marked done last
   // (before any, the program opened last); the program page once every day is done
   if (h === 'today') {
-    const pid = lastDonePid() || lastPid() || firstPid(), n = nextDay(pid);
+    const pid = todayPid(), n = nextDay(pid);
     history.replaceState(history.state, '', '#' + (n ? dayHash(pid, n) : 'p-' + pid)); // keeps a saved scroll (#214)
     return n ? { view: 'day', pid, day: n } : { view: 'program', pid };
   }
   if (h === 'stats') return { view: 'stats' };
+  const row = h.match(/^row\/(favourites|progress|paused)$/); // Phase 33: a row of the Programs page, stacked
+  if (row) return { view: 'row', row: row[1] };
   if (h === 'muscles') return { view: 'muscles' };
   if (h.startsWith('add=')) return { view: 'add', code: h.slice(4) };
   if (h.startsWith('print/')) { const target = printTarget(h.slice(6)); return { view: 'print', target, pid: target && target.pid, ex: target && target.ex }; } // Phase 32
@@ -145,7 +151,7 @@ function render(scrollTop) {
   const wasKey = wasChosen ? wasChosen.dataset.filter : null;
   drewLoading = needsProgram && stillLoading([route.pid]).length > 0;
   if (drewLoading) app.innerHTML = loadingView(route.pid);
-  else app.innerHTML = v === 'programs' ? viewPrograms() : v === 'build' ? viewBuild() : v === 'random' ? viewRandom() : v === 'now' ? viewNow() : v === 'add' ? viewAdd() : v === 'library' ? viewLibrary() : v === 'settings' ? viewSettings() : v === 'stats' ? viewStats() : v === 'muscles' ? viewMuscles() : v === 'exercise' ? viewExercise() : v === 'day' ? viewDay() : v === 'print' ? viewPrint() : viewProgram();
+  else app.innerHTML = v === 'programs' ? viewPrograms() : v === 'build' ? viewBuild() : v === 'random' ? viewRandom() : v === 'now' ? viewNow() : v === 'add' ? viewAdd() : v === 'library' ? viewLibrary() : v === 'settings' ? viewSettings() : v === 'stats' ? viewStats() : v === 'muscles' ? viewMuscles() : v === 'exercise' ? viewExercise() : v === 'day' ? viewDay() : v === 'print' ? viewPrint() : v === 'row' ? viewRow() : viewProgram();
   if (!drewLoading && ['exercise', 'day', 'program', 'random'].includes(v)) app.insertAdjacentHTML('beforeend', exportSheet()); // Phase 32
   const section = v === 'library' || v === 'exercise' ? 'library' : v === 'settings' || v === 'stats' || v === 'muscles' ? v : 'programs';
   document.querySelectorAll('.top [data-go]').forEach((b) => b.setAttribute('aria-current', b.dataset.go === section ? 'page' : 'false'));

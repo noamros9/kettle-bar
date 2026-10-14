@@ -116,6 +116,8 @@ const ACTIONS = [
   ['randomDone', () => randomDone()],
   ['randomDiscard', () => { random.discard(); go('programs'); }],
   ['backup', (v) => backupAction(v)],
+  ['rowAll', (v) => go('row/' + v)], // Phase 33: a row's Show all
+  ['pause', (v) => store.setPaused(prog().id, v === '1')], // Phase 33: the store's change event redraws
   ['roundStart', () => { roundState = { pid: prog().id }; rerender(); }],
   ['roundCancel', () => { roundState = null; rerender(); }],
   ['roundConfirm', () => {
