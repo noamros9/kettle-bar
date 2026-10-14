@@ -59,9 +59,10 @@ function programsParts() {
   const shelfFoot = (s) => (s.more ? `<button class="lenline shelfmore" data-shelf="${esc(s.subject)}" aria-expanded="false">Show all ${s.total} ${esc(s.subject)} programs <span aria-hidden="true">▾</span></button>`
     : filters.subject === 'all' && openShelves.includes(s.subject) && s.total > KBLibrary.SHELF ? `<button class="lenline shelfmore" data-shelf="${esc(s.subject)}" aria-expanded="true">Show fewer <span aria-hidden="true">▴</span></button>` : '');
   const groups = lib.shelves.map((s) => `<section class="pgroup"><h2>${esc(s.subject)}</h2><div class="plist">${s.programs.map(starred).join('')}</div>${shelfFoot(s)}</section>`).join('');
-  // Phase 33 (253, 268): Favourites, In progress and Paused as sideways rows, 3 cards then Show all (#row/<name>)
+  // Phase 33 (253, 268): Favourites, In progress and Paused as sideways rows, 3 cards then Show all (#row/<name>). Only
+  // Favourites is a .pgroup (as its shelf was): the other two repeat programs that are on their shelves too
   const rows = topRows(found);
-  const rowHTML = (key, title, list) => (list.length ? `<section class="pgroup prow${key === 'favourites' ? ' favs' : ''}" aria-labelledby="row-${key}"><h2 id="row-${key}">${title}</h2>
+  const rowHTML = (key, title, list) => (list.length ? `<section class="${key === 'favourites' ? 'pgroup favs ' : ''}prow" aria-labelledby="row-${key}"><h2 id="row-${key}">${title}</h2>
     <div class="rowscroll">${list.slice(0, KBPrograms.ROW).map(starred).join('')}${list.length > KBPrograms.ROW ? `<button class="rowall" data-row-all="${key}">Show all<span class="num">${list.length}</span></button>` : ''}</div></section>` : '');
   const favs = ROWS.map(([key, title]) => rowHTML(key, title, rows[key])).join('');
   const yours = mine.length ? `<section class="pgroup yours"><h2>Your programs</h2><div class="plist">${mine.map(card).join('')}</div></section>` : '';
