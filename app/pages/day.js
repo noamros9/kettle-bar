@@ -168,6 +168,25 @@ function doneLine(p, w) {
   const n = store.marks(p.id, w.day).length;
   return `<div class="doneline"><span class="donechip" data-testid="done-count">✓ Done${n > 1 ? ` ${n}×` : ''}</span><button class="btn ghost" data-redo="${w.day}">Do it again</button></div>`;
 }
+/* Phase 33 (251, 269): a one-line note per time a day was done, typed on the finish card, shown on the day page and in
+   History (where it can be edited). noteDraft keeps what is typed through a redraw; the key is pid|day|mark. */
+let noteDraft = null; // { key, text, saved? }
+function noteField(pid, day, mark, label) {
+  const key = `${pid}|${day}|${mark}`, stored = store.noteOf(pid, day, { mark }), draft = noteDraft && noteDraft.key === key ? noteDraft : null;
+  const text = draft ? draft.text : stored, left = KBProgress.NOTE_MAX - text.length;
+  return `<form class="noteform" data-note-form="${esc(key)}"><label class="notelbl" for="note-in">${label}</label>
+    <div class="noterow"><input id="note-in" class="noteinput" type="text" maxlength="${KBProgress.NOTE_MAX}" value="${esc(text)}" placeholder="How did it go? (optional)" autocomplete="off" enterkeyhint="done">
+    <button class="btn ghost" type="submit">Save</button></div>
+    <span class="notecount" aria-live="polite">${left <= 20 ? `${left} left` : draft && draft.saved ? 'Saved' : ''}</span></form>`;
+}
+function saveNote(form) {
+  const [pid, day, mark] = form.dataset.noteForm.split('|'), text = form.querySelector('input').value;
+  store.setNote(pid, +day, text, mark);
+  noteDraft = { key: form.dataset.noteForm, text: store.noteOf(pid, +day, { mark }), saved: true };
+  if (statsView.noting === form.dataset.noteForm) statsView.noting = null;
+  rerender();
+}
+const noteLine = (text) => (text ? `<p class="daynote" data-testid="day-note"><span class="sr">Your note: </span>“${esc(text)}”</p>` : '');
 // the session a day was just marked done from: its finish card says so, rather than offering to mark it again
 let markedSession = null;
 // shown once every set of the day is ticked (after the cool-down, if you run it)
@@ -184,6 +203,7 @@ function finishCard(p, w, isD, ses) {
     <div class="fmap"><h3>Muscles worked today</h3>${muscleMapSVG(v.muscles, 'Muscles worked today')}${heatLegend()}</div>
     ${isD && markedSession === ses ? `<button class="btn done" aria-pressed="true" disabled>✓ Day ${w.day} done</button>`
       : `<button class="btn" data-toggle="${w.day}">${isD ? `Mark day ${w.day} done again` : `Mark day ${w.day} as done`}</button>`}
+    ${isD && markedSession === ses ? noteField(p.id, w.day, store.marks(p.id, w.day).at(-1), 'A note for today') : ''}
     ${nextPreview(p, w)}
     ${whatNext(p)}
   </section>`;
@@ -228,7 +248,7 @@ function viewDay() {
   return `<div class="crumbs"><button class="back" data-go="program">← ${esc(p.name)}</button>${exportButton('day')}
       <div class="step"><button data-day="${w.day - 1}" ${w.day <= 1 ? 'disabled' : ''} aria-label="Previous day">‹</button><button data-day="${w.day + 1}" ${w.day >= p.days.length ? 'disabled' : ''} aria-label="Next day">›</button></div></div>
     <div class="whead"><div><div class="eyebrow">${store.round(p.id) > 1 ? `Round ${store.round(p.id)} · ` : ''}Day ${w.day} · ${esc(p.levels[w.level - 1])}</div><h1>${esc(w.name)}</h1>
-      <p class="daysum">${KBSummary.daySummary(w, p, KBEx).map((l) => `<span>${esc(l)}</span>`).join('')}</p>
+      <p class="daysum">${KBSummary.daySummary(w, p, KBEx).map((l) => `<span>${esc(l)}</span>`).join('')}</p>${noteLine(store.noteOf(p.id, w.day))}
       <div class="meta"><span class="ty"><i class="dot" style="--c:${t.c}"></i>${esc(t.label || w.title)}</span><span>About ${w.est} min${w.stretchMin ? ` + ${w.stretchMin} min stretching` : ''}</span><span>${nEx} exercises</span></div>
       ${D.canShort() ? `<button class="shortbtn" data-short="1" aria-pressed="${D.short()}">${D.short() ? `<b>Short on time</b> · about ${w.est} min instead of ${w.short.from}. Tap for the full day.` : `<b>Short on time?</b> Make today about ${KBShort.TARGET} min`}</button>` : ''}</div>
       ${isD ? doneLine(p, w) : `<button class="btn" data-toggle="${w.day}">Mark as done</button>`}</div>

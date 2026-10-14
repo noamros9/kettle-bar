@@ -141,7 +141,11 @@ function historyDay(c) {
     const remove = e.round !== store.round(e.pid) ? ''
       : statsView.removing === key ? `<div class="hremove" role="group" aria-label="Remove this workout?"><span>Remove this date?</span><button class="btn danger" data-hremove-yes="${esc(key)}">Remove</button><button class="btn ghost" data-hremove="${esc(key)}">Keep</button></div>`
       : `<button class="linkbtn hrm" data-hremove="${esc(key)}" aria-label="Remove day ${e.day} on this date">Remove</button>`;
-    return `<li><button class="hwork" data-hopen="${esc(e.pid)}:${e.day}"><span class="eyebrow">${esc(sm ? sm.name : e.pid)}${e.round > 1 ? ` · Round ${e.round}` : ''}</span><b>Day ${e.day} · ${esc(d.name || d.title)}</b><span>${fmtMin(d.est)} · level ${ROMAN[d.level]}</span></button>${remove}</li>`;
+    // Phase 33 (251, 269): this date's note; the current round's can be added or edited in place
+    const note = store.noteOf(e.pid, e.day, { round: e.round, mark: e.time }), nkey = `${e.pid}|${e.day}|${e.time}`, mine = e.round === store.round(e.pid);
+    const noteUI = statsView.noting === nkey ? noteField(e.pid, e.day, e.time, `Note for day ${e.day}`)
+      : `${note ? `<p class="hnote" data-testid="history-note">“${esc(note)}”</p>` : ''}${mine ? `<button class="linkbtn hnotebtn" data-hnote="${esc(nkey)}">${note ? 'Edit note' : 'Add a note'}</button>` : ''}`;
+    return `<li><button class="hwork" data-hopen="${esc(e.pid)}:${e.day}"><span class="eyebrow">${esc(sm ? sm.name : e.pid)}${e.round > 1 ? ` · Round ${e.round}` : ''}</span><b>Day ${e.day} · ${esc(d.name || d.title)}</b><span>${fmtMin(d.est)} · level ${ROMAN[d.level]}</span></button>${noteUI}${remove}</li>`;
   };
   return `<section class="card history" aria-labelledby="hday-h"><h2 id="hday-h">${esc(c.date.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' }))}</h2>
     ${c.workouts.length ? `<ol class="hlist">${c.workouts.map(row).join('')}</ol>` : '<p class="muted">No workouts this day.</p>'}</section>`;

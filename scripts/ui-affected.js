@@ -41,10 +41,10 @@ const MAP = [
   [/^(app\/now\.js|app\/pages\/now\.js)$/, ['now']], // Do now (Phase 25)
   [/^app\/pages\/build\.js$/, ['build', 'share']],
   [/^app\/pages\/program\.js$/, ['rounds', 'shortcut', 'variety', 'pause', 'weekdays']],
-  [/^app\/pages\/day\.js$/, ['workout', 'flow', 'bouts', 'bigtimer', 'swap', 'travel', 'short', 'warmup', 'finish', 'resume', 'skip', 'weekdays']],
+  [/^app\/pages\/day\.js$/, ['workout', 'flow', 'bouts', 'bigtimer', 'swap', 'travel', 'short', 'warmup', 'finish', 'resume', 'skip', 'weekdays', 'note']],
   [/^app\/pages\/exercises\.js$/, ['exercise', 'exercises', 'muscles']],
   [/^app\/pages\/settings\.js$/, ['settings']],
-  [/^app\/pages\/stats\.js$/, ['stats', 'again']],
+  [/^app\/pages\/stats\.js$/, ['stats', 'again', 'note']],
   [/^app\/(progress|store)\.js$/, ['again']], // Phase 30: done again
   [/^app\/(ui\.js|pages\/core\.js)$/, ['offline', 'shortcut', 'back']], // back: Back keeps your place (#214)
   [/^app\/main\.js$/, ['actions']],
