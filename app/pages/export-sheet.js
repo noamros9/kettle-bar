@@ -1,7 +1,7 @@
 /* ---------------- Export (Phase 32 ticket 3) ----------------
    One Export button on the exercise, day, program and random-workout pages opens this sheet: PDF (the print view,
    app/pages/print.js), Text (the phone's Share, or Copy where there's none) and, on the program page, Calendar (a start
-   date and the weekdays, saved as an .ics file). The words come from app/export.js. No level switch (decision 337).
+   date and the weekdays, pre-filled from the program's training days, saved as an .ics file). The words come from app/export.js. No level switch (decision 337).
    exportState: { kind: 'ex' | 'day' | 'program' | 'random', hash, note?, cal?: { start, days: [0-6] } } while it is open. */
 let exportState = null;
 const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -51,7 +51,7 @@ async function exportText() {
   }
   rerender();
 }
-function exportCal() { exportState.cal = { start: todayISO(), days: [] }; rerender(); }
+function exportCal() { exportState.cal = { start: todayISO(), days: store.weekdays(prog().id) }; rerender(); } // pre-filled from the program's training days (Phase 33)
 function exportDay(i) {
   const cal = exportState.cal, start = document.getElementById('exp-start');
   if (start && start.value) cal.start = start.value; // keep a date picked before the chip

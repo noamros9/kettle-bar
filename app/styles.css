@@ -414,6 +414,12 @@ table.weeks tr.empty{color:var(--muted)}table.weeks tr.empty th{font-weight:400}
 .daysum span:first-child{color:var(--ink)}
 .roundbtn{margin-top:10px;font-size:14px;padding:8px 14px}
 /* Phase 33: pause, Start over, the rows at the top of Programs */
+.trainrow{display:grid;gap:6px;margin-top:14px}
+.trainrow .lbl{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.trainchips{display:flex;flex-wrap:wrap;gap:5px}
+.trainchips .fchip{min-width:42px;padding:6px 8px}
+.nextwk{margin:0 0 12px;font-size:15px;color:var(--muted)}
+.nextwk b{color:var(--ink)}
 .ptools{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-start}
 .startover{display:inline-flex;flex-direction:column;align-items:flex-start;line-height:1.15}
 .startover small{font-size:11px;font-weight:600;color:var(--muted)}

@@ -21,7 +21,7 @@ const MAP = [
   [/^app\/library\.js$/, ['library', 'favourites', 'exercises', 'muscles', 'finder']],
   [/^app\/(stats|charts)\.js$/, ['stats', 'rounds', 'finish']],
   [/^app\/(session|clock)\.js$/, ['workout', 'flow', 'bouts', 'bigtimer', 'voice', 'resume', 'finish']],
-  [/^app\/(store|progress|docs)\.js$/, ['sync', 'settings', 'rounds', 'resume', 'swap', 'outbox']],
+  [/^app\/(store|progress|docs)\.js$/, ['sync', 'settings', 'rounds', 'resume', 'swap', 'outbox', 'weekdays', 'pause']],
   [/^app\/backup\.js$/, ['settings', 'rounds']],
   [/^(app\/lazy\.js|sw\.js|manifest\.webmanifest)$/, ['offline', 'shortcut', 'cachefirst']],
   [/^app\/programs\.js$/, ['library', 'build', 'shortcut', 'pause']],
@@ -40,8 +40,8 @@ const MAP = [
   [/^app\/pages\/random\.js$/, ['random', 'skip']],
   [/^(app\/now\.js|app\/pages\/now\.js)$/, ['now']], // Do now (Phase 25)
   [/^app\/pages\/build\.js$/, ['build', 'share']],
-  [/^app\/pages\/program\.js$/, ['rounds', 'shortcut', 'variety', 'pause']],
-  [/^app\/pages\/day\.js$/, ['workout', 'flow', 'bouts', 'bigtimer', 'swap', 'travel', 'short', 'warmup', 'finish', 'resume', 'skip']],
+  [/^app\/pages\/program\.js$/, ['rounds', 'shortcut', 'variety', 'pause', 'weekdays']],
+  [/^app\/pages\/day\.js$/, ['workout', 'flow', 'bouts', 'bigtimer', 'swap', 'travel', 'short', 'warmup', 'finish', 'resume', 'skip', 'weekdays']],
   [/^app\/pages\/exercises\.js$/, ['exercise', 'exercises', 'muscles']],
   [/^app\/pages\/settings\.js$/, ['settings']],
   [/^app\/pages\/stats\.js$/, ['stats', 'again']],
@@ -50,7 +50,7 @@ const MAP = [
   [/^app\/main\.js$/, ['actions']],
   [/^app\/export\.js$/, ['exercise', 'workout', 'flow', 'bouts', 'print', 'export']], // Phase 32: the words the cards, the exercise page and the print view use
   [/^app\/pages\/print\.js$/, ['print', 'export']], // Phase 32: the print view
-  [/^app\/pages\/export-sheet\.js$/, ['export']], // Phase 32: the Export sheet
+  [/^app\/pages\/export-sheet\.js$/, ['export', 'weekdays']], // Phase 32: the Export sheet
   [/^(tests-ui\/(fixtures|devices)\.js|playwright\.config\.js)$/, ['sync', 'build', 'random', 'share']],
 ];
 
