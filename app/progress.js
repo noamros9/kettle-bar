@@ -18,6 +18,8 @@
      isDone(v, day), count(v), toggle(v, day, now), withSwaps(v, list)
      isShort(v, day), setShort(v, day, on), shortOfRound(v, round) -> { day: true }
      pausedAt(v) -> time | null, setPaused(v, time | null); weekdaysOf(v) -> [0-6], setWeekdays(v, list)
+     nextWorkout(weekdays, now, doneToday) -> { day: 0-6, inDays: 0-7, name } the next training weekday (today when today
+       is one and nothing is done yet today), or null with no weekdays (Phase 33, 250)
      setNote(v, day, text, now, mark?) the note of a mark of the day (its latest by default): trimmed, cut to 140
        characters, empty removes it; noteOf(v, round, day, mark?) -> its text, or '' (the latest mark's by default)
      doAgain(v, day, now) marks the day done, or done again; removeMark(v, day, time) removes one date (the next
@@ -115,6 +117,17 @@
   const setPaused = (v, time) => { const { paused, ...rest } = copy(v); return { ...rest, ...pausedOf(time) }; };
   const weekdaysOf = (v) => [...(v.weekdays || [])];
   const setWeekdays = (v, list) => { const { weekdays, ...rest } = copy(v); return { ...rest, ...weekdaysOf_(list) }; };
+  const WEEKDAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  function nextWorkout(weekdays, now, doneToday) {
+    if (!weekdays || !weekdays.length) return null;
+    const today = now.getDay();
+    for (let inDays = doneToday ? 1 : 0; inDays <= 7; inDays++) {
+      const day = (today + inDays) % 7;
+      if (weekdays.includes(day)) return { day, inDays, name: WEEKDAY_NAMES[day] };
+    }
+    /* node:coverage ignore next */
+    return null; // unreachable: a non-empty list always has a day within the week
+  }
   const NOTE_MAX = 140;
   function setNote(v, day, text, now, mark) {
     const at = mark || marks(v, day).at(-1);
@@ -226,7 +239,7 @@
       ...mergeNotes(done, again.again, cur.notes, file.notes) };
   }
 
-  const api = { pausedAt, setPaused, weekdaysOf, setWeekdays, setNote, noteOf, NOTE_MAX, empty, fromDoc, toDoc, fromDevice, toDevice, isDone, count, toggle, marks, doAgain, removeMark, withSwaps, isShort, setShort, shortOfRound, entries, nextDay, mergeFirstSync, importMerge, round, startRound, onwardSwaps, swapsOfRound };
+  const api = { nextWorkout, WEEKDAY_NAMES, pausedAt, setPaused, weekdaysOf, setWeekdays, setNote, noteOf, NOTE_MAX, empty, fromDoc, toDoc, fromDevice, toDevice, isDone, count, toggle, marks, doAgain, removeMark, withSwaps, isShort, setShort, shortOfRound, entries, nextDay, mergeFirstSync, importMerge, round, startRound, onwardSwaps, swapsOfRound };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBProgress = api;
 })(typeof window !== 'undefined' ? window : globalThis);

@@ -116,6 +116,7 @@ const ACTIONS = [
   ['randomDone', () => randomDone()],
   ['randomDiscard', () => { random.discard(); go('programs'); }],
   ['backup', (v) => backupAction(v)],
+  ['weekday', (v) => { const pid = prog().id, on = store.weekdays(pid), d = +v; store.setWeekdays(pid, on.includes(d) ? on.filter((x) => x !== d) : [...on, d]); }], // Phase 33
   ['rowAll', (v) => go('row/' + v)], // Phase 33: a row's Show all
   ['pause', (v) => store.setPaused(prog().id, v === '1')], // Phase 33: the store's change event redraws
   ['roundStart', () => { roundState = { pid: prog().id }; rerender(); }],

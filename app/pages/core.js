@@ -69,7 +69,7 @@ function parseHash() {
   if (h === 'today') {
     const pid = todayPid(), n = nextDay(pid);
     history.replaceState(history.state, '', '#' + (n ? dayHash(pid, n) : 'p-' + pid)); // keeps a saved scroll (#214)
-    return n ? { view: 'day', pid, day: n } : { view: 'program', pid };
+    return n ? { view: 'day', pid, day: n, fromToday: true } : { view: 'program', pid }; // fromToday: "Next workout" (Phase 33)
   }
   if (h === 'stats') return { view: 'stats' };
   const row = h.match(/^row\/(favourites|progress|paused)$/); // Phase 33: a row of the Programs page, stacked

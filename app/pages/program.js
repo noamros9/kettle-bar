@@ -1,5 +1,7 @@
 /* ---------------- program page ---------------- */
 // Phase 33 (252, 254): Pause / Resume, synced; Start over is a new round (the old one stays in History)
+// Phase 33 (250): the training weekdays, Sunday first as History's calendar is; synced
+const weekdayChips = (p) => { const on = store.weekdays(p.id); return `<div class="trainrow"><span class="lbl" id="wd-lbl">Training days</span><div class="trainchips" role="group" aria-labelledby="wd-lbl">${KBProgress.WEEKDAY_NAMES.map((n, i) => `<button class="fchip acc" data-weekday="${i}" aria-pressed="${on.includes(i)}" aria-label="${n}">${n.slice(0, 3)}</button>`).join('')}</div></div>`; };
 const pauseButton = (p) => (store.isPaused(p.id) ? `<button class="btn roundbtn" data-pause="0">Resume</button>` : `<button class="btn ghost roundbtn" data-pause="1">Pause</button>`);
 // Start a new round: { pid } while the sheet is open. Each rest-of-program swap: keep it, or back to the original.
 let roundState = null;
@@ -66,7 +68,7 @@ function viewProgram() {
     <div class="phead"><div><div class="eyebrow">${esc(p.subject || 'Program')} · ${esc(p.split || '')} ${mins ? '· ' + mins : ''}</div>${own ? ownTitle(p) : `<div class="ptitle"><h1>${esc(p.name)}</h1>${starButton(p)}</div>`}${store.isPaused(p.id) ? '<p class="pausedline"><span class="pausedtag">Paused</span> Today\'s workout skips it until you resume.</p>' : ''}<p class="lede">${esc(p.about || p.blurb)}</p>
       ${p.gear ? `<p class="gear">${esc(p.gear)}</p>` : ''}${own ? ownTools(p) : ''}</div>
     <div class="progress">${r > 1 ? `<div class="eyebrow">Round ${r}</div>` : ''}<div class="big num">${n}<small> / ${p.days.length} days</small></div><div class="bar"><b style="width:${(n / p.days.length) * 100}%"></b></div>
-      <div class="ptools">${pauseButton(p)}<button class="btn ghost roundbtn startover" data-round-start="1">Start over<small>Round ${r + 1}</small></button></div></div></div>
+      ${weekdayChips(p)}<div class="ptools">${pauseButton(p)}<button class="btn ghost roundbtn startover" data-round-start="1">Start over<small>Round ${r + 1}</small></button></div></div></div>
   <div class="cycle">${p.variety ? '<div><b>Every day is different</b><span class="days">no day type and format comes back</span></div>' // Variety (Phase 16): sixty one-off day types make no key
     : Object.entries(TY).map(([k, t]) => `<div><i class="dot" style="--c:${t.c}"></i><b>${esc(t.label)}</b><span class="days">${cycleDays(p, k)}</span></div>`).join('')}</div>
   ${nw ? `<div class="nextup"><div class="t"><span class="eyebrow">Next up · Day ${nw.day}</span><b>${esc(nw.name)}</b><span>${esc((TY[nw.type] || {}).label || nw.title)} · about ${nw.est} min</span></div><button class="btn" data-day="${nw.day}">Open workout</button></div>`

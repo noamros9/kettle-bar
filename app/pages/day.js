@@ -206,6 +206,15 @@ function swapSheet(D) {
     <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="swap-h"><h2 id="swap-h">Swap ${esc(from.name)}</h2>${body}
     <button class="btn ghost sheetclose" data-swap-cancel="1">Cancel</button></div></div>`;
 }
+// Phase 33 (250): the day Today's workout opened says when your next training day is, from the program's weekdays;
+// nothing for a paused program or one with no weekdays. A tick on another weekday just counts (271).
+function nextWorkoutLine(p) {
+  const wd = store.weekdays(p.id);
+  if (!route.fromToday || !wd.length || store.isPaused(p.id)) return '';
+  const now = new Date(), doneToday = store.entries(p.id).some((e) => new Date(e.time).toDateString() === now.toDateString());
+  const nx = KBProgress.nextWorkout(wd, now, doneToday);
+  return `<p class="nextwk" data-testid="next-workout">Next workout <b>${nx.inDays === 0 ? 'today' : nx.inDays === 1 ? `tomorrow, ${nx.name}` : nx.name}</b></p>`;
+}
 function viewDay() {
   const p = prog(), D = days.open(p.id, route.day);
   if (!D) return viewProgram();
@@ -223,7 +232,7 @@ function viewDay() {
       <div class="meta"><span class="ty"><i class="dot" style="--c:${t.c}"></i>${esc(t.label || w.title)}</span><span>About ${w.est} min${w.stretchMin ? ` + ${w.stretchMin} min stretching` : ''}</span><span>${nEx} exercises</span></div>
       ${D.canShort() ? `<button class="shortbtn" data-short="1" aria-pressed="${D.short()}">${D.short() ? `<b>Short on time</b> · about ${w.est} min instead of ${w.short.from}. Tap for the full day.` : `<b>Short on time?</b> Make today about ${KBShort.TARGET} min`}</button>` : ''}</div>
       ${isD ? doneLine(p, w) : `<button class="btn" data-toggle="${w.day}">Mark as done</button>`}</div>
-    ${D.restored() ? '<p class="resumed" role="status">Picked up where you left off</p>' : ''}${travelNote(D)}${skipNote(D)}
+    ${nextWorkoutLine(p)}${D.restored() ? '<p class="resumed" role="status">Picked up where you left off</p>' : ''}${travelNote(D)}${skipNote(D)}
     <p class="how">Tap a set, round or pair number when you finish it and the right rest starts on the timer. EMOM, AMRAP, Tabata, ladder, bout and guided-flow blocks have a Start button that runs the clock for you.</p>
     ${w.warmup ? stretchBlock(w.warmup, 'warm', 'W', 'Before you start', ses) : ''}
     ${w.blocks.map((b, bi) => blockHTML(p, w, b, bi, ses, D)).join('')}
