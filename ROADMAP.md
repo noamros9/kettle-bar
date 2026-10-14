@@ -4,18 +4,16 @@ The index: where we are, what comes next, and the two phases being built now. Ev
 top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase comes up. Decision numbers are global
 (the next one is **338**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
-## Resume here (14 Oct 2026, morning)
-- **Phase 32 is done** (#411–#414, archived): Export on the exercise, day, program and random-workout pages: PDF (the
-  print view), Text, and a Calendar file on programs. **337 ·** no level switch: days export at their own level.
-- **Noam to check on the phone:** Export → PDF from the installed app (does the print dialog open? if not, the print
-  view opens in the browser instead), and that the Calendar file opens in Google Calendar.
-- **Next: Phase 33** (Day to day II, [#291](https://github.com/noamros9/kettle-bar/issues/291)–[#296](https://github.com/noamros9/kettle-bar/issues/296),
-  [plan](docs/plans/phase-33-day-to-day-2.md)); re-read its Challenge round first (136). Its weekdays pre-fill the
-  Calendar's chips. Waits for Noam's go.
+## Resume here (14 Oct 2026, late morning)
+- **Phase 33 is building** ([plan](docs/plans/phase-33-day-to-day-2.md)): tickets 1–3 merged (#415–#417): progress
+  stores paused, weekdays and day notes (notes per date done, newer edit wins per note); Pause / Resume, the In
+  progress and Paused rows, Start over (#293 closed); training weekdays and "Next workout" (#291 closed).
+- **Next: tickets 4–6** (a day note, Compare, Programs that use this); wait for Noam's go (three at a time).
+- **Phase 32 is done** (#411–#414, archived). Noam to check on the phone: Export → PDF from the installed app, and that
+  the Calendar file opens in Google Calendar.
 - **Opus builds alone** (295): Grok is away, so no Grok tickets; Phases 20 and 35 wait for it.
-- **Working rules** are in [CLAUDE.md](CLAUDE.md): three tickets then wait, at most 2 building, no local coverage run
-  (308), whole-library builds only when warm (334), one ticket pushed at a time, CI polled every 30 s. The Back
-  scroll test (#404) flaked again on #412; a rerun passed.
+- **Working rules** are in [CLAUDE.md](CLAUDE.md). Don't put shared page logic in `app/library.js` or other files in
+  the build cache's key (`build-cache.js` CODE / RECIPE_CODE): a change there makes every build cold.
 
 ## The order
 Set 7 Oct 2026 (decision 134): Noam put "Do now" right after the review and left the rest to Claude; Phase 30 goes
@@ -23,7 +21,7 @@ right after Phase 22 (216). **223 ·** 8 Oct: quick fixes after 22; Export, day 
 
 | # | Phase | Issue | Plan | Status |
 |---|---|---|---|---|
-| 1 | 33 · Day to day II: weekdays, a day note, pause, compare, programs that use this, sync status | [#291](https://github.com/noamros9/kettle-bar/issues/291)–[#296](https://github.com/noamros9/kettle-bar/issues/296) | [plan](docs/plans/phase-33-day-to-day-2.md) | planned |
+| 1 | 33 · Day to day II: weekdays, a day note, pause, compare, programs that use this, sync status | [#291](https://github.com/noamros9/kettle-bar/issues/291)–[#296](https://github.com/noamros9/kettle-bar/issues/296) | [plan](docs/plans/phase-33-day-to-day-2.md) | building: 1–3 done |
 | 2 | 26 · Longer programs, half at 35–38 min | [#198](https://github.com/noamros9/kettle-bar/issues/198) | [plan](docs/plans/phase-26-longer-programs.md) | planned |
 | 3 | 34 · Short days: 15-min circuits, a 10-min rest-day flow | [#110](https://github.com/noamros9/kettle-bar/issues/110) | [plan](docs/plans/phase-34-short-days.md) | planned |
 | 4 | 27 · Calisthenics: twelve skills, 25 programs | [#199](https://github.com/noamros9/kettle-bar/issues/199) | [plan](docs/plans/phase-27-calisthenics.md) | planned |
