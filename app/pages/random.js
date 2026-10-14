@@ -115,7 +115,7 @@ function viewRandom() {
   const p = D.program, w = D.day, ses = D.session();
   if (ses.started() !== null) S.resume(ses.started());
   const t = p.dayTypes[w.type], nEx = w.blocks.reduce((n, b) => n + b.items.length, 0);
-  return `<div class="crumbs"><button class="back" data-go="programs">← All programs</button></div>
+  return `<div class="crumbs"><button class="back" data-go="programs">← All programs</button>${exportButton('random')}</div>
     <div class="whead"><div><div class="eyebrow">Random workout · ${esc(p.subject)} · ${esc(p.levels[w.level - 1].split(' · ')[0])}</div><h1>${esc(w.name)}</h1>
       <p class="daysum">${KBSummary.daySummary(w, p, KBEx).map((l) => `<span>${esc(l)}</span>`).join('')}</p>
       <div class="meta"><span class="ty"><i class="dot" style="--c:${t.c}"></i>${esc(t.label)}</span><span>About ${w.est} min${w.stretchMin ? ` + ${w.stretchMin} min stretching` : ''}</span><span>${nEx} exercises</span></div></div>

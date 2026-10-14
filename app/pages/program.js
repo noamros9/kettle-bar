@@ -60,7 +60,7 @@ function viewProgram() {
     }).join('')}</div></section>`;
   }).join('');
   const mins = p.minutes ? `~${Math.round(p.minutes[0])}–${Math.round(p.minutes[1])} min` : '';
-  return `<div class="crumbs"><button class="back" data-go="programs">← All programs</button></div>
+  return `<div class="crumbs"><button class="back" data-go="programs">← All programs</button>${exportButton('program')}</div>
     <div class="phead"><div><div class="eyebrow">${esc(p.subject || 'Program')} · ${esc(p.split || '')} ${mins ? '· ' + mins : ''}</div>${own ? ownTitle(p) : `<div class="ptitle"><h1>${esc(p.name)}</h1>${starButton(p)}</div>`}<p class="lede">${esc(p.about || p.blurb)}</p>
       ${p.gear ? `<p class="gear">${esc(p.gear)}</p>` : ''}${own ? ownTools(p) : ''}</div>
     <div class="progress">${r > 1 ? `<div class="eyebrow">Round ${r}</div>` : ''}<div class="big num">${n}<small> / ${p.days.length} days</small></div><div class="bar"><b style="width:${(n / p.days.length) * 100}%"></b></div>

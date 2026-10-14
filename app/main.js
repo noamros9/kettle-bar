@@ -127,6 +127,14 @@ const ACTIONS = [
   // the print view (Phase 32): Back to where you came from (the page itself when the link was opened fresh), Print again
   ['printBack', () => { if (printFromApp) { printFromApp = false; history.back(); } else go(printReturn()); }],
   ['printAgain', () => window.print()],
+  // Export (Phase 32 ticket 3): the sheet and its formats
+  ['exportOpen', (v) => { exportState = { kind: v, hash: location.hash }; rerender(); }],
+  ['exportClose', () => { exportState = null; rerender(); }],
+  ['exportPdf', () => exportPdf()],
+  ['exportText', () => exportText()],
+  ['exportCal', () => exportCal()],
+  ['exportDay', (v) => exportDay(v)],
+  ['exportSave', () => exportSave()],
   ['statFamily', (v) => { statsView.family = statsView.family === v ? '' : v; rerender(); }],
   ['statMtop', (v) => { statsView.mpart = null; statsView.mtop = statsView.mtop === v ? null : v; rerender(); }], // Phase 30 (208)
   ['statMpart', (v) => { statsView.mpart = statsView.mpart === v ? null : v; rerender(); }],
