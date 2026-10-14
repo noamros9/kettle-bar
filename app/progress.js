@@ -121,12 +121,9 @@
   function nextWorkout(weekdays, now, doneToday) {
     if (!weekdays || !weekdays.length) return null;
     const today = now.getDay();
-    for (let inDays = doneToday ? 1 : 0; inDays <= 7; inDays++) {
-      const day = (today + inDays) % 7;
-      if (weekdays.includes(day)) return { day, inDays, name: WEEKDAY_NAMES[day] };
-    }
-    /* node:coverage ignore next */
-    return null; // unreachable: a non-empty list always has a day within the week
+    // within a week there is always one: today (when not done) or a day after it, up to the same weekday next week
+    const inDays = [0, 1, 2, 3, 4, 5, 6, 7].find((n) => (n > 0 || !doneToday) && weekdays.includes((today + n) % 7)), day = (today + inDays) % 7;
+    return { day, inDays, name: WEEKDAY_NAMES[day] };
   }
   const NOTE_MAX = 140;
   function setNote(v, day, text, now, mark) {
