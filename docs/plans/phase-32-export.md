@@ -53,7 +53,7 @@ Grilled 8 Oct 2026 with Noam (global decision numbers).
 | 1 | The words: text and calendar export (`app/export.js`) | feature | – | `feature/export-text` | done (PR #411) |
 | 2 | The print view | feature | – | `feature/print-view` | done (PR #412) |
 | 3 | The Export button and sheet on four pages | feature | 1, 2 | `feature/export-sheet` | done (PR #413) |
-| 4 | Close the phase: CONTEXT.md, archive | plan | 3 | `plan/p32-close` | todo |
+| 4 | Close the phase: CONTEXT.md, archive | plan | 3 | `plan/p32-close` | done (PR #414) |
 
 Tickets 1 and 2 share no files and can run at once.
 

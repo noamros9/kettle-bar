@@ -609,3 +609,35 @@ Stats and History, not a trained day.
   were; History gives it its own small mark.
 - **145 · Stored as a random workout** (`choices: { now }`): no new collection, no rules change, backups already carry
   it. *(technical)*
+
+## Phase 32: export an exercise, a day or a program (done, 14 Oct 2026)
+Plan and tickets: [docs/plans/phase-32-export.md](plans/phase-32-export.md), issue
+[#224](https://github.com/noamros9/kettle-bar/issues/224). Grilled 8 Oct; built 14 Oct (#411–#414): `app/export.js`
+(text and an RFC 5545 calendar file), the print view (a 60-day program in 19 A4 pages, a glossary of drawings at the
+back) and an Export sheet on the exercise, day, program and random-workout pages.
+**What and for whom**
+- **238 · Three levels**: an exercise, a day, a whole program; also your own programs and a random workout in
+  progress. *(8 Oct)*
+- **239 · For a copy for himself (offline) and for sending to her or a friend.** Export only: no import (your own
+  programs already share by link). *(8 Oct)*
+- **240 · Couple and After dark content export like everything else**, no warning or trimming. *(8 Oct)*
+- **272 · Explicit exercises in the PDF use your view** (Phase 28's approved drawing when signed in, else the figure):
+  Noam's choice, an exception to 110's "never leaves Storage". *(8 Oct)*
+
+**Formats**
+- **241 · Print / Save as PDF and text to share; a calendar file (.ics) from the program page only.** No image
+  (share as image stays decided against). *(8 Oct)*
+- **242 · Drawings in the PDF, none in the text.** A program's PDF lists each day's exercises by name, with each
+  exercise's drawing and cue once, in a glossary at the back. *(8 Oct)*
+- **243 · The text is the workout**: blocks, exercises, sets × reps or holds, rests; no cues or muscles. *(8 Oct)*
+- **244 · ~~The level you're on; the sheet can switch level~~** [was: a level switch]; replaced by 337. *(8 Oct)*
+- **337 · No level switch**: a program's days are built at their own level, so a day or program exports as built, each
+  day at its level; an exercise exports all three levels, as its page says them. *(14 Oct)*
+- **245 · A whole program is one file.** *(8 Oct)*
+
+**Where and how**
+- **246 · One Export button per page** (exercise, day, program, random workout) opening a sheet with the formats that
+  fit. *(8 Oct)*
+- **247 · The calendar file: all-day events from a start date on the weekdays you pick**, pre-filled from the
+  program's training weekdays once Phase 33 lands them. *(8 Oct)*
+- **273 · A super's calendar file holds all 120 days** (Phase 19), like any program (245). *(8 Oct)*
