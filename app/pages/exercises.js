@@ -21,7 +21,7 @@ function viewExercise() {
   const names = (arr) => arr.map((k) => `<button class="chip" data-exmuscle-link="${k}" aria-label="Exercises that work ${MUSCLE_NAMES[k]}">${MUSCLE_NAMES[k]}</button>`).join(' '); // #234
   const stretch = e.cat === 'warmup' || e.cat === 'cooldown';
   const dose = KBExport.exerciseDose(e); // the exported text says it the same way (Phase 32)
-  return `<div class="crumbs"><button class="back" data-back="1">← Back</button></div>
+  return `<div class="crumbs"><button class="back" data-back="1">← Back</button>${exportButton('ex')}</div>
     <div class="eyebrow">${CAT[e.cat] || ''}</div><h1>${esc(e.name)}</h1>
     ${stretch ? '' : skipRow(e)}
     <div class="expage">

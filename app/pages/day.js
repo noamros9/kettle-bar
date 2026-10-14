@@ -216,7 +216,7 @@ function viewDay() {
   if (ses.started() !== null) S.resume(ses.started());
   const TY = typesOf(p), t = TY[w.type] || { label: w.title, c: 'var(--muted)' }, isD = store.isDone(p.id, w.day);
   const nEx = w.blocks.reduce((n, b) => n + b.items.length, 0);
-  return `<div class="crumbs"><button class="back" data-go="program">← ${esc(p.name)}</button>
+  return `<div class="crumbs"><button class="back" data-go="program">← ${esc(p.name)}</button>${exportButton('day')}
       <div class="step"><button data-day="${w.day - 1}" ${w.day <= 1 ? 'disabled' : ''} aria-label="Previous day">‹</button><button data-day="${w.day + 1}" ${w.day >= p.days.length ? 'disabled' : ''} aria-label="Next day">›</button></div></div>
     <div class="whead"><div><div class="eyebrow">${store.round(p.id) > 1 ? `Round ${store.round(p.id)} · ` : ''}Day ${w.day} · ${esc(p.levels[w.level - 1])}</div><h1>${esc(w.name)}</h1>
       <p class="daysum">${KBSummary.daySummary(w, p, KBEx).map((l) => `<span>${esc(l)}</span>`).join('')}</p>

@@ -146,6 +146,7 @@ function render(scrollTop) {
   drewLoading = needsProgram && stillLoading([route.pid]).length > 0;
   if (drewLoading) app.innerHTML = loadingView(route.pid);
   else app.innerHTML = v === 'programs' ? viewPrograms() : v === 'build' ? viewBuild() : v === 'random' ? viewRandom() : v === 'now' ? viewNow() : v === 'add' ? viewAdd() : v === 'library' ? viewLibrary() : v === 'settings' ? viewSettings() : v === 'stats' ? viewStats() : v === 'muscles' ? viewMuscles() : v === 'exercise' ? viewExercise() : v === 'day' ? viewDay() : v === 'print' ? viewPrint() : viewProgram();
+  if (!drewLoading && ['exercise', 'day', 'program', 'random'].includes(v)) app.insertAdjacentHTML('beforeend', exportSheet()); // Phase 32
   const section = v === 'library' || v === 'exercise' ? 'library' : v === 'settings' || v === 'stats' || v === 'muscles' ? v : 'programs';
   document.querySelectorAll('.top [data-go]').forEach((b) => b.setAttribute('aria-current', b.dataset.go === section ? 'page' : 'false'));
   // the family tabs are a scrolling row: a redraw keeps it where it was (Phase 17 ticket 2: it snapped back mid-swipe);
