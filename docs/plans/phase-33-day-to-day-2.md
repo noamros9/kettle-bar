@@ -78,7 +78,7 @@ document ignores the fields, and a merge keeps the newer of each by the document
 | 1 | Progress shapes: paused, weekdays, notes | feature | – | `feature/p33-shapes` | done (PR #415) |
 | 2 | Pause, the In progress and Paused rows, Start over (#293) | feature | 1 | `feature/pause-rows` | done (PR #416) |
 | 3 | Training weekdays and "Next workout" (#291) | feature | 1 | `feature/weekdays` | done (PR #417) |
-| 4 | A day note (#292) | feature | 1 | `feature/day-note` | todo |
+| 4 | A day note (#292) | feature | 1 | `feature/day-note` | done (PR #419) |
 | 5 | Compare two programs (#294) | feature | – | `feature/compare` | todo |
 | 6 | Programs that use this (#295) | feature | – | `feature/used-in` | todo |
 | 7 | Sync status in Settings (#296) | feature | – | `feature/sync-status` | todo |

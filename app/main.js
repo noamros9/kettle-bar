@@ -145,6 +145,7 @@ const ACTIONS = [
   ['csv', () => downloadCSV()],
   ['hmonth', (v) => historyMove(+v)],
   ['hday', (v) => { statsView.histDay = statsView.histDay === v ? null : v; render(); }],
+  ['hnote', (v) => { statsView.noting = v; noteDraft = null; render(); const i = $('#note-in'); if (i) i.focus(); }], // Phase 33
   ['hopen', (v) => { const [pid, n] = v.split(':'); go(dayHash(pid, +n)); }],
   ['statTab', (v) => { statsView.tab = v; render(); }],
   ['statSpan', (v) => { statsView.span = v; render(); }],
@@ -247,10 +248,16 @@ document.addEventListener('input', (e) => {
   if (e.target.id === 'ask-q') askState.q = e.target.value; // kept through redraws
   if (e.target.id === 'ex-search') { exSearch.q = e.target.value; exRefresh(); }
   if (e.target.id === 'prog-search') { progQuery = e.target.value; progRefresh(); } // the results only (Phase 24 ticket 7)
+  if (e.target.classList.contains('noteinput')) { // Phase 33: kept through redraws; the count shows near the limit
+    const form = e.target.closest('form'), left = KBProgress.NOTE_MAX - e.target.value.length;
+    noteDraft = { key: form.dataset.noteForm, text: e.target.value };
+    form.querySelector('.notecount').textContent = left <= 20 ? `${left} left` : '';
+  }
 });
 document.addEventListener('submit', (e) => {
   if (e.target.dataset.ownForm) { e.preventDefault(); ownRenameSave(); }
   if (e.target.dataset.askForm) { e.preventDefault(); askSubmit($('#ask-q').value); }
+  if (e.target.dataset.noteForm) { e.preventDefault(); saveNote(e.target); }
 });
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && e.target.id === 'own-name') { ownState = null; render(); } });
 
