@@ -1,7 +1,8 @@
 /* Core: the program catalogue and lazy files, routing, the not-yet-loaded programs and render() (split from views.js). */
 /* ---------------- routing ----------------
    #today (the logo, home, and the home-screen shortcut) · #programs · #exercises · #muscles · #stats · #settings · #ex-<id> · #p-<pid> · #p-<pid>-d<n>   (#d<n> = Three-Split 60, kept for old links)
-   · #add=<code> (a program someone shared: its preview and Add this program) · #random (the open random workout) */
+   · #add=<code> (a program someone shared: its preview and Add this program) · #random (the open random workout)
+   · #print/<ex-id | p-pid-dn | p-pid | random> (Phase 32: the print view, app/pages/print.js) */
 // every program, through the Program Catalogue (today: all inlined in the page)
 const OFFLINE_CACHE = 'kettle-bar-v2'; // the service worker's cache; the page writes loaded programs into it too
 const offlineCache = {
@@ -69,6 +70,7 @@ function parseHash() {
   if (h === 'stats') return { view: 'stats' };
   if (h === 'muscles') return { view: 'muscles' };
   if (h.startsWith('add=')) return { view: 'add', code: h.slice(4) };
+  if (h.startsWith('print/')) { const target = printTarget(h.slice(6)); return { view: 'print', target, pid: target && target.pid, ex: target && target.ex }; } // Phase 32
   const x = h.match(/^ex-([a-z0-9_]+)$/);
   if (x && EX[x[1]]) return { view: 'exercise', ex: x[1], pid: route.pid };
   const pd = h.match(/^p-([a-z0-9-]+)-d(\d+)$/);
@@ -138,12 +140,12 @@ function loadingView(pid) {
 function render(scrollTop) {
   const app = $('#app');
   const v = route.view;
-  const needsProgram = v === 'program' || v === 'day' || v === 'exercise';
+  const needsProgram = v === 'program' || v === 'day' || v === 'exercise' || (v === 'print' && !!route.pid);
   const oldStrip = $('.ftabs', app), stripX = oldStrip ? oldStrip.scrollLeft : 0, wasChosen = oldStrip && $('[aria-pressed="true"]', oldStrip);
   const wasKey = wasChosen ? wasChosen.dataset.filter : null;
   drewLoading = needsProgram && stillLoading([route.pid]).length > 0;
   if (drewLoading) app.innerHTML = loadingView(route.pid);
-  else app.innerHTML = v === 'programs' ? viewPrograms() : v === 'build' ? viewBuild() : v === 'random' ? viewRandom() : v === 'now' ? viewNow() : v === 'add' ? viewAdd() : v === 'library' ? viewLibrary() : v === 'settings' ? viewSettings() : v === 'stats' ? viewStats() : v === 'muscles' ? viewMuscles() : v === 'exercise' ? viewExercise() : v === 'day' ? viewDay() : viewProgram();
+  else app.innerHTML = v === 'programs' ? viewPrograms() : v === 'build' ? viewBuild() : v === 'random' ? viewRandom() : v === 'now' ? viewNow() : v === 'add' ? viewAdd() : v === 'library' ? viewLibrary() : v === 'settings' ? viewSettings() : v === 'stats' ? viewStats() : v === 'muscles' ? viewMuscles() : v === 'exercise' ? viewExercise() : v === 'day' ? viewDay() : v === 'print' ? viewPrint() : viewProgram();
   const section = v === 'library' || v === 'exercise' ? 'library' : v === 'settings' || v === 'stats' || v === 'muscles' ? v : 'programs';
   document.querySelectorAll('.top [data-go]').forEach((b) => b.setAttribute('aria-current', b.dataset.go === section ? 'page' : 'false'));
   // the family tabs are a scrolling row: a redraw keeps it where it was (Phase 17 ticket 2: it snapped back mid-swipe);
@@ -157,6 +159,7 @@ function render(scrollTop) {
     }
   }
   drawFigs(app);
+  afterPrint(drewLoading ? null : v); // the print view: light, and the print dialog once drawn
   stopAnimation();
   if (v === 'exercise') startAnimation(route.ex);
   const showTimer = v === 'day' || (v === 'random' && !!random.current()) || (v === 'now' && !!nowState);

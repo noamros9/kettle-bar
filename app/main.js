@@ -124,6 +124,9 @@ const ACTIONS = [
     roundState = null; store.startRound(pid, keep); window.scrollTo(0, 0);
   }],
   ['retry', (v) => { delete loadFailures[v]; render(); }],
+  // the print view (Phase 32): Back to where you came from (the page itself when the link was opened fresh), Print again
+  ['printBack', () => { if (printFromApp) { printFromApp = false; history.back(); } else go(printReturn()); }],
+  ['printAgain', () => window.print()],
   ['statFamily', (v) => { statsView.family = statsView.family === v ? '' : v; rerender(); }],
   ['statMtop', (v) => { statsView.mpart = null; statsView.mtop = statsView.mtop === v ? null : v; rerender(); }], // Phase 30 (208)
   ['statMpart', (v) => { statsView.mpart = statsView.mpart === v ? null : v; rerender(); }],

@@ -4,6 +4,7 @@
      exerciseDose(e)                   "8 / 10 / 12 reps (Level I / II / III)", as the exercise page says it
      doseParts(it, b, EX) -> { n, unit } how a card says an item's count (the day page draws the same parts)
      dose(it, b, EX)                   the same in words, with the sets of a straight set: "3 × 12 reps"
+     blockLabel(b, bi)                 "1 · Chest & back", or "Abs"
      exerciseText(e)                   name, the dose at each level and the equipment
      dayText(day, program, EX, { title? })   a day as you'll do it (at its own level, decision 337): the header, then the
                                        warm-up, each block with its lines and rests, the cool-down
@@ -65,6 +66,8 @@
   function stretchLines(s, label, EX) {
     return [`${label} · ${clock(s.seconds)}`, ...s.items.map((it) => `- ${EX[it.ex].name} · ${it.n} ${EX[it.ex].side ? 'sec each side' : 'seconds'}`)];
   }
+  // "1 · Chest & back", "Abs" (an abs block named Abs says it once), "Abs · Core finisher"
+  const blockLabel = (b, bi) => (b.kind !== 'abs' ? `${bi + 1} · ${b.title}` : b.title === 'Abs' ? 'Abs' : `Abs · ${b.title}`);
   const typeLabel = (program, day) => ((program.dayTypes || {})[day.type] || {}).label || day.title;
   const levelName = (program, day) => (program.levels ? program.levels[day.level - 1] : '');
 
@@ -74,7 +77,7 @@
     if (day.warmup) out.push('', ...stretchLines(day.warmup, 'Warm-up', EX));
     day.blocks.forEach((b, bi) => {
       const f = b.format || 'straight';
-      out.push('', `${b.kind === 'abs' ? 'Abs' : bi + 1} · ${b.title}${f === 'straight' ? '' : ` · ${NAMES[f]}`}`, BLOCK[f](b, R));
+      out.push('', `${blockLabel(b, bi)}${f === 'straight' ? '' : ` · ${NAMES[f]}`}`, BLOCK[f](b, R));
       b.items.forEach((it) => out.push(`- ${EX[it.ex].name} · ${dose(it, b, EX)}${it.note ? ` · ${it.note}` : ''}`));
       const next = day.blocks[bi + 1];
       if (next) out.push(next.kind === 'abs' ? `Rest ${min(R.beforeAbs)}, then abs` : `Rest ${min(R.block)}`);
@@ -151,7 +154,7 @@
     return events;
   }
 
-  const api = { exerciseDose, equipment, doseParts, dose, exerciseText, dayText, programText, randomText, ics, parseIcs, fold, escapeText };
+  const api = { exerciseDose, equipment, blockLabel, doseParts, dose, exerciseText, dayText, programText, randomText, ics, parseIcs, fold, escapeText };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBExport = api;
 })(typeof window !== 'undefined' ? window : globalThis,

@@ -619,3 +619,48 @@ body.has-timer .updatenote{bottom:calc(96px + env(safe-area-inset-bottom,0px))}
 
 /* Do now (Phase 25) */
 .nowex .bigfig{max-height:220px}.hnow .eyebrow{color:var(--accent)}
+
+/* the print view (Phase 32): light, no top bar or timer; on paper, A4 with days kept together */
+body.printing .top,body.printing #timer,body.printing #bgt{display:none!important}
+html.printing,body.printing{background:#fff}
+.printview{background:#fff;color:#16181B;max-width:760px;margin:0 auto;padding:16px 0 32px}
+.printview h1{font:800 30px/1.1 var(--display);text-transform:uppercase;letter-spacing:.02em;margin:4px 0 6px}
+.printview h2{font:800 20px/1.15 var(--display);text-transform:uppercase;margin:0 0 2px}
+.printview h3{font-size:15px;margin:12px 0 4px}
+.pback{display:flex;gap:16px;margin:0 0 12px}
+.pmeta{color:#5B6268;font-size:14px;margin:0 0 8px}
+.pabout{font-size:15px;margin:6px 0 10px}
+.pdose{font-weight:400;color:#3D4247}
+.prest{font-size:13px;color:#5B6268;margin:4px 0}
+.plines{margin:0;padding-left:18px;font-size:14px}
+.pfigs{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px}
+.pitem{display:flex;gap:8px;align-items:center;font-size:14px;border:1px solid #D6DAD5;border-radius:8px;padding:6px}
+.pfig{flex:0 0 64px;height:64px;display:flex;align-items:center;justify-content:center}
+.pfig svg,.pbig svg{max-width:100%;max-height:100%}
+.pcard{display:grid;gap:12px}
+.pbig{height:220px;display:flex;align-items:center;justify-content:center}
+.pday{border-top:1px solid #D6DAD5;padding-top:10px;margin-top:12px}
+.pgloss{margin-top:20px}
+.pglist{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px}
+.pgitem{display:flex;gap:8px;font-size:13px;border:1px solid #D6DAD5;border-radius:8px;padding:6px}
+.pgitem p{margin:2px 0 0;color:#3D4247}
+.pstretch{font-size:13px;margin:6px 0;color:#3D4247}
+.pfoot{margin-top:24px;font-size:12px;color:#5B6268}
+@media print{
+  @page{size:A4;margin:12mm}
+  body{background:#fff}
+  .top,#timer,#bgt,.pback{display:none!important}
+  html,body{background:#fff!important}
+  .printview{max-width:none;padding:0;font-size:12px}
+  .printview .plines,.printview .pstretch,.printview .pmeta{font-size:11px}
+  .printview .pday h2{font-size:15px}
+  .printview .pday h3{font-size:12px;margin:6px 0 2px}
+  .pfigs{grid-template-columns:repeat(3,1fr)}
+  .pday,.pblock,.pitem,.pgitem{break-inside:avoid}
+  .pdays{columns:2;column-gap:8mm}
+  .pday{margin-top:6mm}
+  .pgloss{break-before:page}
+  .pglist{grid-template-columns:repeat(3,1fr)}
+  .pfig{flex-basis:18mm;height:18mm}
+  .pbig{height:80mm}
+}

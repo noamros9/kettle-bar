@@ -48,7 +48,8 @@ const MAP = [
   [/^app\/(progress|store)\.js$/, ['again']], // Phase 30: done again
   [/^app\/(ui\.js|pages\/core\.js)$/, ['offline', 'shortcut', 'back']], // back: Back keeps your place (#214)
   [/^app\/main\.js$/, ['actions']],
-  [/^app\/export\.js$/, ['exercise', 'workout', 'flow', 'bouts']], // Phase 32: the words the cards and the exercise page use
+  [/^app\/export\.js$/, ['exercise', 'workout', 'flow', 'bouts', 'print']], // Phase 32: the words the cards, the exercise page and the print view use
+  [/^app\/pages\/print\.js$/, ['print']], // Phase 32: the print view
   [/^(tests-ui\/(fixtures|devices)\.js|playwright\.config\.js)$/, ['sync', 'build', 'random', 'share']],
 ];
 

@@ -39,7 +39,8 @@ test('a day reads as expected at its own level: header, warm-up, blocks with set
   assert.match(t, /\n1 · Upper push\n3\/4 sets · 45 s between sets · 1 min between exercises\n/);
   assert.match(t, new RegExp(`- ${EX.pushup.name} · 3 × 15 reps\\n`));
   assert.match(t, new RegExp(`- ${EX.one_arm_row.name} · 4 × 10 each side · Go one weight up\\n`));
-  assert.match(t, /\nRest 2 min, then abs\n\nAbs · Abs\n/);
+  assert.match(t, /\nRest 2 min, then abs\n\nAbs\n/);
+  assert.equal(X.blockLabel({ kind: 'abs', title: 'Core finisher' }, 3), 'Abs · Core finisher');
   assert.match(t, /\nCool-down · 2:05\n- .+ · 30 sec each side$/);
   assert.doesNotMatch(t, new RegExp(EX.pushup.cue.slice(0, 20).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')), 'no cues');
   // level II and III days say their own level
