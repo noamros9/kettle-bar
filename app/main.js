@@ -206,7 +206,7 @@ function download(name, text, type = 'application/json') {
 }
 function exportProgress() {
   const rounds = Object.fromEntries(programs.ids().map((pid) => [pid, store.progress(pid).past]));
-  download(KBBackup.fileName(new Date()), JSON.stringify(KBBackup.exportProgress(allDone(), { swaps: allSwaps(), rounds, short: Object.fromEntries(programs.ids().map((pid) => [pid, store.shortOf(pid)])), again: Object.fromEntries(programs.ids().map((pid) => [pid, store.againOf(pid)])), ownPrograms: store.docs('programs'), random: store.docs('random'), prefs: store.docs('prefs') }), null, 2));
+  download(KBBackup.fileName(new Date()), JSON.stringify(KBBackup.exportProgress(allDone(), { swaps: allSwaps(), rounds, short: Object.fromEntries(programs.ids().map((pid) => [pid, store.shortOf(pid)])), again: Object.fromEntries(programs.ids().map((pid) => [pid, store.againOf(pid)])), paused: Object.fromEntries(programs.ids().map((pid) => [pid, store.pausedAt(pid)])), weekdays: Object.fromEntries(programs.ids().map((pid) => [pid, store.weekdays(pid)])), notes: Object.fromEntries(programs.ids().map((pid) => [pid, store.notesOf(pid)])), ownPrograms: store.docs('programs'), random: store.docs('random'), prefs: store.docs('prefs') }), null, 2));
 }
 
 const allDone = () => Object.fromEntries(programs.ids().map((pid) => [pid, store.days(pid)]));
