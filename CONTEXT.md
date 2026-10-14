@@ -186,6 +186,14 @@ missed**), never one of the last three. A card on the Programs page and the home
 a random-workout record with `choices: { now }`: counted in Stats (its own "Do now" line) and History (its own mark),
 never a trained day (the rest-day card stays, the next random workout's level is untouched).
 
+**Export** (Phase 32, built 14 Oct 2026): the button at the top of the exercise, day, program and random-workout pages,
+and its sheet: **PDF** (the Print view), **Text** (Share, or Copy) and, on a program, **Calendar** (an `.ics` file: one
+all-day event per day not done, from a start date on the weekdays picked). The words come from `app/export.js`
+(`KBExport`), which the day and exercise pages also use to say a dose. Days export at their own level (337).
+
+**Print view** (Phase 32): `#print/ex-<id>`, `#print/p-<pid>-d<n>`, `#print/p-<pid>`, `#print/random`: a light page for
+paper that opens the print dialog once drawn; a program's ends with a glossary, each exercise's drawing and cue once.
+
 ## Exercises
 
 **Exercise**: an entry in the **Exercise Catalogue** with reps per level, muscles, cue, equipment and
