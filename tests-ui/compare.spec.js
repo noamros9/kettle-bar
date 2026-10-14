@@ -14,8 +14,8 @@ async function compare(app, from, query, pick) {
 
 test('compare two library programs: both names, both maps, the table and the exercises in common', async ({ app }, testInfo) => {
   await compare(app, 'three-split-60', 'iron', 'iron-ppl');
+  await expect(app.heading()).toHaveText('Three-Split 60 and Iron PPL'); // both programs loaded
   const want = await app.data(() => KBCompare.of(programs.get('three-split-60'), programs.get('iron-ppl'), EX));
-  await expect(app.heading()).toHaveText('Three-Split 60 and Iron PPL');
   await expect(app.page.getByRole('img', { name: 'Muscles worked by Three-Split 60' })).toBeVisible();
   await expect(app.page.getByRole('img', { name: 'Muscles worked by Iron PPL' })).toBeVisible();
   await expect(app.page.locator('.cmptable tbody tr').first()).toContainText(`${want.a.days} days`);
