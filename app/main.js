@@ -117,6 +117,10 @@ const ACTIONS = [
   ['randomDiscard', () => { random.discard(); go('programs'); }],
   ['backup', (v) => backupAction(v)],
   ['weekday', (v) => { const pid = prog().id, on = store.weekdays(pid), d = +v; store.setWeekdays(pid, on.includes(d) ? on.filter((x) => x !== d) : [...on, d]); }], // Phase 33
+  ['compareOpen', () => { compareState = { pid: prog().id, q: '' }; render(); const i = $('#cmp-search'); if (i) i.focus(); }], // Phase 33
+  ['compareAll', () => { compareAll = !compareAll; render(); }],
+  ['compareClose', () => { compareState = null; rerender(); }],
+  ['compareTo', (v) => { const a = compareState.pid; compareState = null; compareAll = false; go(`compare/${a}/${v}`); }],
   ['rowAll', (v) => go('row/' + v)], // Phase 33: a row's Show all
   ['pause', (v) => store.setPaused(prog().id, v === '1')], // Phase 33: the store's change event redraws
   ['roundStart', () => { roundState = { pid: prog().id }; rerender(); }],
@@ -248,6 +252,7 @@ document.addEventListener('input', (e) => {
   if (e.target.id === 'ask-q') askState.q = e.target.value; // kept through redraws
   if (e.target.id === 'ex-search') { exSearch.q = e.target.value; exRefresh(); }
   if (e.target.id === 'prog-search') { progQuery = e.target.value; progRefresh(); } // the results only (Phase 24 ticket 7)
+  if (e.target.id === 'cmp-search') { compareState.q = e.target.value; compareRefresh(); } // the results only, as Programs' search
   if (e.target.classList.contains('noteinput')) { // Phase 33: kept through redraws; the count shows near the limit
     const form = e.target.closest('form'), left = KBProgress.NOTE_MAX - e.target.value.length;
     noteDraft = { key: form.dataset.noteForm, text: e.target.value };
