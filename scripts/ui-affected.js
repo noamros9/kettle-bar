@@ -40,7 +40,7 @@ const MAP = [
   [/^app\/pages\/random\.js$/, ['random', 'skip']],
   [/^(app\/now\.js|app\/pages\/now\.js)$/, ['now']], // Do now (Phase 25)
   [/^app\/pages\/build\.js$/, ['build', 'share']],
-  [/^app\/pages\/program\.js$/, ['rounds', 'shortcut', 'variety', 'pause', 'weekdays']],
+  [/^app\/pages\/program\.js$/, ['rounds', 'shortcut', 'variety', 'pause', 'weekdays', 'compare']],
   [/^app\/pages\/day\.js$/, ['workout', 'flow', 'bouts', 'bigtimer', 'swap', 'travel', 'short', 'warmup', 'finish', 'resume', 'skip', 'weekdays', 'note']],
   [/^app\/pages\/exercises\.js$/, ['exercise', 'exercises', 'muscles']],
   [/^app\/pages\/settings\.js$/, ['settings']],
@@ -50,6 +50,7 @@ const MAP = [
   [/^app\/main\.js$/, ['actions']],
   [/^app\/export\.js$/, ['exercise', 'workout', 'flow', 'bouts', 'print', 'export']], // Phase 32: the words the cards, the exercise page and the print view use
   [/^app\/pages\/print\.js$/, ['print', 'export']], // Phase 32: the print view
+  [/^app\/(compare|pages\/compare)\.js$/, ['compare']], // Phase 33: Compare
   [/^app\/pages\/export-sheet\.js$/, ['export', 'weekdays']], // Phase 32: the Export sheet
   [/^(tests-ui\/(fixtures|devices)\.js|playwright\.config\.js)$/, ['sync', 'build', 'random', 'share']],
 ];

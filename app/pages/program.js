@@ -68,10 +68,10 @@ function viewProgram() {
     <div class="phead"><div><div class="eyebrow">${esc(p.subject || 'Program')} · ${esc(p.split || '')} ${mins ? '· ' + mins : ''}</div>${own ? ownTitle(p) : `<div class="ptitle"><h1>${esc(p.name)}</h1>${starButton(p)}</div>`}${store.isPaused(p.id) ? '<p class="pausedline"><span class="pausedtag">Paused</span> Today\'s workout skips it until you resume.</p>' : ''}<p class="lede">${esc(p.about || p.blurb)}</p>
       ${p.gear ? `<p class="gear">${esc(p.gear)}</p>` : ''}${own ? ownTools(p) : ''}</div>
     <div class="progress">${r > 1 ? `<div class="eyebrow">Round ${r}</div>` : ''}<div class="big num">${n}<small> / ${p.days.length} days</small></div><div class="bar"><b style="width:${(n / p.days.length) * 100}%"></b></div>
-      ${weekdayChips(p)}<div class="ptools">${pauseButton(p)}<button class="btn ghost roundbtn startover" data-round-start="1">Start over<small>Round ${r + 1}</small></button></div></div></div>
+      ${weekdayChips(p)}<div class="ptools">${pauseButton(p)}${compareButton()}<button class="btn ghost roundbtn startover" data-round-start="1">Start over<small>Round ${r + 1}</small></button></div></div></div>
   <div class="cycle">${p.variety ? '<div><b>Every day is different</b><span class="days">no day type and format comes back</span></div>' // Variety (Phase 16): sixty one-off day types make no key
     : Object.entries(TY).map(([k, t]) => `<div><i class="dot" style="--c:${t.c}"></i><b>${esc(t.label)}</b><span class="days">${cycleDays(p, k)}</span></div>`).join('')}</div>
   ${nw ? `<div class="nextup"><div class="t"><span class="eyebrow">Next up · Day ${nw.day}</span><b>${esc(nw.name)}</b><span>${esc((TY[nw.type] || {}).label || nw.title)} · about ${nw.est} min</span></div><button class="btn" data-day="${nw.day}">Open workout</button></div>`
        : `<div class="nextup"><div class="t"><b>All ${p.days.length} days done</b><span>That's the full program. Start Round ${r + 1} to go again.</span></div></div>`}
-  ${readyForII(p)}${levels}${whatNext(p)}${roundSheet(p, r)}${own ? deleteSheet(p) : ''}`;
+  ${readyForII(p)}${levels}${whatNext(p)}${roundSheet(p, r)}${compareSheet(p)}${own ? deleteSheet(p) : ''}`;
 }
