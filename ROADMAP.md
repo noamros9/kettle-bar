@@ -2,7 +2,7 @@
 
 The index: where we are, what comes next, and the two phases being built now. Every other phase's decisions live at the
 top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase comes up. Decision numbers are global
-(the next one is **337**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
+(the next one is **338**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
 ## Resume here (13 Oct 2026, afternoon)
 - **Phase 24 is done** (#391–#405, archived): both reviews in and every fix-now finding built; A4 is #393, a flaky Back

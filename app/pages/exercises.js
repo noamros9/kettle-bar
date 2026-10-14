@@ -19,8 +19,8 @@ function viewExercise() {
   }
   const others = programs.usageReady() ? programs.programsUsing(e.id).filter((id) => id !== p.id).map((id) => programs.summary(id)) : [];
   const names = (arr) => arr.map((k) => `<button class="chip" data-exmuscle-link="${k}" aria-label="Exercises that work ${MUSCLE_NAMES[k]}">${MUSCLE_NAMES[k]}</button>`).join(' '); // #234
-  const r = e.r, stretch = e.cat === 'warmup' || e.cat === 'cooldown';
-  const dose = stretch ? `${r[0]} s${e.side ? ' each side' : ''}` : e.u === 'sec' ? `${r.join(' / ')} s${e.side ? ' each side' : ''} (Level I / II / III)` : `${r.join(' / ')} ${unitText(e)} (Level I / II / III)`;
+  const stretch = e.cat === 'warmup' || e.cat === 'cooldown';
+  const dose = KBExport.exerciseDose(e); // the exported text says it the same way (Phase 32)
   return `<div class="crumbs"><button class="back" data-back="1">← Back</button></div>
     <div class="eyebrow">${CAT[e.cat] || ''}</div><h1>${esc(e.name)}</h1>
     ${stretch ? '' : skipRow(e)}
@@ -29,7 +29,7 @@ function viewExercise() {
         <dl class="facts">
           <div><dt>How to</dt><dd>${esc(e.cue)}</dd></div>
           <div><dt>${stretch || e.u === 'sec' ? 'Hold' : 'Reps'}</dt><dd>${dose}</dd></div>
-          <div><dt>Equipment</dt><dd>${e.load ? esc(LOAD[e.load]) : KBEx.needs(e, 'bar') ? 'Pull-up bar' : 'Bodyweight, mat'}</dd></div>
+          <div><dt>Equipment</dt><dd>${esc(KBExport.equipment(e))}</dd></div>
         </dl></div>
       <div class="card"><h2>Muscles worked</h2>${muscleMapSVG(m.primary, m.secondary, 'Muscles worked by ' + e.name)}
         <div class="legend">

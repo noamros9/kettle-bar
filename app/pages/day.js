@@ -14,8 +14,8 @@ function undoButton(D, bi, i) {
 function exCard(it, i, bi, opts = {}) {
   const e = EX[it.ex], b = opts.block, st = opts.state, ses = opts.session;
   const straight = st && st.f === 'straight';
-  const sets = b ? ses.itemSets(b, it) : 0, done = straight ? st.sets[i] : 0;
-  const count = opts.count || `<b class="num">${it.n}</b><span>${unitText(e, it.n)}</span>`;
+  const sets = straight ? ses.itemSets(b, it) : 0, done = straight ? st.sets[i] : 0;
+  const count = opts.count || countHTML(KBExport.doseParts(it, b, EX));
   const pips = straight ? `<div class="pips" role="group" aria-label="Sets of ${esc(e.name)} done"><span class="lbl">Sets</span>${Array.from({ length: sets }, (_, k) =>
     `<button class="pip num${done > k ? ' on' : ''}" data-pip="${bi}:${i}:${k + 1}" aria-pressed="${done > k}" aria-label="Set ${k + 1} of ${esc(e.name)} done">${k + 1}</button>`).join('')}</div>` : '';
   const work = straight && e.u === 'sec' && done < sets ? `<button class="workbtn" data-work="${bi}:${i}">▶ Start set ${done + 1} · ${it.n} s${e.side ? ' each side' : ''}</button>` : '';
@@ -25,6 +25,8 @@ function exCard(it, i, bi, opts = {}) {
     ${it.travel ? `<span class="notechip swapped">Swapped for travel, from ${esc(EX[it.swappedFrom].name)}</span>` : it.skipped ? `<span class="notechip swapped">Swapped: you skip ${esc(EX[it.swappedFrom].name)}</span>` : it.swappedFrom ? `<span class="notechip swapped">Swapped from ${esc(EX[it.swappedFrom].name)}</span>${undoButton(opts.D, bi, i)}` : ''}${it.travelMissing ? '<span class="notechip needsgear">Needs gear: nothing to swap to</span>' : ''}${it.skipMissing ? '<span class="notechip needsgear">You skip this, no stand-in</span>' : ''}${noteChip(it)}${e.load ? `<div class="ld">${esc(LOAD[e.load])}</div>` : ''}
     <p class="cue">${esc(e.cue)}</p>${work}${pips}</article>`;
 }
+// an item's count on its card: the same parts the exported text says (app/export.js, Phase 32)
+const countHTML = (d) => `<b class="num">${d.n}</b><span>${d.unit}</span>`;
 function roundPips(id, total, done, what) {
   return `<div class="pips blockpips" role="group" aria-label="${what} done"><span class="lbl">${what}</span>${Array.from({ length: total }, (_, k) =>
     `<button class="pip num${done > k ? ' on' : ''}" data-rpip="${id}:${k + 1}" aria-pressed="${done > k}" aria-label="${what.replace(/s$/, '')} ${k + 1} done">${k + 1}</button>`).join('')}</div>`;
@@ -56,19 +58,19 @@ const BLOCK_VIEWS = {
     body: `<div class="exgrid">${b.items.map((it, i) => card(it, i)).join('')}</div>`,
     side: roundPips(bi, b.rounds, st.rounds, 'Rounds'),
   }),
-  emom: ({ b, bi, st, card, perUnit }) => ({
+  emom: ({ b, bi, st, card }) => ({
     desc: `Every minute on the minute for ${b.minutes} min: do the reps, rest until the next minute. The exercise changes each minute.`,
-    body: `<div class="exgrid">${b.items.map((it, i) => card(it, i, { label: `Min ${i + 1}, ${i + 1 + b.items.length}…`, count: perUnit(it, 'per minute') })).join('')}</div>`,
+    body: `<div class="exgrid">${b.items.map((it, i) => card(it, i, { label: `Min ${i + 1}, ${i + 1 + b.items.length}…` })).join('')}</div>`,
     side: runButton(bi, st, `EMOM · ${b.minutes} min`),
   }),
-  amrap: ({ b, bi, st, card, perUnit }) => ({
+  amrap: ({ b, bi, st, card }) => ({
     desc: `As many rounds as possible in ${b.minutes} min, moving steadily. Tap + after each round.`,
-    body: `<div class="exgrid">${b.items.map((it, i) => card(it, i, { count: perUnit(it, 'per round') })).join('')}</div>`,
+    body: `<div class="exgrid">${b.items.map((it, i) => card(it, i)).join('')}</div>`,
     side: runButton(bi, st, `AMRAP · ${b.minutes} min`) + counter(bi, st.count, 'Rounds'),
   }),
   tabata: ({ b, bi, st, card }) => ({
     desc: `${b.tabatas} × 4 min: 20 s as hard as you can, 10 s rest, 8 rounds, exercises rotate. 1 min between Tabatas. The timer runs it all.`,
-    body: `<div class="exgrid">${b.items.map((it, i) => card(it, i, { count: '<b class="num">20</b><span>sec hard, 10 sec rest</span>' })).join('')}</div>`,
+    body: `<div class="exgrid">${b.items.map((it, i) => card(it, i)).join('')}</div>`,
     side: runButton(bi, st, `Tabata · ${b.tabatas * 4} min`),
   }),
   flow: ({ b, bi, R, st, card }) => {
@@ -83,22 +85,21 @@ const BLOCK_VIEWS = {
     const mins = Math.round(b.items[0].n / 60);
     return {
       desc: `${b.items.length} bouts of ${mins} min, ${(b.rest || 60) / 60} min rest between. One Start runs them all: the voice calls each bout's combo, and you drill it until the bell.`,
-      body: `<div class="exgrid">${b.items.map((it, i) => card(it, i, { label: `Bout ${i + 1}`, count: `<b class="num">${mins}</b><span>min bout</span>` })).join('')}</div>`,
+      body: `<div class="exgrid">${b.items.map((it, i) => card(it, i, { label: `Bout ${i + 1}` })).join('')}</div>`,
       side: runButton(bi, st, `bouts · ${clockText(KBFormats.of(b).time(b, R, EX))}`),
     };
   },
   ladder: ({ b, bi, st, card }) => ({
     desc: `${b.minutes} min: 1 rep of each exercise, then 2, then 3… keep climbing until time runs out. Tap + after each rung.`,
-    body: `<div class="exgrid">${b.items.map((it, i) => card(it, i, { count: `<b class="num">1→</b><span>${EX[it.ex].side ? 'reps each side, ' : 'reps, '}+1 each rung</span>` })).join('')}</div>`,
+    body: `<div class="exgrid">${b.items.map((it, i) => card(it, i)).join('')}</div>`,
     side: runButton(bi, st, `Ladder · ${b.minutes} min`) + counter(bi, st.count, 'Rungs'),
   }),
 };
 function blockHTML(p, w, b, bi, ses, D) {
-  const card = (it, i, o = {}) => exCard(it, i, bi, { ...o, D });
+  const card = (it, i, o = {}) => exCard(it, i, bi, { block: b, ...o, D });
   const R = ses.rests, st = ses.state(bi), f = b.format || 'straight';
   const letter = b.kind === 'abs' ? 'Abs' : String(bi + 1);
-  const perUnit = (it, what) => `<b class="num">${it.n}</b><span>${EX[it.ex].u === 'sec' ? 'sec' : 'reps'} ${what}${what === 'per minute' && EX[it.ex].side && EX[it.ex].u !== 'sec' ? ', each side' : ''}</span>`;
-  const { desc, body, side } = BLOCK_VIEWS[f]({ b, bi, R, st, ses, card, perUnit });
+  const { desc, body, side } = BLOCK_VIEWS[f]({ b, bi, R, st, ses, card });
   const next = w.blocks[bi + 1];
   const gap = next ? `<div class="between">Rest ${next.kind === 'abs' ? R.beforeAbs / 60 + ' min, then abs' : R.block / 60 + ' min, then ' + esc(next.title.toLowerCase())}</div>` : '';
   return `<section class="block" aria-labelledby="b${bi}">

@@ -21,7 +21,9 @@ Grilled 8 Oct 2026 with Noam (global decision numbers).
 - **242 · Drawings in the PDF, none in the text.** A program's PDF lists each day's exercises by name, with each
   exercise's drawing and cue once, in a glossary at the back. *(8 Oct)*
 - **243 · The text is the workout**: blocks, exercises, sets × reps or holds, rests; no cues or muscles. *(8 Oct)*
-- **244 · The level you're on** (not started: Level I); the sheet can switch level. *(8 Oct)*
+- **244 · ~~The level you're on; the sheet can switch level~~** [was: a level switch]; replaced by 337. *(8 Oct)*
+- **337 · No level switch**: a program's days are built at their own level, so a day or program exports as built, each
+  day at its level; an exercise exports all three levels, as its page says them. *(14 Oct)*
 - **245 · A whole program is one file.** *(8 Oct)*
 
 **Where and how**
@@ -34,8 +36,7 @@ Grilled 8 Oct 2026 with Noam (global decision numbers).
 ## What lands
 - **An Export button** on the exercise page, the day page, the program page (library and own) and the random workout
   page. It opens a sheet: **PDF** (the print view, then the phone's Print → Save as PDF), **Text** (the phone's
-  Share, or Copy where there's none), and on the program page **Calendar**. A level switch (I / II / III) sits on top,
-  set to the level you're on.
+  Share, or Copy where there's none), and on the program page **Calendar**. No level switch (337).
 - **The print view** (`#print/...`): a clean, light page made for paper: the exercise card; a day's blocks with each
   exercise's drawing beside it; a program's about text, then its days (exercises by name, sets × reps, minutes), then
   the glossary (drawing and cue per exercise, once). Works offline: everything is already in the page.
@@ -49,7 +50,7 @@ Grilled 8 Oct 2026 with Noam (global decision numbers).
 | # | Ticket | Tier | Blocked by | Branch | Status |
 |---|---|---|---|---|---|
 | 0 | This plan | plan | – | `plan/open-issues-8oct` | done (PR #297) |
-| 1 | The words: text and calendar export (`app/export.js`) | feature | – | `feature/export-text` | todo |
+| 1 | The words: text and calendar export (`app/export.js`) | feature | – | `feature/export-text` | done (PR #411) |
 | 2 | The print view | feature | – | `feature/print-view` | todo |
 | 3 | The Export button and sheet on four pages | feature | 1, 2 | `feature/export-sheet` | todo |
 | 4 | Close the phase: CONTEXT.md, archive | plan | 3 | `plan/p32-close` | todo |
@@ -57,13 +58,13 @@ Grilled 8 Oct 2026 with Noam (global decision numbers).
 Tickets 1 and 2 share no files and can run at once.
 
 ### 1. Text and calendar (`app/export.js`)
-- **Build:** a pure module (Node and page, `KBExport`): `exerciseText(e, level)`, `dayText(day, level, EX)`,
-  `programText(program, level, EX)`, `randomText(made, EX)`; `ics(program, { start, weekdays, fromDay, level }, EX)`
+- **Build:** a pure module (Node and page, `KBExport`): `exerciseText(e)`, `dayText(day, program, EX)`,
+  `programText(program, EX)`, `randomText(made, EX)`; `ics(program, { start, weekdays, done }, EX)`
   → an iCalendar file: CRLF lines folded at 75 octets, text escaped, one all-day `VEVENT` per day
   (`DTSTART;VALUE=DATE`, `DTEND` the next day), `UID` `<pid>-d<n>-<start>@kettle-bar`, a `DTSTAMP`. Reps, holds,
   sides and rests come from the same helpers the day page uses (no second copy of how a dose is said).
 - **Files:** `app/export.js`, `tests/export.test.js`, `build.js` (the script), `sw.js`, `scripts/ui-affected.js`.
-- **Test first:** a made-up day reads as expected at each level; a program's text has every day; the calendar for
+- **Test first:** a made-up day reads as expected at its own level; a program's text has every day; the calendar for
   Sun/Tue/Thu from a Monday start puts day 1 on Tuesday and skips days already done; folding, escaping and CRLF
   match RFC 5545 (a 200-character description folds); an After dark day's text is as explicit as its page.
 - **Done when:** 100% coverage of `app/export.js`; the .ics opens in Google Calendar on the phone (Noam).
@@ -84,7 +85,7 @@ Tickets 1 and 2 share no files and can run at once.
 
 ### 3. The Export button and sheet
 - **Build:** one Export button on the exercise, day, program and random-workout pages; the sheet (as the round sheet
-  is drawn): the level switch, PDF (goes to the print route), Text (`navigator.share({ text })`, else copy with a
+  is drawn): PDF (goes to the print route), Text (`navigator.share({ text })`, else copy with a
   "Copied" note), and on the program page Calendar: a start date (today), seven weekday chips (pre-filled from the
   program's weekdays when Phase 33 has them, else none picked and the button waits for one), Save (`navigator.share`
   with the file where files can be shared, else a download).
@@ -92,7 +93,7 @@ Tickets 1 and 2 share no files and can run at once.
   `app/pages/export-sheet.js` (new), `app/styles.css`, `tests-ui/export.spec.js` (new), `scripts/ui-affected.js`.
 - **Test first:** each page's Export opens the sheet with the right formats (Calendar on the program page only); Text
   copies the day's text (clipboard read in the spec); Calendar downloads a file that `KBExport` parses back to N
-  events; the level switch changes the reps in the text.
+  events.
 - **Done when:** 390 px screenshots light and dark of the sheet; no sideways scroll at 360 px.
 
 ### 4. Close the phase
