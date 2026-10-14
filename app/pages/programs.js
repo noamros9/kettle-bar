@@ -25,6 +25,20 @@ const skipList = () => KBLibrary.skipped(store.doc('prefs', 'main'), EX);
 const toggleSkip = (id) => setPref('skip', KBLibrary.toggleIn(skipList(), id));
 const STAR = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2l2.7 5.6 6.1.8-4.5 4.2 1.1 6.1L12 17l-5.4 2.9 1.1-6.1-4.5-4.2 6.1-.8z"/></svg>';
 const starButton = (p) => { const on = isFavourite(p.id); return `<button class="star" data-star="${esc(p.id)}" aria-pressed="${on}" aria-label="${on ? 'Remove' : 'Add'} ${esc(p.name)} ${on ? 'from' : 'to'} favourites">${STAR}</button>`; };
+// Phase 33: the rows at the top of the Programs page (library and your own programs), from KBPrograms.startedRows
+const ROWS = [['favourites', 'Favourites'], ['progress', 'In progress'], ['paused', 'Paused']];
+function topRows(list) {
+  const stars = libraryPrefs().favourites;
+  const lastTime = (pid) => store.entries(pid).reduce((t, e) => (e.time > t ? e.time : t), '') || null;
+  const r = KBPrograms.startedRows(list, (p) => ({ count: store.count(p.id), dayCount: p.dayCount, pausedAt: store.pausedAt(p.id), lastTime: store.count(p.id) ? lastTime(p.id) : null }));
+  return { favourites: list.filter((p) => stars.includes(p.id)), progress: r.inProgress, paused: r.paused };
+}
+// #row/<name>: a row's every card, stacked, no filters (Back returns to Programs where you were)
+function viewRow() {
+  const [key, title] = ROWS.find(([k]) => k === route.row), list = topRows(programs.list())[key], card = programsParts().card;
+  return `<div class="crumbs"><button class="back" data-go="programs">← All programs</button></div><h1>${title}</h1>
+    ${list.length ? `<div class="plist">${list.map(card).join('')}</div>` : '<p class="lede">Nothing here right now.</p>'}`;
+}
 // The page in parts (Phase 24 ticket 7, review V A3): typing in the search redraws the counter, your programs and
 // favourites, and the results (programsParts), never the field itself
 function programsParts() {
@@ -37,7 +51,7 @@ function programsParts() {
   const card = (p) => {
     const n = store.count(p.id), mins = p.minutes[0] === p.minutes[1] ? p.minutes[0] : `${Math.round(p.minutes[0])}–${Math.round(p.minutes[1])}`;
     return `<button class="pcard${p.id === last ? ' current' : ''}" data-open-prog="${p.id}">
-      <div class="pc-main"><span class="eyebrow">${esc(p.subject)}${p.id === last ? ' · current' : ''}${store.round(p.id) > 1 ? ` · Round ${store.round(p.id)}` : ''}</span><b>${esc(p.name)}</b><p>${esc(firstSentence(p.about || p.blurb))}</p>
+      <div class="pc-main"><span class="eyebrow">${esc(p.subject)}${p.id === last ? ' · current' : ''}${store.round(p.id) > 1 ? ` · Round ${store.round(p.id)}` : ''}${store.isPaused(p.id) ? ' · <span class="pausedtag">Paused</span>' : ''}</span><b>${esc(p.name)}</b><p>${esc(firstSentence(p.about || p.blurb))}</p>
         <div class="pc-tags">${p.dayCount !== KBLength.DAYS ? `<span class="chip">${p.dayCount} days</span>` : ''}<span class="chip">${esc(p.split)}</span><span class="chip">~${mins} min</span>${(p.formats || ['straight']).map((f) => `<span class="chip">${fmtFormat[f]}</span>`).join('')}${p.equip === 'kb' ? '<span class="chip">Kettlebell only</span>' : p.equip === 'bw' ? '<span class="chip">No equipment</span>' : ''}</div></div>
       <div class="pc-prog"><span class="num">${n}/${p.dayCount}</span><div class="bar"><b style="width:${(n / p.dayCount) * 100}%"></b></div></div></button>`;
   };
@@ -45,7 +59,11 @@ function programsParts() {
   const shelfFoot = (s) => (s.more ? `<button class="lenline shelfmore" data-shelf="${esc(s.subject)}" aria-expanded="false">Show all ${s.total} ${esc(s.subject)} programs <span aria-hidden="true">▾</span></button>`
     : filters.subject === 'all' && openShelves.includes(s.subject) && s.total > KBLibrary.SHELF ? `<button class="lenline shelfmore" data-shelf="${esc(s.subject)}" aria-expanded="true">Show fewer <span aria-hidden="true">▴</span></button>` : '');
   const groups = lib.shelves.map((s) => `<section class="pgroup"><h2>${esc(s.subject)}</h2><div class="plist">${s.programs.map(starred).join('')}</div>${shelfFoot(s)}</section>`).join('');
-  const favs = lib.favourites.length ? `<section class="pgroup favs"><h2>Favourites</h2><div class="plist">${lib.favourites.map(starred).join('')}</div></section>` : '';
+  // Phase 33 (253, 268): Favourites, In progress and Paused as sideways rows, 3 cards then Show all (#row/<name>)
+  const rows = topRows(found);
+  const rowHTML = (key, title, list) => (list.length ? `<section class="pgroup prow${key === 'favourites' ? ' favs' : ''}" aria-labelledby="row-${key}"><h2 id="row-${key}">${title}</h2>
+    <div class="rowscroll">${list.slice(0, KBPrograms.ROW).map(starred).join('')}${list.length > KBPrograms.ROW ? `<button class="rowall" data-row-all="${key}">Show all<span class="num">${list.length}</span></button>` : ''}</div></section>` : '');
+  const favs = ROWS.map(([key, title]) => rowHTML(key, title, rows[key])).join('');
   const yours = mine.length ? `<section class="pgroup yours"><h2>Your programs</h2><div class="plist">${mine.map(card).join('')}</div></section>` : '';
   const tab = (k, x) => `<button class="ftab" data-filter="${k}:${esc(x.key)}" aria-pressed="${x.pressed}">${esc(x.name)}</button>`;
   const menuLine = (k, name, label) => `<button class="lenline" data-filter-menu="${k}" aria-expanded="${filterMenu === k}">${name}: <b>${esc(label)}</b> <span aria-hidden="true">${filterMenu === k ? '▴' : '▾'}</span></button>`;
@@ -53,7 +71,8 @@ function programsParts() {
   const chip = (x) => `<button class="fchip acc" data-filter="subject:${esc(x.key)}" aria-pressed="${x.pressed}">${esc(x.name)} <span class="fcount">${x.count}</span></button>`;
   return {
     counter: lib.counter,
-    mine: `${yours}${favs}`,
+    mine: `${favs}${yours}`,
+    card: starred,
     results: `<div class="ftabs" role="group" aria-label="Filter by family">${lib.families.map((f) => tab('family', f)).join('')}</div>
     <div class="filters" role="group" aria-label="Filter by subject">${lib.subjects.map(chip).join('')}</div>
     <div class="lenlines">${menuLine('len', 'Length', lib.lengthLabel)}${menuLine('equip', 'Equipment', lib.equipLabel)}</div>

@@ -161,7 +161,23 @@
     return api;
   }
 
-  const api = { createProgramCatalogue, inlined, fetched, summarize, slim, firstSentence, usageIndex };
+  /* Phase 33 (253, 268): the rows at the top of the Programs page, besides Favourites. (Here, not in app/library.js,
+     whose code is part of the recipe book's cache key: a change there rebuilds every trial.)
+       startedRows(summaries, info) -> { inProgress: [summary], paused: [summary] }
+       info(summary) -> { count, dayCount, pausedAt, lastTime }: days done this round, the program's length, when it was
+       paused (or null) and the time of its latest workout (or null)
+     In progress: a day done this round, not every day done, not paused; most recently trained first. Paused: paused,
+     most recently paused first (whatever was done). ROW: the cards a row shows before Show all. */
+  const ROW = 3;
+  function startedRows(summaries, info) {
+    const withInfo = summaries.map((p) => ({ p, i: info(p) }));
+    const newest = (k) => (a, b) => String(b.i[k]).localeCompare(String(a.i[k])); // a started or paused program has a time
+    return {
+      inProgress: withInfo.filter(({ i }) => !i.pausedAt && i.count > 0 && i.count < i.dayCount).sort(newest('lastTime')).map(({ p }) => p),
+      paused: withInfo.filter(({ i }) => !!i.pausedAt).sort(newest('pausedAt')).map(({ p }) => p),
+    };
+  }
+  const api = { createProgramCatalogue, inlined, fetched, summarize, slim, firstSentence, usageIndex, startedRows, ROW };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBPrograms = api;
 })(typeof window !== 'undefined' ? window : globalThis);

@@ -76,7 +76,7 @@ document ignores the fields, and a merge keeps the newer of each by the document
 |---|---|---|---|---|---|
 | 0 | This plan | plan | – | `plan/open-issues-8oct` | done (PR #297) |
 | 1 | Progress shapes: paused, weekdays, notes | feature | – | `feature/p33-shapes` | done (PR #415) |
-| 2 | Pause, the In progress and Paused rows, Start over (#293) | feature | 1 | `feature/pause-rows` | todo |
+| 2 | Pause, the In progress and Paused rows, Start over (#293) | feature | 1 | `feature/pause-rows` | done (PR #416) |
 | 3 | Training weekdays and "Next workout" (#291) | feature | 1 | `feature/weekdays` | todo |
 | 4 | A day note (#292) | feature | 1 | `feature/day-note` | todo |
 | 5 | Compare two programs (#294) | feature | – | `feature/compare` | todo |
@@ -107,7 +107,8 @@ Tickets 5, 6 and 7 share no files with 1–4 and can run beside them (the cap of
   (the row stacked, no filters; Back returns, Phase 31). Each row hidden when empty. Phase 26 and "Ready for II" read
   paused programs as started (270). Today's workout (`app/pages/core.js`) skips paused programs (falls back to
   the next most recent, then to the first program, as now).
-- **Files:** `app/pages/program.js`, `app/pages/programs.js`, `app/library.js` (the two rows' lists), `app/pages/core.js`
+- **Files:** `app/pages/program.js`, `app/pages/programs.js`, `app/programs.js` (the two rows' lists; built in
+  `app/programs.js`, not `app/library.js`, whose code is in the recipe book's cache key), `app/pages/core.js`
   (the `#row/` route), `app/styles.css`, `tests/library.test.js`, `tests-ui/library.spec.js`, `tests-ui/pause.spec.js` (new),
   `scripts/ui-affected.js`.
 - **Test first:** `library.test.js`: who is In progress and who is Paused, and their order; `pause.spec.js`: four
