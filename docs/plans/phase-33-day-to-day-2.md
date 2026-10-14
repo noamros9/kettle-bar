@@ -63,8 +63,10 @@ Grilled 8 Oct 2026 with Noam (global decision numbers).
 
 ## Stored shapes
 Everything new lives in collections that exist (`progress`, `prefs`): **no rules change**. In a program's progress
-document: `paused` (time, or absent), `weekdays` (0–6, Sunday first, or absent) and `notes` (`{ day: text }` for the
-current round, a list per day when Phase 30's `again` gives a day more than one date, 269; a new round carries the old round's notes into its `past` entry, as `done` and `swaps` are). Old
+document: `paused` (time, or absent), `weekdays` (0–6, Sunday first, or absent) and `notes`
+(`{ day: { mark: { text, at } } }`: one note per time the day was done, keyed by that mark's time, 269, and `at` when
+it was last written, so two phones' edits merge per note, newer wins (ticket 1); a new round carries the old round's
+notes into its `past` entry, as `done` and `swaps` are). Old
 documents and old backups have none of them and read as "not paused, no weekdays, no notes"; an old app reading a new
 document ignores the fields, and a merge keeps the newer of each by the document's existing timestamps.
 
@@ -73,7 +75,7 @@ document ignores the fields, and a merge keeps the newer of each by the document
 | # | Ticket | Tier | Blocked by | Branch | Status |
 |---|---|---|---|---|---|
 | 0 | This plan | plan | – | `plan/open-issues-8oct` | done (PR #297) |
-| 1 | Progress shapes: paused, weekdays, notes | feature | – | `feature/p33-shapes` | todo |
+| 1 | Progress shapes: paused, weekdays, notes | feature | – | `feature/p33-shapes` | done (PR #415) |
 | 2 | Pause, the In progress and Paused rows, Start over (#293) | feature | 1 | `feature/pause-rows` | todo |
 | 3 | Training weekdays and "Next workout" (#291) | feature | 1 | `feature/weekdays` | todo |
 | 4 | A day note (#292) | feature | 1 | `feature/day-note` | todo |

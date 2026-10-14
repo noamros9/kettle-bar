@@ -1,4 +1,5 @@
-/* Progress Store: each program's Program Progress (done days, exercise swaps and short days), and the account's other synced
+/* Progress Store: each program's Program Progress (done days, exercise swaps, short days, and from Phase 33 paused,
+   training weekdays and day notes), and the account's other synced
    data (own programs, random workouts, preferences), kept in sync.
    Always keeps a device copy (storage adapter). A remote adapter can be attached for sync:
      remote = { kind, account?,
@@ -37,8 +38,11 @@
     // lastCloud: each program's last delivered document as JSON, so a collection snapshot hands on only what changed
     let progressAll = null, lastCloud = null;
     let remote = null, unsubs = [], progressUnsubs = {}, seen = {}, docSeen = {}, queue = Promise.resolve(), docQueue = Promise.resolve(), readonly = false, auth = null, status = 'local';
-    const keys = (pid) => ({ done: 'kb-progress-' + pid, swaps: 'kb-swaps-' + pid, past: 'kb-past-' + pid, short: 'kb-short-' + pid, again: 'kb-again-' + pid });
-    const fromDevice = (pid) => { const k = keys(pid); return P.fromDevice({ done: read(k.done), swaps: read(k.swaps), past: read(k.past), short: read(k.short), again: read(k.again) }); };
+    // Phase 33: paused, weekdays and notes get keys of their own, written only when set (as short)
+    const OPTIONAL = ['short', 'again', 'paused', 'weekdays', 'notes'];
+    const keys = (pid) => ({ done: 'kb-progress-' + pid, swaps: 'kb-swaps-' + pid, past: 'kb-past-' + pid, short: 'kb-short-' + pid, again: 'kb-again-' + pid,
+      paused: 'kb-paused-' + pid, weekdays: 'kb-weekdays-' + pid, notes: 'kb-notes-' + pid });
+    const fromDevice = (pid) => { const k = keys(pid); return P.fromDevice(Object.fromEntries(Object.entries(k).map(([f, key]) => [f, read(key)]))); };
     const setStatus = (s) => { status = s; emit('status', s); };
     const of = (pid) => progress[pid] || P.empty();
 
@@ -81,8 +85,8 @@
     function save(pid) {
       const k = keys(pid), text = P.toDevice(progress[pid]);
       try { storage.set(k.done, text.done); storage.set(k.swaps, text.swaps); storage.set(k.past, text.past); } catch (e) { /* storage full or blocked: keep going */ }
-      if (text.short) { try { storage.set(k.short, text.short); } catch (e) { /* as above */ } } else forgetKey(k.short); // none: no key, as before
-      if (text.again) { try { storage.set(k.again, text.again); } catch (e) { /* as above */ } } else forgetKey(k.again); // Phase 30: as short
+      // none: no key, as before (short, Phase 7; again, Phase 30; paused, weekdays and notes, Phase 33)
+      OPTIONAL.forEach((f) => { if (text[f]) { try { storage.set(k[f], text[f]); } catch (e) { /* as above */ } } else forgetKey(k[f]); });
     }
     function saveDoc(c, id) { try { storage.set(docKey(c, id), JSON.stringify(account[c][id])); } catch (e) { /* device copy is best effort */ } }
     function forgetKey(key) { try { if (storage.remove) storage.remove(key); else storage.set(key, ''); } catch (e) { /* device copy is best effort */ } }
@@ -223,7 +227,7 @@
     function deleteProgress(pid) {
       const k = keys(pid);
       dropProgram(pid);
-      [k.done, k.swaps, k.past, k.short, k.again].forEach(forgetKey);
+      Object.values(k).forEach(forgetKey);
       return removeProgress(pid);
     }
     function removeProgress(pid, again) {
@@ -237,6 +241,10 @@
     const removeMark = (pid, day, time) => set(pid, P.removeMark(of(pid), day, time)); // History's Remove (215)
     const setSwaps = (pid, list) => set(pid, P.withSwaps(of(pid), list));
     const setShort = (pid, day, on) => set(pid, P.setShort(of(pid), day, on)); // "short on time" for that day (Phase 7)
+    // Phase 33: pause (now) or resume (null), the training weekdays, a note on a time the day was done (its latest by default)
+    const setPaused = (pid, on) => set(pid, P.setPaused(of(pid), on ? now() : null));
+    const setWeekdays = (pid, list) => set(pid, P.setWeekdays(of(pid), list));
+    const setNote = (pid, day, text, mark) => set(pid, P.setNote(of(pid), day, text, now(), mark));
     // a new round: the current one is kept as it was; `keep` = the onward swaps to carry over
     const startRound = (pid, keep) => set(pid, P.startRound(of(pid), now(), keep));
     // set whole programs at once (an import): { pid: Program Progress }; one write per program
@@ -263,7 +271,7 @@
       return queue;
     }
     return {
-      load, attach, detach, addProgram, dropProgram, deleteProgress, programIds: () => programIds.slice(), toggle, doAgain, removeMark, replaceAll, setSwaps, setShort, startRound, setDoc, deleteDoc, replaceDocs,
+      load, attach, detach, addProgram, dropProgram, deleteProgress, programIds: () => programIds.slice(), toggle, doAgain, removeMark, replaceAll, setSwaps, setShort, setPaused, setWeekdays, setNote, startRound, setDoc, deleteDoc, replaceDocs,
       doc: (c, id) => (known(c) && account[c][id] ? JSON.parse(JSON.stringify(account[c][id])) : null),
       docs: (c) => JSON.parse(JSON.stringify(account[known(c)])),
       round: (pid) => P.round(of(pid)),
@@ -276,6 +284,11 @@
       againOf: (pid) => JSON.parse(JSON.stringify(of(pid).again || {})),
       shortOf: (pid, round) => P.shortOfRound(of(pid), round === undefined ? P.round(of(pid)) : round),
       count: (pid) => P.count(of(pid)),
+      pausedAt: (pid) => P.pausedAt(of(pid)), // Phase 33
+      isPaused: (pid) => !!P.pausedAt(of(pid)),
+      weekdays: (pid) => P.weekdaysOf(of(pid)),
+      noteOf: (pid, day, { round, mark } = {}) => P.noteOf(of(pid), round === undefined ? P.round(of(pid)) : round, day, mark),
+      notesOf: (pid) => JSON.parse(JSON.stringify(of(pid).notes || {})), // the current round's, for a backup
       days: (pid) => ({ ...of(pid).done }),
       setAuth(a) { auth = a; setStatus(remote ? status : 'signin'); },
       online() { if (status === 'offline') setStatus('saving'); retryOutbox(); },
