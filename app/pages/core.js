@@ -14,7 +14,10 @@ const offlineCache = {
 const fetchJson = (url) => fetch(url).then((r) => { if (!r.ok) throw new Error(url + ': ' + r.status); return r.json(); });
 const fetchText = (url) => fetch(url).then((r) => { if (!r.ok) throw new Error(url + ': ' + r.status); return r.text(); });
 // the exercise index (data/index.json): which programs use an exercise, fetched when an exercise page first needs it
-const usageFile = KBLazy.lazyFile({ fetch: fetchJson, cache: offlineCache, url: 'data/index.json', unavailable: "Which programs use this exercise isn't available offline yet. Open an exercise once while online." });
+const usageIds = KBLazy.lazyFile({ fetch: fetchJson, cache: offlineCache, url: 'data/index.json', unavailable: "Which programs use this exercise isn't available offline yet. Open an exercise once while online." });
+// Phase 33 (256): how many days each program uses it on (data/index-days.json); without it, the programs alone
+const usageDaysFile = KBLazy.lazyFile({ fetch: fetchJson, cache: offlineCache, url: 'data/index-days.json', unavailable: 'no day counts' });
+const usageFile = { load: () => Promise.all([usageIds.load(), usageDaysFile.load().catch(() => null)]).then(([ids, days]) => KBPrograms.withDays(ids, days)) };
 // the library programs' muscle focus (data/muscles.json): fetched when the muscle map is first used, kept for offline
 const focusFile = KBLazy.lazyFile({ fetch: fetchJson, cache: offlineCache, url: 'data/muscles.json', unavailable: "Programs for these muscles aren't available offline yet. Pick a muscle once while online." });
 // the program list (data/library.json, Phase 16): not in the page. The catalogue starts with an empty library and boot

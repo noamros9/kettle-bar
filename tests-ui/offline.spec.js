@@ -8,18 +8,18 @@ test('after the first visit every program is in the offline cache and opens with
   await app.open('#programs');
   await app.page.waitForFunction(() => programs.ids().every((id) => programs.get(id)), null, { timeout: 20000 });
   // build your own's book and code and the exercise index come after the programs
-  await app.page.waitForFunction(async () => (await Promise.all(['data/recipes.json', 'data/recipes.js', 'data/index.json', 'data/muscles.json'].map((u) => caches.match(u)))).every(Boolean), null, { timeout: 20000 });
+  await app.page.waitForFunction(async () => (await Promise.all(['data/recipes.json', 'data/recipes.js', 'data/index.json', 'data/index-days.json', 'data/muscles.json'].map((u) => caches.match(u)))).every(Boolean), null, { timeout: 20000 });
   const cached = await app.data(async () => (await (await caches.open('kettle-bar-v2')).keys()).map((r) => new URL(r.url).pathname).filter((p) => p.includes('/data/')).length);
-  expect(cached).toBe(CONFIGS.length + 5); // every program, the program list, the recipe book and its code, the exercise index, the muscle focus
+  expect(cached).toBe(CONFIGS.length + 6); // every program, the program list, the recipe book and its code, the exercise index and its day counts (Phase 33), the muscle focus
   app.allowErrors(/\/data\//);
   await app.page.route('**/data/**', (r) => r.abort('internetdisconnected')); // the network is gone for programs
   await app.page.reload(); await app.page.locator('#app h1').waitFor();
   expect(await app.data(() => loadBook().then((b) => b.book().types.length))).toBeGreaterThan(100); // the book and its code, offline
   await app.go('#build'); // build your own opens with no network
   await expect(app.page.getByRole('group', { name: 'Days in a cycle' })).toBeVisible();
-  await app.go('#ex-pushup'); // and "Also in" on the exercise page comes from the cached index
-  await expect(app.page.getByRole('heading', { name: 'Also in' })).toBeVisible();
-  expect(await app.page.locator('.progchip').count()).toBeGreaterThan(3);
+  await app.go('#ex-pushup'); // and "Programs that use this" on the exercise page comes from the cached index
+  await expect(app.page.getByRole('heading', { name: 'Programs that use this' })).toBeVisible();
+  expect(await app.page.locator('.usesrow').count()).toBeGreaterThan(3);
   for (const pid of ['iron-ppl', 'hotel-room', 'three-split-60']) {
     await app.go(`#p-${pid}-d1`);
     await expect(app.heading()).toHaveText(await app.data((id) => programs.day(id, 1).name, pid));

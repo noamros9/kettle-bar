@@ -24,7 +24,7 @@ const MAP = [
   [/^app\/(store|progress|docs)\.js$/, ['sync', 'settings', 'rounds', 'resume', 'swap', 'outbox', 'weekdays', 'pause']],
   [/^app\/backup\.js$/, ['settings', 'rounds']],
   [/^(app\/lazy\.js|sw\.js|manifest\.webmanifest)$/, ['offline', 'shortcut', 'cachefirst']],
-  [/^app\/programs\.js$/, ['library', 'build', 'shortcut', 'pause']],
+  [/^app\/programs\.js$/, ['library', 'build', 'shortcut', 'pause', 'exercise', 'offline']],
   [/^app\/own\.js$/, ['build', 'share']],
   [/^app\/random\.js$/, ['random', 'skip']],
   [/^app\/pages\/(exercises|settings)\.js$/, ['skip']],

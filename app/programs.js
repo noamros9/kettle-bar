@@ -7,6 +7,8 @@
        (the name of the source it comes from: 'library', later 'own')
      programs.get(pid), programs.day(pid, n)   synchronous; nothing until the program is loaded
      programs.load(pid) -> Promise<program>    loads it once (later calls share the same load)
+     programs.usesOf(exId) -> [{ pid, days }]  the same with the days each uses it on, most first (Phase 33); a source's
+       usage may give { ex: { pid: days } } (withDays: the index and data/index-days.json) or the plain { ex: [pid] }
      programs.programsUsing(exId) -> [pid]   library programs are found through their source's exercise index (data/index.json,
        loaded on demand: programs.loadUsage() -> Promise, programs.usageReady()); sources whose summaries list `exercises`
        (your own programs) need no index
@@ -27,10 +29,15 @@
 (function (root) {
   const itemsOf = (w) => [...w.blocks.flatMap((b) => b.items), ...(w.warmup ? w.warmup.items : []), ...(w.cooldown ? w.cooldown.items : [])];
 
+  // the days each exercise is on (Phase 33 ticket 6): { ex: days }, a day counted once however often it appears
+  function daysUsing(days) {
+    const out = {};
+    days.forEach((w) => new Set(itemsOf(w).map((it) => it.ex)).forEach((ex) => { out[ex] = (out[ex] || 0) + 1; }));
+    return out;
+  }
   function summarize(p) {
-    const { days, ...rest } = p;
-    const exercises = [...new Set(days.flatMap((w) => itemsOf(w).map((it) => it.ex)))].sort();
-    return { ...rest, dayCount: days.length, exercises };
+    const { days, ...rest } = p, uses = daysUsing(days);
+    return { ...rest, dayCount: days.length, exercises: Object.keys(uses).sort(), uses };
   }
 
   // program cards show the paragraph's first sentence
@@ -50,6 +57,17 @@
     programs.forEach((p) => summarize(p).exercises.forEach((ex) => { (index[ex] = index[ex] || []).push(p.id); }));
     return index;
   }
+  // Phase 33 ticket 6 (256): the days each of those programs uses the exercise on, in the same order
+  // (data/index-days.json): { ex: [days] }. A file of its own: counts compress poorly, and an old cached index stays valid
+  function usageDays(programs) {
+    const index = {};
+    programs.forEach((p) => { const uses = daysUsing(p.days); Object.keys(uses).sort().forEach((ex) => { (index[ex] = index[ex] || []).push(uses[ex]); }); });
+    return index;
+  }
+  // the two together: { ex: { pid: days } }; without the days file (offline, never fetched), the programs alone
+  const withDays = (ids, days) => (days ? Object.fromEntries(Object.entries(ids).map(([ex, pids]) => [ex, Object.fromEntries(pids.map((pid, i) => [pid, (days[ex] || [])[i] || null]))])) : ids);
+  // an index entry's programs and days, whichever shape it has: [[pid, days | null]]
+  const entriesOf = (x) => (Array.isArray(x) ? x.map((pid) => [pid, null]) : Object.entries(x || {}));
 
   // every program already in the page (tests, and your own programs once built)
   function inlined(programs, name = 'library') {
@@ -156,8 +174,18 @@
           (e) => { if (sources.includes(src)) delete usageLoading[src.name]; throw e; })));
         return Promise.all(pending).then(() => {});
       },
-      programsUsing: (exId) => list.filter((s) => (s.exercises ? s.exercises.includes(exId) : ((usageOf[s.source] || {})[exId] || []).includes(s.id))).map((s) => s.id),
+      programsUsing: (exId) => usersOf(exId).map((u) => u.pid), // list order
+      // Phase 33 (256): [{ pid, days }] the programs using an exercise, most days first (then list order); days is null
+      // when an old cached index has no counts; own programs count from their summaries
+      usesOf: (exId) => usersOf(exId).sort((a, b) => (b.days || 0) - (a.days || 0) || a.i - b.i).map(({ pid, days }) => ({ pid, days })),
     };
+    // the programs using an exercise, in list order, each with its days and its place: [{ pid, days, i }]
+    function usersOf(exId) {
+      const fromIndex = {};
+      sources.forEach((src) => entriesOf((usageOf[src.name] || {})[exId]).forEach(([pid, n]) => { fromIndex[pid] = n; }));
+      return list.map((s, i) => ({ s, i })).filter(({ s }) => (s.exercises ? s.exercises.includes(exId) : s.id in fromIndex))
+        .map(({ s, i }) => ({ pid: s.id, days: s.exercises ? (s.uses ? s.uses[exId] : null) : fromIndex[s.id], i }));
+    }
     return api;
   }
 
@@ -177,7 +205,7 @@
       paused: withInfo.filter(({ i }) => !!i.pausedAt).sort(newest('pausedAt')).map(({ p }) => p),
     };
   }
-  const api = { createProgramCatalogue, inlined, fetched, summarize, slim, firstSentence, usageIndex, startedRows, ROW };
+  const api = { createProgramCatalogue, inlined, fetched, summarize, slim, firstSentence, usageIndex, usageDays, withDays, startedRows, ROW };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBPrograms = api;
 })(typeof window !== 'undefined' ? window : globalThis);

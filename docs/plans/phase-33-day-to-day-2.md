@@ -80,7 +80,7 @@ document ignores the fields, and a merge keeps the newer of each by the document
 | 3 | Training weekdays and "Next workout" (#291) | feature | 1 | `feature/weekdays` | done (PR #417) |
 | 4 | A day note (#292) | feature | 1 | `feature/day-note` | done (PR #419) |
 | 5 | Compare two programs (#294) | feature | – | `feature/compare` | done (PR #420) |
-| 6 | Programs that use this (#295) | feature | – | `feature/used-in` | todo |
+| 6 | Programs that use this (#295) | feature | – | `feature/used-in` | done (PR #421) |
 | 7 | Sync status in Settings (#296) | feature | – | `feature/sync-status` | todo |
 | 8 | Close the phase: CONTEXT.md, archive | plan | 2–7 | `plan/p33-close` | todo |
 
@@ -151,7 +151,8 @@ Tickets 5, 6 and 7 share no files with 1–4 and can run beside them (the cap of
 - **Done when:** 100% coverage of `app/compare.js`; 390 px screenshots light and dark; no sideways scroll at 360 px.
 
 ### 6. Programs that use this (#295)
-- **Build:** `data/index.json` (`usageIndex` in `build.js`) gets the number of days per program; own programs are
+- **Build:** the days per program go in `data/index-days.json` (built beside `data/index.json`, which stays as it was:
+  the counts compress poorly, 120 → 345 KB gzipped in one file, and an old cached index stays readable); own programs are
   counted on the device from their built days. The exercise page's "Also in" becomes "Programs that use this": one
   list, most days first, each with "on N days", the first 10 and Show all.
 - **Files:** `build.js`, `app/pages/exercises.js`, `tests/build.test.js` (or wherever `usageIndex` is tested),

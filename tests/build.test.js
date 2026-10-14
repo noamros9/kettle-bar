@@ -8,7 +8,7 @@ const out = require('./helpers/library.js').rendered();
 
 test('the build produces the page and one data file per program', () => {
   const { CONFIGS } = require('../program-builder.js');
-  assert.deepStrictEqual(Object.keys(out).sort(), ['index.html', 'version.json', 'data/library.json', 'data/recipes.json', 'data/recipes.js', 'data/index.json', 'data/muscles.json', 'data/finder.json', 'data/finder-model.js', ...CONFIGS.map((c) => `data/${c.id}.json`)].sort());
+  assert.deepStrictEqual(Object.keys(out).sort(), ['index.html', 'version.json', 'data/library.json', 'data/recipes.json', 'data/recipes.js', 'data/index.json', 'data/index-days.json', 'data/muscles.json', 'data/finder.json', 'data/finder-model.js', ...CONFIGS.map((c) => `data/${c.id}.json`)].sort());
   const iron = JSON.parse(out['data/iron-ppl.json']);
   assert.equal(iron.days.length, 60);
 });
@@ -52,12 +52,13 @@ test('data/library.json carries only what the pages that do not load the program
   });
 });
 
-test('data/index.json says which programs use each exercise (the exercise page\'s "Also in"), loaded on demand', () => {
-  const index = JSON.parse(out['data/index.json']);
+test('data/index.json says which programs use each exercise (the exercise page\'s "Programs that use this"), loaded on demand; data/index-days.json the days each uses it on', () => {
+  const index = JSON.parse(out['data/index.json']), days = JSON.parse(out['data/index-days.json']);
   const { summarize } = require('../app/programs.js');
-  const expected = {};
-  CONFIGS_PROGRAMS().forEach((p) => summarize(p).exercises.forEach((ex) => { (expected[ex] = expected[ex] || []).push(p.id); }));
+  const expected = {}, expectedDays = {};
+  CONFIGS_PROGRAMS().forEach((p) => { const s = summarize(p); s.exercises.forEach((ex) => { (expected[ex] = expected[ex] || []).push(p.id); (expectedDays[ex] = expectedDays[ex] || []).push(s.uses[ex]); }); });
   assert.deepStrictEqual(index, expected);
+  assert.deepStrictEqual(days, expectedDays);
   assert.doesNotMatch(out['index.html'], /"exercises":/, 'no per-program exercise lists in the page');
 });
 function CONFIGS_PROGRAMS() { return require('./helpers/library.js').library(); }
