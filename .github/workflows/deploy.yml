@@ -23,11 +23,15 @@ concurrency:
 
 jobs:
   # Builds the library once and saves the build cache, so the test and UI jobs read it instead of each building cold
-  # at the same time (a builder change made three 8-10 minute builds per PR run, 15 Oct 2026). No Playwright image:
-  # the build needs no browser, and the plain runner starts faster. A pin failure doesn't stop it here: the cache is
-  # written before the pin gate, and the test job's own build reports the failure as before.
+  # at the same time (a builder change made three 8-10 minute builds per PR run, 15 Oct 2026). In the same image as
+  # the jobs after it: a cache saved on the plain runner has another version and the image can't restore it (#438's
+  # first run). A pin failure doesn't stop it here: the cache is written before the pin gate, and the test job's own
+  # build reports the failure as before.
   build:
     runs-on: ubuntu-24.04
+    container:
+      image: mcr.microsoft.com/playwright:v1.56.0-noble
+      options: --user 1001
     steps:
       - uses: actions/checkout@v7
       - name: The tree this run tests
