@@ -106,7 +106,8 @@ function saveY() {
   clearTimeout(saveTimer);
   if (booted && !drewLoading) history.replaceState({ ...(history.state || {}), y: Math.round(window.scrollY) }, '');
 }
-window.addEventListener('scroll', () => { clearTimeout(saveTimer); saveTimer = setTimeout(saveY, 200); }, { passive: true });
+// a save still waiting writes only into the entry it was for: Back swaps the entry before its hashchange runs
+window.addEventListener('scroll', () => { clearTimeout(saveTimer); const h = location.hash; saveTimer = setTimeout(() => { if (location.hash === h) saveY(); }, 200); }, { passive: true });
 function restoreY() {
   if (pendingY === null || drewLoading) return;
   window.scrollTo(0, pendingY); pendingY = null;
