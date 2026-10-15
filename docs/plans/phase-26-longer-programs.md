@@ -62,7 +62,7 @@ at 31–35. Roughly 180 move to 35–38 and 30 to 31–35; ticket 2 makes the re
 | 1 | The lengthening pass and the one-time re-pin | feature | – | `feature/lengthen-pass` | done (PR #436) |
 | 2 | Who moves: the list per subject | feature | 1 | `feature/long-list` | done (PR #437) |
 | 1b | The band as the average, a lighter day type | feature | 2 | `feature/long-average` | done (PR #439) |
-| 3 | Strength family, re-timed | content | 1b | `content/long-strength` | todo |
+| 3 | Strength family, re-timed | content | 1b | `content/long-strength` | done (PR #440) |
 | 4 | Cardio & combat, re-timed | content | 3 | `content/long-cardio-combat` | todo |
 | 5 | Mind & body, re-timed | content | 4 | `content/long-mind-body` | todo |
 | 6 | Mixed and Variety, re-timed | content | 5 | `content/long-mixed` | todo |
@@ -125,7 +125,11 @@ Added 15 Oct, when ticket 3 showed ~11% of the Strength family's days stopping a
   `npm run times`. A program the pass can't lengthen into its band still gets longer by what fits and stays on the
   list (170); the next candidate of the same split also moves, so the shelf gets as close to the spread as it can.
   Each short one is recorded in "The list" with the minutes it reached.
-- **Files:** `configs/long.js`, `tests/fixtures/program-days.json`.
+- **Files:** `configs/long.js`, `tests/fixtures/program-days.json`, `tests/fixtures/long-was.json`.
+- **As built (ticket 3, PR #440):** the test is its own `tests/long.test.js` (`// ci-only`, it reads the library);
+  `npm run pin -- --long` also keeps each program's pin from before the pass in `tests/fixtures/long-was.json`, and the
+  test checks the days before the pass against it, so the old picks are the ones that were pinned. Strength: 94 move,
+  every average in its band, none short; 30 keep a lighter day type.
 - **Test first:** `programs.test.js`'s Phase 26 block: the family's subjects meet the spread, or the shortfall is the
   programs recorded as short in "The list"; every listed program is longer than its pin was, and its days hold all
   their old picks (the pass's test, run over the real list).

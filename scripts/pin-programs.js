@@ -22,14 +22,18 @@ function pinEntries(configs, pins, build, from = PHASE) {
 }
 
 // Phase 26 (decision 55): the one exception to never re-pinning. Every config with `long` (configs/long.js) is re-pinned
-// to its lengthened days; the ids it changed come back in `repinned`. Run in the ticket that lists them, never after.
-function longEntries(configs, pins, build) {
-  const out = { ...pins }, repinned = [];
+// to its lengthened days; the ids it changed come back in `repinned`, and their pins before in `was` (kept in
+// tests/fixtures/long-was.json, so a test can show the days before the pass are the ones that were pinned). Run in the
+// ticket that lists them, never after.
+function longEntries(configs, pins, build, was = {}) {
+  const out = { ...pins }, before = { ...was }, repinned = [];
   configs.filter((c) => c.long).forEach((c) => {
     const now = pinOf(build(c).days);
-    if (out[c.id] !== now) { out[c.id] = now; repinned.push(c.id); }
+    if (out[c.id] === now) return;
+    if (!before[c.id]) before[c.id] = out[c.id];
+    out[c.id] = now; repinned.push(c.id);
   });
-  return { pins: out, repinned };
+  return { pins: out, repinned, was: before };
 }
 
 if (require.main === module) {
@@ -37,8 +41,10 @@ if (require.main === module) {
   const pins = JSON.parse(fs.readFileSync(file, 'utf8'));
   // `--long`: re-pin the re-timed programs (Phase 26 tickets 3–6)
   if (process.argv.includes('--long')) {
-    const out = longEntries(CONFIGS, pins, buildConfig);
+    const wasFile = path.join(__dirname, '../tests/fixtures/long-was.json');
+    const out = longEntries(CONFIGS, pins, buildConfig, fs.existsSync(wasFile) ? JSON.parse(fs.readFileSync(wasFile, 'utf8')) : {});
     fs.writeFileSync(file, JSON.stringify(out.pins, null, 2) + '\n');
+    fs.writeFileSync(wasFile, JSON.stringify(out.was, null, 2) + '\n');
     console.log(out.repinned.length ? `re-pinned: ${out.repinned.join(', ')}` : 'no re-timed program changed');
     process.exit(0);
   }

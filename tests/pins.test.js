@@ -57,4 +57,8 @@ test('`npm run pin -- --long` re-pins exactly the configs with `long`, and only 
   const out = longEntries(configs, pins, build);
   assert.deepEqual(out.repinned, ['longer']);
   assert.deepEqual(out.pins, { ...pins, longer: old([{ day: 1, n: 9 }]) });
+  assert.deepEqual(out.was, { longer: old([{ day: 1, n: 1 }]) }, 'the pin before the pass is kept');
+  // a later run (the next family) keeps the first pin it saw, never a lengthened one
+  const again = longEntries([{ id: 'longer', n: 10, long: [35, 38] }], out.pins, build, out.was);
+  assert.deepEqual(again.was, { longer: old([{ day: 1, n: 1 }]) });
 });
