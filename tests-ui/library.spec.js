@@ -54,9 +54,9 @@ test('the eyebrow counts what the taps select: Yoga & Pilates, then Yoga, then a
   await expect(eyebrow).toHaveText(`Yoga · ${yoga} programs`);
   await expect(subjects(app).getByRole('button', { name: /^Yoga \d+$/ })).toContainText(String(yoga));
   await app.page.getByRole('button', { name: /Length:/ }).click();
-  await app.page.getByRole('group', { name: 'Filter by length' }).getByRole('button', { name: 'Up to 25 min' }).click();
+  await app.page.getByRole('group', { name: 'Filter by length' }).getByRole('button', { name: 'Up to 30 min' }).click();
   await expect(eyebrow).toHaveText(new RegExp(`^Yoga · \\d+ of ${yoga} programs$`));
-  await expect(app.page.getByRole('button', { name: /Length:/ })).toContainText('Up to 25 min');
+  await expect(app.page.getByRole('button', { name: /Length:/ })).toContainText('Up to 30 min');
   expect(await app.sidewaysScroll()).toBe(0);
 });
 

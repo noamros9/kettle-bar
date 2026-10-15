@@ -311,3 +311,13 @@ test('a Do now record round-trips through a backup export and import', () => {
   const back = Backup.parseBackup(file, { known: [] });
   assert.deepEqual(back.random[id], store.doc('random', id));
 });
+
+test('Phase 26 (192): 15, 25 or 38 minutes; a 35-minute workout from before still opens, is done and counts', () => {
+  assert.deepEqual(Random.MINUTES, [15, 25, 38]);
+  const { random } = setup();
+  started(random, { family: 'Strength', minutes: 35, equipment: 'all' });
+  assert.ok(random.open(), 'it opens');
+  random.done();
+  assert.deepEqual(random.entries().map((e) => e.day), ['r1']);
+  assert.ok(random.dayOf('r1').est >= 30, `${random.dayOf('r1').est} min`);
+});

@@ -40,7 +40,7 @@ test('Help me pick: three taps, up to five programs with why lines, open one', a
   await expect(sheet(app)).toBeVisible();
   await expect(sheet(app)).toContainText('Pick a goal to see programs.');
   await sheet(app).getByRole('group', { name: 'Goal' }).getByRole('button', { name: 'Gentle, or a sore back' }).click();
-  await sheet(app).getByRole('group', { name: 'Minutes' }).getByRole('button', { name: '20–25 min' }).click();
+  await sheet(app).getByRole('group', { name: 'Minutes' }).getByRole('button', { name: '20–30 min' }).click();
   await sheet(app).getByRole('group', { name: 'Gear' }).getByRole('button', { name: 'No equipment' }).click();
   const results = sheet(app).locator('.pickres');
   const n = await results.count();

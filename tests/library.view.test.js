@@ -6,9 +6,9 @@ const { libraryView, setFilter, FAMILIES, LENGTHS, lengthOf, counterText } = req
 const FAM = [['Strength', ['Signature', 'Strength']], ['Cardio', ['HIIT']], ['Mind', ['Core', 'Yoga', 'Pilates']]];
 const mk = (id, subject, minutes) => ({ id, subject, minutes: [minutes, minutes] });
 const S = [
-  mk('a', 'Signature', 30), mk('b', 'Strength', 20), mk('c', 'Strength', 40),
+  mk('a', 'Signature', 33), mk('b', 'Strength', 20), mk('c', 'Strength', 40),
   mk('d', 'HIIT', 20),
-  mk('e', 'Core', 20), mk('f', 'Yoga', 20), mk('g', 'Yoga', 30), mk('h', 'Yoga', 40),
+  mk('e', 'Core', 20), mk('f', 'Yoga', 20), mk('g', 'Yoga', 33), mk('h', 'Yoga', 40),
 ];
 const start = { family: 'all', subject: 'all', len: 'all' };
 const view = (f = {}) => libraryView(S, { ...start, ...f }, { families: FAM, lengthOf });
@@ -73,8 +73,8 @@ test('length: count follows it, chip counts and total do not', () => {
   assert.equal(v.counter, 'Yoga · 1 of 3 programs');
   assert.deepEqual(v.subjects.map((s) => s.count), [4, 1, 3]);
   assert.deepEqual(v.shelves.map((s) => s.programs.map((p) => p.id)), [['f']]);
-  assert.equal(v.lengthLabel, 'Up to 25 min');
-  assert.deepEqual(pressed(v.lengths.map((l) => ({ name: l.label, pressed: l.pressed }))), ['Up to 25 min']);
+  assert.equal(v.lengthLabel, 'Up to 30 min');
+  assert.deepEqual(pressed(v.lengths.map((l) => ({ name: l.label, pressed: l.pressed }))), ['Up to 30 min']);
 });
 
 test('length with nothing left: no shelves, count 0', () => {
@@ -94,11 +94,13 @@ test('lengths: four choices, "Any" when none is set', () => {
   assert.deepEqual(LENGTHS.map(([k]) => k), ['all', 'short', 'mid', 'long']);
 });
 
-test('lengthOf: the middle of the range, cut at 25.5 and 32.5 minutes', () => {
-  assert.equal(lengthOf({ minutes: [25, 26] }), 'short');
-  assert.equal(lengthOf({ minutes: [26, 26] }), 'mid');
-  assert.equal(lengthOf({ minutes: [32, 33] }), 'mid');
-  assert.equal(lengthOf({ minutes: [33, 33] }), 'long');
+test('lengthOf (Phase 26, 191, 342): the average day, cut at 30.5 and 35 minutes; the middle of the range without one', () => {
+  assert.equal(lengthOf({ minutes: [28, 41], avg: 30.5 }), 'short');
+  assert.equal(lengthOf({ minutes: [28, 41], avg: 35 }), 'mid');
+  assert.equal(lengthOf({ minutes: [28, 41], avg: 35.5 }), 'long');
+  assert.equal(lengthOf({ minutes: [30, 31] }), 'short');
+  assert.equal(lengthOf({ minutes: [31, 32] }), 'mid');
+  assert.equal(lengthOf({ minutes: [35, 36] }), 'long');
 });
 
 test('a subject missing from the families is returned in unknown and not shown', () => {
