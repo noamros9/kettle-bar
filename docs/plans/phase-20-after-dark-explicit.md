@@ -102,7 +102,7 @@ minutes, pools) for Claude to review before Grok builds.
 | 8b | Merged pools without the places, at catalogue 13 | feature | 8, Ph 22, Ph 30 | `feature/home-pools` | done (PR #426) |
 | 9 | Beach body, Bedroom stamina, Sex positions (+27) | content | 8b | `content/explicit-more-a` | done (PR #427) |
 | 10 | Couples, Endurance & control, Hip power & thrust (+27) | content | 8b | `content/explicit-more-b` | done (PR #446) |
-| 11 | Carry & hold, Flexible & bendy, Strip & show-off (+27) | content | 8b | `content/explicit-more-c` | todo |
+| 11 | Carry & hold, Flexible & bendy, Strip & show-off (+27) | content | 8b | `content/explicit-more-c` | done (PR #447) |
 | 12 | Her pleasure, Quickie, Back & knees care (+27) | content | 8b | `content/explicit-more-d` | todo |
 | 13 | Date night warm-up, Positions tour, Morning glory / Sunday (+27) | content | 8b | `content/explicit-more-e` | todo |
 | 14 | Explicit, sex only (+23) | content | 8b | `content/explicit-sex-a` | todo |
