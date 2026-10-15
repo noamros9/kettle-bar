@@ -15,6 +15,7 @@ top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase c
   from a brief Claude pastes in (pools, one sample config, the guidelines); Claude does configs, tests, pins, check:new.
   The first such ticket commits `t9-emit.js` as a script (text file → configs). **Ticket 10 resumes this way:** Grok
   writes the 24 missing abouts only, Claude does the rest on `content/explicit-more-b`.
+  **Measure every Grok ticket** until Noam says stop: a row in [docs/grok-usage.md](docs/grok-usage.md).
 - **Phase 33 is building** ([plan](docs/plans/phase-33-day-to-day-2.md)): tickets 1–6 merged (#415–#421). Progress
   shapes; Pause, the rows and Start over (#293); weekdays and "Next workout" (#291); a day note (#292); Compare (#294);
   Programs that use this (#295; day counts in their own `data/index-days.json`, +83 KB gzipped).
