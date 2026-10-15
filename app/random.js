@@ -3,7 +3,7 @@
    and in the page (KBRandom).
 
      make({ recipes, buildDay, newMemory, makeRnd, cat }, choice, { level, seed }) -> made
-       choice = { family: name | subject: name | subjects: [names], minutes: 15|25|35, equipment: 'all'|'kb'|'bw' }
+       choice = { family: name | subject: name | subjects: [names], minutes: 15|25|38 (35 in older records), equipment: 'all'|'kb'|'bw' }
        made   = { choice, seed, level, subject, family, day, program }: a day type of the family (or subject) that fits the
                 minutes and gear, picked with the seed, built by the Program Builder with a fresh memory at that level and
                 that day type's own levers; `program` is what the day page and its Workout Session need (id 'random',
@@ -11,7 +11,7 @@
      problem(recipes, choice) -> null, or the message for people why nothing can be made
      levelOf([{ time, level }]) -> the level of the day marked done last (in any program or a random one); none -> 1
      levelOfDay(n, dayCount = 60) -> 1-3: the level of day n of a program that long (KBLength.levelOf)
-     FAMILIES, MINUTES [15, 25, 35], newId(now?, rnd?), newSeed(rnd?)
+     FAMILIES, MINUTES [15, 25, 38], newId(now?, rnd?), newSeed(rnd?)
      REST_DAY: the rest-day flow's choice (mobility & posture or flexibility, 15 min, no equipment: 15 is the shortest
                day the recipe book makes)
      restDay(doneTimes, now, dismissed) -> show the rest-day card: nothing marked done on today's date (the phone's own
@@ -39,7 +39,7 @@
    A record that is damaged, or names an exercise this app doesn't know, is left out of stats. */
 (function (root, S, W, L) {
   const FAMILIES = ['Strength', 'Cardio & combat', 'Mind & body', 'Mixed'];
-  const MINUTES = [15, 25, 35];
+  const MINUTES = [15, 25, 38]; // Phase 26 (192): 38 replaces 35; a saved 35-minute one keeps its day and still opens
   const GEAR = { all: 'all equipment', kb: 'a kettlebell only', bw: 'no equipment' };
   const LEVER_TEXT = { reps: 'More reps', holds: 'Longer holds', weight: 'Heavier weights', variation: 'Harder variations', tempo: 'Slower tempo' };
   const OPEN = 'kb-random-open';

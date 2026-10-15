@@ -51,7 +51,8 @@
 
   const lengthOf = (p) => p.dayCount || (Array.isArray(p.days) ? p.days.length : 60);
   function fits(p, lim) {
-    if (lim.minutes && !(p.minutes[1] >= lim.minutes[0] && p.minutes[0] <= lim.minutes[1])) return false;
+    const [lo, hi] = p.avg != null ? [p.avg, p.avg] : p.minutes; // a program's average day when it has one (342)
+    if (lim.minutes && !(hi >= lim.minutes[0] && lo <= lim.minutes[1])) return false;
     if (lim.gear === 'bw' && p.equip !== 'bw') return false;
     if (lim.gear === 'kb' && !['kb', 'bw'].includes(p.equip)) return false;
     if (lim.days && lengthOf(p) !== lim.days) return false;
@@ -102,7 +103,8 @@
     ['mix', 'A bit of everything', ['Balanced week', 'Strength & stretch', 'Variety', 'Weekly mix', 'Surprise']],
     ['couple', 'For two, after dark', ['Couples', 'Her pleasure', 'Date night warm-up', 'Positions tour', 'Morning glory / Sunday', 'Explicit', 'Rough', 'Kink-lite', 'Body play', 'Rimming', 'Edging', 'Massage', 'Strip and tease', 'Shower and bath', 'Pool', 'Hot tub', 'Balcony', 'Doorframe']], // Phase 18: couples, and the solo training that's for her; Explicit (Phase 20); Rough and Kink-lite (Phase 22); Body play and Rimming (Phase 22); Edging and Massage (Phase 22); Strip and tease, and Shower and bath (Phase 22); Pool and Hot tub (Phase 22); Balcony and Doorframe (Phase 22)
   ];
-  const MINUTES = [['15', 'About 15 min', [0, 18]], ['20', '20–25 min', [18, 26]], ['30', 'About 30 min', [26, 33]], ['35', '35 min or more', [33, 90]]];
+  // Phase 26 (203): the four lengths, matched on a program's average day (342)
+  const MINUTES = [['15', 'About 15 min', [0, 18]], ['25', '20–30 min', [18, 30.5]], ['33', '31–35 min', [30.5, 35]], ['38', '35–38 min +', [35, 90]]];
   const GEAR = [['bw', 'No equipment'], ['kb', 'A kettlebell'], ['all', 'Dumbbells & kettlebell']];
   function pick(summaries, { goal, minutes, gear }, { started = [], n = 5 } = {}) {
     const subjects = (GOALS.find(([k]) => k === goal) || [, , []])[2];

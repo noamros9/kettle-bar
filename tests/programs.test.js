@@ -209,6 +209,10 @@ test('slim keeps what the cards and filters need, with the first sentence of the
   const full = summarize({ id: 'a', name: 'Alpha', subject: 'Strength', split: 'S', minutes: [20, 30], formats: ['straight'], equip: 'kb', about: 'First one. Second one.', blurb: 'Blurb.', levels: ['I'], rests: {}, dayTypes: {}, gear: 'g', days: [day(1, ['row'])] });
   assert.deepEqual(slim(full), { id: 'a', name: 'Alpha', subject: 'Strength', split: 'S', minutes: [20, 30], formats: ['straight'], equip: 'kb', dayCount: 1, about: 'First one.' });
   assert.equal(slim({ ...full, about: undefined }).about, 'Blurb.');
+  // Phase 26 (342): the average day, to one decimal, when every day has its minutes
+  const timed = summarize({ id: 't', minutes: [28, 41], about: 'x', days: [{ ...day(1, ['row']), est: 30 }, { ...day(2, ['row']), est: 41 }, { ...day(3, ['row']), est: 38 }] });
+  assert.equal(timed.avg, 36.3);
+  assert.equal(slim(timed).avg, 36.3);
   assert.deepEqual(Object.keys(slim({ id: 'b', name: 'B', about: 'x', dayCount: 2 })), ['id', 'name', 'dayCount', 'about'], 'what a program does not have stays out');
 });
 

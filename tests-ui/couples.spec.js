@@ -26,7 +26,7 @@ test('Help me pick: "For two, after dark" picks only couple programs', async ({ 
   await app.page.getByRole('button', { name: 'Help me pick' }).click();
   const sheet = app.page.getByRole('dialog', { name: 'Help me pick' });
   await sheet.getByRole('group', { name: 'Goal' }).getByRole('button', { name: 'For two, after dark' }).click();
-  await sheet.getByRole('group', { name: 'Minutes' }).getByRole('button', { name: 'About 30 min' }).click();
+  await sheet.getByRole('group', { name: 'Minutes' }).getByRole('button', { name: '20–30 min' }).click();
   await sheet.getByRole('group', { name: 'Gear' }).getByRole('button', { name: 'No equipment' }).click();
   const names = (await sheet.locator('.pickres b').allTextContents()).map((t) => t.trim());
   const ids = names.map((n) => CONFIGS.find((c) => c.name === n).id);

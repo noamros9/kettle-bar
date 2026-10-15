@@ -49,11 +49,12 @@
     ['Variety', ['Variety', 'Weekly mix', 'Surprise']], // Phase 23 (232): Weekly mix and Surprise after Variety
     ['After dark', ['Beach body', 'Bedroom stamina', 'Sex positions', 'Couples', 'Endurance & control', 'Hip power & thrust', 'Carry & hold', 'Flexible & bendy', 'Strip & show-off', 'Her pleasure', 'Quickie', 'Back & knees care', 'Date night warm-up', 'Positions tour', 'Morning glory / Sunday', 'Explicit', 'Rough', 'Kink-lite', 'Body play', 'Rimming', 'Edging', 'Massage', 'Strip and tease', 'Shower and bath', 'Pool', 'Hot tub', 'Balcony', 'Doorframe']],
   ];
-  const LENGTHS = [['all', 'Any length'], ['short', 'Up to 25 min'], ['mid', '26–32 min'], ['long', '33 min +']];
+  const LENGTHS = [['all', 'Any length'], ['short', 'Up to 30 min'], ['mid', '31–35 min'], ['long', '35 min +']]; // Phase 26 (191)
   const EQUIPS = [['all', 'Any equipment'], ['kb', 'Kettlebell only'], ['bw', 'No equipment']];
   const FITS = { all: ['all', 'kb', 'bw'], kb: ['kb', 'bw'], bw: ['bw'] };
   const fitsGear = (p, have = 'all') => FITS[have].includes(p.equip || 'all');
-  const lengthOf = (p) => { const m = (p.minutes[0] + p.minutes[1]) / 2; return m <= 25.5 ? 'short' : m <= 32.5 ? 'mid' : 'long'; };
+  // by the program's average day (Phase 26, 342), or the middle of its range when it has none
+  const lengthOf = (p) => { const m = p.avg != null ? p.avg : (p.minutes[0] + p.minutes[1]) / 2; return m <= 30.5 ? 'short' : m <= 35 ? 'mid' : 'long'; };
 
   function setFilter(filters, k, v) {
     const next = { ...filters, [k]: v };

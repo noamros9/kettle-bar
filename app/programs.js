@@ -37,14 +37,16 @@
   }
   function summarize(p) {
     const { days, ...rest } = p, uses = daysUsing(days);
-    return { ...rest, dayCount: days.length, exercises: Object.keys(uses).sort(), uses };
+    // avg: the average day in minutes (Phase 26, 342: the length filter counts by it)
+    const avg = days.length && days.every((d) => typeof d.est === 'number') ? { avg: Math.round((days.reduce((s, d) => s + d.est, 0) / days.length) * 10) / 10 } : {};
+    return { ...rest, dayCount: days.length, ...avg, exercises: Object.keys(uses).sort(), uses };
   }
 
   // program cards show the paragraph's first sentence
   const firstSentence = (t) => (t.match(/^[^.!?]+[.!?]/) || [t])[0];
 
   // what the page carries for the library: enough for the cards, the filters and the progress bars, and no more
-  const SLIM = ['id', 'name', 'subject', 'split', 'minutes', 'formats', 'equip', 'dayCount'];
+  const SLIM = ['id', 'name', 'subject', 'split', 'minutes', 'avg', 'formats', 'equip', 'dayCount'];
   function slim(s) {
     const out = {};
     SLIM.forEach((k) => { if (s[k] !== undefined) out[k] = s[k]; });

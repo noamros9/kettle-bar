@@ -68,7 +68,7 @@ at 31–35. Roughly 180 move to 35–38 and 30 to 31–35; ticket 2 makes the re
 | 4 | Cardio & combat, re-timed | content | 3 | `content/long-cardio-combat` | done (PR #441) |
 | 5 | Mind & body, re-timed | content | 4 | `content/long-mind-body` | done (PR #442) |
 | 6 | Mixed and Variety, re-timed | content | 5 | `content/long-mixed` | done (PR #443) |
-| 6b | The length filter and random workouts at 38 | feature | 6 | `feature/length-filter-38` | todo |
+| 6b | The length filter and random workouts at 38 | feature | 6 | `feature/length-filter-38` | done (PR #444) |
 | 7 | Close the phase: the spread checked, CONTEXT.md, archive | plan | 6b | `plan/p26-close` | todo |
 
 Tickets 3–6 edit the same list (`configs/long.js`) and the pins file, so they go one at a time.
@@ -149,6 +149,9 @@ Added 15 Oct, when ticket 3 showed ~11% of the Strength family's days stopping a
 - **Test first:** the three filter buckets by mid-range (30.5 short, 35 mid, 35.5 long); every subject that offered
   35 can make 38 at some gear (or the sheet says why not, as today); an old 35-minute record reads back.
 - **Done when:** 390 px screenshots of the filter and the random sheet, light and dark.
+- **As built (PR #444):** the summary carries `avg` (the days' mean `est`, one decimal); the filter and Help me pick
+  match on it (Help me pick's keys are now 15 / 25 / 33 / 38). 38 can't be made for 4 subjects that could make 35
+  (Yoga, Carry & hold, Strip & show-off, Her pleasure); the sheet says why, as it does for any length a subject lacks.
 
 ## How the later decisions land in the tickets
 - **The re-timed programs are listed only in the PR** (200): no note in the app.

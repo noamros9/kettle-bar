@@ -101,21 +101,24 @@ test('GOALS cover every library subject, each subject once, and only subjects th
   const goals = F.GOALS.flatMap(([, , subjects]) => subjects);
   assert.deepEqual([...goals].sort(), [...listed].sort());
   assert.equal(new Set(goals).size, goals.length);
-  assert.deepEqual(F.MINUTES.map(([k]) => k), ['15', '20', '30', '35']);
+  assert.deepEqual(F.MINUTES.map(([k, label]) => label), ['About 15 min', '20–30 min', '31–35 min', '35–38 min +']); // Phase 26 (203)
   assert.deepEqual(F.GEAR.map(([k]) => k), ['bw', 'kb', 'all']);
 });
 
 test('pick: the goal\'s subjects within the minutes and gear; programs you have not started first; at most 5', () => {
   const { summarize, slim } = require('../app/programs.js');
   const lib = require('./helpers/library.js').library().map((p) => slim(summarize(p)));
-  const r = F.pick(lib, { goal: 'gentle', minutes: '20', gear: 'bw' });
+  const r = F.pick(lib, { goal: 'gentle', minutes: '25', gear: 'bw' });
   assert.equal(r.loosened, null);
   assert.ok(r.list.length >= 1 && r.list.length <= 5);
   const subjects = F.GOALS.find(([k]) => k === 'gentle')[2];
-  r.list.forEach((p) => { assert.ok(subjects.includes(p.subject), p.id); assert.ok(F.fits(p, { minutes: [18, 26], gear: 'bw', days: null }), p.id); });
-  const started = F.pick(lib, { goal: 'gentle', minutes: '20', gear: 'bw' }, { started: [r.list[0].id] });
+  r.list.forEach((p) => { assert.ok(subjects.includes(p.subject), p.id); assert.ok(F.fits(p, { minutes: [18, 30.5], gear: 'bw', days: null }), p.id); });
+  const started = F.pick(lib, { goal: 'gentle', minutes: '25', gear: 'bw' }, { started: [r.list[0].id] });
   assert.notEqual(started.list[0].id, r.list[0].id, 'a program you started goes after the rest');
-  assert.equal(F.pick(lib, { goal: 'strength', minutes: '35', gear: 'all' }).list.length, 5);
+  assert.equal(F.pick(lib, { goal: 'strength', minutes: '38', gear: 'all' }).list.length, 5);
+  // a program's average day decides (342): a 28–41 program averaging 36 is 35–38+, not 20–30
+  assert.ok(F.fits({ minutes: [28, 41], avg: 36, equip: 'all' }, { minutes: [35, 90] }));
+  assert.ok(!F.fits({ minutes: [28, 41], avg: 36, equip: 'all' }, { minutes: [18, 30.5] }));
 });
 
 test('pick never comes back empty: it loosens the minutes first, then the gear, and says so', () => {

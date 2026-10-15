@@ -1,5 +1,5 @@
 /* ---------------- random workout (Phase 7, #64) ----------------
-   A sheet on the Programs page: a family (or one of its subjects), 15 / 25 / 35 minutes and equipment; the day it makes
+   A sheet on the Programs page: a family (or one of its subjects), 15 / 25 / 38 minutes and equipment; the day it makes
    (app/random.js, from the recipe book) shows before Start, and Reshuffle makes another. Its level is the level of the
    day marked done last. Started, it opens at #random, a day page of its own; Mark as done writes it to the account, and
    it counts in stats, not in any program. */
