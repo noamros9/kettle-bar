@@ -127,6 +127,10 @@ const ORDER = [
   'set-then-fuck', 'sweat-then-spread', 'earn-the-pussy', 'lift-her-then-fuck', 'grind-after-reps', 'short-and-dirty', 'long-afternoon',
   'mouth-then-cock', 'tongue-then-thrust', 'fingers-then-fuck', 'eat-then-pound', 'tease-then-bury', 'quick-and-deep', 'slow-deep-fuck',
   'stay-inside-her', 'hold-after-hold', 'deeper-every-hold', 'all-the-positions', 'cock-in-her', 'nothing-but-fucking',
+  // Phase 20 ticket 9: Beach body, Bedroom stamina, Sex positions (+27)
+  'beach-set-then-fuck', 'beach-pump-then-grab', 'beach-flex-then-spread', 'beach-mouth-then-body', 'beach-lick-the-abs', 'beach-tease-then-grab', 'beach-grab-and-stay', 'beach-shirtless-holds', 'beach-body-she-grabs',
+  'bed-set-then-last', 'bed-sweat-then-hard', 'bed-lift-then-again', 'bed-mouth-then-last', 'bed-hands-then-again', 'bed-tease-then-keep', 'bed-stay-hard', 'bed-round-after-round', 'bed-keep-it-up',
+  'fold-then-fuck', 'open-then-hold-her', 'kiss-then-fold', 'mouth-then-fold', 'hands-then-the-angle', 'tease-then-fold', 'stay-in-the-fold', 'hold-the-angle', 'deeper-every-angle',
   // Phase 22 ticket 19: Rough and Kink-lite, 12 each
   'rough-set-then-spank', 'rough-sweat-then-pin', 'rough-lift-then-hold', 'rough-grind-then-hair',
   'rough-spank-then-fuck', 'rough-pin-then-thrust', 'rough-quick-and-mean', 'rough-long-hold',
