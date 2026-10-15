@@ -1,6 +1,6 @@
 // Turns a Grok text-only plan (decision 339) into after-dark.js program configs.
 // Usage: node scripts/emit-couple.js <plan.md> [<text.md>] > snippet. Plan lines: `N. id | name | subject | kind | minutes |
-// days | pools | blurb | day names | split`; abouts are `id: about` lines under the plan's "## 2. Abouts" or in the text file.
+// days | pools | blurb | day names | split`; a tour (days `tour`, Phase 20 ticket 13) has `positions;ways` as its pools. Abouts are `id: about` lines under the plan's "## 2. Abouts" or in the text file.
 const fs = require('fs');
 const [planPath, textPath] = process.argv.slice(2);
 const text = fs.readFileSync(planPath, 'utf8');
@@ -90,14 +90,23 @@ lines.forEach((line) => {
   const names = parts[8].split(', ');
   if (!ABOUTS[id]) throw new Error('no about ' + id);
   const minutes = /^\[\d+, \d+\]$/.test(parts[4]) ? parts[4] : '[31, 40]';
-  if (!DAYS[cycle]) throw new Error('no days ' + cycle + ' for ' + id);
   if (names.length !== 20) throw new Error(id + ' names ' + names.length);
+  if (cycle === 'tour') {
+    const [positions, ways] = parts[6].split(';').map((s) => s.split(','));
+    chunks.push(`  tour60(${q(id)}, ${q(name)}, ${q(parts[9])}, ${q(blurb)},
+    ${q(ABOUTS[id])},
+    [${names.map(q).join(', ')}],
+    [${positions.map(q).join(', ')}],
+    [${ways.map(q).join(', ')}])`);
+    return;
+  }
+  if (!DAYS[cycle]) throw new Error('no days ' + cycle + ' for ' + id);
   chunks.push(`  {
     id: ${q(id)}, ...C13, name: ${q(name)}, subject: ${q(subject)}, minutes: ${minutes}, levers: ${LEVER[shape]},
     split: ${q(parts[9] || SPLIT[shape])}, blurb: ${q(blurb)},
     about: ${q(ABOUTS[id])},
     names: [${names.map(q).join(', ')}],
-    ${DAYS[cycle]},
+    ${minutes === '[48, 58]' ? DAYS[cycle].replace(/SEX_(MOUTH|HANDS|TEASE)\b/g, 'LONG_WARM').replace(/HOME_FUCK(_B)?\b/g, 'LONG_FUCK').replace(/HOME_ONLY(_B)?\b/g, 'LONG_ONLY') : DAYS[cycle]},
   }`);
 });
 process.stdout.write(chunks.join(',\n') + ',\n');
