@@ -69,7 +69,7 @@ at 31–35. Roughly 180 move to 35–38 and 30 to 31–35; ticket 2 makes the re
 | 5 | Mind & body, re-timed | content | 4 | `content/long-mind-body` | done (PR #442) |
 | 6 | Mixed and Variety, re-timed | content | 5 | `content/long-mixed` | done (PR #443) |
 | 6b | The length filter and random workouts at 38 | feature | 6 | `feature/length-filter-38` | done (PR #444) |
-| 7 | Close the phase: the spread checked, CONTEXT.md, archive | plan | 6b | `plan/p26-close` | todo |
+| 7 | Close the phase: the spread checked, CONTEXT.md, archive | plan | 6b | `plan/p26-close` | done (PR #445) |
 
 Tickets 3–6 edit the same list (`configs/long.js`) and the pins file, so they go one at a time.
 
