@@ -18,7 +18,7 @@ top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase c
   **Measure every Grok ticket** until Noam says stop: a row in [docs/grok-usage.md](docs/grok-usage.md).
 - **Phase 33 is done** (#415–#421, #434, #435; archived). Noam to check on the phone: airplane mode, tick a day,
   Settings → Sync says 1 change waiting; back online, Sync now clears it.
-- **Phase 26 building** (longer programs, [plan](docs/plans/phase-26-longer-programs.md)): ticket 1 done (#436). Noam (15 Oct): tickets 1 and 2 one per go, then three per go;
+- **Phase 26 building** (longer programs, [plan](docs/plans/phase-26-longer-programs.md)): tickets 1–2 done (#436, #437). Noam (15 Oct): tickets 1 and 2 one per go, then three per go;
   Phase 20 waits for Grok, whose next tickets are for Noam's measured session (339).
 - **Grok hand-off brought up to date (15 Oct):** the grok-handoff skill (on Noam's computer) has "kettle-bar
   additions" for the prompt (cache:pull, pin, check:new, UI own specs + smoke, the explicit guidelines); CLAUDE.md's
@@ -37,7 +37,7 @@ right after Phase 22 (216). **223 ·** 8 Oct: quick fixes after 22; Export, day 
 
 | # | Phase | Issue | Plan | Status |
 |---|---|---|---|---|
-| 1 | 26 · Longer programs, half at 35–38 min | [#198](https://github.com/noamros9/kettle-bar/issues/198) | [plan](docs/plans/phase-26-longer-programs.md) | building: 1 done |
+| 1 | 26 · Longer programs, half at 35–38 min | [#198](https://github.com/noamros9/kettle-bar/issues/198) | [plan](docs/plans/phase-26-longer-programs.md) | building: 1–2 done |
 | 2 | 34 · Short days: 15-min circuits, a 10-min rest-day flow | [#110](https://github.com/noamros9/kettle-bar/issues/110) | [plan](docs/plans/phase-34-short-days.md) | planned |
 | 3 | 27 · Calisthenics: twelve skills, 25 programs | [#199](https://github.com/noamros9/kettle-bar/issues/199) | [plan](docs/plans/phase-27-calisthenics.md) | planned |
 | 4 | 19 · Super programs: 120 days from several programs | [#186](https://github.com/noamros9/kettle-bar/issues/186) | [plan](docs/plans/phase-19-super-programs.md) | planned |
