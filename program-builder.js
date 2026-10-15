@@ -475,6 +475,78 @@
       return { items: chosen.map((id) => ({ ex: id, n: EX[id].r[0] })), seconds: t };
     }
 
+    // make one item at this level, applying the block's lever (a block's lever wins over the day's: an explicit lever,
+    // else the day type's, else the program's). taken: the day's exercises so far, so a harder variation isn't one of them.
+    // scale: a block's holds are this many times longer (yin), in steps of 5 s, up to cap seconds
+    function itemMaker(recipe, { level, lever, rnd, taken }) {
+      const allow = (id) => allowedIn(recipe.equip, EX[id]);
+      const dayLever = lever || (level === 1 ? 'base' : recipe.levers[level - 1]);
+      const leverOf = (sp) => (sp.lever ? (level === 1 ? 'base' : sp.lever[level - 1]) : dayLever);
+      return (id, format, sp) => {
+        const { scale, cap } = sp, lever = leverOf(sp);
+        let ex = id, note, tempo;
+        let idx = level - 1;
+        if (lever === 'variation' && HARDER[id] && allow(HARDER[id]) && !taken.has(HARDER[id]) && rnd() < 0.6) { ex = HARDER[id]; taken.add(ex); idx = level - 2; note = 'Harder variation'; }
+        else if (lever === 'weight' && EX[id].load) { idx = level - 2; note = 'Go one weight up'; }
+        else if (lever === 'tempo' && EX[id].u !== 'sec' && Formats.FORMATS[format].tempo) { idx = level - 2; tempo = 1; note = '3 s lowering'; }
+        const e = EX[ex];
+        const n = scaleReps(e, e.r[Math.max(0, idx)], format);
+        const it = { ex, n: scale ? Math.min(cap || Infinity, Math.round((n * scale) / 5) * 5) : n };
+        if (note) it.note = note;
+        if (tempo) it.tempo = 1;
+        return it;
+      };
+    }
+
+    // ---------- the lengthening pass (Phase 26: decisions 55, 157, 170) ----------
+    // A built day made longer in place without moving a pick: each block's sets, rounds, minutes or passes go up a step
+    // at a time within its format's values (main blocks before the abs), then a main block may take one exercise more at
+    // its end (from its last slot's pool, what catalogue 13 added first), until the day lands in [lo, hi] or nothing more
+    // fits. A slot that adds no time (an EMOM's) is never added. rnd is the pass's own stream, never the build's.
+    function lengthen(day, recipe, [lo, hi], level, rnd) {
+      const mins = () => dayTime(day.blocks, recipe.rests) / 60;
+      const specs = recipe.blocks;
+      const grow = () => {
+        for (let more = true; more && mins() < lo;) {
+          more = false;
+          day.blocks.forEach((b, i) => {
+            if (mins() >= lo) return;
+            const { key, values } = b.kind === 'abs' ? Formats.FORMATS.straight.options : { ...Formats.of(b).options, ...(specs[i].values && { values: specs[i].values }) };
+            const next = values.find((v) => v > b[key]), was = b[key];
+            if (next === undefined) return;
+            b[key] = next;
+            if (mins() > hi) b[key] = was; else more = true;
+          });
+        }
+      };
+      const allow = (id) => EX[id] && allowedIn(recipe.equip, EX[id]);
+      const taken = new Set(day.blocks.flatMap((b) => b.items.map((it) => it.ex)));
+      const makeItem = itemMaker(recipe, { level, rnd, taken });
+      const poolAt = (name, at) => mergedAt(at)[name] || computed(at)[name] || POOLS[name] || [name];
+      grow();
+      specs.forEach((sp, i) => {
+        if (mins() >= lo) return;
+        const name = sp.slots.at(-1).replace('?', ''), b = day.blocks[i];
+        const fresh = (list) => list.filter((id) => allow(id) && !taken.has(id));
+        const before13 = poolAt(name, 12);
+        const newer = fresh(poolAt(name, Math.max(13, recipe.catalogue))).filter((id) => !before13.includes(id));
+        const list = newer.length ? newer : fresh(poolAt(name, recipe.catalogue));
+        if (!list.length) return;
+        const id = list[Math.floor(rnd() * list.length)], t = mins();
+        taken.add(id);
+        const it = makeItem(id, b.format, sp);
+        b.items.push(it);
+        if (mins() <= t || mins() > hi) { b.items.pop(); taken.delete(it.ex); return; }
+        grow();
+      });
+      day.est = Math.round(mins());
+    }
+    // the minutes a lengthened program shows: its band when every day reached it, else the range its days built to
+    function reached(days, [lo, hi]) {
+      const ests = days.map((d) => d.est);
+      return ests.every((t) => t >= lo && t <= hi) ? [lo, hi] : [Math.min(...ests), Math.max(...ests)];
+    }
+
     // ---------- one day ----------
     // recipe: from recipesOf(cfg). opts: day (1-60), level (1-3), lever (optional: this day's lever, instead of the
     // recipe's for the level), rnd (makeRnd), memory (newMemory(), shared by the days of a run). Fills the memory.
@@ -504,27 +576,8 @@
         taken.add(list[0]);
         return list[0];
       };
-      // a block's lever wins over the day's (an explicit lever, else the day type's, else the program's)
-      const dayLever = lever || (level === 1 ? 'base' : recipe.levers[level - 1]);
-      const leverOf = (sp) => (sp.lever ? (level === 1 ? 'base' : sp.lever[level - 1]) : dayLever);
       const taken = new Set();
-
-      // make one item at this level, applying the block's lever
-      // scale: a block's holds are this many times longer (yin), in steps of 5 s, up to cap seconds
-      const makeItem = (id, format, sp) => {
-        const { scale, cap } = sp, lever = leverOf(sp);
-        let ex = id, note, tempo;
-        let idx = level - 1;
-        if (lever === 'variation' && HARDER[id] && allow(HARDER[id]) && !taken.has(HARDER[id]) && rnd() < 0.6) { ex = HARDER[id]; taken.add(ex); idx = level - 2; note = 'Harder variation'; }
-        else if (lever === 'weight' && EX[id].load) { idx = level - 2; note = 'Go one weight up'; }
-        else if (lever === 'tempo' && EX[id].u !== 'sec' && Formats.FORMATS[format].tempo) { idx = level - 2; tempo = 1; note = '3 s lowering'; }
-        const e = EX[ex];
-        const n = scaleReps(e, e.r[Math.max(0, idx)], format);
-        const it = { ex, n: scale ? Math.min(cap || Infinity, Math.round((n * scale) / 5) * 5) : n };
-        if (note) it.note = note;
-        if (tempo) it.tempo = 1;
-        return it;
-      };
+      const makeItem = itemMaker(recipe, { level, lever, rnd, taken });
 
       // candidates for each block; optional slots end with '?'
       const specs = recipe.blocks.concat(recipe.absSlots.length ? [{ f: 'straight', kind: 'abs', title: 'Abs', slots: recipe.absSlots }] : []);
@@ -629,7 +682,7 @@
     function build(cfg) {
       if (cfg.frozen) throw new Error(cfg.id + ' is frozen: its days are read from ' + cfg.frozen + ' by the Node build');
       const rnd = makeRnd(cfg.id), memory = newMemory(), recipes = recipesOf(cfg);
-      const days = [];
+      const days = [], levels = [];
       const nameCount = {};
       const dayCount = L.dayCountOf(cfg);
       if (!L.LENGTHS.includes(dayCount)) throw new Error(`${cfg.id}: a program is 30 or 60 days, not ${dayCount}`);
@@ -645,12 +698,18 @@
         nameCount[base] = (nameCount[base] || 0) + 1;
         const name = nameCount[base] > 1 ? `${base} ${['', 'I', 'II', 'III', 'IV', 'V'][nameCount[base]]}` : base;
         days.push({ day, type, title, level: lv, name, ...rest });
+        levels.push(built);
+      }
+      // Phase 26: a re-timed program's days, built as before, then made longer (157)
+      if (cfg.long) {
+        const rnd2 = makeRnd(cfg.id + ':long');
+        days.forEach((d, i) => lengthen(d, recipes[d.type], cfg.long, levels[i], rnd2));
       }
       const dayTypes = dayTypesOf(cfg);
       const formats = [...new Set(days.flatMap((w) => w.blocks.filter((b) => b.kind === 'main').map((b) => b.format)))];
       return {
         id: cfg.id, name: cfg.name, subject: cfg.subject, blurb: cfg.blurb, about: cfg.about, split: cfg.split,
-        minutes: cfg.minutes, equip: cfg.equip || 'all', gear: cfg.gear || null, formats,
+        minutes: cfg.long ? reached(days, cfg.long) : cfg.minutes, equip: cfg.equip || 'all', gear: cfg.gear || null, formats,
         levels: ['Level I · Intermediate', `Level II · ${levelText(cfg, 1)}`, `Level III · ${levelText(cfg, 2)}`],
         rests: recipes[Object.keys(recipes)[0]].rests, dayTypes, days, ...(cfg.mix ? { mix: cfg.mix } : {}), ...(cfg.warmup ? { warmup: cfg.warmup } : {}),
         ...(cfg.variety ? { variety: true } : {}), // Variety (Phase 16): every day its own day type, so the program page shows no key
