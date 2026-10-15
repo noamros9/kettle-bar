@@ -39,8 +39,13 @@ read only when needed. Decisions with a long "why": [docs/adr/](docs/adr/).
   marks them. Grok Build builds, Claude reviews and merges:
   - Claude creates the ticket's branch, then runs `grok -p` headless with the plan file and ticket number, asking
     for a short summary back; Grok's full output goes to a scratch file, not Claude's context.
-  - **Grok plans first (Noam, 7 Oct 2026):** its first run writes only `test-results/tN-plan.md` (per item for
-    content, files and approach for code) and stops; Claude reviews the plan and sends changes until it passes.
+  - **Grok plans first (Noam, 7 Oct 2026):** its first run writes only `grok/tN-plan.md` (per item for
+    content, files and approach for code) and stops; Claude reviews the plan and sends changes until it passes. Never
+    `test-results/`: Playwright wipes it at the start of every run.
+  - **The prompt carries today's rules** (the grok-handoff skill's "kettle-bar additions", 15 Oct 2026): `npm run
+    cache:pull` first and whole-library builds only when warm (334); `npm run pin` and `npm run check:new` for content;
+    for UI, only the ticket's specs plus `renders.spec.js`, light (309); for couple programs,
+    [docs/explicit-guidelines.md](docs/explicit-guidelines.md). Claude runs its own long review runs in the background.
   - Grok then builds from the approved plan (`--continue`), from the ticket's **Test first**, and commits on that
     branch. It runs only the ticket's test files; the commit hook runs the changed ones, CI the full suite (308). It never pushes,
     opens PRs or merges.
@@ -76,8 +81,8 @@ read only when needed. Decisions with a long "why": [docs/adr/](docs/adr/).
 - **Plan the next one meanwhile (Noam, 9 Oct 2026):** when the next ticket can't *build* yet only because it edits the
   same files as the one building, start its Grok *plan* run in the free checkout anyway (it writes only
   `grok/tN-plan.md`, no shared files). The prompt names the ticket still building, so ids and names don't clash, and
-  counts what it adds. The build then continues from the approved plan once the blocker's PR is open, stacked on it.
-  A plan run counts toward the cap of 2.
+  counts what it adds. The build then continues from the approved plan once the blocker's PR is open, built locally
+  on it and pushed after it merges (see Mechanics). A plan run counts toward the cap of 2.
 - **Time targets may run 10% over (Noam, 9 Oct 2026):** a warm-up, cool-down, trimmed day or minutes band up to 10%
   past its target is fine (the cool-down up to 150 s): widen the check rather than reworking shared builder code.
   Never change how existing programs build to hit a band.
