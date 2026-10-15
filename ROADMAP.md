@@ -4,9 +4,11 @@ The index: where we are, what comes next, and the two phases being built now. Ev
 top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase comes up. Decision numbers are global
 (the next one is **339**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
-## Resume here (15 Oct 2026, morning)
-- **Phase 20 resumed beside Phase 33** (338): 8b (home pools, #426) and ticket 9 (Grok, #427) merged. **Next: ticket 10**
-  (Couples, Endurance & control, Hip power & thrust) by Grok, on Noam's go; one ticket per go. Prompts: `grok/t9-*.md` in
+## Resume here (15 Oct 2026, midday)
+- **Phase 20 resumed beside Phase 33** (338): 8b (home pools, #426) and ticket 9 (Grok, #427) merged. **Ticket 10 parked:**
+  Grok's usage ran out mid-build (402). Its approved plan is `../kettle-bar-docs/grok/t10-plan.md` (27 programs; 3 abouts
+  in full, 24 to write); the branch `content/explicit-more-b` there holds the WIP test (local, not pushed). Resume when
+  Noam's Grok usage renews: `--resume 01a13eba-980f-79f0-8046-9393e9deb04d` with `grok/t10-build.md`. One ticket per go. Prompts: `grok/t9-*.md` in
   `../kettle-bar-docs` are the model (plan, review, build); `npm run pin -- --phase 20`, `check:new -- --phase 20 …`.
 - **Phase 33 is building** ([plan](docs/plans/phase-33-day-to-day-2.md)): tickets 1–6 merged (#415–#421). Progress
   shapes; Pause, the rows and Start over (#293); weekdays and "Next workout" (#291); a day note (#292); Compare (#294);
@@ -36,7 +38,7 @@ right after Phase 22 (216). **223 ·** 8 Oct: quick fixes after 22; Export, day 
 | 4 | 27 · Calisthenics: twelve skills, 25 programs | [#199](https://github.com/noamros9/kettle-bar/issues/199) | [plan](docs/plans/phase-27-calisthenics.md) | planned |
 | 5 | 19 · Super programs: 120 days from several programs | [#186](https://github.com/noamros9/kettle-bar/issues/186) | [plan](docs/plans/phase-19-super-programs.md) | planned |
 | 6 | 36 · Logical sessions: an order and a place per set for every couple session | – | [plan](docs/plans/phase-36-logical-sessions.md) | planned |
-| 7 | 20 · After dark refined, the Explicit set, +50% programs (tickets 8b–23 left) | [#202](https://github.com/noamros9/kettle-bar/issues/202) | [plan](docs/plans/phase-20-after-dark-explicit.md) | building beside 33 (338): 8b, 9 done; 10 next |
+| 7 | 20 · After dark refined, the Explicit set, +50% programs (tickets 8b–23 left) | [#202](https://github.com/noamros9/kettle-bar/issues/202) | [plan](docs/plans/phase-20-after-dark-explicit.md) | building beside 33 (338): 8b, 9 done; 10 parked (Grok usage) |
 | 8 | 35 · Catalogue 14: threesomes (their own kind and in every act), every act at every place | – | [plan](docs/plans/phase-35-threesomes-and-places.md) | planned (tickets in the plan) |
 | 9 | 28 · Explicit drawings and loops | [#249](https://github.com/noamros9/kettle-bar/issues/249) | [plan](docs/plans/phase-28-explicit-drawings.md) | planned |
 | 10 | 29 · Stories from the couple workouts, in Drive | [#225](https://github.com/noamros9/kettle-bar/issues/225) | [plan](docs/plans/phase-29-stories.md) | planned, last |
