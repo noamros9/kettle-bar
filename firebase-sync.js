@@ -53,11 +53,13 @@ async function start() {
     kb.attach({
       kind: 'firebase',
       account: { uid: user.uid, name: (user.displayName || user.email || '').split(' ')[0], email: user.email },
-      subscribe: (collection, id, onData, onErr) => fs.onSnapshot(ref(collection, id), (snap) => onData(snap.exists() ? snap.data() : null), onErr), // the whole document; the store passes it on
-      subscribeAll: (collection, onDocs, onErr) => fs.onSnapshot(fs.collection(db, 'users', user.uid, collection), (snap) => {
+      subscribe: (collection, id, onData, onErr) => fs.onSnapshot(ref(collection, id), (snap) => onData(snap.exists() ? snap.data() : null, snap.metadata.fromCache), onErr), // the whole document; the store passes it on
+      // progress also hears the cache-to-cloud switch (the store passes on only programs whose document changed), so
+      // "Last synced" moves when the cloud confirms data the cache already had
+      subscribeAll: (collection, onDocs, onErr) => fs.onSnapshot(fs.collection(db, 'users', user.uid, collection), { includeMetadataChanges: collection === 'progress' }, (snap) => {
         const docs = {};
         snap.forEach((d) => { docs[d.id] = d.data(); });
-        onDocs(docs);
+        onDocs(docs, snap.metadata.fromCache); // fromCache: not a sync (Settings' "Last synced")
       }, onErr),
       write: (collection, id, body) => fs.setDoc(ref(collection, id), body),
       remove: (collection, id) => fs.deleteDoc(ref(collection, id)),

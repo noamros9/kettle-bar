@@ -124,3 +124,32 @@ test('an error on the progress listener shows as a sync error', async () => {
   } finally { console.warn = warn; }
   assert.equal(store.status, 'err');
 });
+
+test('synced: the time the cloud last answered, never a cached snapshot; cleared on sign-out (Phase 33 ticket 7)', async () => {
+  let t = '2026-10-15T11:02:00.000Z';
+  const store = createStore({ programIds: ['p'], storage: memStorage(), now: () => t });
+  const heard = [];
+  store.on('synced', (at) => heard.push(at));
+  store.load();
+  assert.equal(store.synced, null);
+  const cbs = [];
+  store.attach({ kind: 'test', subscribeAll: (c, onDocs) => { cbs.push(onDocs); return () => {}; }, write: async () => {}, remove: async () => {} });
+  cbs.forEach((f) => f({}, true)); // from the device's cache: not a sync
+  assert.equal(store.synced, null);
+  cbs[0]({}, false);
+  assert.equal(store.synced, t);
+  t = '2026-10-15T11:05:00.000Z';
+  cbs[1]({}); // an adapter that doesn't say: from the cloud
+  assert.equal(store.synced, t);
+  assert.deepEqual(heard, ['2026-10-15T11:02:00.000Z', t]);
+  store.detach();
+  assert.equal(store.synced, null);
+});
+
+test('synced: a program followed on its own counts too', async () => {
+  const store = createStore({ programIds: ['p'], storage: memStorage(), now: () => 'now' });
+  store.load();
+  const { subscribe, write, remove } = createMemoryRemote(); // no subscribeAll: one listener per program
+  store.attach({ kind: 'test', subscribe, write, remove }); await tick();
+  assert.equal(store.synced, 'now');
+});

@@ -33,11 +33,28 @@ function importReview(st) {
     : `<p>This backup matches your progress. Nothing to import.</p>${skipped}<div class="actions"><button class="btn ghost" data-backup="cancel">Close</button></div>`;
   return `<div class="review" id="import-review"><p><b>${esc(st.name)}</b></p>${body}</div>`;
 }
+// Sync (Phase 33 ticket 7): who's signed in, when the cloud last answered, what's waiting to upload, Sync now
+function syncTime(iso) {
+  const d = new Date(iso), t = d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+  return d.toDateString() === new Date().toDateString() ? t : `${d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}, ${t}`;
+}
+function syncCard() {
+  if (!store.auth && !store.remote) return ''; // sync isn't set up in this build: everything stays on the device
+  const n = store.waiting(), acct = store.remote && store.remote.account;
+  const body = store.remote
+    ? `<p>Signed in as <b>${esc((acct && acct.email) || 'your account')}</b></p>
+    <p class="muted" id="sync-last">${store.synced ? `Last synced ${syncTime(store.synced)}` : 'Not synced yet'}</p>
+    <p id="sync-wait">${n ? `${plural(n, 'change')} waiting` : 'Everything is uploaded'}</p>
+    <div class="actions"><button class="btn ghost" data-sync-now="1">Sync now</button></div>`
+    : `<p>Not signed in. ${n ? `${plural(n, 'change')} waiting on this phone.` : 'Your progress is saved on this phone only.'}</p>
+    <div class="actions"><button class="btn" data-sign-in="1">Sign in with Google</button></div>`;
+  return `<section class="card setting"><h2>Sync</h2>${body}</section>`;
+}
 function viewSettings() {
   const counts = programs.ids().map((pid) => store.count(pid)).filter((n) => n > 0);
   const days = counts.reduce((a, n) => a + n, 0);
   const st = importState || {};
-  return `<h1>Settings</h1>
+  return `<h1>Settings</h1>${syncCard()}
   <section class="card setting"><h2>Backup</h2>
     <p>Download the days you've marked done in every program as one file. Keep it somewhere safe, or import it on another device.</p>
     <p class="muted" id="backup-summary">${days ? `${plural(days, 'day')} done across ${plural(counts.length, 'program')}` : 'No days marked done yet'}</p>

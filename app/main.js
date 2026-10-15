@@ -30,7 +30,8 @@ function paintSync(s = store.status) {
   const w = $('#acctwait'); if (w) { w.hidden = !n; w.textContent = `${n} change${n === 1 ? ' is' : 's are'} saved on this phone and will reach your account when you're back online.`; }
 }
 store.on('status', paintSync);
-store.on('outbox', () => paintSync());
+store.on('outbox', () => { paintSync(); if (route.view === 'settings') rerender(); });
+store.on('synced', () => { if (route.view === 'settings') rerender(); }); // Settings' "Last synced" (Phase 33 ticket 7)
 window.addEventListener('offline', () => paintSync(store.remote ? 'offline' : store.status));
 store.on('change', () => rerender());
 store.on('docs', (c) => { if (c === 'random' || c === 'prefs') rerender(); }); // prefs: travel mode, favourites, hidden subjects, here or from another device // a random workout done here or on another device: stats and the week line
@@ -116,6 +117,8 @@ const ACTIONS = [
   ['randomDone', () => randomDone()],
   ['randomDiscard', () => { random.discard(); go('programs'); }],
   ['backup', (v) => backupAction(v)],
+  ['syncNow', () => store.online()], // Phase 33 ticket 7: send what's waiting again
+  ['signIn', () => store.auth && store.auth.signIn()],
   ['weekday', (v) => { const pid = prog().id, on = store.weekdays(pid), d = +v; store.setWeekdays(pid, on.includes(d) ? on.filter((x) => x !== d) : [...on, d]); }], // Phase 33
   ['compareOpen', () => { compareState = { pid: prog().id, q: '' }; render(); const i = $('#cmp-search'); if (i) i.focus(); }], // Phase 33
   ['usesAll', (v) => { usesAll = usesAll === v ? null : v; render(); }], // Phase 33: Programs that use this
