@@ -10,12 +10,10 @@ top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase c
   Programs that use this (#295; day counts in their own `data/index-days.json`, +83 KB gzipped).
 - **Next: ticket 7** (sync status in Settings, #296; read how `firebase-sync.js` hands snapshots over first) **and 8**
   (close the phase); wait for Noam's go.
-- **To check before the next Grok ticket (Noam, 14 Oct):** the grok-handoff skill (`~/.claude/skills/grok-handoff/`,
-  on Noam's computer, not in the repo) against today's rules. CLAUDE.md's Grok section has drifted too:
-  - the plan file path contradicts itself (`test-results/tN-plan.md` vs `grok/tN-plan.md`; Playwright wipes `test-results/`);
-  - its steps don't mention `npm run cache:pull` / warm builds only (334), `npm run check:new` and `npm run pin` for
-    content tickets, UI tickets running only their own specs plus smoke (309), or long runs in the background;
-  - the explicit-guidelines line for couple tickets isn't in the skill's prompt yet (Phase 36 ticket 4).
+- **Grok hand-off brought up to date (15 Oct):** the grok-handoff skill (on Noam's computer) has "kettle-bar
+  additions" for the prompt (cache:pull, pin, check:new, UI own specs + smoke, the explicit guidelines); CLAUDE.md's
+  plan path is `grok/` only. Phase 36 ticket 4 now only needs Phase 20's and 35's prompts to name the guidelines. The
+  main checkout's commit hook was the pre-308 one (full coverage); reinstalled (`node scripts/install-hooks.js`).
 - **Flaky:** the Back scroll test (#404) failed on #412, #420 and #421, each passing on a rerun. Worth fixing soon.
 - **Phase 32 is done** (#411–#414, archived). Noam to check on the phone: Export → PDF from the installed app, and that
   the Calendar file opens in Google Calendar.
