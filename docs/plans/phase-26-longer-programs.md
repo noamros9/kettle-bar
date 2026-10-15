@@ -32,6 +32,8 @@ Grilled 4 and 7 Oct 2026 with Noam (global decision numbers). Why: on 4 Oct only
   bottom (28, 24.8); the others carry the average, else the light days go the whole way. *(15 Oct)*
 - **342 · Counted and filtered by the average day**, not the middle of the range; the card shows the days' range
   (e.g. 28–41). *(15 Oct)*
+- **343 · Mind & body's flows may stay short**: 15 can't reach their band (a flow repeats at most 3 times, one pose
+  more); they keep what they gained, no replacements, and five subjects end under half at 35+. *(15 Oct)*
 
 **Minutes elsewhere in the app** (ticket 6b)
 - **191 · Length filter: Up to 30 / 31–35 / 35+** (was Up to 25 / 26–32 / 33+).
@@ -64,7 +66,7 @@ at 31–35. Roughly 180 move to 35–38 and 30 to 31–35; ticket 2 makes the re
 | 1b | The band as the average, a lighter day type | feature | 2 | `feature/long-average` | done (PR #439) |
 | 3 | Strength family, re-timed | content | 1b | `content/long-strength` | done (PR #440) |
 | 4 | Cardio & combat, re-timed | content | 3 | `content/long-cardio-combat` | done (PR #441) |
-| 5 | Mind & body, re-timed | content | 4 | `content/long-mind-body` | todo |
+| 5 | Mind & body, re-timed | content | 4 | `content/long-mind-body` | done (PR #442) |
 | 6 | Mixed and Variety, re-timed | content | 5 | `content/long-mixed` | todo |
 | 6b | The length filter and random workouts at 38 | feature | 6 | `feature/length-filter-38` | todo |
 | 7 | Close the phase: the spread checked, CONTEXT.md, archive | plan | 6b | `plan/p26-close` | todo |
@@ -129,7 +131,7 @@ Added 15 Oct, when ticket 3 showed ~11% of the Strength family's days stopping a
 - **As built (ticket 3, PR #440):** the test is its own `tests/long.test.js` (`// ci-only`, it reads the library);
   `npm run pin -- --long` also keeps each program's pin from before the pass in `tests/fixtures/long-was.json`, and the
   test checks the days before the pass against it, so the old picks are the ones that were pinned. Strength: 94 move,
-  every average in its band, none short; 30 keep a lighter day type. Cardio & combat (ticket 4, PR #441): 61, none short; 33 lighter.
+  every average in its band, none short; 30 keep a lighter day type. Cardio & combat (ticket 4, PR #441): 61, none short; 33 lighter. Mind & body (ticket 5, PR #442): 73, 15 short (343, below); 40 lighter.
 - **Test first:** `programs.test.js`'s Phase 26 block: the family's subjects meet the spread, or the shortfall is the
   programs recorded as short in "The list"; every listed program is longer than its pin was, and its days hold all
   their old picks (the pass's test, run over the real list).
@@ -207,6 +209,13 @@ Counts after the moves, by the average day (Up to 30.5 / 31–35 / 35+):
 
 Tickets 3–6 copy their family's lines into `configs/long.js`; a program the pass can't take into its band's bucket is
 noted here with the minutes it reached (170).
+
+**Short (ticket 5, decision 343; average reached):** Pilates: classical-mat 34.3 (35–38), standing-pilates 28.2
+(31–35). Flexibility: front-splits-60 31.0, pancake-straddle 29.6 (31–35), flexible-30 30.5 (31–35). Mobility &
+posture: joint-health 34.6, mobility-flow 34.3, shoulder-health 31.4, hip-mobility 28.6 (31–35). Gentle / low impact:
+low-impact-cardio 25.3, gentle-flow 28.9 (31–35), gentle-30 30.0 (31–35). Back care: back-and-hips 32.5,
+loaded-back-care 34.7, upper-back-care 29.6 (31–35). The rest are 35–38. So at 35+ / 31–35: Pilates 11 of 12 / 6 of 6,
+Flexibility 8 of 9 / 5, Mobility & posture 6 of 9 / 7, Gentle / low impact 7 of 8 / 2 of 4, Back care 5 of 7 / 5.
 
 ```js
   // cardio-combat

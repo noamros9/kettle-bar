@@ -11,10 +11,17 @@ const { pinOf } = require('../scripts/pins.js');
 const { bucketOf } = require('../scripts/long-list.js');
 const { library, fromBuildCache } = require('./helpers/library.js');
 
-// recorded in "The list": what a program averaged when the pass couldn't take it into its band's bucket (170; none so
-// far), and a subject's shortfall the list itself made (Strength: nothing shorter left to move to 31–35)
-const SHORT = {};
-const SHORT_OF = { Strength: { long: 0, mid: 1 } };
+// recorded in "The list": what a program averaged when the pass couldn't take it into its band's bucket (170, 343:
+// Mind & body's flows), and each subject's shortfall that leaves (Strength's from the list itself: nothing shorter to move)
+const SHORT = {
+  'classical-mat': 34.3, 'standing-pilates': 28.2, 'front-splits-60': 31, 'pancake-straddle': 29.6, 'joint-health': 34.6,
+  'mobility-flow': 34.3, 'low-impact-cardio': 25.3, 'back-and-hips': 32.5, 'shoulder-health': 31.4, 'hip-mobility': 28.6,
+  'gentle-flow': 28.9, 'loaded-back-care': 34.7, 'flexible-30': 30.5, 'gentle-30': 30, 'upper-back-care': 29.6,
+};
+const SHORT_OF = {
+  Strength: { long: 0, mid: 1 }, Pilates: { long: 1, mid: 0 }, Flexibility: { long: 1, mid: 0 },
+  'Mobility & posture': { long: 3, mid: 0 }, 'Gentle / low impact': { long: 1, mid: 2 }, 'Back care': { long: 2, mid: 0 },
+};
 // a program's bucket is its average day (342)
 const avg = (p) => p.days.reduce((s, d) => s + d.est, 0) / p.days.length;
 const bucket = (p) => bucketOf([avg(p), avg(p)]);
