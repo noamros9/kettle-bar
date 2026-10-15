@@ -41,7 +41,7 @@ test('data/library.json carries only what the pages that do not load the program
   const summaries = JSON.parse(out['data/library.json']);
   const { CONFIGS } = require('../program-builder.js');
   assert.equal(summaries.length, CONFIGS.length);
-  const allowed = ['id', 'name', 'subject', 'split', 'minutes', 'formats', 'equip', 'dayCount', 'about'];
+  const allowed = ['id', 'name', 'subject', 'split', 'minutes', 'avg', 'formats', 'equip', 'dayCount', 'about']; // avg: the average day (Phase 26, 342)
   summaries.forEach((s) => {
     assert.deepStrictEqual(Object.keys(s).filter((k) => !allowed.includes(k)), [], `${s.id} carries more than it needs`);
     assert.ok(s.id && s.name && s.subject && s.split && s.minutes && s.dayCount && s.about, s.id);
