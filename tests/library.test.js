@@ -336,8 +336,10 @@ test('Balanced week: every day has a block from each of the three families, and 
 });
 
 test('Calm strength: a Pilates or core block, slow-tempo strength and a long-hold yin flow to finish, on every day', () => {
-  const YIN = new Set(['ygYinHips', 'ygYinSpine'].flatMap((n) => POOLS[n]));
-  const CALM_MIND = new Set(['plAbs', 'plRoll', 'plBack', 'plSide', 'plGlute', 'core2', 'coreAnti', 'coreRot', 'coreHollow', 'core'].flatMap((n) => POOLS[n] || []).concat(Object.keys(EX).filter((id) => EX[id].cat === 'pilates')));
+  // with what catalogue 13 added to them: a re-timed program's added slot draws those first (Phase 26, decision 82)
+  const at13 = require('../program-builder.js').poolsAt(13);
+  const YIN = new Set(['ygYinHips', 'ygYinSpine'].flatMap((n) => [...POOLS[n], ...(at13[n] || [])]));
+  const CALM_MIND = new Set(['plAbs', 'plRoll', 'plBack', 'plSide', 'plGlute', 'core2', 'coreAnti', 'coreRot', 'coreHollow', 'core'].flatMap((n) => [...(POOLS[n] || []), ...(at13[n] || [])]).concat(Object.keys(EX).filter((id) => EX[id].cat === 'pilates')));
   calm.forEach((p) => {
     const cfg = cfgOf[p.id];
     assert.ok(cfg.levers.slice(1).includes('tempo'), `${p.id}: the tempo lever`);
