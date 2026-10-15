@@ -47,7 +47,9 @@ test('generated days land in their time range (within a minute of rounding)', ()
   programs.filter((p) => !cfg[p.id].frozen).forEach((p) => p.days.forEach((d) => {
     const [lo, hi] = cfg[p.id].dayTypes[d.type].minutes || cfg[p.id].minutes;
     const t = timing.dayTime(d.blocks, p.rests) / 60, extra = cfg[p.id].step && d.level === 3 ? 3 : 0; // a II's Level III may run 3 min long (171)
-    assert.ok(t >= lo - 1 && t <= hi + 1.1 + extra, `${p.id} d${d.day}: ${t.toFixed(1)} min, want ${lo}-${hi}`);
+    // a re-timed program's day (Phase 26, 340) never gets shorter and may run to its band's top + 10%; tests/long.test.js checks its average
+    const top = cfg[p.id].long ? Math.round(cfg[p.id].long[1] * 11) / 10 : hi + 1.1 + extra;
+    assert.ok(t >= lo - 1 && t <= top + 0.05, `${p.id} d${d.day}: ${t.toFixed(1)} min, want ${lo}-${hi}`);
   }));
 });
 

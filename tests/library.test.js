@@ -75,7 +75,9 @@ for (const [subject, want] of Object.entries(SUBJECTS)) {
       assert.equal(p.days.length, cfg.days || 60, p.id);
       p.days.forEach((d) => {
         const [lo, hi] = cfg.dayTypes[d.type].minutes || cfg.minutes, t = timing.dayTime(d.blocks, p.rests) / 60;
-        assert.ok(t >= lo - 1 && t <= hi + 1.1, `${p.id} d${d.day}: ${t.toFixed(1)} min, want ${lo}-${hi}`);
+        // a re-timed program's day (Phase 26, 340) never gets shorter and may run to its band's top + 10%; tests/long.test.js checks its average
+        const top = cfg.long ? Math.round(cfg.long[1] * 11) / 10 : hi + 1.1;
+        assert.ok(t >= lo - 1 && t <= top + 0.05, `${p.id} d${d.day}: ${t.toFixed(1)} min, want ${lo}-${hi}`);
       });
     });
   });
@@ -102,7 +104,9 @@ test('every exercise added in Phase 5 is marked added: 5, and only programs mark
   const PHASE5_CATS = ['yoga', 'pilates', 'flex', 'mobility', 'boxing', 'kick', 'balance'];
   Object.values(EX).filter((e) => PHASE5_CATS.includes(e.cat) && !(e.added > 5)).forEach((e) => assert.equal(e.added, 5, e.id)); // later catalogues add to these kinds too
   programs.forEach((p) => p.days.forEach((d) => itemsOf(d).forEach((it) => {
-    assert.ok((EX[it.ex].added || 0) <= (cfgOf[p.id].added || 0), `${p.id} d${d.day}: ${it.ex} is newer than the program`);
+    // a re-timed program's added slots draw catalogue 13 first (Phase 26, decision 82)
+    const upTo = cfgOf[p.id].long ? Math.max(13, cfgOf[p.id].added || 0) : cfgOf[p.id].added || 0;
+    assert.ok((EX[it.ex].added || 0) <= upTo, `${p.id} d${d.day}: ${it.ex} is newer than the program`);
   })));
 });
 
