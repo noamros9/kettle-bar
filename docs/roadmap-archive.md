@@ -641,3 +641,44 @@ back) and an Export sheet on the exercise, day, program and random-workout pages
 - **247 · The calendar file: all-day events from a start date on the weekdays you pick**, pre-filled from the
   program's training weekdays once Phase 33 lands them. *(8 Oct)*
 - **273 · A super's calendar file holds all 120 days** (Phase 19), like any program (245). *(8 Oct)*
+
+
+## Phase 33: day to day II (done, 15 Oct 2026)
+Plan and tickets: [docs/plans/phase-33-day-to-day-2.md](plans/phase-33-day-to-day-2.md), issues
+[#291](https://github.com/noamros9/kettle-bar/issues/291)–[#296](https://github.com/noamros9/kettle-bar/issues/296).
+Grilled 8 Oct; built 14–15 Oct (#415–#421, #434): training weekdays, a day note, pause with the In progress and Paused
+rows and Start over, Compare, Programs that use this, and Settings → Sync.
+**What's in**
+- **248 · Six of #97's eight, one issue each, one phase** after Export; #97 closes linking them. *(8 Oct)*
+- **249 · Not picked, so decided against:** the 60-day strip on the program page and a Random workout home-screen
+  shortcut (in ROADMAP.md's list). *(8 Oct)*
+
+**Training weekdays** (#291)
+- **250 · Per program, set on its page, synced.** The day the Today's workout shortcut opens says "Next workout
+  Thursday"; hidden while the program is paused; they pre-fill the calendar export's weekdays (Phase 32). *(8 Oct)*
+- **271 · A tick on another weekday just counts**, no mark. *(8 Oct)*
+
+**A day note** (#292)
+- **251 · One line, 140 characters**: typed on the finish screen, editable from History, shown on the day page;
+  synced. Words only (no weights or reps, which stay decided against). *(8 Oct)*
+- **269 · One note per time done**: a day done again (Phase 30) has a note per date. *(8 Oct)*
+
+**Pause, In progress, Start over** (#293)
+- **252 · Pause**: a Paused badge and Resume; a paused program is never picked for Today's workout; synced. *(8 Oct)*
+- **253 · Rows at the top**: after the rest-day and Do now cards, Favourites, In progress (a day done this round, not
+  finished), then Paused (was In progress, Paused); each program also stays on its own shelf. *(8 Oct)*
+- **268 · The three rows slide sideways**: 3 cards, then a Show all tile opening the row as its own stacked page (own
+  link, no filters). The shelves keep 6 + Show all. *(8 Oct, from a mock)*
+- **270 · Paused still counts as started**: "Ready for II" shows, and Phase 26 never re-times it. *(8 Oct)*
+- **254 · Start over = a new round, history kept**: today's Start Round button reading "Start over", with "Round 2" small
+  under it; nothing erases done days. *(8 Oct)*
+
+**Finding** (#294, #295)
+- **255 · Compare**: a Compare button on a program page, then pick the second; side by side: days per week, length,
+  minutes, formats and gear, the muscle maps with Phase 30's group bars beside them, exercises in common. *(8 Oct)*
+- **256 · Programs that use this** grows "Also in": library and your own programs, most uses first, with how many
+  days each, the first 10 then Show all. *(8 Oct)*
+
+**Sync status** (#296)
+- **257 · In Settings: account, last synced, changes not yet uploaded, Sync now.** No device list (it would need a
+  new collection and a rules change). *(8 Oct)*
