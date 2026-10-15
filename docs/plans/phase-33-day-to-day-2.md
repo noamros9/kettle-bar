@@ -82,7 +82,7 @@ document ignores the fields, and a merge keeps the newer of each by the document
 | 5 | Compare two programs (#294) | feature | – | `feature/compare` | done (PR #420) |
 | 6 | Programs that use this (#295) | feature | – | `feature/used-in` | done (PR #421) |
 | 7 | Sync status in Settings (#296) | feature | – | `feature/sync-status` | done (PR #434) |
-| 8 | Close the phase: CONTEXT.md, archive | plan | 2–7 | `plan/p33-close` | todo |
+| 8 | Close the phase: CONTEXT.md, archive | plan | 2–7 | `plan/p33-close` | done (PR #435) |
 
 Tickets 5, 6 and 7 share no files with 1–4 and can run beside them (the cap of 2). Tickets 2 and 3 both edit
 `app/pages/program.js`: the second stacks on the first once its PR is open.

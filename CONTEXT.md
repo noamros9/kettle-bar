@@ -261,6 +261,30 @@ Files: version 1 = progress only; version 2 adds `ownPrograms`, `random`, `prefs
 [time] }` in its progress, present only when there is one). History and Stats count every date; the program counts the
 day once. Do it again on the day page, or the ✓ on a done tile, adds a date; a date is removed only in History.
 
+**Paused** (Phase 33): a program set aside with Pause on its page (`paused: time` in its progress, synced). It shows a
+Paused badge and Resume, is never picked for Today's workout, and still counts as started.
+
+**In progress** (Phase 33): a program with a day done this round and not finished. **Favourites**, **In progress** and
+**Paused** are the sideways **rows** at the top of the Programs page (3 cards, then Show all opening `#row/<name>`).
+
+**Start over** (Phase 33): the program page's button for a new **Round** ("Round 2" small under it); nothing erases
+done days.
+
+**Training weekdays** (Phase 33): the days of the week you plan to train a program (`weekdays: [0–6]`, synced). The
+day Today's workout opens says "Next workout Thursday" when today isn't one; a tick on another day just counts.
+
+**Day note** (Phase 33): one line (140 characters) on a day done, one per time done (`notes`, per round). Typed on the
+finish screen, edited in History, shown on the day page.
+
+**Compare** (Phase 33): two programs side by side (`#compare/<a>/<b>`): days per week, length, minutes, formats and
+gear, muscle maps and exercises in common.
+
+**Programs that use this** (Phase 33, was "Also in"): on an exercise page, the library and own programs that have it,
+most uses first, with how many days each.
+
+**Last synced** (Phase 33): Settings → Sync's time the cloud last answered (the store's `synced`); a snapshot from the
+device's cache doesn't count. Beside it the changes waiting to upload (the outbox) and Sync now, which resends them.
+
 ## Code
 
 **Own-program pins** (Phase 24, 13 Oct 2026): `tests/fixtures/own-days.json`, stored own-program records (one per
