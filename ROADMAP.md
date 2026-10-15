@@ -4,9 +4,10 @@ The index: where we are, what comes next, and the two phases being built now. Ev
 top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase comes up. Decision numbers are global
 (the next one is **339**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
-## Resume here (15 Oct 2026)
-- **Phase 20 resumes beside Phase 33** (338): Claude builds 8b (home pools) while Grok plans ticket 9; then Grok
-  takes 9, 10 … one ticket per go from Noam, stopping after each.
+## Resume here (15 Oct 2026, morning)
+- **Phase 20 resumed beside Phase 33** (338): 8b (home pools, #426) and ticket 9 (Grok, #427) merged. **Next: ticket 10**
+  (Couples, Endurance & control, Hip power & thrust) by Grok, on Noam's go; one ticket per go. Prompts: `grok/t9-*.md` in
+  `../kettle-bar-docs` are the model (plan, review, build); `npm run pin -- --phase 20`, `check:new -- --phase 20 …`.
 - **Phase 33 is building** ([plan](docs/plans/phase-33-day-to-day-2.md)): tickets 1–6 merged (#415–#421). Progress
   shapes; Pause, the rows and Start over (#293); weekdays and "Next workout" (#291); a day note (#292); Compare (#294);
   Programs that use this (#295; day counts in their own `data/index-days.json`, +83 KB gzipped).
@@ -16,7 +17,7 @@ top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase c
   additions" for the prompt (cache:pull, pin, check:new, UI own specs + smoke, the explicit guidelines); CLAUDE.md's
   plan path is `grok/` only. Phase 36 ticket 4 now only needs Phase 20's and 35's prompts to name the guidelines. The
   main checkout's commit hook was the pre-308 one (full coverage); reinstalled (`node scripts/install-hooks.js`).
-- **Flaky:** the Back scroll test (#404) failed on #412, #420 and #421, each passing on a rerun. Worth fixing soon.
+- **Back scroll flake fixed** (#428, closes #404): a waiting scroll save landed in the entry Back returned to.
 - **Phase 32 is done** (#411–#414, archived). Noam to check on the phone: Export → PDF from the installed app, and that
   the Calendar file opens in Google Calendar.
 - **Opus builds alone** (295): Grok is away, so no Grok tickets; Phases 20 and 35 wait for it.
@@ -35,7 +36,7 @@ right after Phase 22 (216). **223 ·** 8 Oct: quick fixes after 22; Export, day 
 | 4 | 27 · Calisthenics: twelve skills, 25 programs | [#199](https://github.com/noamros9/kettle-bar/issues/199) | [plan](docs/plans/phase-27-calisthenics.md) | planned |
 | 5 | 19 · Super programs: 120 days from several programs | [#186](https://github.com/noamros9/kettle-bar/issues/186) | [plan](docs/plans/phase-19-super-programs.md) | planned |
 | 6 | 36 · Logical sessions: an order and a place per set for every couple session | – | [plan](docs/plans/phase-36-logical-sessions.md) | planned |
-| 7 | 20 · After dark refined, the Explicit set, +50% programs (tickets 8b–23 left) | [#202](https://github.com/noamros9/kettle-bar/issues/202) | [plan](docs/plans/phase-20-after-dark-explicit.md) | building beside 33 (338): 8b next |
+| 7 | 20 · After dark refined, the Explicit set, +50% programs (tickets 8b–23 left) | [#202](https://github.com/noamros9/kettle-bar/issues/202) | [plan](docs/plans/phase-20-after-dark-explicit.md) | building beside 33 (338): 8b, 9 done; 10 next |
 | 8 | 35 · Catalogue 14: threesomes (their own kind and in every act), every act at every place | – | [plan](docs/plans/phase-35-threesomes-and-places.md) | planned (tickets in the plan) |
 | 9 | 28 · Explicit drawings and loops | [#249](https://github.com/noamros9/kettle-bar/issues/249) | [plan](docs/plans/phase-28-explicit-drawings.md) | planned |
 | 10 | 29 · Stories from the couple workouts, in Drive | [#225](https://github.com/noamros9/kettle-bar/issues/225) | [plan](docs/plans/phase-29-stories.md) | planned, last |
