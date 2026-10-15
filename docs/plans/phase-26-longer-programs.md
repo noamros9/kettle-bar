@@ -26,6 +26,12 @@ Grilled 4 and 7 Oct 2026 with Noam (global decision numbers). Why: on 4 Oct only
   existing picks never move; config `long: [lo, hi]`. *(technical)*
 - **170 · Can't reach 35–38? It gets longer anyway**: at most one added exercise per block; it keeps what it gained
   and shows its real minutes. A shelf may end with fewer than half long. *(7 Oct, corrected the same day)*
+- **340 · The band is the program's average** (was every day): a day may run 10% past its top (35–41.8, 31–38.5),
+  the 10% CLAUDE.md allows; the 31–35 quarter the same. *(15 Oct)*
+- **341 · A lighter day type, like Signature's**: with 3+ day types the shortest stays lighter, at least 80% of the
+  bottom (28, 24.8); the others carry the average, else the light days go the whole way. *(15 Oct)*
+- **342 · Counted and filtered by the average day**, not the middle of the range; the card shows the days' range
+  (e.g. 28–41). *(15 Oct)*
 
 **Minutes elsewhere in the app** (ticket 6b)
 - **191 · Length filter: Up to 30 / 31–35 / 35+** (was Up to 25 / 26–32 / 33+).
@@ -55,7 +61,8 @@ at 31–35. Roughly 180 move to 35–38 and 30 to 31–35; ticket 2 makes the re
 | 0 | This plan | plan | – | `plan/unplanned-phases` | done (PR #281) |
 | 1 | The lengthening pass and the one-time re-pin | feature | – | `feature/lengthen-pass` | done (PR #436) |
 | 2 | Who moves: the list per subject | feature | 1 | `feature/long-list` | done (PR #437) |
-| 3 | Strength family, re-timed | content | 2 | `content/long-strength` | todo |
+| 1b | The band as the average, a lighter day type | feature | 2 | `feature/long-average` | done (PR #439) |
+| 3 | Strength family, re-timed | content | 1b | `content/long-strength` | todo |
 | 4 | Cardio & combat, re-timed | content | 3 | `content/long-cardio-combat` | todo |
 | 5 | Mind & body, re-timed | content | 4 | `content/long-mind-body` | todo |
 | 6 | Mixed and Variety, re-timed | content | 5 | `content/long-mixed` | todo |
@@ -88,6 +95,18 @@ Tickets 3–6 edit the same list (`configs/long.js`) and the pins file, so they 
   the map is byte-identical to its pin.
 - **Done when:** 100% lines and functions on the new code; no pin changes in this ticket.
 
+### 1b. The band as the average, a lighter day type (340–342)
+Added 15 Oct, when ticket 3 showed ~11% of the Strength family's days stopping at 34 (a set more would pass 38).
+- **Build:** `program-builder.js`'s `lengthenAll`: the band is the program's average and a day may go to 110% of its
+  top; with 3+ day types in the cycle the shortest (by its days' mean before the pass) is lengthened only to 80% of
+  the bottom, the others to what carries the average (capped at the top +10%); when the average still misses, the
+  light days go back to what the build made and are lengthened like the rest. `minutes` is the days' range.
+- **Files:** `program-builder.js`, `tests/lengthen.test.js`; `scripts/long-list.js` and `tests/long-list.test.js` (the
+  list counted by the average day, redone in "The list").
+- **Test first:** two day types: every day 35–41.8, the average 35–38; three: the light days stay under 35 (at least
+  28), the others carry the average; main days that can't carry it send the light ones to 35.
+- **Done when:** no pin changes (the map is still empty); the PR's CI green.
+
 ### 2. Who moves
 - **Build:** `scripts/long-list.js`: per re-timed subject, the programs that are neither started nor frozen nor Phase
   23's; the target counts (half of the subject's total at 35–38, a quarter at 31–35, counting what's already there);
@@ -114,7 +133,8 @@ Tickets 3–6 edit the same list (`configs/long.js`) and the pins file, so they 
   the PR's CI green.
 
 ### 6b. The length filter and random workouts at 38
-- **Build:** `app/library.js`'s `LENGTHS` and `lengthOf` become Up to 30 / 31–35 / 35+ by mid-range (191); random
+- **Build:** `app/library.js`'s `LENGTHS` and `lengthOf` become Up to 30 / 31–35 / 35+ by the program's average day
+  (191, 342; the program summary carries the average); random
   workouts offer 15 / 25 / 38 (192) in `app/random.js`'s `MINUTES` and the sheet; the rest-day flow keeps 15; a stored
   random record with 35 still opens and counts. Help me pick's minutes become About 15 / 20–30 / 31–35 / 35–38+
   (203) in `app/finder.js`; Build your own keeps its minutes (204).
@@ -129,16 +149,16 @@ Tickets 3–6 edit the same list (`configs/long.js`) and the pins file, so they 
 
 ## The list
 Made 15 Oct 2026 by `npm run long-list` (ticket 2) from Noam's export of that day: the only started program is
-`three-split-60`, which is frozen anyway. **291 move: 201 to 35–38, 90 to 31–35.** More than the 7 Oct guess (~210):
-Phase 23 added programs since, and the 31–35 programs that move up to 35–38 leave room for shorter ones to move up to
-31–35. Signature ends one short of half at 35–38: its other programs are Phase 23's, which keep their length (84).
-Counts after the moves, by mid-range (Up to 30.5 / 31–35 / 35+):
+`three-split-60`, which is frozen anyway. Redone the same day by each program's average day (1b, 342; it was the
+middle of the range, which counted programs like bar-master, 33–37 but averaging 35+, as 31–35).
+**258 move: 174 to 35–38, 84 to 31–35.** Strength ends one short of a quarter at 31–35: nothing shorter is left to move.
+Counts after the moves, by the average day (Up to 30.5 / 31–35 / 35+):
 
 | Subject | Programs | 35–38 | 31–35 | Shorter | Short of the spread |
 |---|---|---|---|---|---|
-| Signature | 30 | 14 | 16 | 0 | 1 long, 0 mid |
-| Strength | 29 | 20 | 7 | 2 | – |
-| Pull-ups | 24 | 12 | 10 | 2 | – |
+| Signature | 30 | 15 | 15 | 0 | – |
+| Strength | 29 | 21 | 6 | 2 | 0 long, 1 mid |
+| Pull-ups | 24 | 14 | 8 | 2 | – |
 | Conditioning | 21 | 11 | 5 | 5 | – |
 | Core & abs | 23 | 12 | 6 | 5 | – |
 | Mobility & posture | 18 | 9 | 5 | 4 | – |
@@ -154,9 +174,9 @@ Counts after the moves, by mid-range (Up to 30.5 / 31–35 / 35+):
 | HIIT | 21 | 11 | 5 | 5 | – |
 | Plyometrics | 18 | 9 | 5 | 4 | – |
 | Strength & stretch | 21 | 11 | 5 | 5 | – |
-| Fighter | 21 | 11 | 5 | 5 | – |
+| Fighter | 21 | 11 | 7 | 3 | – |
 | Athlete | 21 | 15 | 5 | 1 | – |
-| Balanced week | 23 | 12 | 6 | 5 | – |
+| Balanced week | 23 | 12 | 7 | 4 | – |
 | Calm strength | 21 | 11 | 5 | 5 | – |
 | Running prep | 14 | 7 | 4 | 3 | – |
 | Court & field sports | 14 | 7 | 4 | 3 | – |
@@ -181,198 +201,78 @@ Counts after the moves, by mid-range (Up to 30.5 / 31–35 / 35+):
 | Weekly mix | 8 | 4 | 2 | 2 | – |
 | Surprise | 8 | 4 | 2 | 2 | – |
 
-Tickets 3–6 copy their family's lines into `configs/long.js`; a program the pass can't take into its band is noted
-here with the minutes it reached (170).
+Tickets 3–6 copy their family's lines into `configs/long.js`; a program the pass can't take into its band's bucket is
+noted here with the minutes it reached (170).
 
 ```js
-  // strength
-  'five-split-60': [35, 38],
-  'four-split-60': [35, 38],
-  'full-body-duo-60': [35, 38],
-  'three-split-60-harder': [35, 38],
-  'two-split-60': [35, 38],
-  'five-split-60-harder': [35, 38],
-  'four-split-60-harder': [35, 38],
-  'full-body-duo-60-harder': [35, 38],
-  'three-split-60-tempo': [35, 38],
-  'two-split-60-harder': [35, 38],
-  'five-split-60-tempo': [35, 38],
-  'four-split-60-tempo': [35, 38],
-  'full-body-duo-60-tempo': [35, 38],
-  'two-split-60-tempo': [35, 38],
-  'bar-and-bell': [35, 38],
-  'bar-emom': [35, 38],
-  'bar-flow': [35, 38],
-  'bar-master': [35, 38],
-  'chinup-biceps': [35, 38],
-  'chinup-strength': [35, 38],
-  'commando': [35, 38],
-  'grip-and-hang': [35, 38],
-  'bell-arms': [35, 38],
-  'bell-circuit': [35, 38],
-  'bell-complexes': [35, 38],
-  'bell-emom-plus': [35, 38],
-  'bell-full-emom': [35, 38],
-  'bell-hips-core': [35, 38],
-  'bell-muscle': [35, 38],
-  'getup-strong': [35, 38],
-  'kettlebell-flow': [31, 35],
-  'kettlebell-strength': [31, 35],
-  'one-bell': [31, 35],
-  'slow-bell': [31, 35],
-  'swing-century': [31, 35],
-  'back-at-home': [35, 38],
-  'bodyweight-30': [35, 38],
-  'bodyweight-amrap': [35, 38],
-  'bodyweight-circuit-plus': [35, 38],
-  'bodyweight-muscle': [35, 38],
-  'calisthenics-base': [35, 38],
-  'calisthenics-skills': [35, 38],
-  'floor-only': [35, 38],
-  'floor-pull': [35, 38],
-  'hotel-room': [35, 38],
-  'kitchen-table': [31, 35],
-  'no-gear-burn': [31, 35],
-  'pistol-path': [31, 35],
-  'pushup-and-squat': [31, 35],
-  'athletic-legs': [35, 38],
-  'glute-and-hamstring': [35, 38],
-  'glute-builder': [35, 38],
-  'glute-lab': [35, 38],
-  'hamstring-strong': [35, 38],
-  'kettlebell-legs': [35, 38],
-  'leg-day-classic': [35, 38],
-  'legs-all-over': [35, 38],
-  'grip-and-lift': [35, 38],
-  'carry-day': [35, 38],
-  'grip-and-pull': [35, 38],
-  'grip-strength': [35, 38],
-  'forearm-pump': [31, 35],
-  'grip-30': [31, 35],
-  'forearm-circuit': [31, 35],
-  'complex-and-carry': [35, 38],
-  'bell-ladders': [35, 38],
-  'complex-builder': [35, 38],
-  'complex-hips': [35, 38],
-  'complex-straight': [31, 35],
-  'bell-amrap': [31, 35],
-  'complex-30': [31, 35],
-  'archer-project': [35, 38],
-  'climb-strength': [35, 38],
-  'climber-antagonist': [35, 38],
-  'climber-30': [35, 38],
-  'pull-ladder-climb': [31, 35],
-  'wall-ready': [31, 35],
-  'chest-30': [35, 38],
-  'chest-day': [35, 38],
-  'push-and-press': [35, 38],
-  'bell-chest': [35, 38],
-  'chest-ladders': [31, 35],
-  'pushup-chest': [31, 35],
-  'back-30': [35, 38],
-  'back-day': [35, 38],
-  'back-and-biceps': [35, 38],
-  'back-circuit-30': [35, 38],
-  'back-ladders': [31, 35],
-  'bell-back': [31, 35],
-  'shoulder-day': [35, 38],
-  'shoulders-30': [35, 38],
-  'boulder-shoulders': [35, 38],
-  'bell-shoulders': [35, 38],
-  'floor-shoulders': [31, 35],
-  'shoulder-circuit-30': [31, 35],
-  'arm-day': [35, 38],
-  'arms-30': [35, 38],
-  'arm-supersets': [35, 38],
-  'chinup-arms': [35, 38],
-  'arm-circuit-30': [31, 35],
-  'arm-ladders': [31, 35],
-  'hip-day': [35, 38],
-  'hips-30': [35, 38],
-  'bell-hips': [35, 38],
-  'floor-hips': [35, 38],
-  'hip-circuit-30': [31, 35],
-  'hip-ladders': [31, 35],
-  'calves-30': [35, 38],
-  'calf-ladders': [35, 38],
-  'calf-day': [35, 38],
-  'calves-and-shins': [35, 38],
-  'barefoot-legs': [31, 35],
-  'calf-builder': [31, 35],
-  'neck-day': [35, 38],
-  'traps-30': [35, 38],
-  'neck-and-traps': [35, 38],
-  'shrug-and-hold': [35, 38],
-  'traps-ladders': [31, 35],
-  'desk-neck': [31, 35],
   // cardio-combat
-  'bell-and-burpee': [35, 38],
-  'chipper': [35, 38],
-  'conditioning-30': [35, 38],
+  'engine': [35, 38],
   'conditioning-ladders': [35, 38],
+  'tabata-ten': [35, 38],
   'death-by': [35, 38],
-  'dumbbell-complex': [35, 38],
-  'dumbbell-engine': [35, 38],
-  'dumbbell-tabata': [31, 35],
-  'engine': [31, 35],
-  'engine-builder': [31, 35],
+  'chipper': [35, 38],
+  'work-and-rest': [35, 38],
+  'engine-builder': [35, 38],
+  'storm-front': [31, 35],
+  'conditioning-30': [31, 35],
+  'bell-and-burpee': [31, 35],
   'boxing-strength': [35, 38],
   'heavy-hands': [35, 38],
-  'boxers-engine': [35, 38],
   'boxing-emom': [35, 38],
   'boxing-power': [35, 38],
-  'boxing-circuit': [35, 38],
-  'boxing-30-plus': [31, 35],
-  'fight-camp': [31, 35],
+  'boxers-engine': [35, 38],
+  'boxing-30-plus': [35, 38],
+  'boxing-circuit': [31, 35],
   'southpaw-switch': [31, 35],
+  'fight-camp': [31, 35],
   'full-contact': [35, 38],
   'kick-strength': [35, 38],
   'kick-and-core': [35, 38],
   'kick-circuit': [35, 38],
+  'kick-flex': [35, 38],
   'clinch-and-knees': [35, 38],
-  'kick-combos': [35, 38],
-  'kick-flex': [31, 35],
+  'kick-combos': [31, 35],
   'muay-thai-basics': [31, 35],
   'kick-30': [31, 35],
   'afterburn': [35, 38],
-  'bell-hiit': [35, 38],
-  'bell-intervals': [35, 38],
+  'pyramid-hiit': [35, 38],
   'hiit-ladder-tabata': [35, 38],
-  'hiit-ladders': [35, 38],
-  'hiit-legs': [35, 38],
+  'thirty-thirty': [35, 38],
+  'bell-hiit': [35, 38],
   'hiit-upper': [35, 38],
-  'pyramid-hiit': [31, 35],
-  'quiet-hiit': [31, 35],
-  'tabata-torch': [31, 35],
+  'quiet-hiit': [35, 38],
+  'bell-intervals': [31, 35],
+  'hiit-legs': [31, 35],
+  'hiit-30-plus': [31, 35],
   'explosive-full-body': [35, 38],
   'plyo-legs': [35, 38],
+  'vertical': [35, 38],
   'plyo-strength-emom': [35, 38],
   'plyo-power-straight': [35, 38],
-  'spring-loaded': [35, 38],
-  'vertical': [35, 38],
-  'plyo-30': [31, 35],
+  'plyo-emom': [35, 38],
+  'spring-loaded': [31, 35],
+  'upper-plyo': [31, 35],
   'plyo-calves': [31, 35],
-  'plyo-circuits': [31, 35],
   'run-ready': [35, 38],
-  'hill-legs': [35, 38],
-  'runner-strength-30': [35, 38],
   'springy-legs': [35, 38],
+  'trail-legs': [35, 38],
+  'hill-legs': [35, 38],
   'stride-strength': [31, 35],
-  'trail-legs': [31, 35],
+  'runner-strength-30': [31, 35],
   'run-faster': [31, 35],
   'field-strength': [35, 38],
+  'racket-ready': [35, 38],
   'court-agility': [35, 38],
-  'change-of-direction': [35, 38],
-  'court-30': [35, 38],
-  'field-speed': [31, 35],
-  'first-step': [31, 35],
-  'racket-ready': [31, 35],
+  'first-step': [35, 38],
+  'court-30': [31, 35],
+  'change-of-direction': [31, 35],
+  'reaction-ready': [31, 35],
   // mind-body
   'core-foundations': [35, 38],
   'deep-core-60': [35, 38],
-  'hollow-body': [35, 38],
   'loaded-core': [35, 38],
   'twist-and-brace': [35, 38],
+  'hollow-body': [35, 38],
   'core-circuits': [35, 38],
   'bell-core': [35, 38],
   'pilates-core-mix': [35, 38],
@@ -385,101 +285,188 @@ here with the minutes it reached (170).
   'squat-hinge-mobility': [35, 38],
   'better-posture': [35, 38],
   'joint-health': [35, 38],
-  'posture-strength-circuit': [35, 38],
-  'shoulder-health': [31, 35],
+  'shoulder-health': [35, 38],
+  'posture-strength-circuit': [31, 35],
   'ankle-hip-mobility': [31, 35],
   'hip-mobility': [31, 35],
   'power-vinyasa': [35, 38],
-  'sun-and-strength': [35, 38],
   'yin-deep-stretch': [35, 38],
+  'sun-and-strength': [35, 38],
   'yoga-strength': [35, 38],
   'balance-flow': [35, 38],
-  'core-yoga': [35, 38],
-  'yoga-backbends': [35, 38],
-  'yoga-balance-core': [31, 35],
-  'yoga-hips-hamstrings': [31, 35],
+  'yoga-hips-hamstrings': [35, 38],
+  'yoga-balance-core': [35, 38],
+  'yoga-backbends': [31, 35],
+  'core-yoga': [31, 35],
   'yin-30': [31, 35],
   'pilates-flow': [35, 38],
   'pilates-power': [35, 38],
-  'mat-foundations': [35, 38],
   'pilates-core-glutes': [35, 38],
+  'mat-foundations': [35, 38],
   'classical-mat': [35, 38],
-  'pilates-glutes-legs': [35, 38],
-  'pilates-sculpt': [31, 35],
+  'pilates-sculpt': [35, 38],
+  'pilates-glutes-legs': [31, 35],
   'pilates-30': [31, 35],
   'standing-pilates': [31, 35],
   'active-flexibility': [35, 38],
   'active-range': [35, 38],
   'front-splits-60': [35, 38],
-  'full-body-stretch': [35, 38],
   'hips-open': [35, 38],
-  'backbend-flex': [35, 38],
+  'full-body-stretch': [35, 38],
+  'splits-30': [35, 38],
   'pancake-straddle': [31, 35],
+  'backbend-flex': [31, 35],
   'flexible-30': [31, 35],
-  'splits-30': [31, 35],
-  'loaded-balance': [35, 38],
   'single-leg-strength': [35, 38],
-  'balance-strength-plus': [35, 38],
-  'ankle-and-knee': [35, 38],
+  'loaded-balance': [35, 38],
   'athletic-balance': [35, 38],
+  'ankle-and-knee': [35, 38],
   'balance-and-core': [35, 38],
+  'balance-strength-plus': [35, 38],
   'steady': [31, 35],
-  'balance-30': [31, 35],
-  'balance-calves-feet': [31, 35],
-  'chair-and-wall': [35, 38],
+  'balance-emom': [31, 35],
+  'steady-feet': [31, 35],
+  'strong-and-steady': [35, 38],
   'easy-strength': [35, 38],
   'gentle-start': [35, 38],
+  'chair-and-wall': [35, 38],
   'low-impact-cardio': [35, 38],
-  'strong-and-steady': [35, 38],
   'gentle-30': [31, 35],
-  'gentle-flow': [31, 35],
   'gentle-legs-balance': [31, 35],
+  'gentle-flow': [31, 35],
   'loaded-back-care': [35, 38],
   'back-and-hips': [35, 38],
   'strong-back': [35, 38],
   'back-hips-glutes': [35, 38],
-  'back-basics': [31, 35],
-  'back-care-30': [31, 35],
   'upper-back-care': [31, 35],
+  'back-care-30': [31, 35],
+  'back-basics': [31, 35],
+  // strength
+  'swing-press-emom': [35, 38],
+  'kettlebell-flow': [35, 38],
+  'swing-century': [35, 38],
+  'bell-complexes': [35, 38],
+  'bell-emom-plus': [35, 38],
+  'bell-circuit': [35, 38],
+  'windmill-and-press': [35, 38],
+  'getup-strong': [35, 38],
+  'bell-arms': [31, 35],
+  'bell-full-emom': [31, 35],
+  'bell-hips-core': [31, 35],
+  'slow-bell': [31, 35],
+  'bell-muscle': [31, 35],
+  'no-gear-burn': [35, 38],
+  'bodyweight-amrap': [35, 38],
+  'pushup-and-squat': [35, 38],
+  'pushup-progress': [35, 38],
+  'kitchen-table': [35, 38],
+  'calisthenics-skills': [35, 38],
+  'calisthenics-base': [35, 38],
+  'quiet-upper': [35, 38],
+  'floor-only': [35, 38],
+  'bodyweight-30': [35, 38],
+  'hotel-room': [31, 35],
+  'travel-strength': [31, 35],
+  'floor-pull': [31, 35],
+  'bodyweight-muscle': [31, 35],
+  'single-leg-strong': [35, 38],
+  'squat-everyday': [35, 38],
+  'athletic-legs': [35, 38],
+  'glute-builder': [35, 38],
+  'legs-all-over': [35, 38],
+  'grip-and-lift': [35, 38],
+  'grip-strength': [35, 38],
+  'grip-and-pull': [35, 38],
+  'carry-day': [35, 38],
+  'grip-30': [31, 35],
+  'forearm-pump': [31, 35],
+  'forearm-circuit': [31, 35],
+  'complex-and-carry': [35, 38],
+  'bell-ladders': [35, 38],
+  'complex-builder': [35, 38],
+  'complex-straight': [35, 38],
+  'bell-amrap': [31, 35],
+  'complex-hips': [31, 35],
+  'complex-ladder-emom': [31, 35],
+  'climber-antagonist': [35, 38],
+  'climb-strength': [35, 38],
+  'archer-project': [35, 38],
+  'pull-ladder-climb': [35, 38],
+  'wall-ready': [31, 35],
+  'climber-30': [31, 35],
+  'chest-day': [35, 38],
+  'chest-30': [35, 38],
+  'push-and-press': [35, 38],
+  'chest-ladders': [35, 38],
+  'bell-chest': [31, 35],
+  'pushup-chest': [31, 35],
+  'back-day': [35, 38],
+  'back-30': [35, 38],
+  'back-and-biceps': [35, 38],
+  'back-ladders': [35, 38],
+  'back-circuit-30': [31, 35],
+  'floor-back': [31, 35],
+  'shoulder-day': [35, 38],
+  'shoulders-30': [35, 38],
+  'boulder-shoulders': [35, 38],
+  'shoulder-ladders': [35, 38],
+  'shoulder-circuit-30': [31, 35],
+  'bell-shoulders': [31, 35],
+  'arms-30': [35, 38],
+  'arm-day': [35, 38],
+  'arm-supersets': [35, 38],
+  'chinup-arms': [35, 38],
+  'arm-ladders': [31, 35],
+  'arm-circuit-30': [31, 35],
+  'hips-30': [35, 38],
+  'hip-day': [35, 38],
+  'bell-hips': [35, 38],
+  'hip-ladders': [35, 38],
+  'hip-circuit-30': [31, 35],
+  'inner-thigh-supersets': [31, 35],
+  'calf-ladders': [35, 38],
+  'calves-30': [35, 38],
+  'calves-and-shins': [35, 38],
+  'calf-day': [35, 38],
+  'barefoot-legs': [31, 35],
+  'calf-emom': [31, 35],
+  'neck-day': [35, 38],
+  'traps-30': [35, 38],
+  'traps-ladders': [35, 38],
+  'neck-and-traps': [35, 38],
+  'shrug-and-hold': [31, 35],
+  'neck-emom': [31, 35],
   // mixed
   'lift-and-lengthen': [35, 38],
   'strong-hips': [35, 38],
   'kettlebell-and-yoga': [35, 38],
+  'lift-and-move': [35, 38],
   'posture-strength': [35, 38],
   'upper-and-open': [35, 38],
-  'lift-and-move': [35, 38],
-  'chest-and-open': [31, 35],
-  'legs-and-lengthen-plus': [31, 35],
+  'supersets-and-stretch': [31, 35],
   'stretch-30-plus': [31, 35],
-  'muay-thai-conditioning': [35, 38],
   'boxers-body': [35, 38],
-  'southpaw-strength': [35, 38],
+  'bouts-and-bells': [35, 38],
   'fight-ready': [35, 38],
   'knockout-circuit': [35, 38],
-  'bouts-and-bells': [35, 38],
-  'fighter-30': [31, 35],
-  'fighter-emom': [31, 35],
   'whole-body-week': [35, 38],
-  'balanced-fighter': [35, 38],
   'balanced-month-plus': [35, 38],
-  'balanced-muscle': [35, 38],
-  'balanced-bw-plus': [31, 35],
-  'balanced-kb-plus': [31, 35],
+  'balanced-fighter': [35, 38],
+  'balanced-30': [35, 38],
   'quiet-power': [35, 38],
+  'yin-and-yang': [35, 38],
   'calm-muscle': [35, 38],
-  'slow-supersets': [35, 38],
   'calm-bell-plus': [31, 35],
-  'calm-bodyweight': [31, 35],
   'every-day-different': [35, 38],
   'variety-30': [35, 38],
   'bodyweight-variety-30': [35, 38],
   'muscle-tour': [35, 38],
-  'athlete-variety': [35, 38],
-  'bodyweight-shuffle': [35, 38],
-  'fighter-variety': [31, 35],
-  'kettlebell-roulette': [31, 35],
+  'upper-roulette': [35, 38],
+  'kettlebell-roulette': [35, 38],
   'strength-roulette': [31, 35],
-  'upper-roulette': [31, 35],
+  'bodyweight-shuffle': [31, 35],
+  'athlete-variety': [31, 35],
+  'fighter-variety': [31, 35],
 ```
 
 ## Challenge round
@@ -494,5 +481,8 @@ here with the minutes it reached (170).
   (built from their stored config) and random workouts simply gain options.
 - **Started programs read from a backup:** a program started on the phone after the backup ran would move. **Plan
   edit:** ticket 2 asks Noam for a fresh export from Settings on the day it runs.
+- **Ticket 3 showed the per-day band too tight** (15 Oct): 718 of the Strength family's 6,690 days stopped at 34 when a
+  set more would pass 38. **Plan edit:** ticket 1b (340–342) makes the band the average, lets a day run 10% over and
+  keeps a lighter day type; 6b filters by the average.
 - **The lazier version:** raise `minutes` and rebuild the moved programs. Not proposed: that reshuffles every day,
   which Noam ruled out (55, "just add compatible exercises").

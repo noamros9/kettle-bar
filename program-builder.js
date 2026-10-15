@@ -498,15 +498,16 @@
       };
     }
 
-    // ---------- the lengthening pass (Phase 26: decisions 55, 157, 170) ----------
+    // ---------- the lengthening pass (Phase 26: decisions 55, 157, 170, 340) ----------
     // A built day made longer in place without moving a pick: each block's sets, rounds, minutes or passes go up a step
     // at a time within its format's values (main blocks before the abs), then a main block may take one exercise more at
-    // its end (from its last slot's pool, what catalogue 13 added first), until the day lands in [lo, hi] or nothing more
-    // fits. A slot that adds no time (an EMOM's) is never added. rnd is the pass's own stream, never the build's.
-    function lengthen(day, recipe, [lo, hi], level, rnd) {
+    // its end (from its last slot's pool, what catalogue 13 added first), until the day reaches lo or nothing more fits.
+    // Each cap in turn: first the band's top, and only a day still short may use the next (its top + 10%). A slot that
+    // adds no time (an EMOM's) is never added. rnd is the pass's own stream, never the build's.
+    function lengthen(day, recipe, lo, caps, level, rnd) {
       const mins = () => dayTime(day.blocks, recipe.rests) / 60;
       const specs = recipe.blocks;
-      const grow = () => {
+      const grow = (cap) => {
         for (let more = true; more && mins() < lo;) {
           more = false;
           day.blocks.forEach((b, i) => {
@@ -515,7 +516,7 @@
             const next = values.find((v) => v > b[key]), was = b[key];
             if (next === undefined) return;
             b[key] = next;
-            if (mins() > hi) b[key] = was; else more = true;
+            if (mins() > cap) b[key] = was; else more = true;
           });
         }
       };
@@ -523,28 +524,50 @@
       const taken = new Set(day.blocks.flatMap((b) => b.items.map((it) => it.ex)));
       const makeItem = itemMaker(recipe, { level, rnd, taken });
       const poolAt = (name, at) => mergedAt(at)[name] || computed(at)[name] || POOLS[name] || [name];
-      grow();
-      specs.forEach((sp, i) => {
-        if (mins() >= lo) return;
-        const name = sp.slots.at(-1).replace('?', ''), b = day.blocks[i];
-        const fresh = (list) => list.filter((id) => allow(id) && !taken.has(id));
-        const before13 = poolAt(name, 12);
-        const newer = fresh(poolAt(name, Math.max(13, recipe.catalogue))).filter((id) => !before13.includes(id));
-        const list = newer.length ? newer : fresh(poolAt(name, recipe.catalogue));
-        if (!list.length) return;
-        const id = list[Math.floor(rnd() * list.length)], t = mins();
-        taken.add(id);
-        const it = makeItem(id, b.format, sp);
-        b.items.push(it);
-        if (mins() <= t || mins() > hi) { b.items.pop(); taken.delete(it.ex); return; }
-        grow();
+      const added = new Set(); // at most one added exercise per block, over both caps
+      caps.forEach((cap) => {
+        grow(cap);
+        specs.forEach((sp, i) => {
+          if (mins() >= lo || added.has(i)) return;
+          const name = sp.slots.at(-1).replace('?', ''), b = day.blocks[i];
+          const fresh = (list) => list.filter((id) => allow(id) && !taken.has(id));
+          const before13 = poolAt(name, 12);
+          const newer = fresh(poolAt(name, Math.max(13, recipe.catalogue))).filter((id) => !before13.includes(id));
+          const list = newer.length ? newer : fresh(poolAt(name, recipe.catalogue));
+          if (!list.length) return;
+          const id = list[Math.floor(rnd() * list.length)], t = mins();
+          taken.add(id);
+          const it = makeItem(id, b.format, sp);
+          b.items.push(it);
+          if (mins() <= t || mins() > cap) { b.items.pop(); taken.delete(it.ex); return; }
+          added.add(i);
+          grow(cap);
+        });
       });
       day.est = Math.round(mins());
     }
-    // the minutes a lengthened program shows: its band when every day reached it, else the range its days built to
-    function reached(days, [lo, hi]) {
+    // A re-timed program's days (decisions 340–342): the band [lo, hi] is the program's average, and a day may run 10% past
+    // hi when it can't reach its target under it. In a program of three or more day types the shortest one stays lighter: lengthened only to 80% of lo, while
+    // the other days are lengthened to what carries the average; if they can't, the light days start again from what
+    // the build made and are lengthened like the rest.
+    function lengthenAll(cfg, days, recipes, levels) {
+      const [lo, hi] = cfg.long, top = Math.round(hi * 11) / 10, rnd = makeRnd(cfg.id + ':long');
+      const mins = (d) => dayTime(d.blocks, recipes[d.type].rests) / 60;
+      const mean = (list) => list.reduce((s, d) => s + mins(d), 0) / list.length;
+      const pass = (list, from) => list.forEach((d) => lengthen(d, recipes[d.type], from, [hi, top], levels[d.day - 1], rnd));
+      const types = [...new Set(cfg.cycle)], of = (k) => days.filter((d) => d.type === k);
+      const light = types.length >= 3 ? types.reduce((a, k) => (mean(of(k)) < mean(of(a)) ? k : a)) : null;
+      const lightDays = of(light), main = days.filter((d) => d.type !== light);
+      const saved = lightDays.map((d) => JSON.stringify(d));
+      pass(lightDays, Math.round(lo * 8) / 10);
+      const carry = lightDays.length ? Math.min(top, (lo * days.length - lightDays.reduce((s, d) => s + mins(d), 0)) / main.length) : lo;
+      pass(main, carry);
+      if (lightDays.length && mean(days) < lo) {
+        lightDays.forEach((d, i) => Object.assign(d, JSON.parse(saved[i])));
+        pass(lightDays, lo);
+      }
       const ests = days.map((d) => d.est);
-      return ests.every((t) => t >= lo && t <= hi) ? [lo, hi] : [Math.min(...ests), Math.max(...ests)];
+      return [Math.min(...ests), Math.max(...ests)]; // the card shows the days' range
     }
 
     // ---------- one day ----------
@@ -701,15 +724,12 @@
         levels.push(built);
       }
       // Phase 26: a re-timed program's days, built as before, then made longer (157)
-      if (cfg.long) {
-        const rnd2 = makeRnd(cfg.id + ':long');
-        days.forEach((d, i) => lengthen(d, recipes[d.type], cfg.long, levels[i], rnd2));
-      }
+      const minutes = cfg.long ? lengthenAll(cfg, days, recipes, levels) : cfg.minutes;
       const dayTypes = dayTypesOf(cfg);
       const formats = [...new Set(days.flatMap((w) => w.blocks.filter((b) => b.kind === 'main').map((b) => b.format)))];
       return {
         id: cfg.id, name: cfg.name, subject: cfg.subject, blurb: cfg.blurb, about: cfg.about, split: cfg.split,
-        minutes: cfg.long ? reached(days, cfg.long) : cfg.minutes, equip: cfg.equip || 'all', gear: cfg.gear || null, formats,
+        minutes, equip: cfg.equip || 'all', gear: cfg.gear || null, formats,
         levels: ['Level I · Intermediate', `Level II · ${levelText(cfg, 1)}`, `Level III · ${levelText(cfg, 2)}`],
         rests: recipes[Object.keys(recipes)[0]].rests, dayTypes, days, ...(cfg.mix ? { mix: cfg.mix } : {}), ...(cfg.warmup ? { warmup: cfg.warmup } : {}),
         ...(cfg.variety ? { variety: true } : {}), // Variety (Phase 16): every day its own day type, so the program page shows no key

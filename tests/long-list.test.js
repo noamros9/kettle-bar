@@ -55,3 +55,12 @@ test('the map prints as configs/long.js lines, grouped by family', () => {
   const text = mapText({ a: [35, 38], b: [31, 35], c: [35, 38] }, { a: 'strength', b: 'mixed', c: 'strength' });
   assert.equal(text, "  // strength\n  'a': [35, 38],\n  'c': [35, 38],\n  // mixed\n  'b': [31, 35],\n");
 });
+
+test('a program counts by its average day (342): one whose range sits at 33–37 but whose days average 36 is already long', () => {
+  const lib = [P('avg-long', 'S', [33, 37]), P('a', 'S', [24, 28]), P('b', 'S', [24, 28], { split: 'Upper / lower' }), P('c', 'S', [20, 24], { split: 'Push / pull' })];
+  const avg = (c) => (c.id === 'avg-long' ? 36 : (c.minutes[0] + c.minutes[1]) / 2);
+  const out = longList(lib, { started: new Set(), avg });
+  assert.equal(out.map['avg-long'], undefined, 'never moved');
+  assert.equal(out.subjects.S.long, 2, 'it and one mover');
+  assert.equal(Object.values(out.map).filter((b) => b[0] === 35).length, 1);
+});

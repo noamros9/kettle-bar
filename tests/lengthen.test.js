@@ -40,14 +40,49 @@ test('every pick of every day stays in its block and order; only sets, rounds an
   });
 });
 
-test('every day of a 24–29 config lands in 35–38, and the program says 35–38', () => {
+// three day types, one of them light (one short block): its days stay lighter (decisions 340-344)
+const three = (extra) => cfg({
+  cycle: ['a', 'b', 'l'],
+  dayTypes: { ...cfg().dayTypes, l: { label: 'L', short: 'L', blocks: [C('Legs', ['squat', 'lunge', 'hinge'])] } },
+  ...extra,
+});
+const avg = (c, p) => p.days.reduce((s, d) => s + mins(c, d), 0) / p.days.length;
+
+test("two day types: every day lands in 35 to 41.8 (10% over), the average in 35–38, and the card shows each day's range", () => {
   const c = cfg({ long: [35, 38] }), p = B.build(c, cat);
   p.days.forEach((d) => {
     const t = mins(c, d);
-    assert.ok(t >= 35 && t <= 38, `d${d.day}: ${t.toFixed(1)} min`);
+    assert.ok(t >= 35 && t <= 41.8, `d${d.day}: ${t.toFixed(1)} min`);
     assert.equal(d.est, Math.round(t));
   });
-  assert.deepEqual(p.minutes, [35, 38]);
+  assert.ok(avg(c, p) >= 35 && avg(c, p) <= 38, avg(c, p).toFixed(1));
+  const ests = p.days.map((d) => d.est);
+  assert.deepEqual(p.minutes, [Math.min(...ests), Math.max(...ests)]);
+});
+
+test('three day types: the shortest stays lighter (at least 28), the others carry the average, none past 41.8', () => {
+  const c = three({ long: [35, 38] }), plain = B.build(three(), cat), p = B.build(c, cat);
+  const light = p.days.filter((d) => d.type === 'l'), main = p.days.filter((d) => d.type !== 'l');
+  light.forEach((d) => assert.ok(mins(c, d) >= Math.min(28, mins(c, plain.days[d.day - 1])) - 0.01, `light d${d.day}: ${mins(c, d).toFixed(1)}`));
+  assert.ok(light.every((d) => mins(c, d) < 35), 'the lighter days stay lighter');
+  p.days.forEach((d) => assert.ok(mins(c, d) <= 41.8, `d${d.day}: ${mins(c, d).toFixed(1)}`));
+  assert.ok(main.every((d) => mins(c, d) >= 35), 'the main days are long');
+  assert.ok(avg(c, p) >= 35, avg(c, p).toFixed(1));
+});
+
+test("when the main days can't carry the average, the light days are lengthened like the rest", () => {
+  // main day types held at 3 sets and no abs: they can't reach the 38.5 a light day at 28 would need
+  const held = (extra) => three({
+    absSlots: [],
+    dayTypes: {
+      a: { label: 'A', short: 'A', blocks: [S('Press', ['pushLoad', 'pushLoad', 'pushLoad'], { values: [3] }), S('Squat', ['squat', 'squat', 'squat'], { values: [3] })] },
+      b: { label: 'B', short: 'B', blocks: [S('Pull', ['row', 'row', 'row'], { values: [3] }), S('Hinge', ['hinge', 'hinge', 'hinge'], { values: [3] })] },
+      l: { label: 'L', short: 'L', minutes: [18, 22], blocks: [C('Legs', ['squat', 'lunge', 'hinge']), C('Push', ['push', 'push', 'push'])] }, // its own shorter range, like Signature's arms & core
+    },
+    ...extra,
+  });
+  const c = held({ long: [35, 38] }), p = B.build(c, cat);
+  assert.ok(p.days.filter((d) => d.type === 'l').every((d) => mins(c, d) >= 35), 'the light days went past their floor of 28, to 35');
 });
 
 test('formats grow only by their own rules: values from the format, no slot where it adds no time', () => {

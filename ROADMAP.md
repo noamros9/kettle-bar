@@ -2,7 +2,7 @@
 
 The index: where we are, what comes next, and the two phases being built now. Every other phase's decisions live at the
 top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase comes up. Decision numbers are global
-(the next one is **340**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
+(the next one is **343**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
 ## Resume here (15 Oct 2026, midday)
 - **Phase 20 resumed beside Phase 33** (338): 8b (home pools, #426) and ticket 9 (Grok, #427) merged. **Ticket 10 parked:**
@@ -18,7 +18,7 @@ top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase c
   **Measure every Grok ticket** until Noam says stop: a row in [docs/grok-usage.md](docs/grok-usage.md).
 - **Phase 33 is done** (#415–#421, #434, #435; archived). Noam to check on the phone: airplane mode, tick a day,
   Settings → Sync says 1 change waiting; back online, Sync now clears it.
-- **Phase 26 building** (longer programs, [plan](docs/plans/phase-26-longer-programs.md)): tickets 1–2 done (#436, #437). Noam (15 Oct): tickets 1 and 2 one per go, then three per go;
+- **Phase 26 building** (longer programs, [plan](docs/plans/phase-26-longer-programs.md)): tickets 1–2 done (#436, #437); ticket 3 showed the per-day band too tight, so 1b (340–342: the band is the average, a lighter day type) comes first (#439), then 3–5 (Noam's go, 15 Oct). Tickets 1 and 2 one per go, then three per go;
   Phase 20 waits for Grok, whose next tickets are for Noam's measured session (339).
 - **Grok hand-off brought up to date (15 Oct):** the grok-handoff skill (on Noam's computer) has "kettle-bar
   additions" for the prompt (cache:pull, pin, check:new, UI own specs + smoke, the explicit guidelines); CLAUDE.md's
