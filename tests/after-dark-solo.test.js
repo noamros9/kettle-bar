@@ -24,7 +24,7 @@ const mains = (d) => d.blocks.filter((b) => b.kind !== 'abs' && b.kind !== 'warm
 
 Object.entries(PROMISE).forEach(([subject, muscles]) => {
   test(`${subject}: five programs (one 30-day), Mixed rules, solo exercises only, what it promises`, () => {
-    const list = programs.filter((p) => p.subject === subject);
+    const list = programs.filter((p) => p.subject === subject && !CONFIGS.find((c) => c.id === p.id).couple); // Phase 20 adds couple programs
     assert.equal(list.length, 5);
     assert.equal(list.filter((p) => CONFIGS.find((c) => c.id === p.id).days === 30).length, 1);
     list.forEach((p) => {

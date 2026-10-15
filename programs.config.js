@@ -131,6 +131,8 @@ const ORDER = [
   'beach-set-then-fuck', 'beach-pump-then-grab', 'beach-flex-then-spread', 'beach-mouth-then-body', 'beach-lick-the-abs', 'beach-tease-then-grab', 'beach-grab-and-stay', 'beach-shirtless-holds', 'beach-body-she-grabs',
   'bed-set-then-last', 'bed-sweat-then-hard', 'bed-lift-then-again', 'bed-mouth-then-last', 'bed-hands-then-again', 'bed-tease-then-keep', 'bed-stay-hard', 'bed-round-after-round', 'bed-keep-it-up',
   'fold-then-fuck', 'open-then-hold-her', 'kiss-then-fold', 'mouth-then-fold', 'hands-then-the-angle', 'tease-then-fold', 'stay-in-the-fold', 'hold-the-angle', 'deeper-every-angle',
+  // Phase 20 ticket 10: Couples, Endurance & control, Hip power & thrust (+27)
+  'couple-set-then-fuck', 'couple-sweat-then-hold', 'couple-kiss-then-close', 'couple-mouth-then-both', 'couple-hands-then-both', 'couple-tease-then-both', 'couple-stay-together', 'couple-hold-together', 'couple-deeper-together', 'endure-set-then-edge', 'endure-sweat-then-pace', 'endure-lift-then-last', 'endure-mouth-then-edge', 'endure-hands-then-pace', 'endure-tease-then-edge', 'endure-stay-on-edge', 'endure-pace-the-hold', 'endure-deep-control', 'hip-set-then-drive', 'hip-strong-then-pound', 'hip-kiss-then-thrust', 'hip-mouth-then-drive', 'hip-hands-then-pound', 'hip-tease-then-slam', 'hip-stay-driving', 'hip-glute-holds', 'hip-deep-drive',
   // Phase 22 ticket 19: Rough and Kink-lite, 12 each
   'rough-set-then-spank', 'rough-sweat-then-pin', 'rough-lift-then-hold', 'rough-grind-then-hair',
   'rough-spank-then-fuck', 'rough-pin-then-thrust', 'rough-quick-and-mean', 'rough-long-hold',

@@ -11,7 +11,7 @@ const R = require('../recipes.js');
 const IDS = ['sweat-together', 'foreplay-fitness', 'strip-circuit', 'kiss-me-reps', 'lift-me-up', 'date-night-burn', 'partners-in-grime',
   'take-it-off', 'slow-burn-couples', 'sweaty-sheets', 'dare-night', 'massage-and-mount', 'couples-kama-sutra-30',
   'thirty-days-of-foreplay', 'ride-along', 'couples-quickie', 'fuck-fit', 'pin-me-down', 'wheelbarrow-race', 'fit-to-fuck-30'];
-const couples = programs.filter((p) => p.subject === 'Couples');
+const couples = programs.filter((p) => IDS.includes(p.id)); // Phase 20 ticket 10 adds 9 more, tested in explicit-more-b
 const cfgOf = (id) => CONFIGS.find((c) => c.id === id);
 const TAGS = ['Strength', 'Cardio & combat', 'Mind & body'];
 const mains = (d) => d.blocks.filter((b) => b.kind !== 'abs' && b.kind !== 'warmup' && b.kind !== 'cooldown');
