@@ -14,10 +14,27 @@ const KINDS = { sexRough: 'rough', sexKink: 'kink', sexBody: 'body', sexRim: 'ri
   sexShower: 'shower', sexPool: 'pool', sexHottub: 'hottub', sexBalcony: 'balcony', sexDoorframe: 'doorframe' };
 const added13 = (sub) => Object.values(cat.EX).filter((e) => e.added === 13 && (!sub || e.sub === sub)).map((e) => e.id);
 
+// the three pools by name, so pools added later (the home pools, Phase 20 ticket 8b) don't move the pin
+const three = ({ sexPositions, sexWarm, sexFuck }) => ({ sexPositions, sexWarm, sexFuck });
 test('the merged sex pools of catalogues 10 to 12 are as they were before Phase 22 (pinned)', () => {
-  assert.equal(hash(mergedAt(10)), '3460ced71899c2b8');
-  assert.equal(hash(mergedAt(11)), '53cc78427034f7ca');
-  assert.equal(hash(mergedAt(12)), '53cc78427034f7ca');
+  assert.equal(hash(three(mergedAt(10))), '3460ced71899c2b8');
+  assert.equal(hash(three(mergedAt(11))), '53cc78427034f7ca');
+  assert.equal(hash(three(mergedAt(12))), '53cc78427034f7ca');
+});
+
+// Phase 20 ticket 8b (decision 219): sex blocks on the home pools draw everything but the places
+const PLACES = ['shower', 'pool', 'hottub', 'balcony', 'doorframe'];
+test('the home pools are sexPositions and sexFuck without the place exercises, the same as them below 13', () => {
+  [10, 11, 12].forEach((c) => {
+    const m = mergedAt(c);
+    assert.deepEqual(m.sexPositionsHome, m.sexPositions, `sexPositionsHome at ${c}`);
+    assert.deepEqual(m.sexFuckHome, m.sexFuck, `sexFuckHome at ${c}`);
+  });
+  const m = mergedAt(13), place = (id) => PLACES.includes(cat.EX[id].sub);
+  [['sexPositionsHome', 'sexPositions'], ['sexFuckHome', 'sexFuck']].forEach(([home, all]) => {
+    assert.deepEqual(m[home], m[all].filter((id) => !place(id)), home);
+    assert.ok(m[all].some(place), `${all} holds place exercises`);
+  });
 });
 
 test('each new kind has a pool of its own: its catalogue-13 exercises, empty below 13', () => {

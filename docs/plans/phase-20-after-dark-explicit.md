@@ -99,7 +99,7 @@ minutes, pools) for Claude to review before Grok builds.
 | 6 | Catalogue 11: oral (24) and hands (8) | content | 5 | `content/catalogue-11-oral` | done (PR #219) |
 | 7 | Catalogue 11: anal (24) and toys (8) | content | 5 | `content/catalogue-11-anal` | done (PR #221) |
 | 8 | Explicit (+20), and the three session shapes | feature | 6, 7 | `content/explicit` | done (PR #223) |
-| 8b | Merged pools without the places, at catalogue 13 | feature | 8, Ph 22, Ph 30 | `feature/home-pools` | todo |
+| 8b | Merged pools without the places, at catalogue 13 | feature | 8, Ph 22, Ph 30 | `feature/home-pools` | done (PR #426) |
 | 9 | Beach body, Bedroom stamina, Sex positions (+27) | content | 8b | `content/explicit-more-a` | todo |
 | 10 | Couples, Endurance & control, Hip power & thrust (+27) | content | 8b | `content/explicit-more-b` | todo |
 | 11 | Carry & hold, Flexible & bendy, Strip & show-off (+27) | content | 8b | `content/explicit-more-c` | todo |
@@ -207,6 +207,8 @@ he's a man, so the descriptions speak to him.
   `doorframe` subs (219). `sexWarm` holds no places, so it serves as is. New names only, so no pinned program moves.
   Ticket 8's builders take the pool names as a setting, so tickets 9–15 pass the home pools.
   `tests/couple-odds.test.js` accepts the home pools as merged pools (equal odds and basics 1.5× hold inside them).
+  **Built:** the builders already take their pool lists as arguments, so tickets 9–23 write `poses('sexFuckHome', 4, 2)`
+  and `configs/after-dark.js` didn't change. `catalogue13`'s pin hashes the three old pools by name.
 - **Files:** `program-builder.js`, `configs/after-dark.js` (the builders' pool setting), `tests/couple-odds.test.js`,
   `tests/catalogue13.test.js`.
 - **Test first:** at catalogue 13 the home pools hold every couple exercise of `sexPositions` / `sexFuck` except the

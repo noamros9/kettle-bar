@@ -398,12 +398,16 @@
     const mergedAt = (upTo) => {
       const cp = computed(upTo);
       const new13 = (subs) => (upTo >= 13 ? ids((e) => e.added === 13 && e.cat === 'couple' && (!subs || subs.includes(e.sub))) : []);
-      return {
+      const m = {
         sexPositions: [...new Set([...cp.explicit, ...POOLS.positions, ...new13()])],
         sexWarm: [...new Set([...POOLS.oralSex, ...POOLS.hands, ...POOLS.oral, ...POOLS.tease, ...POOLS.massage, ...new13(['oral', 'hands', 'kink', 'rim', 'massage', 'tease'])])],
         sexFuck: [...new Set([...POOLS.fuck, ...POOLS.anal, ...POOLS.toy, ...POOLS.positions, ...new13(['fuck', 'anal', 'toys', 'rough', 'body', 'edging', 'shower', 'pool', 'hottub', 'balcony', 'doorframe'])])],
       };
+      // the home pools (Phase 20 ticket 8b, decision 219): the same without the places, which keep their own subjects
+      const home = (list) => list.filter((id) => !PLACE_SUBS.includes(EX[id].sub));
+      return { ...m, sexPositionsHome: home(m.sexPositions), sexFuckHome: home(m.sexFuck) };
     };
+    const PLACE_SUBS = ['shower', 'pool', 'hottub', 'balcony', 'doorframe'];
     const COMPUTED = new Map();
     const computed = (upTo) => COMPUTED.get(upTo) || COMPUTED.set(upTo, computedPools(upTo)).get(upTo);
     Object.assign(POOLS, computed(0)); // the pools as existing programs see them
