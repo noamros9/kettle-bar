@@ -2,7 +2,7 @@
 
 The index: where we are, what comes next, and the two phases being built now. Every other phase's decisions live at the
 top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase comes up. Decision numbers are global
-(the next one is **339**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
+(the next one is **340**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
 ## Resume here (15 Oct 2026, midday)
 - **Phase 20 resumed beside Phase 33** (338): 8b (home pools, #426) and ticket 9 (Grok, #427) merged. **Ticket 10 parked:**
@@ -10,6 +10,11 @@ top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase c
   in full, 24 to write); the branch `content/explicit-more-b` there holds the WIP test (local, not pushed). Resume when
   Noam's Grok usage renews: `--resume 01a13eba-980f-79f0-8046-9393e9deb04d` with `grok/t10-build.md`. One ticket per go. Prompts: `grok/t9-*.md` in
   `../kettle-bar-docs` are the model (plan, review, build); `npm run pin -- --phase 20`, `check:new -- --phase 20 …`.
+- **Grok writes text only (339, 15 Oct):** ticket 9 cost ~10% of Noam's weekly Grok usage and t10's plan 4%: 95-turn
+  runs re-reading ~130k tokens a turn, mostly plumbing. Now Grok writes only names, blurbs and abouts into one text file,
+  from a brief Claude pastes in (pools, one sample config, the guidelines); Claude does configs, tests, pins, check:new.
+  The first such ticket commits `t9-emit.js` as a script (text file → configs). **Ticket 10 resumes this way:** Grok
+  writes the 24 missing abouts only, Claude does the rest on `content/explicit-more-b`.
 - **Phase 33 is building** ([plan](docs/plans/phase-33-day-to-day-2.md)): tickets 1–6 merged (#415–#421). Progress
   shapes; Pause, the rows and Start over (#293); weekdays and "Next workout" (#291); a day note (#292); Compare (#294);
   Programs that use this (#295; day counts in their own `data/index-days.json`, +83 KB gzipped).
@@ -57,6 +62,8 @@ Numbered 20 because 19 is super programs.
 - **67 · Paused after ticket 8**; tickets 9–15 resume after Phase 22.
 - **338 · Resumed 15 Oct beside Phase 33, while Grok usage lasts** (295 had it after 36): the two touch different files;
   Phase 36 ticket 3 later moves these programs to the ordered sessions for new starts, like Phase 22's. *(15 Oct)*
+- **339 · Grok writes the text only** (63 kept): names, blurbs, abouts in one file, from a pasted brief; Claude builds
+  the configs, tests and pins. Ticket 9 took ~10% of the weekly Grok usage, mostly plumbing. *(15 Oct)*
 - **57 · Refined in place**: the 17 position cues, 7 dare cues and 105 programs' text; same ids and days, no re-pins.
   Explicit words and dirty slang, one paragraph, no orgasm script.
 - **58 · A pelvic mark on the stick figures** (rendered pictures were refused).

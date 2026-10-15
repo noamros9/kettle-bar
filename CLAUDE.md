@@ -39,6 +39,11 @@ read only when needed. Decisions with a long "why": [docs/adr/](docs/adr/).
   marks them. Grok Build builds, Claude reviews and merges:
   - Claude creates the ticket's branch, then runs `grok -p` headless with the plan file and ticket number, asking
     for a short summary back; Grok's full output goes to a scratch file, not Claude's context.
+  - **Grok writes text only (Noam, 15 Oct 2026, decision 339; Grok usage):** for content tickets Grok writes only the
+    names, blurbs and abouts, into one text file; Claude builds the configs, tests and pins from it (a committed emit
+    script). The prompt pastes the brief (pools, one sample config, the guidelines) and says not to read CLAUDE.md,
+    CONTEXT.md, the skill, old plans or its own output; `git log --oneline -5`, test output tailed. A fix round is a
+    fresh short prompt, not `--continue` on a long session.
   - **Grok plans first (Noam, 7 Oct 2026):** its first run writes only `grok/tN-plan.md` (per item for
     content, files and approach for code) and stops; Claude reviews the plan and sends changes until it passes. Never
     `test-results/`: Playwright wipes it at the start of every run.
