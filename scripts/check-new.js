@@ -58,8 +58,11 @@ function problemsOf(c) {
 }
 
 if (require.main === module) {
-  const subjects = process.argv.slice(2);
-  const list = CONFIGS.filter((c) => (c.added || 0) >= PHASE && !c.step && (!subjects.length || subjects.includes(c.subject)));
+  // `--phase 20`: an earlier phase's new programs (Phase 20 resumed after 23, decision 338)
+  const args = process.argv.slice(2), at = args.indexOf('--phase');
+  const phase = at >= 0 ? +args[at + 1] : PHASE;
+  const subjects = at >= 0 ? args.filter((x, i) => i !== at && i !== at + 1) : args;
+  const list = CONFIGS.filter((c) => (c.added || 0) >= phase && !c.step && (!subjects.length || subjects.includes(c.subject)));
   let bad = 0;
   list.forEach((c) => {
     const p = problemsOf(c);
