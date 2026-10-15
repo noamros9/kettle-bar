@@ -167,7 +167,8 @@ test('buildDay over the 60-day loop, with one memory and one rnd stream, gives e
   ['iron-ppl', 'engine', 'sun-and-strength', 'fight-camp', 'twenty-flat'].forEach((id) => {
     const cfg = CONFIGS.find((c) => c.id === id), rec = B4.recipesOf(cfg);
     const memory = B4.newMemory(), rnd = B4.makeRnd(cfg.id);
-    programs.find((p) => p.id === id).days.forEach((want) => {
+    // the days as built, before a re-timed program's lengthening pass (Phase 26), which buildDay doesn't do
+    B4.build({ ...cfg, long: undefined }, cat).days.forEach((want) => {
       const got = B4.buildDay(rec[cfg.cycle[(want.day - 1) % cfg.cycle.length]], { day: want.day, level: levelOf(want.day), rnd, memory }, cat);
       const { name, ...rest } = want;
       assert.equal(JSON.stringify(got), JSON.stringify(rest), `${id} d${want.day}`);
