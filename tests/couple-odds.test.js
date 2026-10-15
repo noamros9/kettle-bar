@@ -9,7 +9,7 @@ const cat = require('../exercises.js');
 const Builder = require('../program-builder.js');
 
 const { EX } = cat;
-const MERGED = ['sexPositions', 'sexWarm', 'sexFuck'];
+const MERGED = ['sexPositions', 'sexWarm', 'sexFuck', 'sexPositionsHome', 'sexFuckHome']; // the home pools: Phase 20 ticket 8b
 const usesMerged = (c) => Object.values(c.dayTypes).some((t) => t.blocks.some((b) => (b.slots || []).some((s) => MERGED.includes(s.replace('?', '')))));
 const programs = Builder.CONFIGS.filter((c) => c.couple && (c.catalogue || 0) >= 11);
 const byId = Object.fromEntries(require('./helpers/library.js').built(programs.map((c) => c.id)).map((p) => [p.id, p])); // the shared build (Phase 31 ticket 5)
