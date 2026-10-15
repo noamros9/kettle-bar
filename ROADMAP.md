@@ -92,7 +92,8 @@ Numbered 20 because 19 is super programs.
 - **Test a restore from the nightly backup** on the phone ([#16](https://github.com/noamros9/kettle-bar/issues/16)).
 - **Cut the test and CI times** ([#265](https://github.com/noamros9/kettle-bar/issues/265)). Already done: only the
   affected UI specs run locally; the sync tests run ~35% faster; CI runs in Playwright's image and cancels older runs;
-  Markdown-only commits skip the tests. More workers don't help on 2 cores.
+  Markdown-only commits skip the tests; a first CI job builds the library once and the test and UI jobs read its cache
+  (#438, 15 Oct: a builder change had three jobs building cold at once). More workers don't help on 2 cores.
   **322 ·** The build cache is done (13 Oct, archived): builds read unchanged programs from `.build-cache/`.
 
 ## Decided against (don't re-suggest)

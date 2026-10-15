@@ -22,7 +22,52 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
+  # Builds the library once and saves the build cache, so the test and UI jobs read it instead of each building cold
+  # at the same time (a builder change made three 8-10 minute builds per PR run, 15 Oct 2026). No Playwright image:
+  # the build needs no browser, and the plain runner starts faster. A pin failure doesn't stop it here: the cache is
+  # written before the pin gate, and the test job's own build reports the failure as before.
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - name: The tree this run tests
+        id: tree
+        run: echo "tree=$(git rev-parse HEAD^{tree})" >> "$GITHUB_OUTPUT"
+      - name: Did this exact tree already pass?
+        id: passed
+        if: github.event_name == 'pull_request'
+        uses: actions/cache/restore@v4
+        with:
+          path: .tested-tree
+          key: tested-${{ steps.tree.outputs.tree }}
+          lookup-only: true
+      - uses: actions/setup-node@v7
+        if: steps.passed.outputs.cache-hit != 'true'
+        with:
+          node-version: 22
+      - run: npm ci
+        if: steps.passed.outputs.cache-hit != 'true'
+      - name: Restore the build cache
+        if: steps.passed.outputs.cache-hit != 'true'
+        uses: actions/cache/restore@v4
+        with:
+          path: .build-cache
+          key: build-cache-${{ github.run_id }}
+          restore-keys: build-cache-
+      - name: Build once for the jobs after it
+        if: steps.passed.outputs.cache-hit != 'true'
+        continue-on-error: true
+        run: npm run build | tee build.log && grep '^build cache' build.log | sed 's/^/::notice title=Build cache::/'
+        shell: bash
+      - uses: actions/cache/save@v4
+        if: steps.passed.outputs.cache-hit != 'true'
+        continue-on-error: true
+        with:
+          path: .build-cache
+          key: build-cache-pre-${{ github.run_id }}
+
   test:
+    needs: build
     runs-on: ubuntu-24.04
     # Playwright's own image has the browser and its system libraries: no install step (it took 6 to 20+ minutes
     # of apt-get). Its version must match @playwright/test in package.json (tests/ci.test.js checks).
@@ -62,7 +107,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: .build-cache
-          key: build-cache-${{ github.run_id }}
+          key: build-cache-pre-${{ github.run_id }}
           restore-keys: build-cache-
       - name: Unit tests, 100% coverage on the core modules
         if: steps.tested.outputs.tested != 'true' && steps.passed.outputs.cache-hit != 'true'
@@ -129,6 +174,7 @@ jobs:
 
   # Decision 131: the phone tests, light and dark, each in its own job beside the unit tests
   ui:
+    needs: build
     runs-on: ubuntu-24.04
     container:
       image: mcr.microsoft.com/playwright:v1.56.0-noble
@@ -162,13 +208,14 @@ jobs:
         run: node scripts/tested-tree.js
         env:
           GH_TOKEN: ${{ github.token }}
-      # the build cache (decision 326): programs and recipe trials whose keys are unchanged are read, not made
+      # the build cache (decision 326): programs and recipe trials whose keys are unchanged are read, not made; the
+      # build job's, so this build reads what it made
       - name: Restore the build cache
         if: steps.tested.outputs.tested != 'true' && steps.passed.outputs.cache-hit != 'true'
         uses: actions/cache/restore@v4
         with:
           path: .build-cache
-          key: build-cache-${{ github.run_id }}
+          key: build-cache-pre-${{ github.run_id }}
           restore-keys: build-cache-
       # Decision 307: build in its own step; the test server then only serves (the build inside its start timed out)
       - name: Build
