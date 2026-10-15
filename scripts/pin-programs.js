@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // `npm run pin`: builds only this phase's programs (added: 23 and later), never the whole library. Adds a pin for each
-// that has none and checks the pins they have; an existing pin is never changed. The build's own gate checks the rest.
+// that has none and checks the pins they have; an existing pin is never changed (but by `--long`, Phase 26's re-timed
+// programs). The build's own gate checks the rest.
 const fs = require('fs');
 const path = require('path');
 const { pinOf } = require('./pins.js');
@@ -20,9 +21,27 @@ function pinEntries(configs, pins, build, from = PHASE) {
   return { pins: out, added, problems };
 }
 
+// Phase 26 (decision 55): the one exception to never re-pinning. Every config with `long` (configs/long.js) is re-pinned
+// to its lengthened days; the ids it changed come back in `repinned`. Run in the ticket that lists them, never after.
+function longEntries(configs, pins, build) {
+  const out = { ...pins }, repinned = [];
+  configs.filter((c) => c.long).forEach((c) => {
+    const now = pinOf(build(c).days);
+    if (out[c.id] !== now) { out[c.id] = now; repinned.push(c.id); }
+  });
+  return { pins: out, repinned };
+}
+
 if (require.main === module) {
   const { CONFIGS, buildConfig } = require('../program-builder.js');
   const pins = JSON.parse(fs.readFileSync(file, 'utf8'));
+  // `--long`: re-pin the re-timed programs (Phase 26 tickets 3–6)
+  if (process.argv.includes('--long')) {
+    const out = longEntries(CONFIGS, pins, buildConfig);
+    fs.writeFileSync(file, JSON.stringify(out.pins, null, 2) + '\n');
+    console.log(out.repinned.length ? `re-pinned: ${out.repinned.join(', ')}` : 'no re-timed program changed');
+    process.exit(0);
+  }
   // `--phase 20`: an earlier phase's new programs (Phase 20 resumed after 23, decision 338)
   const at = process.argv.indexOf('--phase');
   const out = pinEntries(CONFIGS, pins, buildConfig, at > 0 ? +process.argv[at + 1] : PHASE);
@@ -31,4 +50,4 @@ if (require.main === module) {
   console.log(out.added.length ? `pinned: ${out.added.join(', ')}` : 'every phase program was already pinned');
 }
 
-module.exports = { pinEntries };
+module.exports = { pinEntries, longEntries };

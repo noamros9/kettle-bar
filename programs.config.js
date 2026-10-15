@@ -183,4 +183,6 @@ const byId = new Map(FAMILY_FILES.flat().map((c) => [c.id, c]));
 if (byId.size !== ORDER.length || ORDER.some((id) => !byId.has(id))) throw new Error('programs.config.js: ORDER and configs/ disagree');
 // Variety programs (Phase 16) are dealt into an ordinary cycle here, so every reader of the library sees one kind of config
 const { expand } = require('./variety.js');
-module.exports = ORDER.map((id) => expand(byId.get(id)));
+// Phase 26: a re-timed program carries its band as `long` (configs/long.js), and the builder lengthens its days to it
+const LONG = require('./configs/long.js');
+module.exports = ORDER.map((id) => expand(LONG[id] ? { ...byId.get(id), long: LONG[id] } : byId.get(id)));

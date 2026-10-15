@@ -53,7 +53,7 @@ at 31–35. Roughly 180 move to 35–38 and 30 to 31–35; ticket 2 makes the re
 | # | Ticket | Tier | Blocked by | Branch | Status |
 |---|---|---|---|---|---|
 | 0 | This plan | plan | – | `plan/unplanned-phases` | done (PR #281) |
-| 1 | The lengthening pass and the one-time re-pin | feature | – | `feature/lengthen-pass` | todo |
+| 1 | The lengthening pass and the one-time re-pin | feature | – | `feature/lengthen-pass` | done (PR #436) |
 | 2 | Who moves: the list per subject | feature | 1 | `feature/long-list` | todo |
 | 3 | Strength family, re-timed | content | 2 | `content/long-strength` | todo |
 | 4 | Cardio & combat, re-timed | content | 3 | `content/long-cardio-combat` | todo |
@@ -77,6 +77,10 @@ Tickets 3–6 edit the same list (`configs/long.js`) and the pins file, so they 
 - **Files:** `program-builder.js`, `formats.js` (what each format may grow), `configs/long.js` (empty map),
   `programs.config.js` (applies the map), `scripts/pin-programs.js`, `tests/builder.test.js`,
   `tests/programs.test.js`.
+- **As built (PR #436):** `formats.js` didn't change: a block grows through its format's own `options.values` (abs
+  by straight sets), and a slot that adds no time (EMOM, AMRAP, ladder, Tabata) is never added. The tests went into
+  their own `tests/lengthen.test.js` (builder.test.js was full) and `tests/pins.test.js`; the re-pin is
+  `npm run pin -- --long`.
 - **Test first:** a made-up config at `[24, 29]` with `long: [35, 38]`: every original pick of every day is still
   there in the same block and order; every day lands in 35–38; a made-up config
   that can't reach it with one slot per block still ends longer than before, with `minutes` showing what it reached;

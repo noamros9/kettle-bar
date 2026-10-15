@@ -4,7 +4,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const crypto = require('crypto');
 const { pinOf, pinProblems } = require('../scripts/pins.js');
-const { pinEntries } = require('../scripts/pin-programs.js');
+const { pinEntries, longEntries } = require('../scripts/pin-programs.js');
 
 const old = (days) => crypto.createHash('sha256').update(JSON.stringify(days)).digest('hex');
 const A = { id: 'a', days: [{ day: 1, n: 5 }] };
@@ -48,4 +48,13 @@ test('`npm run pin` reports a phase program whose pinned days changed, and adds 
   assert.equal(out.problems.length, 1);
   assert.match(out.problems[0], /^ii: its days changed/);
   assert.equal(out.pins.ii, old([{ day: 1, n: 3 }]));
+});
+
+test('`npm run pin -- --long` re-pins exactly the configs with `long`, and only when their days changed', () => {
+  const build = (c) => ({ id: c.id, days: [{ day: 1, n: c.n }] });
+  const configs = [{ id: 'kept', n: 1 }, { id: 'longer', n: 9, long: [35, 38] }, { id: 'same', n: 2, long: [31, 35] }];
+  const pins = { kept: 'x', longer: old([{ day: 1, n: 1 }]), same: old([{ day: 1, n: 2 }]) };
+  const out = longEntries(configs, pins, build);
+  assert.deepEqual(out.repinned, ['longer']);
+  assert.deepEqual(out.pins, { ...pins, longer: old([{ day: 1, n: 9 }]) });
 });
