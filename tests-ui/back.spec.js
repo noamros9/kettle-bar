@@ -117,3 +117,16 @@ test('a long day ← an exercise opened from its block', async ({ app }) => {
   await expect(app.page).toHaveURL(/#p-three-split-60-d1$/);
   await samePlace(app, ex, y, t);
 });
+
+// the flake of #426/#427: Back swaps the history entry first and fires hashchange later, so a scroll save still waiting
+// from the page you left could land in the entry you came back to (y: 0, the restore then went to the top)
+test('a scroll save still waiting never writes into another entry', async ({ app }) => {
+  await app.open('#p-three-split-60-d1');
+  const y = await app.page.evaluate(async () => {
+    window.dispatchEvent(new Event('scroll')); // a save is now waiting for this page
+    history.pushState({ y: 1234 }, '', '#p-three-split-60-d2'); // another entry, and no hashchange: the gap Back leaves
+    await new Promise((r) => setTimeout(r, 400));
+    return history.state.y;
+  });
+  expect(y).toBe(1234);
+});
