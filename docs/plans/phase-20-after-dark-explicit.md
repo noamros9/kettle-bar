@@ -78,6 +78,8 @@ Grown 8 Oct 2026 (Noam):
   each); Explicit 65 → 98 (+33). Tickets 16–23, after 15. After dark grows from 305 to 460 here.
 - **222 · The +155 build as tickets 9–15 do**: `catalogue: 13`, the home pools (219), 60 days, minutes in the
   subject's ×1.2 band. Shapes in even thirds (an odd one goes to gym then sex); Explicit sex-heavy like its 45.
+- **344 · Couple Quickies run 22–30 minutes** (16–22, like the solo ones, couldn't draw all 622 sex exercises in 60
+  days); tickets 9–11 run 31–40. *(15 Oct)*
 
 ## Who builds
 Noam handed Claude the hand-offs for this phase (5 Oct): **every ticket goes to Grok**, by the Grok-tickets rule in
@@ -103,7 +105,7 @@ minutes, pools) for Claude to review before Grok builds.
 | 9 | Beach body, Bedroom stamina, Sex positions (+27) | content | 8b | `content/explicit-more-a` | done (PR #427) |
 | 10 | Couples, Endurance & control, Hip power & thrust (+27) | content | 8b | `content/explicit-more-b` | done (PR #446) |
 | 11 | Carry & hold, Flexible & bendy, Strip & show-off (+27) | content | 8b | `content/explicit-more-c` | done (PR #447) |
-| 12 | Her pleasure, Quickie, Back & knees care (+27) | content | 8b | `content/explicit-more-d` | todo |
+| 12 | Her pleasure, Quickie, Back & knees care (+27) | content | 8b | `content/explicit-more-d` | done (PR #448) |
 | 13 | Date night warm-up, Positions tour, Morning glory / Sunday (+27) | content | 8b | `content/explicit-more-e` | todo |
 | 14 | Explicit, sex only (+23) | content | 8b | `content/explicit-sex-a` | todo |
 | 15 | Explicit, sex only (+22) | content | 8b | `content/explicit-sex-b` | todo |

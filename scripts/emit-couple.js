@@ -89,10 +89,11 @@ lines.forEach((line) => {
   const blurb = parts[7];
   const names = parts[8].split(', ');
   if (!ABOUTS[id]) throw new Error('no about ' + id);
+  const minutes = /^\[\d+, \d+\]$/.test(parts[4]) ? parts[4] : '[31, 40]';
   if (!DAYS[cycle]) throw new Error('no days ' + cycle + ' for ' + id);
   if (names.length !== 20) throw new Error(id + ' names ' + names.length);
   chunks.push(`  {
-    id: ${q(id)}, ...C13, name: ${q(name)}, subject: ${q(subject)}, minutes: [31, 40], levers: ${LEVER[shape]},
+    id: ${q(id)}, ...C13, name: ${q(name)}, subject: ${q(subject)}, minutes: ${minutes}, levers: ${LEVER[shape]},
     split: ${q(parts[9] || SPLIT[shape])}, blurb: ${q(blurb)},
     about: ${q(ABOUTS[id])},
     names: [${names.map(q).join(', ')}],
