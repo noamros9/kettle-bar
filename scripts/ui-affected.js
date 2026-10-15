@@ -21,7 +21,7 @@ const MAP = [
   [/^app\/library\.js$/, ['library', 'favourites', 'exercises', 'muscles', 'finder']],
   [/^app\/(stats|charts)\.js$/, ['stats', 'rounds', 'finish']],
   [/^app\/(session|clock)\.js$/, ['workout', 'flow', 'bouts', 'bigtimer', 'voice', 'resume', 'finish']],
-  [/^app\/(store|progress|docs)\.js$/, ['sync', 'settings', 'rounds', 'resume', 'swap', 'outbox', 'weekdays', 'pause']],
+  [/^app\/(store|progress|docs)\.js$/, ['sync', 'sync-status', 'settings', 'rounds', 'resume', 'swap', 'outbox', 'weekdays', 'pause']],
   [/^app\/backup\.js$/, ['settings', 'rounds']],
   [/^(app\/lazy\.js|sw\.js|manifest\.webmanifest)$/, ['offline', 'shortcut', 'cachefirst']],
   [/^app\/programs\.js$/, ['library', 'build', 'shortcut', 'pause', 'exercise', 'offline']],
@@ -34,7 +34,7 @@ const MAP = [
   [/^app\/warmup\.js$/, ['warmup']],
   [/^app\/swaps\.js$/, ['swap', 'travel', 'rounds', 'skip']],
   [/^app\/day\.js$/, ['swap', 'travel', 'warmup', 'short', 'resume', 'skip']],
-  [/^(firebase-sync\.js|firebase-config\.js)$/, ['sync']],
+  [/^(firebase-sync\.js|firebase-config\.js)$/, ['sync', 'sync-status']],
   // the pages (architecture review IV); ui.js and pages/core.js are under every page: the smoke check covers them
   [/^app\/pages\/programs\.js$/, ['library', 'favourites', 'finder', 'now', 'pause']],
   [/^app\/pages\/random\.js$/, ['random', 'skip']],
@@ -43,7 +43,7 @@ const MAP = [
   [/^app\/pages\/program\.js$/, ['rounds', 'shortcut', 'variety', 'pause', 'weekdays', 'compare']],
   [/^app\/pages\/day\.js$/, ['workout', 'flow', 'bouts', 'bigtimer', 'swap', 'travel', 'short', 'warmup', 'finish', 'resume', 'skip', 'weekdays', 'note']],
   [/^app\/pages\/exercises\.js$/, ['exercise', 'exercises', 'muscles']],
-  [/^app\/pages\/settings\.js$/, ['settings']],
+  [/^app\/pages\/settings\.js$/, ['settings', 'sync-status']],
   [/^app\/pages\/stats\.js$/, ['stats', 'again', 'note']],
   [/^app\/(progress|store)\.js$/, ['again']], // Phase 30: done again
   [/^app\/(ui\.js|pages\/core\.js)$/, ['offline', 'shortcut', 'back']], // back: Back keeps your place (#214)

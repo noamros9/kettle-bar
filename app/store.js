@@ -3,8 +3,8 @@
    data (own programs, random workouts, preferences), kept in sync.
    Always keeps a device copy (storage adapter). A remote adapter can be attached for sync:
      remote = { kind, account?,
-                subscribe(collection, id, onData(doc | null), onErr) -> unsubscribe,
-                subscribeAll?(collection, onDocs({ id: doc }), onErr) -> unsubscribe,
+                subscribe(collection, id, onData(doc | null, fromCache?), onErr) -> unsubscribe,
+                subscribeAll?(collection, onDocs({ id: doc }, fromCache?), onErr) -> unsubscribe,
                 (progress is listened to as one collection when subscribeAll is there, Phase 24 ticket 5, decision 332;
                  a remote without it is followed program by program)
                 write(collection, id, doc) -> Promise, remove?(collection, id) -> Promise }
@@ -25,13 +25,13 @@
    Outbox (Phase 12): while signed in, every cloud write is kept on the device (kb-outbox) until confirmed, sent again on
    online() and at attach, where it wins over the cloud's copy; waiting() says how many; an 'outbox' event on change.
    Adapters: Firebase (firebase-sync.js), in-memory (tests).
-   The store never touches the page: it emits 'change' (pid), 'docs' (collection), 'outbox' (count) and 'status' (ok | saving |
+   The store never touches the page: it emits 'change' (pid), 'docs' (collection), 'outbox' (count), 'synced' (time) and 'status' (ok | saving |
    offline | local | signin | ro | err) events. storage = { get, set, remove? } (a device without remove clears
    the text instead). */
 (function (root, P, D) {
   function createStore({ programIds: given, storage, now = () => new Date().toISOString(), isOnline = () => true, retryDelay = () => 600 + Math.random() * 800 }) {
     const programIds = given.slice(); // grows and shrinks at runtime: your own programs (addProgram, dropProgram)
-    const listeners = { change: [], status: [], docs: [], outbox: [] };
+    const listeners = { change: [], status: [], docs: [], outbox: [], synced: [] };
     const emit = (ev, x) => listeners[ev].forEach((f) => f(x));
     const progress = {};
     // progressAll: the one progress listener (Phase 24 ticket 5, decision 332) when the remote can list a collection;
@@ -44,6 +44,9 @@
       paused: 'kb-paused-' + pid, weekdays: 'kb-weekdays-' + pid, notes: 'kb-notes-' + pid });
     const fromDevice = (pid) => { const k = keys(pid); return P.fromDevice(Object.fromEntries(Object.entries(k).map(([f, key]) => [f, read(key)]))); };
     const setStatus = (s) => { status = s; emit('status', s); };
+    // the last time the cloud itself answered (Phase 33 ticket 7): a snapshot from the device's cache doesn't count
+    let synced = null;
+    const heard = (fromCache) => { if (!fromCache) { synced = now(); emit('synced', synced); } };
     const of = (pid) => progress[pid] || P.empty();
 
     // account data: { collection: { id: body } }; pending: writes not finished yet, per 'collection/id'
@@ -105,10 +108,10 @@
       docSeen = {};
       // progress: one listener on the collection when the remote can list it (was one per program: 1,060 at sign-in);
       // a remote that can't (older adapters, some tests) is followed program by program as before
-      if (r.subscribeAll) { lastCloud = null; progressAll = r.subscribeAll('progress', onProgressDocs, (e) => { if (typeof console !== 'undefined') console.warn('sync error', e); setStatus('err'); }); }
+      if (r.subscribeAll) { lastCloud = null; progressAll = r.subscribeAll('progress', (docs, fromCache) => { heard(fromCache); onProgressDocs(docs); }, (e) => { if (typeof console !== 'undefined') console.warn('sync error', e); setStatus('err'); }); }
       else programIds.forEach(follow);
       // account data: an error here (e.g. the rules for the new collections are not published) is not a sync problem for progress
-      if (r.subscribeAll) D.COLLECTIONS.forEach((c) => unsubs.push(r.subscribeAll(c, (docs) => onDocs(c, docs), (e) => console.warn('sync error (' + c + ')', e))));
+      if (r.subscribeAll) D.COLLECTIONS.forEach((c) => unsubs.push(r.subscribeAll(c, (docs, fromCache) => { heard(fromCache); onDocs(c, docs); }, (e) => console.warn('sync error (' + c + ')', e))));
       // waiting deletes of programs no longer here (their progress isn't followed)
       Object.keys(outbox).filter((k) => k.startsWith('progress/') && !programIds.includes(k.slice(9))).forEach((k) => removeProgress(k.slice(9), true));
     }
@@ -123,7 +126,7 @@
     // listen to one program's cloud document
     function follow(pid) {
       const r = remote;
-      progressUnsubs[pid] = r.subscribe('progress', pid, (doc) => onRemote(pid, P.fromDoc(doc)), (e) => { if (typeof console !== 'undefined') console.warn('sync error', e); setStatus('err'); });
+      progressUnsubs[pid] = r.subscribe('progress', pid, (doc, fromCache) => { heard(fromCache); onRemote(pid, P.fromDoc(doc)); }, (e) => { if (typeof console !== 'undefined') console.warn('sync error', e); setStatus('err'); });
     }
     // a snapshot of the whole progress collection: the first one is every program's first sync (a program with no
     // document gets null, as its own listener used to); later ones pass on only the programs whose document changed
@@ -137,7 +140,7 @@
     }
     function detach(silent) {
       [...unsubs, ...Object.values(progressUnsubs), ...(progressAll ? [progressAll] : [])].forEach((u) => { try { u(); } catch (e) { /* already gone */ } });
-      unsubs = []; progressUnsubs = {}; progressAll = null; lastCloud = null; remote = null;
+      unsubs = []; progressUnsubs = {}; progressAll = null; lastCloud = null; remote = null; synced = null;
       if (!silent) setStatus(auth ? 'signin' : 'local');
     }
     function onRemote(pid, cloud) {
@@ -298,6 +301,7 @@
       get auth() { return auth; },
       get remote() { return remote; },
       get status() { return status; },
+      get synced() { return synced; }, // ISO time, or null before the cloud has answered
       get readonly() { return readonly; },
     };
   }
