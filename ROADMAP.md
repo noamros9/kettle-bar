@@ -2,14 +2,16 @@
 
 The index: where we are, what comes next, and the two phases being built now. Every other phase's decisions live at the
 top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase comes up. Decision numbers are global
-(the next one is **338**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
+(the next one is **339**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
-## Resume here (14 Oct 2026, midday)
+## Resume here (15 Oct 2026)
+- **Phase 20 resumes beside Phase 33** (338): Claude builds 8b (home pools) while Grok plans ticket 9; then Grok
+  takes 9, 10 … one ticket per go from Noam, stopping after each.
 - **Phase 33 is building** ([plan](docs/plans/phase-33-day-to-day-2.md)): tickets 1–6 merged (#415–#421). Progress
   shapes; Pause, the rows and Start over (#293); weekdays and "Next workout" (#291); a day note (#292); Compare (#294);
   Programs that use this (#295; day counts in their own `data/index-days.json`, +83 KB gzipped).
-- **Next: ticket 7** (sync status in Settings, #296; read how `firebase-sync.js` hands snapshots over first) **and 8**
-  (close the phase); wait for Noam's go.
+- **Phase 33 next: ticket 7** (sync status in Settings, #296; the header's account popover already has the email and
+  the changes waiting, `app/main.js` `paintSync`; missing: last synced time, Sync now, and a Settings card) **and 8**.
 - **Grok hand-off brought up to date (15 Oct):** the grok-handoff skill (on Noam's computer) has "kettle-bar
   additions" for the prompt (cache:pull, pin, check:new, UI own specs + smoke, the explicit guidelines); CLAUDE.md's
   plan path is `grok/` only. Phase 36 ticket 4 now only needs Phase 20's and 35's prompts to name the guidelines. The
@@ -33,7 +35,7 @@ right after Phase 22 (216). **223 ·** 8 Oct: quick fixes after 22; Export, day 
 | 4 | 27 · Calisthenics: twelve skills, 25 programs | [#199](https://github.com/noamros9/kettle-bar/issues/199) | [plan](docs/plans/phase-27-calisthenics.md) | planned |
 | 5 | 19 · Super programs: 120 days from several programs | [#186](https://github.com/noamros9/kettle-bar/issues/186) | [plan](docs/plans/phase-19-super-programs.md) | planned |
 | 6 | 36 · Logical sessions: an order and a place per set for every couple session | – | [plan](docs/plans/phase-36-logical-sessions.md) | planned |
-| 7 | 20 · After dark refined, the Explicit set, +50% programs (tickets 8b–23 left) | [#202](https://github.com/noamros9/kettle-bar/issues/202) | [plan](docs/plans/phase-20-after-dark-explicit.md) | paused after ticket 8; waits for Grok |
+| 7 | 20 · After dark refined, the Explicit set, +50% programs (tickets 8b–23 left) | [#202](https://github.com/noamros9/kettle-bar/issues/202) | [plan](docs/plans/phase-20-after-dark-explicit.md) | building beside 33 (338): 8b next |
 | 8 | 35 · Catalogue 14: threesomes (their own kind and in every act), every act at every place | – | [plan](docs/plans/phase-35-threesomes-and-places.md) | planned (tickets in the plan) |
 | 9 | 28 · Explicit drawings and loops | [#249](https://github.com/noamros9/kettle-bar/issues/249) | [plan](docs/plans/phase-28-explicit-drawings.md) | planned |
 | 10 | 29 · Stories from the couple workouts, in Drive | [#225](https://github.com/noamros9/kettle-bar/issues/225) | [plan](docs/plans/phase-29-stories.md) | planned, last |
@@ -46,10 +48,12 @@ right after Phase 22 (216). **223 ·** 8 Oct: quick fixes after 22; Export, day 
 - **136 · Plans are ready, not frozen**: before a phase's first ticket, re-read its Challenge round; counts and files
   move while earlier phases land, and a ticket whose facts changed is fixed in its plan before hand-off.
 
-## Phase 20 (paused): After dark refined, and an Explicit set
+## Phase 20 (building): After dark refined, and an Explicit set
 Grilled 5 Oct 2026 on [#202](https://github.com/noamros9/kettle-bar/issues/202); Grok builds, Claude reviews.
 Numbered 20 because 19 is super programs.
 - **67 · Paused after ticket 8**; tickets 9–15 resume after Phase 22.
+- **338 · Resumed 15 Oct beside Phase 33, while Grok usage lasts** (295 had it after 36): the two touch different files;
+  Phase 36 ticket 3 later moves these programs to the ordered sessions for new starts, like Phase 22's. *(15 Oct)*
 - **57 · Refined in place**: the 17 position cues, 7 dare cues and 105 programs' text; same ids and days, no re-pins.
   Explicit words and dirty slang, one paragraph, no orgasm script.
 - **58 · A pelvic mark on the stick figures** (rendered pictures were refused).
