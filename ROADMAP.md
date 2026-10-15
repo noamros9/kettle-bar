@@ -2,30 +2,30 @@
 
 The index: where we are, what comes next, and the two phases being built now. Every other phase's decisions live at the
 top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase comes up. Decision numbers are global
-(the next one is **344**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
+(the next one is **345**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
-## Resume here (15 Oct 2026, evening)
-- **Phase 20 resumed beside Phase 33** (338): 8b (home pools, #426) and ticket 9 (Grok, #427) merged. **Ticket 10 parked:**
-  Grok's usage ran out mid-build (402). Its approved plan is `../kettle-bar-docs/grok/t10-plan.md` (27 programs; 3 abouts
-  in full, 24 to write); the branch `content/explicit-more-b` there holds the WIP test (local, not pushed). Resume when
-  Noam's Grok usage renews: `--resume 01a13eba-980f-79f0-8046-9393e9deb04d` with `grok/t10-build.md`. One ticket per go. Prompts: `grok/t9-*.md` in
-  `../kettle-bar-docs` are the model (plan, review, build); `npm run pin -- --phase 20`, `check:new -- --phase 20 …`.
-- **Grok writes text only (339, 15 Oct):** ticket 9 cost ~10% of Noam's weekly Grok usage and t10's plan 4%: 95-turn
-  runs re-reading ~130k tokens a turn, mostly plumbing. Now Grok writes only names, blurbs and abouts into one text file,
-  from a brief Claude pastes in (pools, one sample config, the guidelines); Claude does configs, tests, pins, check:new.
-  The first such ticket commits `t9-emit.js` as a script (text file → configs). **Ticket 10 resumes this way:** Grok
-  writes the 24 missing abouts only, Claude does the rest on `content/explicit-more-b`.
-  **Measure every Grok ticket** until Noam says stop: a row in [docs/grok-usage.md](docs/grok-usage.md).
-- **Phase 26 is done** (#436–#445, archived): 258 programs re-timed by their average day (340–343), the length
-  filter, Help me pick and random workouts on the new minutes. **Next for Opus: Phase 34** (short days,
-  [plan](docs/plans/phase-34-short-days.md)); Phase 20 waits for Grok, whose next tickets are for Noam's measured
-  session (339).
-- **Grok hand-off brought up to date (15 Oct):** the grok-handoff skill (on Noam's computer) has "kettle-bar
-  additions" for the prompt (cache:pull, pin, check:new, UI own specs + smoke, the explicit guidelines); CLAUDE.md's
-  plan path is `grok/` only. Phase 36 ticket 4 now only needs Phase 20's and 35's prompts to name the guidelines. The
-  main checkout's commit hook was the pre-308 one (full coverage); reinstalled (`node scripts/install-hooks.js`).
-- **Back scroll flake fixed** (#428, closes #404): a waiting scroll save landed in the entry Back returned to.
-- **Opus builds alone** (295): Grok is away, so no Grok tickets; Phases 20 and 35 wait for it.
+## Resume here (15 Oct 2026, night)
+- **Phase 20: tickets 10, 11, 12 done** (#446, #447, #448), all the 339 way. **Next: ticket 13** (Date night warm-up,
+  Positions tour, Morning glory / Sunday), then 14–15. Three tickets per go (Noam's rule), so wait for his go.
+- **How a Phase 20 content ticket runs now (worked for 10–12, ~3% of the weekly Grok usage for all three):**
+  1. Branch `content/explicit-more-<x>` from main; `npm run cache:pull`.
+  2. Claude writes the brief: a slot table (subject, shape, day types; 3 gym, 3 sex, 3 positions per subject), the
+     line format, ticket 9's lessons, the subject voices, a sample, the writing rules and `docs/explicit-guidelines.md`,
+     pasted in. Grok reads nothing else and writes only `grok/tN-text.md`
+     (`slot | id | name | blurb | 20 day names | split | about`). Scripts (in `../kettle-bar-docs/grok/`, not committed): `p20-brief.js`
+     (prompt + slots), `p20-totext.js` (pre-check → plan file), `p20-fix.js`, `p20-applyfix.js`; each takes the ticket number.
+  3. Claude pre-checks the text (lengths, closers, taken names, unique splits) and reviews it for his side, heat and
+     "describe the session"; one fresh, short fix round (blurbs and abouts only, plus taken names) fixed 11 and 12.
+     Watch for: a stock phrase repeated in every about, blurbs naming the two day types, promising one position or a
+     lift in every hold, places (mirror, wall) the home pools don't have, barbell words in bodyweight programs.
+  4. The plan-format file → `node scripts/emit-couple.js <plan.md> [<text.md>]` → configs after the last ticket's
+     block in `configs/after-dark.js`; ids in `programs.config.js` and `tests/configs.test.js`; the library total;
+     `tests/explicit-more-<x>.test.js` copied from the last one; `npm run pin -- --phase 20`, `check:new`.
+  - Minutes: 31–40 for every subject so far; Quickie 22–30 (344). A subject with a shorter solo band needs a decision.
+  - A subject whose old programs have their own count test (after-dark-solo, couples) is already scoped to them.
+- **Phase 26 is done** (#436–#445, archived). **Next for Opus: Phase 34** (short days,
+  [plan](docs/plans/phase-34-short-days.md)), after Phase 20's Grok tickets or beside them.
+- **Grok usage:** measured for 9–12 in [docs/grok-usage.md](docs/grok-usage.md); measuring stopped (Noam, 15 Oct).
 - **Working rules** are in [CLAUDE.md](CLAUDE.md). Don't put shared page logic in `app/library.js` or other files in
   the build cache's key (`build-cache.js` CODE / RECIPE_CODE): a change there makes every build cold.
 
@@ -39,7 +39,7 @@ right after Phase 22 (216). **223 ·** 8 Oct: quick fixes after 22; Export, day 
 | 2 | 27 · Calisthenics: twelve skills, 25 programs | [#199](https://github.com/noamros9/kettle-bar/issues/199) | [plan](docs/plans/phase-27-calisthenics.md) | planned |
 | 3 | 19 · Super programs: 120 days from several programs | [#186](https://github.com/noamros9/kettle-bar/issues/186) | [plan](docs/plans/phase-19-super-programs.md) | planned |
 | 4 | 36 · Logical sessions: an order and a place per set for every couple session | – | [plan](docs/plans/phase-36-logical-sessions.md) | planned |
-| 5 | 20 · After dark refined, the Explicit set, +50% programs (tickets 8b–23 left) | [#202](https://github.com/noamros9/kettle-bar/issues/202) | [plan](docs/plans/phase-20-after-dark-explicit.md) | building (338): 8b, 9 done; 10 parked (Grok usage) |
+| 5 | 20 · After dark refined, the Explicit set, +50% programs (tickets 8b–23 left) | [#202](https://github.com/noamros9/kettle-bar/issues/202) | [plan](docs/plans/phase-20-after-dark-explicit.md) | building (338): 8b–12 done; 13 next |
 | 6 | 35 · Catalogue 14: threesomes (their own kind and in every act), every act at every place | – | [plan](docs/plans/phase-35-threesomes-and-places.md) | planned (tickets in the plan) |
 | 7 | 28 · Explicit drawings and loops | [#249](https://github.com/noamros9/kettle-bar/issues/249) | [plan](docs/plans/phase-28-explicit-drawings.md) | planned |
 | 8 | 29 · Stories from the couple workouts, in Drive | [#225](https://github.com/noamros9/kettle-bar/issues/225) | [plan](docs/plans/phase-29-stories.md) | planned, last |
