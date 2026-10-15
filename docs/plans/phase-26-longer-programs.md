@@ -67,7 +67,7 @@ at 31–35. Roughly 180 move to 35–38 and 30 to 31–35; ticket 2 makes the re
 | 3 | Strength family, re-timed | content | 1b | `content/long-strength` | done (PR #440) |
 | 4 | Cardio & combat, re-timed | content | 3 | `content/long-cardio-combat` | done (PR #441) |
 | 5 | Mind & body, re-timed | content | 4 | `content/long-mind-body` | done (PR #442) |
-| 6 | Mixed and Variety, re-timed | content | 5 | `content/long-mixed` | todo |
+| 6 | Mixed and Variety, re-timed | content | 5 | `content/long-mixed` | done (PR #443) |
 | 6b | The length filter and random workouts at 38 | feature | 6 | `feature/length-filter-38` | todo |
 | 7 | Close the phase: the spread checked, CONTEXT.md, archive | plan | 6b | `plan/p26-close` | todo |
 
@@ -131,7 +131,7 @@ Added 15 Oct, when ticket 3 showed ~11% of the Strength family's days stopping a
 - **As built (ticket 3, PR #440):** the test is its own `tests/long.test.js` (`// ci-only`, it reads the library);
   `npm run pin -- --long` also keeps each program's pin from before the pass in `tests/fixtures/long-was.json`, and the
   test checks the days before the pass against it, so the old picks are the ones that were pinned. Strength: 94 move,
-  every average in its band, none short; 30 keep a lighter day type. Cardio & combat (ticket 4, PR #441): 61, none short; 33 lighter. Mind & body (ticket 5, PR #442): 73, 15 short (343, below); 40 lighter.
+  every average in its band, none short; 30 keep a lighter day type. Cardio & combat (ticket 4, PR #441): 61, none short; 33 lighter. Mind & body (ticket 5, PR #442): 73, 15 short (343, below); 40 lighter. Mixed and Variety (ticket 6, PR #443): 30, none short (a Variety program's days are each their own type, so its lighter "day type" is one day).
 - **Test first:** `programs.test.js`'s Phase 26 block: the family's subjects meet the spread, or the shortfall is the
   programs recorded as short in "The list"; every listed program is longer than its pin was, and its days hold all
   their old picks (the pass's test, run over the real list).
