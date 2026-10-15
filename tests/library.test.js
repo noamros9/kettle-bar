@@ -55,9 +55,9 @@ const SUBJECTS = {
   Athlete: { count: 21, abs: undefined, formats: ['straight', 'superset', 'circuit'] },
   // Phase 16: every day is different (its own test below)
   // Phase 16: after-dark (Mixed, abs by day type)
-  'Beach body': { count: 10, abs: undefined, formats: ['straight', 'superset', 'circuit', 'tabata', 'amrap', 'emom', 'flow'] },
-  'Bedroom stamina': { count: 10, abs: undefined, formats: ['straight', 'circuit', 'emom', 'amrap', 'tabata', 'flow'] },
-  'Sex positions': { count: 10, abs: undefined, formats: ['straight', 'circuit', 'tabata', 'flow'] },
+  'Beach body': { count: 19, abs: undefined, formats: ['straight', 'superset', 'circuit', 'tabata', 'amrap', 'emom', 'flow'] },
+  'Bedroom stamina': { count: 19, abs: undefined, formats: ['straight', 'circuit', 'emom', 'amrap', 'tabata', 'flow'] },
+  'Sex positions': { count: 19, abs: undefined, formats: ['straight', 'circuit', 'tabata', 'flow'] },
   Variety: { count: 30, abs: undefined, formats: ['straight', 'superset', 'circuit', 'emom', 'amrap', 'tabata', 'flow'] }, // flow: the stretch some days end with
   'Balanced week': { count: 23, abs: undefined, formats: ['straight', 'superset', 'circuit', 'emom', 'amrap', 'tabata', 'ladder', 'bouts', 'flow'] },
   'Calm strength': { count: 21, abs: undefined, formats: ['straight', 'superset', 'circuit', 'flow'] },
@@ -148,8 +148,8 @@ test('the core programs opt in to the new catalogue (catalogue: 5): their abs fi
   assert.ok(optIn.some((p) => p.days.some((d) => d.blocks.at(-1).items.some((it) => fresh.has(it.ex)))));
 });
 
-test('the library: 1060 programs in 73 subjects (736, then Phase 23\'s 15 Signature IIs, ticket 3\'s 29, ticket 4\'s 26, ticket 5\'s 25, ticket 6\'s 25, ticket 7\'s 30, ticket 8\'s 20, ticket 9\'s 31, ticket 9b\'s 40, ticket 10\'s 23, ticket 11\'s 29, ticket 12\'s 15 and ticket 12b\'s 16)', () => {
-  assert.equal(programs.length, 1060);
+test('the library: 1087 programs in 73 subjects (736, then Phase 23\'s 15 Signature IIs, ticket 3\'s 29, ticket 4\'s 26, ticket 5\'s 25, ticket 6\'s 25, ticket 7\'s 30, ticket 8\'s 20, ticket 9\'s 31, ticket 9b\'s 40, ticket 10\'s 23, ticket 11\'s 29, ticket 12\'s 15 and ticket 12b\'s 16)', () => {
+  assert.equal(programs.length, 1087);
   assert.equal(new Set(programs.map((p) => p.subject)).size, 73);
 });
 

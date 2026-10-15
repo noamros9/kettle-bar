@@ -100,7 +100,7 @@ minutes, pools) for Claude to review before Grok builds.
 | 7 | Catalogue 11: anal (24) and toys (8) | content | 5 | `content/catalogue-11-anal` | done (PR #221) |
 | 8 | Explicit (+20), and the three session shapes | feature | 6, 7 | `content/explicit` | done (PR #223) |
 | 8b | Merged pools without the places, at catalogue 13 | feature | 8, Ph 22, Ph 30 | `feature/home-pools` | done (PR #426) |
-| 9 | Beach body, Bedroom stamina, Sex positions (+27) | content | 8b | `content/explicit-more-a` | todo |
+| 9 | Beach body, Bedroom stamina, Sex positions (+27) | content | 8b | `content/explicit-more-a` | done (PR #427) |
 | 10 | Couples, Endurance & control, Hip power & thrust (+27) | content | 8b | `content/explicit-more-b` | todo |
 | 11 | Carry & hold, Flexible & bendy, Strip & show-off (+27) | content | 8b | `content/explicit-more-c` | todo |
 | 12 | Her pleasure, Quickie, Back & knees care (+27) | content | 8b | `content/explicit-more-d` | todo |

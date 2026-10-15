@@ -23,7 +23,9 @@ function pinEntries(configs, pins, build, from = PHASE) {
 if (require.main === module) {
   const { CONFIGS, buildConfig } = require('../program-builder.js');
   const pins = JSON.parse(fs.readFileSync(file, 'utf8'));
-  const out = pinEntries(CONFIGS, pins, buildConfig);
+  // `--phase 20`: an earlier phase's new programs (Phase 20 resumed after 23, decision 338)
+  const at = process.argv.indexOf('--phase');
+  const out = pinEntries(CONFIGS, pins, buildConfig, at > 0 ? +process.argv[at + 1] : PHASE);
   if (out.problems.length) { console.error(out.problems.join('\n')); process.exit(1); }
   fs.writeFileSync(file, JSON.stringify(out.pins, null, 2) + '\n');
   console.log(out.added.length ? `pinned: ${out.added.join(', ')}` : 'every phase program was already pinned');

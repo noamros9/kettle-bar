@@ -70,6 +70,12 @@ const SEX_SHORT_FUCK = poses('sexFuck', 3, 1);
 const SEX_LONG_FUCK = poses('sexFuck', 5, 4);
 const ONLY_FLOW = poses('sexPositions', 8, 6);
 const ONLY_ALT = poses('sexPositions', 8, 6);
+const HOME_GYM = poses('sexPositionsHome', 8, 6);
+const HOME_GYM_B = poses('sexPositionsHome', 8, 6);
+const HOME_FUCK = poses('sexFuckHome', 5, 2);
+const HOME_FUCK_B = poses('sexFuckHome', 5, 2);
+const HOME_ONLY = poses('sexPositionsHome', 8, 6);
+const HOME_ONLY_B = poses('sexPositionsHome', 8, 6);
 
 // Positions tour (Phase 18 ticket 6): 30 one-off days. tour(...) pairs each position with each way to prepare for it
 // (positions × ways = 30 day types), dealt way by way so the same position never comes two days running; each day
@@ -1135,6 +1141,304 @@ module.exports = [
     dayTypes: {
       fuck: positionsOnly('Nothing but fucking', 'Fuck', ONLY_FLOW, { pref: 2 }),
       more: positionsOnly('More of it', 'More', ONLY_ALT, { pref: 2 }),
+    },
+  },
+  // ---- Phase 20 ticket 9: Beach body, Bedroom stamina, Sex positions (+27). Catalogue 13, home pools. ----
+  {
+    id: 'beach-set-then-fuck', ...C13, name: 'Shirtless Then Fuck', subject: 'Beach body', minutes: [31, 40], levers: [null, 'reps', 'holds'],
+    split: 'Partner circuit or strength, then positions', blurb: 'You train shirtless with her, then you strip her and fuck her so she can grab the body you just pumped.',
+    about: 'You train shirtless with her first, still in shorts, then you strip her and leave her naked. One day is a partner circuit that pumps the chest and arms she grabs; the other day the strength sets are slower. Then you fuck her on her back, from behind and standing, your cock in her pussy, her hands on the body she wants. Level II adds reps to the partner work. Level III holds every position longer.',
+    names: ['Palms on Your Chest', 'Shorts Against Her Hip', 'Sweat Down Your Abs', 'She Squeezes Your Arms', 'Bare Back Over Her', 'Hands Around Your Waist', 'Flexed Chest at Her Face', 'Her Nails on Your Ass', 'Veins Under Her Fingers', 'Shirtless Hips Against Her', 'Width in Both Palms', 'Cut Abs on Her Belly', 'Bicep Under Her Cheek', 'She Holds Your Lats', 'Tricep Across Her Thigh', 'Pumped Pecs at Her Mouth', 'V-Line in Her Grip', 'Skin Out in Missionary', 'Bare Shoulders Pinning Her', 'Glutes Tight While You Drive'],
+    cycle: ['circuit', 'strength'],
+    dayTypes: {
+      circuit: gymThenSex('Circuit, then fuck', 'Circuit', C('Partner circuit', GYM_WORK, { ...LIFT, values: [3, 4, 5, 6] }), HOME_GYM, { pref: 2 }),
+      strength: gymThenSex('Strength, then fuck', 'Strength', S('Partner strength', GYM_STRONG, { ...LIFT, values: [2, 3, 4, 5] }), HOME_GYM_B, { pref: 2 }),
+    },
+  },
+  {
+    id: 'beach-pump-then-grab', ...C13, name: 'Pump Then Grab', subject: 'Beach body', minutes: [31, 40], levers: [null, 'reps', 'holds'],
+    split: 'Partner strength or circuit, then she grabs', blurb: 'You pump the chest and arms she grabs, then you fuck her with her hands still on you.',
+    about: 'You pump the chest and arms she grabs, still in a shirt, then you strip her and leave her naked. One day is slower partner strength that fills your chest and arms; the other day is a circuit. Then you fuck her with her hands still on you, your cock in her pussy, her palms on the pump she wanted. Level II adds reps to the partner work. Level III holds every position longer.',
+    names: ['Blood in Your Arms', 'Full Chest for Her Palms', 'She Grabs the Pump', 'Tight Tee Across Your Pecs', 'Vein Across Your Bicep', 'Swole Arms Around Her', 'Cover Off Your Pecs', 'Hands on the Guns', 'Flexed Arm in Her Palms', 'Peak of Your Arm', 'Guns Against Her Hips', 'Pumped and Buried', 'She Squeezes the V', 'Bicep in Her Palm', 'Tricep Beside Her Ear', 'Chest Full Against Her', 'Pump Still Under Hands', 'Delts She Can Hold', 'Forearm Across Her Back', 'Loaded Arms Pinning Her'],
+    cycle: ['strength', 'circuit'],
+    dayTypes: {
+      strength: gymThenSex('Strength, then fuck', 'Strength', S('Partner strength', GYM_STRONG, { ...LIFT, values: [2, 3, 4, 5] }), HOME_GYM, { pref: 2 }),
+      circuit: gymThenSex('Circuit, then fuck', 'Circuit', C('Partner circuit', GYM_WORK, { ...LIFT, values: [3, 4, 5, 6] }), HOME_GYM_B, { pref: 2 }),
+    },
+  },
+  {
+    id: 'beach-flex-then-spread', ...C13, name: 'Flex Then Spread', subject: 'Beach body', minutes: [31, 40], levers: [null, 'reps', 'holds'],
+    split: 'Kiss squats, then positions', blurb: 'Kiss squats shirtless until you are both hard, then you spread her and fuck her while she holds the V.',
+    about: 'Kiss squats shirtless with her first, still in shorts, then you strip her and leave her naked. One day is a kissing circuit that keeps you close; the other day is slower strength. Then you spread her and fuck her, your cock in her pussy, her hands on the V she wants. Level II adds reps to the partner work. Level III holds every position longer.',
+    names: ['Kiss at the Squat', 'Shirtless Lips on Her Mouth', 'Close Chest to Her Tits', 'Wide Back Over Her', 'Lats in Her Hands', 'She Holds the Taper', 'Flexed V Against Her', 'Taper in Both Fists', 'Kiss Push Over Her', 'Bare Width Spreading Her', 'Open Thighs Under Your V', 'Lat Spread Above Her', 'Close Grind on Her Clit', 'Back Flares She Grabs', 'Shoulders Broader Than Her', 'Waist She Can Span', 'Kissed and Shirtless', 'Spine She Runs Down', 'Wingspan Over Her Body', 'Hard V at Her Entrance'],
+    cycle: ['kiss', 'strength'],
+    dayTypes: {
+      kiss: gymThenSex('Kiss the reps, then fuck', 'Kiss', C('Kiss circuit', GYM_KISS, { ...LIFT, values: [3, 4, 5, 6] }), HOME_GYM, { pref: 2 }),
+      strength: gymThenSex('Strength, then fuck', 'Strength', S('Partner strength', GYM_STRONG, { ...LIFT, values: [2, 3, 4, 5] }), HOME_GYM_B, { pref: 2 }),
+    },
+  },
+  {
+    id: 'beach-mouth-then-body', ...C13, name: 'Mouth Then the Body', subject: 'Beach body', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'Mouth on the pump, then a fuck', blurb: 'Her mouth is on your chest and your abs, then you fuck her so she can keep her hands on the body she wants.',
+    about: 'You start with her mouth on your chest and your abs, still dressed enough to peel, then you strip her and leave her naked. One day leans on her mouth; the other day your hands join in. Then you fuck her so she can keep her hands on the body she wants, your cock in her pussy. Level II and Level III hold every part longer.',
+    names: ['Mouth on Your Chest', 'Tongue Down Your Abs', 'Lips Along the V', 'Taste of the Pump', 'Hands on Your Width', 'Palms Around the Guns', 'Breath on the Cut', 'Belt Under Her Mouth', 'Pecs Against Her Cheek', 'Wet Abs at Her Face', 'Width Between Both Palms', 'Guns Filling Her Fists', 'Taper She Follows Down', 'Bare Skin at Her Teeth', 'Soft Bite on Your Pecs', 'Washboard Under Her Tongue', 'Trace of the V-Line', 'Arms Wrapped Around Her', 'V Pressed to Her Mouth', 'Body Pressed to Her Tits'],
+    cycle: ['mouth', 'hands'],
+    dayTypes: {
+      mouth: sexThenSex('Mouths, then fuck', 'Mouth', SEX_MOUTH, HOME_FUCK, { pref: 2 }, { pref: 2 }),
+      hands: sexThenSex('Hands in it, then fuck', 'Hands', SEX_WARM, HOME_FUCK_B, { pref: 2 }, { pref: 2 }),
+    },
+  },
+  {
+    id: 'beach-lick-the-abs', ...C13, name: 'Lick the Abs Then Fuck', subject: 'Beach body', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'Tongue on the cut, then a fuck', blurb: 'She licks your abs down to your cock, then you put it in her and fuck her while she grabs the body she wants.',
+    about: 'She licks your abs down toward your cock while you two are still close, then you strip her and leave her naked. One day your tongue and hers open the session; the other day your hands do more of the work. Then you put your cock in her and fuck her while she grabs the body she wants. Level II and Level III hold every part longer.',
+    names: ['Tongue on the Six', 'Lick Down to Cock', 'Taste of the Cut', 'Hands Follow the Trail', 'Wet Abs Against Her', 'Grab of the Washboard', 'Mouth on the Belt', 'Six-Pack at Her Face', 'Cut Wet From Her Tongue', 'Abs Pressed to Her Mouth', 'Lick Along Your V', 'Washboard Under Her Chin', 'Belt Lifted by Teeth', 'Navel Under Her Finger', 'Sweat Off Your Stomach', 'Hard Core at Her Lips', 'Lines Down to Your Cock', 'Groin Against Her Cheek', 'Face in Your Abs', 'Chin on Your Hip'],
+    cycle: ['tongue', 'hands'],
+    dayTypes: {
+      tongue: sexThenSex('Tongue, then fuck', 'Tongue', SEX_MOUTH, HOME_FUCK, { pref: 2 }, { pref: 2 }),
+      hands: sexThenSex('Hands, then fuck', 'Hands', SEX_HANDS, HOME_FUCK_B, { pref: 2 }, { pref: 2 }),
+    },
+  },
+  {
+    id: 'beach-tease-then-grab', ...C13, name: 'Tease Then Grab', subject: 'Beach body', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'Dressed tease, then she grabs', blurb: 'You tease her still dressed, then you bury your cock in her while she grabs the body you built.',
+    about: 'You tease her still dressed, grinding through the cloth, then you strip her and leave her naked. One day the tease is slow; the other day her mouth joins it. Then you bury your cock in her while she grabs the body you built. Level II and Level III hold every part longer.',
+    names: ['Still in the Tee', 'Shorts Over the Hard', 'Grind Through the Cloth', 'Peel of Her Dress', 'Dressed Chest Against Her', 'Hands Under Your Shirt', 'Cloth Between Your Bodies', 'Strip to Bare Skin', 'Palms on Bare Pecs', 'Tee Lifted by Her', 'Shorts Pushed Down Your Hips', 'Hard Outline She Feels', 'Mouth Over the Fabric', 'Skin Under Her Palms', 'Shirtless Against Her Tits', 'Grab of Your Waist', 'Body She Can See', 'Naked Chest at Her Eyes', 'Fingers Inside Your Waistband', 'Bare Hips Against Her'],
+    cycle: ['tease', 'mouth'],
+    dayTypes: {
+      tease: sexThenSex('Tease, then fuck', 'Tease', SEX_TEASE, HOME_FUCK, { pref: 2 }, { pref: 2 }),
+      mouth: sexThenSex('Mouth, then fuck', 'Mouth', SEX_MOUTH, HOME_FUCK_B, { pref: 2 }, { pref: 2 }),
+    },
+  },
+  {
+    id: 'beach-grab-and-stay', ...C13, name: 'Grab and Stay', subject: 'Beach body', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'One positions flow, her hands on you', blurb: 'She grabs the body she wants and you stay inside her, hold after hold, her hands on your chest and your ass.',
+    about: 'There is no workout in front of it and no separate teasing. You stay inside her, hold after hold, her hands on your chest and your ass. One day is one mix of holds; the other day is a fresh mix. Level II and Level III hold every position longer.',
+    names: ['Palms Full of Chest', 'Grip on Your Pump', 'Ass in Her Hands', 'Width Squeezed in Fists', 'V Caught in Both Palms', 'Arms Tight Around Her', 'Chest Filling Her Grip', 'Glutes Pulled In Close', 'Base Held Against Her', 'Skin Under Her Nails', 'Pecs Pressed to Her Palms', 'Waist Locked in Her Grip', 'Lats Under Her Fingers', 'Shoulders Under Her Chin', 'Hip Bones in Her Fists', 'Hard Ass Against Her', 'Forearms Braced Beside Her', 'Neck Against Her Mouth', 'Package in Both Hands', 'Whole Body in Her Grip'],
+    cycle: ['flow', 'again'],
+    dayTypes: {
+      flow: positionsOnly('Stay inside', 'Stay', HOME_ONLY, { pref: 2 }),
+      again: positionsOnly('Stay, another mix', 'Again', HOME_ONLY_B, { pref: 2 }),
+    },
+  },
+  {
+    id: 'beach-shirtless-holds', ...C13, name: 'Shirtless Inside Her', subject: 'Beach body', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'Shirtless holds, one positions flow', blurb: 'Shirtless, you stay in her and move her through the holds so she can watch and grab you the whole way.',
+    about: 'Shirtless, you stay in her and move her through the holds so she can watch and grab you. There is no partner work first and no separate warm-up. One day runs one mix; the other day runs a different mix, her eyes and her hands on the body the whole way. Level II and Level III hold every position longer.',
+    names: ['Shirtless Hold Inside Her', 'Bare Chest Above Her', 'Skin Out Over Her', 'Eyes on Your V', 'Cut Showing Above Her', 'Peeled Tee Beside the Bed', 'Bare Hips Driving Her', 'Eyes on the Pump', 'Skin on Her Belly', 'Cut Visible to Her', 'Bare Back in the Mirror', 'Shoulders Over Her Face', 'Abs Flexing Above Her', 'Arms Framed Around Her', 'Chest in Her Sight', 'V-Line Over Her Mound', 'Sweat on Bare Skin', 'Pecs Over Her Mouth', 'Glutes Flexed for Her Eyes', 'Taper in Her View'],
+    cycle: ['hold', 'longer'],
+    dayTypes: {
+      hold: positionsOnly('Hold after hold', 'Hold', HOME_ONLY, { pref: 2 }),
+      longer: positionsOnly('Longer holds', 'Longer', HOME_ONLY_B, { pref: 2 }),
+    },
+  },
+  {
+    id: 'beach-body-she-grabs', ...C13, name: 'The Body She Grabs', subject: 'Beach body', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'Positions she can grab, one flow', blurb: 'You fuck her through the positions with her hands on your chest, your ass and your arms.',
+    about: 'You fuck her through the positions with her hands on your chest, your ass and your arms. You are not training beside her first, and you are not opening with a tease block. One day is one run of holds; the other day is another run, her grip on you the whole way. Level II and Level III hold every position longer.',
+    names: ['Hands on Your Chest', 'Grip on Your Ass', 'Arms in Her Palms', 'Package Filling Her Hands', 'Both Cheeks in Her Grip', 'Biceps Spanned by Palms', 'Triceps Under Her Thumbs', 'Pecs Crushed in Her Fists', 'Glutes Squeezed in Her Palms', 'Lats Caught in Her Hands', 'Delts Under Her Nails', 'Forearms Braced at Her Head', 'Waist Cinched by Her Legs', 'Neck Held in Her Palm', 'Hip Crease in Her Fingers', 'Lower Back Under Her Heels', 'Inner Elbow at Her Mouth', 'Collarbone Under Her Teeth', 'Trap Between Her Teeth', 'Whole Frame in Her Arms'],
+    cycle: ['deep', 'deeper'],
+    dayTypes: {
+      deep: positionsOnly('Deeper each hold', 'Deep', HOME_ONLY, { pref: 2 }),
+      deeper: positionsOnly('Deeper still', 'Deeper', HOME_ONLY_B, { pref: 2 }),
+    },
+  },
+  {
+    id: 'bed-set-then-last', ...C13, name: 'Set Then Last', subject: 'Bedroom stamina', minutes: [31, 40], levers: [null, 'reps', 'holds'],
+    split: 'Partner circuit or strength, then you last', blurb: 'You work beside her first, then you fuck her and last, your cock still hard through every hold.',
+    about: 'You work beside her first, still clothed, until your hips can last, then you undress her and you stay naked. One day is a partner circuit that keeps you driving; the other day is slower strength so you stay hard. Then you fuck her round after round, your cock in her pussy, still hard through the holds. Level II adds reps to the partner work. Level III holds every position longer.',
+    names: ['Breath Through the Set', 'Hips Still Going', 'Hard Through the Hold', 'Pace of Your Drive', 'Sweat on Your Back', 'Steady Stroke Inside Her', 'Slow Exhale Over Her', 'Drive That Keeps Going', 'Pulse Held in Check', 'Cock Still Up in Her', 'Tempo You Can Keep', 'Heat Building in Your Hips', 'Breath Caught and Released', 'Sweat Dripping on Her Tits', 'Hard Cock Through the Work', 'Relentless Hips Against Her', 'Calm Stroke Deep in Her', 'Endurance in Your Stroke', 'Staying Power Inside Her', 'Unbroken Rhythm Against Her'],
+    cycle: ['circuit', 'strength'],
+    dayTypes: {
+      circuit: gymThenSex('Circuit, then fuck', 'Circuit', C('Partner circuit', GYM_WORK, { ...LIFT, values: [3, 4, 5, 6] }), HOME_GYM, { pref: 2 }),
+      strength: gymThenSex('Strength, then fuck', 'Strength', S('Partner strength', GYM_STRONG, { ...LIFT, values: [2, 3, 4, 5] }), HOME_GYM_B, { pref: 2 }),
+    },
+  },
+  {
+    id: 'bed-sweat-then-hard', ...C13, name: 'Sweat Then Stay Hard', subject: 'Bedroom stamina', minutes: [31, 40], levers: [null, 'reps', 'holds'],
+    split: 'Partner strength or circuit, then stay hard', blurb: 'You sweat through the partner work, then you stay hard in her round after round.',
+    about: 'You sweat through the partner work beside her first, still clothed, then you undress her and you stay naked. One day is slower partner strength; the other day is a circuit that keeps you dripping. Then you stay hard in her round after round, your cock in her pussy, your pace and your breath keeping you up. Level II adds reps to the partner work. Level III holds every position longer.',
+    names: ['Sweat on Your Chest', 'Dripping Onto Her Belly', 'Hard Through the Drip', 'Wet Skin Against Her', 'Stay Up in the Heat', 'Beads Down Your Spine', 'Slick Cock Inside Her', 'Breath in the Steam', 'Drip From Your Brow', 'Hot Pulse You Hold', 'Slippery Hips on Hers', 'Salt on Her Tongue', 'Glow Over Your Shoulders', 'Hard While You Drip', 'Pace Through the Sweat', 'Steam Between Your Bodies', 'Wet Hair on Her Neck', 'Endurance in the Heat', 'Still Up While Dripping', 'Relentless in the Wet'],
+    cycle: ['strength', 'circuit'],
+    dayTypes: {
+      strength: gymThenSex('Strength, then fuck', 'Strength', S('Partner strength', GYM_STRONG, { ...LIFT, values: [2, 3, 4, 5] }), HOME_GYM, { pref: 2 }),
+      circuit: gymThenSex('Circuit, then fuck', 'Circuit', C('Partner circuit', GYM_WORK, { ...LIFT, values: [3, 4, 5, 6] }), HOME_GYM_B, { pref: 2 }),
+    },
+  },
+  {
+    id: 'bed-lift-then-again', ...C13, name: 'Lift Then Round Two', subject: 'Bedroom stamina', minutes: [31, 40], levers: [null, 'reps', 'holds'],
+    split: 'Carries then circuit, then round two', blurb: 'You lift and carry her, then you fuck her still hard, round after round.',
+    about: 'You lift and carry her first, still clothed, then you undress her and you stay naked. One day is carries and holds; the other day is a partner circuit. Then you fuck her still hard, round after round, her weight in your arms on the standing holds. Level II adds reps to the partner work. Level III holds every position longer.',
+    names: ['Her Weight in Your Arms', 'Carry With a Hard Cock', 'Raised Against Your Chest', 'Lifted High Still Hard', 'Breath Under Her Weight', 'Steady Legs Beneath Her', 'Cock Hard Through the Carry', 'Pace While You Hold Her', 'Sweat Under Her Thighs', 'Strong Back Keeping You Up', 'Soft Knees Steady Pulse', 'Arms Full Still Driving', 'Her Legs Around Your Waist', 'Planted Feet Inside Her', 'Grip Under Her Ass', 'Unbroken While You Carry', 'Heat of Her Against You', 'Endurance With Her Weight', 'Hips Working Under Load', 'Relentless With Her in Arms'],
+    cycle: ['carry', 'circuit'],
+    dayTypes: {
+      carry: gymThenSex('Lift, then fuck', 'Lift', C('Carries', GYM_LIFT, { ...LIFT, values: [3, 4, 5, 6] }), HOME_GYM, { pref: 2 }),
+      circuit: gymThenSex('Circuit, then fuck', 'Circuit', C('Partner circuit', GYM_WORK, { ...LIFT, values: [3, 4, 5, 6] }), HOME_GYM_B, { pref: 2 }),
+    },
+  },
+  {
+    id: 'bed-mouth-then-last', ...C13, name: 'Mouth Then Last', subject: 'Bedroom stamina', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'Mouth first, then you last', blurb: 'You eat her, then you fuck her and last, your cock still hard, round after round.',
+    about: 'You eat her first, still close and not yet fully stripped, then you undress her and you stay naked. One day leans on your mouth; the other day your hands do more. Then you fuck her and last, your cock still hard, round after round. Level II and Level III hold every part longer.',
+    names: ['Mouth on Her Clit', 'Tongue Along Her Cunt', 'Breath Held at Her Entrance', 'Slow Pace Inside Her', 'Hard Stroke in Her Pussy', 'Exhale Over Her Mound', 'Fingers Wet From Her', 'Lips Sealed on Her Clit', 'Stay Hard in Her Cunt', 'Pulse You Keep Down', 'Sweat at Your Hairline', 'Tempo of Your Tongue', 'Cock That Stays Up', 'Long Stroke She Takes', 'Calm Hips Against Her', 'Endurance at Her G-Spot', 'Steady While She Shakes', 'Breath Between Your Strokes', 'Unbroken Inside Her Pussy', 'Relentless Mouth on Her'],
+    cycle: ['mouth', 'hands'],
+    dayTypes: {
+      mouth: sexThenSex('Mouths, then fuck', 'Mouth', SEX_MOUTH, HOME_FUCK, { pref: 2 }, { pref: 2 }),
+      hands: sexThenSex('Hands in it, then fuck', 'Hands', SEX_WARM, HOME_FUCK_B, { pref: 2 }, { pref: 2 }),
+    },
+  },
+  {
+    id: 'bed-hands-then-again', ...C13, name: 'Hands Then Another Round', subject: 'Bedroom stamina', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'Hands first, then another round', blurb: 'You finger her, then you put it in and go round after round, still hard.',
+    about: 'You finger her first, a warm-up of hands and mouth, then you fuck her. One day leans on your fingers; the other day her mouth joins it. Then you put it in and go round after round, still hard, your pace holding you there. Level II and Level III hold every part longer.',
+    names: ['Fingers Deep in Her', 'Two Fingers Against Her Wall', 'Stroke of Her Clit', 'Palm Cupping Her Mound', 'Wet Knuckles at Her Entrance', 'Pace of Your Wrist', 'Hard While You Finger Her', 'Breath Over Her Stomach', 'Thumb Circling Her Button', 'Grip Inside Her Cunt', 'Stay Up Through Her Heat', 'Slow Curl of Your Fingers', 'Sweat on Your Wrist', 'Cock Hard at Her Opening', 'Pulse Under Your Thumb', 'Endurance in Your Hand', 'Steady Pressure Inside Her', 'Unbroken Rhythm of Fingers', 'Relentless Rub on Her Clit', 'Calm Hips Waiting Hard'],
+    cycle: ['fingers', 'mouth'],
+    dayTypes: {
+      fingers: sexThenSex('Fingers, then fuck', 'Fingers', SEX_HANDS, HOME_FUCK, { pref: 2 }, { pref: 2 }),
+      mouth: sexThenSex('Mouth and fingers, then fuck', 'Mouth', SEX_MOUTH, HOME_FUCK_B, { pref: 2 }, { pref: 2 }),
+    },
+  },
+  {
+    id: 'bed-tease-then-keep', ...C13, name: 'Tease Then Keep Going', subject: 'Bedroom stamina', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'Dressed tease, then keep going', blurb: 'You tease her dressed, then you fuck her and keep going, still hard, round after round.',
+    about: 'You tease her dressed, grinding through the cloth, then you strip her and leave her naked. One day the tease is slow; the other day her mouth is in it. Then you fuck her and keep going, still hard, round after round. Level II and Level III hold every part longer.',
+    names: ['Grind Through Her Skirt', 'Cloth Over Your Hard Cock', 'Dressed Hips Against Her', 'Peel of Her Blouse', 'Breath at Her Ear', 'Hard Outline on Her Thigh', 'Pace Under the Fabric', 'Sweat Through Your Shirt', 'Stay Up While Dressed', 'Slow Rub Over Her Panties', 'Zipper Against Her Mound', 'Heat Trapped in Clothes', 'Cock Pressed to Her Hip', 'Endurance Still in Shorts', 'Steady Grind on Her Clit', 'Unbroken Through the Cloth', 'Relentless Rub Dressed', 'Calm Stroke Over Fabric', 'Pulse Under Her Dress', 'Long Tease of Her Neck'],
+    cycle: ['tease', 'mouth'],
+    dayTypes: {
+      tease: sexThenSex('Tease, then fuck', 'Tease', SEX_TEASE, HOME_FUCK, { pref: 2 }, { pref: 2 }),
+      mouth: sexThenSex('Mouth, then fuck', 'Mouth', SEX_WARM, HOME_FUCK_B, { pref: 2 }, { pref: 2 }),
+    },
+  },
+  {
+    id: 'bed-stay-hard', ...C13, name: 'Stay Hard Inside', subject: 'Bedroom stamina', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'One positions flow, stay hard', blurb: 'You stay hard inside her and move hold to hold, round after round.',
+    about: 'You stay hard inside her and move hold to hold, round after round. There is no workout in front of it and no separate teasing. One day is one mix of holds; the other day is a fresh mix, your cock still up. Level II and Level III hold every position longer.',
+    names: ['Hard Cock Inside Her', 'Stay Up Through the Hold', 'Pulse You Refuse to Drop', 'Breath at Full Depth', 'Steady Hips Against Her', 'Sweat Along Your Spine', 'Pace You Can Sustain', 'Unbroken Stroke in Her', 'Relentless Drive of Hips', 'Calm While She Tightens', 'Endurance at Her Cervix', 'Still Hard in Missionary', 'Heat Building in Your Core', 'Slow Thrust You Keep', 'Grip of Her Around You', 'Long Inhale Over Her', 'Firm Cock in Every Hold', 'Wet Rhythm Against Her', 'Controlled Hips on Hers', 'Staying Power in Her Cunt'],
+    cycle: ['flow', 'again'],
+    dayTypes: {
+      flow: positionsOnly('Stay inside', 'Stay', HOME_ONLY, { pref: 2 }),
+      again: positionsOnly('Stay, another mix', 'Again', HOME_ONLY_B, { pref: 2 }),
+    },
+  },
+  {
+    id: 'bed-round-after-round', ...C13, name: 'Round After Round', subject: 'Bedroom stamina', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'One positions flow, round after round', blurb: 'Round after round you stay in her, still hard, your pace and your breath keeping you up.',
+    about: 'Round after round you stay in her, still hard, your pace and your breath keeping you up. You are not training beside her first. One day is one run of holds; the other day is another run, still hard through both. Level II and Level III hold every position longer.',
+    names: ['Second Wind Inside Her', 'Keep Going in Her Pussy', 'Still Hard for More', 'Breath Reset Over Her', 'Pace You Rebuild', 'Sweat of a Long Fuck', 'Unbroken Through Two Holds', 'Relentless Drive You Repeat', 'Calm Between Your Waves', 'Endurance Stacked on Heat', 'Hard Cock That Returns', 'Hips That Keep Coming', 'Stay Up for Her Still', 'Pulse Rising in You', 'Slow Rebuild of Your Stroke', 'Wet and Still Driving', 'Firm Through the Change', 'Long Game Inside Her', 'Controlled Comeback in Her', 'Stamina You Bring Back'],
+    cycle: ['hold', 'longer'],
+    dayTypes: {
+      hold: positionsOnly('Hold after hold', 'Hold', HOME_ONLY, { pref: 2 }),
+      longer: positionsOnly('Longer holds', 'Longer', HOME_ONLY_B, { pref: 2 }),
+    },
+  },
+  {
+    id: 'bed-keep-it-up', ...C13, name: 'Last and Stay', subject: 'Bedroom stamina', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'One positions flow, last and stay', blurb: 'You last, stay hard, and go deeper in her, round after round.',
+    about: 'You last, stay hard, and go deeper in her, round after round. There is no gym block and no separate warm-up. One day works one mix of holds; the other day works a deeper mix, your cock still up. Level II and Level III hold every position longer.',
+    names: ['Deeper Stroke You Hold', 'Hard Cock at Full Depth', 'Stay Up at Her Base', 'Breath Buried in Her Neck', 'Pace of a Deep Drive', 'Sweat Along the Root', 'Unbroken Depth in Her', 'Relentless Push Into Her', 'Calm at the Hilt', 'Endurance Fully Inside Her', 'Hips Flush Against Her', 'Steel in Her Depth', 'Slow Sink Into Her', 'Pulse Deep in Her Cunt', 'Firm to the Cervix', 'Wet Cock Fully Buried', 'Controlled Descent in Her', 'Long Reach of Your Cock', 'Stamina Seated in Her', 'Rooted Stroke Inside Her'],
+    cycle: ['deep', 'deeper'],
+    dayTypes: {
+      deep: positionsOnly('Deeper each hold', 'Deep', HOME_ONLY, { pref: 2 }),
+      deeper: positionsOnly('Deeper still', 'Deeper', HOME_ONLY_B, { pref: 2 }),
+    },
+  },
+  {
+    id: 'fold-then-fuck', ...C13, name: 'Set Then Fold Her', subject: 'Sex positions', minutes: [31, 40], levers: [null, 'reps', 'holds'],
+    split: 'Partner circuit or strength, then fold her', blurb: 'You train with her first, then you fold her where you want and fuck her in that hold.',
+    about: 'You train with her first, still dressed, then you strip her and leave her naked. One day is a partner circuit; the other day is slower strength. Then you put her where you want her and fuck her in that hold, your cock in her pussy, her legs on your shoulders or folded under you. Level II adds reps to the partner work. Level III holds every position longer.',
+    names: ['Her Legs on Your Shoulders', 'Knees Pinned to Her Chest', 'Pretzel Locked Around You', 'Edge of the Mattress', 'Ankles Caught in Your Hands', 'Folded Tight Under You', 'Heels Braced at Your Ears', 'Standing Lift Against the Wall', 'Soles Pressed to Your Chest', 'Butterfly Soles Together', 'One Thigh High Beside You', 'Chest Down in Doggy', 'Lap Seat Facing You', 'Prone Hips Off the Bed', 'Scissor Thigh Across You', 'Happy Baby in Your Lap', 'Calves Hooked on Your Arms', 'Split Held by Both Hands', 'Lotus Wrap of Her Legs', 'Wide Stance at the Wall'],
+    cycle: ['circuit', 'strength'],
+    dayTypes: {
+      circuit: gymThenSex('Circuit, then fuck', 'Circuit', C('Partner circuit', GYM_WORK, { ...LIFT, values: [3, 4, 5, 6] }), HOME_GYM, { pref: 2 }),
+      strength: gymThenSex('Strength, then fuck', 'Strength', S('Partner strength', GYM_STRONG, { ...LIFT, values: [2, 3, 4, 5] }), HOME_GYM_B, { pref: 2 }),
+    },
+  },
+  {
+    id: 'open-then-hold-her', ...C13, name: 'Lift Then Hold Her Open', subject: 'Sex positions', minutes: [31, 40], levers: [null, 'reps', 'holds'],
+    split: 'Carries then circuit, then hold her open', blurb: 'You lift her, then you hold her open and fuck her in the hold you want.',
+    about: 'You lift her first, still dressed, then you strip her and leave her naked. One day is carries and holds; the other day is a partner circuit. Then you hold her open and fuck her in the hold you want, your cock in her pussy, her thighs in your hands. Level II adds reps to the partner work. Level III holds every position longer.',
+    names: ['Thighs Spread in Your Hands', 'Ankles Wide in Your Grip', 'Knees Open to the Sides', 'Legs Held Apart by You', 'Butterfly Pinned at Her Knees', 'Elbows Inside Her Thighs', 'Calves Pushed Toward Her Chest', 'Standing Open Against You', 'Edge Seat With Legs Wide', 'Split Pinned at the Floor', 'Soles Facing the Ceiling', 'Her Knees Beside Her Ears', 'Open Scoop of Your Arms', 'Straddle Across Your Hips', 'Frog Fold at the Hips', 'Gate Held by Your Wrists', 'Wide Kneel on the Mattress', 'Diamond of Her Legs', 'Carry With Her Thighs Open', 'Wall Spread of Her Stance'],
+    cycle: ['carry', 'circuit'],
+    dayTypes: {
+      carry: gymThenSex('Lift, then fuck', 'Lift', C('Carries', GYM_LIFT, { ...LIFT, values: [3, 4, 5, 6] }), HOME_GYM, { pref: 2 }),
+      circuit: gymThenSex('Circuit, then fuck', 'Circuit', C('Partner circuit', GYM_WORK, { ...LIFT, values: [3, 4, 5, 6] }), HOME_GYM_B, { pref: 2 }),
+    },
+  },
+  {
+    id: 'kiss-then-fold', ...C13, name: 'Kiss Then Go Deeper', subject: 'Sex positions', minutes: [31, 40], levers: [null, 'reps', 'holds'],
+    split: 'Kiss squats, then fold her', blurb: 'Kiss squats first, then you fold her and go deeper in the hold you put her in.',
+    about: 'Kiss squats first, still close in your clothes, then you strip her and leave her naked. One day is a kissing circuit; the other day is slower strength. Then you fold her and go deeper in the hold you put her in, your cock in her pussy. Level II adds reps to the partner work. Level III holds every position longer.',
+    names: ['Kiss at Full Squat', 'Mouths Locked in the Dip', 'Knees High on Your Chest', 'Deep Pike of Her Waist', 'Pretzel Drawn to Your Mouth', 'Standing Lift to Your Lips', 'Ankles High Beside Your Head', 'Missionary Under Your Mouth', 'Her Heels on Your Shoulders', 'Close Chest Over Her Pike', 'Lotus Seat in Your Lap', 'Butterfly Press at Her Knees', 'Side Bend to Your Mouth', 'Spine Arched to Your Lips', 'Edge Seat Between Her Thighs', 'Happy Baby Under Your Weight', 'Scissor Along Her Thigh', 'Prone Neck Under Your Teeth', 'Wall Wrap of Her Legs', 'Carry Hook of Her Ankles'],
+    cycle: ['kiss', 'strength'],
+    dayTypes: {
+      kiss: gymThenSex('Kiss the reps, then fuck', 'Kiss', C('Kiss circuit', GYM_KISS, { ...LIFT, values: [3, 4, 5, 6] }), HOME_GYM, { pref: 2 }),
+      strength: gymThenSex('Strength, then fuck', 'Strength', S('Partner strength', GYM_STRONG, { ...LIFT, values: [2, 3, 4, 5] }), HOME_GYM_B, { pref: 2 }),
+    },
+  },
+  {
+    id: 'mouth-then-fold', ...C13, name: 'Mouth Then the Angle', subject: 'Sex positions', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'Mouth first, then the angle', blurb: 'You eat her, then you put her in the hold you want and fuck her there.',
+    about: 'You eat her first, then you put her in the hold you want and fuck her there. One day leans on your mouth; the other day your hands join it. You strip her in that first stretch and you leave her naked. Level II and Level III hold every part longer.',
+    names: ['Face Buried in Her Cunt', 'Lips Locked on Her Clit', 'Tongue Flat on Her Mound', 'Chin Wet From Her Pussy', 'Shoulders Under Her Calves', 'Hips Parked on the Mattress', 'Pretzel Drawn Around Your Waist', 'Knees Folded Against Her Chin', 'Mouth Between Her Standing Thighs', 'Ankles Hooked Behind Your Neck', 'Butterfly Spread for Your Mouth', 'Doggy Mouth on Her Cunt', 'Lotus Fold Across Your Tongue', 'Side Lie for Your Tongue', 'Happy Baby Across Your Face', 'Scissor Spread for Your Tongue', 'Prone Lift Toward Your Lips', 'Wall Kneel Against Your Face', 'Standing Mouth on Her Pussy', 'Split Sit Across Your Chin'],
+    cycle: ['mouth', 'hands'],
+    dayTypes: {
+      mouth: sexThenSex('Mouths, then fuck', 'Mouth', SEX_MOUTH, HOME_FUCK, { pref: 2 }, { pref: 2 }),
+      hands: sexThenSex('Hands in it, then fuck', 'Hands', SEX_WARM, HOME_FUCK_B, { pref: 2 }, { pref: 2 }),
+    },
+  },
+  {
+    id: 'hands-then-the-angle', ...C13, name: 'Hands Then Deeper', subject: 'Sex positions', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'Hands first, then deeper', blurb: 'You finger her, then you put her where you want and go deeper in that hold.',
+    about: 'You finger her first, then you put her where you want and go deeper in that hold. One day leans on your fingers; the other day her mouth is in the warm-up. Then you fuck her in the hold you set, your cock in her pussy. Level II and Level III hold every part longer.',
+    names: ['Two Fingers in Her Cunt', 'Thumb Pad on Her Clit', 'Knuckles Deep Against Her Wall', 'Palm Heel on Her Mound', 'Wet Hand at Her Entrance', 'Shoulders Hooked Under Her Knees', 'Ankles Guided into Your Palms', 'Pretzel Set by Your Hands', 'Edge Grip on Her Hips', 'Folded Shut in Your Arms', 'Standing Hold on Her Thighs', 'Butterfly Pressed by Your Palms', 'Doggy Hands on Her Waist', 'Lotus Held in Your Lap', 'Side Cradle for Her Leg', 'Happy Baby in Your Fists', 'Scissor Pinned by One Hand', 'Prone Push on Her Back', 'Wall Pin on Her Wrists', 'Carry Cradle Under Her Ass'],
+    cycle: ['fingers', 'mouth'],
+    dayTypes: {
+      fingers: sexThenSex('Fingers, then fuck', 'Fingers', SEX_HANDS, HOME_FUCK, { pref: 2 }, { pref: 2 }),
+      mouth: sexThenSex('Mouth and fingers, then fuck', 'Mouth', SEX_MOUTH, HOME_FUCK_B, { pref: 2 }, { pref: 2 }),
+    },
+  },
+  {
+    id: 'tease-then-fold', ...C13, name: 'Tease Then the Hold', subject: 'Sex positions', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'Dressed tease, then the hold', blurb: 'You tease her dressed, then you fold her naked and fuck her in the hold you want.',
+    about: 'You tease her dressed, then you fold her naked and fuck her in the hold you want. One day the tease is slow; the other day her mouth joins it. You strip her once and you leave her naked. Level II and Level III hold every part longer.',
+    names: ['Skirt Pushed Up Her Thighs', 'Panties Dragged Down Her Legs', 'Blouse Open on Her Chest', 'Zipper Split to Her Hip', 'Cloth Bunch at Her Waist', 'Naked Fold Against Your Chest', 'Bare Knees High in Missionary', 'Stripped Pretzel in Your Lap', 'Undressed Edge of the Bed', 'Nude Ankles in Your Fists', 'Peeled Standing Against You', 'Bare Butterfly on the Quilt', 'Naked Doggy on the Rug', 'Stripped Lotus Around Your Waist', 'Side Lie on the Duvet', 'Happy Baby in Your Arms', 'Exposed Scissor Across Your Hips', 'Bare Prone on the Quilt', 'Wall Wrap of Her Thighs', 'Stripped Carry of Her Legs'],
+    cycle: ['tease', 'mouth'],
+    dayTypes: {
+      tease: sexThenSex('Tease, then fuck', 'Tease', SEX_WARM, HOME_FUCK, { pref: 2 }, { pref: 2 }),
+      mouth: sexThenSex('Mouth, then fuck', 'Mouth', SEX_MOUTH, HOME_FUCK_B, { pref: 2 }, { pref: 2 }),
+    },
+  },
+  {
+    id: 'stay-in-the-fold', ...C13, name: 'Stay in the Fold', subject: 'Sex positions', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'One positions flow, stay in the fold', blurb: 'You stay in the hold you put her in and move her through the positions, still inside her.',
+    about: 'You stay in the hold you put her in and move her through the positions, still inside her. There is no workout in front of it and no separate teasing. One day is one mix; the other day is a fresh mix, your cock in her the whole way. Level II and Level III hold every position longer.',
+    names: ['Locked Pretzel Around Your Waist', 'Held Missionary With Knees High', 'Parked on the Bed Edge', 'Frozen Doggy on Her Elbows', 'Seated Lotus in Your Lap', 'Planted Butterfly Against Your Hips', 'Anchored Spoon Along Her Back', 'Fixed Standing With Her Wrap', 'Settled Prone on the Sheets', 'Caught Scissor Across Your Thigh', 'Nested Happy Baby in Arms', 'Braced Split on the Floor', 'Rooted Cowgirl on Your Cock', 'Stilled Reverse in Your Lap', 'Clamped Ankles at Your Shoulders', 'Wedged Knees Beside Her Ears', 'Pinned Calves to Your Chest', 'Bound Heels Under Your Arms', 'Cradled Side Across the Mattress', 'Mounted Wall With Her Thighs'],
+    cycle: ['flow', 'again'],
+    dayTypes: {
+      flow: positionsOnly('Stay inside', 'Stay', HOME_ONLY, { pref: 2 }),
+      again: positionsOnly('Stay, another mix', 'Again', HOME_ONLY_B, { pref: 2 }),
+    },
+  },
+  {
+    id: 'hold-the-angle', ...C13, name: 'Hold Her Where You Want', subject: 'Sex positions', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'One positions flow, hold the angle', blurb: 'You hold her where you want her and fuck her in that hold, hold after hold.',
+    about: 'You hold her where you want her and fuck her in that hold, hold after hold. You are not training beside her first, and you are not opening with a tease block. One day is one run of holds; the other day is another run. Level II and Level III hold every position longer.',
+    names: ['You Hold Her Ankles Wide', 'Grip Her Knees Against Chest', 'Her Thighs Pinned Flat', 'Keep Her Pretzel Locked', 'Brace Her on the Edge', 'Lift Her into a Stand', 'Press Her Butterfly Open', 'Seat Her in Lotus', 'Turn Her into Doggy', 'Lay Her Out Prone', 'Fold Her into Happy Baby', 'Spread Her for the Split', 'Set Her on Your Cock', 'Spin Her Into Reverse', 'Hook Her Heels on Shoulders', 'Calves Tucked on Your Arms', 'Slide Her Along the Mattress', 'Rest Her Side Across You', 'Push Her Against the Wall', 'Carry Her in a Straddle'],
+    cycle: ['hold', 'longer'],
+    dayTypes: {
+      hold: positionsOnly('Hold after hold', 'Hold', HOME_ONLY, { pref: 2 }),
+      longer: positionsOnly('Longer holds', 'Longer', HOME_ONLY_B, { pref: 2 }),
+    },
+  },
+  {
+    id: 'deeper-every-angle', ...C13, name: 'Deeper Every Angle', subject: 'Sex positions', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'One positions flow, deeper every hold', blurb: 'Each new hold you put her in, you go deeper.',
+    about: 'Each new hold you put her in, you go deeper. There is no gym block and no separate warm-up. One day is one mix of holds; the other day is a deeper mix, your cock in her pussy. Level II and Level III hold every position longer.',
+    names: ['Base in Her Missionary', 'Hilt in the Pretzel', 'Full Seat on the Edge', 'Bottomed in Doggy', 'Deep Lotus on Your Lap', 'Rooted Butterfly Against You', 'Buried Spoon From Behind', 'Seated Deep in the Stand', 'Flush Prone on the Bed', 'Hip to Hip in Scissor', 'Balls Deep in Happy Baby', 'Dropped Split on Your Cock', 'Ground Cowgirl to the Base', 'Sunk Reverse to the Hilt', 'Ankles High Over Your Shoulders', 'Mating Press on Her Chest', 'One Calf on Your Shoulder', 'Side Buried to the Root', 'Wall Deep With Her Wrap', 'Carry Buried Against Her Cunt'],
+    cycle: ['deep', 'deeper'],
+    dayTypes: {
+      deep: positionsOnly('Deeper each hold', 'Deep', HOME_ONLY, { pref: 2 }),
+      deeper: positionsOnly('Deeper still', 'Deeper', HOME_ONLY_B, { pref: 2 }),
     },
   },
   // ---- Rough (Phase 22 ticket 19): 4 gym, 4 sex, 4 positions. Catalogue 13. Sex days are warm, then rough. ----
