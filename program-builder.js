@@ -367,7 +367,6 @@
     };
     const computedPools = (upTo) => {
       const has = (fn) => ids((e) => (e.added || 0) <= upTo && fn(e));
-      const WATER_WARM = /suck|mouth|bikini|jet|touch|rub|hand|bubbles/; // touching and oral in the water, no fucking
       const adds = Object.fromEntries(Object.entries(POOL_ADDS).map(([name, byCat]) => [name, Object.entries(byCat).filter(([n]) => +n <= upTo).flatMap(([, list]) => list)]).filter(([, list]) => list.length));
       return {
         ...Object.fromEntries(Object.entries(adds).map(([name, list]) => [name, [...(POOLS[name] || []), ...list]])),
@@ -395,10 +394,6 @@
         sexHottub: has((e) => e.added === 13 && e.sub === 'hottub'),
         sexBalcony: has((e) => e.added === 13 && e.sub === 'balcony'),
         sexDoorframe: has((e) => e.added === 13 && e.sub === 'doorframe'),
-        // Phase 36 ticket 3: Strip and tease sets after their one tease (363); a pool or hot-tub warm-up in the water (364)
-        sexTeaseNaked: has((e) => e.added === 13 && ['massage', 'hands', 'oral', 'body'].includes(e.sub)),
-        sexPoolWarm: has((e) => e.added === 13 && e.sub === 'pool' && WATER_WARM.test(e.id)),
-        sexHottubWarm: has((e) => e.added === 13 && e.sub === 'hottub' && WATER_WARM.test(e.id)),
       };
     };
     // Sex blocks of catalogue-11 programs draw one of these: old and new exercises in one pool, so each has about the
@@ -411,12 +406,17 @@
         sexPositions: [...new Set([...cp.explicit, ...POOLS.positions, ...new13()])],
         sexWarm: [...new Set([...POOLS.oralSex, ...POOLS.hands, ...POOLS.oral, ...POOLS.tease, ...POOLS.massage, ...new13(['oral', 'hands', 'kink', 'rim', 'massage', 'tease'])])],
         sexFuck: [...new Set([...POOLS.fuck, ...POOLS.anal, ...POOLS.toy, ...POOLS.positions, ...new13(['fuck', 'anal', 'toys', 'rough', 'body', 'edging', 'shower', 'pool', 'hottub', 'balcony', 'doorframe'])])],
+        // Phase 36 ticket 3: Strip and tease sets after their one tease (363); a pool or hot-tub warm-up in the water (364)
+        sexTeaseNaked: new13(['massage', 'hands', 'oral', 'body']),
+        sexPoolWarm: new13(['pool']).filter((id) => WATER_WARM.test(id)),
+        sexHottubWarm: new13(['hottub']).filter((id) => WATER_WARM.test(id)),
       };
       // the home pools (Phase 20 ticket 8b, decision 219): the same without the places, which keep their own subjects
       const home = (list) => list.filter((id) => !PLACE_SUBS.includes(EX[id].sub));
       return { ...m, sexPositionsHome: home(m.sexPositions), sexFuckHome: home(m.sexFuck) };
     };
     const PLACE_SUBS = ['shower', 'pool', 'hottub', 'balcony', 'doorframe'];
+    const WATER_WARM = /suck|mouth|bikini|jet|touch|rub|hand|bubbles/; // touching and oral in the water, no fucking
     const COMPUTED = new Map();
     const computed = (upTo) => COMPUTED.get(upTo) || COMPUTED.set(upTo, computedPools(upTo)).get(upTo);
     Object.assign(POOLS, computed(0)); // the pools as existing programs see them

@@ -54,6 +54,12 @@ test('every couple program is dealt at sessionRules 1 and keeps the order on eve
   assert.deepEqual(bad.slice(0, 20), [], `${bad.length} violations`);
 });
 
+test('built fresh (not from the cache), a program of each kind keeps the order: shower, water, kink, rough, tease', () => {
+  const fresh = ['shower-set-then-tile', 'pool-wall-then-hold', 'kink-ice-wax', 'rough-long-hold', 'tease-dry-holds', 'beach-set-then-fuck']
+    .map((id) => Builder.buildConfig(couples.find((c) => c.id === id)));
+  assert.deepEqual(report(fresh), []);
+});
+
 test('version 0 deals as before, out of order: the checker sees it', () => {
   const old = ['tease-set-then-zip', 'pool-quick-soak', 'grind-circuit-then-fuck'].map((id) => {
     const { sessionRules, ...c } = couples.find((x) => x.id === id);
