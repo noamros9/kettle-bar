@@ -5,8 +5,8 @@ top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase c
 (the next one is **357**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
 ## Resume here (16 Oct 2026)
-- **Phase 20: tickets 10–21 done** (#446–#450, #452, #454, #458, #460, #462, #463, #464). Noam's go (16 Oct) covers the rest of the phase: **next
-  22**, then 23, two at a time; stop when Phase 20 is done (Noam, 16 Oct). Tours: `tour60` (346); Morning glory's long blocks (347). Pre-check day names against the newest
+- **Phase 20: tickets 10–22 done** (#446–#450, #452, #454, #458, #460, #462–#464, #465). Noam's go (16 Oct) covers the rest of the phase: **next
+  23**, the last; stop when Phase 20 is done (Noam, 16 Oct). Tours: `tour60` (346); Morning glory's long blocks (347). Pre-check day names against the newest
   merged ticket too: `../kettle-bar-docs`, where the pre-check reads configs, goes onto main first (`git checkout
   --detach origin/main`); an old test that checks a whole subject gets scoped to its own programs when a ticket first
   adds to that subject; `library.test.js` keeps a count per subject. `check:new` builds only `added: 23` on, so it
