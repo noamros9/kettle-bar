@@ -158,6 +158,7 @@ function render(scrollTop) {
   const wasKey = wasChosen ? wasChosen.dataset.filter : null;
   const loading = v === 'compare' ? stillLoading([route.a, route.b]) : needsProgram ? stillLoading([route.pid]) : [];
   drewLoading = loading.length > 0;
+  cueAt = null; // the day page sets it
   if (drewLoading) app.innerHTML = loadingView(loading[0]);
   else app.innerHTML = v === 'programs' ? viewPrograms() : v === 'build' ? viewBuild() : v === 'random' ? viewRandom() : v === 'now' ? viewNow() : v === 'add' ? viewAdd() : v === 'library' ? viewLibrary() : v === 'settings' ? viewSettings() : v === 'stats' ? viewStats() : v === 'muscles' ? viewMuscles() : v === 'exercise' ? viewExercise() : v === 'day' ? viewDay() : v === 'print' ? viewPrint() : v === 'row' ? viewRow() : v === 'compare' ? viewCompare() : viewProgram();
   if (!drewLoading && ['exercise', 'day', 'program', 'random'].includes(v)) app.insertAdjacentHTML('beforeend', exportSheet()); // Phase 32

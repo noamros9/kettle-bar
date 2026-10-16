@@ -69,7 +69,7 @@ exercises (six at each of five places).
 | 0 | This plan | plan | – | `plan/p35-tickets-small` | done (PR #358, #359) |
 | 1a | Mali in the exercises (349) | content | – | `content/p35-mali-exercises` | done (PR #469) |
 | 1b | Mali in couple blurbs and abouts (350) | content | 1a | `content/p35-mali-programs` | done (PR #470) |
-| 1c | The third person's name, filled per workout (351, 353) | feature | – | `feature/p35-third-names` | todo |
+| 1c | The third person's name, filled per workout (351, 353) | feature | – | `feature/p35-third-names` | done (PR #471) |
 | 1 | Third figure, the FMF/MMF tag, and the filing rules (289, 290, 291) | feature | – | `feature/p35-figure-tags` | todo |
 | 2a | Threesome act: intercourse, 36 (284) | content | 1, 1c | `content/p35-act-intercourse` | todo |
 | 2b | Threesome acts: oral 18, hands 18 (284) | content | 1, 1c | `content/p35-act-oral-hands` | todo |
@@ -147,7 +147,9 @@ exercises (six at each of five places).
 - **Build:** a small module, outside `app/library.js` and the build cache's key, with the two name lists (2/3 Israeli,
   1/6 American, 1/6 British, interleaved) and `thirdName(programId, day, kind)`: the program's own start in the list,
   one step a day; random and build-your-own workouts step by date. The view that shows a cue fills its placeholder.
-  Grok's prompts for tickets 2–4 get the placeholder, and "another woman / man" for program text.
+  Grok's prompts for tickets 2–4 get the placeholder, and "another woman / man" for program text. Built: the
+  placeholders are `{woman}` (FMF) and `{man}` (MMF), so a cue says its own kind; `cueOf(e)` in `app/ui.js` fills
+  every cue the pages show; your own programs step by date like random ones.
 - **Files:** `app/third-names.js`, the view that renders cues, `tests/third-names.test.js`, a UI spec.
 - **Test first:** `tests/third-names.test.js`: a day always gets the same name; consecutive days differ; over a long
   run about 2/3 Israeli, 1/6 American, 1/6 British; FMF gets a woman's name, MMF a man's.
@@ -167,7 +169,8 @@ exercises (six at each of five places).
 - **Build:** the counts in the table, catalogue 14, each exercise with its figure, cue, tags and muscles, in the
   existing exercise shape. Mostly FMF, about two thirds (287), one third MMF in every kind. MMF is incidental only
   (288): hands may brush and bodies touch while both men are on her; nothing between the men as an act, nothing
-  receiving said about you. Text follows CLAUDE.md's his-side rules.
+  receiving said about you. Text follows CLAUDE.md's his-side rules. Cues name her as Mali once, first (349), and the
+  third person only as `{woman}` (FMF) or `{man}` (MMF), never a name; exercise names say "another woman / man".
 - **Files:** `exercises.js` (new entries at the end, `added: 14`), nothing else.
 - **Test first:** each ticket's count per act kind, kind or place; every exercise has a tag; no MMF exercise has men
   acting on each other; each `added: 14` id is new.

@@ -364,6 +364,14 @@ was asked ("Back care · 15–20 min · no equipment"), never generated text.
 moves** (exercises done together), **teasing** (strip rounds, kiss reps, dares, massage) and **positions** (sex
 positions as timed holds). Couple programs stay out of build your own and random workouts.
 
+**Mali** (Phase 35): her name. Each couple cue, exercise name, blurb and about names Mali once, at the first she/her;
+day names keep "her".
+
+**Third person** (Phase 35): the other woman (FMF) or man (MMF) in a threesome. A cue holds `{woman}` or `{man}`, never a
+name; `app/third-names.js` fills it as the cue shows: on a program day from the program's own start in the list, one
+name a day; anywhere else (random, your own programs, the exercise page) by the date. Program text says "another
+woman / man".
+
 **Two-figure drawing** (Phase 18): an exercise picture with a second stick figure (the partner, in `--fig2`), described
 by a pose's `two` field.
 
