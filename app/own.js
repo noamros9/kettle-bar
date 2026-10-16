@@ -44,7 +44,7 @@
 (function (root, Programs, L) {
   const GEAR = { all: 'all equipment', kb: 'a kettlebell only', bw: 'no equipment' };
   const SUMMARY_GEAR = { all: 'all equipment', kb: 'kettlebell only', bw: 'no equipment' };
-  const EQUIPMENT = ['all', 'kb', 'bw'], MINUTES = [20, 25, 30, 35, 40];
+  const EQUIPMENT = ['all', 'kb', 'bw'], MINUTES = [15, 20, 25, 30, 35, 40]; // 15 for one subject only (Phase 34, 261)
   const clone = (x) => JSON.parse(JSON.stringify(x));
   const isObject = (x) => x && typeof x === 'object' && !Array.isArray(x);
 
@@ -114,7 +114,10 @@
     const text = nameOf(c.subjects), o = recipes.options(c.subjects);
     const equipment = {}, minutes = {};
     EQUIPMENT.forEach((eq) => { const ok = o.equipment[eq].length > 0; equipment[eq] = { ok, reason: ok ? '' : `No ${text} days with ${GEAR[eq]}.` }; });
-    MINUTES.forEach((m) => { const ok = o.equipment[c.equipment].includes(m); minutes[m] = { ok, reason: ok ? '' : `No ${m}-minute ${text} days with ${GEAR[c.equipment]}.` }; });
+    MINUTES.forEach((m) => {
+      const ok = o.equipment[c.equipment].includes(m), mix = c.subjects.length > 1 && m < 20;
+      minutes[m] = { ok, reason: ok ? '' : mix ? `${m} minutes is for one subject.` : `No ${m}-minute ${text} days with ${GEAR[c.equipment]}.` };
+    });
     return { equipment, minutes };
   }
 

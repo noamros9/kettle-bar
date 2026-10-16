@@ -209,17 +209,8 @@ test('the rest-day card: shown when nothing is marked done today, hidden once a 
   assert.equal(Random.dayKey(new Date(2026, 0, 5, 1)), '2026-01-05');
 });
 
-test('the rest-day flow: mobility & posture or flexibility, 15 minutes (the shortest the book makes), no equipment', () => {
-  assert.deepEqual(Random.REST_DAY, { subjects: ['Mobility & posture', 'Flexibility'], minutes: 15, equipment: 'bw' });
-  assert.equal(Random.problem(recipes, Random.REST_DAY), null);
-  const subjects = new Set();
-  for (const seed of ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']) {
-    const made = Random.make(deps, Random.REST_DAY, { level: 2, seed });
-    subjects.add(made.subject);
-    assert.ok(Math.abs(made.day.est - 15) <= 2.5, `${seed}: ${made.day.est}`);
-    itemsOf(made.day).forEach((ex) => assert.ok(cat.allowedIn('bw', cat.EX[ex]), ex));
-  }
-  assert.deepEqual([...subjects].sort(), ['Flexibility', 'Mobility & posture'], 'either subject comes up');
+// the rest-day flow itself: tests/short-minutes.test.js (Phase 34 ticket 3)
+test('problem: a subject with no day type at those minutes and gear, or an unknown subject, says why', () => {
   assert.equal(Random.problem(recipes, { subjects: ['Pull-ups'], minutes: 15, equipment: 'bw' }), 'No 15-minute Pull-ups workout with no equipment.');
   assert.equal(Random.problem(recipes, { subjects: ['Nope'], minutes: 15, equipment: 'bw' }), 'No Nope workouts.');
 });

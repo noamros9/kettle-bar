@@ -116,7 +116,7 @@ const json = JSON.stringify;
 // The newest catalogue own programs and random workouts are made at. Held while a phase adds to it, so a program saved
 // mid-phase never reshuffles when the next ticket grows its pools (Phase 22, decision 121); moved when the phase is in
 // (Phase 23's last ticket: catalogue 14, the doubled yoga and Pilates moves, decision 264).
-const NEWEST = 14;
+const NEWEST = 15; // Phase 34 ticket 3 (266): the breathing drills reach random workouts and the rest-day flow
 // The phase whose new programs are held out of the book (decision 318): a phase's programs (added: N) join own programs
 // and random workouts all at once at its last ticket, which moves this on. Phase 23's are in; nothing is held now.
 const HELD = 24;

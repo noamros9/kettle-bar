@@ -25,7 +25,7 @@
    - Minutes: the book was made by really building each day type, at each target of GRID (15 to 40 in fives, then 10), with each
      equipment it fits, over three levels: it fits a target when every day landed in [target - 2, target + 2]. pick's
      `minutes` fits a day type when a target it fits lies within 2.5 min of it (22 fits 20, 23 fits 20 or 25). make() takes
-     the five targets 20 to 40 and gives every day type the window [minutes - 2, minutes + 2]. A day type that cannot
+     the targets 15 to 40 (15 for one subject only, a mix starts at 20; Phase 34) and gives every day type the window [minutes - 2, minutes + 2]. A day type that cannot
      shrink (a bout is 3 min plus rest) simply has no target below its own length, so it is never picked for a shorter one.
    - Formats: a day type fits when all of its formats are ticked (a mixed day needs both its strength and its flow).
    - Subjects and families are "any of"; family is the shelf a program sits on (a mixed day is `Mixed`, its blocks'
@@ -48,7 +48,8 @@
    Day types are read-only data: do not change what pick returns. */
 (function (root, Formats, deps, L) {
   // 10 (Phase 34, the rest-day flows) is last so every older fit mask keeps its bits
-  const GRID = [15, 20, 25, 30, 35, 40, 10], MINUTES = [20, 25, 30, 35, 40];
+  const GRID = [15, 20, 25, 30, 35, 40, 10], MINUTES = [15, 20, 25, 30, 35, 40];
+  const MIX_MINUTES = MINUTES.filter((m) => m >= 20); // 15 is for one subject (261)
   const WINDOW = 2, SLACK = 2.5;
   const ROUNDS = 6; // builds of a mix tried before it is refused
   const MAX_SUBJECTS = 3;
@@ -136,8 +137,8 @@
       if (!mixOptions.has(key)) {
         let reason = mixReason(list);
         const equipment = {};
-        Object.keys(RANK).reverse().forEach((eq) => { equipment[eq] = reason ? [] : MINUTES.filter((m) => someMix(list, eq, m)); });
-        if (!reason && !Object.values(equipment).some((ms) => ms.length)) reason = `No mix of ${list.join(' + ')} fits ${MINUTES[0]} to ${MINUTES.at(-1)} minutes.`;
+        Object.keys(RANK).reverse().forEach((eq) => { equipment[eq] = reason ? [] : MIX_MINUTES.filter((m) => someMix(list, eq, m)); });
+        if (!reason && !Object.values(equipment).some((ms) => ms.length)) reason = `No mix of ${list.join(' + ')} fits ${MIX_MINUTES[0]} to ${MIX_MINUTES.at(-1)} minutes.`;
         const formats = [...new Set(list.flatMap((s) => parts.filter((p) => p.subject === s).map((p) => p.f)))];
         mixOptions.set(key, { subjects: list.slice(), equipment, formats, levers: list.map(leversOf), reason });
       }
@@ -152,6 +153,7 @@
       if (new Set(c.subjects).size < c.subjects.length) throw new Error('Pick each subject once.');
       if (!Number.isInteger(c.split) || c.split < 1 || c.split > 5) throw new Error('Days per cycle: pick 1 to 5.');
       if (!MINUTES.includes(c.minutes)) throw new Error(`Minutes: pick ${MINUTES.join(', ')}.`);
+      if (c.subjects.length > 1 && !MIX_MINUTES.includes(c.minutes)) throw new Error(`${c.minutes} minutes is for one subject: a mix starts at ${MIX_MINUTES[0]}.`);
       if (!(c.equipment in RANK)) throw new Error(`Unknown equipment: ${c.equipment}`);
       if (c.formats !== undefined) {
         if (!Array.isArray(c.formats)) throw new Error('Formats: pick from the list.');

@@ -12,8 +12,9 @@
      levelOf([{ time, level }]) -> the level of the day marked done last (in any program or a random one); none -> 1
      levelOfDay(n, dayCount = 60) -> 1-3: the level of day n of a program that long (KBLength.levelOf)
      FAMILIES, MINUTES [15, 25, 38], newId(now?, rnd?), newSeed(rnd?)
-     REST_DAY: the rest-day flow's choice (mobility & posture or flexibility, 15 min, no equipment: 15 is the shortest
-               day the recipe book makes)
+     REST_DAY: the rest-day card (Phase 34 ticket 3, 262): mobility & posture, flexibility or yoga, 10 or 15 min, no
+               equipment       restChoice(minutes) -> its choice for one of those minutes: only the rest-day flows
+               (configs/short.js), poses then a breathing drill      minutesOf(choice) -> the minutes the sheet offers it
      restDay(doneTimes, now, dismissed) -> show the rest-day card: nothing marked done on today's date (the phone's own
                day) and not dismissed today (`dismissed` = the dayKey it was dismissed on, or null)
      dayKey(date) -> 'YYYY-MM-DD' of the local day
@@ -55,7 +56,9 @@
     return last ? last.level : 1;
   }
 
-  const REST_DAY = { subjects: ['Mobility & posture', 'Flexibility'], minutes: 15, equipment: 'bw' };
+  const REST_DAY = { subjects: ['Mobility & posture', 'Flexibility', 'Yoga'], minutes: [10, 15], equipment: 'bw' };
+  const restChoice = (minutes) => ({ subjects: REST_DAY.subjects.slice(), minutes, equipment: REST_DAY.equipment, rest: true });
+  const minutesOf = (c) => (c.rest ? REST_DAY.minutes : MINUTES);
   const nameOf = (c) => (c.subjects ? c.subjects.join(' or ') : c.subject || c.family);
   const filterOf = (c) => (c.subjects ? { subjects: c.subjects } : c.subject ? { subjects: [c.subject] } : { families: [c.family] });
   const pad = (n) => String(n).padStart(2, '0');
@@ -65,7 +68,7 @@
   // best, so every one of them can come up
   function candidates(recipes, c) {
     if (c.subjects) return c.subjects.flatMap((subject) => candidates(recipes, { ...c, subjects: undefined, subject }));
-    const fit = recipes.pick({ ...filterOf(c), equipment: c.equipment, minutes: c.minutes });
+    const fit = recipes.pick({ ...filterOf(c), equipment: c.equipment, minutes: c.minutes }).filter((t) => !c.rest || t.program.startsWith('rest-'));
     const exact = fit.filter((t) => recipes.fitsExactly(t, c.equipment, c.minutes));
     return exact.length ? exact : fit;
   }
@@ -89,7 +92,8 @@
     const list = candidates(recipes, choice), rnd = makeRnd(seed);
     const t = list[Math.floor(mixed(seed) * list.length)];
     const recipe = recipes.recipeFor(t, { minutes: choice.minutes, equipment: choice.equipment, levers: t.levers });
-    const day = { ...buildDay(recipe, { day: 1, level, rnd, memory: newMemory() }, cat), name: t.label };
+    // a hidden 15-min circuit (configs/short.js) is named for its subject (267)
+    const day = { ...buildDay(recipe, { day: 1, level, rnd, memory: newMemory() }, cat), name: t.program.startsWith('short-') ? `${t.subject} · ${t.label}` : t.label };
     const program = {
       id: 'random', name: 'Random workout', subject: t.subject, equip: choice.equipment, rests: clone(t.rests),
       levels: ['Level I · Intermediate', `Level II · ${LEVER_TEXT[t.levers[0]]}`, `Level III · ${LEVER_TEXT[t.levers[1]]}`],
@@ -183,7 +187,7 @@
     };
   }
 
-  const api = { REST_DAY, restDay, dayKey, make, problem, levelOf, levelOfDay, createRandom, newId, newSeed, FAMILIES, MINUTES };
+  const api = { REST_DAY, restChoice, minutesOf, restDay, dayKey, make, problem, levelOf, levelOfDay, createRandom, newId, newSeed, FAMILIES, MINUTES };
   /* node:coverage ignore next 4 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBRandom = api;
 })(typeof window !== 'undefined' ? window : globalThis, typeof module !== 'undefined' && module.exports ? require('./swaps.js') : window.KBSwaps,

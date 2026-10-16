@@ -68,7 +68,8 @@ test('build a 3-day kettlebell program, regenerate, save, tick day 1, reload: it
 test('choices the subject cannot build are off with a reason, and a message stands in for the preview when nothing fits', async ({ app }) => {
   await app.open('#build');
   await app.page.getByRole('group', { name: 'Days in a cycle' }).waitFor();
-  // Strength has no 20-minute days
+  // Strength has no 20-minute days; 15 is its circuit (Phase 34), for one subject only
+  await expect(chip(app, 'Minutes a day', '15')).toBeEnabled();
   await expect(chip(app, 'Minutes a day', '20')).toBeDisabled();
   await expect(app.page.locator('.hint', { hasText: 'No 20-minute Strength days' })).toBeVisible();
   // a subject with no bodyweight days greys out that equipment
