@@ -5,8 +5,10 @@ top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase c
 (the next one is **348**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
 ## Resume here (16 Oct 2026)
-- **Phase 20: tickets 10–13 done** (#446–#449). Noam's go (16 Oct) covers the rest of the phase: **next 14** (text
-  written and reviewed, `../kettle-bar-docs/grok/t14-text.md`), then 15–23. Tours: `tour60` (346); Morning glory's long blocks (347).
+- **Phase 20: tickets 10–14 done** (#446–#450). Noam's go (16 Oct) covers the rest of the phase: **next 15**, then
+  16–23. Tours: `tour60` (346); Morning glory's long blocks (347). Pre-check day names against the newest merged
+  ticket too (ticket 14's text clashed with 13's in three names); an old test that checks a whole subject gets scoped
+  to its own programs when a ticket first adds to that subject.
 - **How a Phase 20 content ticket runs now (worked for 10–12, ~3% of the weekly Grok usage for all three):**
   1. Branch `content/explicit-more-<x>` from main; `npm run cache:pull`.
   2. Claude writes the brief: a slot table (subject, shape, day types; 3 gym, 3 sex, 3 positions per subject), the

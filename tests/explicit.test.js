@@ -37,7 +37,7 @@ const prog = (id) => programs.find((p) => p.id === id);
 
 test('Explicit: the 20 programs, for two, catalogue 11, 60 days, out of build your own', () => {
   assert.deepEqual(programs.map((p) => p.id), IDS);
-  assert.equal(CONFIGS.filter((c) => c.subject === 'Explicit').length, 20);
+  assert.equal(CONFIGS.filter((c) => c.subject === 'Explicit').length, 43); // + Phase 20 ticket 14's 23 (tests/explicit-sex-a.test.js)
   assert.deepEqual([GYM.length, SEX.length, POS.length], [7, 7, 6]);
   IDS.forEach((id) => {
     const c = cfgOf(id);
