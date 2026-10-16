@@ -31,6 +31,25 @@ points were settled 10 Oct (292, 293).
 - **293 · Who builds.** Grok the exercises and program text, plan first (132); Opus the third figure, the tags and
   the pool wiring. The phase waits for Grok, like Phase 20 (confirmed 10 Oct). *(9, 10 Oct)*
 
+**Names (16 Oct 2026, Noam; first in the phase, before any exercise ticket)**
+- **349 · She is Mali in the exercises.** Once per cue: the first she/her of each couple cue names Mali, the rest stay
+  she/her; exercise names too. Built days hold only ids, so every program shows it at once and no pin moves. *(16 Oct)*
+- **350 · Mali in couple program text, not day names.** Blurbs and abouts name Mali once each; day names keep her, so no
+  pin changes. `tests/his-pov.test.js` reads Mali as her. *(16 Oct)*
+- **351 · The third person's name is filled in per workout.** Threesome cues hold a placeholder, never a name; the app
+  fills it from one list (women for FMF, men for MMF; 2/3 Israeli, 1/6 American, 1/6 British, interleaved). Each program
+  starts at its own point and steps one name a day, so the same exercise meets different partners on different days;
+  random and build-your-own workouts step by date. Computed, never stored. *(16 Oct)*
+- **352 · One kind per day.** A day's threesomes are all FMF or all MMF, so a workout has one third person. *(16 Oct)*
+- **353 · Program text says "another woman" / "another man".** The names change by workout; Mali is named. *(16 Oct)*
+
+**More threesomes (16 Oct 2026, Noam)**
+- **354 · Threesome subject 54 (was 18), its kind 144 (was 72).** Six program tickets of 9; four exercise tickets of 36. *(16 Oct)*
+- **355 · Place × threesome 18 per place, 90 (was 30).** Three tickets of 30. *(16 Oct)*
+- **356 · 13 new threesome subjects of 4.** One per act subject (Explicit, Rough, Kink-lite, Body play, Rimming, Edging,
+  Massage, Strip and tease) and per place (Shower and bath, Pool, Hot tub, Balcony, Doorframe): 52 programs on one
+  Threesomes shelf. The per-act threesome exercises stay 18. *(16 Oct)*
+
 ## Tickets
 
 Caps: no exercise ticket over 36, no program ticket over 15 (Noam, 10 Oct 2026). Place × act is one ticket per act, 30
@@ -39,21 +58,28 @@ exercises (six at each of five places).
 | # | Ticket | Tier | Blocked by | Branch | Status |
 |---|---|---|---|---|---|
 | 0 | This plan | plan | – | `plan/p35-tickets-small` | done (PR #358, #359) |
+| 1a | Mali in the exercises (349) | content | – | `content/p35-mali-exercises` | todo |
+| 1b | Mali in couple blurbs and abouts (350) | content | 1a | `content/p35-mali-programs` | todo |
+| 1c | The third person's name, filled per workout (351, 353) | feature | – | `feature/p35-third-names` | todo |
 | 1 | Third figure, the FMF/MMF tag, and the filing rules (289, 290, 291) | feature | – | `feature/p35-figure-tags` | todo |
-| 2a | Threesome act: intercourse, 36 (284) | content | 1 | `content/p35-act-intercourse` | todo |
-| 2b | Threesome acts: oral 18, hands 18 (284) | content | 1 | `content/p35-act-oral-hands` | todo |
-| 2c | Threesome acts: anal 18, toys 18 (284) | content | 1 | `content/p35-act-anal-toys` | todo |
-| 2d | Threesome acts: rough 18, kink 18 (284) | content | 1 | `content/p35-act-rough-kink` | todo |
-| 2e | Threesome acts: body play 18, rimming 18 (284) | content | 1 | `content/p35-act-body-rimming` | todo |
-| 2f | Threesome acts: edging 18, massage 18 (284) | content | 1 | `content/p35-act-edging-massage` | todo |
-| 2g | Threesome act: strip and tease, 18 (284) | content | 1 | `content/p35-act-strip` | todo |
-| 3a | Threesome kind, first 36 (285) | content | 1 | `content/p35-kind-a` | todo |
-| 3b | Threesome kind, second 36 (285) | content | 1 | `content/p35-kind-b` | todo |
+| 2a | Threesome act: intercourse, 36 (284) | content | 1, 1c | `content/p35-act-intercourse` | todo |
+| 2b | Threesome acts: oral 18, hands 18 (284) | content | 1, 1c | `content/p35-act-oral-hands` | todo |
+| 2c | Threesome acts: anal 18, toys 18 (284) | content | 1, 1c | `content/p35-act-anal-toys` | todo |
+| 2d | Threesome acts: rough 18, kink 18 (284) | content | 1, 1c | `content/p35-act-rough-kink` | todo |
+| 2e | Threesome acts: body play 18, rimming 18 (284) | content | 1, 1c | `content/p35-act-body-rimming` | todo |
+| 2f | Threesome acts: edging 18, massage 18 (284) | content | 1, 1c | `content/p35-act-edging-massage` | todo |
+| 2g | Threesome act: strip and tease, 18 (284) | content | 1, 1c | `content/p35-act-strip` | todo |
+| 3a | Threesome kind, first 36 of 144 (285, 354) | content | 1, 1c | `content/p35-kind-a` | todo |
+| 3b | Threesome kind, second 36 of 144 (285, 354) | content | 1, 1c | `content/p35-kind-b` | todo |
+| 3c | Threesome kind, third 36 of 144 (285, 354) | content | 1, 1c | `content/p35-kind-c` | todo |
+| 3d | Threesome kind, fourth 36 of 144 (285, 354) | content | 1, 1c | `content/p35-kind-d` | todo |
 | 4a | Place × act: oral, 6 at each of 5 places, 30 (286) | content | 1 | `content/p35-place-oral` | todo |
 | 4b | Place × act: anal, 6 at each of 5 places, 30 (286) | content | 1 | `content/p35-place-anal` | todo |
 | 4c | Place × act: toys, 6 at each of 5 places, 30 (286) | content | 1 | `content/p35-place-toys` | todo |
 | 4d | Place × act: hands, 6 at each of 5 places, 30 (286) | content | 1 | `content/p35-place-hands` | todo |
-| 4e | Place × act: threesome, 6 at each of 5 places, 30 (286) | content | 1 | `content/p35-place-threesome` | todo |
+| 4e1 | Place × act: threesome, 6 at each of 5 places, 30 (286, 355) | content | 1, 1c | `content/p35-place-threesome-1` | todo |
+| 4e2 | Place × act: threesome, another 6 at each of 5 places, 30 (286, 355) | content | 1, 1c | `content/p35-place-threesome-2` | todo |
+| 4e3 | Place × act: threesome, another 6 at each of 5 places, 30 (286, 355) | content | 1, 1c | `content/p35-place-threesome-3` | todo |
 | 4f | Place × act: edging, 6 at each of 5 places, 30 (286) | content | 1 | `content/p35-place-edging` | todo |
 | 4g | Place × act: massage, 6 at each of 5 places, 30 (286) | content | 1 | `content/p35-place-massage` | todo |
 | 4h | Place × act: tease, 6 at each of 5 places, 30 (286) | content | 1 | `content/p35-place-tease` | todo |
@@ -62,22 +88,57 @@ exercises (six at each of five places).
 | 4k | Place × act: body play, 6 at each of 5 places, 30 (286) | content | 1 | `content/p35-place-body-play` | todo |
 | 4l | Place × act: rimming, 6 at each of 5 places, 30 (286) | content | 1 | `content/p35-place-rimming` | todo |
 | 5 | Pools and pins for catalogue 14, the FMF/MMF split in every kind (287) | feature | 2a–4l | `feature/p35-pools` | todo |
-| 6a | Threesome subject, programs 1–9 of 18 (292) | content | 5 | `content/p35-threesome-1` | todo |
-| 6b | Threesome subject, programs 10–18 of 18 (292) | content | 5 | `content/p35-threesome-2` | todo |
-| 6c | Explicit +8 (292) | content | 5 | `content/p35-explicit` | todo |
-| 6d | Rough +8 (292) | content | 5 | `content/p35-rough` | todo |
-| 6e | Kink-lite +8 (292) | content | 5 | `content/p35-kink-lite` | todo |
-| 6f | Body play +8 (292) | content | 5 | `content/p35-body-play` | todo |
-| 6g | Rimming +8 (292) | content | 5 | `content/p35-rimming` | todo |
-| 6h | Edging +8 (292) | content | 5 | `content/p35-edging` | todo |
-| 6i | Massage +8 (292) | content | 5 | `content/p35-massage` | todo |
-| 6j | Strip and tease +8 (292) | content | 5 | `content/p35-strip-tease` | todo |
-| 6k | Shower and bath +8 (292) | content | 5 | `content/p35-shower-bath` | todo |
-| 6l | Pool +8 (292) | content | 5 | `content/p35-pool` | todo |
-| 6m | Hot tub +8 (292) | content | 5 | `content/p35-hot-tub` | todo |
-| 6n | Balcony +8 (292) | content | 5 | `content/p35-balcony` | todo |
-| 6o | Doorframe +8 (292) | content | 5 | `content/p35-doorframe` | todo |
-| 7 | Close the phase: measure, pins, archive | plan | 6a–6o | `plan/p35-close` | todo |
+| 6a | Threesome subject, programs 1–9 of 54 (292, 354) | content | 5 | `content/p35-threesome-1` | todo |
+| 6b | Threesome subject, programs 10–18 of 54 (292, 354) | content | 5 | `content/p35-threesome-2` | todo |
+| 6c | Threesome subject, programs 19–27 of 54 (292, 354) | content | 5 | `content/p35-threesome-3` | todo |
+| 6d | Threesome subject, programs 28–36 of 54 (292, 354) | content | 5 | `content/p35-threesome-4` | todo |
+| 6e | Threesome subject, programs 37–45 of 54 (292, 354) | content | 5 | `content/p35-threesome-5` | todo |
+| 6f | Threesome subject, programs 46–54 of 54 (292, 354) | content | 5 | `content/p35-threesome-6` | todo |
+| 6g | Explicit +8 (292) | content | 5 | `content/p35-explicit` | todo |
+| 6h | Rough +8 (292) | content | 5 | `content/p35-rough` | todo |
+| 6i | Kink-lite +8 (292) | content | 5 | `content/p35-kink-lite` | todo |
+| 6j | Body play +8 (292) | content | 5 | `content/p35-body-play` | todo |
+| 6k | Rimming +8 (292) | content | 5 | `content/p35-rimming` | todo |
+| 6l | Edging +8 (292) | content | 5 | `content/p35-edging` | todo |
+| 6m | Massage +8 (292) | content | 5 | `content/p35-massage` | todo |
+| 6n | Strip and tease +8 (292) | content | 5 | `content/p35-strip-tease` | todo |
+| 6o | Shower and bath +8 (292) | content | 5 | `content/p35-shower-bath` | todo |
+| 6p | Pool +8 (292) | content | 5 | `content/p35-pool` | todo |
+| 6q | Hot tub +8 (292) | content | 5 | `content/p35-hot-tub` | todo |
+| 6r | Balcony +8 (292) | content | 5 | `content/p35-balcony` | todo |
+| 6s | Doorframe +8 (292) | content | 5 | `content/p35-doorframe` | todo |
+| 6t | Threesome explicit, rough, kink-lite, 4 each (356) | content | 5 | `content/p35-3some-acts-a` | todo |
+| 6u | Threesome body play, rimming, edging, 4 each (356) | content | 5 | `content/p35-3some-acts-b` | todo |
+| 6v | Threesome massage, strip and tease, 4 each (356) | content | 5 | `content/p35-3some-acts-c` | todo |
+| 6w | Threesome in the shower and bath, pool, hot tub, 4 each (356) | content | 5 | `content/p35-3some-places-a` | todo |
+| 6x | Threesome on the balcony, in the doorframe, 4 each (356) | content | 5 | `content/p35-3some-places-b` | todo |
+| 7 | Close the phase: measure, pins, archive | plan | 6a–6x | `plan/p35-close` | todo |
+
+### 1a. Mali in the exercises (Opus; 349)
+- **Build:** a committed script names Mali at the first she/her of each couple cue and in exercise names (her → Mali,
+  her hips → Mali's hips, she → Mali), the rest left as she/her; Claude reads the result and fixes what a script can't
+  tell apart (object or possessive "her"). Text only, before the `LOAD` block, so the build cache stays warm.
+- **Files:** `exercises.js`, `scripts/name-mali.js`, `tests/mali.test.js`.
+- **Test first:** `tests/mali.test.js`: every couple cue that mentions her names Mali exactly once, first; no solo
+  exercise names Mali; built days and pins are unchanged.
+- **Done when:** the test passes; a 390 px screenshot of a couple exercise reads well in light and dark.
+
+### 1b. Mali in couple program text (Opus; 350)
+- **Build:** the same pass over couple programs' blurbs and abouts (Mali once each); day names untouched;
+  `tests/his-pov.test.js` reads Mali as her, so her-side phrasings with Mali are still caught.
+- **Files:** `configs/*.js` (blurb and about only), `tests/his-pov.test.js`, `tests/mali.test.js`.
+- **Test first:** every couple blurb and about names Mali once; no day name changed; no pin changed.
+- **Done when:** the tests pass; Claude reads a sample of 30 for flow.
+
+### 1c. The third person's name (Opus; 351, 353)
+- **Build:** a small module, outside `app/library.js` and the build cache's key, with the two name lists (2/3 Israeli,
+  1/6 American, 1/6 British, interleaved) and `thirdName(programId, day, kind)`: the program's own start in the list,
+  one step a day; random and build-your-own workouts step by date. The view that shows a cue fills its placeholder.
+  Grok's prompts for tickets 2–4 get the placeholder, and "another woman / man" for program text.
+- **Files:** `app/third-names.js`, the view that renders cues, `tests/third-names.test.js`, a UI spec.
+- **Test first:** `tests/third-names.test.js`: a day always gets the same name; consecutive days differ; over a long
+  run about 2/3 Israeli, 1/6 American, 1/6 British; FMF gets a woman's name, MMF a man's.
+- **Done when:** the tests pass; a 390 px screenshot of a threesome cue with its name (a stub exercise), light and dark.
 
 ### 1. Third figure, tags and filing (Opus)
 - **Build:** the three-figure pose with the pelvic mark in `figures.js` (291); every threesome draws all three. Each
@@ -100,19 +161,21 @@ exercises (six at each of five places).
 - **Done when:** the counts match; `tests/catalogue14.test.js` passes; the PR's CI is green.
 
 ### 5. Pools and pins (Opus)
-- **Build:** the catalogue-14 pools for each act and place, `POOL_ADDS` entries for the new exercises (so no existing
+- **Build:** one kind per day (352): a day that draws a threesome keeps to FMF or MMF. The 13 new threesome subjects
+  (356) in `FAMILIES` and a Threesomes shelf (`app/library.js` is in the recipe cache's key: one cold run). The
+  catalogue-14 pools for each act and place, `POOL_ADDS` entries for the new exercises (so no existing
   pool moves), the Threesome kind's pool, and pins for the new catalogue only.
 - **Files:** `program-builder.js`, `tests/catalogue14.test.js`, `tests/fixtures/program-days.json` (new pins only, via `npm run pin`).
 - **Test first:** the catalogue-13 pool hash is unchanged; every catalogue-14 exercise is in its pool and in no older one.
 - **Done when:** `npm run pin` adds pins only; the build gate (#357) passes in CI.
 
-### 6a, 6b. The Threesome subject (Grok, plan first)
-- **Build:** 9 programs each, 18 in all (292), using the Threesome kind and the threesome acts. Program text follows
+### 6a–6f. The Threesome subject (Grok, plan first)
+- **Build:** 9 programs each, 54 in all (292, 354), using the Threesome kind and the threesome acts. Program text follows
   the his-side rules and `docs/explicit-guidelines.md`.
-- **Test first:** `tests/his-pov.test.js`, `tests/couple-odds.test.js` and the guidelines checks pass; 18 programs in one subject.
+- **Test first:** `tests/his-pov.test.js`, `tests/couple-odds.test.js` and the guidelines checks pass; 54 programs in one subject.
 - **Done when:** the Opus review reads each blurb and about; the PR's CI is green.
 
-### 6c–6o. One subject each, 8 programs (Grok, plan first)
+### 6g–6s. One subject each, 8 programs (Grok, plan first)
 - **Build:** 8 programs in the ticket's subject (292), each using catalogue 14's threesome or place exercises that fit
   it: the act subjects draw that act's threesome versions (FMF or MMF, 287–288), the five places their place × act
   sets. Program text by the his-side rules and `docs/explicit-guidelines.md`.
@@ -120,9 +183,16 @@ exercises (six at each of five places).
   or place.
 - **Done when:** as 6a.
 
+### 6t–6x. The 13 threesome subjects, 4 programs each (Grok, plan first; 356)
+- **Build:** 4 threesome-only programs in each new subject: the act ones draw that act's threesome exercises and the
+  Threesome kind, the place ones that place's threesome exercises (18 per place, 355). Text says "another woman / man"
+  and names Mali (353).
+- **Test first:** as 6a; each new subject holds 4; every day has at least one threesome, all FMF or all MMF (352).
+- **Done when:** as 6a.
+
 ### 7. Close the phase (Opus)
-- **Build:** the counts (666 exercises, 122 programs: 18 + 13 × 8), `docs/roadmap-archive.md`, the ROADMAP row removed.
-- **Done when:** the row is archived; decisions 283–293 moved to the archive with a link.
+- **Build:** the counts (798 exercises: 666 + 72 more of the kind + 60 more place threesomes; 210 programs: 54 + 13 × 8 + 13 × 4), `docs/roadmap-archive.md`, the ROADMAP row removed.
+- **Done when:** the row is archived; decisions 283–293 and 349–356 moved to the archive with a link.
 
 ## Challenge round
 - **Weakest assumption:** that every one of the 13 subjects has enough of its own new exercises for 8 programs that
@@ -130,3 +200,7 @@ exercises (six at each of five places).
 - **What I haven't read:** the exercise shape's tag field (ticket 1 may need a new field), and the Threesome subject's
   pools in `program-builder.js`.
 - **The lazier version:** the Threesome kind (285) only, with the place × act as a later phase: 72 + 18 programs.
+- **16 Oct additions (349–356).** Weakest assumption: that a name computed per day needs no stored state. Verified: built
+  days hold only exercise ids (`data/*.json`) and the app reads cue text when it shows a day, so filling a name then
+  moves no pin. Not read yet: which view renders cues (ticket 1c finds it). Lazier version not taken: one name baked
+  into each exercise, because Noam wants the same exercise to meet different partners on different days.
