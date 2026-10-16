@@ -88,7 +88,7 @@ often, which stretches) and one random stream. Build your own and the random wor
 
 **Random workout**: a one-off day built fresh, outside any program: counts in stats, not in program progress. Its
 level is the level of the last day marked done (a program day's level by its day number: 1–20 I, 21–40 II, 41–60
-III; a random workout's own). Chosen on a sheet on the Programs page (a family or one subject, 15 / 25 / 35 minutes,
+III; a random workout's own). Chosen on a sheet on the Programs page (a family or one subject, 15 / 25 / 38 minutes,
 equipment), made by `app/random.js` from the recipe book: a day type that fits, picked with the seed, built by
 `buildDay` with a fresh memory and that day type's own levers. **Reshuffle** is a new seed. Started, it is the **open
 random workout**: on the device only (`kb-random-open`, with its swaps, today only), its session saved as a day's is,
@@ -108,9 +108,15 @@ pose), by the program's subject, else by the day's moves; strength and mixed day
 of the stored warm-up, so stretching minutes don't change; stats and pins keep the stored one.
 
 **Rest-day flow**: on a day with nothing marked done (program days and random workouts, by the phone's date), a card
-on the Programs page offers a random workout of Mobility & posture or Flexibility, 15 minutes, no equipment
-(`KBRandom.REST_DAY`; a choice may name several `subjects`, each bringing its own best-fitting day types). **Not
-today** hides it until the next day, on that device (`kb-rest-dismissed`).
+on the Programs page offers a random workout of Mobility & posture, Flexibility or Yoga, 10 or 15 minutes (one
+button each), no equipment, ending on a breathing drill (`KBRandom.REST_DAY`, `restChoice`; a choice may name several
+`subjects`, each bringing its own best-fitting day types; a stored 15-minute two-subject record still makes its day).
+**Not today** hides it until the next day, on that device (`kb-rest-dismissed`).
+
+**Short circuit** (Phase 34): a hidden day type of 3–4 moves for rounds, about 15 minutes, in every fitness
+subject's recipe-book entry (not Signature, not After dark). Only random workouts, Build your own (one subject) and
+the rest-day flow draw it; no shelf program has one. A random workout made from one is named "<Subject> · 15-min
+circuit".
 
 **Travel mode**: a setting (no bar / kettlebell only / bodyweight only) that swaps exercises needing missing gear
 for today, on every day, until turned off. Kept in `prefs` (doc `main`, `travel: 'nobar' | 'kb' | 'bw'`), synced.

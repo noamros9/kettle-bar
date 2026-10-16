@@ -722,3 +722,26 @@ length filter, Help me pick and random workouts on the new minutes. The CI build
 - **191 · Length filter: Up to 30 / 31–35 / 35+** (was Up to 25 / 26–32 / 33+).
 - **192 · Random workouts: 15 / 25 / 38** (38 replaces 35); the rest-day flow keeps 15 (Phase 34 makes it 10 or 15, 262).
 - **203 · Help me pick: About 15 / 20–30 / 31–35 / 35–38+.** **204 ·** Build your own keeps 20–40, no 38 (and 15 for one subject from Phase 34, 261).
+
+## Phase 34: short days, 15-min circuits and a 10-min rest-day flow (done, 16 Oct 2026)
+Plan and tickets: [docs/plans/phase-34-short-days.md](plans/phase-34-short-days.md), issue
+[#110](https://github.com/noamros9/kettle-bar/issues/110). Grilled 8 Oct; built 16 Oct beside Phase 20 (#451, #453,
+#457, #459): five breathing drills (catalogue 15), a hidden 15-min circuit day type for every fitness subject and 10/15-min
+rest-day flows, then 15 everywhere it's offered (random workouts, Build your own for one subject, the rest-day card).
+No library program changed and no pin moved.
+Right after Phase 26 (223, 258). Claude plans; Noam picks Grok tickets at hand-off.
+
+## Decisions
+Grilled 8 Oct 2026 with Noam (global decision numbers).
+- **258 · Its own phase, right after Phase 26**: it started in the quick fixes (Phase 31) and grew; Phase 26 rewrites
+  the random workout's minutes and the length bands first, so this builds on them. *(8 Oct)*
+- **259 · Real 15-minute days for every fitness subject**: a short circuit (3–4 moves × rounds), so the random
+  workout's 15 builds for every family. Not Signature, not After dark. *(8 Oct)*
+- **260 · Hidden day types, not programs**: only random workouts, Build your own and the rest-day flow see them; no
+  new shelf programs. *(8 Oct)*
+- **261 · Build your own offers 15 for one subject** (a mix of 2–3 still starts at 20). *(8 Oct)* *(changes 204)*
+- **262 · The rest-day card offers 10 or 15 min**, from Mobility & posture, Flexibility and Yoga, with breathing.
+  *(8 Oct)* *(changes 192's "the rest-day flow keeps 15")*
+- **263 · About 5 new breathing drills**, beside the five that are cool-downs today; `added: 15` (237). *(8 Oct)*
+- **266 · The drills reach random workouts and the rest-day flow at ticket 3** (`NEWEST` 14 → 15), not ticket 1. *(8 Oct)*
+- **267 · Named "<Subject> · 15-min circuit"** on a random workout built from one. *(8 Oct)*

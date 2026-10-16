@@ -69,9 +69,8 @@ read only when needed. Decisions with a long "why": [docs/adr/](docs/adr/).
   Running one at a time when a second could start is the exception; say why. A ticket can run alongside another
   only when all of these hold:
   - both tickets are in the same phase: never two phases at once (a new phase starts only when the last one's
-    tickets are merged). Exception (Noam, 16 Oct 2026): Phases 20 and 34 run side by side, one slot each, both
-    to the end with no three-ticket stop; once Phase 34 is merged, Phase 20 takes both slots (two of its tickets at
-    once, files permitting) to its end;
+    tickets are merged). Exception (Noam, 16 Oct 2026): Phase 20 takes both slots (two of its tickets at once, files
+    permitting), no three-ticket stop, to its end;
   - its blockers are done, or its one blocker is the ticket in flight and the new branch starts from that ticket's
     branch, stacked locally only: it's rebased onto `main` and pushed once the blocker squash-merges;
   - it doesn't edit the same files as a ticket still *building* (those wait; a Grok one then continues that
