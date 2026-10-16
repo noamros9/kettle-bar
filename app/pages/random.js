@@ -24,17 +24,18 @@ const doneTimes = () => doneEntries().filter((e) => !e.now).map((e) => e.time); 
 function restCard() {
   let dismissed = null; try { dismissed = localStorage.getItem(REST_KEY); } catch (e) { /* blocked: shown */ }
   if (random.current() || !KBRandom.restDay(doneTimes(), new Date(), dismissed)) return '';
-  return `<div class="restcard"><div class="rc-t"><b>Rest day?</b><span>A ${KBRandom.REST_DAY.minutes}-minute mobility or flexibility flow, no equipment.</span></div>
-    <div class="rc-a"><button class="btn" data-rest-open="1">Show me</button><button class="btn ghost" data-rest-dismiss="1">Not today</button></div></div>`;
+  return `<div class="restcard"><div class="rc-t"><b>Rest day?</b><span>A mobility, flexibility or yoga flow that ends on a breathing drill, no equipment.</span></div>
+    <div class="rc-a">${KBRandom.REST_DAY.minutes.map((m) => `<button class="btn" data-rest-open="${m}">${m} min</button>`).join('')}<button class="btn ghost" data-rest-dismiss="1">Not today</button></div></div>`;
 }
-function restOpen() {
+function restOpen(minutes) {
   randomNotice = '';
-  randomState = { choice: JSON.parse(JSON.stringify(KBRandom.REST_DAY)), seed: KBRandom.newSeed() };
+  randomState = { choice: KBRandom.restChoice(minutes), seed: KBRandom.newSeed() };
   render();
 }
 function restDismiss() { try { localStorage.setItem(REST_KEY, KBRandom.dayKey(new Date())); } catch (e) { /* blocked */ } render(); }
 function randomSet(k, v) {
-  const c = randomState.choice, keep = { minutes: c.minutes, equipment: c.equipment };
+  // leaving the rest-day flow (another family or subject) keeps its minutes only where the sheet offers them
+  const c = randomState.choice, keep = { minutes: KBRandom.MINUTES.includes(c.minutes) ? c.minutes : KBRandom.MINUTES[0], equipment: c.equipment };
   if (k === 'family') randomState.choice = { family: v, ...keep };
   else if (k === 'subject') randomState.choice = v ? { subject: v, ...keep } : { family: familyOfChoice(c), ...keep };
   else randomState.choice = { ...c, [k]: k === 'minutes' ? +v : v };
@@ -57,9 +58,9 @@ function randomSheet() {
   const subjects = recipeBook.book().subjects.filter(([, f]) => f === family).map(([n]) => n);
   const chip = (key, value, label, on, why) => `<button class="fchip acc" data-random-set="${key}:${esc(value)}" aria-pressed="${on}"${why ? ` disabled title="${esc(why)}"` : ''}>${esc(label)}</button>`;
   const whyMinutes = (m) => KBRandom.problem(recipeBook, { ...c, minutes: m });
-  const whyGear = (eq) => (KBRandom.MINUTES.some((m) => !KBRandom.problem(recipeBook, { ...c, minutes: m, equipment: eq })) ? '' : `No ${name} workouts with ${RANDOM_GEAR[eq].toLowerCase()}.`);
+  const whyGear = (eq) => (KBRandom.minutesOf(c).some((m) => !KBRandom.problem(recipeBook, { ...c, minutes: m, equipment: eq })) ? '' : `No ${name} workouts with ${RANDOM_GEAR[eq].toLowerCase()}.`);
   const why = KBRandom.problem(recipeBook, c);
-  const reasons = [...new Set(KBRandom.MINUTES.map(whyMinutes).filter((r) => r && r !== why))];
+  const reasons = [...new Set(KBRandom.minutesOf(c).map(whyMinutes).filter((r) => r && r !== why))];
   let preview;
   if (why) preview = `<p class="notice" role="alert">${esc(why)}</p>`;
   else {
@@ -70,7 +71,7 @@ function randomSheet() {
   return wrap(`<p class="muted">Built fresh, at the level of the last day you marked done. It counts in your stats, not in any program.</p>
     <div class="filters" role="group" aria-label="Family">${KBRandom.FAMILIES.map((f) => chip('family', f, f, family === f)).join('')}</div>
     <div class="filters" role="group" aria-label="Subject">${chip('subject', '', `Any ${family.toLowerCase()}`, !c.subject && !c.subjects)}${subjects.map((n) => chip('subject', n, n, c.subject === n || (c.subjects || []).includes(n))).join('')}</div>
-    <div class="filters" role="group" aria-label="Minutes">${KBRandom.MINUTES.map((m) => chip('minutes', m, `${m} min`, c.minutes === m, whyMinutes(m))).join('')}</div>
+    <div class="filters" role="group" aria-label="Minutes">${KBRandom.minutesOf(c).map((m) => chip('minutes', m, `${m} min`, c.minutes === m, whyMinutes(m))).join('')}</div>
     ${reasons.map((r) => `<p class="hint">${esc(r)}</p>`).join('')}
     <div class="filters" role="group" aria-label="Equipment">${['all', 'kb', 'bw'].map((eq) => chip('equipment', eq, RANDOM_GEAR[eq], c.equipment === eq, whyGear(eq))).join('')}</div>
     ${preview}

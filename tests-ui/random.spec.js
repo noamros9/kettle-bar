@@ -133,20 +133,26 @@ base.test('a random workout marked done reaches a second browser through the acc
 });
 
 // Rest-day flow (Phase 7 ticket 3)
-test('rest day: the card opens the sheet with a 15-minute mobility or flexibility flow; Not today hides it until tomorrow', async ({ app }, testInfo) => {
+test('rest day: the card's 10 and 15 min open the sheet with a mobility, flexibility or yoga flow; Not today hides it until tomorrow', async ({ app }, testInfo) => {
   await app.open('#programs');
   const card = app.page.locator('.restcard');
   await expect(card).toContainText('Rest day?');
   expect(await app.sidewaysScroll()).toBe(0);
   await app.page.screenshot({ path: testInfo.outputPath('rest-card.png') });
-  await card.getByRole('button', { name: 'Show me' }).click();
-  await expect(chip(app.page, 'Family', 'Mind & body')).toHaveAttribute('aria-pressed', 'true');
-  for (const s of ['Mobility & posture', 'Flexibility']) await expect(chip(app.page, 'Subject', s)).toHaveAttribute('aria-pressed', 'true');
-  await expect(chip(app.page, 'Subject', 'Any mind & body')).toHaveAttribute('aria-pressed', 'false');
-  await expect(chip(app.page, 'Minutes', '15 min')).toHaveAttribute('aria-pressed', 'true');
-  await expect(chip(app.page, 'Equipment', 'No equipment')).toHaveAttribute('aria-pressed', 'true');
-  await expect(sheetOf(app.page).locator('.rprev')).toContainText(/Mobility & posture|Flexibility/);
-  await sheetOf(app.page).getByRole('button', { name: 'Cancel' }).click();
+  for (const m of [10, 15]) {
+    await card.getByRole('button', { name: `${m} min` }).click();
+    await expect(chip(app.page, 'Family', 'Mind & body')).toHaveAttribute('aria-pressed', 'true');
+    for (const s of ['Mobility & posture', 'Flexibility', 'Yoga']) await expect(chip(app.page, 'Subject', s)).toHaveAttribute('aria-pressed', 'true');
+    await expect(chip(app.page, 'Subject', 'Any mind & body')).toHaveAttribute('aria-pressed', 'false');
+    // the sheet offers the rest day's own minutes
+    await expect(sheetOf(app.page).getByRole('group', { name: 'Minutes' }).getByRole('button')).toHaveText(['10 min', '15 min']);
+    await expect(chip(app.page, 'Minutes', `${m} min`)).toHaveAttribute('aria-pressed', 'true');
+    await expect(chip(app.page, 'Equipment', 'No equipment')).toHaveAttribute('aria-pressed', 'true');
+    await expect(sheetOf(app.page).locator('.rprev')).toContainText(/Mobility & posture|Flexibility|Yoga/);
+    await expect(sheetOf(app.page).locator('.rblocks li').last()).toContainText('Breathe');
+    if (m === 10) await app.page.screenshot({ path: testInfo.outputPath('rest-sheet.png') });
+    await sheetOf(app.page).getByRole('button', { name: 'Cancel' }).click();
+  }
   await card.getByRole('button', { name: 'Not today' }).click();
   await expect(card).toHaveCount(0);
   await app.page.reload(); await app.heading().waitFor(); await app.loaded();

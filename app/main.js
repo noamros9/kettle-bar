@@ -99,7 +99,7 @@ const ACTIONS = [
   ['bSave', () => buildSave()],
   ['bookRetry', () => { bookError = null; render(); }],
   ['randomOpen', () => randomOpen()],
-  ['restOpen', () => restOpen()],
+  ['restOpen', (v) => restOpen(+v)],
   ['now', (v) => nowPick(v)], // Do now (Phase 25)
   ['nowStart', () => nowStart()],
   ['nowAnother', () => nowPick(nowState.mode)],
