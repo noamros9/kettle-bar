@@ -14,6 +14,9 @@ top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase c
 - **Second (Noam, 16 Oct night): threesomes with the other pairing too.** You on the other woman (FMF), and the other
   man on Mali (MMF), as their own exercises. Grill him (how many, which acts, the FMF/MMF mix), then add tickets to
   Phase 35's plan before 2d, in a `plan/...` PR.
+- **Third (Noam, 16 Oct night): sample names differ per exercise, at random.** Outside a workout (the Exercises
+  page and its sheets, review text) each exercise shows its own random name, not one name for the day. Confirm with
+  him that a program day keeps one third person (352), then a small ticket in `app/third-names.js` with its test.
 - **Phase 35: 2a–2c done** (16 Oct; #479–#481), 144 threesome exercises at catalogue 16, each third figure placed by
   hand and approved by Noam (`scripts/emit-trio.js`, Grok text only, 368). **Stopped: wait for his go** before 2d.
   Foursomes are in the plan (367–379, tickets 8a–8m after 6x); 35 is catalogue 16, foursomes 17, Phase 27 18.
