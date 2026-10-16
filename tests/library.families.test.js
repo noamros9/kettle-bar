@@ -72,7 +72,7 @@ test('a picked family with nothing left falls back to All; Breathing is offered'
   assert.equal(stretch.families.find((c) => c.pressed).key, 'stretch');
   assert.equal(stretch.subjects.find((c) => c.pressed).key, 'breath');
   assert.ok(stretch.subjects.some((c) => c.key === 'breath'));
-  assert.equal(stretch.list.length, 6);
+  assert.equal(stretch.list.length, 11); // six, then catalogue 15's five (Phase 34)
   assert.ok(stretch.list.every((e) => familyOf(e).subject === 'breath'));
   const all = find();
   assert.deepEqual(all.families.map((c) => c.key), ['all', ...EX_FAMILIES.map(([k]) => k)]);
