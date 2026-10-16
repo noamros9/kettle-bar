@@ -62,15 +62,17 @@
     };
   }
 
-  // a partner (Phase 18): solved like any figure, mirrored when `flip`, then moved by `at` from the first one's hip
-  function partnerOf(ps, front) {
-    if (!ps.two) return null;
-    const s = solve(ps.two, front), f = ps.two.flip ? -1 : 1, at = ps.two.at || [0, 0];
+  // a partner (Phase 18): solved like any figure, mirrored when `flip`, then moved by `at` from the first one's hip;
+  // a threesome's third figure (Phase 35, `three`) the same way
+  function partnerOf(ps, front, key = 'two') {
+    const p = ps[key];
+    if (!p) return null;
+    const s = solve(p, front), f = p.flip ? -1 : 1, at = p.at || [0, 0];
     return Object.fromEntries(Object.entries(s).map(([k, p]) => [k, [p[0] * f + at[0], p[1] + at[1]]]));
   }
 
   function frame(ps, front) {
-    const s = solve(ps, front), s2 = partnerOf(ps, front);
+    const s = solve(ps, front), s2 = partnerOf(ps, front), s3 = partnerOf(ps, front, 'three');
     let wide = W;
     const fore = (el, ha) => nrm(sub(ha, el));
     const props = { far: [], near: [], both: [] };
@@ -78,7 +80,7 @@
     const P = (p, r) => pts.push([p[0], p[1], r]);
     [s.elN, s.haN, s.elF, s.haF, s.knN, s.ftN, s.knF, s.ftF].forEach((p) => P(p, 3.3));
     P(s.hip, 5); P(s.neck, 5); P(s.head, 7);
-    if (s2) { [s2.elN, s2.haN, s2.elF, s2.haF, s2.knN, s2.ftN, s2.knF, s2.ftF].forEach((p) => P(p, 3.3)); P(s2.hip, 5); P(s2.neck, 5); P(s2.head, 7); }
+    [s2, s3].filter(Boolean).forEach((o) => { [o.elN, o.haN, o.elF, o.haF, o.knN, o.ftN, o.knF, o.ftF].forEach((p) => P(p, 3.3)); P(o.hip, 5); P(o.neck, 5); P(o.head, 7); });
     const addProp = (slot, pr) => { props[slot].push(...pr.shapes); pr.pts.forEach((q) => pts.push(q)); };
     const db = ps.db || '';
     if (db === 'both') addProp('both', propDB(mid(s.haN, s.haF), add(mid(s.haN, s.haF), mul(nrm(add(fore(s.elN, s.haN), fore(s.elF, s.haF))), -10))));
@@ -97,9 +99,9 @@
     if (ps.wall !== undefined) { minX = Math.min(minX, ps.wall - 6); maxX = Math.max(maxX, ps.wall); }
     let dy = ps.bar ? BAR - (s.haN[1] + s.haF[1]) / 2 : G - maxY;
     dy -= ps.lift || 0;
-    if (s2) wide = Math.max(W2, Math.ceil(maxX - minX + 8)); // a pair spread out widens its picture
+    if (s2 || s3) wide = Math.max(W2, Math.ceil(maxX - minX + 8)); // a pair (or three) spread out widens its picture
     const dx = wide / 2 - (minX + maxX) / 2;
-    return { s, s2, w: wide, props, dx, dy, minX, maxX, minY: minY + dy, ps, front };
+    return { s, s2, s3, w: wide, props, dx, dy, minX, maxX, minY: minY + dy, ps, front };
   }
 
   const f1 = (n) => Math.round(n * 10) / 10;
@@ -142,6 +144,10 @@
     };
     // a pelvic mark sits on the hip, on top of that figure's own lines (Phase 20). Small enough to stay inside the hip's existing bounds.
     const pelvic = (b) => { const c = pt(b.hip, fr); out.push(`<circle cx="${c[0]}" cy="${c[1]}" r="4" fill="var(--mark)"/>`); };
+    if (fr.s3) { // the third figure furthest back (Phase 35)
+      body(fr.s3, 'var(--fig3)', front ? 'var(--fig3)' : 'var(--fig3-far)');
+      if (ps.three.mark) pelvic(fr.s3);
+    }
     if (fr.s2) {
       body(fr.s2, 'var(--fig2)', front ? 'var(--fig2)' : 'var(--fig2-far)');
       if (ps.two.mark) pelvic(fr.s2);
@@ -179,6 +185,7 @@
     const o = { ...a };
     Object.keys(b).forEach((k) => { if (isPoint(b[k]) && isPoint(a[k])) o[k] = [a[k][0] + (b[k][0] - a[k][0]) * t, a[k][1] + (b[k][1] - a[k][1]) * t]; });
     if (a.two && b.two) o.two = lerpPose(a.two, b.two, t); // the partner moves too (Phase 18)
+    if (a.three && b.three) o.three = lerpPose(a.three, b.three, t); // and a threesome's third (Phase 35)
     return o;
   }
   function animationFrames(ex, { steps = 14, label } = {}) {

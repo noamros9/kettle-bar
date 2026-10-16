@@ -70,7 +70,7 @@ exercises (six at each of five places).
 | 1a | Mali in the exercises (349) | content | – | `content/p35-mali-exercises` | done (PR #469) |
 | 1b | Mali in couple blurbs and abouts (350) | content | 1a | `content/p35-mali-programs` | done (PR #470) |
 | 1c | The third person's name, filled per workout (351, 353) | feature | – | `feature/p35-third-names` | done (PR #471) |
-| 1 | Third figure, the FMF/MMF tag, and the filing rules (289, 290, 291) | feature | – | `feature/p35-figure-tags` | todo |
+| 1 | Third figure, the FMF/MMF tag, and the filing rules (289, 290, 291) | feature | – | `feature/p35-figure-tags` | done (PR #472) |
 | 2a | Threesome act: intercourse, 36 (284) | content | 1, 1c | `content/p35-act-intercourse` | todo |
 | 2b | Threesome acts: oral 18, hands 18 (284) | content | 1, 1c | `content/p35-act-oral-hands` | todo |
 | 2c | Threesome acts: anal 18, toys 18 (284) | content | 1, 1c | `content/p35-act-anal-toys` | todo |
@@ -160,6 +160,9 @@ exercises (six at each of five places).
   threesome exercise carries a tag, FMF or MMF (289); an FMF blowjob stays Oral and is dealt by Oral programs and by
   the Threesome kind. Place × act exercises file under the place only (290): oral in the pool is Pool, and Oral
   programs don't deal it.
+- **Built:** a pose's `three` (like `two`), drawn furthest back in `--fig3`; `TRIO` / `markedTrio` in `exercises.js`; the tag
+  is `trio: 'FMF' | 'MMF'`, a place × act exercise has its place as `sub` and its act as `act`; `filedUnder(e)` in
+  `program-builder.js` names the kinds that deal it, for ticket 5's pools. The tag doesn't show in the app (not asked).
 - **Files:** `figures.js`, `exercises.js` (tag field), `program-builder.js` (filing), `app/library.js` if the tag shows.
 - **Test first:** `tests/threesome-figure.test.js`: a threesome draws three figures with the pelvic mark; a tagged
   exercise keeps its act kind; a place × act exercise is in its place's pool and in no act pool.
@@ -220,3 +223,7 @@ exercises (six at each of five places).
   days hold only exercise ids (`data/*.json`) and the app reads cue text when it shows a day, so filling a name then
   moves no pin. Not read yet: which view renders cues (ticket 1c finds it). Lazier version not taken: one name baked
   into each exercise, because Noam wants the same exercise to meet different partners on different days.
+- **Built 1a–1 (16 Oct).** The 16 Oct weakest assumption was half wrong: days hold ids, but the position tours build
+  their day labels from exercise names, so 1a's first build tripped 16 pins; the tours now read the names back as
+  "her" (`dayName`, configs/after-dark.js) and every pin held. The cache slices hash cue text and the cache key holds
+  each blurb, so 1a and 1b each built cold once. Lazier version not taken: a tag shown in the app (not asked).

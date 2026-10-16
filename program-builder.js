@@ -761,7 +761,11 @@
   const build = (cfg, cat) => forCatalogue(cat).build(cfg);
   const buildDay = (recipe, opts, cat) => forCatalogue(cat).buildDay(recipe, opts);
   const blockTimes = (recipe, opts, cat) => forCatalogue(cat).blockTimes(recipe, opts);
-  const api = { build, buildDay, blockTimes, recipesOf, newMemory, makeRnd, ABS_SLOTS };
+  // Phase 35 (289, 290): the kinds that deal a catalogue-14 couple exercise. Its kind is its `sub`: a place × act one
+  // files under the place only (its `act` just says what happens there); a threesome (`trio: 'FMF' | 'MMF'`) keeps its
+  // act kind and the Threesome kind deals it too. Ticket 5 builds the catalogue-14 pools from this.
+  const filedUnder = (e) => (e.trio && e.sub !== 'threesome' ? [e.sub, 'threesome'] : [e.sub]);
+  const api = { build, buildDay, blockTimes, recipesOf, newMemory, makeRnd, ABS_SLOTS, filedUnder };
 
   /* node:coverage ignore next */ // the page: the builder with nothing else
   if (typeof module === 'undefined' || !module.exports) { root.KBBuilder = api; return; }

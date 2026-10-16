@@ -30,6 +30,11 @@
   const DUO = (him, her, at, flip) => ({ ...him, two: { ...her, at, flip } });
   // Phase 20: a pelvic mark on both figures. Only the positions ask for it.
   const marked = (him, her, at, flip) => DUO({ ...him, mark: 1 }, { ...her, mark: 1 }, at, flip);
+  // Phase 35: three figures. TRIO(him, her, at, flip, third, at3, flip3): the third placed like her, from his hip;
+  // markedTrio puts the pelvic mark on all three. A threesome exercise carries `trio: 'FMF' | 'MMF'` and every pose draws three;
+  // a place × act one has its place as `sub` and its act as `act` (290). Where each is dealt: filedUnder in program-builder.js.
+  const TRIO = (him, her, at, flip, third, at3, flip3) => ({ ...DUO(him, her, at, flip), three: { ...third, at: at3, flip: flip3 } });
+  const markedTrio = (him, her, at, flip, third, at3, flip3) => TRIO({ ...him, mark: 1 }, { ...her, mark: 1 }, at, flip, { ...third, mark: 1 }, at3, flip3);
   const DARE = DUO(P(STAND, { hn: [12, -14], hf: [12, -14] }), P(STAND, { hn: [12, -14], hf: [12, -14] }), [20, 0], 1); // close, face to face
   const FSTAND = { t: [0, -34], hn: [-12, 0], hf: [12, 0], fn: [-8, 41], ff: [8, 41] };
 
@@ -3183,7 +3188,7 @@
     if (Formats.of({ format }).halveReps) return e.u === 'sec' ? Math.min(n, 30) : Math.max(3, Math.round(n * 0.5));
     return n;
   }
-  const api = { EX, LOAD, MUSCLE_NAMES, MUSCLE_GROUPS, groupOf, normalize, allowedIn, scaleReps, needs };
+  const api = { EX, LOAD, MUSCLE_NAMES, MUSCLE_GROUPS, groupOf, normalize, allowedIn, scaleReps, needs, TRIO, markedTrio };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBEx = api;
 })(typeof window !== 'undefined' ? window : globalThis, typeof module !== 'undefined' && module.exports ? require('./formats.js') : window.KBFormats);

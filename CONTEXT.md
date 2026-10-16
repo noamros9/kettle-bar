@@ -378,6 +378,11 @@ by a pose's `two` field.
 **Pelvic mark** (Phase 20): a small filled mark at a stick figure's hip, drawn only when that figure's pose carries
 `mark: 1`, in `--mark`.
 
+**Threesome** (Phase 35): a couple exercise with a third person, tagged `trio: 'FMF'` (you and two women) or `'MMF'`;
+every pose draws a **third figure** (a pose's `three`, behind the other two, in `--fig3`). It keeps its act kind
+(`sub`) and the Threesome kind deals it too. A **place × act** exercise (oral in the pool) has the place as `sub` and
+the act as `act`, and only that place deals it. `filedUnder(e)` in `program-builder.js` says which kinds deal one.
+
 ## Planned words (7 Oct 2026; built in Phases 19 and 26–29)
 
 **Super program** (Phase 19): a 120-day program of its own, made of 3–6 library programs that take turns day by day,
