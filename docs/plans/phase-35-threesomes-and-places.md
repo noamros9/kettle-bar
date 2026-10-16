@@ -50,6 +50,14 @@ points were settled 10 Oct (292, 293).
   Massage, Strip and tease) and per place (Shower and bath, Pool, Hot tub, Balcony, Doorframe): 52 programs on one
   Threesomes shelf. The per-act threesome exercises stay 18. *(16 Oct)*
 
+**His POV in the exercises (16 Oct 2026, Noam)**
+- **359 · Cues and names are read to him.** Every couple cue and exercise name says "you" for him, never he, him or
+  his; day names keep their built wording (tours: `configs/tour-day-names.json`), so no pin moves. *(16 Oct)*
+- **360 · Role swaps stay, from his side.** "Then swap: she works your back the same way." *(16 Oct)*
+- **361 · The cheapest way.** A script (he → you, the verb agreeing), then Claude's review and hand fixes; no Grok. *(16 Oct)*
+- **362 · Kept for the future.** A standing test in `tests/his-pov.test.js`; the rule in CLAUDE.md, the explicit
+  guidelines and the grok-handoff prompts. *(16 Oct)*
+
 **Order (16 Oct 2026, Noam)**
 - **358 · The names, picked one by one.** Women: Noa, Yael, Maya, Adi, Roni, Gal, Michal, Hila, Dana, Noy, Shani,
   Inbar, Keren, Lihi, Neta, Agam, Ella, Moran, Yarden, Romi, Bar, Lian, Linoy, Anat, Hodaya (more Israeli women
@@ -71,6 +79,7 @@ exercises (six at each of five places).
 | 1b | Mali in couple blurbs and abouts (350) | content | 1a | `content/p35-mali-programs` | done (PR #470) |
 | 1c | The third person's name, filled per workout (351, 353) | feature | – | `feature/p35-third-names` | done (PR #471) |
 | 1 | Third figure, the FMF/MMF tag, and the filing rules (289, 290, 291) | feature | – | `feature/p35-figure-tags` | done (PR #472) |
+| 1d | His POV: couple cues and names say "you" (359–362) | content | 1a | `content/p35-his-pov` | done (PR #473) |
 | 2a | Threesome act: intercourse, 36 (284) | content | 1, 1c | `content/p35-act-intercourse` | todo |
 | 2b | Threesome acts: oral 18, hands 18 (284) | content | 1, 1c | `content/p35-act-oral-hands` | todo |
 | 2c | Threesome acts: anal 18, toys 18 (284) | content | 1, 1c | `content/p35-act-anal-toys` | todo |
@@ -167,6 +176,16 @@ exercises (six at each of five places).
 - **Test first:** `tests/threesome-figure.test.js`: a threesome draws three figures with the pelvic mark; a tagged
   exercise keeps its act kind; a place × act exercise is in its place's pool and in no act pool.
 - **Done when:** the tests pass; a 390 px screenshot of one threesome's figure reads in light and dark.
+
+### 1d. His POV in couple cues and names (Opus; 359–362)
+- **Build:** `scripts/his-pov.js` turns he/him/his into you/your with the verb agreeing; Claude reads every changed
+  sentence and rewrites by hand what a script can't (role swaps, "your partner", cues that spoke to her). The tours'
+  day names come from `configs/tour-day-names.json` (frozen as built). The rule goes in CLAUDE.md, the explicit
+  guidelines and the grok-handoff skill.
+- **Files:** `exercises.js`, `scripts/his-pov.js`, `configs/after-dark.js`, `configs/tour-day-names.json`,
+  `tests/his-pov.test.js`, CLAUDE.md, `docs/explicit-guidelines.md`.
+- **Test first:** no couple cue or name (but an MMF one) says he, him or his; no day type changed; no pin changed.
+- **Done when:** the tests pass; Claude has read every changed sentence.
 
 ### 2a–4l. The exercises (Grok, plan first; Opus reviews)
 - **Build:** the counts in the table, catalogue 14, each exercise with its figure, cue, tags and muscles, in the

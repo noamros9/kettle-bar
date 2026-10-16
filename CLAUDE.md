@@ -125,6 +125,10 @@ read only when needed. Decisions with a long "why": [docs/adr/](docs/adr/).
 - **His side, always:** the app is Noam's. The blurb and about of every After dark or couple program, in any phase,
   are written from his POV ("you" is him, she is "her") or a straight couple's ("you two"), picked per program, never
   hers. Just as explicit as what's there, or hotter, never toned down. Whoever writes it (Claude or Grok) follows this.
+- **Cues are read to him (Noam, 16 Oct 2026, decision 359):** every couple exercise's cue and name says "you" for
+  him (you kneel, your cock), never he, him or his; she is Mali once, first, then she/her (349). A role swap is told
+  from his side ("Then swap: she works your back"). An MMF threesome's he/his is only ever the other man.
+  `tests/his-pov.test.js` checks every couple cue and name.
 - **A straight man training his own body:** the workout trains *his* body, and the text says what that does for him:
   what he does to her, how long he lasts, how she sees and enjoys him. His ass is for drive, and for her to grab or
   admire; never fucked, never "ass up" or bent over. His flexibility lets *him* get deeper, kneel, fold over her; it

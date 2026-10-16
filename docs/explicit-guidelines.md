@@ -7,7 +7,9 @@ enforces the order rules and `tests/session-order.test.js` checks every couple p
 reviewer's.
 
 The older rules still hold: written from his side, as explicit or hotter, describing the session and never the
-builder, no orgasm script, real bodies (CLAUDE.md, "Writing program text").
+builder, no orgasm script, real bodies (CLAUDE.md, "Writing program text"). An exercise's cue and name are read to
+him: "you" is him (you kneel, your cock), never he, him or his; Mali once, first, then she/her; a threesome's third
+person is `{woman}` or `{man}` (decisions 349, 351, 359).
 
 ## The order of a session
 1. **Clothed teasing opens.** Undressing her, dry teasing, grinding through clothes come before anything naked.
