@@ -6,9 +6,13 @@
 // Cardio & combat flow of timed holds, held longer at Levels II and III.
 const { S, SS, C, E, A, T, L, F } = require('./shared.js');
 const { EX } = require('../exercises.js');
-// A position's day label and short name as the tours always built them: the exercise names now say Mali (349), the
-// day names keep her (350), so their pins hold.
-const dayName = (pos) => EX[pos].name.replace(/\bMali's\b/, 'her').replace(/\bMali (?=holds\b)/, 'she ').replace(/\bMali\b/, 'her').replace(/^h/, 'H');
+// A position's day label and short name as the tours always built them, frozen: the exercise names now say Mali (349)
+// and you (359), the day names keep her and him (350), so their pins hold. A new tour position needs a line there.
+const TOUR_DAY_NAMES = require('./tour-day-names.json');
+const dayName = (pos) => {
+  if (!TOUR_DAY_NAMES[pos]) throw new Error(`${pos}: no day name in configs/tour-day-names.json`);
+  return TOUR_DAY_NAMES[pos];
+};
 
 const LIFT = { family: 'Strength' };
 const COND = { family: 'Cardio & combat' };

@@ -127,3 +127,18 @@ test('her tongue on your asshole passes only as rimming', () => {
 test('Mali reads as her in the program check', () => {
   assert.equal(asHer("Mali's tongue on you, then Mali rides"), 'her tongue on you, then her rides');
 });
+
+// Phase 35 ticket 1d (decision 359): couple cues and exercise names are read to him, so he is "you", never he/him/his.
+// An MMF threesome's cue may say he or his for the other man.
+test('every couple cue and exercise name is read to him: you, never he, him or his', () => {
+  const hits = Object.values(EX).filter((e) => e.cat === 'couple' && e.trio !== 'MMF')
+    .flatMap((e) => ['name', 'cue'].filter((f) => /\b(he|him|his|himself|he's)\b/i.test(e[f])).map((f) => `${e.id}.${f}`));
+  assert.deepEqual(hits, []);
+});
+
+test('the his-POV script turns he into you with the verb agreeing', () => {
+  const { toYou } = require('../scripts/his-pov.js');
+  assert.equal(toYou('He kneels behind her. Mali lies on his chest; he lies still.'), 'You kneel behind her. Mali lies on your chest; you lie still.');
+  assert.equal(toYou('Him on his back, her hand on his.'), 'You on your back, her hand on yours.');
+  assert.equal(toYou("He's hard; he carries her, and Mali pushes."), "You're hard; you carry her, and Mali pushes.");
+});
