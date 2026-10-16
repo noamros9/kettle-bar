@@ -2,11 +2,11 @@
 
 The index: where we are, what comes next, and the two phases being built now. Every other phase's decisions live at the
 top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase comes up. Decision numbers are global
-(the next one is **363**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
+(the next one is **367**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
 ## Resume here (16 Oct 2026)
 - **Phase 36 is building** (Noam, 16 Oct: before 27 and 19, one ticket at a time): the session tags (#474) and the
-  order step (#475) are in; **ticket 3 waits for Noam's go**, planned with him first (cheapest way, Grok possibly).
+  order step (#475) are in; ticket 3 (every couple program dealt in order, 363–366) is building.
 - **Phase 35 is paused after ticket 1d** (16 Oct; #469–#473): Mali in every couple cue and program text, the third
   person's names (358), the third figure, the FMF/MMF tag and the filing rules; every couple cue and name says "you"
   for him (359). **Stopped there (Noam, 16 Oct): wait for

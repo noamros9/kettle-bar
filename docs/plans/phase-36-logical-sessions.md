@@ -31,6 +31,16 @@ to write, and Grok is away the week of 9 Oct, 295).
 - **306 · Enforced three ways**: builder rules from tags on each couple exercise, a standing test over every couple
   program, and the guidelines doc for whoever writes programs (Grok) and reviews them (Claude). *(9 Oct)*
 
+**Ticket 3 (grilled 16 Oct 2026)**
+- **363 · Strip and tease: one tease, then naked.** Each tease set opens with one tease; its other slots draw naked
+  teasing (massage, hands, oral, body play), so she's undressed once. *(16 Oct)*
+- **364 · Pool and Hot tub warm up in the water**: the warm-up set draws the place's own touching and oral, so the
+  session never jumps from home to the water. *(16 Oct)*
+- **365 · Every couple program moves to version 1 and is re-pinned**: no couple program had been started (Noam), so
+  305's split between started and new isn't needed. *(16 Oct)*
+- **366 · The order wins over equal odds** (Phase 20's 1.5x basics): teases, props, finishes and anal keep their place in
+  the session; `couple-odds` checks only that no exercise the order leaves free is drawn far more than the rest. *(16 Oct)*
+
 ## Tickets
 
 | # | Ticket | Tier | Blocked by | Branch | Status |
@@ -38,7 +48,7 @@ to write, and Grok is away the week of 9 Oct, 295).
 | 0 | This plan, the guidelines, the order | docs | – | `plan/logical-sessions` | done (this PR) |
 | 1 | Session tags on every couple exercise | feature | 0 | `feature/session-tags` | done (PR #474) |
 | 2 | The order step in the builder, behind a rules version | feature | 1 | `feature/session-order` | done (PR #475) |
-| 3 | Every couple program redone at once: started ones keep their days, new starts get the rules; block order and abouts checked | feature | 2 | `feature/logical-couple-programs` | todo |
+| 3 | Every couple program redone at once (365: none had been started); recipes and abouts fixed | feature | 2 | `feature/logical-couple-programs` | done (PR #476) |
 | 4 | The guidelines wired in: the grok-handoff skill, Phase 20's and 35's prompts | docs | 3 | `docs/explicit-guidelines` | todo |
 
 ### 1. Session tags
@@ -86,6 +96,16 @@ All couple programs (Explicit, Phase 22's 144, the older After dark) move to ver
   standing order test covers every `couple: true` program.
 - **Done when:** on the phone, a started couple program's next day is unchanged and a new one starts ordered; the build
   diff changes couple program files only.
+- **As built (16 Oct 2026):** no couple program had been started (365), so every couple config takes `sessionRules: 1`
+  (`programs.config.js`) and is re-pinned: 505 programs change, 29 already kept the order. Strip and tease sets open
+  with one `sexTease`, then `sexTeaseNaked` (363); the water warm-ups draw `sexPoolWarm` / `sexHottubWarm` (364).
+  The order step learned three things on the full library: a place holds a block only if each of its pools has an
+  exercise there for every slot; anal starts only where the rest of the block can stay off her pussy and mouth; in an
+  all-props pool (kink) the props that are on stay on rather than come off for good. A partner gym exercise has no
+  place. Twelve abouts rewritten by Claude (few enough, so no Grok run): the eight water warm-ups and four Strip and
+  tease programs. `take-it-off` keeps its two `strip_round` slots (forfeit rounds, as before). With no shower to come,
+  anal starts only in the session's last four slots and then stays anal (about the pool's share, 17–19%); after anal
+  the set keeps to naked sex. Minutes bands and sexWarm windows in the couple tests take 10% slack (`tests/helpers/band.js`).
 
 ### 4. The guidelines wired in
 CLAUDE.md links the guidelines already (ticket 0); the grok-handoff skill tells Grok to read them for couple

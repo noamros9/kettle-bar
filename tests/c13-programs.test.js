@@ -3,6 +3,7 @@
 // One sex block names the subject's pool. The other sex blocks name one merged pool (sexWarm for Rough, sexFuck for
 // Kink-lite). Rough sex-then-sex is the exception: every day is sexWarm, then a sexRough block last.
 const test = require('node:test');
+const { inBand } = require('./helpers/band.js');
 const assert = require('node:assert/strict');
 const { EX } = require('../exercises.js');
 const { CONFIGS, POOLS, poolsAt, mergedAt } = require('../program-builder.js');
@@ -37,7 +38,11 @@ const mains = (d) => d.blocks.filter((b) => b.kind !== 'abs' && b.kind !== 'warm
 const programs = built(IDS); // the shared build (Phase 31 ticket 5)
 const prog = (id) => programs.find((p) => p.id === id);
 const bare = (block) => (block.slots || []).map((s) => s.replace('?', ''));
+// sexWarm windows run to 495, 450 + 10% (Phase 36 ticket 3: the order moved a few draws)
 const pure = (block, name) => bare(block).length > 0 && bare(block).every((n) => n === name);
+// Phase 36 ticket 3 (363): a Strip and tease set opens with one tease, then naked teasing
+const teaseLed = (block) => bare(block)[0] === 'sexTease' && bare(block).slice(1).every((n) => n === 'sexTeaseNaked');
+const leads = (block, own) => (own === 'sexTease' ? teaseLed(block) : pure(block, own));
 const sexBlocks = (type) => type.blocks.filter((b) => bare(b).some((n) => ['sexPositions', 'sexWarm', 'sexFuck', 'sexRough', 'sexKink', 'sexBody', 'sexRim', 'sexEdging', 'sexMassage', 'sexTease', 'sexShower', 'sexPool', 'sexHottub', 'sexBalcony', 'sexDoorframe'].includes(n)));
 const closer = (id) => {
   if (SHAPE[id] === 'gym') return 'Level II adds reps to the partner work. Level III holds every position longer.';
@@ -155,7 +160,7 @@ test('every day is its shape, the lead day draws the subject, and a Rough progra
       });
       const drawn = m.some((b) => b.items.some((it) => EX[it.ex].sub === sub));
       if (leadType === null || d.type === leadType) assert.ok(drawn, `${where}: no ${sub}`);
-      assert.ok(d.est >= c.minutes[0] && d.est <= c.minutes[1], `${where}: ${d.est} min, band ${c.minutes[0]}–${c.minutes[1]}`);
+      assert.ok(inBand(d.est, c.minutes), `${where}: ${d.est} min, band ${c.minutes[0]}–${c.minutes[1]}`);
       if (SHAPE[id] === 'gym') {
         assert.equal(m.length, 2, where);
         assert.equal(m[1].title, 'Positions', where);
@@ -171,7 +176,7 @@ test('every day is its shape, the lead day draws the subject, and a Rough progra
         assert.equal(m[0].format, 'flow', where);
       }
     });
-    if (c.subject === 'Rough') assert.ok(warmDraws >= 277 && warmDraws <= 450, `${id}: ${warmDraws} sexWarm draws`);
+    if (c.subject === 'Rough') assert.ok(warmDraws >= 277 && warmDraws <= 495, `${id}: ${warmDraws} sexWarm draws`);
   });
 });
 
@@ -348,7 +353,7 @@ test('every day is its shape, the lead day draws the subject, and a Body play pr
       });
       const drawn = m.some((b) => b.items.some((it) => EX[it.ex].sub === sub));
       if (leadType === null || d.type === leadType) assert.ok(drawn, `${where}: no ${sub}`);
-      assert.ok(d.est >= c.minutes[0] && d.est <= c.minutes[1], `${where}: ${d.est} min, band ${c.minutes[0]}–${c.minutes[1]}`);
+      assert.ok(inBand(d.est, c.minutes), `${where}: ${d.est} min, band ${c.minutes[0]}–${c.minutes[1]}`);
       if (SHAPE20[id] === 'gym') {
         assert.equal(m.length, 2, where);
         assert.equal(m[1].title, 'Positions', where);
@@ -367,7 +372,7 @@ test('every day is its shape, the lead day draws the subject, and a Body play pr
         });
       }
     });
-    if (c.subject === 'Body play') assert.ok(warmDraws >= 277 && warmDraws <= 450, `${id}: ${warmDraws} sexWarm draws`);
+    if (c.subject === 'Body play') assert.ok(warmDraws >= 277 && warmDraws <= 495, `${id}: ${warmDraws} sexWarm draws`);
   });
 });
 
@@ -550,7 +555,7 @@ test('every day is its shape, the lead day draws the subject, and an Edging prog
       });
       const drawn = m.some((b) => b.items.some((it) => EX[it.ex].sub === sub));
       if (leadType === null || d.type === leadType) assert.ok(drawn, `${where}: no ${sub}`);
-      assert.ok(d.est >= c.minutes[0] && d.est <= c.minutes[1], `${where}: ${d.est} min, band ${c.minutes[0]}–${c.minutes[1]}`);
+      assert.ok(inBand(d.est, c.minutes), `${where}: ${d.est} min, band ${c.minutes[0]}–${c.minutes[1]}`);
       if (SHAPE20B[id] === 'gym') {
         assert.equal(m.length, 2, where);
         assert.equal(m[1].title, 'Positions', where);
@@ -566,7 +571,7 @@ test('every day is its shape, the lead day draws the subject, and an Edging prog
         assert.equal(m[0].format, 'flow', where);
       }
     });
-    if (c.subject === 'Edging') assert.ok(warmDraws >= 277 && warmDraws <= 450, `${id}: ${warmDraws} sexWarm draws`);
+    if (c.subject === 'Edging') assert.ok(warmDraws >= 277 && warmDraws <= 495, `${id}: ${warmDraws} sexWarm draws`);
   });
 });
 
@@ -677,7 +682,7 @@ test('Strip and tease, and Shower and bath: 24 programs, for two, catalogue 13, 
   assert.deepEqual(R.pick({ subjects: ['Shower and bath'] }), []);
 });
 
-test('gym and positions cycle warm, warm, lead; Shower sex is warm then shower every day; Tease sex leads with tease once', () => {
+test('gym and positions cycle warm, warm, lead; Shower sex is warm then shower every day; Tease sex leads with one tease once', () => {
   SHOWER_SEX.forEach((id) => {
     const c = cfgOf(id);
     const types = Object.values(c.dayTypes);
@@ -693,7 +698,7 @@ test('gym and positions cycle warm, warm, lead; Shower sex is warm then shower e
     const types = Object.values(cfgOf(id).dayTypes);
     assert.equal(types.length, 2, id);
     types.forEach((t) => assert.deepEqual(t.blocks.map((b) => b.title), ['Warm-up', 'Fuck'], id));
-    const lead = types.filter((t) => pure(t.blocks[0], 'sexTease'));
+    const lead = types.filter((t) => teaseLed(t.blocks[0]));
     assert.equal(lead.length, 1, id);
     assert.ok(pure(lead[0].blocks[1], 'sexFuck'), id);
     const rest = types.filter((t) => t !== lead[0]);
@@ -709,7 +714,7 @@ test('gym and positions cycle warm, warm, lead; Shower sex is warm then shower e
     const warmSex = sexBlocks(warm);
     const leadSex = sexBlocks(lead);
     assert.ok(warmSex.every((b) => pure(b, cover)), `${id}: warm`);
-    assert.ok(pure(leadSex[0], own), `${id}: lead`);
+    assert.ok(leads(leadSex[0], own), `${id}: lead`);
     assert.equal(warmSex.length, 1, id);
     assert.equal(leadSex.length, 1, id);
     if (SHAPE20C[id] === 'gym') {
@@ -728,7 +733,7 @@ test('every day is its shape, the lead day draws the subject, and a Shower progr
     const sub = c.subject === 'Shower and bath' ? 'shower' : 'tease';
     const leadType = SHAPE20C[id] === 'sex' && c.subject === 'Shower and bath'
       ? null
-      : (SHAPE20C[id] === 'sex' ? Object.entries(c.dayTypes).find(([, t]) => pure(t.blocks[0], 'sexTease'))[0] : c.cycle[2]);
+      : (SHAPE20C[id] === 'sex' ? Object.entries(c.dayTypes).find(([, t]) => teaseLed(t.blocks[0]))[0] : c.cycle[2]);
     let warmDraws = 0;
     prog20c(id).days.forEach((d) => {
       const m = mains(d);
@@ -743,7 +748,7 @@ test('every day is its shape, the lead day draws the subject, and a Shower progr
       });
       const drawn = m.some((b) => b.items.some((it) => EX[it.ex].sub === sub));
       if (leadType === null || d.type === leadType) assert.ok(drawn, `${where}: no ${sub}`);
-      assert.ok(d.est >= c.minutes[0] && d.est <= c.minutes[1], `${where}: ${d.est} min, band ${c.minutes[0]}–${c.minutes[1]}`);
+      assert.ok(inBand(d.est, c.minutes), `${where}: ${d.est} min, band ${c.minutes[0]}–${c.minutes[1]}`);
       if (SHAPE20C[id] === 'gym') {
         assert.equal(m.length, 2, where);
         assert.equal(m[1].title, 'Positions', where);
@@ -759,7 +764,7 @@ test('every day is its shape, the lead day draws the subject, and a Shower progr
         assert.equal(m[0].format, 'flow', where);
       }
     });
-    if (c.subject === 'Shower and bath') assert.ok(warmDraws >= 277 && warmDraws <= 450, `${id}: ${warmDraws} sexWarm draws`);
+    if (c.subject === 'Shower and bath') assert.ok(warmDraws >= 277 && warmDraws <= 495, `${id}: ${warmDraws} sexWarm draws`);
   });
 });
 
@@ -880,7 +885,7 @@ test('gym and positions cycle warm, warm, lead; Pool and Hot tub sex is warm the
     assert.equal(types.length, 2, id);
     types.forEach((t) => {
       assert.deepEqual(t.blocks.map((b) => b.title), ['Warm-up', title], id);
-      assert.ok(pure(t.blocks[0], 'sexWarm'), id);
+      assert.ok(pure(t.blocks[0], `${own}Warm`), id); // 364: the warm-up in the water
       assert.ok(pure(t.blocks[1], own), id);
     });
     assert.notEqual(JSON.stringify(types[0].blocks), JSON.stringify(types[1].blocks), id);
@@ -906,7 +911,7 @@ test('gym and positions cycle warm, warm, lead; Pool and Hot tub sex is warm the
   });
 });
 
-test('every Pool and Hot tub day is its shape, the lead day draws the subject, and sexWarm stays in the window', () => {
+test('every Pool and Hot tub day is its shape, the lead day draws the subject, and sexWarm stays in the window (none in the water days)', () => {
   const warmIds = new Set(mergedAt(13).sexWarm);
   IDS20D.forEach((id) => {
     const c = cfgOf(id);
@@ -926,7 +931,7 @@ test('every Pool and Hot tub day is its shape, the lead day draws the subject, a
       });
       const drawn = m.some((b) => b.items.some((it) => EX[it.ex].sub === sub));
       if (leadType === null || d.type === leadType) assert.ok(drawn, `${where}: no ${sub}`);
-      assert.ok(d.est >= c.minutes[0] && d.est <= c.minutes[1], `${where}: ${d.est} min, band ${c.minutes[0]}–${c.minutes[1]}`);
+      assert.ok(inBand(d.est, c.minutes), `${where}: ${d.est} min, band ${c.minutes[0]}–${c.minutes[1]}`);
       if (SHAPE20D[id] === 'gym') {
         assert.equal(m.length, 2, where);
         assert.equal(m[1].title, 'Positions', where);
@@ -942,7 +947,8 @@ test('every Pool and Hot tub day is its shape, the lead day draws the subject, a
         assert.equal(m[0].format, 'flow', where);
       }
     });
-    assert.ok(warmDraws >= 277 && warmDraws <= 450, `${id}: ${warmDraws} sexWarm draws`);
+    if (SHAPE20D[id] !== 'sex') assert.ok(warmDraws >= 277 && warmDraws <= 495, `${id}: ${warmDraws} sexWarm draws`);
+    else assert.equal(warmDraws, 0, id); // 364
   });
 });
 
@@ -1109,7 +1115,7 @@ test('every Balcony and Doorframe day is its shape, the lead day draws the subje
       });
       const drawn = m.some((b) => b.items.some((it) => EX[it.ex].sub === sub));
       if (leadType === null || d.type === leadType) assert.ok(drawn, `${where}: no ${sub}`);
-      assert.ok(d.est >= c.minutes[0] && d.est <= c.minutes[1], `${where}: ${d.est} min, band ${c.minutes[0]}–${c.minutes[1]}`);
+      assert.ok(inBand(d.est, c.minutes), `${where}: ${d.est} min, band ${c.minutes[0]}–${c.minutes[1]}`);
       if (SHAPE20E[id] === 'gym') {
         assert.equal(m.length, 2, where);
         assert.equal(m[1].title, 'Positions', where);
@@ -1125,7 +1131,7 @@ test('every Balcony and Doorframe day is its shape, the lead day draws the subje
         assert.equal(m[0].format, 'flow', where);
       }
     });
-    assert.ok(warmDraws >= 277 && warmDraws <= 450, `${id}: ${warmDraws} sexWarm draws`);
+    assert.ok(warmDraws >= 277 && warmDraws <= 495, `${id}: ${warmDraws} sexWarm draws`);
   });
 });
 

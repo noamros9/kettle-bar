@@ -2,6 +2,7 @@
 // Phase 20 ticket 11: Carry & hold, Flexible & bendy, Strip & show-off, 27 programs, three session shapes.
 // Catalogue 13, home pools. Each sex block draws one of sexPositionsHome, sexFuckHome, sexWarm.
 const test = require('node:test');
+const { inBand } = require('./helpers/band.js');
 const assert = require('node:assert/strict');
 const { EX } = require('../exercises.js');
 const { CONFIGS, POOLS, poolsAt } = require('../program-builder.js');
@@ -91,7 +92,7 @@ test('every day is its shape, gym then positions, sex then fuck, and minutes sta
         assert.ok(ids.every((ex) => EX[ex].cat === 'couple'), `${where}: a solo exercise`);
         assert.ok(ids.every((ex) => !PLACES.has(EX[ex].sub)), `${where}: place ${ids.find((ex) => PLACES.has(EX[ex].sub))}`);
       });
-      assert.ok(d.est >= 31 && d.est <= 40, `${where}: ${d.est} min`);
+      assert.ok(inBand(d.est, [31, 40]), `${where}: ${d.est} min`);
       if (SHAPE[id] === 'gym') {
         assert.equal(m.length, 2, where);
         assert.equal(m[1].title, 'Positions', where);
