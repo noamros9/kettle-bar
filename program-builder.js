@@ -374,6 +374,9 @@
         absW: has((e) => e.cat === 'abs' && e.load && !needs(e, 'bar')),
         warmups: has((e) => e.cat === 'warmup'),
         cooldowns: has((e) => e.cat === 'cooldown'),
+        // Phase 34 ticket 2: the breathing drills, closing a rest-day flow (configs/short.js); a new name from catalogue 14 (the
+        // book's), so the pinned older pools stay as they were
+        ...(upTo >= 14 ? { breath: has((e) => e.cat === 'cooldown' && e.sub === 'breath') } : {}),
         // Every catalogue-11 exercise, whatever order tickets 6 and 7 merge. Empty below catalogue 11.
         explicit: has((e) => e.added === 11),
         // Phase 22 (catalogue 13): a pool per new kind. Empty below catalogue 13.

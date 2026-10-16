@@ -22,7 +22,7 @@
    Rules
    - Equipment: a day type's `equip` is the least gear it builds with. A `bw` day type fits every choice, `kb` fits `kb`
      and `all`, `all` fits only `all`. Every day of a made program follows the choice's equipment.
-   - Minutes: the book was made by really building each day type, at each target of GRID (15 to 40, in fives), with each
+   - Minutes: the book was made by really building each day type, at each target of GRID (15 to 40 in fives, then 10), with each
      equipment it fits, over three levels: it fits a target when every day landed in [target - 2, target + 2]. pick's
      `minutes` fits a day type when a target it fits lies within 2.5 min of it (22 fits 20, 23 fits 20 or 25). make() takes
      the five targets 20 to 40 and gives every day type the window [minutes - 2, minutes + 2]. A day type that cannot
@@ -47,7 +47,8 @@
      for the next parts that reach, a few times, and if that never works the mix is refused with a message.
    Day types are read-only data: do not change what pick returns. */
 (function (root, Formats, deps, L) {
-  const GRID = [15, 20, 25, 30, 35, 40], MINUTES = [20, 25, 30, 35, 40];
+  // 10 (Phase 34, the rest-day flows) is last so every older fit mask keeps its bits
+  const GRID = [15, 20, 25, 30, 35, 40, 10], MINUTES = [20, 25, 30, 35, 40];
   const WINDOW = 2, SLACK = 2.5;
   const ROUNDS = 6; // builds of a mix tried before it is refused
   const MAX_SUBJECTS = 3;

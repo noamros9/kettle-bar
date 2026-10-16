@@ -39,7 +39,8 @@ test('every new one: added 15, a figure that draws, muscles, a cue, holds in sec
 });
 
 test('they join the pools only at catalogue 15: catalogue 14 is exactly as before, and every new one is a cool-down at 15', () => {
-  assert.equal(hash(poolsAt(14)), 'fe2f727e146ecb4a');
+  const { breath, ...older } = poolsAt(14); // Phase 34 ticket 2 adds the breath pool, a new name; the rest as before
+  assert.equal(hash(older), 'fe2f727e146ecb4a');
   added15.forEach((e) => {
     assert.ok(!Object.values(poolsAt(14)).flat().includes(e.id), `${e.id} is not drawn before 15`);
     assert.ok(poolsAt(15).cooldowns.includes(e.id), `${e.id} is a cool-down at 15`);
