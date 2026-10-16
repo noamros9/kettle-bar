@@ -33,8 +33,6 @@ read only when needed. Decisions with a long "why": [docs/adr/](docs/adr/).
 ## Building (standing permission from Noam, 29 Sep 2026; Opus only since 30 Sep 2026)
 - **Who builds:** Claude on Opus by default. No Sonnet, no sub-agents for building (Noam, 30 Sep: Sonnet's work
   wasn't to his liking on this project).
-  - **Sonnet experiment (decisions 276–282): ended after Phase 22 ticket 16** (Noam, 8 Oct 2026). Sonnet with Opus
-    supervising was slower and costlier than Opus alone; the `sonnet-handoff` skill stays for reference only.
 - **Grok tickets (Noam, 5 Oct 2026):** Noam picks them at hand-off ("Grok takes ticket N"); nothing in the plan
   marks them. Grok Build builds, Claude reviews and merges:
   - Claude creates the ticket's branch, then runs `grok -p` headless with the plan file and ticket number, asking
@@ -44,14 +42,14 @@ read only when needed. Decisions with a long "why": [docs/adr/](docs/adr/).
     script). The prompt pastes the brief (pools, one sample config, the guidelines) and says not to read CLAUDE.md,
     CONTEXT.md, the skill, old plans or its own output; `git log --oneline -5`, test output tailed. A fix round is a
     fresh short prompt, not `--continue` on a long session.
-  - **Grok plans first (Noam, 7 Oct 2026):** its first run writes only `grok/tN-plan.md` (per item for
-    content, files and approach for code) and stops; Claude reviews the plan and sends changes until it passes. Never
+  - **Code tickets: Grok plans first (Noam, 7 Oct 2026):** its first run writes only `grok/tN-plan.md` (files and
+    approach) and stops; Claude reviews the plan and sends changes until it passes. The plan never goes in
     `test-results/`: Playwright wipes it at the start of every run.
   - **The prompt carries today's rules** (the grok-handoff skill's "kettle-bar additions", 15 Oct 2026): `npm run
     cache:pull` first and whole-library builds only when warm (334); `npm run pin` and `npm run check:new` for content;
     for UI, only the ticket's specs plus `renders.spec.js`, light (309); for couple programs,
     [docs/explicit-guidelines.md](docs/explicit-guidelines.md). Claude runs its own long review runs in the background.
-  - Grok then builds from the approved plan (`--continue`), from the ticket's **Test first**, and commits on that
+  - On a code ticket, Grok then builds from the approved plan (`--continue`), from the ticket's **Test first**, and commits on that
     branch. It runs only the ticket's test files; the commit hook runs the changed ones, CI the full suite (308). It never pushes,
     opens PRs or merges.
   - Claude runs the review checks below, pushes, opens the PR, marks the ticket `done (PR #n)`, and merges on green
@@ -63,7 +61,8 @@ read only when needed. Decisions with a long "why": [docs/adr/](docs/adr/).
   otherwise for that stretch ("you can do 13 too"). A go counts for the next three only.
 - **NEVER MORE THAN 2 TICKETS BUILDING AT ONCE (Noam, 6 Oct 2026). A hard cap, not a target.** Building = a Grok
   run or Claude's own build; a PR only waiting on CI doesn't count. Before starting any ticket, count what is
-  building; at 2, the next one waits. Why: the machine has 2 cores (a third checkout slows every test run), and
+  building; at 2, the next one waits. Why: a cloud session has 2 cores and the laptop runs short of memory (a third
+  checkout slows every test run), and
   every Grok ticket ends in Claude's review, so a third builder only queues finished work.
 - **Look for the next ticket at every checkpoint (Noam, 6 Oct 2026):** after each hand-off, each PR opened and each
   merge, read the plan's ticket table and start the next `todo` ticket that can run now, up to the cap of 2.
@@ -74,7 +73,7 @@ read only when needed. Decisions with a long "why": [docs/adr/](docs/adr/).
     to the end with no three-ticket stop; once Phase 34 is merged, Phase 20 takes both slots (two of its tickets at
     once, files permitting) to its end;
   - its blockers are done, or its one blocker is the ticket in flight and the new branch starts from that ticket's
-    branch (stacked), rebased onto `main` once the blocker squash-merges;
+    branch, stacked locally only: it's rebased onto `main` and pushed once the blocker squash-merges;
   - it doesn't edit the same files as a ticket still *building* (those wait; a Grok one then continues that
     session). Once a ticket's PR is open and in CI, it isn't building: the next ticket starts right away, even on
     the same files, built locally on that branch (Noam, 6 Oct 2026), and pushed only after that PR merges, rebased
@@ -110,11 +109,11 @@ read only when needed. Decisions with a long "why": [docs/adr/](docs/adr/).
     specs mapped to the changed modules and the **full suite, light and dark, run in CI on the PR, and the ticket
     merges only when that run is green**. A new spec or module still gets its line in `scripts/ui-affected.js`'s MAP
     (`npm run test:ui:affected` stays for a wider local run when a change is risky). These runs build the whole library
-    first, the one exception to decision 312 (over 4 min at 1,000 programs, so Playwright waits up to 600 s, decision
-    321): start them in the background and run nothing else heavy meanwhile;
+    first (seconds when warm, over 4 min cold, so Playwright waits up to 600 s, decision 321): start them in the
+    background and run nothing else heavy meanwhile;
   - when programs could be affected: `rm -rf data && node build.js` on main and on the branch, `diff -r` shows only
     new program files, and no existing pin in `tests/fixtures/program-days.json` changes (never re-pin);
-  - `index.html` stays under the 1 MB gzip gate (Noam, 6 Oct 2026: Phase 22 ticket 1b moves the build's check to it);
+  - `index.html` stays under the 1 MB gzip gate (Noam, 6 Oct 2026);
   - for UI work, look at a 390 px screenshot (light and dark) and check 360 px has no sideways scroll.
 - **Rules that never bend:** a program you're halfway through never reshuffles (pins; own programs build only from
   their stored config); progress sync and stored shapes stay compatible; old backups still import.
@@ -131,8 +130,10 @@ read only when needed. Decisions with a long "why": [docs/adr/](docs/adr/).
 - **A straight man training his own body:** the workout trains *his* body, and the text says what that does for him:
   what he does to her, how long he lasts, how she sees and enjoys him. His ass is for drive, and for her to grab or
   admire; never fucked, never "ass up" or bent over. His flexibility lets *him* get deeper, kneel, fold over her; it
-  never bends her. Nothing receiving is said about him (riding, taking it, being held up). She may blindfold him, tie or cuff his wrists or ankles, gag him, or use ice or wax on him; nothing goes in him, no pegging and no fingers or toy in his ass. She may rim him: her tongue on his asshole is allowed, and nothing goes in him, no pegging and no fingers or toy in his ass.
-- `tests/his-pov.test.js` (from Phase 20 ticket 5.5) checks every `couple: true` program for her-side phrasings; a
+  never bends her. Nothing receiving is said about him (riding, taking it, being held up). She may blindfold him, tie
+  or cuff his wrists or ankles, gag him, use ice or wax on him, or rim him (her tongue on his asshole); nothing goes in
+  him, no pegging and no fingers or toy in his ass.
+- `tests/his-pov.test.js` checks every `couple: true` program for her-side phrasings; a
   new program never gets an exception just to pass. The test catches the obvious ones; Claude's review reads each new
   blurb and about for POV and heat before merging, and sends softer or her-side text back.
 - **Describe the session, not the builder** (Noam, 5 Oct 2026): no slots, catalogues, old or new positions, exercises
@@ -146,18 +147,19 @@ read only when needed. Decisions with a long "why": [docs/adr/](docs/adr/).
   reads it for every couple ticket; Claude reviews against it. Phase 36 makes the builder keep it.
 
 ## Mechanics
+- **Two machines:** Noam's Windows laptop (Git Bash; 12 threads, 16 GB, so memory is the limit: a Grok run can be
+  killed when it runs low) or a cloud session (Linux, 2 cores, so CPU is the limit). The rules below hold on both.
 - Use `gh` (installed and signed in on Noam's machine; from Git Bash it's `"/c/Program Files/GitHub CLI/gh.exe"`
   if not on PATH): `gh pr create`, `gh pr checks`, `gh pr merge`, `gh api` for the rest. Plain curl to the REST API
   has no auth locally (the proxy auth is cloud sessions only); there, send `-H "Content-Type: application/json"` on
   every POST/PUT.
 - `npm install` rewrites `package-lock.json`; don't commit that.
 - Give commands generous time limits, about twice what they take on a busy machine (Noam, 6 Oct 2026: a tight
-  `timeout` cut a UI run short and cost a rerun): `npm run test:coverage` and the affected UI tests 10 min each, a
-  chain of them in the background with a 30 min wait (Noam, 6 Oct 2026: the catalogue grows in Phase 22); CI 30 min
-  (the PR test job took 15 min on 6 Oct). Cutting the times: #265.
+  `timeout` cut a UI run short and cost a rerun): a UI run 10 min, a chain of them in the background with a 30 min
+  wait; CI 30 min (the PR test job took 15 min on 6 Oct). Cutting the times: #265.
   Never wrap a test command in a shell `timeout` shorter than that.
-- **Long runs go in the background (Noam, 10 Oct 2026):** on the 2-core cloud machine `test:coverage` and the affected UI
-  tests each take 10 min or more, longer than a tool call waits. Start them with `nohup … > log &` and poll the log;
+- **Long runs go in the background (Noam, 10 Oct 2026):** a cold build or a UI run can take 10 min or more, longer
+  than a tool call waits. Start them with `nohup … > log &` and poll the log;
   never in the foreground, where a cut-off wait throws the run away. One heavy run at a time per machine: a second
   one starves the UI build (`webServer` times out at 240 s).
 - **Push one ticket at a time; CI runs once per tree (Noam, 10 Oct 2026):** build the next ticket locally while the
@@ -183,8 +185,8 @@ read only when needed. Decisions with a long "why": [docs/adr/](docs/adr/).
   `npm run cache:pull` a whole-library build takes ~12 s, so `node build.js`, `// ci-only` test files and wider UI runs
   may run locally; a cold one (builder code changed, 4+ min) still goes to CI. The commit hook still skips `// ci-only`
   files, and the full unit suite with coverage stays in CI (308, kept 13 Oct, 336).
-- Committed tests never write outside the repo (screenshots go to `test-results/`); review screenshots for Noam go to
-  `/home/claude/kettle-bar-shots/` from a throwaway script or spec that isn't committed. CI (the deploy) must stay green:
+- Committed tests never write outside the repo (screenshots go to `test-results/`); review screenshots for Noam go to the
+  session's scratchpad on the laptop or `/home/claude/kettle-bar-shots/` in the cloud, from a throwaway script or spec that isn't committed. CI (the deploy) must stay green:
   after merging, don't wait on main's Test and deploy run; start the next ticket, and check that run is green before
   merging the next PR (fix a red one first).
 - Markdown-only PRs (plans, docs, ROADMAP, CLAUDE.md) get no CI run (`paths-ignore` in `deploy.yml`, 5 Oct 2026):
