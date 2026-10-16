@@ -122,7 +122,7 @@ minutes, pools) for Claude to review before Grok builds.
 | 20 | Quickie, Back & knees care, Date night warm-up +7 each (+21) | content | 12, 13 | `content/after-dark-more-e` | done (PR #463) |
 | 21 | Positions tour, Morning glory / Sunday +7 each (+14) | content | 13 | `content/after-dark-more-f` | done (PR #464) |
 | 22 | Explicit, sex heavy (+17) | content | 15 | `content/explicit-heavy-a` | done (PR #465) |
-| 23 | Explicit, sex heavy (+16) | content | 22 | `content/explicit-heavy-b` | todo |
+| 23 | Explicit, sex heavy (+16) | content | 22 | `content/explicit-heavy-b` | done (PR #467) |
 
 ### 1. The pelvic mark
 - `figures.js`: a pose (and its `two`) may carry `mark: 1`; the figure then draws a small filled mark at its hip, in
