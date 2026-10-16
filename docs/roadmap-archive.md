@@ -745,3 +745,61 @@ Grilled 8 Oct 2026 with Noam (global decision numbers).
 - **263 · About 5 new breathing drills**, beside the five that are cool-downs today; `added: 15` (237). *(8 Oct)*
 - **266 · The drills reach random workouts and the rest-day flow at ticket 3** (`NEWEST` 14 → 15), not ticket 1. *(8 Oct)*
 - **267 · Named "<Subject> · 15-min circuit"** on a random workout built from one. *(8 Oct)*
+
+## Phase 20: After dark refined, the Explicit set, +50% programs (done, 16 Oct 2026)
+Plan and tickets: [docs/plans/phase-20-after-dark-explicit.md](plans/phase-20-after-dark-explicit.md), issue
+[#202](https://github.com/noamros9/kettle-bar/issues/202). Grok wrote the text (339), Claude built the configs, tests
+and pins. Tickets 1–23 (8b–23 from 15 Oct, #446–#467): the pelvic mark, catalogue 11, the Explicit subject (98), and
++50% in the 16 After dark subjects (decisions 221–222), including 7 new Positions tours (348). Library 1,395 programs;
+no existing pin moved.
+
+### How a content ticket ran (tickets 10–23)
+- **How a Phase 20 content ticket ran (worked for 10–12, ~3% of the weekly Grok usage for all three):**
+  1. Branch `content/explicit-more-<x>` from main; `npm run cache:pull`.
+  2. Claude writes the brief: a slot table (subject, shape, day types; 3 gym, 3 sex, 3 positions per subject), the
+     line format, ticket 9's lessons, the subject voices, a sample, the writing rules and `docs/explicit-guidelines.md`,
+     pasted in. Grok reads nothing else and writes only `grok/tN-text.md`
+     (`slot | id | name | blurb | 20 day names | split | about`). Scripts (in `../kettle-bar-docs/grok/`, not committed): `p20-brief.js`
+     (prompt + slots), `p20-totext.js` (pre-check → plan file), `p20-fix.js`, `p20-applyfix.js`; each takes the ticket number.
+  3. Claude pre-checks the text (lengths, closers, taken names, unique splits) and reviews it for his side, heat and
+     "describe the session"; one fresh, short fix round (blurbs and abouts only, plus taken names) fixed 11 and 12.
+     Watch for: a stock phrase repeated in every about, blurbs naming the two day types, promising one position or a
+     lift in every hold, places (mirror, wall) the home pools don't have, barbell words in bodyweight programs.
+  4. The plan-format file → `node scripts/emit-couple.js <plan.md> [<text.md>]` → configs after the last ticket's
+     block in `configs/after-dark.js`; ids in `programs.config.js` and `tests/configs.test.js`; the library total;
+     `tests/explicit-more-<x>.test.js` copied from the last one; `npm run pin -- --phase 20`, `check:new`.
+  - Minutes: 31–40 for every subject so far; Quickie 22–30 (344). A subject with a shorter solo band needs a decision.
+  - A subject whose old programs have their own count test (after-dark-solo, couples) is already scoped to them.
+
+### Decisions
+Grilled 5 Oct 2026 on [#202](https://github.com/noamros9/kettle-bar/issues/202); Grok builds, Claude reviews.
+Numbered 20 because 19 is super programs.
+- **67 · Paused after ticket 8**; tickets 9–15 resume after Phase 22.
+- **338 · Resumed 15 Oct beside Phase 33, while Grok usage lasts** (295 had it after 36): the two touch different files;
+  Phase 36 ticket 3 later moves these programs to the ordered sessions for new starts, like Phase 22's. *(15 Oct)*
+- **339 · Grok writes the text only** (63 kept): names, blurbs, abouts in one file, from a pasted brief; Claude builds
+  the configs, tests and pins. Ticket 9 took ~10% of the weekly Grok usage, mostly plumbing. *(15 Oct)*
+- **57 · Refined in place**: the 17 position cues, 7 dare cues and 105 programs' text; same ids and days, no re-pins.
+  Explicit words and dirty slang, one paragraph, no orgasm script.
+- **58 · A pelvic mark on the stick figures** (rendered pictures were refused).
+- **59 · Catalogue 11: 88 exercises** (24 intercourse, 24 oral, 24 anal, 8 toys, 8 hands).
+- **60 · +200 couple programs, 60 days each**: the Explicit subject (65: 20, then 45 mainly sex-only) and 9 in each of
+  the 15 After dark subjects; three session shapes; minutes 20% longer than each band; new exercises alongside
+  catalogue 10's.
+- **62 · Swap unchanged**: older couple programs may offer catalogue-11 exercises.
+- **63 · Grok writes the explicit text**; a text failure gets a second round.
+- **64 · Descriptions from his side**: his POV or a straight couple's, never hers; as explicit or hotter. A standing
+  rule in CLAUDE.md and a test over every couple program.
+- **65 · Equal odds in sex blocks, basics about 1.5×**, through the merged pools; `tests/couple-odds.test.js`.
+- **66 · Descriptions describe the session**, never the builder (no slots or catalogues); `tests/his-pov.test.js`.
+
+**Caught up 7 Oct** (with the decisions made since)
+- **218 · Tickets 9–15 all build at catalogue 13**, the 45 Explicit too (was 12, and 11 for 14–15). *(77, 105)*
+- **219 · Sex blocks draw everything but the places**: catalogues 10–13 at equal odds, minus Shower and bath, Pool,
+  Hot tub, Balcony, Doorframe (those stay in their own subjects). New ticket 8b adds the pools.
+- **220 · All 180 stay 60 days**; the "fifth at 30" (185) is Phase 23's and 27's only.
+
+**Grown 8 Oct**
+- **221 · +50% programs in the 16 existing After dark subjects**, on their count after this phase, rounded up: +155
+  (19 → 29, Couples 29 → 44, the 14s → 21, Explicit 65 → 98). Tickets 16–23. *(8 Oct)*
+- **222 · The +155 at catalogue 13 on the home pools**, 60 days; even thirds by shape, Explicit sex-heavy like its 45. *(8 Oct)*
