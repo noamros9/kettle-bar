@@ -49,7 +49,7 @@ to write, and Grok is away the week of 9 Oct, 295).
 | 1 | Session tags on every couple exercise | feature | 0 | `feature/session-tags` | done (PR #474) |
 | 2 | The order step in the builder, behind a rules version | feature | 1 | `feature/session-order` | done (PR #475) |
 | 3 | Every couple program redone at once (365: none had been started); recipes and abouts fixed | feature | 2 | `feature/logical-couple-programs` | done (PR #476) |
-| 4 | The guidelines wired in: the grok-handoff skill, Phase 20's and 35's prompts | docs | 3 | `docs/explicit-guidelines` | todo |
+| 4 | The guidelines wired in: the grok-handoff skill, Phase 20's and 35's prompts | docs | 3 | `plan/p36-close` | done (PR #477) |
 
 ### 1. Session tags
 Facts per couple exercise, in one module (e.g. `session-tags.js`), derived from `sub` and the id, name and cue, with a
@@ -111,6 +111,9 @@ All couple programs (Explicit, Phase 22's 144, the older After dark) move to ver
 CLAUDE.md links the guidelines already (ticket 0); the grok-handoff skill tells Grok to read them for couple
 programs; Phase 20's and 35's plans name them in their prompts.
 - **Done when:** a Grok plan prompt for a couple ticket includes them.
+- **As built (16 Oct 2026):** the skill already named the guidelines; it now also says the builder deals every couple
+  program in order and an about describes the session as dealt. Phase 35's plan names them in its prompts (186, 212,
+  219); Phase 20 was done. With the phase close.
 
 ## Challenge round
 - **Weakest assumption:** that started programs can be told apart from unstarted ones without touching stored shapes

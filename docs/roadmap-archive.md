@@ -790,7 +790,8 @@ Numbered 20 because 19 is super programs.
 - **63 · Grok writes the explicit text**; a text failure gets a second round.
 - **64 · Descriptions from his side**: his POV or a straight couple's, never hers; as explicit or hotter. A standing
   rule in CLAUDE.md and a test over every couple program.
-- **65 · Equal odds in sex blocks, basics about 1.5×**, through the merged pools; `tests/couple-odds.test.js`.
+- **65 · Equal odds in sex blocks, basics about 1.5×**, through the merged pools; `tests/couple-odds.test.js`. [366, Phase
+  36: the order of a session wins; only the exercises it leaves free are checked, none drawn far more than the rest.]
 - **66 · Descriptions describe the session**, never the builder (no slots or catalogues); `tests/his-pov.test.js`.
 
 **Caught up 7 Oct** (with the decisions made since)
@@ -803,3 +804,42 @@ Numbered 20 because 19 is super programs.
 - **221 · +50% programs in the 16 existing After dark subjects**, on their count after this phase, rounded up: +155
   (19 → 29, Couples 29 → 44, the 14s → 21, Explicit 65 → 98). Tickets 16–23. *(8 Oct)*
 - **222 · The +155 at catalogue 13 on the home pools**, 60 days; even thirds by shape, Explicit sex-heavy like its 45. *(8 Oct)*
+
+## Phase 36: logical sessions (done, 16 Oct 2026)
+Every couple session keeps an order and a place per set, built by the builder and checked by a test over every couple
+program (#474 the session tags, #475 the order step, #476 every couple program dealt in order, #477 the close). 505 of
+534 couple programs re-pinned. Plan and as-built notes: [phase-36-logical-sessions.md](plans/phase-36-logical-sessions.md);
+the rules for whoever writes couple programs: [explicit-guidelines.md](explicit-guidelines.md).
+
+**The order of a session**
+- **296 · Clothed teasing opens; undressed once, never dressed again.** Strip and tease, grinding through clothes,
+  come before anything naked in a session. *(9 Oct)*
+- **297 · Oral can come anywhere**, in the middle of sex too. *(9 Oct)*
+- **298 · After anal, her pussy or mouth only after a Shower and bath set**; a session without one keeps anal to the
+  end. Anal counts his cock, a toy or his tongue in her ass. *(9 Oct)*
+- **299 · The finish closes its set**; a session may finish twice, in different sets, with naked teasing between. *(9 Oct)*
+- **300 · Props come off once**: blindfold, cuffs, ties, gag, ice, wax may come off, and don't come back that
+  session. Toys come and go. *(9 Oct)*
+- **301 · Warm-up first**: massage and slow teasing open; rough and the hardest holds come after. *(9 Oct)*
+- **302 · Not rules**: posture changes between holds and a gym set between sex sets are welcome. *(9 Oct)*
+
+**Places**
+- **303 · A place changes only between sets**; one place per set. *(9 Oct)*
+- **304 · Two groups, the shower bridging**: home (bed, floor, chair, doorframe, balcony) and water (pool, hot tub);
+  Shower and bath belongs to both. A session moves within a group, at set breaks. *(9 Oct)*
+
+**What changes**
+- **305 · New starts get the logical order**: a program already started keeps its days (the never-reshuffle rule);
+  anyone starting a couple program after this phase gets the rules. *(9 Oct)*
+- **306 · Enforced three ways**: builder rules from tags on each couple exercise, a standing test over every couple
+  program, and the guidelines doc for whoever writes programs (Grok) and reviews them (Claude). *(9 Oct)*
+
+**Ticket 3 (grilled 16 Oct 2026)**
+- **363 · Strip and tease: one tease, then naked.** Each tease set opens with one tease; its other slots draw naked
+  teasing (massage, hands, oral, body play), so she's undressed once. *(16 Oct)*
+- **364 · Pool and Hot tub warm up in the water**: the warm-up set draws the place's own touching and oral, so the
+  session never jumps from home to the water. *(16 Oct)*
+- **365 · Every couple program moves to version 1 and is re-pinned**: no couple program had been started (Noam), so
+  305's split between started and new isn't needed. *(16 Oct)*
+- **366 · The order wins over equal odds** (Phase 20's 1.5x basics): teases, props, finishes and anal keep their place in
+  the session; `couple-odds` checks only that no exercise the order leaves free is drawn far more than the rest. *(16 Oct)*

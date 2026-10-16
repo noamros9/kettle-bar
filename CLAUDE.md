@@ -146,7 +146,7 @@ read only when needed. Decisions with a long "why": [docs/adr/](docs/adr/).
 - **A session that makes sense** (Noam, 9 Oct 2026): every couple program follows
   [docs/explicit-guidelines.md](docs/explicit-guidelines.md): clothed teasing first and never back, oral anywhere, a
   shower set between anal and her pussy or mouth, the finish closing its set, props off once, a place per set. Grok
-  reads it for every couple ticket; Claude reviews against it. Phase 36 makes the builder keep it.
+  reads it for every couple ticket; Claude reviews against it. The builder keeps it (`sessionRules: 1` on every couple program, Phase 36).
 
 ## Mechanics
 - **Two machines:** Noam's Windows laptop (Git Bash; 12 threads, 16 GB, so memory is the limit: a Grok run can be
