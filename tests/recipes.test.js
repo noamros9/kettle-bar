@@ -72,7 +72,7 @@ test('every subject of the library has day types, tagged with subject, family, f
 });
 
 test('a day type\'s equipment is the least gear it can be built with', () => {
-  const byId = Object.fromEntries(CONFIGS.map((c) => [c.id, c]));
+  const byId = Object.fromEntries([...CONFIGS, ...require('../configs/short.js')].map((c) => [c.id, c])); // and the hidden day types (Phase 34)
   R.pick({}).forEach((t) => {
     const own = byId[t.program].equip || 'all';
     assert.ok(EQUIPS.indexOf(t.equip) >= EQUIPS.indexOf(own) || own === 'all' || (own === 'kb' && t.equip !== 'all') || own === 'bw' && t.equip === 'bw', t.id);

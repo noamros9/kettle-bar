@@ -96,9 +96,9 @@ test('one subject instead of a family, every family, and every length and equipm
       }
     }
   }
-  // the recipe book has 15-minute days only in Mind & body: the others start at 20 and say so
+  // every family has 15-minute days (Phase 34 ticket 2: a hidden 15-min circuit for each subject that had none)
   assert.equal(Random.problem(recipes, { family: 'Mind & body', minutes: 15, equipment: 'bw' }), null);
-  assert.equal(Random.problem(recipes, { family: 'Cardio & combat', minutes: 15, equipment: 'all' }), 'No 15-minute Cardio & combat workout with all equipment.');
+  Random.FAMILIES.forEach((family) => assert.equal(Random.problem(recipes, { family, minutes: 15, equipment: 'all' }), null, family));
   assert.equal(Random.problem(recipes, { family: 'Cardio & combat', minutes: 25, equipment: 'bw' }), null);
 });
 
@@ -220,7 +220,7 @@ test('the rest-day flow: mobility & posture or flexibility, 15 minutes (the shor
     itemsOf(made.day).forEach((ex) => assert.ok(cat.allowedIn('bw', cat.EX[ex]), ex));
   }
   assert.deepEqual([...subjects].sort(), ['Flexibility', 'Mobility & posture'], 'either subject comes up');
-  assert.equal(Random.problem(recipes, { subjects: ['Boxing', 'HIIT'], minutes: 15, equipment: 'bw' }), 'No 15-minute Boxing or HIIT workout with no equipment.');
+  assert.equal(Random.problem(recipes, { subjects: ['Pull-ups'], minutes: 15, equipment: 'bw' }), 'No 15-minute Pull-ups workout with no equipment.');
   assert.equal(Random.problem(recipes, { subjects: ['Nope'], minutes: 15, equipment: 'bw' }), 'No Nope workouts.');
 });
 

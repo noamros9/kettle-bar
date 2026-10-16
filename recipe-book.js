@@ -123,12 +123,12 @@ const HELD = 24;
 
 // `memo(inputs, make)` (build-cache.js recipeMemo, decision 324) keeps each trial: a stale book runs only the new or
 // changed ones; without it every trial runs
-function generate({ configs = require('./programs.config.js'), families = FAMILIES, catalogue = NEWEST, held = HELD, memo = (inputs, make) => make() } = {}) {
+function generate({ configs = [...require('./programs.config.js'), ...require('./configs/short.js')], families = FAMILIES, catalogue = NEWEST, held = HELD, memo = (inputs, make) => make() } = {}) {
   const isHeld = (c) => (c.added || 0) >= held;
   const familyOf = new Map(families.flatMap(([f, list]) => list.map((s) => [s, f])));
   // the levers a subject's programs use at Level II and III: what a choice for that subject may pick
   const levers = {};
-  configs.filter((c) => !c.frozen && !isHeld(c)).forEach((c) => Object.values(Builder.recipesOf(c)).forEach((r) => r.levers.slice(1).forEach((l) => { (levers[c.subject] = levers[c.subject] || new Set()).add(l); })));
+  configs.filter((c) => !c.frozen && !isHeld(c) && !c.hidden).forEach((c) => Object.values(Builder.recipesOf(c)).forEach((r) => r.levers.slice(1).forEach((l) => { (levers[c.subject] = levers[c.subject] || new Set()).add(l); })));
   const subjects = [], restTables = [], specs = [], types = [], skipped = [], seen = new Set(), trial = new Map();
   const parts = [], partSeen = new Set(), partTrial = new Map();
   configs.forEach((cfg) => {
@@ -159,7 +159,10 @@ function generate({ configs = require('./programs.config.js'), families = FAMILI
           return { equip: gear, fit };
         }));
       }
-      types.push({ ...type, ...trial.get(trialKey) });
+      const tried = trial.get(trialKey);
+      // a hidden day type (configs/short.js) fits only its own targets: a 15-min circuit is never a 20-min day
+      const only = cfg.targets && Recipes.GRID.reduce((bits, m, i) => (cfg.targets.includes(m) ? bits | (1 << i) : bits), 0);
+      types.push({ ...type, ...tried, ...(only !== undefined && { fit: tried.fit.map((bits) => bits & only) }) });
       // its blocks as parts of a mix: blocks that stand on their own, of a subject that is one family, resting like REST
       if (family === 'Mixed' || json(r.rests) !== json(Builder.REST)) return;
       r.blocks.forEach((block, bi) => {

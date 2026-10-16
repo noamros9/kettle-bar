@@ -32,7 +32,7 @@ Grilled 8 Oct 2026 with Noam (global decision numbers).
 |---|---|---|---|---|---|
 | 0 | This plan | plan | – | `plan/open-issues-8oct` | done (PR #297) |
 | 1 | Breathing drills, catalogue 15 | content | – | `content/breathing` | done (PR #451) |
-| 2 | Hidden day types: 15-min circuits, 10 and 15-min rest flows | feature | 1 | `feature/short-day-types` | todo |
+| 2 | Hidden day types: 15-min circuits, 10 and 15-min rest flows | feature | 1 | `feature/short-day-types` | done (PR #453) |
 | 3 | The minutes: random 15 for all, Build your own 15, rest-day 10 / 15 | feature | 2 | `feature/short-minutes` | todo |
 | 4 | Close the phase: CONTEXT.md, archive | plan | 3 | `plan/p34-close` | todo |
 
@@ -61,6 +61,14 @@ Grilled 8 Oct 2026 with Noam (global decision numbers).
   Signature) has a day type that fits 15 at some gear; the three rest flows fit 10 and 15 with `bw`; existing recipes
   keep their fit masks except for the new bit.
 - **Done when:** `npm run times` shows every hidden day inside its target; the recipe book's size growth noted.
+- **As built (PR #453):** each circuit is cut from one of the subject's programs (its first, or `core-circuits` for
+  Core), four moves or fewer, from one round up and on plain progression, so the lengthening pass lands it on 15
+  whatever the subject's levers. Flexibility and Yin yoga get none: their own short programs already fit 15, and their
+  long holds make a circuit too coarse to land there. A hidden config's `targets` limits its fit bits (a circuit only
+  15, a rest flow 10 and 15), so no 20-minute pick changes. The rest flow is poses as a circuit, then a `breath` drill
+  (a new pool). `programs.config.js` never loads `configs/short.js`; the recipe book does. All 1801 older day types
+  keep their fit; the book grew 755 → 775 KB. Tests: `tests/short-days.test.js`; the book's fit bits (every lever,
+  every draw) stand in for `npm run times`, which lists library programs only.
 
 ### 3. The minutes
 - **Build:** the random workout's 15 builds for every family (no greying for Strength, Cardio & combat, Mixed);
