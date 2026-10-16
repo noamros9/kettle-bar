@@ -17,6 +17,10 @@ top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase c
 - **Third (Noam, 16 Oct night): sample names differ per exercise, at random.** Outside a workout (the Exercises
   page and its sheets, review text) each exercise shows its own random name, not one name for the day. Confirm with
   him that a program day keeps one third person (352), then a small ticket in `app/third-names.js` with its test.
+- **Fourth, to plan (Noam, 16 Oct night): much more threesome exercises in every subject, and a Group sex
+  section in the sliding nav bar** that holds every threesome exercise, the 144 already built included. Grill him
+  (how many per subject, where Group sex sits in the bar, whether the exercises also stay in their act), then plan
+  the plumbing ticket and the new exercise tickets in Phase 35's plan.
 - **Phase 35: 2a–2c done** (16 Oct; #479–#481), 144 threesome exercises at catalogue 16, each third figure placed by
   hand and approved by Noam (`scripts/emit-trio.js`, Grok text only, 368). **Stopped: wait for his go** before 2d.
   Foursomes are in the plan (367–379, tickets 8a–8m after 6x); 35 is catalogue 16, foursomes 17, Phase 27 18.
