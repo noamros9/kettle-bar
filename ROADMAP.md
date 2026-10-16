@@ -2,7 +2,7 @@
 
 The index: where we are, what comes next, and the two phases being built now. Every other phase's decisions live at the
 top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase comes up. Decision numbers are global
-(the next one is **380**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
+(the next one is **387**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
 ## Resume here (16 Oct 2026)
 - **Phase 36 is done** (16 Oct; #474–#477, archived): every couple session is dealt in order, one place per set,
@@ -11,18 +11,11 @@ top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase c
   Against the guidelines: ice returns (blindfold and ice on her, then ice on him: `session-tags.js` tags `him:ice`
   apart from `ice`, so rule 6 misses it, likely in other couple programs too); the day has no warm-up though the
   about promises a tease and a massage; a pool name on a home day. A fix moves built days and trips pins: his call.
-- **Second (Noam, 16 Oct night): threesomes with the other pairing too.** You on the other woman (FMF), and the other
-  man on Mali (MMF), as their own exercises. Grill him (how many, which acts, the FMF/MMF mix), then add tickets to
-  Phase 35's plan before 2d, in a `plan/...` PR.
-- **Third (Noam, 16 Oct night): sample names differ per exercise, at random.** Outside a workout (the Exercises
-  page and its sheets, review text) each exercise shows its own random name, not one name for the day. Confirm with
-  him that a program day keeps one third person (352), then a small ticket in `app/third-names.js` with its test.
-- **Fourth, to plan (Noam, 16 Oct night): much more threesome exercises in every subject, and a Group sex
-  section in the sliding nav bar** that holds every threesome exercise, the 144 already built included. Grill him
-  (how many per subject, where Group sex sits in the bar, whether the exercises also stay in their act), then plan
-  the plumbing ticket and the new exercise tickets in Phase 35's plan.
+- **Then Phase 35, planned 16 Oct night (380–386):** 2t1 the Group sex tab, 2t2 a random name per exercise, then
+  2d–2m: 36 threesomes per act, half the other pairing (you on the other woman, the other man on Mali). Three tickets
+  per go, as always.
 - **Phase 35: 2a–2c done** (16 Oct; #479–#481), 144 threesome exercises at catalogue 16, each third figure placed by
-  hand and approved by Noam (`scripts/emit-trio.js`, Grok text only, 368). **Stopped: wait for his go** before 2d.
+  hand and approved by Noam (`scripts/emit-trio.js`, Grok text only, 368). **Next: 2t1, on his go.**
   Foursomes are in the plan (367–379, tickets 8a–8m after 6x); 35 is catalogue 16, foursomes 17, Phase 27 18.
 - **The laptop never hits the CI build cache:** its checkout has CRLF endings, CI LF, so the code hash differs and
   `cache:pull` reads nothing; a local cold build (~10 min) warms it for that tree.
