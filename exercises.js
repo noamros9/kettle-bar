@@ -407,6 +407,17 @@
       P(SEAT, { hd: [0.4, -1], t: [2, -34] })] },
     equal_breath: { name: 'Equal breathing', cat: 'cooldown', sub: 'breath', added: 12, u: 'sec', r: [60, 75, 90], mus: 'abs | obliques', cue: 'Sit tall. Breathe in for four and out for four, matching the counts. Keep the jaw soft and the ribs easy.', poses: [
       P(STAND, { hn: [4, -4], hf: [2, -4] })] },
+    // Phase 34 ticket 1: catalogue 15 breathing drills (added: 15)
+    physiological_sigh: { name: 'Physiological sigh', cat: 'cooldown', sub: 'breath', added: 15, u: 'sec', r: [60, 75, 90], mus: 'abs | obliques', cue: 'Sit tall. Take a full breath in through the nose, then a second short sip on top of it, and let it all go in one long sigh out of the mouth.', poses: [
+      P(SEAT, { hd: [-0.2, -1] }), P(SEAT, { hd: [0.4, -1], t: [2, -34] })] },
+    alternate_nostril: { name: 'Alternate-nostril breathing', cat: 'cooldown', sub: 'breath', added: 15, u: 'sec', r: [60, 75, 90], mus: 'abs | obliques', cue: 'Sit tall, right thumb on the right nostril. Breathe in through the left, close it with a finger, and breathe out through the right. Then in through the right, and swap again.', poses: [
+      P(SEAT, { hn: [9, -41], ehn: [0.2, 1] })] },
+    humming_breath: { name: 'Humming breath', cat: 'cooldown', sub: 'breath', added: 15, u: 'sec', r: [60, 75, 90], mus: 'abs | obliques', cue: 'Sit tall, eyes closed, thumbs resting on your ears. Breathe in through the nose, then hum low and steady all the way out, feeling the buzz in your head.', poses: [
+      P(SEAT, { hn: [3, -42], hf: [2, -42], eh: [0.2, 1] })] },
+    child_breath: { name: "Child's pose breathing", cat: 'cooldown', sub: 'breath', added: 15, u: 'sec', r: [60, 75, 90], mus: 'abs | lats lower_back', cue: 'Sit back on your heels with your forehead on the floor and arms long. Breathe slowly into your back so it widens and lifts, then let it settle.', poses: [
+      { t: [32, 10], hn: [63, 17], hf: [64, 17], fn: [-5, 17], ff: [-6, 17], kh: [1, 0.5], mat: 1 }] },
+    crocodile_breath: { name: 'Crocodile breathing', cat: 'cooldown', sub: 'breath', added: 15, u: 'sec', r: [60, 75, 90], mus: 'abs | lower_back obliques', cue: 'Lie face down, forehead resting on your stacked hands. Breathe in so your belly presses into the floor and your lower back rises, then breathe out slowly.', poses: [
+      P(PRONE, { hn: [46, 2], hf: [47, 2], eh: [1, 1] })] },
 
     // ---------------- YOGA (Phase 5: guided flows; holds in seconds, sides in turn) ----------------
     mountain_pose: { name: 'Mountain pose', cat: 'yoga', added: 5, u: 'sec', r: [20, 25, 30], mus: 'upper_back abs | glutes calves', cue: 'Stand tall, feet together and grounded, then sweep your arms overhead on a slow breath in.', poses: [

@@ -31,7 +31,7 @@ Grilled 8 Oct 2026 with Noam (global decision numbers).
 | # | Ticket | Tier | Blocked by | Branch | Status |
 |---|---|---|---|---|---|
 | 0 | This plan | plan | – | `plan/open-issues-8oct` | done (PR #297) |
-| 1 | Breathing drills, catalogue 15 | content | – | `content/breathing` | todo |
+| 1 | Breathing drills, catalogue 15 | content | – | `content/breathing` | done (PR #451) |
 | 2 | Hidden day types: 15-min circuits, 10 and 15-min rest flows | feature | 1 | `feature/short-day-types` | todo |
 | 3 | The minutes: random 15 for all, Build your own 15, rest-day 10 / 15 | feature | 2 | `feature/short-minutes` | todo |
 | 4 | Close the phase: CONTEXT.md, archive | plan | 3 | `plan/p34-close` | todo |

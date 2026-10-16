@@ -64,7 +64,7 @@ test('a catalogue 11 config draws the same warm-ups as before; at catalogue 12 t
 
 const COOL_SUBS = ['static', 'breath'];
 const COOL_BEFORE = ['chest_opener', 'cross_body_shoulder', 'overhead_triceps', 'childs_pose', 'cobra_stretch', 'seated_forward_fold', 'standing_quad', 'kneeling_hip_flexor', 'knee_hug', 'butterfly', 'down_dog', 'standing_side_stretch'];
-const COOL = Object.values(cat.EX).filter((e) => e.cat === 'cooldown');
+const COOL = Object.values(cat.EX).filter((e) => e.cat === 'cooldown' && (e.added || 0) <= 12); // catalogue 15 adds breathing drills (catalogue15.test.js)
 const COOL_NEW = COOL.filter((e) => e.added === 12);
 
 test('30 cool-downs, 18 added at catalogue 12, twelve static and six breath, each with poses and muscles', () => {
