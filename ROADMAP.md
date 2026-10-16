@@ -5,11 +5,12 @@ top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase c
 (the next one is **348**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
 ## Resume here (16 Oct 2026)
-- **Phase 20: tickets 10–15 done** (#446–#450, #452). Noam's go (16 Oct) covers the rest of the phase: **next 16**, then
-  17–23. Tours: `tour60` (346); Morning glory's long blocks (347). Pre-check day names against the newest merged
-  ticket too: `../kettle-bar-docs`, where the pre-check reads configs, goes onto main first (`git checkout --detach
-  origin/main`); an old test that checks a whole subject gets scoped
-  to its own programs when a ticket first adds to that subject.
+- **Phase 20: tickets 10–16 done** (#446–#450, #452, #454). Noam's go (16 Oct) covers the rest of the phase: **next
+  17**, then 18–23. Tours: `tour60` (346); Morning glory's long blocks (347). Pre-check day names against the newest
+  merged ticket too: `../kettle-bar-docs`, where the pre-check reads configs, goes onto main first (`git checkout
+  --detach origin/main`); an old test that checks a whole subject gets scoped to its own programs when a ticket first
+  adds to that subject; `library.test.js` keeps a count per subject. `check:new` builds only `added: 23` on, so it
+  doesn't check Phase 20's programs; a day out of band is fixed by a new id (its draws), never by a wider test.
 - **How a Phase 20 content ticket runs now (worked for 10–12, ~3% of the weekly Grok usage for all three):**
   1. Branch `content/explicit-more-<x>` from main; `npm run cache:pull`.
   2. Claude writes the brief: a slot table (subject, shape, day types; 3 gym, 3 sex, 3 positions per subject), the
