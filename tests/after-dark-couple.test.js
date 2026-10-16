@@ -12,7 +12,8 @@ const programs = require('./helpers/library.js').library();
 const SUBJECTS = ['Date night warm-up', 'Positions tour', 'Morning glory / Sunday'];
 const TAGS = ['Strength', 'Cardio & combat', 'Mind & body'];
 const mains = (d) => d.blocks.filter((b) => b.kind !== 'abs' && b.kind !== 'warmup' && b.kind !== 'cooldown');
-const of = (subject) => programs.filter((p) => p.subject === subject);
+// Phase 18's own programs; Phase 20 ticket 13 adds more to these subjects (tests/explicit-more-e.test.js)
+const of = (subject) => programs.filter((p) => p.subject === subject && CONFIGS.find((c) => c.id === p.id).added === 18);
 const cfgOf = (id) => CONFIGS.find((c) => c.id === id);
 
 test('five programs each, all for two and out of build your own; Mixed rules every day; a couple exercise every day', () => {
