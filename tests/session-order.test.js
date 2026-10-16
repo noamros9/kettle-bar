@@ -1,17 +1,13 @@
-// ci-only: builds every couple program at sessionRules 1 (~5 min cold) and reads the shared library; the commit hook skips it
+// ci-only: reads the shared library (every couple program, ~5 min cold); the commit hook skips it
 // Phase 36 ticket 2 (296–304): a couple day built at `sessionRules: 1` keeps the order of a session: clothed before
 // naked and never back, anal then a shower set before her pussy or mouth, a finish closing its set, a removed prop never
-// back, one place per set and only grouped moves. Its own checker, apart from the builder's order step. Version 0 (no
-// `sessionRules`) builds exactly as before: every couple program's pin holds.
+// back, one place per set and only grouped moves. Its own checker, apart from the builder's order step. Every couple
+// program is built so (ticket 3, 365).
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const { EX } = require('../exercises.js');
 const Builder = require('../program-builder.js');
 const { tagAll } = require('../session-tags.js');
-const { pinOf } = require('../scripts/pins.js');
-const PINS = require('./fixtures/program-days.json');
-const path = require('path');
-const { cachedBuild } = require('../build-cache.js');
 const { built } = require('./helpers/library.js');
 
 const T = tagAll(EX);
@@ -22,7 +18,7 @@ function violations(day) {
   let prev = null, naked = false, dirty = false, on = [];
   const off = new Set();
   day.blocks.forEach((b, bi) => {
-    const couple = b.items.filter((it) => T[it.ex]);
+    const couple = b.items.filter((it) => T[it.ex] && T[it.ex].place);
     if (!couple.length) return;
     const places = new Set(couple.map((it) => T[it.ex].place));
     if (places.size > 1) out.push(`block ${bi}: ${[...places].join(' and ')}`);
@@ -46,28 +42,28 @@ function violations(day) {
   return out;
 }
 
-// Recipes the order step can't mend (ticket 3 changes them): Strip and tease days are all tease sets, each starting
-// dressed; Pool and Hot tub open with a warm-up set only home can hold, then the water with no shower between.
-const RECIPES_LATER = ['Strip and tease', 'Pool', 'Hot tub'];
 const couples = Builder.CONFIGS.filter((c) => c.couple && !c.frozen);
 const report = (programs) => programs.flatMap((p) => p.days.flatMap((d) => violations(d).map((v) => `${p.id} day ${d.day}: ${v}`)));
 
-test('every couple program built at sessionRules 1 keeps the order on every day', () => {
+test('every couple program is dealt at sessionRules 1 and keeps the order on every day', () => {
   assert.ok(couples.length >= 534, `${couples.length} couple programs`);
-  // their own cache folder: the cache names a program's file by its id, and main's version-0 days live under it
-  const { programs } = cachedBuild({ configs: couples.map((c) => ({ ...c, sessionRules: 1 })), dir: path.join(__dirname, '..', '.build-cache', 'session-rules') });
-  const bad = report(programs.filter((p) => !RECIPES_LATER.includes(p.subject)));
-  assert.deepEqual(bad.slice(0, 20), [], `${bad.length} violations`);
-  // what their recipes can't help yet: only these two kinds
-  const later = report(programs.filter((p) => RECIPES_LATER.includes(p.subject)));
-  assert.deepEqual(later.filter((v) => !/dressed after naked|home to water/.test(v)), []);
-});
-
-test('at version 0 the couple programs build as before: the checker finds the old disorder, and every pin holds', () => {
+  assert.ok(couples.every((c) => c.sessionRules === 1));
   const lib = built(couples.map((c) => c.id));
   assert.equal(lib.length, couples.length);
-  assert.ok(report(lib).length > 0);
-  const changed = lib.filter((p) => PINS[p.id] && pinOf(p.days) !== PINS[p.id]).map((p) => p.id);
-  assert.deepEqual(changed, []);
-  assert.ok(lib.filter((p) => PINS[p.id]).length >= 500);
+  const bad = report(lib);
+  assert.deepEqual(bad.slice(0, 20), [], `${bad.length} violations`);
+});
+
+test('built fresh (not from the cache), a program of each kind keeps the order: shower, water, kink, rough, tease', () => {
+  const fresh = ['shower-set-then-tile', 'pool-wall-then-hold', 'kink-ice-wax', 'rough-long-hold', 'tease-dry-holds', 'beach-set-then-fuck']
+    .map((id) => Builder.buildConfig(couples.find((c) => c.id === id)));
+  assert.deepEqual(report(fresh), []);
+});
+
+test('version 0 deals as before, out of order: the checker sees it', () => {
+  const old = ['tease-set-then-zip', 'pool-quick-soak', 'grind-circuit-then-fuck'].map((id) => {
+    const { sessionRules, ...c } = couples.find((x) => x.id === id);
+    return Builder.buildConfig(c);
+  });
+  assert.ok(report(old).length > 0);
 });

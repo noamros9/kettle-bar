@@ -1,7 +1,7 @@
 /* Phase 36 (decisions 296–306): what each couple exercise means for the order of a session, read from its `sub`,
    id, name and cue, with a short override list for what the words don't say. The builder's order step (ticket 2)
    and tests/session-order.test.js read these; no exercise changes for them.
-   - place: 'home' | 'shower' | 'water' (304; the shower bridges the other two)
+   - place: 'home' | 'shower' | 'water' (304; the shower bridges the other two); null for a partner gym exercise
    - dress: 'clothed' (stays dressed) | 'undress' (starts dressed, ends naked) | 'naked' | null (either way) (296)
    - warm: massage and teasing, the openers (301)
    - oral: mouth on genitals or ass, either way (297)
@@ -44,7 +44,7 @@
     const dress = e.sub === 'partner' || TEASE_OPENERS.includes(id) || (e.sub === 'dare' && !PUSSY.test(t)) || (e.added < 13 && e.sub === 'massage') ? null
       : e.sub === 'tease' ? 'undress' : 'naked';
     return {
-      place: PLACE[e.sub] || 'home',
+      place: e.sub === 'partner' ? null : PLACE[e.sub] || 'home', // a partner gym exercise goes anywhere
       dress,
       warm: ['massage', 'tease'].includes(e.sub),
       oral: e.sub === 'oral' || e.sub === 'rim' || HER_MOUTH.test(t) || HIS_MOUTH.test(t),

@@ -2,6 +2,7 @@
 // Phase 20 ticket 8: Explicit, 20 programs, three session shapes. Each sex block draws one merged pool (old and new
 // together), basics about 1.5x. A positions-only day is one family, marked `oneFamily`, and only it.
 const test = require('node:test');
+const { inBand } = require('./helpers/band.js');
 const assert = require('node:assert/strict');
 const { EX } = require('../exercises.js');
 const { CONFIGS, POOLS, poolsAt } = require('../program-builder.js');
@@ -116,7 +117,7 @@ test('minutes: most about 31–40, a few shorter, a few toward 54, and every day
   const mids = IDS.map((id) => {
     const [lo, hi] = cfgOf(id).minutes;
     assert.ok(lo >= 19 && hi <= 54 && lo < hi, `${id}: ${lo}–${hi}`);
-    prog(id).days.forEach((d) => assert.ok(d.est >= lo && d.est <= hi, `${id} d${d.day}: ${d.est} min, band ${lo}–${hi}`));
+    prog(id).days.forEach((d) => assert.ok(inBand(d.est, [lo, hi]), `${id} d${d.day}: ${d.est} min, band ${lo}–${hi}`));
     return (lo + hi) / 2;
   });
   assert.ok(mids.filter((m) => m >= 31 && m <= 40).length >= 14, 'most programs about 31–40');
@@ -136,7 +137,8 @@ test('each sex block draws its exercises at equal odds, basics about 1.5x', () =
     assert.ok(basics.length && rest.length, `${id}: basics ${basics.length}, others ${rest.length}`);
     const mean = (xs) => xs.reduce((s, ex) => s + counts[ex], 0) / xs.length;
     const ratio = mean(basics) / mean(rest);
-    assert.ok(ratio >= 1.2 && ratio <= 2, `${id}: basics are ${ratio.toFixed(2)}x the others`);
+    // 1.15, was 1.2 (Phase 36 ticket 3): after anal, the basics (all pussy) wait for a shower set
+    assert.ok(ratio >= 1.15 && ratio <= 2, `${id}: basics are ${ratio.toFixed(2)}x the others`);
     const med = median(rest.map((ex) => counts[ex]));
     rest.forEach((ex) => assert.ok(counts[ex] <= 3 * med, `${id}: ${ex} appears ${counts[ex]}, median ${med}`));
   });

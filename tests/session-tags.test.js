@@ -11,13 +11,13 @@ const DRESS = ['clothed', 'undress', 'naked', null];
 const FLAGS = ['warm', 'oral', 'anal', 'pussy', 'herMouth', 'finish'];
 const PROPS = /^(him:)?(blindfold|cuffs|gag|ice|wax)$/;
 
-test('every couple exercise has a place, a dress and its flags', () => {
+test('every couple exercise has a place (none for a partner gym exercise), a dress and its flags', () => {
   const ids = coupleIds();
   assert.ok(ids.length >= 831, `${ids.length} couple exercises`);
   assert.deepEqual(Object.keys(TAGS).sort(), [...ids].sort());
   for (const id of ids) {
     const t = TAGS[id];
-    assert.ok(['home', 'shower', 'water'].includes(t.place), `${id} place ${t.place}`);
+    assert.ok(['home', 'shower', 'water', null].includes(t.place), `${id} place ${t.place}`);
     assert.ok(DRESS.includes(t.dress), `${id} dress ${t.dress}`);
     for (const f of FLAGS) assert.equal(typeof t[f], 'boolean', `${id} ${f}`);
     t.props.forEach((p) => assert.match(p, PROPS, `${id} prop ${p}`));
@@ -29,9 +29,9 @@ test('only couple exercises are tagged, and tagsOf reads one by id', () => {
   assert.deepEqual(tagsOf('pos_missionary', EX.pos_missionary), TAGS.pos_missionary);
 });
 
-test('the place follows the sub, and the shower and tub the cue names', () => {
+test('the place follows the sub, and the shower and tub the cue names; a partner gym exercise has none', () => {
   for (const id of coupleIds()) {
-    const want = { shower: 'shower', pool: 'water', hottub: 'water' }[EX[id].sub] || (['fuck_shower_kneel', 'fuck_tub'].includes(id) ? 'shower' : 'home');
+    const want = EX[id].sub === 'partner' ? null : { shower: 'shower', pool: 'water', hottub: 'water' }[EX[id].sub] || (['fuck_shower_kneel', 'fuck_tub'].includes(id) ? 'shower' : 'home');
     assert.equal(TAGS[id].place, want, id);
   }
 });
@@ -42,7 +42,7 @@ test('every kink exercise carries its prop, and nothing else does', () => {
 
 // Hand-checked against the cues (every kind, both directions of rimming and of kink).
 const TABLE = {
-  partner_squat: { place: 'home', dress: null, warm: false, pussy: false, herMouth: false, anal: false },
+  partner_squat: { place: null, dress: null, warm: false, pussy: false, herMouth: false, anal: false },
   slow_dance: { dress: null, warm: true },
   strip_round: { dress: 'clothed', warm: true },
   dare_lap_dance: { dress: 'clothed', pussy: true },

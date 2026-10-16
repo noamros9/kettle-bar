@@ -406,12 +406,17 @@
         sexPositions: [...new Set([...cp.explicit, ...POOLS.positions, ...new13()])],
         sexWarm: [...new Set([...POOLS.oralSex, ...POOLS.hands, ...POOLS.oral, ...POOLS.tease, ...POOLS.massage, ...new13(['oral', 'hands', 'kink', 'rim', 'massage', 'tease'])])],
         sexFuck: [...new Set([...POOLS.fuck, ...POOLS.anal, ...POOLS.toy, ...POOLS.positions, ...new13(['fuck', 'anal', 'toys', 'rough', 'body', 'edging', 'shower', 'pool', 'hottub', 'balcony', 'doorframe'])])],
+        // Phase 36 ticket 3: Strip and tease sets after their one tease (363); a pool or hot-tub warm-up in the water (364)
+        sexTeaseNaked: new13(['massage', 'hands', 'oral', 'body']),
+        sexPoolWarm: new13(['pool']).filter((id) => WATER_WARM.test(id)),
+        sexHottubWarm: new13(['hottub']).filter((id) => WATER_WARM.test(id)),
       };
       // the home pools (Phase 20 ticket 8b, decision 219): the same without the places, which keep their own subjects
       const home = (list) => list.filter((id) => !PLACE_SUBS.includes(EX[id].sub));
       return { ...m, sexPositionsHome: home(m.sexPositions), sexFuckHome: home(m.sexFuck) };
     };
     const PLACE_SUBS = ['shower', 'pool', 'hottub', 'balcony', 'doorframe'];
+    const WATER_WARM = /suck|mouth|bikini|jet|touch|rub|hand|bubbles/; // touching and oral in the water, no fucking
     const COMPUTED = new Map();
     const computed = (upTo) => COMPUTED.get(upTo) || COMPUTED.set(upTo, computedPools(upTo)).get(upTo);
     Object.assign(POOLS, computed(0)); // the pools as existing programs see them
@@ -583,12 +588,16 @@
     // Slot by slot, the draw keeps to what the session allows so far: clothed before naked and never back; after anal,
     // her pussy and mouth wait for a shower set; a removed prop never returns; a finish only in a block's last slot; one
     // place per block (its first exercise sets it), moving only home - shower - water, and only to a place every later
-    // block's pools can still follow. Gym exercises have no tags and are never held back.
+    // block's pools can still follow. Gym exercises (and partner ones, which have no place) are never held back by place.
     const NEXT = { home: ['home', 'shower'], shower: ['home', 'shower', 'water'], water: ['water', 'shower'] };
+    const ANAL_END = 4; // with no shower to come, anal starts only in the last four slots of the session (298: kept to the end)
     function sessionOrder(specs, pool) {
       const T = tags();
       const holds = specs.map((sp) => (sp.kind === 'abs' ? null : sp.slots.reduce((at, slot) => {
-        const here = new Set(pool(slot.replace('?', '')).filter((id) => T[id]).map((id) => T[id].place));
+        const n = {}; // a place holds the block only if each of its pools has a different exercise there for every slot
+        pool(slot.replace('?', '')).forEach((id) => { if (T[id] && T[id].place) n[T[id].place] = (n[T[id].place] || 0) + 1; });
+        const roomy = Object.keys(n).filter((p) => n[p] >= sp.slots.length);
+        const here = new Set(roomy.length ? roomy : Object.keys(n));
         return !here.size ? at : at ? new Set([...at].filter((p) => here.has(p))) : here;
       }, null)));
       const reach = [];
@@ -601,24 +610,40 @@
       // anal only where her pussy and mouth can wait: in the last couple block, or with a later block that can be the shower
       const washLater = reach.map((_, b) => reach.some((r, c) => c > b && r && r.has('shower')));
       const lastCouple = reach.length - 1;
-      const placeOf = [], off = new Set();
+      const placeOf = [], off = new Set(), seen = new Set();
       let prev = null, naked = false, dirty = false, on = [];
       return {
-        fits: (bi, last) => (id) => {
-          const t = T[id];
-          if (!t) return true;
-          const at = placeOf[bi];
-          if (at ? t.place !== at : !reach[bi].has(t.place) || (prev && !NEXT[prev].includes(t.place))) return false;
-          if (!at && dirty && reach[bi].has('shower') && t.place !== 'shower') return false; // the wash comes now
-          if (t.anal && bi < lastCouple && !washLater[bi]) return false;
-          if (naked && (t.dress === 'clothed' || t.dress === 'undress')) return false;
-          if (dirty && !(!at && t.place === 'shower') && (t.pussy || t.herMouth)) return false;
-          return !t.props.some((p) => off.has(p)) && (last || !t.finish);
+        fits: (bi, left, ids) => {
+          const last = left === 1, safe = (x) => T[x] && T[x].dress === 'naked' && !T[x].pussy && !T[x].herMouth;
+          const room = ids.filter((x) => !seen.has(x) && safe(x)).length; // the sex that can follow anal in this block
+          return (id) => {
+            const t = T[id];
+            if (!t) return true;
+            const at = placeOf[bi];
+            if (t.place && (at ? t.place !== at : !(reach[bi] && reach[bi].has(t.place)) || (prev && !NEXT[prev].includes(t.place)))) return false;
+            if (t.place && !at && dirty && reach[bi] && reach[bi].has('shower') && t.place !== 'shower') return false; // the wash comes now
+            if (t.anal && bi < lastCouple && !washLater[bi]) return false;
+            // in the last stretch, anal starts only if the rest of the block can stay off her pussy and mouth
+            if (t.anal && !dirty && !washLater[bi] && (left > ANAL_END || room - (safe(id) ? 1 : 0) < left - 1)) return false;
+            if (naked && (t.dress === 'clothed' || t.dress === 'undress')) return false;
+            if (dirty && !(!at && t.place === 'shower') && (t.pussy || t.herMouth)) return false;
+            return !t.props.some((p) => off.has(p)) && (last || !t.finish);
+          };
+        },
+        // in a pool where everything is worn (kink), keep the props that are on rather than take one off for good
+        // after anal, sex goes on (no kiss squats in between), and more anal before anything else that is left
+        prefer: (all) => {
+          const sex = dirty && all.filter((id) => T[id] && T[id].dress === 'naked');
+          const ass = sex && sex.filter((id) => T[id].anal);
+          const list = ass && ass.length ? ass : sex && sex.length ? sex : all;
+          const worn = (id) => T[id] && T[id].props.length, keeps = (id) => on.every((p) => T[id].props.includes(p));
+          return on.length && list.every(worn) && list.some(keeps) ? list.filter(keeps) : list;
         },
         took: (bi, id) => {
+          seen.add(id);
           const t = T[id];
           if (!t) return;
-          if (!placeOf[bi]) { placeOf[bi] = prev = t.place; if (t.place === 'shower') dirty = false; }
+          if (t.place && !placeOf[bi]) { placeOf[bi] = prev = t.place; if (t.place === 'shower') dirty = false; }
           if (t.dress === 'undress' || t.dress === 'naked') naked = true;
           if (t.anal) dirty = true;
           on.forEach((p) => { if (!t.props.includes(p)) off.add(p); });
@@ -643,11 +668,11 @@
         if (!list.length) throw new Error(`${recipe.program}: pool ${name} is empty`);
         return list;
       };
-      const candidate = (name, taken, fits) => {
-        const all = fits ? pool(name).filter(fits) : pool(name);
-        const base = all.length ? all : pool(name); // nothing keeps the order: the draw as before (session-order.test counts these)
-        const opts = base.filter((id) => !taken.has(id));
-        const list = opts.length ? opts : base;
+      const candidate = (name, taken, fits, prefer) => {
+        const all = pool(name), fresh = all.filter((id) => !taken.has(id));
+        // in order: what keeps the session's order and is new today, then new today (a repeat is worse), then the rest
+        const found = [fits && fresh.filter(fits), fresh, fits && all.filter(fits), all].find((l) => l && l.length);
+        const list = prefer ? prefer(found) : found;
         if (merged[name]) {
           const w = (id) => (EX[id].basic ? 5 : 3);
           list.sort((a, b) => ((count[a] || 0) * w(b) - (count[b] || 0) * w(a)) || ((used[a] || -99) - (used[b] || -99)) || (rnd() - 0.5));
@@ -666,7 +691,7 @@
         const autoOpt = sp.kind !== 'abs' && Formats.FORMATS[sp.f].optionalSlots && si >= Math.max(3, sp.slots.length - (sp.slots.length >= 5 ? 2 : 1));
         const opt = slot.endsWith('?') || autoOpt, name = slot.replace('?', '');
         const poolName = name === 'absW' && !cp.absW.some(allow) ? 'abs' : name;
-        const id = candidate(poolName, taken, order && order.fits(bi, si === sp.slots.length - 1));
+        const id = candidate(poolName, taken, order && order.fits(bi, sp.slots.length - si, pool(poolName)), order && order.prefer);
         if (order) order.took(bi, id);
         return { opt, id };
       }));

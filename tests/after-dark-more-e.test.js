@@ -2,6 +2,7 @@
 // Phase 20 ticket 20: Quickie, Back & knees care, Date night warm-up +7 each (3 gym then sex, 2 sex then sex,
 // 2 positions only). Catalogue 13, home pools. Each sex block draws one of sexPositionsHome, sexFuckHome, sexWarm.
 const test = require('node:test');
+const { inBand } = require('./helpers/band.js');
 const assert = require('node:assert/strict');
 const { EX } = require('../exercises.js');
 const { CONFIGS, POOLS, poolsAt } = require('../program-builder.js');
@@ -81,7 +82,7 @@ test('every day is its shape, gym then positions, sex then fuck, and minutes sta
         assert.ok(ids.every((ex) => !PLACES.has(EX[ex].sub)), `${where}: place ${ids.find((ex) => PLACES.has(EX[ex].sub))}`);
       });
 
-      assert.ok(d.est >= BANDS[SUBJECT[id]][0] && d.est <= BANDS[SUBJECT[id]][1], `${where}: ${d.est} min`);
+      assert.ok(inBand(d.est, BANDS[SUBJECT[id]]), `${where}: ${d.est} min`);
       if (SHAPE[id] === 'gym') {
         assert.equal(m.length, 2, where);
         assert.equal(m[1].title, 'Positions', where);
