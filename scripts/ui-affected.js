@@ -42,7 +42,7 @@ const MAP = [
   [/^app\/pages\/build\.js$/, ['build', 'share']],
   [/^app\/pages\/program\.js$/, ['rounds', 'shortcut', 'variety', 'pause', 'weekdays', 'compare']],
   [/^app\/pages\/day\.js$/, ['workout', 'flow', 'bouts', 'bigtimer', 'swap', 'travel', 'short', 'warmup', 'finish', 'resume', 'skip', 'weekdays', 'note']],
-  [/^app\/pages\/exercises\.js$/, ['exercise', 'exercises', 'muscles']],
+  [/^app\/pages\/exercises\.js$/, ['exercise', 'exercises', 'muscles', 'third-names']],
   [/^app\/pages\/settings\.js$/, ['settings', 'sync-status']],
   [/^app\/pages\/stats\.js$/, ['stats', 'again', 'note']],
   [/^app\/(progress|store)\.js$/, ['again']], // Phase 30: done again
