@@ -114,7 +114,7 @@ minutes, pools) for Claude to review before Grok builds.
 | 14 | Explicit, sex only (+23) | content | 8b | `content/explicit-sex-a` | done (PR #450) |
 | 15 | Explicit, sex only (+22) | content | 8b | `content/explicit-sex-b` | done (PR #452) |
 | 16 | Beach body, Bedroom stamina +10 each (+20) | content | 9 | `content/after-dark-more-a` | done (PR #454) |
-| 17 | Sex positions +10, Couples +15 (+25) | content | 9, 10 | `content/after-dark-more-b` | todo |
+| 17 | Sex positions +10, Couples +15 (+25) | content | 9, 10 | `content/after-dark-more-b` | done (PR #458) |
 | 18 | Endurance & control, Hip power & thrust, Carry & hold +7 each (+21) | content | 10, 11 | `content/after-dark-more-c` | todo |
 | 19 | Flexible & bendy, Strip & show-off, Her pleasure +7 each (+21) | content | 11, 12 | `content/after-dark-more-d` | todo |
 | 20 | Quickie, Back & knees care, Date night warm-up +7 each (+21) | content | 12, 13 | `content/after-dark-more-e` | todo |
