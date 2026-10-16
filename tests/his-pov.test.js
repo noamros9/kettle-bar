@@ -20,6 +20,8 @@ const HER_SIDE = [
   'to be fucked', 'get bent over', 'open you up', 'arch you', 'pin you', 'hold you up',
   'in a bikini', 'your bikini',
 ];
+// Mali is her (decision 350): a phrasing written with "her" also catches it with Mali
+const asHer = (t) => t.toLowerCase().replace(/\bmali's\b/g, 'her').replace(/\bmali\b/g, 'her');
 // id -> phrases that are genuine false positives in that program's wording
 const ALLOW = {};
 
@@ -30,7 +32,7 @@ test('no couple or After dark program addresses her as you', () => {
   couple.forEach((c) => {
     assert.equal(typeof c.blurb, 'string', c.id);
     assert.equal(typeof c.about, 'string', c.id);
-    const text = `${c.blurb}\n${c.about}`.toLowerCase();
+    const text = asHer(`${c.blurb}\n${c.about}`);
     const allow = ALLOW[c.id] || [];
     HER_SIDE.forEach((p) => {
       if (allow.includes(p)) return;
@@ -92,7 +94,7 @@ const RIM_OK = new Set(['his asshole', 'his hole', 'your asshole', 'your hole'])
 function inHimHits(e) {
   if (e.cat !== 'couple') return [];
   const text = `${e.name}\n${e.cue}`.toLowerCase();
-  const rimTongue = e.sub === 'rim' && /\b(her|mali's) tongue/.test(String(e.cue).toLowerCase());
+  const rimTongue = e.sub === 'rim' && asHer(String(e.cue)).includes('her tongue');
   const hits = [];
   IN_HIM.forEach((p) => {
     if (rimTongue && RIM_OK.has(p)) return;
@@ -120,4 +122,8 @@ test('her tongue on your asshole passes only as rimming', () => {
   assert.deepEqual(phrases({ cat: 'couple', sub: 'rim', name: 'Rim', cue: 'Her tongue in your ass.' }), ['in your ass']);
   assert.deepEqual(phrases({ cat: 'couple', sub: 'rim', name: 'Peg', cue: 'Her tongue on your asshole and peg you.' }), ['peg']);
   assert.deepEqual(phrases({ cat: 'other', sub: 'rim', name: 'x', cue: 'Finger your ass.' }), []);
+});
+
+test('Mali reads as her in the program check', () => {
+  assert.equal(asHer("Mali's tongue on you, then Mali rides"), 'her tongue on you, then her rides');
 });

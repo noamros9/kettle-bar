@@ -40,3 +40,13 @@ test('day names keep her: no day type of any program names Mali (decision 350, s
   const hits = CONFIGS.flatMap((c) => Object.entries(c.dayTypes || {}).filter(([, d]) => /Mali/.test(`${d.label} ${d.short}`)).map(([k]) => `${c.id}.${k}`));
   assert.deepEqual(hits, []);
 });
+
+// Ticket 1b (decision 350): every couple program's blurb and about names Mali once, before any she/her.
+test('every couple blurb and about names Mali exactly once, before any she/her', () => {
+  const CONFIGS = require('../programs.config.js');
+  const bad = CONFIGS.filter((c) => c.couple).flatMap((c) => ['blurb', 'about'].filter((f) => {
+    const t = c[f], first = t.search(/\bMali\b/);
+    return (t.match(/\bMali\b/g) || []).length !== 1 || SHE.test(t.slice(0, first));
+  }).map((f) => `${c.id}.${f}`));
+  assert.deepEqual(bad, []);
+});
