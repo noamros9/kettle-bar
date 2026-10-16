@@ -86,6 +86,7 @@ Grilled 8 Oct 2026 with Noam (global decision numbers).
 ### 4. Close the phase
 - CONTEXT.md: **Short circuit** (a hidden day type), the rest-day flow's 10 and 15; decisions to
   `docs/roadmap-archive.md`; #110 closed by ticket 3's PR.
+- CLAUDE.md: the Phases 20/34 exception shrinks to "Phase 20 takes both slots, no three-ticket stop, to its end".
 
 ## Challenge round
 - **Weakest assumption: that 3–4 moves fill 15 minutes for every subject.** A grip or neck subject's pools are small

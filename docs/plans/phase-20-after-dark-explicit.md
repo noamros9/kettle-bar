@@ -255,6 +255,7 @@ at `catalogue: 13`, with the home pools (219).
 - As tickets 14–15. Ticket 22: 2 gym then sex, 8 sex then sex, 7 positions only; ticket 23: 2, 7, 7 (222).
 - **Test first** (each): as tickets 14–15; Explicit holds 82 after 22 and 98 after 23.
 - **Done when:** as ticket 8.
+- Ticket 23 also deletes the Phase 20 exception from CLAUDE.md, so only the standing rules are left (Noam, 16 Oct 2026).
 
 ## Challenge round
 - **Weakest assumption:** that 88 exercises fit in 135 KB. Verified only by scale: the 43 couple exercises gzip to
