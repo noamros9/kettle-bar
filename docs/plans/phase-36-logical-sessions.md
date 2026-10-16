@@ -36,7 +36,7 @@ to write, and Grok is away the week of 9 Oct, 295).
 | # | Ticket | Tier | Blocked by | Branch | Status |
 |---|---|---|---|---|---|
 | 0 | This plan, the guidelines, the order | docs | – | `plan/logical-sessions` | done (this PR) |
-| 1 | Session tags on every couple exercise | feature | 0 | `feature/session-tags` | todo |
+| 1 | Session tags on every couple exercise | feature | 0 | `feature/session-tags` | done (PR #474) |
 | 2 | The order step in the builder, behind a rules version | feature | 1 | `feature/session-order` | todo |
 | 3 | Every couple program redone at once: started ones keep their days, new starts get the rules; block order and abouts checked | feature | 2 | `feature/logical-couple-programs` | todo |
 | 4 | The guidelines wired in: the grok-handoff skill, Phase 20's and 35's prompts | docs | 3 | `docs/explicit-guidelines` | todo |
@@ -46,6 +46,12 @@ Facts per couple exercise, in one module (e.g. `session-tags.js`), derived from 
 short override list for what the words don't say: `clothed` (teasing in clothes), `warm` (massage, slow tease),
 `oral`, `anal` (his cock, a toy or his tongue in her ass), `finish` (cumming on her, an edging end), `prop` (blindfold,
 cuffs, ties, gag, ice, wax), `place` (home, shower, water). No exercise file changes.
+- **As built (16 Oct 2026):** `session-tags.js` also gives `dress` in place of `clothed`: `clothed` (stays dressed),
+  `undress` (starts dressed, ends naked: almost every catalogue-13 tease item ends inside her), `naked`, or none (gym
+  sets, kisses); after `undress` or `naked`, only `naked` or none. Rule 298 needs `pussy` and `herMouth` (her mouth on
+  his cock, balls or ass); a finger in her ass counts as anal, her tongue on his asshole doesn't (298's wording).
+  `finish` is the nine `body_cum_*`; an edging run's end is ticket 2's (the edging sub). `props` are named, `him:` when
+  on him.
 - **Test first:** `tests/session-tags.test.js`: every couple exercise has a place and its flags; a hand-checked table
   of ~40 (every kind, both directions of rimming and kink) matches.
 - **Done when:** the tags of a random sample read right to Claude; every couple exercise is tagged.
