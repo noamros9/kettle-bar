@@ -5,7 +5,8 @@ top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase c
 (the next one is **363**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
 ## Resume here (16 Oct 2026)
-- **Phase 36 is building** (Noam, 16 Oct: before 27 and 19, one ticket at a time): ticket 1, the session tags (#474).
+- **Phase 36 is building** (Noam, 16 Oct: before 27 and 19, one ticket at a time): the session tags (#474) and the
+  order step (#475) are in; **ticket 3 waits for Noam's go**, planned with him first (cheapest way, Grok possibly).
 - **Phase 35 is paused after ticket 1d** (16 Oct; #469–#473): Mali in every couple cue and program text, the third
   person's names (358), the third figure, the FMF/MMF tag and the filing rules; every couple cue and name says "you"
   for him (359). **Stopped there (Noam, 16 Oct): wait for

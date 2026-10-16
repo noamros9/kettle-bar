@@ -7,7 +7,7 @@
    Owns the time model, rest values, exercise pools, progression levers, stretch picking and fitting.
    Node only: CONFIGS (programs.config.js), buildConfig / buildAll, and frozen programs (Three-Split 60),
    whose already-generated days are read from disk so saved progress stays valid (ADR 1). */
-(function (root, Formats, L) {
+(function (root, Formats, L, Tags) {
   const REST = { set: 30, exercise: 60, beforeAbs: 120, superset: 45, round: 60, block: 60 };
   const ABS_SLOTS = ['absW', 'abs', 'abs?'];
 
@@ -32,6 +32,7 @@
         rests: cfg.rests ? { ...REST, ...cfg.rests } : REST, catalogue: cfg.catalogue || 0,
         levers: type.levers || cfg.levers,
         absSlots: type.absSlots || cfg.absSlots || ABS_SLOTS, // every day ends with abs, unless absSlots: []
+        ...(cfg.sessionRules ? { sessionRules: cfg.sessionRules } : {}), // Phase 36: a couple day dealt in order (sessionOrder)
       };
     });
     return out;
@@ -578,6 +579,56 @@
     // recipe's for the level), rnd (makeRnd), memory (newMemory(), shared by the days of a run). Fills the memory.
     // plan(): the day's exercises at this level (candidates per slot) and each block's choices (its value, and which
     // optional slots it keeps); buildDay walks the choices to land in the time range, blockTimes() lists what each costs.
+    // ---------- the order of a couple session (Phase 36: 296–304, behind sessionRules: 1) ----------
+    // Slot by slot, the draw keeps to what the session allows so far: clothed before naked and never back; after anal,
+    // her pussy and mouth wait for a shower set; a removed prop never returns; a finish only in a block's last slot; one
+    // place per block (its first exercise sets it), moving only home - shower - water, and only to a place every later
+    // block's pools can still follow. Gym exercises have no tags and are never held back.
+    const NEXT = { home: ['home', 'shower'], shower: ['home', 'shower', 'water'], water: ['water', 'shower'] };
+    function sessionOrder(specs, pool) {
+      const T = tags();
+      const holds = specs.map((sp) => (sp.kind === 'abs' ? null : sp.slots.reduce((at, slot) => {
+        const here = new Set(pool(slot.replace('?', '')).filter((id) => T[id]).map((id) => T[id].place));
+        return !here.size ? at : at ? new Set([...at].filter((p) => here.has(p))) : here;
+      }, null)));
+      const reach = [];
+      for (let b = specs.length - 1, after = null; b >= 0; b--) {
+        if (!holds[b]) continue;
+        const ok = [...holds[b]].filter((p) => !after || NEXT[p].some((q) => after.has(q)));
+        reach[b] = new Set(ok.length ? ok : holds[b]);
+        after = reach[b];
+      }
+      // anal only where her pussy and mouth can wait: in the last couple block, or with a later block that can be the shower
+      const washLater = reach.map((_, b) => reach.some((r, c) => c > b && r && r.has('shower')));
+      const lastCouple = reach.length - 1;
+      const placeOf = [], off = new Set();
+      let prev = null, naked = false, dirty = false, on = [];
+      return {
+        fits: (bi, last) => (id) => {
+          const t = T[id];
+          if (!t) return true;
+          const at = placeOf[bi];
+          if (at ? t.place !== at : !reach[bi].has(t.place) || (prev && !NEXT[prev].includes(t.place))) return false;
+          if (!at && dirty && reach[bi].has('shower') && t.place !== 'shower') return false; // the wash comes now
+          if (t.anal && bi < lastCouple && !washLater[bi]) return false;
+          if (naked && (t.dress === 'clothed' || t.dress === 'undress')) return false;
+          if (dirty && !(!at && t.place === 'shower') && (t.pussy || t.herMouth)) return false;
+          return !t.props.some((p) => off.has(p)) && (last || !t.finish);
+        },
+        took: (bi, id) => {
+          const t = T[id];
+          if (!t) return;
+          if (!placeOf[bi]) { placeOf[bi] = prev = t.place; if (t.place === 'shower') dirty = false; }
+          if (t.dress === 'undress' || t.dress === 'naked') naked = true;
+          if (t.anal) dirty = true;
+          on.forEach((p) => { if (!t.props.includes(p)) off.add(p); });
+          on = t.props;
+        },
+      };
+    }
+    let TAGS = null;
+    const tags = () => TAGS || (TAGS = Tags.tagAll(EX));
+
     function plan(recipe, { level, lever, rnd, memory }) {
       const cp = computed(recipe.catalogue);
       const allow = (id) => allowedIn(recipe.equip, EX[id]);
@@ -592,9 +643,11 @@
         if (!list.length) throw new Error(`${recipe.program}: pool ${name} is empty`);
         return list;
       };
-      const candidate = (name, taken) => {
-        const opts = pool(name).filter((id) => !taken.has(id));
-        const list = opts.length ? opts : pool(name);
+      const candidate = (name, taken, fits) => {
+        const all = fits ? pool(name).filter(fits) : pool(name);
+        const base = all.length ? all : pool(name); // nothing keeps the order: the draw as before (session-order.test counts these)
+        const opts = base.filter((id) => !taken.has(id));
+        const list = opts.length ? opts : base;
         if (merged[name]) {
           const w = (id) => (EX[id].basic ? 5 : 3);
           list.sort((a, b) => ((count[a] || 0) * w(b) - (count[b] || 0) * w(a)) || ((used[a] || -99) - (used[b] || -99)) || (rnd() - 0.5));
@@ -607,12 +660,15 @@
 
       // candidates for each block; optional slots end with '?'
       const specs = recipe.blocks.concat(recipe.absSlots.length ? [{ f: 'straight', kind: 'abs', title: 'Abs', slots: recipe.absSlots }] : []);
-      const cands = specs.map((sp) => sp.slots.map((slot, si) => {
+      const order = recipe.sessionRules ? sessionOrder(specs, pool) : null;
+      const cands = specs.map((sp, bi) => sp.slots.map((slot, si) => {
         // long main blocks may drop their last one or two exercises to fit the time
         const autoOpt = sp.kind !== 'abs' && Formats.FORMATS[sp.f].optionalSlots && si >= Math.max(3, sp.slots.length - (sp.slots.length >= 5 ? 2 : 1));
         const opt = slot.endsWith('?') || autoOpt, name = slot.replace('?', '');
         const poolName = name === 'absW' && !cp.absW.some(allow) ? 'abs' : name;
-        return { opt, id: candidate(poolName, taken) };
+        const id = candidate(poolName, taken, order && order.fits(bi, si === sp.slots.length - 1));
+        if (order) order.took(bi, id);
+        return { opt, id };
       }));
       // apply the level (and its lever) once per exercise, before searching
       cands.forEach((list, bi) => list.forEach((c) => { c.item = makeItem(c.id, specs[bi].kind === 'abs' ? 'straight' : specs[bi].f, specs[bi]); }));
@@ -786,4 +842,5 @@
   module.exports = { ...api, buildConfig, buildAll, CONFIGS, POOLS: b.POOLS, poolsAt: b.poolsAt, mergedAt: b.mergedAt, REST: b.REST, timing: b.timing };
   /* node:coverage ignore next 2 */
 })(typeof window !== 'undefined' ? window : globalThis, typeof module !== 'undefined' && module.exports ? require('./formats.js') : window.KBFormats,
-  typeof module !== 'undefined' && module.exports ? require('./app/length.js') : window.KBLength);
+  typeof module !== 'undefined' && module.exports ? require('./app/length.js') : window.KBLength,
+  typeof module !== 'undefined' && module.exports ? require('./session-tags.js') : window.KBSessionTags);

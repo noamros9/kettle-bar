@@ -37,7 +37,7 @@ to write, and Grok is away the week of 9 Oct, 295).
 |---|---|---|---|---|---|
 | 0 | This plan, the guidelines, the order | docs | – | `plan/logical-sessions` | done (this PR) |
 | 1 | Session tags on every couple exercise | feature | 0 | `feature/session-tags` | done (PR #474) |
-| 2 | The order step in the builder, behind a rules version | feature | 1 | `feature/session-order` | todo |
+| 2 | The order step in the builder, behind a rules version | feature | 1 | `feature/session-order` | done (PR #475) |
 | 3 | Every couple program redone at once: started ones keep their days, new starts get the rules; block order and abouts checked | feature | 2 | `feature/logical-couple-programs` | todo |
 | 4 | The guidelines wired in: the grok-handoff skill, Phase 20's and 35's prompts | docs | 3 | `docs/explicit-guidelines` | todo |
 
@@ -64,8 +64,16 @@ version (`sessionRules: 1`); version 0 builds exactly as today.
 - **Test first:** `tests/session-order.test.js`: every couple program built at version 1 has no violation of 296–304
   on any day; at version 0 every existing pin holds.
 - **Done when:** five sampled days per subject read right; `couple-odds` still passes (equal odds over the program).
+- **As built (16 Oct 2026):** `sessionOrder` in `plan()` filters each slot's draw; when nothing fits, the slot draws as
+  before. Places are picked with lookahead (a block takes only a place every later block's pools can follow). Anal
+  only in the last couple block, or with a later block that can be the shower, which then is. At version 1, 506 of
+  534 couple programs keep every rule; the other 28 need their recipes changed, which is ticket 3's: Strip and tease
+  (12, every set a tease that starts dressed) and Pool and Hot tub (8 each, a warm-up set only home holds, then the
+  water). `lengthen()` doesn't know the rules (no couple program is lengthened). `couple-odds` passes at version 0;
+  odds at version 1 are ticket 3's, when programs move.
 
 ### 3. Every couple program, in one ticket (Noam, 9 Oct 2026)
+**Not started without Noam's explicit go (16 Oct 2026):** planned with him first, as cheap as it can be, Grok possibly.
 All couple programs (Explicit, Phase 22's 144, the older After dark) move to version 1 for new starts in one PR.
 - First, how a started library program is held (progress, pins, the days the app shows): the version a program
   started with stays with it, compatibly with stored progress and old backups; a new start takes version 1.

@@ -2,7 +2,10 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const { EX } = require('../exercises.js');
-const { TAGS, tagsOf, coupleIds } = require('../session-tags.js');
+const { tagAll, tagsOf } = require('../session-tags.js');
+
+const TAGS = tagAll(EX);
+const coupleIds = () => Object.keys(EX).filter((id) => EX[id].cat === 'couple');
 
 const DRESS = ['clothed', 'undress', 'naked', null];
 const FLAGS = ['warm', 'oral', 'anal', 'pussy', 'herMouth', 'finish'];
@@ -23,7 +26,7 @@ test('every couple exercise has a place, a dress and its flags', () => {
 
 test('only couple exercises are tagged, and tagsOf reads one by id', () => {
   assert.ok(!('goblet_squat' in TAGS) && EX.goblet_squat);
-  assert.deepEqual(tagsOf('pos_missionary'), TAGS.pos_missionary);
+  assert.deepEqual(tagsOf('pos_missionary', EX.pos_missionary), TAGS.pos_missionary);
 });
 
 test('the place follows the sub, and the shower and tub the cue names', () => {
