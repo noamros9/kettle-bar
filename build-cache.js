@@ -19,7 +19,7 @@ const path = require('path');
 const crypto = require('crypto');
 
 const ROOT = __dirname;
-const CODE = ['program-builder.js', 'formats.js', 'app/length.js', 'build-cache.js'];
+const CODE = ['program-builder.js', 'formats.js', 'app/length.js', 'session-tags.js', 'build-cache.js'];
 const RECIPE_CODE = [...CODE, 'recipes.js', 'recipe-book.js', 'app/library.js'];
 
 const sha = (...parts) => {
