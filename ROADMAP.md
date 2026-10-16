@@ -7,8 +7,15 @@ top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase c
 ## Resume here (16 Oct 2026)
 - **Phase 36 is done** (16 Oct; #474–#477, archived): every couple session is dealt in order, one place per set,
   checked over every couple program (`tests/session-order.test.js`). The order wins over equal odds (366).
-- **Phase 35 resumed ahead of 27 and 19** (Noam, 16 Oct): tickets 2a–2c now, then a stop for his go. Foursomes
-  were added to it (367–379, tickets 8a–8m after 6x); 35 is catalogue 16, foursomes 17, Phase 27 moves to 18 (367).
+- **First thing (Noam, 17 Oct morning): the Pool program "Set, then wall", day 16 ("Stomach Cold and Pussy Hot").**
+  Against the guidelines: ice returns (blindfold and ice on her, then ice on him: `session-tags.js` tags `him:ice`
+  apart from `ice`, so rule 6 misses it, likely in other couple programs too); the day has no warm-up though the
+  about promises a tease and a massage; a pool name on a home day. A fix moves built days and trips pins: his call.
+- **Phase 35: 2a–2c done** (16 Oct; #479–#481), 144 threesome exercises at catalogue 16, each third figure placed by
+  hand and approved by Noam (`scripts/emit-trio.js`, Grok text only, 368). **Stopped: wait for his go** before 2d.
+  Foursomes are in the plan (367–379, tickets 8a–8m after 6x); 35 is catalogue 16, foursomes 17, Phase 27 18.
+- **The laptop never hits the CI build cache:** its checkout has CRLF endings, CI LF, so the code hash differs and
+  `cache:pull` reads nothing; a local cold build (~10 min) warms it for that tree.
 - **Phase 20 is done** (16 Oct, archived): 1,395 programs, Explicit 98.
 - **Phases 26 and 34 are done** (#436–#445; #451, #453, #457, #459; archived).
 - **A Grok content ticket** (text only, 339) runs as Phase 20's did: see its steps in the archive.
@@ -24,7 +31,7 @@ right after Phase 22 (216). **223 ·** 8 Oct: quick fixes after 22; Export, day 
 |---|---|---|---|---|
 | 1 | 27 · Calisthenics: twelve skills, 25 programs | [#199](https://github.com/noamros9/kettle-bar/issues/199) | [plan](docs/plans/phase-27-calisthenics.md) | planned |
 | 2 | 19 · Super programs: 120 days from several programs | [#186](https://github.com/noamros9/kettle-bar/issues/186) | [plan](docs/plans/phase-19-super-programs.md) | planned |
-| 3 | 35 · Catalogue 16: threesomes (their own kind and in every act), every act at every place; 17: foursomes | – | [plan](docs/plans/phase-35-threesomes-and-places.md) | building (2a–2c) |
+| 3 | 35 · Catalogue 16: threesomes (their own kind and in every act), every act at every place; 17: foursomes | – | [plan](docs/plans/phase-35-threesomes-and-places.md) | paused after 2c |
 | 4 | 28 · Explicit drawings and loops | [#249](https://github.com/noamros9/kettle-bar/issues/249) | [plan](docs/plans/phase-28-explicit-drawings.md) | planned |
 | 5 | 29 · Stories from the couple workouts, in Drive | [#225](https://github.com/noamros9/kettle-bar/issues/225) | [plan](docs/plans/phase-29-stories.md) | planned, last |
 
