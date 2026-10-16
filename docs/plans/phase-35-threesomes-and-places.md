@@ -68,7 +68,7 @@ exercises (six at each of five places).
 |---|---|---|---|---|---|
 | 0 | This plan | plan | – | `plan/p35-tickets-small` | done (PR #358, #359) |
 | 1a | Mali in the exercises (349) | content | – | `content/p35-mali-exercises` | done (PR #469) |
-| 1b | Mali in couple blurbs and abouts (350) | content | 1a | `content/p35-mali-programs` | todo |
+| 1b | Mali in couple blurbs and abouts (350) | content | 1a | `content/p35-mali-programs` | done (PR #470) |
 | 1c | The third person's name, filled per workout (351, 353) | feature | – | `feature/p35-third-names` | todo |
 | 1 | Third figure, the FMF/MMF tag, and the filing rules (289, 290, 291) | feature | – | `feature/p35-figure-tags` | todo |
 | 2a | Threesome act: intercourse, 36 (284) | content | 1, 1c | `content/p35-act-intercourse` | todo |
@@ -136,7 +136,9 @@ exercises (six at each of five places).
 
 ### 1b. Mali in couple program text (Opus; 350)
 - **Build:** the same pass over couple programs' blurbs and abouts (Mali once each); day names untouched;
-  `tests/his-pov.test.js` reads Mali as her, so her-side phrasings with Mali are still caught.
+  `tests/his-pov.test.js` reads Mali as her, so her-side phrasings with Mali are still caught. The 33 texts that never
+  said her got Mali by hand ("you two" → "you and Mali"); a blurb is part of its program's cache key, so couple programs
+  build cold once.
 - **Files:** `configs/*.js` (blurb and about only), `tests/his-pov.test.js`, `tests/mali.test.js`.
 - **Test first:** every couple blurb and about names Mali once; no day name changed; no pin changed.
 - **Done when:** the tests pass; Claude reads a sample of 30 for flow.
