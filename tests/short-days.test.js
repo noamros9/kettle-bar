@@ -44,3 +44,15 @@ test('the three rest-day flows fit 10 and 15 with no gear, and end on a breathin
     assert.deepEqual(BOOK.specs[t.spec].b.at(-1).slice(0, 3), ['flow', 'Breathe', 'breath'], s);
   });
 });
+
+test('a hidden day type fits only its own targets, and is never a part of a mix', () => {
+  const { generate } = require('../recipe-book.js');
+  const circuit = SHORT.find((c) => c.subject === 'Back care');
+  // a real Back care program too: a subject's levers come from its library programs, never a hidden one
+  const own = PROGRAMS.find((c) => c.subject === 'Back care');
+  const made = generate({ configs: [own, circuit], families: [['Mind & body', ['Back care']]], catalogue: 15 });
+  const t = made.types.find((x) => x.id.startsWith('short-'));
+  assert.ok(t.fit.some((mask) => mask & bit(15)), 'fits 15');
+  assert.ok(t.fit.every((mask) => (mask & ~bit(15)) === 0), `only 15: ${t.fit.map((m) => m.toString(2))}`);
+  assert.ok(made.mix.parts.every(([, spec]) => spec !== t.spec), 'never a part');
+});
