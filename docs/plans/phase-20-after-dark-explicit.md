@@ -84,6 +84,8 @@ Grown 8 Oct 2026 (Noam):
 - **346 · Positions tour's 9 are 60 one-off days, 30 positions × 2 ways** (`tour60`), each day one session shape with its
   position first; 20 × 3 drew a position past 3× the median. Minutes 29–36, its 24–30 ×1.2. *(15 Oct)*
 - **347 · Morning glory / Sunday's 9 run 48–58 minutes**, as planned. *(15 Oct)*
+- **348 · Ticket 21's 7 Positions tours are new families** (Noam): Legs high, Bent over, On the floor, In your lap, At the
+  edge, Side by side, On her back; 30 positions × 2 ways each, his-side positions only, so most overlap older tours. *(16 Oct)*
 
 ## Who builds
 Noam handed Claude the hand-offs for this phase (5 Oct): **every ticket goes to Grok**, by the Grok-tickets rule in
@@ -118,7 +120,7 @@ minutes, pools) for Claude to review before Grok builds.
 | 18 | Endurance & control, Hip power & thrust, Carry & hold +7 each (+21) | content | 10, 11 | `content/after-dark-more-c` | done (PR #460) |
 | 19 | Flexible & bendy, Strip & show-off, Her pleasure +7 each (+21) | content | 11, 12 | `content/after-dark-more-d` | done (PR #462) |
 | 20 | Quickie, Back & knees care, Date night warm-up +7 each (+21) | content | 12, 13 | `content/after-dark-more-e` | done (PR #463) |
-| 21 | Positions tour, Morning glory / Sunday +7 each (+14) | content | 13 | `content/after-dark-more-f` | todo |
+| 21 | Positions tour, Morning glory / Sunday +7 each (+14) | content | 13 | `content/after-dark-more-f` | done (PR #464) |
 | 22 | Explicit, sex heavy (+17) | content | 15 | `content/explicit-more-a` | todo |
 | 23 | Explicit, sex heavy (+16) | content | 22 | `content/explicit-more-b` | todo |
 
