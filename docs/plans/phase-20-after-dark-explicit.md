@@ -80,6 +80,10 @@ Grown 8 Oct 2026 (Noam):
   subject's ×1.2 band. Shapes in even thirds (an odd one goes to gym then sex); Explicit sex-heavy like its 45.
 - **344 · Couple Quickies run 22–30 minutes** (16–22, like the solo ones, couldn't draw all 622 sex exercises in 60
   days); tickets 9–11 run 31–40. *(15 Oct)*
+- **345 · Date night warm-up's couple programs run 22–30 minutes**, as 344 (its own 15–20 ×1.2 is under 22). *(15 Oct)*
+- **346 · Positions tour's 9 are 60 one-off days, 30 positions × 2 ways** (`tour60`), each day one session shape with its
+  position first; 20 × 3 drew a position past 3× the median. Minutes 29–36, its 24–30 ×1.2. *(15 Oct)*
+- **347 · Morning glory / Sunday's 9 run 48–58 minutes**, as planned. *(15 Oct)*
 
 ## Who builds
 Noam handed Claude the hand-offs for this phase (5 Oct): **every ticket goes to Grok**, by the Grok-tickets rule in
@@ -106,7 +110,7 @@ minutes, pools) for Claude to review before Grok builds.
 | 10 | Couples, Endurance & control, Hip power & thrust (+27) | content | 8b | `content/explicit-more-b` | done (PR #446) |
 | 11 | Carry & hold, Flexible & bendy, Strip & show-off (+27) | content | 8b | `content/explicit-more-c` | done (PR #447) |
 | 12 | Her pleasure, Quickie, Back & knees care (+27) | content | 8b | `content/explicit-more-d` | done (PR #448) |
-| 13 | Date night warm-up, Positions tour, Morning glory / Sunday (+27) | content | 8b | `content/explicit-more-e` | todo |
+| 13 | Date night warm-up, Positions tour, Morning glory / Sunday (+27) | content | 8b | `content/explicit-more-e` | done (PR #449) |
 | 14 | Explicit, sex only (+23) | content | 8b | `content/explicit-sex-a` | todo |
 | 15 | Explicit, sex only (+22) | content | 8b | `content/explicit-sex-b` | todo |
 | 16 | Beach body, Bedroom stamina +10 each (+20) | content | 9 | `content/after-dark-more-a` | todo |

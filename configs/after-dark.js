@@ -76,6 +76,11 @@ const HOME_FUCK = poses('sexFuckHome', 5, 2);
 const HOME_FUCK_B = poses('sexFuckHome', 5, 2);
 const HOME_ONLY = poses('sexPositionsHome', 8, 6);
 const HOME_ONLY_B = poses('sexPositionsHome', 8, 6);
+// Morning glory's long sessions (Phase 20 ticket 13, 48–58 minutes, decision 347): longer fuck blocks, and holds from
+// sexFuckHome, so each exercise comes up about 2–3 times in 60 days and the basics' 5:3 weight shows (1.2–2x).
+const LONG_WARM = poses('sexWarm', 4, 2);
+const LONG_FUCK = poses('sexFuckHome', 9, 6);
+const LONG_ONLY = poses('sexFuckHome', 12, 10);
 
 // Positions tour (Phase 18 ticket 6): 30 one-off days. tour(...) pairs each position with each way to prepare for it
 // (positions × ways = 30 day types), dealt way by way so the same position never comes two days running; each day
@@ -106,6 +111,31 @@ function tour(id, name, blurb, about, positions, ways) {
   }));
   return { id, ...COUPLE, days: 30, name, subject: 'Positions tour', minutes: [24, 30], levers: [null, 'reps', 'holds'],
     split: `${name.replace(/^Positions Tour: |^The /, '')}: ${positions.length} positions × ${ways.length} ways, 30 days`, blurb, about, names: TOUR_NAMES, cycle, dayTypes };
+}
+// Phase 20 ticket 13: the catalogue-13 tours, 60 one-off days (positions × ways = 60). Each day is one of the three
+// session shapes with its position first in the sex block, the rest drawn from the home pools; dealt way by way, as tour().
+const TOUR_WAYS = {
+  circuit: ['circuit', (p) => gymThenSex('', '', C('Partner circuit', GYM_WORK, { ...LIFT, values: [3, 4, 5, 6] }), [p, ...HOME_GYM], { pref: 2 })],
+  strength: ['strength', (p) => gymThenSex('', '', S('Partner strength', GYM_STRONG, { ...LIFT, values: [2, 3, 4, 5] }), [p, ...HOME_GYM], { pref: 2 })],
+  carry: ['carries', (p) => gymThenSex('', '', C('Carries', GYM_LIFT, { ...LIFT, values: [3, 4, 5, 6] }), [p, ...HOME_GYM], { pref: 2 })],
+  kiss: ['kissing', (p) => gymThenSex('', '', C('Kiss circuit', GYM_KISS, { ...LIFT, values: [3, 4, 5, 6] }), [p, ...HOME_GYM], { pref: 2 })],
+  mouth: ['mouth', (p) => sexThenSex('', '', SEX_MOUTH, [p, ...HOME_FUCK], { pref: 2 }, { pref: 2 })],
+  hands: ['hands', (p) => sexThenSex('', '', SEX_HANDS, [p, ...HOME_FUCK], { pref: 2 }, { pref: 2 })],
+  tease: ['tease', (p) => sexThenSex('', '', SEX_TEASE, [p, ...HOME_FUCK], { pref: 2 }, { pref: 2 })],
+  hold: ['hold', (p) => positionsOnly('', '', [p, ...HOME_ONLY], { pref: 2 })],
+  deep: ['deep', (p) => positionsOnly('', '', [p, ...HOME_ONLY], { pref: 2 })],
+};
+function tour60(id, name, split, blurb, about, names, positions, ways) {
+  if (positions.length * ways.length !== 60) throw new Error(`${id}: ${positions.length} positions × ${ways.length} ways is not 60 days`);
+  const dayTypes = {}, cycle = [];
+  ways.forEach((w) => positions.forEach((pos) => {
+    const [way, day] = TOUR_WAYS[w], key = `${pos.replace(/^(pos|fuck)_/, '')}-${w}`;
+    dayTypes[key] = { ...day(pos), label: `${EX[pos].name} · ${way}`, short: EX[pos].name.split(/[ ,]/)[0] };
+    cycle.push(key);
+  }));
+  const gym = ['circuit', 'strength', 'carry', 'kiss'].includes(ways[0]);
+  return { id, ...C13, name, subject: 'Positions tour', minutes: [29, 36], levers: gym ? [null, 'reps', 'holds'] : [null, 'holds', 'holds'],
+    split, blurb, about, names, cycle, dayTypes };
 }
 
 module.exports = [
@@ -2333,6 +2363,250 @@ module.exports = [
     dayTypes: {
       deep: positionsOnly('Deeper each hold', 'Deep', HOME_ONLY, { pref: 2 }),
       deeper: positionsOnly('Deeper still', 'Deeper', HOME_ONLY_B, { pref: 2 }),
+    },
+  },
+  // ---- Phase 20 ticket 13: Date night warm-up (22–30 min, 345), Positions tour (60 one-off days, 346), Morning glory / Sunday (48–58 min, 347) (+27). Catalogue 13. Text by Grok (339). ----
+  {
+    id: 'date-circuit-night', ...C13, name: 'Circuit Before You Leave', subject: 'Date night warm-up', minutes: [22, 30], levers: [null, 'reps', 'holds'],
+    split: 'Circuit then slower strength work', blurb: 'You run the partner work in your going-out clothes, then fuck her hard before the dinner reservation.',
+    about: 'You fuck her before the dinner, still in the clothes you will wear to the table. One day you two blast a partner circuit in the hall; the other day you grind slow strength so your hips stay on hers. Then you fuck her pussy for twenty-five minutes, her clutch on the floor, and you zip up with your cock still wet from her. Level II adds reps to the partner work. Level III holds every position longer.',
+    names: ['Heels Clicking Through Squat', 'Necklace Swinging at Sternum', 'Dress Strap Sliding Off Shoulder', 'Palms Braced on Hipbones', 'Belt Loops Hooked by Fingers', 'Perfume Rising Off Throat', 'Earring Tapping Her Shoulder', 'Cuff Cold Against Wrist', 'Skirt Bunching Mid Thigh', 'Lapels Crushed in Fists', 'Ankle Strap Marking Skin', 'Collar Open Above Pulse', 'Clutch Dropped Beside Door', 'Stocking Edge Under Thumb', 'Pendant Fogged by Breath', 'Waist Seam in Hand', 'Knuckle Pressed to Mouth', 'Stiletto Beside Your Shoe', 'Lining Stuck to Knee', 'Button Strain at Ribcage'],
+    cycle: ['circuit', 'strength'],
+    dayTypes: {
+      circuit: gymThenSex('Circuit, then fuck', 'Circuit', C('Partner circuit', GYM_WORK, { ...LIFT, values: [3, 4, 5, 6] }), HOME_GYM, { pref: 2 }),
+      strength: gymThenSex('Strength, then fuck', 'Strength', S('Partner strength', GYM_STRONG, { ...LIFT, values: [2, 3, 4, 5] }), HOME_GYM_B, { pref: 2 }),
+    },
+  },
+  {
+    id: 'date-strength-night', ...C13, name: 'Strength Before the Door', subject: 'Date night warm-up', minutes: [22, 30], levers: [null, 'reps', 'holds'],
+    split: 'Slower strength work then circuit', blurb: 'You take the slow strength against her while the cab waits at the curb, then you fuck her before you get in.',
+    about: 'The cab is at the curb and you still take the strength with her body on yours. One day you hold slow strength with her weight on you; the other day you two snap a circuit before the driver texts. You fuck her in the entry with the meter in your head, cock buried in her cunt, your palm over her mouth. Level II adds reps to the partner work. Level III holds every position longer.',
+    names: ['Her Weight Settled on Shoulders', 'Slow Dip Sharing One Breath', 'Biceps Flexed Under Thighs', 'Back Pocket Grip During Lunge', 'Temple Rested on Collarbone', 'Bra Strap Peeking at Armhole', 'Chain Necklace Caught in Sweat', 'Heel Raised While You Brace', 'Palms Flat Under Her Ribs', 'Count Whispered at Her Ear', 'Zipper Teeth Against Wrist', 'Ponytail Wrapped in a Fist', 'Lace Trim Showing at Cleavage', 'Shin Pressed Along Her Calf', 'Elbow Hooked Behind Her Neck', 'Exhale Spilled Across Chest', 'Ring Warm Where Hands Stack', 'Mascara Smudge on Your Cheek', 'Slow Rise With Eyes Shut', 'Belt Tight Under Her Bust'],
+    cycle: ['strength', 'circuit'],
+    dayTypes: {
+      strength: gymThenSex('Strength, then fuck', 'Strength', S('Partner strength', GYM_STRONG, { ...LIFT, values: [2, 3, 4, 5] }), HOME_GYM, { pref: 2 }),
+      circuit: gymThenSex('Circuit, then fuck', 'Circuit', C('Partner circuit', GYM_WORK, { ...LIFT, values: [3, 4, 5, 6] }), HOME_GYM_B, { pref: 2 }),
+    },
+  },
+  {
+    id: 'date-kiss-night', ...C13, name: 'Kiss Squats Then Her Dress', subject: 'Date night warm-up', minutes: [22, 30], levers: [null, 'reps', 'holds'],
+    split: 'Kissing circuit then slower strength', blurb: 'Kiss squats keep your mouth on hers in the hall, then you fuck her before her earrings have stopped swinging.',
+    about: 'You train with your mouth on hers in the hall, her earrings ticking your jaw. One day the squats stay kisses, lips locked every rep; the other day slow strength keeps your chest glued to hers. You fuck her before the door closes, cock working her pussy, her hand caught in your hair, the kisses still wet on both your mouths. Level II adds reps to the partner work. Level III holds every position longer.',
+    names: ['Lipstick Print on Your Teeth', 'Tongue Tip Tracing Her Bow', 'Gloss Trail Across Her Philtrum', 'Kiss Landed Mid Rep', 'Nibble Along Her Jaw', 'Breath Sweet With Wine', 'Mouth Open Through the Dip', 'Stubble Rake on Her Cheek', 'Lower Lip Caught in Teeth', 'Nose Brush During the Hold', 'Earlobe Soft Between Lips', 'Chin Tilt for Deeper Kiss', 'Hum Vibrating Into Her Mouth', 'Smile Broken by a Moan', 'Thumb Stroking Her Cheekbone', 'Eyes Half Shut Mid Kiss', 'Saliva Shine on Her Lip', 'Hand Cradling Her Nape', 'Forehead Roll Against Brows', 'Whisper Heat at Her Hairline'],
+    cycle: ['kiss', 'strength'],
+    dayTypes: {
+      kiss: gymThenSex('Kiss the reps, then fuck', 'Kiss', C('Kiss circuit', GYM_KISS, { ...LIFT, values: [3, 4, 5, 6] }), HOME_GYM, { pref: 2 }),
+      strength: gymThenSex('Strength, then fuck', 'Strength', S('Partner strength', GYM_STRONG, { ...LIFT, values: [2, 3, 4, 5] }), HOME_GYM_B, { pref: 2 }),
+    },
+  },
+  {
+    id: 'date-mouth-hands', ...C13, name: 'Mouth on Her Then Fuck', subject: 'Date night warm-up', minutes: [22, 30], levers: [null, 'holds', 'holds'],
+    split: 'Mouth warm-up or hands warm-up', blurb: 'You get your mouth on her the minute you are home from the bar, then you fuck her before the light goes on.',
+    about: 'You get home from the bar and put your mouth straight to work on her. One day you eat her until her knees soften; the other day your hands do that work under the hem. You fuck her in the dark kitchen, cock stuffing her pussy, whiskey still on her tongue when she drags you in deeper. Level II and Level III hold every part longer.',
+    names: ['Tongue Point Under Her Hood', 'Dress Bunched at Her Hips', 'Lipstick Ring Around Your Cock', 'Two Fingers Curled Inside Her', 'Nipple Drawn Into Your Mouth', 'Palm Cupping Her Whole Mound', 'Lace Edge Between Your Teeth', 'Knuckles Wet From Her Cunt', 'Thumb Circles on Her Hood', 'Mouth Sealed Over Her Slit', 'Wrist Deep Under Her Hem', 'Saliva String on Your Chin', 'Heel Hooked Behind Your Thigh', 'Nails Biting Your Shoulder', 'Ankle Locked Over Your Hip', 'Gasp Caught in Her Throat', 'Finger Pad at Her Entrance', 'Mascara Wet on Her Lashes', 'Cockhead Parting Her Lips', 'Forearm Bar Behind Her Knee'],
+    cycle: ['mouth', 'hands'],
+    dayTypes: {
+      mouth: sexThenSex('Mouths, then fuck', 'Mouth', SEX_MOUTH, HOME_FUCK, { pref: 2 }, { pref: 2 }),
+      hands: sexThenSex('Hands in it, then fuck', 'Hands', SEX_WARM, HOME_FUCK_B, { pref: 2 }, { pref: 2 }),
+    },
+  },
+  {
+    id: 'date-fingers-mouth', ...C13, name: 'Fingers Under the Dress', subject: 'Date night warm-up', minutes: [22, 30], levers: [null, 'holds', 'holds'],
+    split: 'Fingers warm-up or mouth and fingers', blurb: 'Your fingers work her under the hem while your shirt hangs open, then you fuck her with that shirt stuck to your back.',
+    about: 'Your fingers get under the hem while your shirt is still hanging open. One day those fingers do the whole job; the other day your mouth comes down beside them and you work her as a pair. You fuck her with the shirt stuck to your back, cock slick from the mess your fingers left, her nails in the open placket. Level II and Level III hold every part longer.',
+    names: ['Index Finger Crooked on Clit', 'Knuckles Past Her Soft Lips', 'Palm Heel Grinding Her Mound', 'Pinky Stroking Her Inner Thigh', 'Ring Finger Hooked Upward', 'Mouth Joining Your Busy Hand', 'Tongue Beside a Working Thumb', 'Suck Mark High on Breast', 'Clit Rolled Between Two Pads', 'Lining Stuck to Her Wrist', 'Lipstick Drag Along Your Shaft', 'Heel Dug Into Couch Cushion', 'Free Hand Spreading Her Open', 'Moan Muffled by Your Palm', 'Curl Press on Front Wall', 'Spit Slick on Your Fingers', 'Nipple Pinched Through Fabric', 'Gaze Fixed While You Stroke', 'Thigh Tremor Against Your Cheek', 'Cock Sliding Past Wet Knuckles'],
+    cycle: ['fingers', 'mouth'],
+    dayTypes: {
+      fingers: sexThenSex('Fingers, then fuck', 'Fingers', SEX_HANDS, HOME_FUCK, { pref: 2 }, { pref: 2 }),
+      mouth: sexThenSex('Mouth and fingers, then fuck', 'Mouth', SEX_MOUTH, HOME_FUCK_B, { pref: 2 }, { pref: 2 }),
+    },
+  },
+  {
+    id: 'date-tease-mouth', ...C13, name: 'Tease Then Take Her Out', subject: 'Date night warm-up', minutes: [22, 30], levers: [null, 'holds', 'holds'],
+    split: 'Clothed tease or mouth warm-up', blurb: 'You grind on her with her coat still buttoned, then you fuck her before the door opens onto the street.',
+    about: 'You tease her with the coat still on, both of you still dressed for the street. One day you grind her through the closed coat; the other day your mouth takes her before one button opens. You spend a full twenty five minutes fucking her inside that open coat, cock hilted in her pussy, wool still warm on her arms. Level II and Level III hold every part longer.',
+    names: ['Zipper Down to Her Navel', 'Cock Grinding Through Her Dress', 'Palm Over Clit Through Dress', 'Nipple Hard Under Lace', 'Knee Between Her Closed Thighs', 'Lipstick Kiss on Your Neck', 'Hem Lifted for a Peek', 'Ass Cheek Filled by Hands', 'Mouth Breathing Through Silk', 'Clit Strummed Over Panties', 'Teeth Catching Lace at Hip', 'Bra Cup Pulled Under Breast', 'Thighs Squeezing Your Leg', 'Ear Filled With Filthy Talk', 'Dress Strap Off One Shoulder', 'Teeth on Her Panting Mouth', 'Hickey Dark Under Jaw', 'Wet Spot Spread on Silk', 'Fingers Sliding Under the Hem', 'Cockhead Damp on Her Tongue'],
+    cycle: ['tease', 'mouth'],
+    dayTypes: {
+      tease: sexThenSex('Tease, then fuck', 'Tease', SEX_TEASE, HOME_FUCK, { pref: 2 }, { pref: 2 }),
+      mouth: sexThenSex('Mouth, then fuck', 'Mouth', SEX_MOUTH, HOME_FUCK_B, { pref: 2 }, { pref: 2 }),
+    },
+  },
+  {
+    id: 'date-mix-holds', ...C13, name: 'Holds in Her Heels', subject: 'Date night warm-up', minutes: [22, 30], levers: [null, 'holds', 'holds'],
+    split: 'Mixed holds with her dressed up', blurb: 'You stay inside her hold after hold, her heels strapped, and you fuck her until the hallway light is the one you leave on.',
+    about: 'You stay inside her with her heels still strapped and the hallway light on. One day you run a single chain of holds; the other day you build a new chain and fuck her through it. Her heels mark your hips while you fuck her, cock kept deep, her calves locked on you, that one light the only one you hit. Level II and Level III hold every position longer.',
+    names: ['Dress Rucked Above Her Waist', 'Ankles Crossed Behind Your Neck', 'Calves Flat by Her Ears', 'Standing Split Against the Wall', 'Knee Hooked Over Your Hip', 'Hair Wrapped in Your Fist', 'Lipstick Smeared Across Your Chest', 'Hips Tilted Off the Counter', 'Wrists Pinned Above Her Head', 'Waist Cinched by Her Thighs', 'Arch in Her Lower Back', 'Nipple in Mouth Mid Thrust', 'Clit Ground on Pubic Bone', 'Palm Spread on Her Throat', 'One Shoe Still on Foot', 'Mirror Showing Cock in Her', 'Knees Folded Over Your Elbows', 'Slow Grind While She Watches', 'Sweat Bead on Upper Lip', 'Balls Pressed Against Her Ass'],
+    cycle: ['flow', 'again'],
+    dayTypes: {
+      flow: positionsOnly('Stay inside', 'Stay', HOME_ONLY, { pref: 2 }),
+      again: positionsOnly('Stay, another mix', 'Again', HOME_ONLY_B, { pref: 2 }),
+    },
+  },
+  {
+    id: 'date-long-holds', ...C13, name: 'Longer Holds in Lipstick', subject: 'Date night warm-up', minutes: [22, 30], levers: [null, 'holds', 'holds'],
+    split: 'Holds in a row then longer ones', blurb: 'You fuck her in long holds with her lipstick smeared on your mouth and her body locked tight on your cock.',
+    about: 'You fuck her in holds that run long, her lipstick still wet on your mouth. One day you trade holds while the color lasts; the other day you stay in one hold until it has printed your chest. You keep your cock sunk in her and let the long hold shake her thighs, a red print dragged across your shoulder. Level II and Level III hold every position longer.',
+    names: ['Forehead Stuck to Hers', 'Cock Held Still Inside Her', 'Legs Locked Around Your Ribs', 'Arms Ringed Around Your Neck', 'Breath Shared Nose to Nose', 'Heel Marks Down Your Back', 'Fingers Laced at Her Nape', 'Slow Pulse Around Your Cock', 'Dress Strap Hanging Off Elbow', 'Eyes Open Inches From Hers', 'Palm Keeping Her Hip Down', 'Lipstick Ghost on Your Shoulder', 'Thigh Shake Under Your Hand', 'Wall Cool Against Her Spine', 'Stubbled Jaw on Her Shoulder', 'Bite Mark Fresh on Trap', 'Ankles Crossed at Your Loins', 'Nipples Dragging on Your Chest', 'Moan Poured Into Your Ear', 'Hilt Deep With Eyes Wet'],
+    cycle: ['hold', 'longer'],
+    dayTypes: {
+      hold: positionsOnly('Hold after hold', 'Hold', HOME_ONLY, { pref: 2 }),
+      longer: positionsOnly('Longer holds', 'Longer', HOME_ONLY_B, { pref: 2 }),
+    },
+  },
+  {
+    id: 'date-deep-holds', ...C13, name: 'Deeper in the Dress', subject: 'Date night warm-up', minutes: [22, 30], levers: [null, 'holds', 'holds'],
+    split: 'Deep holds one day deeper holds', blurb: 'You fuck her deeper with the dress at her waist and the front door still open a crack behind her heel.',
+    about: 'You sink deeper into her, dress at her waist, the front door still open a crack. One day every hold buys you another inch; the other day you pass the last depth and make her take what is past it. You fuck her to the hilt with the dress still wadded at her waist, her heel scraping the open door, her cunt tight on the thickest part of you. Level II and Level III hold every position longer.',
+    names: ['Cervix Kissed by Your Cock', 'Knees Pinned Wide Up High', 'Hips Lifted Off the Mattress', 'Ankles Beside Your Ears', 'Pillow Shoved Under Her Pelvis', 'Full Length Buried to Hilt', 'Toes Curled Hard at Peak', 'Belly Bulge Under Your Palm', 'Thighs Spread Past Her Ribs', 'Slow Push Until She Gasps', 'Balls Flush Against Her Ass', 'Spine Bowed Off the Sheet', 'Grip Hauling Her Onto Cock', 'Mouth Open on Silent Cry', 'Heels Drumming Your Shoulder Blade', 'Sweat Dropping Into Her Navel', 'Hands Locking Her Calves Down', 'Pubic Bone Ground on Clit', 'Shaking Breath Through Her Words', 'Deepest Point Held Inside Her'],
+    cycle: ['deep', 'deeper'],
+    dayTypes: {
+      deep: positionsOnly('Deeper each hold', 'Deep', HOME_ONLY, { pref: 2 }),
+      deeper: positionsOnly('Deeper still', 'Deeper', HOME_ONLY_B, { pref: 2 }),
+    },
+  },
+  tour60('stand-tour-sixty', 'Standing for Sixty Days', 'Carries or circuit then on feet', 'You prepare on your feet with her, then fuck her in a new standing position on every one of the sixty days.',
+    'You train on your feet with her, then stay naked and fuck her up off the floor. Sixty days cover thirty standing positions, a different one each day, and no day repeats. Her legs hook your hips or your shoulders, weight held up by you, cock up in her pussy in a new standing shape each day. Level II adds reps to the partner work. Level III holds every position longer.',
+    ['Legs Wrapped Around Your Waist', 'Back Pressed to a Wall', 'Toes Curled on Cold Tile', 'Knee Hitched at Your Hip', 'Carried With Cock in Her', 'Arms Ringed Behind Your Neck', 'Thighs Split Around Your Hips', 'Palms Flat on the Wall', 'Lifted Clear Off the Ground', 'Ankle Hooked Over Your Elbow', 'Foreheads Touch While Standing', 'Full Weight Hung on Cock', 'Calf Grip in Your Hand', 'Spine Arched Away From You', 'Nipples Crushed to Your Chest', 'Slow Bounce in Your Arms', 'Heel Hooked Behind Your Hip', 'Kiss Broken by a Moan', 'Hipbone Bruise From Her Grip', 'Shoulder Bite While You Thrust'],
+    ['fuck_bed_edge', 'fuck_standing_leg', 'fuck_wall', 'fuck_feet_down', 'fuck_counter', 'pos_standing_behind', 'pos_standing_carry', 'pos_edge_of_bed', 'fuck_floor_stand', 'fuck_standing_face', 'fuck_step_up', 'fuck_standing_fold', 'fuck_bent_chair', 'fuck_hang_away', 'fuck_knee_wall', 'fuck_knees_chest_stand', 'fuck_standing_shoulder', 'fuck_stand_upright_behind', 'fuck_standing_side', 'fuck_side_stand', 'fuck_kneel_behind_stand', 'fuck_hold_ankle', 'fuck_table_fold', 'fuck_sofa_arm', 'fuck_tower', 'fuck_her_lunge_behind', 'fuck_her_lunge_front', 'fuck_lunge_face', 'pos_wheelbarrow', 'fuck_thigh_stand'],
+    ['carry', 'circuit']),
+  tour60('strong-tour-sixty', 'Strong Holds for Sixty', 'Strength or carries then a hard hold', 'You build the strength with her, then hold her up and fuck her in a different strong position each of the sixty days.',
+    'You build the hard strength with her, then use it to hold her up and fuck her. Sixty days cover thirty positions that take real strength to hold, one hold for the day, and no day repeats. Your strength keeps her on your cock, her pussy gripping, and she watches your arms shake while you stay locked in the hold. Level II adds reps to the partner work. Level III holds every position longer.',
+    ['Deep Squat Spreading Her Thighs', 'Lunge With Thigh at Ribs', 'Legs High Overhead in Hand', 'Curl Grip Hauling Her Up', 'Pistol Squat With Her Clamped', 'Shoulder Carry Cock in Her', 'Bulgarian Split Holding Her Open', 'Glute Drive Pushing in Deep', 'Step Up Locking to Chest', 'Wall Press Pinning Her Up', 'Zercher Hold Under Her Ass', 'Reverse Lunge Spreading Her Wide', 'Dip on Bars Inside Her', 'Clean Grip Under Her Thighs', 'Tempo Squat Grinding Her Deep', 'Single Leg Balance in Her', 'Rowing Her Hips Onto Yours', 'Pulse Squeeze on Her Walls', 'Deadlift Lockout Buried in Her', 'Rack Hold Cock Dragging Out'],
+    ['fuck_mating_press', 'fuck_piledriver', 'fuck_plank_missionary', 'fuck_kneel_lift', 'fuck_squat_hold', 'fuck_squat_behind', 'fuck_lunge_both', 'fuck_lunge_face', 'fuck_lunge_doggy', 'fuck_bed_side_lunge', 'fuck_her_lunge_behind', 'fuck_her_lunge_front', 'fuck_her_wall_sit', 'fuck_thigh_stand', 'fuck_tower', 'pos_wheelbarrow', 'fuck_leapfrog', 'fuck_crab', 'fuck_kneel_upright_behind', 'fuck_prone_upright', 'pos_standing_carry', 'fuck_hang_away', 'fuck_knees_chest_stand', 'fuck_wall', 'fuck_standing_shoulder', 'fuck_standing_split', 'fuck_bed_edge', 'fuck_kneel_together', 'fuck_cover_doggy', 'fuck_split_doggy'],
+    ['strength', 'carry']),
+  tour60('face-tour-sixty', 'Face to Face for Sixty', 'Kissing circuit or strength facing her', 'You train face to face with her, then fuck her while you look her in the eye, a different position on each of sixty days.',
+    'You train face to face with her, then get her bare and fuck her where you see her face. Sixty days cover thirty positions with her eyes on you, each day its own, and no day repeats. You fuck her looking at her face, cock working while her hands frame your jaw, and you last as she watches you break. Level II adds reps to the partner work. Level III holds every position longer.',
+    ['Gaze Locked While You Move', 'Brow Sweat on Her Eyelid', 'Nose Rub During a Stroke', 'Grin Caught on Her Mouth', 'Her Hands Framing Your Face', 'Name Spoken Into Her Neck', 'Lashes Tickling Your Cheek', 'Kiss Held Through the Thrust', 'Palms Cupping Her Jawline', 'Breath Trading in Small Sips', 'Tear Track at Her Temple', 'Mouths Hover a Breath Apart', 'Thumb Wiping Her Smeared Lip', 'Eyes Soft When She Smiles', 'Chest Sealed Flat to Hers', 'Moan Spilling Into Your Mouth', 'Fingers Knotted in Her Hair', 'Look Down Her Bare Body', 'Slow Kiss Under Her Eye', 'She Watches Your Face Strain'],
+    ['pos_missionary', 'pos_legs_up', 'pos_lotus', 'pos_butterfly', 'fuck_ankles_locked', 'fuck_flat', 'fuck_half_shoulder', 'fuck_coital', 'fuck_pillow_hips', 'fuck_yawn', 'fuck_deckchair', 'fuck_closed_legs', 'fuck_hips_on_thighs', 'fuck_kneel_together', 'fuck_seated_fold', 'fuck_sit_straddle_face', 'fuck_both_on_shoulder', 'fuck_knees_together', 'fuck_soles_together', 'fuck_kneel_edge_face', 'fuck_lunge_face', 'fuck_lunge_both', 'fuck_standing_face', 'fuck_kneel_lap_lean', 'fuck_side_her_back', 'fuck_plank_missionary', 'fuck_mating_press', 'fuck_one_tucked', 'fuck_figure_four', 'fuck_bridge'],
+    ['kiss', 'strength']),
+  tour60('behind-tour-sixty', 'From Behind for Sixty', 'Mouth or hands then from behind', 'You bare her and fuck her from behind for sixty days, each day its own position.',
+    'You bare her and open her from behind before your cock takes the hold. Sixty days cover thirty positions from behind, each opened by your mouth or your hands, and no day repeats. Your cock drives her pussy from behind, her ass filling your hands, her back bowed, and every squeeze of her lands through your cock. Level II and Level III hold every part longer.',
+    ['Hands Spreading Her Cheeks', 'Face Buried Between Her Cheeks', 'Cock Sliding Between Cheeks', 'Thumb Working Her Swollen Clit', 'Fist Around Her Ponytail', 'Arch Pulled Deep by Hips', 'Chest Flat on the Mattress', 'Fingers Rubbing Her Clit', 'Knee Forcing Her Thighs Wider', 'Bite Marks Along Her Shoulder', 'Ears Red Where You Grip', 'Slow Rock With Cheek Down', 'Wrist Twisted in Her Hair', 'Balls Slapping Her Clit', 'Elbows Planted Deepening Arch', 'Palm Muffling Her Open Mouth', 'Cock Viewed Between Her Lips', 'Ankles Together Making Her Tight', 'Drip Line Racing Her Spine', 'Hips Yanked Back Onto Cock'],
+    ['pos_doggy', 'pos_prone', 'fuck_face_down', 'fuck_frog', 'fuck_split_doggy', 'fuck_sofa_arm', 'fuck_table_fold', 'fuck_armchair_over', 'fuck_ottoman', 'fuck_kneel_away', 'fuck_cover_doggy', 'fuck_chair_back', 'fuck_kneel_behind_stand', 'fuck_leapfrog', 'fuck_lunge_doggy', 'fuck_floor_stand', 'fuck_kneel_upright_behind', 'fuck_stand_upright_behind', 'fuck_her_lunge_behind', 'fuck_prone_upright', 'fuck_squat_behind', 'fuck_bent_chair', 'fuck_standing_fold', 'fuck_bed_side_lunge', 'pos_standing_behind', 'fuck_prone_him_side', 'fuck_hang_away', 'fuck_kneel_side', 'fuck_table_over_sit', 'pos_wheelbarrow'],
+    ['mouth', 'hands']),
+  tour60('close-tour-sixty', 'Slow and Close for Sixty', 'Clothed tease or mouth then close', 'You stay wrapped on her and fuck her slow, skin to skin, a different close position every day for sixty days.',
+    'You stay close on her and fuck her slow enough that your breath mixes. Sixty days cover thirty slow positions on your sides, each opened by a clothed tease or your mouth, and no day repeats. Your cock moves in short strokes and stays in her, her body knotted on yours, her pulse tapping your lip. Level II and Level III hold every part longer.',
+    ['Spooned With Cock in Her', 'Bellies Stuck Skin to Skin', 'Top Leg Draped Over Hip', 'Fingers Laced on Her Belly', 'Nose Buried in Her Hair', 'Slow Rock Barely Leaving Her', 'Mouth Resting on Her Nape', 'Arms Circled Around Her Ribs', 'Knees Nested in a Bend', 'Clothed Grind Under the Sheet', 'Murmur Heat Along Her Hairline', 'Palm Over Her Beating Heart', 'Cock Twitch Felt Inside Her', 'Ankles Hooked in a Knot', 'Eyelids Heavy Against Her Cheek', 'Breast Soft in Your Hand', 'Blanket Pulled Up to Chins', 'Tiny Rocks That Stay Deep', 'Her Fingers Tracing Your Spine', 'Thighs Interlocked Under Covers'],
+    ['pos_spooning', 'fuck_spoon_leg', 'fuck_scissors', 'fuck_tbone', 'fuck_side_her_back', 'fuck_side_facing_kneel', 'fuck_side_curl', 'fuck_side_twist', 'fuck_prone_him_side', 'fuck_cross_lie', 'fuck_kneel_side', 'fuck_corkscrew', 'fuck_one_tucked', 'fuck_figure_four', 'fuck_across_lap', 'fuck_lap_sideways', 'fuck_side_saddle_kneel', 'fuck_side_saddle', 'fuck_standing_side', 'fuck_side_stand', 'pos_lotus', 'pos_missionary', 'fuck_coital', 'fuck_closed_legs', 'fuck_flat', 'pos_prone', 'fuck_sit_straddle_face', 'fuck_kneel_together', 'fuck_half_shoulder', 'fuck_kneel_lap_lean'],
+    ['tease', 'mouth']),
+  tour60('deep-tour-sixty', 'Deep Legs Up for Sixty', 'Hands or clothed tease then deep', 'You fuck her deep with her legs up on you, and the position changes every day across sixty days.',
+    'You fuck her deep with her legs folded up on you or spread wide. Sixty days cover thirty deep positions, her legs up, each opened by your hands or a clothed tease, and no day repeats. You hold the depth with her legs up on you, your cock as far in as that shape allows, and you watch her face go slack. Level II and Level III hold every part longer.',
+    ['Ankles Pinned Beside Your Ears', 'Knees Wide Toward Her Armpits', 'Mating Press Folded Small', 'Legs Straight Up in Hand', 'Pillow Stack Under Her Hips', 'Heels Hooked on Headboard', 'Thighs Compressed to Her Chest', 'Deepest Stroke You Can Give', 'Calves Resting on Shoulders', 'Palms Pushing Her Knees Out', 'Folded Until Cock Kisses Cervix', 'Spread Wide on the Edge', 'Belly Bulge on the Push', 'Toes Tap Behind Your Head', 'Grip Behind Both Her Knees', 'Slow Press Until She Shakes', 'Ass Lifted on a Cushion', 'Clit Bare for Your Thumb', 'Full Hilt While Eyes Roll', 'Legs Held Open in V'],
+    ['pos_pretzel', 'pos_legs_up', 'fuck_piledriver', 'fuck_mating_press', 'fuck_half_shoulder', 'fuck_both_on_shoulder', 'fuck_seated_fold', 'fuck_knees_chest_stand', 'fuck_standing_shoulder', 'fuck_head_off', 'fuck_pillow_hips', 'fuck_yawn', 'fuck_deckchair', 'fuck_ankles_locked', 'fuck_hips_on_thighs', 'fuck_tower', 'fuck_bridge', 'fuck_table_back', 'fuck_sit_edge', 'fuck_feet_down', 'fuck_soles_together', 'fuck_knees_together', 'fuck_hero_recline', 'fuck_frog', 'fuck_face_down', 'fuck_kneel_edge_face', 'fuck_plank_missionary', 'fuck_split_doggy', 'fuck_one_tucked', 'fuck_corkscrew'],
+    ['hands', 'tease']),
+  tour60('house-tour-sixty', 'House Holds for Sixty', 'Holds around the house no workout', 'You fuck her around the house for sixty days, one hold on the furniture and the other holds in other rooms.',
+    'You fuck her through the house, one hold on the furniture and the rest in other rooms. Sixty days cover thirty positions on a chair, table, counter, stairs, sofa or wall, other holds elsewhere that day, and no day repeats. You take her on that piece and then move, still hard inside her, and finish the other holds two rooms away. Level II and Level III hold every position longer.',
+    ['Fucking Her Over the Chair', 'Ass Perched on Counter Edge', 'Shoulder Blades on the Stairs', 'Sofa Arm Under Her Hips', 'Back Flat on Cold Wall', 'Waist Cut by Table Edge', 'Foot Planted on Stair Tread', 'Hands Braced on Wet Counter', 'Knee Dug Into Sofa Cushion', 'Mirror Facing the Hall Wall', 'Chair Seat Under One Knee', 'Grip White on the Banister', 'Coffee Table Under Her Spine', 'Hands Overhead in the Doorframe', 'Rug Burn Hot on Knees', 'Desk Corner at Her Thigh', 'Rail Cold Against Her Palm', 'Fucking Her at the Sink', 'Leg Hooked Around Banister', 'Hips Pinned Flat to Wall'],
+    ['fuck_chair', 'fuck_chair_back', 'fuck_counter', 'fuck_bent_chair', 'fuck_sofa_arm', 'fuck_table_back', 'fuck_stairs', 'fuck_table_fold', 'fuck_armchair_over', 'fuck_ottoman', 'fuck_step_up', 'fuck_wall', 'fuck_knee_wall', 'fuck_her_wall_sit', 'fuck_sit_edge', 'fuck_bed_edge', 'fuck_feet_down', 'pos_edge_of_bed', 'fuck_head_off', 'fuck_kneel_edge_face', 'fuck_sit_under', 'fuck_sit_reverse_squat', 'fuck_sit_straddle_face', 'fuck_across_lap', 'fuck_table_over_sit', 'fuck_lap_sideways', 'fuck_hips_on_thighs', 'fuck_kneel_lap_lean', 'fuck_standing_face', 'fuck_standing_leg'],
+    ['hold', 'deep']),
+  tour60('grand-tour-sixty', 'Grand Tour of Holds', 'Classic holds and more no workout', 'You stay in her through the classics and plenty more, a different position every day for sixty days.',
+    'You stay in her across sixty days, the classics and plenty past them. Sixty days cover thirty positions, the classics and the rest, each day its own hold, and no day repeats. You fuck her in that hold for as long as you want, and you watch your cock work her while she watches you back. Level II and Level III hold every position longer.',
+    ['Missionary Knees Pushed Wide', 'Prone Bone Cheek to Sheet', 'Lotus Arms Circling Her Waist', 'Scissor Lock on Her Thighs', 'Head Hanging Off the Bed', 'Wheelbarrow Grip on Her Thighs', 'Lean Forward Over Her Chest', 'Piledriver Fold at Your Shoulders', 'Butterfly Soles Touched Together', 'Side Lay With Leg High', 'Corkscrew Twist Through Hips', 'Bridge With Her Hips Lifted', 'Seat Thrust Driving Cock Up', 'Spider Legs Caught in Elbows', 'Flatiron Press Into the Sheets', 'Pretzel Her Ankle at Shoulder', 'Seashell Knees Framing Her Face', 'Standing Split Heel by Ear', 'Coital Grind Right on Clit', 'Eagle Ankles Crossed on You'],
+    ['pos_missionary', 'pos_cowgirl', 'pos_reverse_cowgirl', 'pos_doggy', 'pos_standing_behind', 'pos_spooning', 'pos_standing_carry', 'pos_wheelbarrow', 'fuck_ankles_locked', 'fuck_mating_press', 'fuck_amazon', 'fuck_face_down', 'fuck_frog', 'fuck_spoon_leg', 'fuck_scissors', 'fuck_wall', 'fuck_lunge_doggy', 'fuck_flat', 'fuck_bridge', 'fuck_leapfrog', 'fuck_tbone', 'fuck_coital', 'fuck_yawn', 'fuck_deckchair', 'fuck_corkscrew', 'fuck_kneel_together', 'fuck_crab', 'fuck_figure_four', 'fuck_plank_missionary', 'fuck_boat'],
+    ['hold', 'deep']),
+  tour60('kneel-tour-sixty', 'Low Kneeling for Sixty', 'Kneeling holds in a long row', 'You kneel, squat or lunge into her and fuck her there, a different low position every day for sixty days.',
+    'You kneel, squat or lunge your cock into her and stay down there. Sixty days cover thirty low positions, a kneel or a squat or a lunge, a new one each day, and no day repeats. You fuck her from down low, your legs doing the drive, and she grabs your ass while you push your cock deeper. Level II and Level III hold every position longer.',
+    ['Kneeling Between Her Open Knees', 'Lunge Deep on the Rug', 'Squat Fuck Holding Her Calves', 'One Knee Up Leg Wide', 'Low Crouch Cock Angled Up', 'Knee Walk Closer Into Her', 'Shin Flat on the Mattress', 'Elbows Planted Wide for Thrust', 'Hips Low Line With Hers', 'Calf Burn While You Stay', 'Kneeling Tall Chest to Hers', 'Foot Tucked Under Your Heel', 'Hair Fisted From Your Kneel', 'Pelvis Tilt Driving in Deep', 'Both Knees Burning on Hardwood', 'Low Squat Pinning Her Thighs', 'Lunge Knee Kissing the Floor', 'Hands Clamped on Her Hips', 'Toes Curled Under for Drive', 'Forearms Braced Down Her Back'],
+    ['fuck_kneel_together', 'fuck_kneel_upright_behind', 'fuck_kneel_away', 'fuck_kneel_side', 'fuck_kneel_lift', 'fuck_wide_kneel', 'fuck_side_facing_kneel', 'fuck_kneel_behind_stand', 'fuck_prone_upright', 'fuck_squat_behind', 'fuck_squat_hold', 'fuck_lunge_both', 'fuck_lunge_face', 'fuck_lunge_doggy', 'fuck_bed_side_lunge', 'fuck_her_lunge_behind', 'fuck_her_lunge_front', 'fuck_hips_on_thighs', 'fuck_kneel_lap_lean', 'fuck_hero_recline', 'pos_lotus', 'pos_butterfly', 'pos_pretzel', 'fuck_seated_fold', 'fuck_frog', 'fuck_figure_four', 'fuck_corkscrew', 'fuck_side_saddle_kneel', 'fuck_plank_missionary', 'fuck_one_tucked'],
+    ['hold', 'deep']),
+  {
+    id: 'morning-circuit-bed', ...C13, name: 'Morning Circuit in Bed', subject: 'Morning glory / Sunday', minutes: [48, 58], levers: [null, 'reps', 'holds'],
+    split: 'Morning circuit then slower strength', blurb: 'You train with her in bed, sleep clothes still on, then peel them off and fuck her through a long Sunday morning.',
+    about: 'You train with her in the sleep-warm bed, then peel her sleep clothes off. One day a partner circuit runs in the sheets; the other day you press through strength holds with her sleepy and warm on your shoulders. You fuck her for fifty minutes, sun across her thigh, morning wood thick in her pussy, the room free of any alarm. Level II adds reps to the partner work. Level III holds every position longer.',
+    names: ['Sheet Tent Over Morning Wood', 'Sun Stripe Across Her Thigh', 'Sleep Shirt Knotted at Waist', 'Bare Feet Sliding on Sheets', 'Yawn Caught in Shared Kiss', 'Pillow Crease on Her Cheek', 'Half Jacks With Fingers Laced', 'Birdsong Under Her Soft Laugh', 'Stubble Rasping Her Collarbone', 'Cotton Shorts Tenting Hard', 'Sun Warm on Your Shoulder', 'Socked Foot Planted on Chest', 'Messy Bun Against Your Nose', 'Quilt Pooled Around Her Knees', 'Stretch Showing Her Soft Belly', 'Palm Counting Breath on Ribs', 'Duvet Kicked Off Mid Rep', 'Dust Glowing Between Bodies', 'Sleepy Grin Into Your Neck', 'Pulse Ticking Under Her Jaw'],
+    cycle: ['circuit', 'strength'],
+    dayTypes: {
+      circuit: gymThenSex('Circuit, then fuck', 'Circuit', C('Partner circuit', GYM_WORK, { ...LIFT, values: [3, 4, 5, 6] }), HOME_GYM, { pref: 2 }),
+      strength: gymThenSex('Strength, then fuck', 'Strength', S('Partner strength', GYM_STRONG, { ...LIFT, values: [2, 3, 4, 5] }), HOME_GYM_B, { pref: 2 }),
+    },
+  },
+  {
+    id: 'morning-strength-bed', ...C13, name: 'Slow Strength at Dawn', subject: 'Morning glory / Sunday', minutes: [48, 58], levers: [null, 'reps', 'holds'],
+    split: 'Slower morning strength then circuit', blurb: 'You take the slow strength in bed with her at dawn, then fuck her while the house is still quiet.',
+    about: 'You take the slow strength in bed at dawn, then fuck her while the house stays quiet. One day you hold strength low and long against her; the other day a short circuit wakes you both in the gold light. You fuck her in the pale morning, cock thick in her cunt, her grin tucked on your neck, your hips already lit from the work. Level II adds reps to the partner work. Level III holds every position longer.',
+    names: ['Slow Bridge Under Her Knee', 'Sunlight Filling Her Closed Eyes', 'Hold Breathing at the Bottom', 'Calf Draped Over Your Shoulder', 'Plank With Her Laid Across', 'Braid Spilling Over One Breast', 'Ten Count Against Her Mouth', 'Hamstring Stretch Her Heel High', 'Sleepy Weight in Your Arms', 'Nipple Showing Through Thin Tee', 'Palm Spread Wide on Sacrum', 'Exhale Matching Hers Exactly', 'Knee Drive Between Her Hands', 'Gold Light on Her Stomach', 'Wrist Pin Under Her Arch', 'Slow Lower Kissing Her Hip', 'Tank Strap Falling Off Arm', 'Toes Flexing in Warm Sun', 'Beard Scrape Along Her Throat', 'Bodies Shaking Near the Top'],
+    cycle: ['strength', 'circuit'],
+    dayTypes: {
+      strength: gymThenSex('Strength, then fuck', 'Strength', S('Partner strength', GYM_STRONG, { ...LIFT, values: [2, 3, 4, 5] }), HOME_GYM, { pref: 2 }),
+      circuit: gymThenSex('Circuit, then fuck', 'Circuit', C('Partner circuit', GYM_WORK, { ...LIFT, values: [3, 4, 5, 6] }), HOME_GYM_B, { pref: 2 }),
+    },
+  },
+  {
+    id: 'morning-carry-bed', ...C13, name: 'Carry Her in Sunlight', subject: 'Morning glory / Sunday', minutes: [48, 58], levers: [null, 'reps', 'holds'],
+    split: 'Carries and holds then a circuit', blurb: 'You carry her half dressed through the morning light, then strip her and fuck her with her weight easy in your arms.',
+    about: 'You carry her half dressed through the sunlight, then fuck her with her still in your arms. One day the work is carries and you hold every lift; the other day a circuit on the bed leaves you strong enough to keep her up. You fuck her while you hold her up, cock driven up into her pussy, and she laughs into your shoulder the whole time. Level II adds reps to the partner work. Level III holds every position longer.',
+    names: ['Bridal Carry Toward the Bed', 'Arms Loose Around Your Neck', 'Fireman Hold Through the Door', 'Thighs on Your Shoulders Walk', 'Chest Lift Pause on Hers', 'Sleep Shirt Bunched at Waist', 'Face Sunlit While You Lift', 'Her Ass Hooked on Forearm', 'Giggle Bounced on Each Step', 'Palm Under Her Hot Knee', 'Hallway Wall Used for Balance', 'Morning Wood Against Her Hip', 'Calves Locked Around Your Middle', 'Chin on Her Head Walking', 'Lifted High Hands Just Dangle', 'Carpet Under Your Bare Feet', 'Laugh Muffled in Her Hair', 'Held Still Against Her Belly', 'Elbows Under Her Knees Tight', 'Lowered Onto Warm Sheets'],
+    cycle: ['carry', 'circuit'],
+    dayTypes: {
+      carry: gymThenSex('Lift, then fuck', 'Lift', C('Carries', GYM_LIFT, { ...LIFT, values: [3, 4, 5, 6] }), HOME_GYM, { pref: 2 }),
+      circuit: gymThenSex('Circuit, then fuck', 'Circuit', C('Partner circuit', GYM_WORK, { ...LIFT, values: [3, 4, 5, 6] }), HOME_GYM_B, { pref: 2 }),
+    },
+  },
+  {
+    id: 'morning-mouth-hands', ...C13, name: 'Mouth on Her at Dawn', subject: 'Morning glory / Sunday', minutes: [48, 58], levers: [null, 'holds', 'holds'],
+    split: 'Mouth or hands then stay in bed', blurb: 'You wake her with your mouth under the sheet, then fuck her slow while the Sunday sun climbs the bed.',
+    about: 'You slide under the sheet at dawn and wake her before the long fuck. One day your mouth works her clit under the quilt; the other day your hands take the slow path along her thighs. You fuck her while the sun climbs, cock slow in her pussy, her first moan rough with sleep and her hand fisted in your hair. Level II and Level III hold every part longer.',
+    names: ['Tongue Slow on Her Clit', 'Sheet Over Your Head Hidden', 'Two Fingers in Warm Light', 'Morning Mouth Full of Her', 'Thumb Painting Circles Slow', 'Sunlight on Wet Open Lips', 'Knuckle Deep Beside the Window', 'Suck Soft Enough She Sighs', 'Palm Rocking Her Whole Mound', 'Sleep Taste on Inner Thigh', 'Lazy Lick Up Her Slit', 'Finger Crook on Front Wall', 'Stubble Burn on Her Thighs', 'Hand Working Until She Moans', 'Slow Suck at Her Hood', 'Wrist Deep in Warm Sheets', 'Clit Sucked Under the Quilt', 'Spit Shine on Your Fingers', 'Nipple in Mouth Eyes Shut', 'Long Exhale Into Her Belly'],
+    cycle: ['mouth', 'hands'],
+    dayTypes: {
+      mouth: sexThenSex('Mouths, then fuck', 'Mouth', LONG_WARM, LONG_FUCK, { pref: 2 }, { pref: 2 }),
+      hands: sexThenSex('Hands in it, then fuck', 'Hands', SEX_WARM, LONG_FUCK, { pref: 2 }, { pref: 2 }),
+    },
+  },
+  {
+    id: 'morning-fingers-bed', ...C13, name: 'Fingers in Morning Light', subject: 'Morning glory / Sunday', minutes: [48, 58], levers: [null, 'holds', 'holds'],
+    split: 'Fingers or mouth slow in bed', blurb: 'Your fingers wake her in the morning light, then you fuck her slow with the sun warm on her stomach.',
+    about: 'You wake her with a slow hand in the sun, then fuck her in that same light. One day your fingers open her on their own; the other day your tongue joins the fingers and both keep going. You fuck her in the window light, cock pushing into the wetness your hand left, her fist winding the sheet tighter. Level II and Level III hold every part longer.',
+    names: ['Index Slow Along Her Slit', 'Two Knuckles in Sunday Light', 'Mouth Beside Fingers Together', 'Pinky Tip Circling Her Entrance', 'Tongue Splitting Your Fingers', 'Curl Press Making Her Arch', 'Slick to the Second Knuckle', 'Lip on Clit Finger Inside', 'Palm Over Mouth Muffling Moans', 'Ring Finger Hooked Softly', 'Spit String Between Mouths', 'Thumb Pinning Her Hood Back', 'Lazy Suck While Fingers Work', 'Window Light on Wet Knuckles', 'Gasp at the Deep Curl', 'Cheek on Her Thigh Licking', 'Free Hand Rolling a Nipple', 'Sheets Twisted in Her Fist', 'Three Fingers Stretching Her Open', 'Long Hum Against Her Clit'],
+    cycle: ['fingers', 'mouth'],
+    dayTypes: {
+      fingers: sexThenSex('Fingers, then fuck', 'Fingers', LONG_WARM, LONG_FUCK, { pref: 2 }, { pref: 2 }),
+      mouth: sexThenSex('Mouth and fingers, then fuck', 'Mouth', LONG_WARM, LONG_FUCK, { pref: 2 }, { pref: 2 }),
+    },
+  },
+  {
+    id: 'morning-tease-sheet', ...C13, name: 'Tease Under the Sheet', subject: 'Morning glory / Sunday', minutes: [48, 58], levers: [null, 'holds', 'holds'],
+    split: 'Clothed tease or mouth slow bed', blurb: 'You tease her through her sleep shirt until she is soaked, then fuck her for a long quiet Sunday morning.',
+    about: 'You tease her through the sleep shirt until the cotton is soaked. One day the cotton stays between your cock and her; the other day your mouth takes over once the shirt is shoved up. You fuck her with the sheet on the floor, sun on her bare stomach, her sleep shirt bunched in your fist, cock slick from the tease. Level II and Level III hold every part longer.',
+    names: ['Cock Grind Through Cotton Panties', 'Shirt Pushed Up One Inch', 'Mouth Over Cloth on Clit', 'Nipple Pinched Through Tee', 'Thighs Closed Around Your Hand', 'Kiss Through the Sheet Veil', 'Wet Patch Dark on Grey', 'Tongue Tracing the Seam', 'Palms Sliding Under the Hem', 'Hickey Above the Neckline', 'Elastic Snapped Against Hip', 'Hot Breath Through Thin Shorts', 'Clit Rubbed in Slow Ovals', 'Lower Lip Bit While Teased', 'Cockhead Bumping Her Covered Slit', 'Fingers Stalled at the Waistband', 'Suck Pulled Over Fabric', 'Moan Into Your Clothed Shoulder', 'Knee Nudging Her Thighs Open', 'Mouth on Bare Shining Clit'],
+    cycle: ['tease', 'mouth'],
+    dayTypes: {
+      tease: sexThenSex('Tease, then fuck', 'Tease', LONG_WARM, LONG_FUCK, { pref: 2 }, { pref: 2 }),
+      mouth: sexThenSex('Mouth, then fuck', 'Mouth', LONG_WARM, LONG_FUCK, { pref: 2 }, { pref: 2 }),
+    },
+  },
+  {
+    id: 'sunday-mix-holds', ...C13, name: 'Sunday Mix of Holds', subject: 'Morning glory / Sunday', minutes: [48, 58], levers: [null, 'holds', 'holds'],
+    split: 'One mix of holds then fresh', blurb: 'You stay in her in the Sunday bed and fuck her through a long run of holds while the morning stays easy.',
+    about: 'You stay in her in the Sunday bed and move through holds with the window open. One day the holds come in one mix; the other day in a fresh mix, and you stay inside her through both. You fuck her with morning wood deep in her cunt, her soft thighs heavy across your hips, a breeze cooling the sweat on her. Level II and Level III hold every position longer.',
+    names: ['Sideways Cock in Her Slow', 'Ankle on Your Shoulder Morning', 'Prone With Her Hips Tilted', 'Kneeling Up Into Her Lazy', 'Legs Loose Around Your Hips', 'Sun Bar Across Joined Bodies', 'Palm on Belly Feeling Depth', 'Her Wrists Loose Above Head', 'Slow Stir Circling Inside Her', 'Face Turned Sharing a Smile', 'Calf Draped Behind Your Arm', 'Quilt Slid Down Her Spine', 'Balls Resting on Her Skin', 'Elbows Bracketing Her Face', 'Rocking Just Enough to Stay', 'Nipple Brushed by Your Chest', 'Hair Spread on the Pillow', 'Soft Thighs Heavy on You', 'Kiss on Her Shoulder Staying', 'Window Breeze on Sweaty Skin'],
+    cycle: ['flow', 'again'],
+    dayTypes: {
+      flow: positionsOnly('Stay inside', 'Stay', LONG_ONLY, { pref: 2 }),
+      again: positionsOnly('Stay, another mix', 'Again', LONG_ONLY, { pref: 2 }),
+    },
+  },
+  {
+    id: 'sunday-long-holds', ...C13, name: 'Long Sunday Morning Holds', subject: 'Morning glory / Sunday', minutes: [48, 58], levers: [null, 'holds', 'holds'],
+    split: 'Holds in a row then longer', blurb: 'You hold the fuck for a long Sunday morning and let the position last while the light moves across the bed.',
+    about: 'You let the Sunday holds run long and leave the nightstand clock alone. One day you shift from hold to hold; the other day one hold stays until her breathing has matched yours. You fuck her while the sun crawls the sheet, near fifty minutes of your cock resting deep and then stirring, her hips gone heavy. Level II and Level III hold every position longer.',
+    names: ['Clock Ignored on the Nightstand', 'Hold So Long She Melts', 'Cock Resting Deep Inside Her', 'Sun Crawling Up the Bed', 'Her Breathing Slowed to Yours', 'Palm Glued to Lower Back', 'Tiny Movement She Still Feels', 'Legs Staying Where You Put', 'Forehead Kiss Held a While', 'Sheets Gone Cold at Edges', 'Eyes Half Open Watching You', 'Hips Heavy Settled in Deep', 'Arm Asleep Under Her Neck', 'Whisper Too Quiet for Words', 'Thigh Tremble You Stay Through', 'Mouth Slack on Her Shoulder', 'Second Wind in Your Hips', 'Soft Belly Against Your Abs', 'Alarm Dark on the Dresser', 'Unhurried Stretch Inside Her Body'],
+    cycle: ['hold', 'longer'],
+    dayTypes: {
+      hold: positionsOnly('Hold after hold', 'Hold', LONG_ONLY, { pref: 2 }),
+      longer: positionsOnly('Longer holds', 'Longer', LONG_ONLY, { pref: 2 }),
+    },
+  },
+  {
+    id: 'sunday-deep-holds', ...C13, name: 'Deeper Sunday Morning Holds', subject: 'Morning glory / Sunday', minutes: [48, 58], levers: [null, 'holds', 'holds'],
+    split: 'Deeper holds then deeper again', blurb: 'You fuck her deeper as the Sunday morning goes on, sun across her stomach, and you keep sinking while she opens for you.',
+    about: 'You sink deeper through the Sunday holds with the light across her stomach. One day each hold takes you farther than the hold you left; the other day you hit a deep spot and push past it. You fuck her until her belly rounds under your palm, her toes curled hard, and you stay in that extra depth while the light stays. Level II and Level III hold every position longer.',
+    names: ['Inch Deeper on Slow Push', 'Cervix Nudged in Soft Light', 'Knees Beside Ears on Pillow', 'Hips Tilted to Take More', 'Cushion Stacked Under Pelvis', 'Her Toes Scrunch at Depth', 'Belly Rising Around Your Cock', 'Slow Enough She Opens More', 'Fold Past Where You Stopped', 'Palms Driving Her Hips Down', 'Gasp Right at Deep End', 'Legs Folded Tight to Shoulders', 'Cock Thick at Her Limit', 'Eyes Wide When It Lands', 'Sweat Pooled in Hip Bend', 'Moan Dropping Lower With Depth', 'Balls Tight on Her Ass', 'Grip Pulling Her Down Deeper', 'Quiet Curse in Her Ear', 'Staying There Sun on You'],
+    cycle: ['deep', 'deeper'],
+    dayTypes: {
+      deep: positionsOnly('Deeper each hold', 'Deep', LONG_ONLY, { pref: 2 }),
+      deeper: positionsOnly('Deeper still', 'Deeper', LONG_ONLY, { pref: 2 }),
     },
   },
   // ---- Rough (Phase 22 ticket 19): 4 gym, 4 sex, 4 positions. Catalogue 13. Sex days are warm, then rough. ----

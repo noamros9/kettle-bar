@@ -2,11 +2,11 @@
 
 The index: where we are, what comes next, and the two phases being built now. Every other phase's decisions live at the
 top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase comes up. Decision numbers are global
-(the next one is **345**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
+(the next one is **348**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
-## Resume here (15 Oct 2026, night)
-- **Phase 20: tickets 10, 11, 12 done** (#446, #447, #448), all the 339 way. **Next: ticket 13** (Date night warm-up,
-  Positions tour, Morning glory / Sunday), then 14–15. Three tickets per go (Noam's rule), so wait for his go.
+## Resume here (16 Oct 2026)
+- **Phase 20: tickets 10–13 done** (#446–#449). Noam's go (16 Oct) covers the rest of the phase: **next 14** (text
+  written and reviewed, `../kettle-bar-docs/grok/t14-text.md`), then 15–23. Tours: `tour60` (346); Morning glory's long blocks (347).
 - **How a Phase 20 content ticket runs now (worked for 10–12, ~3% of the weekly Grok usage for all three):**
   1. Branch `content/explicit-more-<x>` from main; `npm run cache:pull`.
   2. Claude writes the brief: a slot table (subject, shape, day types; 3 gym, 3 sex, 3 positions per subject), the
