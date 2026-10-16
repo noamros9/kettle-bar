@@ -1,5 +1,6 @@
 // Phase 22 (catalogue 13, docs/plans/phase-22-catalogue-13.md): the pools catalogue-13 exercises join, without
 // moving anything an older catalogue draws.
+// Cues are capped at 400, plus 3 since Mali's replaced the first "her" (decision 349).
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const crypto = require('crypto');
@@ -83,7 +84,7 @@ test('catalogue 13 adds 91 intercourse exercises (tickets 2–4b)', () => {
     assert.equal(e.r.length, 3, e.id);
     e.r.forEach((n) => assert.ok(Number.isInteger(n) && n > 0, e.id));
     assert.equal(e.cue.includes('\n') || e.cue.includes('\r'), false, e.id);
-    assert.ok(e.cue.length > 40 && e.cue.length <= 400, `${e.id} is ${e.cue.length}`);
+    assert.ok(e.cue.length > 40 && e.cue.length <= 403, `${e.id} is ${e.cue.length}`);
     assert.ok(e.mus, e.id);
     assert.ok(e.muscles.primary.length >= 1, e.id);
     [...e.muscles.primary, ...e.muscles.secondary].forEach((m) => assert.ok(cat.MUSCLE_NAMES[m], `${e.id}: ${m}`));
@@ -116,7 +117,7 @@ test('catalogue 13 adds 23 oral exercises (ticket 5)', () => {
     assert.equal(e.r.length, 3, e.id);
     e.r.forEach((n) => assert.ok(Number.isInteger(n) && n > 0, e.id));
     assert.equal(e.cue.includes('\n') || e.cue.includes('\r'), false, e.id);
-    assert.ok(e.cue.length > 40 && e.cue.length <= 400, `${e.id} is ${e.cue.length}`);
+    assert.ok(e.cue.length > 40 && e.cue.length <= 403, `${e.id} is ${e.cue.length}`);
     assert.ok(e.mus, e.id);
     assert.ok(e.muscles.primary.length >= 1, e.id);
     [...e.muscles.primary, ...e.muscles.secondary].forEach((m) => assert.ok(cat.MUSCLE_NAMES[m], `${e.id}: ${m}`));
@@ -149,7 +150,7 @@ test('catalogue 13 adds 22 anal exercises (ticket 6)', () => {
     assert.equal(e.r.length, 3, e.id);
     e.r.forEach((n) => assert.ok(Number.isInteger(n) && n > 0, e.id));
     assert.equal(e.cue.includes('\n') || e.cue.includes('\r'), false, e.id);
-    assert.ok(e.cue.length > 40 && e.cue.length <= 400, `${e.id} is ${e.cue.length}`);
+    assert.ok(e.cue.length > 40 && e.cue.length <= 403, `${e.id} is ${e.cue.length}`);
     assert.ok(e.mus, e.id);
     assert.ok(e.muscles.primary.length >= 1, e.id);
     [...e.muscles.primary, ...e.muscles.secondary].forEach((m) => assert.ok(cat.MUSCLE_NAMES[m], `${e.id}: ${m}`));
@@ -182,7 +183,7 @@ test('catalogue 13 adds 36 toy exercises (ticket 7)', () => {
     assert.equal(e.r.length, 3, e.id);
     e.r.forEach((n) => assert.ok(Number.isInteger(n) && n > 0, e.id));
     assert.equal(e.cue.includes('\n') || e.cue.includes('\r'), false, e.id);
-    assert.ok(e.cue.length > 40 && e.cue.length <= 400, `${e.id} is ${e.cue.length}`);
+    assert.ok(e.cue.length > 40 && e.cue.length <= 403, `${e.id} is ${e.cue.length}`);
     assert.ok(e.mus, e.id);
     assert.ok(e.muscles.primary.length >= 1, e.id);
     [...e.muscles.primary, ...e.muscles.secondary].forEach((m) => assert.ok(cat.MUSCLE_NAMES[m], `${e.id}: ${m}`));
@@ -215,7 +216,7 @@ test('catalogue 13 adds 36 hands exercises (ticket 8)', () => {
     assert.equal(e.r.length, 3, e.id);
     e.r.forEach((n) => assert.ok(Number.isInteger(n) && n > 0, e.id));
     assert.equal(e.cue.includes('\n') || e.cue.includes('\r'), false, e.id);
-    assert.ok(e.cue.length > 40 && e.cue.length <= 400, `${e.id} is ${e.cue.length}`);
+    assert.ok(e.cue.length > 40 && e.cue.length <= 403, `${e.id} is ${e.cue.length}`);
     assert.ok(e.mus, e.id);
     assert.ok(e.muscles.primary.length >= 1, e.id);
     [...e.muscles.primary, ...e.muscles.secondary].forEach((m) => assert.ok(cat.MUSCLE_NAMES[m], `${e.id}: ${m}`));
@@ -248,7 +249,7 @@ test('catalogue 13 adds 36 rough exercises (ticket 9)', () => {
     assert.equal(e.r.length, 3, e.id);
     e.r.forEach((n) => assert.ok(Number.isInteger(n) && n > 0, e.id));
     assert.equal(e.cue.includes('\n') || e.cue.includes('\r'), false, e.id);
-    assert.ok(e.cue.length > 40 && e.cue.length <= 400, `${e.id} is ${e.cue.length}`);
+    assert.ok(e.cue.length > 40 && e.cue.length <= 403, `${e.id} is ${e.cue.length}`);
     assert.doesNotMatch(e.cue, /neck|throat|chok/i, e.id);
     assert.ok(e.mus, e.id);
     assert.ok(e.muscles.primary.length >= 1, e.id);
@@ -283,7 +284,7 @@ test('catalogue 13 adds 36 rim exercises (ticket 12)', () => {
     assert.equal(e.r.length, 3, e.id);
     e.r.forEach((n) => assert.ok(Number.isInteger(n) && n > 0, e.id));
     assert.equal(e.cue.includes('\n') || e.cue.includes('\r'), false, e.id);
-    assert.ok(e.cue.length > 40 && e.cue.length <= 400, `${e.id} is ${e.cue.length}`);
+    assert.ok(e.cue.length > 40 && e.cue.length <= 403, `${e.id} is ${e.cue.length}`);
     assert.doesNotMatch(e.cue, /neck|throat|chok/i, e.id);
     assert.ok(e.mus, e.id);
     assert.ok(e.muscles.primary.length >= 1, e.id);
@@ -319,7 +320,7 @@ test('catalogue 13 adds 36 edging exercises (ticket 12b)', () => {
     assert.equal(e.r.length, 3, e.id);
     e.r.forEach((n) => assert.ok(Number.isInteger(n) && n > 0, e.id));
     assert.equal(e.cue.includes('\n') || e.cue.includes('\r'), false, e.id);
-    assert.ok(e.cue.length > 40 && e.cue.length <= 400, `${e.id} is ${e.cue.length}`);
+    assert.ok(e.cue.length > 40 && e.cue.length <= 403, `${e.id} is ${e.cue.length}`);
     assert.doesNotMatch(e.cue, /neck|throat|chok/i, e.id);
     assert.ok(e.mus, e.id);
     assert.ok(e.muscles.primary.length >= 1, e.id);
@@ -355,7 +356,7 @@ test('catalogue 13 adds 36 massage exercises (ticket 12c)', () => {
     assert.equal(e.r.length, 3, e.id);
     e.r.forEach((n) => assert.ok(Number.isInteger(n) && n > 0, e.id));
     assert.equal(e.cue.includes('\n') || e.cue.includes('\r'), false, e.id);
-    assert.ok(e.cue.length > 40 && e.cue.length <= 400, `${e.id} is ${e.cue.length}`);
+    assert.ok(e.cue.length > 40 && e.cue.length <= 403, `${e.id} is ${e.cue.length}`);
     assert.doesNotMatch(e.cue, /neck|throat|chok/i, e.id);
     assert.ok(e.mus, e.id);
     assert.ok(e.muscles.primary.length >= 1, e.id);
@@ -389,7 +390,7 @@ test('catalogue 13 adds 36 strip and tease exercises (ticket 12d)', () => {
     assert.equal(e.r.length, 3, e.id);
     e.r.forEach((n) => assert.ok(Number.isInteger(n) && n > 0, e.id));
     assert.equal(e.cue.includes('\n') || e.cue.includes('\r'), false, e.id);
-    assert.ok(e.cue.length > 40 && e.cue.length <= 400, `${e.id} is ${e.cue.length}`);
+    assert.ok(e.cue.length > 40 && e.cue.length <= 403, `${e.id} is ${e.cue.length}`);
     assert.doesNotMatch(e.cue, /neck|throat|chok/i, e.id);
     assert.ok(e.mus, e.id);
     assert.ok(e.muscles.primary.length >= 1, e.id);
@@ -423,7 +424,7 @@ test('catalogue 13 adds 36 shower and bath exercises (ticket 12e)', () => {
     assert.equal(e.r.length, 3, e.id);
     e.r.forEach((n) => assert.ok(Number.isInteger(n) && n > 0, e.id));
     assert.equal(e.cue.includes('\n') || e.cue.includes('\r'), false, e.id);
-    assert.ok(e.cue.length > 40 && e.cue.length <= 400, `${e.id} is ${e.cue.length}`);
+    assert.ok(e.cue.length > 40 && e.cue.length <= 403, `${e.id} is ${e.cue.length}`);
     assert.doesNotMatch(e.cue, /neck|throat|chok/i, e.id);
     assert.ok(e.mus, e.id);
     assert.ok(e.muscles.primary.length >= 1, e.id);
@@ -457,7 +458,7 @@ test('catalogue 13 adds 36 pool exercises (ticket 12f)', () => {
     assert.equal(e.r.length, 3, e.id);
     e.r.forEach((n) => assert.ok(Number.isInteger(n) && n > 0, e.id));
     assert.equal(e.cue.includes('\n') || e.cue.includes('\r'), false, e.id);
-    assert.ok(e.cue.length > 40 && e.cue.length <= 400, `${e.id} is ${e.cue.length}`);
+    assert.ok(e.cue.length > 40 && e.cue.length <= 403, `${e.id} is ${e.cue.length}`);
     assert.doesNotMatch(e.cue, /neck|throat|chok/i, e.id);
     assert.ok(e.mus, e.id);
     assert.ok(e.muscles.primary.length >= 1, e.id);
@@ -493,7 +494,7 @@ test('catalogue 13 adds 36 hot tub exercises (ticket 12g)', () => {
     assert.equal(e.r.length, 3, e.id);
     e.r.forEach((n) => assert.ok(Number.isInteger(n) && n > 0, e.id));
     assert.equal(e.cue.includes('\n') || e.cue.includes('\r'), false, e.id);
-    assert.ok(e.cue.length > 40 && e.cue.length <= 400, `${e.id} is ${e.cue.length}`);
+    assert.ok(e.cue.length > 40 && e.cue.length <= 403, `${e.id} is ${e.cue.length}`);
     assert.doesNotMatch(e.cue, /neck|throat|chok/i, e.id);
     assert.ok(e.mus, e.id);
     assert.ok(e.muscles.primary.length >= 1, e.id);
@@ -529,7 +530,7 @@ test('catalogue 13 adds 36 balcony exercises (ticket 12h)', () => {
     assert.equal(e.r.length, 3, e.id);
     e.r.forEach((n) => assert.ok(Number.isInteger(n) && n > 0, e.id));
     assert.equal(e.cue.includes('\n') || e.cue.includes('\r'), false, e.id);
-    assert.ok(e.cue.length > 40 && e.cue.length <= 400, `${e.id} is ${e.cue.length}`);
+    assert.ok(e.cue.length > 40 && e.cue.length <= 403, `${e.id} is ${e.cue.length}`);
     assert.doesNotMatch(e.cue, /neck|throat|chok/i, e.id);
     assert.ok(e.mus, e.id);
     assert.ok(e.muscles.primary.length >= 1, e.id);
@@ -565,7 +566,7 @@ test('catalogue 13 adds 36 doorframe exercises (ticket 12i)', () => {
     assert.equal(e.r.length, 3, e.id);
     e.r.forEach((n) => assert.ok(Number.isInteger(n) && n > 0, e.id));
     assert.equal(e.cue.includes('\n') || e.cue.includes('\r'), false, e.id);
-    assert.ok(e.cue.length > 40 && e.cue.length <= 400, `${e.id} is ${e.cue.length}`);
+    assert.ok(e.cue.length > 40 && e.cue.length <= 403, `${e.id} is ${e.cue.length}`);
     assert.doesNotMatch(e.cue, /neck|throat|chok/i, e.id);
     assert.ok(e.mus, e.id);
     assert.ok(e.muscles.primary.length >= 1, e.id);
@@ -610,7 +611,7 @@ test('catalogue 13 adds 36 body exercises (ticket 11)', () => {
     assert.equal(e.r.length, 3, e.id);
     e.r.forEach((n) => assert.ok(Number.isInteger(n) && n > 0, e.id));
     assert.equal(e.cue.includes('\n') || e.cue.includes('\r'), false, e.id);
-    assert.ok(e.cue.length > 40 && e.cue.length <= 400, `${e.id} is ${e.cue.length}`);
+    assert.ok(e.cue.length > 40 && e.cue.length <= 403, `${e.id} is ${e.cue.length}`);
     assert.doesNotMatch(e.cue, /neck|throat|chok/i, e.id);
     assert.ok(e.mus, e.id);
     assert.ok(e.muscles.primary.length >= 1, e.id);
@@ -651,7 +652,7 @@ test('catalogue 13 adds 30 more body exercises (ticket 11b)', () => {
     assert.equal(e.r.length, 3, e.id);
     e.r.forEach((n) => assert.ok(Number.isInteger(n) && n > 0, e.id));
     assert.equal(e.cue.includes('\n') || e.cue.includes('\r'), false, e.id);
-    assert.ok(e.cue.length > 40 && e.cue.length <= 400, `${e.id} is ${e.cue.length}`);
+    assert.ok(e.cue.length > 40 && e.cue.length <= 403, `${e.id} is ${e.cue.length}`);
     assert.doesNotMatch(e.cue, /neck|throat|chok/i, e.id);
     assert.ok(e.mus, e.id);
     assert.ok(e.muscles.primary.length >= 1, e.id);
@@ -698,7 +699,7 @@ test('catalogue 13 adds 36 kink exercises (ticket 10)', () => {
     assert.equal(e.r.length, 3, e.id);
     e.r.forEach((n) => assert.ok(Number.isInteger(n) && n > 0, e.id));
     assert.equal(e.cue.includes('\n') || e.cue.includes('\r'), false, e.id);
-    assert.ok(e.cue.length > 40 && e.cue.length <= 400, `${e.id} is ${e.cue.length}`);
+    assert.ok(e.cue.length > 40 && e.cue.length <= 403, `${e.id} is ${e.cue.length}`);
     assert.doesNotMatch(e.cue, /neck|throat|chok/i, e.id);
     assert.ok(e.mus, e.id);
     assert.ok(e.muscles.primary.length >= 1, e.id);
@@ -740,7 +741,7 @@ test('catalogue 13 adds 30 more kink exercises (ticket 10b)', () => {
     assert.equal(e.r.length, 3, e.id);
     e.r.forEach((n) => assert.ok(Number.isInteger(n) && n > 0, e.id));
     assert.equal(e.cue.includes('\n') || e.cue.includes('\r'), false, e.id);
-    assert.ok(e.cue.length > 40 && e.cue.length <= 400, `${e.id} is ${e.cue.length}`);
+    assert.ok(e.cue.length > 40 && e.cue.length <= 403, `${e.id} is ${e.cue.length}`);
     assert.doesNotMatch(e.cue, /neck|throat|chok/i, e.id);
     assert.ok(e.mus, e.id);
     assert.ok(e.muscles.primary.length >= 1, e.id);

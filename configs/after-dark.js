@@ -6,6 +6,9 @@
 // Cardio & combat flow of timed holds, held longer at Levels II and III.
 const { S, SS, C, E, A, T, L, F } = require('./shared.js');
 const { EX } = require('../exercises.js');
+// A position's day label and short name as the tours always built them: the exercise names now say Mali (349), the
+// day names keep her (350), so their pins hold.
+const dayName = (pos) => EX[pos].name.replace(/\bMali's\b/, 'her').replace(/\bMali (?=holds\b)/, 'she ').replace(/\bMali\b/, 'her').replace(/^h/, 'H');
 
 const LIFT = { family: 'Strength' };
 const COND = { family: 'Cardio & combat' };
@@ -106,7 +109,7 @@ function tour(id, name, blurb, about, positions, ways) {
   const dayTypes = {}, cycle = [];
   ways.forEach((w) => positions.forEach((pos) => {
     const g = POSITION_GROUP[pos], [way, block] = WAYS[w], key = `${pos.slice(4)}-${w}`;
-    dayTypes[key] = { label: `${EX[pos].name} · ${way}`, short: EX[pos].name.split(' ')[0], absSlots: [], blocks: [block(g), F('The position', [pos, 'positions', 'positions?', 'positions?'], POS)] };
+    dayTypes[key] = { label: `${dayName(pos)} · ${way}`, short: dayName(pos).split(' ')[0], absSlots: [], blocks: [block(g), F('The position', [pos, 'positions', 'positions?', 'positions?'], POS)] };
     cycle.push(key);
   }));
   return { id, ...COUPLE, days: 30, name, subject: 'Positions tour', minutes: [24, 30], levers: [null, 'reps', 'holds'],
@@ -130,7 +133,7 @@ function tour60(id, name, split, blurb, about, names, positions, ways) {
   const dayTypes = {}, cycle = [];
   ways.forEach((w) => positions.forEach((pos) => {
     const [way, day] = TOUR_WAYS[w], key = `${pos.replace(/^(pos|fuck)_/, '')}-${w}`;
-    dayTypes[key] = { ...day(pos), label: `${EX[pos].name} · ${way}`, short: EX[pos].name.split(/[ ,]/)[0] };
+    dayTypes[key] = { ...day(pos), label: `${dayName(pos)} · ${way}`, short: dayName(pos).split(/[ ,]/)[0] };
     cycle.push(key);
   }));
   const gym = ['circuit', 'strength', 'carry', 'kiss'].includes(ways[0]);

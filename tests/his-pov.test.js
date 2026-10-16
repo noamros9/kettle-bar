@@ -92,7 +92,7 @@ const RIM_OK = new Set(['his asshole', 'his hole', 'your asshole', 'your hole'])
 function inHimHits(e) {
   if (e.cat !== 'couple') return [];
   const text = `${e.name}\n${e.cue}`.toLowerCase();
-  const rimTongue = e.sub === 'rim' && String(e.cue).toLowerCase().includes('her tongue');
+  const rimTongue = e.sub === 'rim' && /\b(her|mali's) tongue/.test(String(e.cue).toLowerCase());
   const hits = [];
   IN_HIM.forEach((p) => {
     if (rimTongue && RIM_OK.has(p)) return;
