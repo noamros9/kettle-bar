@@ -50,6 +50,15 @@ points were settled 10 Oct (292, 293).
   Massage, Strip and tease) and per place (Shower and bath, Pool, Hot tub, Balcony, Doorframe): 52 programs on one
   Threesomes shelf. The per-act threesome exercises stay 18. *(16 Oct)*
 
+**Order (16 Oct 2026, Noam)**
+- **358 · The names, picked one by one.** Women: Noa, Yael, Maya, Adi, Roni, Gal, Michal, Hila, Dana, Noy, Shani,
+  Inbar, Keren, Lihi, Neta, Agam, Ella, Moran, Yarden, Romi, Bar, Lian, Linoy, Anat, Hodaya (more Israeli women
+  than 351's 2/3; the others spread evenly between); Ashley, Madison, Kayla, Megan; Charlotte, Sophie, Amelia, Holly. Men: Itay,
+  Omer, Ido, Nadav, Tomer, Guy, Ori, Asaf, Erez, Ran, Ariel, Daniel, Shahar, Alon, Yuval, Dor; Jake, Tyler, Brandon,
+  Ryan; Oliver, Harry, Jack, Theo. *(16 Oct)*
+- **357 · Phase 36 runs after ticket 1, before 2a.** 1a–1 make no programs; 35 then pauses so its programs are born
+  logical, and 36's session tags read the Mali text. *(16 Oct)*
+
 ## Tickets
 
 Caps: no exercise ticket over 36, no program ticket over 15 (Noam, 10 Oct 2026). Place × act is one ticket per act, 30
@@ -58,7 +67,7 @@ exercises (six at each of five places).
 | # | Ticket | Tier | Blocked by | Branch | Status |
 |---|---|---|---|---|---|
 | 0 | This plan | plan | – | `plan/p35-tickets-small` | done (PR #358, #359) |
-| 1a | Mali in the exercises (349) | content | – | `content/p35-mali-exercises` | todo |
+| 1a | Mali in the exercises (349) | content | – | `content/p35-mali-exercises` | done (PR #469) |
 | 1b | Mali in couple blurbs and abouts (350) | content | 1a | `content/p35-mali-programs` | todo |
 | 1c | The third person's name, filled per workout (351, 353) | feature | – | `feature/p35-third-names` | todo |
 | 1 | Third figure, the FMF/MMF tag, and the filing rules (289, 290, 291) | feature | – | `feature/p35-figure-tags` | todo |
@@ -117,7 +126,9 @@ exercises (six at each of five places).
 ### 1a. Mali in the exercises (Opus; 349)
 - **Build:** a committed script names Mali at the first she/her of each couple cue and in exercise names (her → Mali,
   her hips → Mali's hips, she → Mali), the rest left as she/her; Claude reads the result and fixes what a script can't
-  tell apart (object or possessive "her"). Text only, before the `LOAD` block, so the build cache stays warm.
+  tell apart (object or possessive "her"). Text only, before the `LOAD` block, so the code hash holds; the catalogue
+  slices hash the cue text, though, so every program on catalogue 10+ builds cold once (one CI run). Pins hold: days
+  are ids.
 - **Files:** `exercises.js`, `scripts/name-mali.js`, `tests/mali.test.js`.
 - **Test first:** `tests/mali.test.js`: every couple cue that mentions her names Mali exactly once, first; no solo
   exercise names Mali; built days and pins are unchanged.

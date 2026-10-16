@@ -2,7 +2,7 @@
 
 The index: where we are, what comes next, and the two phases being built now. Every other phase's decisions live at the
 top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase comes up. Decision numbers are global
-(the next one is **357**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
+(the next one is **359**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
 ## Resume here (16 Oct 2026)
 - **Phase 20 is done** (16 Oct, archived): 1,395 programs, Explicit 98. **Stopped there (Noam, 16 Oct): wait for his go.**
