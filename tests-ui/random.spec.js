@@ -22,10 +22,9 @@ const straightPip = (page) => page.locator('.pip').first();
 test('choose on the sheet, reshuffle, start, mark done: Stats counts it, no program does', async ({ app }, testInfo) => {
   await app.open('#programs');
   await openSheet(app.page);
-  // Cardio & combat: no 15-minute days in the recipe book, so 15 is off, and says why
+  // Cardio & combat: every family has 15-minute days since Phase 34 (its hidden circuits), so 15 is on
   await choose(app.page, { family: 'Cardio & combat', equipment: 'No equipment' });
-  await expect(chip(app.page, 'Minutes', '15 min')).toBeDisabled();
-  await expect(sheetOf(app.page)).toContainText('No 15-minute Cardio & combat workout with no equipment.');
+  await expect(chip(app.page, 'Minutes', '15 min')).toBeEnabled();
   await choose(app.page, { minutes: 25 });
   const prev = sheetOf(app.page).locator('.rprev');
   await expect(prev).toContainText('about');

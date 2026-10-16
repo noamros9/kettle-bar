@@ -164,7 +164,7 @@ function generate({ configs = [...require('./programs.config.js'), ...require('.
       const only = cfg.targets && Recipes.GRID.reduce((bits, m, i) => (cfg.targets.includes(m) ? bits | (1 << i) : bits), 0);
       types.push({ ...type, ...tried, ...(only !== undefined && { fit: tried.fit.map((bits) => bits & only) }) });
       // its blocks as parts of a mix: blocks that stand on their own, of a subject that is one family, resting like REST
-      if (family === 'Mixed' || json(r.rests) !== json(Builder.REST)) return;
+      if (family === 'Mixed' || cfg.hidden || json(r.rests) !== json(Builder.REST)) return; // a hidden day type is never a part
       r.blocks.forEach((block, bi) => {
         const key = `${subject}|${json(block)}`;
         if (block.slots.length < 3 || partSeen.has(key)) return;
