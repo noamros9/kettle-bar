@@ -51,8 +51,8 @@ test('they join the pools only at catalogue 14: catalogue 13 is exactly as befor
   Object.entries(poolsAt(13)).forEach(([name, list]) => assert.deepEqual(poolsAt(14)[name].slice(0, list.length), list, `${name} keeps its order`));
 });
 
-test('own programs and random workouts open at catalogue 14 at the phase\'s last ticket (264)', () => {
-  assert.equal(NEWEST, 14);
+test('own programs and random workouts open at catalogue 14 or later from the phase\'s last ticket (264)', () => {
+  assert.ok(NEWEST >= 14);
 });
 
 // Phase 23 ticket 13 (264): the recipe book opens at catalogue 14, so a new own program or random workout of a yoga or
@@ -61,7 +61,7 @@ test('the recipe book is at catalogue 14, and a yoga day type drawn from it can 
   const { generate } = require('../recipe-book.js');
   const yoga = require('../program-builder.js').CONFIGS.find((c) => c.subject === 'Power yoga');
   const book = generate({ configs: [yoga], families: [['Mind & body', ['Power yoga']]] });
-  assert.equal(book.catalogue, 14);
+  assert.ok(book.catalogue >= 14);
   const at14 = new Set(Object.values(poolsAt(14)).flat().filter((id) => cat.EX[id] && cat.EX[id].added === 14));
   const p = require('../program-builder.js').buildConfig(yoga);
   assert.ok(p.days.some((d) => d.blocks.some((b) => b.items.some((it) => at14.has(it.ex)))), 'catalogue-14 moves in reach');

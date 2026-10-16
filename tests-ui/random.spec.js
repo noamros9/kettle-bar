@@ -133,7 +133,7 @@ base.test('a random workout marked done reaches a second browser through the acc
 });
 
 // Rest-day flow (Phase 7 ticket 3)
-test('rest day: the card's 10 and 15 min open the sheet with a mobility, flexibility or yoga flow; Not today hides it until tomorrow', async ({ app }, testInfo) => {
+test('rest day: the card\'s 10 and 15 min open the sheet with a mobility, flexibility or yoga flow; Not today hides it until tomorrow', async ({ app }, testInfo) => {
   await app.open('#programs');
   const card = app.page.locator('.restcard');
   await expect(card).toContainText('Rest day?');

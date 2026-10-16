@@ -15,7 +15,7 @@ const { FAMILIES } = require('../app/library.js');
 
 const SUBJECTS = FAMILIES.flatMap(([, list]) => list).filter((s) => s !== 'Variety' && s !== 'Surprise' && !['Couples', 'Date night warm-up', 'Positions tour', 'Morning glory / Sunday', 'Explicit', 'Rough', 'Kink-lite', 'Body play', 'Rimming', 'Edging', 'Massage', 'Strip and tease', 'Shower and bath', 'Pool', 'Hot tub', 'Balcony', 'Doorframe'].includes(s)) // Variety (Phase 16) and Surprise (Phase 23, a Variety program too) are not in build your own: 60 one-off day types are not a subject to pick; nor Couples (Phase 18), Explicit (Phase 20), Rough and Kink-lite (Phase 22), Body play and Rimming (Phase 22), Edging and Massage (Phase 22), Strip and tease and Shower and bath (Phase 22), Pool and Hot tub (Phase 22), or Balcony and Doorframe (Phase 22): sessions for two
   .filter((s) => CONFIGS.some((c) => c.subject === s && (c.added || 0) < require('../recipe-book.js').HELD)); // a subject whose programs are all held (Phase 23's new ones, decision 318) has no day types until the phase's last ticket
-const MINUTES = [20, 25, 30, 35, 40];
+const MINUTES = [15, 20, 25, 30, 35, 40];
 const EQUIPS = ['all', 'kb', 'bw'];
 const GEAR = { all: 'all equipment', kb: 'a kettlebell only', bw: 'no equipment' };
 // levers: two of the subject's own, k picks which pair (k = 0, 1, 2 ... goes through them)
@@ -203,7 +203,7 @@ test('make: what the config holds', () => {
   assert.equal(cfg.subject, 'Strength');
   assert.equal(cfg.equip, 'kb');
   assert.deepEqual(cfg.levers, [null, 'weight', 'reps']);
-  assert.equal(cfg.catalogue, 14, 'the newest catalogue (Phase 23)');
+  assert.equal(cfg.catalogue, 15, 'the newest catalogue (Phase 34)');
   assert.equal(cfg.cycle.length, 4);
   assert.equal(new Set(cfg.cycle).size, 4);
   assert.equal(typeof cfg.about, 'string');
@@ -307,7 +307,7 @@ test('make: a choice that is not a choice is refused', () => {
 test('recipeFor: a recipe buildDay accepts, from a day type', () => {
   const t = R.pick({ subjects: ['Strength'], equipment: 'kb', minutes: 30 })[0];
   const r = R.recipeFor(t, { minutes: 30, equipment: 'kb', levers: ['weight', 'reps'] });
-  assert.deepEqual([r.minutes, r.equip, r.levers, r.catalogue, r.key, r.label], [[28, 32], 'kb', [null, 'weight', 'reps'], 14, t.key, t.label]);
+  assert.deepEqual([r.minutes, r.equip, r.levers, r.catalogue, r.key, r.label], [[28, 32], 'kb', [null, 'weight', 'reps'], 15, t.key, t.label]);
   const d = Builder.buildDay(r, { day: 1, level: 1, rnd: Builder.makeRnd('r'), memory: Builder.newMemory() }, cat);
   assert.equal(d.title, t.label);
 });

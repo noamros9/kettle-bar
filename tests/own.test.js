@@ -111,8 +111,8 @@ test('states: equipment and minutes the subject cannot build are off, each with 
 });
 
 test('fit: what a change of subject, equipment or minutes leaves is a combination that builds', () => {
-  // Strength has no 20-minute days: from 20 minutes it moves to the nearest that builds
-  assert.equal(Own.fit(recipes, choices({ minutes: 20 })).minutes, 25);
+  // Strength has no 20-minute days: from 20 minutes it moves to the nearest that builds (15 and 25 tie; the shorter wins)
+  assert.equal(Own.fit(recipes, choices({ minutes: 20 })).minutes, 15);
   // an equipment the subject cannot do falls to one it can
   const none = R.book().subjects.map(([s]) => s).find((s) => !recipes.options(s).equipment.bw.length);
   assert.notEqual(Own.fit(recipes, { ...Own.defaults(recipes, none), equipment: 'bw' }).equipment, 'bw');
