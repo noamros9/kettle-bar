@@ -31,7 +31,7 @@ function viewExercise() {
     <div class="expage">
       <div class="card"><div class="bigfig">${fig(e.id)}</div>
         <dl class="facts">
-          <div><dt>How to</dt><dd>${esc(e.cue)}</dd></div>
+          <div><dt>How to</dt><dd>${cueOf(e)}</dd></div>
           <div><dt>${stretch || e.u === 'sec' ? 'Hold' : 'Reps'}</dt><dd>${dose}</dd></div>
           <div><dt>Equipment</dt><dd>${esc(KBExport.equipment(e))}</dd></div>
         </dl></div>

@@ -23,7 +23,7 @@ function exCard(it, i, bi, opts = {}) {
     <button class="exlink" data-ex="${it.ex}" aria-label="${esc(e.name)}: how to and muscles worked"><div class="figbox">${fig(it.ex)}</div>
     <div class="cnt">${count}</div><div class="nm">${esc(e.name)}</div></button>
     ${it.travel ? `<span class="notechip swapped">Swapped for travel, from ${esc(EX[it.swappedFrom].name)}</span>` : it.skipped ? `<span class="notechip swapped">Swapped: you skip ${esc(EX[it.swappedFrom].name)}</span>` : it.swappedFrom ? `<span class="notechip swapped">Swapped from ${esc(EX[it.swappedFrom].name)}</span>${undoButton(opts.D, bi, i)}` : ''}${it.travelMissing ? '<span class="notechip needsgear">Needs gear: nothing to swap to</span>' : ''}${it.skipMissing ? '<span class="notechip needsgear">You skip this, no stand-in</span>' : ''}${noteChip(it)}${e.load ? `<div class="ld">${esc(LOAD[e.load])}</div>` : ''}
-    <p class="cue">${esc(e.cue)}</p>${work}${pips}</article>`;
+    <p class="cue">${cueOf(e)}</p>${work}${pips}</article>`;
 }
 // an item's count on its card: the same parts the exported text says (app/export.js, Phase 32)
 const countHTML = (d) => `<b class="num">${d.n}</b><span>${d.unit}</span>`;
@@ -117,7 +117,7 @@ function stretchBlock(b, key, label, n, ses) {
       <button class="runbtn${done ? ' done' : ''}" data-stretch="${key}">${done ? '✓ Done · run again' : `▶ Start ${key === 'warm' ? 'warm-up' : 'cool-down'}`}</button>
     </div>
     <div class="exgrid">${b.items.map((it) => { const e = EX[it.ex]; return `<article class="ex"><button class="exlink" data-ex="${it.ex}" aria-label="${esc(e.name)}: how to"><div class="figbox">${fig(it.ex)}</div>
-      <div class="cnt"><b class="num">${it.n}</b><span>${e.side ? 'sec each side' : 'seconds'}</span></div><div class="nm">${esc(e.name)}</div></button><p class="cue">${esc(e.cue)}</p></article>`; }).join('')}</div>
+      <div class="cnt"><b class="num">${it.n}</b><span>${e.side ? 'sec each side' : 'seconds'}</span></div><div class="nm">${esc(e.name)}</div></button><p class="cue">${cueOf(e)}</p></article>`; }).join('')}</div>
   </section>`;
 }
 const heatLegend = () => `<div class="heatkey" aria-hidden="true"><span>Less</span>${[1, 2, 3, 4].map((n) => `<i class="mm-l${n}"></i>`).join('')}<span>More</span></div>`;
@@ -241,6 +241,7 @@ function viewDay() {
   const w = D.day;
   if (!w) return viewProgram();
   rememberPid(p.id);
+  cueAt = p.id.startsWith('own-') ? null : { pid: p.id, day: w.day }; // your own programs step by date (351)
   const ses = D.session();
   if (ses.started() !== null) S.resume(ses.started());
   const TY = typesOf(p), t = TY[w.type] || { label: w.title, c: 'var(--muted)' }, isD = store.isDone(p.id, w.day);

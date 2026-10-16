@@ -45,7 +45,7 @@ function printBlocks(w, p, { figs }) {
 const dayMeta = (w, p) => [((p.dayTypes || {})[w.type] || {}).label || w.title, p.levels[w.level - 1], `about ${w.est} min${w.stretchMin ? ` + ${w.stretchMin} min stretching` : ''}`].map(esc).join(' · ');
 function printExercise(e) {
   return `<h1>${esc(e.name)}</h1><div class="pcard"><div class="pbig">${fig(e.id)}</div>
-    <dl class="facts"><div><dt>How to</dt><dd>${esc(e.cue)}</dd></div>
+    <dl class="facts"><div><dt>How to</dt><dd>${cueOf(e)}</dd></div>
       <div><dt>${e.u === 'sec' || e.cat === 'warmup' || e.cat === 'cooldown' ? 'Hold' : 'Reps'}</dt><dd>${esc(KBExport.exerciseDose(e))}</dd></div>
       <div><dt>Equipment</dt><dd>${esc(KBExport.equipment(e))}</dd></div></dl></div>`;
 }
@@ -60,7 +60,7 @@ function printProgram(p) {
   return `<div class="eyebrow">${esc([p.subject, `${ds.length} days`].filter(Boolean).join(' · '))}</div><h1>${esc(p.name)}</h1>
     <p class="pabout">${esc(p.about || p.blurb || '')}</p>${p.gear ? `<p class="pmeta">${esc(p.gear)}</p>` : ''}
     <div class="pdays">${ds.map((w) => `<section class="pday"><h2>Day ${w.day} · ${esc(w.name)}</h2><p class="pmeta">${dayMeta(w, p)}</p>${printBlocks(w, p, { figs: false })}</section>`).join('')}</div>
-    <section class="pgloss"><h2>The exercises</h2><div class="pglist">${list.map((id) => `<article class="pgitem"><div class="pfig">${fig(id)}</div><div><b>${esc(EX[id].name)}</b><p>${esc(EX[id].cue)}</p></div></article>`).join('')}</div></section>`;
+    <section class="pgloss"><h2>The exercises</h2><div class="pglist">${list.map((id) => `<article class="pgitem"><div class="pfig">${fig(id)}</div><div><b>${esc(EX[id].name)}</b><p>${cueOf(EX[id])}</p></div></article>`).join('')}</div></section>`;
 }
 let printable = false; // the view drew something to print (not "Nothing to print")
 const nothing = (title, text) => `<div class="pnone"><h1>${title}</h1><p class="lede">${text}</p></div>`;

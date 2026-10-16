@@ -27,7 +27,7 @@ function viewNow() {
   return `${head}<h1>${esc(e.name)}</h1>
     <p class="lede">${mode === 'missed' ? `For your ${esc(MUSCLE_NAMES[e.muscles.primary[0]].toLowerCase())}: worked least in the last 7 days.` : 'A random one from the quiet, no-equipment list.'}</p>
     <div class="card nowex"><div class="bigfig">${fig(e.id)}</div>
-      <dl class="facts"><div><dt>How to</dt><dd>${esc(e.cue)}</dd></div>
+      <dl class="facts"><div><dt>How to</dt><dd>${cueOf(e)}</dd></div>
         <div><dt>Time</dt><dd>${pick.seconds} s${e.side ? ', switch sides halfway' : ''}</dd></div></dl></div>
     <div class="pbtns"><button class="btn" data-now-start="1">Start · ${pick.seconds} s</button><button class="btn ghost" data-now-another="1">Another</button><button class="btn ghost" data-now-done="1">Done</button></div>`;
 }
