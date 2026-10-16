@@ -11,6 +11,9 @@ top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase c
   Against the guidelines: ice returns (blindfold and ice on her, then ice on him: `session-tags.js` tags `him:ice`
   apart from `ice`, so rule 6 misses it, likely in other couple programs too); the day has no warm-up though the
   about promises a tease and a massage; a pool name on a home day. A fix moves built days and trips pins: his call.
+- **Second (Noam, 16 Oct night): threesomes with the other pairing too.** You on the other woman (FMF), and the other
+  man on Mali (MMF), as their own exercises. Grill him (how many, which acts, the FMF/MMF mix), then add tickets to
+  Phase 35's plan before 2d, in a `plan/...` PR.
 - **Phase 35: 2a–2c done** (16 Oct; #479–#481), 144 threesome exercises at catalogue 16, each third figure placed by
   hand and approved by Noam (`scripts/emit-trio.js`, Grok text only, 368). **Stopped: wait for his go** before 2d.
   Foursomes are in the plan (367–379, tickets 8a–8m after 6x); 35 is catalogue 16, foursomes 17, Phase 27 18.
