@@ -1,4 +1,4 @@
-# Phase 35 · Catalogue 14: threesomes, and every act at every place
+# Phase 35 · Catalogue 16: threesomes, every act at every place; catalogue 17: foursomes
 
 Grilled 9 Oct 2026 (Noam), at the end of Phase 22's sex exercises. Claude plans; Grok writes the exercises and the
 program text, plan first (132). Tickets written 10 Oct 2026 from the decisions below; nothing here is re-asked. Its open
@@ -6,8 +6,8 @@ points were settled 10 Oct (292, 293).
 
 ## Decisions
 
-**The new exercises (about 666, catalogue 14)**
-- **283 · A new phase, catalogue 14.** Threesomes and place × act land after Phase 22 ships, as their own catalogue
+**The new exercises (about 666, catalogue 16)**
+- **283 · A new phase, catalogue 16 (was 14: 367).** Threesomes and place × act land after Phase 22 ships, as their own catalogue
   with their own pins. *(9 Oct)*
 - **284 · Threesomes in every act kind.** 18 each in oral, hands, anal, toys, rough, kink, body play, rimming,
   edging, massage, strip and tease; 36 in intercourse; 234 in all. *(9 Oct)*
@@ -67,6 +67,30 @@ points were settled 10 Oct (292, 293).
 - **357 · Phase 36 runs after ticket 1, before 2a.** 1a–1 make no programs; 35 then pauses so its programs are born
   logical, and 36's session tags read the Mali text. *(16 Oct)*
 
+**Build and catalogue (16 Oct 2026, Noam)**
+- **367 · Catalogue 16 (was 14), foursomes 17, Phase 27 18 (was 16).** 14 and 15 shipped (yoga, breathing); a catalogue
+  must outnumber every one shipped before it, or saved own and random workouts reshuffle. *(technical, 16 Oct)*
+- **368 · Exercise tickets run as Phase 20's.** Grok writes only the names and cues in one text file from a pasted
+  brief; Claude builds the entries (poses, muscles, reps, tags) with a committed emit script, the tests and the review. *(16 Oct)*
+
+**Foursomes (16 Oct 2026, Noam)**
+- **369 · Foursomes in Phase 35, after 6x**, at catalogue 17 (367). *(16 Oct)*
+- **370 · Three line-ups:** you, Mali and two women (FFFM) 50%; two couples, you two and another (FMFM) 40%; you, Mali
+  and two men (MMMF) 10%. Tagged like `trio` (`quad: 'FFFM' | 'FMFM' | 'MMMF'`). *(16 Oct)*
+- **371 · 210 exercises:** a Foursome kind of 72, 9 in each of the 12 act kinds (108), 6 at each of the 5 places (30). *(16 Oct)*
+- **372 · Two couples do it all:** side by side, a full swap, the women on each other, all four at once. Swap cues are
+  told from your side and as explicit ("you watch {man} take Mali from behind"). *(16 Oct)*
+- **373 · MMMF keeps 288:** incidental touch only between the men; nothing receiving said about you. *(16 Oct)*
+- **374 · A fourth figure:** an Opus ticket adds four-figure poses to `figures.js`, like 291; every foursome draws four. *(16 Oct)*
+- **375 · Two guests per workout:** `{woman}`/`{woman2}`, `{woman}`/`{man}` or `{man}`/`{man2}`, from the same lists,
+  never the same person, the same pair all day; the couples may swap within a session. *(16 Oct)*
+- **376 · More names, picked one by one.** Women + Liron, Rotem, Meital, Ofir, Daniella, Liel, Karin, Avital, Alma, Mika;
+  Taylor, Hailey, Jessica; Emily, Lucy. Men + Gilad, Nir, Shai, Barak; Josh, Chris; Henry, Freddie. *(16 Oct)*
+- **377 · One line-up per day** (352 widened): a day's group exercises are all FMF, MMF, FFFM, FMFM or MMMF. *(16 Oct)*
+- **378 · 34 programs:** a Foursome subject of 18, and 2 foursome programs in each of the 8 act threesome subjects (356). *(16 Oct)*
+- **379 · The Threesomes shelf becomes Group sex.** Program text says "two other women", "another couple", "two other
+  men" (as 353). *(16 Oct)*
+
 ## Tickets
 
 Caps: no exercise ticket over 36, no program ticket over 15 (Noam, 10 Oct 2026). Place × act is one ticket per act, 30
@@ -105,7 +129,7 @@ exercises (six at each of five places).
 | 4j | Place × act: kink, 6 at each of 5 places, 30 (286) | content | 1 | `content/p35-place-kink` | todo |
 | 4k | Place × act: body play, 6 at each of 5 places, 30 (286) | content | 1 | `content/p35-place-body-play` | todo |
 | 4l | Place × act: rimming, 6 at each of 5 places, 30 (286) | content | 1 | `content/p35-place-rimming` | todo |
-| 5 | Pools and pins for catalogue 14, the FMF/MMF split in every kind (287) | feature | 2a–4l | `feature/p35-pools` | todo |
+| 5 | Pools and pins for catalogue 16, the FMF/MMF split in every kind (287) | feature | 2a–4l | `feature/p35-pools` | todo |
 | 6a | Threesome subject, programs 1–9 of 54 (292, 354) | content | 5 | `content/p35-threesome-1` | todo |
 | 6b | Threesome subject, programs 10–18 of 54 (292, 354) | content | 5 | `content/p35-threesome-2` | todo |
 | 6c | Threesome subject, programs 19–27 of 54 (292, 354) | content | 5 | `content/p35-threesome-3` | todo |
@@ -130,7 +154,20 @@ exercises (six at each of five places).
 | 6v | Threesome massage, strip and tease, 4 each (356) | content | 5 | `content/p35-3some-acts-c` | todo |
 | 6w | Threesome in the shower and bath, pool, hot tub, 4 each (356) | content | 5 | `content/p35-3some-places-a` | todo |
 | 6x | Threesome on the balcony, in the doorframe, 4 each (356) | content | 5 | `content/p35-3some-places-b` | todo |
-| 7 | Close the phase: measure, pins, archive | plan | 6a–6x | `plan/p35-close` | todo |
+| 8a | More names in the lists (376) | feature | – | `feature/p35-more-names` | todo |
+| 8b | Fourth figure, the `quad` tag, two guests per workout, one line-up per day (374, 375, 377) | feature | 6x | `feature/p35-quad` | todo |
+| 8c | Foursome kind, first 36 of 72 (371) | content | 8b | `content/p35-quad-kind-a` | todo |
+| 8d | Foursome kind, second 36 of 72 (371) | content | 8b | `content/p35-quad-kind-b` | todo |
+| 8e | Foursome acts: intercourse, oral, hands, anal, 9 each (371) | content | 8b | `content/p35-quad-acts-a` | todo |
+| 8f | Foursome acts: toys, rough, kink, body play, 9 each (371) | content | 8b | `content/p35-quad-acts-b` | todo |
+| 8g | Foursome acts: rimming, edging, massage, strip and tease, 9 each (371) | content | 8b | `content/p35-quad-acts-c` | todo |
+| 8h | Place × foursome, 6 at each of 5 places, 30 (371) | content | 8b | `content/p35-quad-places` | todo |
+| 8i | Pools and pins for catalogue 17; the Group sex shelf (377, 379) | feature | 8c–8h | `feature/p35-quad-pools` | todo |
+| 8j | Foursome subject, programs 1–9 of 18 (378) | content | 8i | `content/p35-foursome-1` | todo |
+| 8k | Foursome subject, programs 10–18 of 18 (378) | content | 8i | `content/p35-foursome-2` | todo |
+| 8l | Foursomes in Explicit, Rough, Kink-lite, Body play threesomes, 2 each (378) | content | 8i | `content/p35-quad-acts-prog-a` | todo |
+| 8m | Foursomes in Rimming, Edging, Massage, Strip and tease threesomes, 2 each (378) | content | 8i | `content/p35-quad-acts-prog-b` | todo |
+| 7 | Close the phase: measure, pins, archive | plan | 6a–8m | `plan/p35-close` | todo |
 
 ### 1a. Mali in the exercises (Opus; 349)
 - **Build:** a committed script names Mali at the first she/her of each couple cue and in exercise names (her → Mali,
@@ -188,23 +225,23 @@ exercises (six at each of five places).
 - **Done when:** the tests pass; Claude has read every changed sentence.
 
 ### 2a–4l. The exercises (Grok, plan first; Opus reviews)
-- **Build:** the counts in the table, catalogue 14, each exercise with its figure, cue, tags and muscles, in the
+- **Build:** the counts in the table, catalogue 16, each exercise with its figure, cue, tags and muscles, in the
   existing exercise shape. Mostly FMF, about two thirds (287), one third MMF in every kind. MMF is incidental only
   (288): hands may brush and bodies touch while both men are on her; nothing between the men as an act, nothing
   receiving said about you. Text follows CLAUDE.md's his-side rules. Cues name her as Mali once, first (349), and the
   third person only as `{woman}` (FMF) or `{man}` (MMF), never a name; exercise names say "another woman / man".
-- **Files:** `exercises.js` (new entries at the end, `added: 14`), nothing else.
+- **Files:** `exercises.js` (new entries at the end, `added: 16`), nothing else.
 - **Test first:** each ticket's count per act kind, kind or place; every exercise has a tag; no MMF exercise has men
-  acting on each other; each `added: 14` id is new.
-- **Done when:** the counts match; `tests/catalogue14.test.js` passes; the PR's CI is green.
+  acting on each other; each `added: 16` id is new.
+- **Done when:** the counts match; `tests/catalogue16.test.js` passes; the PR's CI is green.
 
 ### 5. Pools and pins (Opus)
 - **Build:** one kind per day (352): a day that draws a threesome keeps to FMF or MMF. The 13 new threesome subjects
   (356) in `FAMILIES` and a Threesomes shelf (`app/library.js` is in the recipe cache's key: one cold run). The
-  catalogue-14 pools for each act and place, `POOL_ADDS` entries for the new exercises (so no existing
+  catalogue-16 pools for each act and place, `POOL_ADDS` entries for the new exercises (so no existing
   pool moves), the Threesome kind's pool, and pins for the new catalogue only.
-- **Files:** `program-builder.js`, `tests/catalogue14.test.js`, `tests/fixtures/program-days.json` (new pins only, via `npm run pin`).
-- **Test first:** the catalogue-13 pool hash is unchanged; every catalogue-14 exercise is in its pool and in no older one.
+- **Files:** `program-builder.js`, `tests/catalogue16.test.js`, `tests/fixtures/program-days.json` (new pins only, via `npm run pin`).
+- **Test first:** the catalogue-13 pool hash is unchanged; every catalogue-16 exercise is in its pool and in no older one.
 - **Done when:** `npm run pin` adds pins only; the build gate (#357) passes in CI.
 
 ### 6a–6f. The Threesome subject (Grok, plan first)
@@ -214,10 +251,10 @@ exercises (six at each of five places).
 - **Done when:** the Opus review reads each blurb and about; the PR's CI is green.
 
 ### 6g–6s. One subject each, 8 programs (Grok, plan first)
-- **Build:** 8 programs in the ticket's subject (292), each using catalogue 14's threesome or place exercises that fit
+- **Build:** 8 programs in the ticket's subject (292), each using catalogue 16's threesome or place exercises that fit
   it: the act subjects draw that act's threesome versions (FMF or MMF, 287–288), the five places their place × act
   sets. Program text by the his-side rules and `docs/explicit-guidelines.md`.
-- **Test first:** as 6a, plus 8 new programs in the subject, each using at least one catalogue-14 exercise of its kind
+- **Test first:** as 6a, plus 8 new programs in the subject, each using at least one catalogue-16 exercise of its kind
   or place.
 - **Done when:** as 6a.
 
@@ -228,9 +265,38 @@ exercises (six at each of five places).
 - **Test first:** as 6a; each new subject holds 4; every day has at least one threesome, all FMF or all MMF (352).
 - **Done when:** as 6a.
 
+### 8a. More names (Opus; 376)
+- **Build:** the new names in the lists 1c made, interleaved by country as 351. No program uses a name yet.
+- **Test first:** the lists hold 358's and 376's names, no repeats, about 2/3 Israeli.
+- **Done when:** the test passes; CI green.
+
+### 8b. Fourth figure, the quad tag, two guests (Opus; 374, 375, 377)
+- **Build:** `QUAD` / `markedQuad` poses beside `TRIO` in `exercises.js` and `figures.js`; `quad: 'FFFM' | 'FMFM' |
+  'MMMF'` filed as `trio` is (`filedUnder`); the second placeholder filled from the same list, never the first's name;
+  the day's line-up rule takes the quad line-ups too. A stub exercise tests it, as `tests/threesome-figure.test.js`.
+- **Test first:** a stub quad draws four in every pose; `{woman2}` never equals `{woman}`; a day never mixes line-ups.
+- **Done when:** the tests pass; a 390 px screenshot of a stub shows four figures, light and dark.
+
+### 8c–8h. The foursome exercises (as 2a–4l, 368)
+- **Build:** the counts in the table at catalogue 17 (`added: 17`), line-ups by 370 (half FFFM, 40% FMFM, 10% MMMF in
+  every kind), 372–373 for what may happen, `{woman}`/`{woman2}`/`{man}`/`{man2}` only, Mali once, first.
+- **Test first:** each ticket's counts; every one has `quad` and four figures; the 370 mix within one exercise per kind.
+- **Done when:** the counts match; `tests/catalogue17.test.js` passes; CI green.
+
+### 8i. Pools and pins, catalogue 17 (Opus)
+- **Build:** as 5, for catalogue 17; the Threesomes shelf renamed Group sex (379). Own and random workouts move to 17
+  at this ticket.
+- **Test first:** the catalogue-16 pool hash is unchanged; every catalogue-17 exercise is in its pool and no older one.
+- **Done when:** `npm run pin` adds pins only; CI green.
+
+### 8j–8m. Foursome programs (as 6a, 368's text route)
+- **Build:** 9, 9, 8, 8 programs (378); every day keeps one line-up (377). Text by the his-side rules, 379's wording.
+- **Test first:** as 6a; each program has a foursome on every day.
+- **Done when:** as 6a.
+
 ### 7. Close the phase (Opus)
-- **Build:** the counts (798 exercises: 666 + 72 more of the kind + 60 more place threesomes; 210 programs: 54 + 13 × 8 + 13 × 4), `docs/roadmap-archive.md`, the ROADMAP row removed.
-- **Done when:** the row is archived; decisions 283–293 and 349–356 moved to the archive with a link.
+- **Build:** the counts (1,008 exercises: 666 + 72 more of the kind + 60 more place threesomes + 210 foursomes; 244 programs: 54 + 13 × 8 + 13 × 4 + 34), `docs/roadmap-archive.md`, the ROADMAP row removed.
+- **Done when:** the row is archived; decisions 283–293, 349–362 and 367–379 moved to the archive with a link.
 
 ## Challenge round
 - **Weakest assumption:** that every one of the 13 subjects has enough of its own new exercises for 8 programs that
@@ -246,3 +312,7 @@ exercises (six at each of five places).
   their day labels from exercise names, so 1a's first build tripped 16 pins; the tours now read the names back as
   "her" (`dayName`, configs/after-dark.js) and every pin held. The cache slices hash cue text and the cache key holds
   each blurb, so 1a and 1b each built cold once. Lazier version not taken: a tag shown in the app (not asked).
+- **Foursomes (16 Oct, 367–379).** Weakest assumption: that the 8 act threesome subjects take 2 foursome programs each
+  without a new subject; checked only against 356's text, so 8l–8m re-read those configs first. What I hadn't read:
+  catalogue 14 and 15 were taken (yoga, breathing), which moved 35 to 16 and 27 to 18 (367). Lazier version not taken:
+  three figures for four people, because Noam picked a fourth figure (374).
