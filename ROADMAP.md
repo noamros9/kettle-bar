@@ -5,8 +5,8 @@ top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase c
 (the next one is **348**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
 ## Resume here (16 Oct 2026)
-- **Phase 20: tickets 10–16 done** (#446–#450, #452, #454). Noam's go (16 Oct) covers the rest of the phase: **next
-  17**, then 18–23. Tours: `tour60` (346); Morning glory's long blocks (347). Pre-check day names against the newest
+- **Phase 20: tickets 10–17 done** (#446–#450, #452, #454, #458). Noam's go (16 Oct) covers the rest of the phase: **next
+  18**, then 19–23; once Phase 34 is merged, two at a time. Tours: `tour60` (346); Morning glory's long blocks (347). Pre-check day names against the newest
   merged ticket too: `../kettle-bar-docs`, where the pre-check reads configs, goes onto main first (`git checkout
   --detach origin/main`); an old test that checks a whole subject gets scoped to its own programs when a ticket first
   adds to that subject; `library.test.js` keeps a count per subject. `check:new` builds only `added: 23` on, so it
@@ -98,6 +98,7 @@ Numbered 20 because 19 is super programs.
   **322 ·** The build cache is done (13 Oct, archived): builds read unchanged programs from `.build-cache/`.
 
 ## Decided against (don't re-suggest)
+- **The cold-build check nightly instead of on every main push**: decision 327 stays per merge (Noam, 16 Oct 2026).
 - **Logging weights or reps per set**: done / not done only.
 - **Adaptive plans**: no test days, no too-easy/too-hard nudging, no deloads. Plans stay as written.
 - **Streaks, consistency targets, program-progress stats, push/pull ratios, neglected-muscle alerts.** (The History
