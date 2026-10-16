@@ -73,7 +73,7 @@ function subChips(subjects, fam, chip) {
 function exResults() {
   const r = exFound();
   const chip = (k, key, label, on, count) => `<button class="fchip acc" data-exf="${k}:${key}" aria-pressed="${on}">${esc(label)}${count === undefined ? '' : ` <span class="fcount">${count}</span>`}</button>`;
-  const card = (e) => `<article class="ex"><button class="exlink" data-ex="${e.id}" aria-label="${esc(e.name)}: how to and muscles worked">${lazyFig(e.id)}<div class="nm">${esc(e.name)}</div></button>${e.load ? `<div class="ld">${esc(LOAD[e.load])}</div>` : ''}<p class="cue">${esc(e.cue)}</p></article>`;
+  const card = (e) => `<article class="ex"><button class="exlink" data-ex="${e.id}" aria-label="${esc(e.name)}: how to and muscles worked">${lazyFig(e.id)}<div class="nm">${esc(e.name)}</div></button>${e.load ? `<div class="ld">${esc(LOAD[e.load])}</div>` : ''}<p class="cue">${cueOf(e)}</p></article>`;
   const fam = r.families.find((c) => c.pressed).key;
   const sub = (r.subjects.find((c) => c.pressed) || { key: 'all' }).key;
   const groupOf = (e) => { const x = KBLibrary.familyOf(e); return fam === 'all' ? x.family : x.subject; };
@@ -127,7 +127,7 @@ function muscleResults() {
   const names = picked.map((m) => MUSCLE_NAMES[m]).join(' + ');
   const list = Object.values(EX).filter((e) => e.cat !== 'couple' && (musclePick.gear === 'all' || KBLibrary.gearOf(e) === musclePick.gear)); // couple exercises (Phase 18) need two: not a way to train a muscle alone
   const { main, also } = KBLibrary.splitByMuscles(list, picked);
-  const card = (e) => `<article class="ex"><button class="exlink" data-ex="${e.id}" aria-label="${esc(e.name)}: how to and muscles worked">${lazyFig(e.id)}<div class="nm">${esc(e.name)}</div></button>${e.load ? `<div class="ld">${esc(LOAD[e.load])}</div>` : ''}<p class="cue">${esc(e.cue)}</p></article>`;
+  const card = (e) => `<article class="ex"><button class="exlink" data-ex="${e.id}" aria-label="${esc(e.name)}: how to and muscles worked">${lazyFig(e.id)}<div class="nm">${esc(e.name)}</div></button>${e.load ? `<div class="ld">${esc(LOAD[e.load])}</div>` : ''}<p class="cue">${cueOf(e)}</p></article>`;
   const section = (id, title, sub, l) => `<section class="libcat" aria-labelledby="${id}"><h2 id="${id}">${title}</h2><p class="muted">${sub(l.length)}</p>${l.length ? `<div class="exgrid">${l.map(card).join('')}</div>` : ''}</section>`;
   const or = picked.map((m) => MUSCLE_NAMES[m]).join(' or ');
   const gear = `<div class="filters" role="group" aria-label="Filter by equipment">${KBLibrary.GEAR.map(([k, label]) => `<button class="fchip acc" data-mgear="${k}" aria-pressed="${musclePick.gear === k}">${esc(label)}</button>`).join('')}</div>`;

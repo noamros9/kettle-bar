@@ -129,6 +129,11 @@ read only when needed. Decisions with a long "why": [docs/adr/](docs/adr/).
   him (you kneel, your cock), never he, him or his; she is Mali once, first, then she/her (349). A role swap is told
   from his side ("Then swap: she works your back"). An MMF threesome's he/his is only ever the other man.
   `tests/his-pov.test.js` checks every couple cue and name.
+- **A cue is never shown raw (Noam, 16 Oct 2026):** every page shows a cue through `cueOf` (`app/ui.js`), so the
+  third person is a name, never `{woman}` / `{man}`; `tests/third-names.test.js` checks all of `app/`. Text sent to
+  Noam for review has sample names filled in.
+- **Threesome drawings are placed by hand (Noam, 16 Oct 2026):** each row's third figure gets its own pose and spot
+  (`'pose x y flip'`), and Noam approves a contact sheet before the ticket merges.
 - **A straight man training his own body:** the workout trains *his* body, and the text says what that does for him:
   what he does to her, how long he lasts, how she sees and enjoys him. His ass is for drive, and for her to grab or
   admire; never fucked, never "ass up" or bent over. His flexibility lets *him* get deeper, kneel, fold over her; it

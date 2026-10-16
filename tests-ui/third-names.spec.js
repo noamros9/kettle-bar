@@ -28,3 +28,13 @@ test('the exercise page names today\'s third person, never the placeholder', asy
   await expect(app.page.locator('.facts dd').first()).toHaveText(`You kneel behind Mali while ${today} kisses her.`);
   await expect(app.page.locator('#app')).not.toContainText('{woman}');
 });
+
+test('the Exercises page\'s cards name today\'s third person too (Phase 35 ticket 2a)', async ({ app }) => {
+  await app.open('#exercises');
+  const field = app.page.getByRole('searchbox', { name: 'Search exercises' });
+  await field.fill('Spitroast on the bed');
+  const today = await app.data(() => KBThird.thirdName({ date: new Date() }, 'woman'));
+  const cue = app.page.locator('#exresults [data-ex="fuck3_spitroast_bed"]').locator('xpath=..').locator('.cue');
+  await expect(cue).toContainText(`${today} kneels beyond her`);
+  await expect(app.page.locator('#exresults')).not.toContainText('{woman}');
+});

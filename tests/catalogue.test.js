@@ -36,7 +36,8 @@ test('normalize refuses an exercise with no main muscle', () => {
 
 test('no exercise id is written twice (a second one would silently replace the first)', () => {
   const src = require('fs').readFileSync(require('path').join(__dirname, '../exercises.js'), 'utf8');
-  const ids = [...src.matchAll(/^ {4}([a-z0-9_]+): \{ name:/gm)].map((m) => m[1]);
+  // an entry, or a Phase 35 threesome row in TRIOS
+  const ids = [...src.matchAll(/^ {4}(?:([a-z0-9_]+): \{ name:|\['([a-z0-9_]+)', '(?:[^'\\]|\\.)*', '(?:FMF|MMF)')/gm)].map((m) => m[1] || m[2]);
   assert.equal(ids.length, Object.keys(EX).length);
   assert.deepEqual(ids.filter((id, i) => ids.indexOf(id) !== i), []);
 });

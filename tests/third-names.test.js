@@ -49,3 +49,14 @@ test('fill names every placeholder for the day and leaves other text alone', () 
   assert.equal(fill('No one else here.', at), 'No one else here.');
   assert.throws(() => thirdName(at, 'cat'), /no names for "cat"/);
 });
+
+// Phase 35 ticket 2a (Noam, 16 Oct 2026: a rule): a cue is never shown raw. Every page shows it through ui.js's cueOf
+// (the name filled in); the Exercises grid printed it raw. Only the search text may read the cue as it is written.
+test('no page shows a cue raw: every e.cue in app/ goes through cueOf, or is the search text', () => {
+  const fs = require('fs'), path = require('path');
+  const files = (dir) => fs.readdirSync(dir, { withFileTypes: true }).flatMap((d) => (d.isDirectory() ? files(path.join(dir, d.name)) : d.name.endsWith('.js') ? [path.join(dir, d.name)] : []));
+  const ALLOWED = [/const cueOf = \(e\) => esc\(KBThird\.fill\(e\.cue,/, /const text = \(e\) => \[e\.name, e\.cue,/];
+  const raw = files(path.join(__dirname, '../app')).filter((f) => !f.endsWith('third-names.js')).flatMap((f) => fs.readFileSync(f, 'utf8')
+    .split(/\r?\n/).filter((l) => /\.cue\b/.test(l) && !ALLOWED.some((a) => a.test(l))).map((l) => `${path.basename(f)}: ${l.trim().slice(0, 80)}`));
+  assert.deepEqual(raw, []);
+});

@@ -104,7 +104,7 @@ exercises (six at each of five places).
 | 1c | The third person's name, filled per workout (351, 353) | feature | – | `feature/p35-third-names` | done (PR #471) |
 | 1 | Third figure, the FMF/MMF tag, and the filing rules (289, 290, 291) | feature | – | `feature/p35-figure-tags` | done (PR #472) |
 | 1d | His POV: couple cues and names say "you" (359–362) | content | 1a | `content/p35-his-pov` | done (PR #473) |
-| 2a | Threesome act: intercourse, 36 (284) | content | 1, 1c | `content/p35-act-intercourse` | todo |
+| 2a | Threesome act: intercourse, 36 (284) | content | 1, 1c | `content/p35-act-intercourse` | done (PR #479) |
 | 2b | Threesome acts: oral 18, hands 18 (284) | content | 1, 1c | `content/p35-act-oral-hands` | todo |
 | 2c | Threesome acts: anal 18, toys 18 (284) | content | 1, 1c | `content/p35-act-anal-toys` | todo |
 | 2d | Threesome acts: rough 18, kink 18 (284) | content | 1, 1c | `content/p35-act-rough-kink` | todo |
