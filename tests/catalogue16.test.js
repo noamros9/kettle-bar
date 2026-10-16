@@ -6,7 +6,7 @@ const { rows } = require('../scripts/emit-trio.js');
 
 const NEW = Object.values(EX).filter((e) => e.added === 16);
 // each ticket adds its act kinds here (284)
-const COUNTS = { fuck: 36, oral: 18, hands: 18 };
+const COUNTS = { fuck: 36, oral: 18, hands: 18, anal: 18, toys: 18 };
 
 test('catalogue 16 holds each act kind\'s count of threesomes, about two thirds FMF', () => {
   const by = {};
