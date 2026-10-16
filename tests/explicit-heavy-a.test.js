@@ -37,7 +37,7 @@ const sexSlots = (id) => Object.values(cfgOf(id).dayTypes).flatMap((t) => {
 test('Explicit, sex heavy: 17 more programs (82), for two, catalogue 13, added 20, 60 days', () => {
   assert.deepEqual(programs.map((p) => p.id), IDS);
   assert.deepEqual([GYM.length, SEX.length, POS.length], [2, 8, 7]);
-  assert.equal(CONFIGS.filter((c) => c.subject === 'Explicit').length, 82);
+  assert.equal(CONFIGS.filter((c) => c.subject === 'Explicit').length, 82 + 16); // + ticket 23
   IDS.forEach((id) => {
     const c = cfgOf(id);
     const p = prog(id);

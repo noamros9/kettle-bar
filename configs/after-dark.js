@@ -4600,6 +4600,183 @@ module.exports = [
       again: positionsOnly('Stay, another mix', 'Again', HOME_ONLY_B, { pref: 2 }),
     },
   },
+  // Phase 20 ticket 23: Explicit, sex heavy +16, text by Grok (339)
+  {
+    id: 'circuit-grind-fuck', ...C13, name: 'Grind Close Then Fuck', subject: 'Explicit', minutes: [31, 40], levers: [null, 'reps', 'holds'],
+    split: 'Shared circuit or slow strength close', blurb: 'You grind the partner work into her while dressed, then peel her bare and fuck her pussy up close.',
+    about: 'You two grind the partner work still dressed, her chest on yours and her breath hot on your mouth. One day is a partner circuit you two push through side by side; the other day is slower partner strength, and you stay crushed to her between reps. You drag her clothes off and fuck up close, cock thick in her cunt, her fist in your hair while she watches your face. Level II adds reps to the partner work. Level III holds every position longer.',
+    names: ['Palms Cupping Her Ribcage', 'Forehead Parked at Her Hairline', 'Thumb Tracing Her Collarbone', 'Calf Hooked at Your Hip', 'Teeth on Her Jaw Edge', 'Cock Pressed to Her Stomach', 'Her Nipple Under Your Tongue', 'Fingers Hooked Behind Her Knee', 'Mouth Sealed Over Her Clit', 'Ankle Locked at Your Waist', 'Grip on Her Neck', 'Sweat in Her Throat Hollow', 'Cock Head Parting Her Pussy', 'Wrist Pinned Above Her Crown', 'Nose Buried Under Her Ear', 'Palm Spread Over Her Navel', 'Heel Dragging Down Your Spine', 'Tongue Flat Across Her Sternum', 'Knuckles Wet Against Her Pussy', 'Jaw Set Against Her Neck'],
+    cycle: ['circuit', 'strength'],
+    dayTypes: {
+      circuit: gymThenSex('Circuit, then fuck', 'Circuit', C('Partner circuit', GYM_WORK, { ...LIFT, values: [3, 4, 5, 6] }), HOME_GYM, { pref: 2 }),
+      strength: gymThenSex('Strength, then fuck', 'Strength', S('Partner strength', GYM_STRONG, { ...LIFT, values: [2, 3, 4, 5] }), HOME_GYM_B, { pref: 2 }),
+    },
+  },
+  {
+    id: 'strength-press-fuck', ...C13, name: 'Press Her Then Inside', subject: 'Explicit', minutes: [31, 40], levers: [null, 'reps', 'holds'],
+    split: 'Slow strength or circuit, stay near', blurb: 'You stay pressed to her through the partner work while clothed, then fuck inside her until her voice cracks.',
+    about: 'You hold her weight on you through the partner work, both of you still clothed, your mouth at her ear. One day you grind out the strength work with her thighs clamped on your hips; the other day the circuit keeps moving and you haul her back against your chest after every station. You strip her and fuck her cunt deep, lasting until the moan in her throat frays and her eyes stay on your mouth. Level II adds reps to the partner work. Level III holds every position longer.',
+    names: ['Biceps Bracketed Around Her Thighs', 'Lips Dragging Along Her Cheekbone', 'Cock Sliding Between Her Tits', 'Toes Curled Against Your Shin', 'Palm on Her Lower Back', 'Tongue Tip Between Her Labia', 'Elbows Locked Under Her Armpits', 'Braid Wrapped in Your Fist', 'Incisors On Her Ear Rim', 'Deep Cock in Her Pussy', 'Thumbs Pressing Her Hip Bones', 'Open Lips Beneath Her Tit', 'Fringe Stuck to Her Lips', 'Kneecap Pressed to Your Groin', 'Fingertips Circling Her Clit', 'Nose Along Her Shoulder Blade', 'Arch Pushed Into Your Palm', 'Cock Twitching on Her Tongue', 'Stubble Raking Her Collarbone', 'Forearms Crossed Over Her Chest'],
+    cycle: ['strength', 'circuit'],
+    dayTypes: {
+      strength: gymThenSex('Strength, then fuck', 'Strength', S('Partner strength', GYM_STRONG, { ...LIFT, values: [2, 3, 4, 5] }), HOME_GYM, { pref: 2 }),
+      circuit: gymThenSex('Circuit, then fuck', 'Circuit', C('Partner circuit', GYM_WORK, { ...LIFT, values: [3, 4, 5, 6] }), HOME_GYM_B, { pref: 2 }),
+    },
+  },
+  {
+    id: 'mouth-shirt-fuck', ...C13, name: 'Shirt Kiss Then Pussy', subject: 'Explicit', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'Mouth warm-up or hands, then close', blurb: 'You kiss her through her shirt, get your mouth on her cunt, and fuck her until she comes shaking.',
+    about: 'You kiss her over her shirt until the cloth is damp from your mouth. You tug that shirt off and set your tongue on her bare cunt. One day your mouth does the work, licking her clit and pushing inside her; the other day your hands take over, fingers spreading her and rubbing her open. You fuck her with your lips crushed to hers, and you hold out until she comes shaking on your cock. Level II and Level III hold every part longer.',
+    names: ['Lips Parted Over Her Clit', 'Tongue Pushing Into Her Pussy', 'Two Fingers Spreading Her Labia', 'Cock Heavy Across Her Tongue', 'Thumb Pressed Over Her Hood', 'Mouth Sucking Her Inner Lip', 'Spit Slick on Your Shaft', 'Nose Deep In Her Cunt', 'Palm Rocking Her Pubic Mound', 'Teeth Grazing Her Thigh Fold', 'Shaft Along Her Cheek', 'Knuckle Deep in Her Pussy', 'Tongue Circling Her Areola', 'Pinky Circling Her Rim', 'Nape Caught In Your Fist', 'Sack Laid Along Her Chin', 'Lips Sealed Around Your Cock', 'Saliva String on Her Chin', 'Flat Tongue on Her Perineum', 'Heel on Your Shoulder'],
+    cycle: ['mouth', 'hands'],
+    dayTypes: {
+      mouth: sexThenSex('Mouths, then fuck', 'Mouth', SEX_MOUTH, HOME_FUCK, { pref: 2 }, { pref: 2 }),
+      hands: sexThenSex('Hands in it, then fuck', 'Hands', SEX_WARM, HOME_FUCK_B, { pref: 2 }, { pref: 2 }),
+    },
+  },
+  {
+    id: 'finger-skirt-fuck', ...C13, name: 'Fingers Under Her Skirt', subject: 'Explicit', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'Fingers or mouth with them, close', blurb: 'Your fingers work her under her skirt, then inside her cunt, and your cock takes over until her knees give.',
+    about: 'Your fingers slide under her skirt while it is still on, teasing her over the cotton. You get her naked and work two fingers inside her cunt. One day your fingers fuck her until she soaks your hand; the other day your mouth drops onto her clit beside those fingers. Your cock takes her over, both palms hauling her ass into each stroke, until her knees give and she grabs your arms. Level II and Level III hold every part longer.',
+    names: ['Two Knuckles Inside Her Pussy', 'Thumb Rolling Her Clit', 'Palm Flattened Over Her Mound', 'Ring Finger in Her Ass', 'Cock Sheathed in Her Fist', 'Mouth Latched to Her Clit', 'Fingertip Tapping Her Entrance', 'Knuckle on Her G Spot', 'Juices Dripping Off Your Wrist', 'Middle Finger Buried In Her', 'Tongue Beside Your Fingers', 'Shaft Sliding Along Her Fingers', 'Earlobe Rolled Under Your Teeth', 'Free Hand Spreading Her Thigh', 'Cum Coating Your Fingers', 'Wrist Flexed Against Her Cunt', 'Lips Brushing Her Nipple', 'Thumb in Her Mouth', 'Soaked Underwear at Her Thigh', 'Forehead on Her Inner Knee'],
+    cycle: ['fingers', 'mouth'],
+    dayTypes: {
+      fingers: sexThenSex('Fingers, then fuck', 'Fingers', SEX_HANDS, HOME_FUCK, { pref: 2 }, { pref: 2 }),
+      mouth: sexThenSex('Mouth and fingers, then fuck', 'Mouth', SEX_MOUTH, HOME_FUCK_B, { pref: 2 }, { pref: 2 }),
+    },
+  },
+  {
+    id: 'cloth-grind-fuck', ...C13, name: 'Grind Her Dress Then Fuck', subject: 'Explicit', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'Clothed tease or mouth, then in', blurb: 'You grind your cock against her cunt through her dress, then fuck her with slow, deep strokes.',
+    about: 'You keep her dress on and grind your cock against her cunt through the cloth until she is soaked. One day the dress stays on and you grind until the wet spot spreads under your cock; the other day you yank the dress off and eat her until your chin is slick. You fuck her with slow strokes, then feed your cock into her mouth, her lips wet and her face tipped up at you. Level II and Level III hold every part longer.',
+    names: ['Cock Grinding Her Clothed Pussy', 'Wet Spot on Her Dress', 'Nipple Hard Under Her Bra', 'Hand Under Her Hem', 'Mouth Breathing on Her Panties', 'Clit Outlined Through Cotton', 'Dress Strap Off Her Shoulder', 'Cock Outlined in Your Shorts', 'Bra Strap Between Your Teeth', 'Palm Over Her Clothed Clit', 'Tongue on Her Through Cloth', 'Fingers Hooked in Her Neckline', 'Knee Pressed Up Her Skirt', 'Lips on the Wet Cotton', 'Her Zipper Under Your Teeth', 'Nipple Freed From Her Bra', 'Cock Sliding Under Her Dress', 'Thighs Clenched Around Your Leg', 'Nose in Her Warm Cleavage', 'Hem Twisted in Your Grip'],
+    cycle: ['tease', 'mouth'],
+    dayTypes: {
+      tease: sexThenSex('Tease, then fuck', 'Tease', SEX_TEASE, HOME_FUCK, { pref: 2 }, { pref: 2 }),
+      mouth: sexThenSex('Mouth, then fuck', 'Mouth', SEX_MOUTH, HOME_FUCK_B, { pref: 2 }, { pref: 2 }),
+    },
+  },
+  {
+    id: 'lap-lick-fuck', ...C13, name: 'Lap Then Eat Her Pussy', subject: 'Explicit', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'Mouth on her or hands, stay', blurb: 'You mouth her neck in your lap through her clothes, eat her cunt, and fuck her until her belly jumps.',
+    about: 'You pull her into your lap in her clothes and mouth her neck and her tits through the fabric. You undress her and set your mouth on her pussy, tongue pressed to her clit. One day your tongue spreads wide and laps her cunt; the other day your fingers pump inside her while your thumb worries her clit. Your cock pounds her, and her belly jumps under your palm while she stares at you taking her. Level II and Level III hold every part longer.',
+    names: ['Wide Tongue Up Her Slit', 'Fingers Scissored in Her Pussy', 'Lips Around Her Clit', 'Palm Grinding Her Pubic Bone', 'Cock Cradled in Her Throat', 'Thumb Stroking Her Asshole', 'Spit Dripping Off Her Chin', 'Two Fingers Across Her Tongue', 'Nose Buried in Her Pubes', 'Knuckles Rocking Her Entrance', 'Precum Smeared on Her Lips', 'Hand Cupping Her Whole Breast', 'Tongue in Her Belly Button', 'Fingers Pinning Her Labia Open', 'Shaft Resting Between Her Breasts', 'Teeth Marks on Her Hip', 'Earlobe Between Your Lips', 'Wet Chin on Her Clit', 'Pinky Hooked Behind Her Tooth', 'Heel Marked Into Your Trap'],
+    cycle: ['mouth', 'hands'],
+    dayTypes: {
+      mouth: sexThenSex('Mouths, then fuck', 'Mouth', SEX_MOUTH, HOME_FUCK, { pref: 2 }, { pref: 2 }),
+      hands: sexThenSex('Hands in it, then fuck', 'Hands', SEX_WARM, HOME_FUCK_B, { pref: 2 }, { pref: 2 }),
+    },
+  },
+  {
+    id: 'cotton-finger-fuck', ...C13, name: 'Cotton Off Then Fingers', subject: 'Explicit', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'Fingers or both, then you stay', blurb: 'You rub her through her underwear, push your fingers inside, and fuck her while her nipples tighten.',
+    about: 'You rub her pussy through her underwear until the cotton sticks to her. You peel that off and push two fingers inside her. One day your two fingers curl and stroke inside her; the other day your mouth sucks her clit while your fingers stay buried. Your cock takes the place of your fingers, and her nipples harden under your palm as she looks down at your cock. Level II and Level III hold every part longer.',
+    names: ['Index Finger Curled in Her', 'Pinching Her Clit Between Fingers', 'Three Fingers Stretching Her Pussy', 'Mouth Over Your Working Hand', 'Cock Between Her Lips', 'Juice Running Down Your Wrist', 'Knuckle Pressed to Her Clit', 'Tongue Licking Your Wet Fingers', 'Palm Cupping Her Warm Pussy', 'Ring Finger on Her Rim', 'Spit Shining on Your Knuckles', 'Fingertips Spreading Her Labia', 'Cockhead Tap on Her Nipple', 'Lips Around Your Two Fingers', 'Thumb Lodged In Her Cheek', 'Wrist Bent Against Her Thigh', 'Tongue Tip on Her Urethra', 'Palm on Her Hip Crease', 'Nipple Rolled Between Knuckles', 'Heel of Your Hand Grinding'],
+    cycle: ['fingers', 'mouth'],
+    dayTypes: {
+      fingers: sexThenSex('Fingers, then fuck', 'Fingers', SEX_HANDS, HOME_FUCK, { pref: 2 }, { pref: 2 }),
+      mouth: sexThenSex('Mouth and fingers, then fuck', 'Mouth', SEX_MOUTH, HOME_FUCK_B, { pref: 2 }, { pref: 2 }),
+    },
+  },
+  {
+    id: 'panty-grind-fuck', ...C13, name: 'Wet Cloth Then Tongue', subject: 'Explicit', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'Cloth grind or mouth, then close', blurb: 'You grind on her clothed body until her panties are wet, then fuck her pussy with her throat under your teeth.',
+    about: 'You pin her clothed body under yours and grind until her panties are wet against your cock. One day cloth stays between your cock and her cunt while you grind; the other day you bare her and work your tongue into her. You take her in long strokes once the clothes are gone, teeth on the bare line of her throat, holding your pace until she shakes. Level II and Level III hold every part longer.',
+    names: ['Cock Bulge Against Her Ass', 'Panties Dragged Aside by Thumb', 'Nipple Pinched Through Her Top', 'Knee Between Her Clothed Thighs', 'Mouth Over Her Crotch Seam', 'Cotton Clinging to Her Slit', 'Fingers Down Her Waistband', 'Cup Shoved Beneath Her Tit', 'Zipper Tooth on Her Spine', 'Palm Heat Over Her Mound', 'Tongue Wetting Her Collarbone', 'Dress Bunched at Her Waist', 'Cock Throb Against Her Belly', 'Button Popped Under Your Thumb', 'Teeth on Her Panty Elastic', 'Thighs Squeezing Your Clothed Cock', 'Nose in Her Armpit Sweat', 'Strap Sliding Off Her Arm', 'Fist Knotted in Her Dress', 'Lips Mouthed Over Her Nipple'],
+    cycle: ['tease', 'mouth'],
+    dayTypes: {
+      tease: sexThenSex('Tease, then fuck', 'Tease', SEX_TEASE, HOME_FUCK, { pref: 2 }, { pref: 2 }),
+      mouth: sexThenSex('Mouth, then fuck', 'Mouth', SEX_MOUTH, HOME_FUCK_B, { pref: 2 }, { pref: 2 }),
+    },
+  },
+  {
+    id: 'stomach-lick-fuck', ...C13, name: 'Bare Stomach Then Tongue', subject: 'Explicit', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'Warm mouth or warm hands, close', blurb: 'You breathe along her clothed stomach, lick her cunt open, and fuck her with her wrists pinned up.',
+    about: 'You nose along her clothed stomach and breathe her in before anything comes off. You get her bare and lick her cunt open with your tongue. One day your mouth spreads over her and you lick until your jaw aches; the other day your hands do it, one palm on her tits and two fingers stroking her clit. Your cock fills her while her wrists stay pinned above her head, and she says your name the whole time you last. Level II and Level III hold every part longer.',
+    names: ['Tongue Blanketing Her Hard Clit', 'Fingers Parting Her Wet Lips', 'Suction on Her Clit Hood', 'Palm Rolling Over Her Mound', 'Cock Laid Along Her Cheek', 'Thumb Pulling Her Lip Down', 'Spit Sitting In Her Navel', 'Knuckle Pressed At Her Entrance', 'Nose Pressed to Her Hip', 'Two Fingers Behind Her Teeth', 'Tongue Fucking Her Pussy', 'Hand Spread on Her Sternum', 'Precum String on Her Tongue', 'Wrist Resting on Her Perineum', 'Lips Plugged by Your Thumb', 'Cock Slapped on Her Tit', 'Fingertip in Her Asshole', 'Chin Pressure on Her Slit', 'Hair Wrapped Around Your Wrist', 'Balls Heavy on Her Lips'],
+    cycle: ['mouth', 'hands'],
+    dayTypes: {
+      mouth: sexThenSex('Mouths, then fuck', 'Mouth', SEX_MOUTH, HOME_FUCK, { pref: 2 }, { pref: 2 }),
+      hands: sexThenSex('Hands in it, then fuck', 'Hands', SEX_WARM, HOME_FUCK_B, { pref: 2 }, { pref: 2 }),
+    },
+  },
+  {
+    id: 'stay-in-holds', ...C13, name: 'Cock Stays Through Holds', subject: 'Explicit', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'Shifting holds while you stay in', blurb: 'You keep your cock buried in her through every hold, hands tight on her hips and your mouth on her skin.',
+    about: 'You push inside her pussy and stay buried there, cock deep, through every hold. One day you roll from one hold into the next without pulling out, your cock sunk deep the entire time; the other day you return her to a hold she already took and fuck her there until your arms shake. Your hands pin her hips and you kiss the side of her neck while you hold that depth, until her cunt grips you and she sobs. Level II and Level III hold every position longer.',
+    names: ['Both Calves On Your Ribs', 'Cock Angled Up Her Pussy', 'Shoulders Flat on the Mattress', 'Grip on Her Raised Ankle', 'Mouth on Her Hanging Tit', 'Wrists Caught in One Hand', 'Hips Snapped Tight to Hers', 'Tongue on Her Exposed Clit', 'Knee Hooked Over Your Elbow', 'Sweat Dripping Off Her Chin', 'Cock Pulsing in Her Grip', 'Palm on Her Quivering Belly', 'Hair Stuck Across Her Mouth', 'Thumbs Holding Her Lips Open', 'Shaft Coated in Her Cream', 'Forearm Under Her Neck', 'Toes Pointed Against Your Hip', 'Bite Mark on Her Trap', 'Balls Mashed To Her Ass', 'Lashes Wet on Her Cheek'],
+    cycle: ['flow', 'again'],
+    dayTypes: {
+      flow: positionsOnly('Stay inside', 'Stay', HOME_ONLY, { pref: 2 }),
+      again: positionsOnly('Stay, another mix', 'Again', HOME_ONLY_B, { pref: 2 }),
+    },
+  },
+  {
+    id: 'hold-run-fuck', ...C13, name: 'Holds That Stay Inside', subject: 'Explicit', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'Hold after hold, or hold longer', blurb: 'You slide your cock into her and keep fucking her, mouth on her tits, her eyes open on you.',
+    about: 'You slide your cock into her and stay inside, fucking her without leaving the hold. One day you lock your body into the hold and thrust there, hips steady; the other day you refuse to break the hold and you keep stroking until sweat runs off your chest. Your lips stay sealed around her nipple while you pump her pussy, and she looks straight at you. Level II and Level III hold every position longer.',
+    names: ['Full Cock Seated in Her', 'Ankles Linked Behind Your Neck', 'Mouth Feeding on Her Tit', 'Fingers Polishing Her Clit', 'Spine Bowed Off the Bed', 'Palm Braced on Her Sternum', 'Sweat Sealed Between Your Chests', 'Teeth on Her Lower Lip', 'Cock Withdrawn to Her Entrance', 'Thigh Shaking Against Your Rib', 'Tongue Stuffed in Her Mouth', 'Grip Hauling Her Hips Back', 'Teeth Denting Her Hard Nipple', 'Cream Ring at Your Base', 'Forehead Pressed to Her Knee', 'Wrist Pinned Under Your Palm', 'Moan Vibrating on Your Cock', 'Ass Cheek Spread by Thumb', 'Heel Hooked Under Your Arm', 'Lips Brushing Her Fluttering Eyelid'],
+    cycle: ['hold', 'longer'],
+    dayTypes: {
+      hold: positionsOnly('Hold after hold', 'Hold', HOME_ONLY, { pref: 2 }),
+      longer: positionsOnly('Longer holds', 'Longer', HOME_ONLY_B, { pref: 2 }),
+    },
+  },
+  {
+    id: 'depth-hip-fuck', ...C13, name: 'Depth On Every Hold', subject: 'Explicit', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'Deeper holds, or further than that', blurb: 'You sink your cock into her and work the depth, thumb on her clit, until her voice breaks on you.',
+    about: 'You seat your cock deep in her cunt and work her with your hips. One day the hold seats you to the base, pelvis flush to hers; the other day you curl your hips in and take an inch past where you started, then you stay on it. Your mouth covers hers, your chest heavy on her, and your thumb rubs her clit until her voice breaks on your name. Level II and Level III hold every position longer.',
+    names: ['Cock Nudging Her Deepest Point', 'Hips Tilted to Take You', 'Hand Pressing Her Lower Belly', 'Mouth Dragging Down Her Sternum', 'Ankle by Your Ear', 'Slow Sink Into Her Pussy', 'Thumb Stuck to Her Clit', 'Hot Breath on Your Mouth', 'Knees Shoved Wide by Palms', 'Cock Vein Dragging in Her', 'Tongue Measuring Her Depth', 'Fingers Beside Your Cock', 'Sweat From Her Breast', 'Grip Yanking Her Onto You', 'Lashes Flickering on Your Shoulder', 'Pubic Bone Ground to Hers', 'Throat Open Around Your Thumb', 'Calf Draped Over Your Forearm', 'Nipples Scraping Your Chest', 'Moan Caught in Her Teeth'],
+    cycle: ['deep', 'deeper'],
+    dayTypes: {
+      deep: positionsOnly('Deeper each hold', 'Deep', HOME_ONLY, { pref: 2 }),
+      deeper: positionsOnly('Deeper still', 'Deeper', HOME_ONLY_B, { pref: 2 }),
+    },
+  },
+  {
+    id: 'buried-run-fuck', ...C13, name: 'Two Runs Both Buried', subject: 'Explicit', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'Changing holds, or a second run', blurb: 'Your cock stays in her through the holds while you lick her nipples and her heels dig into the bed.',
+    about: 'Your cock is in her cunt as the holds begin, and it stays in her while you move her. One day you thrust straight through as each hold melts into the following shape; the other day you trace the same chain of holds you just finished, still buried, each one meaner. You lick her nipples between thrusts, her heels dug into the mattress, and she grabs your ass to haul you in. Level II and Level III hold every position longer.',
+    names: ['Cock Crooked Against Her Front', 'Thighs Pressed To Her Chest', 'Kiss Under Her Jaw', 'Fingers Laced With Hers', 'Tit Sucked Into Your Mouth', 'Palm Smack on Her Thigh', 'Cockhead Kissing Her Cervix', 'Sweat Track Down Her Ribs', 'Ankles Hooked Behind Your Head', 'Tongue Weighing On Her Clit', 'Wrist Caught Between Your Teeth', 'Hips Circled While Buried', 'Nose in Her Groin Fold', 'Shaft Shining With Her Cream', 'Elbows Pinned by Her Knees', 'Moan Muffled on Your Shoulder', 'Thumb Pulling Her Mouth Open', 'Breast Squashed to Your Chest', 'Fringe Dripping on Her Lips', 'Wet Balls Hitting Her Ass'],
+    cycle: ['flow', 'again'],
+    dayTypes: {
+      flow: positionsOnly('Stay inside', 'Stay', HOME_ONLY, { pref: 2 }),
+      again: positionsOnly('Stay, another mix', 'Again', HOME_ONLY_B, { pref: 2 }),
+    },
+  },
+  {
+    id: 'palm-hold-fuck', ...C13, name: 'Palms On Her While In', subject: 'Explicit', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'Steady holds or longer ones, stay in', blurb: 'You fuck her through the holds, kiss her open mouth, and feel her calves lock around you.',
+    about: 'You put your cock in her cunt and fuck her through the holds, palms spread on her ass. One day each hold is a fixed frame, your cock lodged in her while your palms keep her ass spread; the other day you stretch the time, stroke after slow stroke, until your thighs burn and you are still inside her. You kiss her open mouth, and her calves lock around your waist while she feels every throb. Level II and Level III hold every position longer.',
+    names: ['Palms Spreading Her Ass Open', 'Cock Parked Deep in Her', 'Slow Rock Against Her Cervix', 'Mouth Staying on Her Clit', 'Ankle Pressed Beside Your Ear', 'Thumb Filling Her Mouth', 'Sweat Bead on Her Sternum', 'Fingers Tight Around Her Throat', 'Hips Locked Flush to Hers', 'Tongue Pushing Past Her Lips', 'Nipple Between Your Teeth', 'Forearm Laid Across Her Chest', 'Cream Smeared Up Her Belly', 'Grip Denting Her Hip', 'Lashes on Your Shoulder', 'Cock Twitching in Her Fist', 'Knee Widening Her Thigh', 'Spit String From Her Mouth', 'Heel Tapping Your Lower Back', 'Chin Digging Into Her Neck'],
+    cycle: ['hold', 'longer'],
+    dayTypes: {
+      hold: positionsOnly('Hold after hold', 'Hold', HOME_ONLY, { pref: 2 }),
+      longer: positionsOnly('Longer holds', 'Longer', HOME_ONLY_B, { pref: 2 }),
+    },
+  },
+  {
+    id: 'fold-deeper-fuck', ...C13, name: 'Folded Deep In Her', subject: 'Explicit', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'Further each hold, or past it', blurb: 'You fold over her with your cock deep in her cunt, suck her tits, and take her fingers in your hair.',
+    about: 'You fold over her and sink your cock deep, using your hips to open her cunt more. One day the fold is what sinks you, chest on her chest and your cock bottomed out; the other day you keep that fold and grind until you work past the seat, then you hold the extra. You suck her tits while you thrust, her fingers raking your hair, your cock stuffed inside her, and she moans into your neck. Level II and Level III hold every position longer.',
+    names: ['Cock Bottomed Out in Her', 'Curl of Hips Driving Deeper', 'Hand Pressed on Her Pubis', 'Mouth Gasping Against Her Ear', 'Thighs Shaking Off the Mattress', 'Thumb Rolling Her Swollen Clit', 'Tongue Tasting Her Deep Cream', 'Ankles Crossed High on You', 'Grip Bruising Her Hip', 'Finger Beside Cock in Her', 'Sweat Salt on Your Tongue', 'Breast Muffled on Your Mouth', 'Knees Clamped at Your Ribs', 'Lashes Stuck to Her Cheeks', 'Pelvis Circles Ground Into Her', 'Nipple Sucked to a Point', 'Spit Cooling on Her Clit', 'Brow Resting on Her Collarbone', 'Wrist Wound In Her Hair', 'Moan Breaking Against Your Neck'],
+    cycle: ['deep', 'deeper'],
+    dayTypes: {
+      deep: positionsOnly('Deeper each hold', 'Deep', HOME_ONLY, { pref: 2 }),
+      deeper: positionsOnly('Deeper still', 'Deeper', HOME_ONLY_B, { pref: 2 }),
+    },
+  },
+  {
+    id: 'stand-hold-fuck', ...C13, name: 'Pulled Tight And Buried', subject: 'Explicit', minutes: [31, 40], levers: [null, 'holds', 'holds'],
+    split: 'Two different hold runs, stay in', blurb: 'You fuck her pulled in tight, cock buried deep, your hand in her hair and her teeth on your lip.',
+    about: 'You fuck her pulled tight, cock deep in her pussy, and you stay at that depth across the holds. One day your hands roam and your mouth moves on her while the holds flow and your cock stays in; the other day you come back to the depth you just earned and fuck it with your mouth on hers. Your fist stays in her hair, her mouth at your ear, and she bites your lip when you keep that depth. Level II and Level III hold every position longer.',
+    names: ['Lip Bitten While Buried Deep', 'Foot Hooked at Your Hip', 'Mouth on Her Throat Pulse', 'Palms Under Her Ass Cheeks', 'Slow Thrusts Up Into Her', 'Tit Squashed to Your Chest', 'Fingers in Her From Below', 'Teeth Closed on Her Shoulder', 'Sweat Running Into Her Cleavage', 'Knee Bent at Her Side', 'Tongue Under Her Upper Lip', 'Grip on Her Waist Crease', 'Cock Slick With Her Cream', 'Lashes on Your Cheek', 'Hips Jammed Flush to Hers', 'Nipple Rolled by Two Fingers', 'Moan Hummed Into Your Mouth', 'Ankle Clasped in Your Elbow', 'Spit on Her Open Tongue', 'Chin Parked on Her Crown'],
+    cycle: ['flow', 'again'],
+    dayTypes: {
+      flow: positionsOnly('Stay inside', 'Stay', HOME_ONLY, { pref: 2 }),
+      again: positionsOnly('Stay, another mix', 'Again', HOME_ONLY_B, { pref: 2 }),
+    },
+  },
   // ---- Rough (Phase 22 ticket 19): 4 gym, 4 sex, 4 positions. Catalogue 13. Sex days are warm, then rough. ----
   {
     id: 'rough-set-then-spank', ...C13, name: 'Set Then Spank', subject: 'Rough', minutes: [31, 40], levers: [null, 'reps', 'holds'],
