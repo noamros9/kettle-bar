@@ -743,4 +743,4 @@ html.printing,body.printing{background:#fff}
 .gsfilter{display:grid;gap:6px}
 .gslabel{color:var(--muted);font-size:13px;text-transform:uppercase;letter-spacing:.06em}
 .fchip.dim{opacity:.4}
-.gsbtns{display:flex;gap:10px;justify-content:space-between;position:sticky;bottom:0;background:var(--surface);padding-top:8px}
+.gsbtns{display:flex;gap:10px;justify-content:space-between;position:sticky;bottom:calc(-16px - env(safe-area-inset-bottom,0px));background:var(--surface);padding:8px 0 calc(16px + env(safe-area-inset-bottom,0px))}

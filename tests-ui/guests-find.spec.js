@@ -91,7 +91,7 @@ test('a value that would give no one is dimmed', async ({ app }) => {
   await pick(app, 'cock', cock).click();
   const hairs = sheet(app).locator('[data-gf^="pick:hair:"]');
   const dims = await hairs.evaluateAll((l) => l.filter((b) => b.classList.contains('dim')).map((b) => b.textContent));
-  for (const d of dims) expect(d).toMatch(/0$/);
+  for (const d of dims) expect(d).toMatch(/\b0$/);
 });
 
 test('sort: Oldest puts the oldest first', async ({ app }) => {
