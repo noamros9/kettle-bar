@@ -15,10 +15,11 @@ test('the page lists every guest A-Z, each with her facts row, her hook or "not 
   await expect(app.heading()).toHaveText('The guests');
   const names = await app.page.locator('.guest .gname').allTextContents();
   expect(names).toEqual([...WOMEN, ...MEN].sort((a, b) => a.localeCompare(b))); // A-Z by default (439)
+  // a woman with her line: flag, country, age and height; one without it yet keeps the body facts in the row (3g13)
   const noa = GUESTS.Noa;
-  await expect(app.page.locator('#g-Noa .gfacts')).toContainText(`${noa.age} · ${noa.height} cm · ${noa.body}`);
-  await expect(app.page.locator('#g-Noa')).toContainText(`${noa.breasts} tits`);
-  await expect(app.page.locator('#g-Noa .gfacts')).toContainText(`${noa.flag} Israel · ${noa.age}`);
+  await expect(app.page.locator('#g-Noa .gfacts')).toHaveText(`${noa.flag} Israel · ${noa.age} · ${noa.height} cm`);
+  const bare = WOMEN.find((n) => !GUESTS[n].line), b = GUESTS[bare];
+  if (bare) await expect(app.page.locator(`#g-${bare} .gfacts`)).toContainText(`${b.flag} ${b.country} · ${b.age} · ${b.height} cm · ${b.body} · ${b.breasts} tits`);
   // 3g13 (451-453): a guest with a line shows it above the hook, and the row keeps only flag, country and age
   const itay = GUESTS.Itay;
   await expect(app.page.locator('#g-Itay .gfacts')).toHaveText(`${itay.flag} Israel · ${itay.age}`);
