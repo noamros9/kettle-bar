@@ -720,3 +720,10 @@ html.printing,body.printing{background:#fff}
   .pfig{flex-basis:18mm;height:18mm}
   .pbig{height:80mm}
 }
+/* the guests (Phase 35, 3g2): a name in a cue is a button to her card; the hidden page's cards */
+.guestname{all:unset;cursor:pointer;text-decoration:underline dotted;text-underline-offset:3px;-webkit-touch-callout:none;user-select:none}
+[data-exf="family:group"]{-webkit-touch-callout:none;user-select:none}
+.guests{display:grid;gap:12px}
+.guest h2,.guestwrap h2{margin:0}
+.gfacts{color:var(--muted);font-size:14px;margin:4px 0 0}
+.ghook{font-weight:600}

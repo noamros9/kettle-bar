@@ -141,6 +141,7 @@ const ACTIONS = [
   // Export (Phase 32 ticket 3): the sheet and its formats
   ['exportOpen', (v) => { exportState = { kind: v, hash: location.hash }; rerender(); }],
   ['exportClose', () => { exportState = null; rerender(); }],
+  ['guest', (n) => openGuest(n)], ['guestClose', closeGuest], // Phase 35 (416): a guest's card from a cue
   ['exportPdf', () => exportPdf()],
   ['exportText', () => exportText()],
   ['exportCal', () => exportCal()],

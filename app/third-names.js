@@ -7,7 +7,8 @@
                               the list, one name a day; at { date }: a build-your-own workout, one a day by the date
                               (local calendar day); at { date, ex }: outside a workout (384), one per exercise id
                               and day, so neighbouring cards differ and each keeps its name all day
-     fill(text, at)           the text with each placeholder replaced by that day's name */
+     fill(text, at, wrap?)    the text with each placeholder replaced by that day's name, through wrap (the page's
+                              tappable name, 416) when given */
 (function (root) {
   // the men: Israeli names with the American and British ones (alternating) spread evenly between them
   const weave = (il, us, uk) => {
@@ -53,7 +54,7 @@
     const step = at.pid ? hash(at.pid) + at.day - 1 : dayNumber(at.date || new Date()) + (at.ex ? hash(at.ex) : 0);
     return list[step % list.length];
   }
-  const fill = (text, at) => String(text).replace(/\{(woman|man)\}/g, (_, kind) => thirdName(at, kind));
+  const fill = (text, at, wrap = (n) => n) => String(text).replace(/\{(woman|man)\}/g, (_, kind) => wrap(thirdName(at, kind)));
 
   const api = { WOMEN, MEN, ORIGINS, thirdName, fill };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
