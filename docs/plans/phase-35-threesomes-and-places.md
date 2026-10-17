@@ -220,6 +220,15 @@ points were settled 10 Oct (292, 293).
 - **449 · The world names spread wide:** Latin America, Europe, Asia and the Pacific, Middle East, Africa. *(17 Oct)*
 - **450 · From splits the world by region:** each world guest gets a region; the From filter shows Israeli, American,
   British, Latin America, Europe, Asia and the Pacific, Middle East, Africa. *(17 Oct)*
+
+**The guest card, reworked (17 Oct night)**
+- **451 · The facts row is flag, country, age and height** (a man: flag, country, age); the body facts leave it for the
+  line below. *(17 Oct)*
+- **452 · A short line under the facts, above the hook,** crude ("slutty tall blonde who..."), at most 130 characters,
+  at least one physical fact from her fields, the rest Grok's choice. *(17 Oct)*
+- **453 · The men get the line too:** his build and cock move into it. *(17 Oct)*
+- **454 · Each guest has a country** (Israel, USA, UK, or her own for a world guest); 450's regions come from it. *(17 Oct)*
+- **455 · Grok writes the line** in every run from 3g6 on, and one pass writes it for the 107 already written. *(17 Oct)*
 - **426 · Claude deals every field in 3g1** with a committed script, a test checks the quotas; Noam skims the table
   before Grok writes from it. *(17 Oct)*
 
@@ -264,13 +273,15 @@ exercises (six at each of five places).
 | 3g3 | Guests: the women's descriptions, first third (412, 413, 417) | content | 3g2 | `content/p35-guests-a` | done (PR #511) |
 | 3g4 | Guests: the women's descriptions, second third | content | 3g2 | `content/p35-guests-b` | done (PR #514) |
 | 3g5 | Guests: the women's descriptions, last third | content | 3g2 | `content/p35-guests-c` | done (PR #518) |
-| 3g6 | Guests: the men's lines (414), all 41 | content | 3g8 | `content/p35-guests-men` | todo |
+| 3g6 | Guests: the men's text and short line (414, 453), all 41 | content | 3g8 | `content/p35-guests-men` | todo |
 | 3g7 | Guests page: summary cards that unfold, search, filters, sort (434-440) | feature | 3g2 | `feature/p35-guests-find` | done (PR #512) |
 | 3g8 | Guests: to 161 women and 41 men, their names and fields (441, 446-449) | content | 3g5 | `content/p35-guests-100` | done (PR #519) |
 | 3g9 | Guests page: the filters redesigned, group pills and a sheet (442-445) | feature | 3g7 | `feature/p35-guests-filters` | done (PR #516) |
-| 3g10 | Guests page: From by region (450) | feature | 3g8 | `feature/p35-guests-regions` | todo |
+| 3g10 | Guests page: From by region (450) | feature | 3g13 | `feature/p35-guests-regions` | todo |
 | 3g11 | Guests: women 84-122's hooks and descriptions | content | 3g8 | `content/p35-guests-d` | todo |
 | 3g12 | Guests: women 123-161's hooks and descriptions | content | 3g11 | `content/p35-guests-e` | todo |
+| 3g13 | Guest card: country, the short line, facts row reworked (451-454) | feature | 3g6 | `feature/p35-guest-card` | todo |
+| 3g14 | Guests: the short line for the 83 women already written (452, 455) | content | 3g13 | `content/p35-guest-lines` | todo |
 | 4a | Place × act: oral, 6 at each of 5 places, 30 (286) | content | 1 | `content/p35-place-oral` | todo |
 | 4b | Place × act: anal, 6 at each of 5 places, 30 (286) | content | 1 | `content/p35-place-anal` | todo |
 | 4c | Place × act: toys, 6 at each of 5 places, 30 (286) | content | 1 | `content/p35-place-toys` | todo |
@@ -465,8 +476,12 @@ exercises (six at each of five places).
   woman's fields, vibe and two acts from `GUESTS` (dealt in 3g1, 413); Claude reviews for POV and heat,
   emits into `GUESTS`. **Test first:** each written woman has a hook (≤ 90 chars) and text (400–900 chars) naming Mali
   once; the quotas' table covers every name once. **Done when:** CI green; the page shows them.
-- **3g6:** the same for the men, one or two lines each (414), all 41 once 3g8 has dealt the new 17: Grok in runs of
-  7 (`3g6a`-`3g6f` in `grok/p35/mkguests.js`).
+- **3g6 (414, 453, 455):** the same for the men, all 41: Grok in runs of 7 (`3g6a`-`3g6f` in `grok/p35/mkguests.js`),
+  each man `N. Name | line | text`: the line (at most 130 characters, crude, his build or cock in it), then one or two
+  sentences. The brief (17 Oct): his looks woven into the action, never a colon and a list of stats; your part varies,
+  not every line "You watch"; you and he never touch. `scripts/deal-guests.js` takes a man's line (a `line` field).
+  **Test first:** a written man has a line of at most 130 characters naming his build or cock as dealt; a text file's
+  `Name | line | text` sets both and nothing else. **Done when:** CI green; Claude reads every one.
 - **3g8 (441, 446-449):** on the branch that already holds the 17 to 100. The new names go into `ORIGINS` in
   `app/third-names.js`; `scripts/deal-guests.js` keeps every guest already dealt and deals only the new ones, each to
   the least-used value. **The names (448):**
@@ -488,7 +503,17 @@ exercises (six at each of five places).
   no world guest lacks a region. **Done when:** CI green; 390 px light and dark.
 - **3g11, 3g12:** as 3g5, women 84-122 and 123-161, Grok in runs of 7 (`3g11a`-`3g11f`, `3g12a`-`3g12f`), the
   variety brief (433) against every woman already written. **Done when:** `tests/guests.test.js` and
-  `grok/p35/variety.js` pass; Claude reads every one for POV and heat.
+  `grok/p35/variety.js` pass; Claude reads every one for POV and heat. Each woman also gets her line (452):
+  `N. Name | line | hook | text`. The runs pick the unwritten women, not index ranges: 3g8 reordered `WOMEN`.
+- **3g13 (451-454):** `country` on every guest, dealt in `scripts/deal-guests.js` (il Israel, us USA, uk UK, a world
+  guest by her name: a `COUNTRY` map; Noam skims it). The card (`app/pages/guests.js`): the facts row becomes flag,
+  country, age, height (a man: flag, country, age); the line shows under it when written; the body facts show there
+  only until a guest has a line. Women's text files take `N. Name | line | hook | text`. **Test first:** every guest
+  has a country; the card's facts row shows the flag and country; a guest with a line shows it above the hook and no
+  body facts in the row. **Done when:** CI green; 390 px light and dark.
+- **3g14 (455):** the lines for the 83 women already written: Grok in runs of 14 (lines only, so lighter than 3g5's
+  runs of 7), from her fields and her hook so the two don't repeat. **Done when:** every woman has a line; Claude reads
+  them for sameness across the batch.
 - **3g7 Build (434-440):** `app/pages/guests.js`: cards fold to name, facts and hook (`aria-expanded`); a search field
   and one-line menus over `GUESTS` through a pure `KBGuests.find(GUESTS, q, filters, sort)` in `app/guests.js`'s
   module (unit-tested); the sheet and #guests/<name> show her unfolded. **Files:** `app/guests.js` (or a small
@@ -624,6 +649,11 @@ exercises (six at each of five places).
   list does change which guest a program day meets, as 441 already accepted. What I hadn't read: the 3g8 branch keeps
   decisions 441-445 off main, so this plan brings them here and that branch takes main's copy on its rebase. Lazier
   version not taken: one "The world" chip, because 54 women would sit under it (450, Noam).
+- **The card reworked (17 Oct night, 451-455).** Weakest assumption: that a line Grok writes can be checked against her
+  fields; only the physical fact is checked (452), the rest is read by Claude. What I hadn't read: 3g6 was mid-run
+  without a line, so it was stopped and restarts with it, saving a second pass over the men. Lazier version not taken:
+  a line built from her fields by code, because every card would read alike (Noam chose Grok, for the future guests
+  too).
 
 **Guests (17 Oct, 410–418).** Weakest assumption: that ~600-character descriptions for ~110 people fit the 1 MB gzip
 gate; checked: about 70 KB raw, a few KB gzipped. What I hadn't read: `cueOf` already fills the name in one place
