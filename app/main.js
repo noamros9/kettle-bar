@@ -141,7 +141,7 @@ const ACTIONS = [
   // Export (Phase 32 ticket 3): the sheet and its formats
   ['exportOpen', (v) => { exportState = { kind: v, hash: location.hash }; rerender(); }],
   ['exportClose', () => { exportState = null; rerender(); }],
-  ['guest', (n) => openGuest(n)], ['guestClose', closeGuest], // Phase 35 (416): a guest's card from a cue
+  ['guest', (n) => openGuest(n)], ['guestClose', closeGuest], ['guestFold', guestFold], ['gf', guestFilter], // Phase 35 (416): a guest's card from a cue
   ['exportPdf', () => exportPdf()],
   ['exportText', () => exportText()],
   ['exportCal', () => exportCal()],
@@ -256,6 +256,7 @@ document.addEventListener('input', (e) => {
   if (e.target.id === 'own-name') ownState.text = e.target.value;
   if (e.target.id === 'ask-q') askState.q = e.target.value; // kept through redraws
   if (e.target.id === 'ex-search') { exSearch.q = e.target.value; exRefresh(); }
+  if (e.target.id === 'guest-search') { guestFind.q = e.target.value; guestRefresh(); } // the results only (3g7)
   if (e.target.id === 'prog-search') { progQuery = e.target.value; progRefresh(); } // the results only (Phase 24 ticket 7)
   if (e.target.id === 'cmp-search') { compareState.q = e.target.value; compareRefresh(); } // the results only, as Programs' search
   if (e.target.classList.contains('noteinput')) { // Phase 33: kept through redraws; the count shows near the limit

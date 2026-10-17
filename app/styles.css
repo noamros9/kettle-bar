@@ -727,3 +727,9 @@ html.printing,body.printing{background:#fff}
 .guest h2,.guestwrap h2{margin:0}
 .gfacts{color:var(--muted);font-size:14px;margin:4px 0 0}
 .ghook{font-weight:600}
+/* 3g7: a guest's card folds to its summary */
+.gsum{all:unset;cursor:pointer;display:grid;gap:4px;width:100%}
+.gname{font:800 22px/1 var(--display);text-transform:uppercase;letter-spacing:.02em}
+.gsum .gfacts{display:block}
+.gsum .ghook{display:block}
+.gtext{margin:10px 0 0}

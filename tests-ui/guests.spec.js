@@ -10,11 +10,11 @@ const longPress = async (loc) => {
   await el.dispatchEvent('pointerdown'); await loc.page().waitForTimeout(700); await el.dispatchEvent('pointerup'); await el.dispatchEvent('click');
 };
 
-test('the page lists every guest, women then men, each with her facts row and "not written yet"', async ({ app }) => {
+test('the page lists every guest A-Z, each with her facts row, her hook or "not written yet"', async ({ app }) => {
   await app.open('#guests');
   await expect(app.heading()).toHaveText('The guests');
-  const names = await app.page.locator('.guest h2').allTextContents();
-  expect(names).toEqual([...WOMEN, ...MEN]);
+  const names = await app.page.locator('.guest .gname').allTextContents();
+  expect(names).toEqual([...WOMEN, ...MEN].sort((a, b) => a.localeCompare(b))); // A-Z by default (439)
   const noa = GUESTS.Noa;
   await expect(app.page.locator('#g-Noa .gfacts')).toContainText(`${noa.age} · ${noa.height} cm · ${noa.body}`);
   await expect(app.page.locator('#g-Noa')).toContainText(`${noa.breasts} tits`);
