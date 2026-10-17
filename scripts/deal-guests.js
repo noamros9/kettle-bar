@@ -1,5 +1,6 @@
 // Phase 35 ticket 3g1 (decisions 413, 419–426): deals every guest's fields to the quotas and writes app/guests.js.
 // Seeded, so a rerun writes the same file; hook and text already written there are kept. Run: node scripts/deal-guests.js
+// [text files…]: each line `N. Name | hook | text` (a woman) or `N. Name | text` (a man) sets that guest's words (3g3-3g6).
 const fs = require('fs');
 const path = require('path');
 const { WOMEN, MEN, ORIGINS } = require('../app/third-names.js');
@@ -87,6 +88,15 @@ function deal(old = {}) {
 
 const file = path.join(__dirname, '../app/guests.js');
 const old = fs.existsSync(file) ? require(file).GUESTS : {};
+for (const f of process.argv.slice(2)) {
+  for (const line of fs.readFileSync(f, 'utf8').split(/\r?\n/)) {
+    const m = line.match(/^\d+\.\s+([A-Z][a-z]+)\s*\|(.*)$/);
+    if (!m) continue;
+    const parts = m[2].split('|').map((x) => x.trim()), name = m[1];
+    if (!WOMEN.includes(name) && !MEN.includes(name)) throw new Error(`deal-guests: ${name} (${f}) is no guest`);
+    old[name] = WOMEN.includes(name) ? { hook: parts[0], text: parts[1] } : { text: parts[0] };
+  }
+}
 const body = Object.entries(deal(old)).map(([k, v]) => `    ${JSON.stringify(k)}: ${JSON.stringify(v)},`).join('\n');
 fs.writeFileSync(file, `/* The guests (Phase 35, decisions 410-426): who each named third person is, the same in every program and card (411).
    Fields dealt by scripts/deal-guests.js to the quotas (413, 419-425); hook and text written per woman (412), text per

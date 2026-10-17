@@ -41,3 +41,41 @@ test('the quotas: body, breasts, ass, pussy, hair length, vibe and acts even', (
 test('the men: age, body, skin, hair and cock', () => {
   MEN.forEach((n) => ['age', 'body', 'skin', 'hair', 'cock'].forEach((f) => assert.ok(GUESTS[n][f], `${f} of ${n}`)));
 });
+
+// Phase 35 tickets 3g3-3g6 (412, 414): the words, where written
+test('a written woman: a hook of at most 90 characters, then 300-900 of prose naming Mali once, quoting her, told from your side', () => {
+  women.filter((g) => g.text).forEach((g) => {
+    const name = WOMEN.find((n) => GUESTS[n] === g);
+    assert.ok(g.hook && g.hook.length <= 90, `${name}'s hook: ${g.hook.length}`);
+    assert.ok(!/Mali/.test(g.hook), `${name}'s hook names Mali`);
+    assert.ok(g.text.length >= 300 && g.text.length <= 900, `${name}'s text: ${g.text.length}`); // short or long by shape (432)
+    assert.match(g.text, /"[^"]{4,}"/, `${name}: a line of hers in every one (429)`);
+    assert.equal(g.text.match(/\bMali\b/g).length, 1, `${name} names Mali once`);
+    assert.ok(!/\b(he|him|his)\b/i.test(g.hook + ' ' + g.text), `${name}: "you" for him, never he/him/his`);
+    assert.ok(!/\bno (ink|tattoos?)\b/i.test(g.text), `${name}: never what she lacks`);
+  });
+});
+
+test('a written man: one or two sentences naming Mali once', () => {
+  MEN.map((n) => [n, GUESTS[n]]).filter(([, g]) => g.text).forEach(([n, g]) => {
+    assert.ok(g.text.length >= 120 && g.text.length <= 340, `${n}: ${g.text.length}`);
+    assert.equal(g.text.match(/\bMali\b/g).length, 1, `${n} names Mali once`);
+  });
+});
+
+// Noam, 17 Oct 2026: every guest reads as her own person, not one template with the fields swapped
+test('variety: no two hooks or texts open alike, and no five-word phrase in more than three texts', () => {
+  const written = Object.entries(GUESTS).filter(([, g]) => g.text);
+  const opening = (s) => s.toLowerCase().split(/\s+/).slice(0, 3).join(' ');
+  [['hook', written.filter(([, g]) => g.hook)], ['text', written]].forEach(([f, list]) => {
+    const seen = {};
+    list.forEach(([n, g]) => { const o = opening(g[f]); assert.ok(!seen[o], `${n} and ${seen[o]} open their ${f} alike: "${o}"`); seen[o] = n; });
+  });
+  const uses = {};
+  written.forEach(([n, g]) => {
+    const w = g.text.toLowerCase().replace(/[^a-z' ]/g, ' ').split(/\s+/).filter(Boolean);
+    new Set(w.slice(4).map((_, i) => w.slice(i, i + 5).join(' '))).forEach((p) => { (uses[p] = uses[p] || []).push(n); });
+  });
+  const stock = Object.entries(uses).filter(([p, l]) => l.length > 3 && !p.includes(' mali ')).map(([p, l]) => `"${p}": ${l.join(', ')}`);
+  assert.deepEqual(stock, []);
+});

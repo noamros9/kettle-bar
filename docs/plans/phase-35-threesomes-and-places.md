@@ -178,6 +178,29 @@ points were settled 10 Oct (292, 293).
 - **425 · The men's facts row:** age, body, skin, hair, cock; then 414's one or two lines. *(17 Oct)*
 - **427 · The Exercises page's HTML cap is 2.5 MB** (was 1 MB): every guest name in a cue is a button (416), and the
   library keeps growing; render time stays the real limit (418). *(17 Oct)*
+- **428 · Each woman a dealt shape** (Noam, 17 Oct, after Grok's first draft read as one template): a scene, the night
+  you met, her voice, Mali's view, undressing her, a habit, a text from her, the morning after, her rules, the first
+  time, Mali's pick, her favourite move, a dare, her secret; 14, about 6 women each. *(17 Oct)*
+- **429 · Your voice, a line of hers in every one**; the wording follows her vibe (bold talks crude, sensual slower and
+  softer, shy starts sweet and goes filthy). Her body shows through what she does: never a list, never what she lacks. *(17 Oct)*
+- **430 · Mali's role is dealt** too: she leads her, shares you with her, watches, they gang up on you, she's there for
+  Mali, Mali found her. *(17 Oct)*
+- **431 · The hook's kind is dealt:** her quote, a dare, a fact about her, a promise, a question. *(17 Oct)*
+- **432 · 300–900 characters**, short or long by shape (was 400–900); Grok writes about 14 a run, each run given the
+  earlier hooks and openings to avoid. *(17 Oct)*
+- **433 · The men, lighter:** a dealt opening (what he does to Mali, how you met him, Mali's word on him, a line he
+  says), a quote in half. *(17 Oct)*
+
+**The guests page, searchable (17 Oct 2026, Noam)**
+- **434 · A card is a summary that unfolds:** name, facts row and hook; a tap unfolds the description, each card on its
+  own. A cue's sheet shows her whole; #guests/<name> opens at her, unfolded. *(17 Oct)*
+- **435 · Search everything on her card**: name, every field, hook and description; words AND, like Exercises. *(17 Oct)*
+- **436 · Filters:** Women / Men tabs; body, tits, ass, hair colour, skin, eyes, pussy, ink, vibe, into (the 12 acts),
+  age band (21-25 ... 41-45), origin. Several values OR within a filter, filters AND together. *(17 Oct)*
+- **437 · One-line menus** like Exercises' "Equipment: Any": one open at a time, and Clear all. *(17 Oct)*
+- **438 · On Men** the women-only filters hide and a cock filter shows; on All, a women-only filter shows only women. *(17 Oct)*
+- **439 · Sort:** A-Z (default), youngest, oldest, tallest, shortest, as a one-line menu. *(17 Oct)*
+- **440 · Kept while the app is open**, like the Exercises search; a reload starts fresh. *(17 Oct)*
 - **426 · Claude deals every field in 3g1** with a committed script, a test checks the quotas; Noam skims the table
   before Grok writes from it. *(17 Oct)*
 
@@ -219,10 +242,11 @@ exercises (six at each of five places).
 | 3d | Threesome kind, group-only moves, fourth 36 of 144 (390) | content | 2t3 | `content/p35-kind-d` | todo |
 | 3g1 | Guests: 50 more women's names, and every guest's fields (410, 411, 419–426) | content | – | `content/p35-guest-names` | done (PR #509) |
 | 3g2 | Guests: the hidden page, its two gestures, a name's card in a cue (415, 416) | feature | 3g1 | `feature/p35-guests-page` | done (PR #510) |
-| 3g3 | Guests: the women's descriptions, first third (412, 413, 417) | content | 3g2 | `content/p35-guests-a` | todo |
+| 3g3 | Guests: the women's descriptions, first third (412, 413, 417) | content | 3g2 | `content/p35-guests-a` | done (PR #511) |
 | 3g4 | Guests: the women's descriptions, second third | content | 3g2 | `content/p35-guests-b` | todo |
 | 3g5 | Guests: the women's descriptions, last third | content | 3g2 | `content/p35-guests-c` | todo |
 | 3g6 | Guests: the men's lines (414) | content | 3g2 | `content/p35-guests-men` | todo |
+| 3g7 | Guests page: summary cards that unfold, search, filters, sort (434-440) | feature | 3g2 | `feature/p35-guests-find` | todo |
 | 4a | Place × act: oral, 6 at each of 5 places, 30 (286) | content | 1 | `content/p35-place-oral` | todo |
 | 4b | Place × act: anal, 6 at each of 5 places, 30 (286) | content | 1 | `content/p35-place-anal` | todo |
 | 4c | Place × act: toys, 6 at each of 5 places, 30 (286) | content | 1 | `content/p35-place-toys` | todo |
@@ -418,6 +442,13 @@ exercises (six at each of five places).
   emits into `GUESTS`. **Test first:** each written woman has a hook (≤ 90 chars) and text (400–900 chars) naming Mali
   once; the quotas' table covers every name once. **Done when:** CI green; the page shows them.
 - **3g6:** the same for the men, one or two lines each (414).
+- **3g7 Build (434-440):** `app/pages/guests.js`: cards fold to name, facts and hook (`aria-expanded`); a search field
+  and one-line menus over `GUESTS` through a pure `KBGuests.find(GUESTS, q, filters, sort)` in `app/guests.js`'s
+  module (unit-tested); the sheet and #guests/<name> show her unfolded. **Files:** `app/guests.js` (or a small
+  `app/guest-find.js`), `app/pages/guests.js`, `app/main.js`, `app/styles.css`, `tests/guests.test.js`,
+  `tests-ui/guests.spec.js`. **Test first:** find() by words, by filters (OR within, AND across), Men hides women-only,
+  sorts; the UI folds and unfolds, a search narrows the list, a menu filters, Clear all resets. **Done when:** CI
+  green; 390 px light and dark; 360 px no sideways scroll.
 - The day card (416) lands with 5b's group days.
 
 ### 4e1–4e5. Place threesomes (as 2a–4l; 391)
