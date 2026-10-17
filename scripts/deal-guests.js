@@ -1,6 +1,6 @@
 // Phase 35 ticket 3g1 (decisions 413, 419–426): deals every guest's fields to the quotas and writes app/guests.js.
 // Seeded, so a rerun writes the same file; hook and text already written there are kept. Run: node scripts/deal-guests.js
-// [text files…]: each line `N. Name | hook | text` (a woman) or `N. Name | text` (a man) sets that guest's words (3g3-3g6).
+// [text files…]: each line `N. Name | hook | text` (a woman) or `N. Name | line | text` (a man, 453) sets that guest's words (3g3-3g6).
 const fs = require('fs');
 const path = require('path');
 const { WOMEN, MEN, ORIGINS } = require('../app/third-names.js');
@@ -146,7 +146,7 @@ function apply(old, text, f) {
     if (!mt) continue;
     const parts = mt[2].split('|').map((x) => x.trim()), name = mt[1];
     if (!WOMEN.includes(name) && !MEN.includes(name)) throw new Error(`deal-guests: ${name} (${f}) is no guest`);
-    old[name] = { ...old[name], ...(WOMEN.includes(name) ? { hook: parts[0], text: parts[1] } : { text: parts[0] }) };
+    old[name] = { ...old[name], ...(WOMEN.includes(name) ? { hook: parts[0], text: parts[1] } : { line: parts[0], text: parts[1] }) }; // a man: line | text (453)
   }
   return old;
 }

@@ -57,9 +57,9 @@ test('dealing again changes no guest, and a text file sets only the words', () =
   const again = deal(structuredClone(GUESTS));
   Object.keys(GUESTS).forEach((n) => assert.deepEqual(again[n], GUESTS[n], n));
   const old = structuredClone(GUESTS);
-  apply(old, '1. Noa | A hook | A text\n2. Itay | His text\nnot a line', 'x.md');
+  apply(old, '1. Noa | A hook | A text\n2. Itay | His line | His text\nnot a line', 'x.md');
   assert.deepEqual({ ...old.Noa, hook: GUESTS.Noa.hook, text: GUESTS.Noa.text }, GUESTS.Noa);
-  assert.deepEqual([old.Noa.hook, old.Noa.text, old.Itay.text, old.Itay.cock], ['A hook', 'A text', 'His text', GUESTS.Itay.cock]);
+  assert.deepEqual([old.Noa.hook, old.Noa.text, old.Itay.line, old.Itay.text, old.Itay.cock], ['A hook', 'A text', 'His line', 'His text', GUESTS.Itay.cock]);
   assert.throws(() => apply(old, '1. Zed | a | b', 'x.md'), /Zed \(x\.md\) is no guest/);
 });
 
@@ -81,6 +81,16 @@ test('a written man: one or two sentences naming Mali once', () => {
   MEN.map((n) => [n, GUESTS[n]]).filter(([, g]) => g.text).forEach(([n, g]) => {
     assert.ok(g.text.length >= 120 && g.text.length <= 340, `${n}: ${g.text.length}`);
     assert.equal(g.text.match(/\bMali\b/g).length, 1, `${n} names Mali once`);
+  });
+});
+
+// Phase 35 ticket 3g6 (453): a man's short line, his build or his cock in it as dealt
+test('a written man: a line of at most 130 characters with his build or cock, never naming Mali', () => {
+  MEN.map((n) => [n, GUESTS[n]]).filter(([, g]) => g.text).forEach(([n, g]) => {
+    assert.ok(g.line && g.line.length <= 130, `${n}'s line: ${g.line}`);
+    assert.ok(!/Mali/.test(g.line), `${n}'s line names Mali`);
+    const l = g.line.toLowerCase(), cock = g.cock.split(' ').filter((w) => !['and', 'as', 'average'].includes(w));
+    assert.ok(l.includes(g.body) || cock.every((w) => l.includes(w)), `${n}'s line: ${g.body} or ${g.cock}? ${g.line}`);
   });
 });
 
