@@ -186,7 +186,7 @@ points were settled 10 Oct (292, 293).
 - **430 · Mali's role is dealt** too: she leads her, shares you with her, watches, they gang up on you, she's there for
   Mali, Mali found her. *(17 Oct)*
 - **431 · The hook's kind is dealt:** her quote, a dare, a fact about her, a promise, a question. *(17 Oct)*
-- **432 · 300–900 characters**, short or long by shape (was 400–900); Grok writes about 14 a run, each run given the
+- **432 · 300–1,100 characters**, short or long by shape (1,100, was 900, from 3g11: "a bit longer", Noam 17 Oct; was 400–900); Grok writes about 14 a run, each run given the
   earlier hooks and openings to avoid. *(17 Oct)*
 - **433 · The men, lighter:** a dealt opening (what he does to Mali, how you met him, Mali's word on him, a line he
   says), a quote in half. *(17 Oct)*
@@ -285,7 +285,7 @@ exercises (six at each of five places).
 | 3g8 | Guests: to 161 women and 41 men, their names and fields (441, 446-449) | content | 3g5 | `content/p35-guests-100` | done (PR #519) |
 | 3g9 | Guests page: the filters redesigned, group pills and a sheet (442-445) | feature | 3g7 | `feature/p35-guests-filters` | done (PR #516) |
 | 3g10 | Guests page: From by region (450) | feature | 3g13 | `feature/p35-guests-regions` | done (PR #526) |
-| 3g11 | Guests: women 84-122's hooks and descriptions | content | 3g8 | `content/p35-guests-d` | todo |
+| 3g11 | Guests: women 84-122's hooks and descriptions | content | 3g8 | `content/p35-guests-d` | done (PR #528) |
 | 3g12 | Guests: women 123-161's hooks and descriptions | content | 3g11 | `content/p35-guests-e` | todo |
 | 3g13 | Guest card: country, the short line, facts row reworked (451-454) | feature | 3g6 | `feature/p35-guest-card` | done (PR #523) |
 | 3g14 | Guests: the short line for the 83 women already written (452, 455) | content | 3g13 | `content/p35-guest-lines` | done (PR #524) |
