@@ -244,7 +244,7 @@ exercises (six at each of five places).
 | 3g2 | Guests: the hidden page, its two gestures, a name's card in a cue (415, 416) | feature | 3g1 | `feature/p35-guests-page` | done (PR #510) |
 | 3g3 | Guests: the women's descriptions, first third (412, 413, 417) | content | 3g2 | `content/p35-guests-a` | done (PR #511) |
 | 3g4 | Guests: the women's descriptions, second third | content | 3g2 | `content/p35-guests-b` | done (PR #514) |
-| 3g5 | Guests: the women's descriptions, last third | content | 3g2 | `content/p35-guests-c` | todo |
+| 3g5 | Guests: the women's descriptions, last third | content | 3g2 | `content/p35-guests-c` | in-progress |
 | 3g6 | Guests: the men's lines (414) | content | 3g2 | `content/p35-guests-men` | todo |
 | 3g7 | Guests page: summary cards that unfold, search, filters, sort (434-440) | feature | 3g2 | `feature/p35-guests-find` | done (PR #512) |
 | 4a | Place × act: oral, 6 at each of 5 places, 30 (286) | content | 1 | `content/p35-place-oral` | todo |

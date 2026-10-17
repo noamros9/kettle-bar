@@ -2,18 +2,25 @@
 
 The index: where we are, what comes next, and the two phases being built now. Every other phase's decisions live at the
 top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase comes up. Decision numbers are global
-(the next one is **441**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
+(the next one is **446**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
 ## Resume here (17 Oct 2026)
-- **The guests, 17 Oct evening (#508–#512):** the Exercises render fix (cards off screen skip layout: CI 210 ms of
-  1,200); 3g1 (50 more women, every guest's fields), 3g2 (the hidden #guests page, a name in a cue opens her card), 3g3
-  (the first 28 women's hooks and descriptions), 3g7 (cards fold, search, filter menus, sort) are merged.
-  **Next: 3g4, 3g5, 3g6** (the rest of the women, then the men), Grok text only: `node grok/p35/mkguests.js <run>` writes
-  each run's prompt from the dealt brief (428–433; runs 3g4a… in the script, laptop only), `node scripts/deal-guests.js
-  <text files>` emits, `node grok/p35/variety.js` lists repeats; fix small misses by hand. **Runs of 7, not 14:** xAI's
-  filter scores the whole prompt and refused 3g4b's 14 (403) though no single woman trips it; `grok/p35/bisect.js` and
-  `probe.sh` split a refused run. 3g4a (women 29–42) is written in `grok/p35/t3g4a-text.md`; 3g4b's two halves
-  (`t3g4bx`, `t3g4by`) were being written at the stop. Then 3b, three per go.
+- **The guests: stopped 17 Oct late (Noam), mid-way. Finish every 3g ticket before 3b.** Merged: 3g1–3g4, 3g7
+  (#509–#514): 56 of 83 women written, the searchable page. Left, in this order:
+  1. **3g9** (the filters redesign, 442–445), branch `feature/p35-guests-filters` (WIP, pushed): code and specs written,
+     the UI specs never ran (a cold build timed out). `npm run cache:pull`, then
+     `npx playwright test tests-ui/guests-find.spec.js tests-ui/guests.spec.js --project=phone-light`, fix, 390 px
+     shots light and dark, mark done, PR.
+  2. **3g5** (women 57–83): Grok's runs of 7 in `grok/p35/` (laptop only): 3g5a, 3g5b written; 3g5c, 3g5d not
+     (`node grok/p35/mkguests.js 3g5c`, then the grok command in grok-handoff; `sh grok/p35/chain.sh` runs 3g5c–3g6b
+     one after another, edit its list first). Emit: `node scripts/deal-guests.js grok/p35/t3g3a-text.md … (every text
+     file)`, `node --test tests/guests.test.js`, `node grok/p35/variety.js`, fix repeats by hand, PR.
+  3. **3g8** (17 more women to 100, 441), branch `content/p35-guests-100` (WIP, pushed; also holds decisions 441–445
+     and the 3g8/3g9 rows): names and fields done and tested, no guest changed. Rebase on main after 3g5; then Grok
+     writes the 17 in runs of 7 (add runs to `mkguests.js` by name, since the 100-name list reorders `WOMEN`).
+  4. **3g6** (the 24 men): runs 3g6a, 3g6b in `mkguests.js`, not run yet.
+- **Grok and xAI's filter:** runs of 7, never 14: xAI refused 3g4b's 14 as a whole (403) though no woman alone trips
+  it (`grok/p35/bsearch.sh`, `probe.sh` split a refused run). The "already written" list holds three words each.
 - **Phase 35: 2a–2g and 2t3–2t6 done** (16–17 Oct; #479–#481, #486–#491): the Group sex tab (2t1), a random name per exercise
   outside a workout (2t2), and 252 threesome exercises at catalogue 16; 2d–2g are 36 each, half the other pairing
   (`pair: 'other'`: you on the other woman, or the other man on Mali), their drawings' colours swapped to match.
