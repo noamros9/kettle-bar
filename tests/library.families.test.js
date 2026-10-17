@@ -28,7 +28,9 @@ test('every exercise has exactly one family and one subject from the table', () 
     used.add(`${family}:${subject}`);
   });
   // Phase 22 tickets 9–12i fill them
-  const NOT_YET = ['rough', 'kink', 'body', 'rim', 'edging', 'shower', 'pool', 'hottub', 'balcony', 'doorframe'].map((k) => `couples:${k}`);
+  const NOT_YET = ['rough', 'kink', 'body', 'rim', 'edging', 'shower', 'pool', 'hottub', 'balcony', 'doorframe'].map((k) => `couples:${k}`)
+    // Phase 35 tickets 2d on fill Group sex's acts, the kind and the places
+    .concat(['rough', 'kink', 'body', 'rim', 'edging', 'threesome', 'shower', 'pool', 'hottub', 'balcony', 'doorframe'].map((k) => `group:${k}`));
   EX_FAMILIES.forEach(([fam, , list]) => list.filter(([sk]) => !NOT_YET.includes(`${fam}:${sk}`)).forEach(([sk, sn]) => {
     assert.ok(used.has(`${fam}:${sk}`), `${sn} of ${famName[fam]} has no exercises`);
   }));
@@ -78,4 +80,21 @@ test('a picked family with nothing left falls back to All; Breathing is offered'
   assert.deepEqual(all.families.map((c) => c.key), ['all', ...EX_FAMILIES.map(([k]) => k)]);
   assert.deepEqual(all.subjects, []);
   assert.equal(all.families[0].count, Object.keys(EX).length);
+});
+
+// Phase 35 ticket 2t1 (380, 381): threesomes have their own family, right after Couples, and never show under Couples
+test('Group sex comes right after Couples and holds every threesome; Couples keeps the two-person ones', () => {
+  const keys = EX_FAMILIES.map(([k]) => k);
+  assert.equal(keys.indexOf('group'), keys.indexOf('couples') + 1);
+  assert.equal(famName.group, 'Group sex');
+  const all = Object.values(EX), trios = all.filter((e) => e.trio);
+  assert.equal(trios.length, 108); // 2a–2c
+  trios.forEach((e) => assert.deepEqual(familyOf(e), { family: 'group', subject: e.sub }, e.id));
+  const r = find();
+  assert.equal(r.families.find((c) => c.key === 'group').count, trios.length);
+  assert.equal(r.families.find((c) => c.key === 'couples').count, all.filter((e) => e.cat === 'couple').length - trios.length);
+  const g = find({ family: 'group' });
+  assert.ok(g.list.every((e) => e.trio));
+  assert.deepEqual(g.subjects.map((c) => c.key), ['all', 'fuck', 'oral', 'hands', 'anal', 'toys']);
+  assert.ok(find({ family: 'couples' }).list.every((e) => !e.trio));
 });

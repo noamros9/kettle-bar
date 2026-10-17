@@ -161,6 +161,8 @@
     ['cardio', 'Cardio & combat', [['cardio', 'Cardio'], ['boxing', 'Boxing'], ['kick', 'Kickboxing']]],
     ['mind', 'Mind & body', [['yoga', 'Yoga'], ['pilates', 'Pilates'], ['balance', 'Balance'], ['mobility', 'Mobility']]],
     ['couples', 'Couples', [['fuck', 'Intercourse'], ['oral', 'Oral'], ['hands', 'Hands'], ['anal', 'Anal'], ['toys', 'Toys'], ['partner', 'Partner work'], ['tease', 'Strip and tease'], ['dare', 'Dares'], ['massage', 'Massage'], ['rough', 'Rough'], ['kink', 'Kink-lite'], ['body', 'Body play'], ['rim', 'Rimming'], ['edging', 'Edging'], ['shower', 'Shower and bath'], ['pool', 'Pool'], ['hottub', 'Hot tub'], ['balcony', 'Balcony'], ['doorframe', 'Doorframe']]],
+    // Phase 35 (380, 381): threesomes (later foursomes) file here, never under Couples: the acts, the kind, the places
+    ['group', 'Group sex', [['fuck', 'Intercourse'], ['oral', 'Oral'], ['hands', 'Hands'], ['anal', 'Anal'], ['toys', 'Toys'], ['rough', 'Rough'], ['kink', 'Kink-lite'], ['body', 'Body play'], ['rim', 'Rimming'], ['edging', 'Edging'], ['threesome', 'Threesome'], ['shower', 'Shower and bath'], ['pool', 'Pool'], ['hottub', 'Hot tub'], ['balcony', 'Balcony'], ['doorframe', 'Doorframe']]],
   ];
   // an exercise's Muscles chip is the body part of its first main muscle (Phase 30, 211: from the one MUSCLE_GROUPS)
   const MUSCLE_SUB = Object.fromEntries(Ex.MUSCLE_GROUPS.flatMap(([, , parts]) => parts.flatMap(([part, , ms]) => ms.map((m) => [m, part]))));
@@ -170,7 +172,7 @@
     yoga: 'mind', pilates: 'mind', balance: 'mind', mobility: 'mind',
   };
   function familyOf(e) {
-    const family = CAT_TO_FAM[e.cat] || 'muscles';
+    const family = e.trio || e.quad ? 'group' : CAT_TO_FAM[e.cat] || 'muscles';
     const subject = e.cat === 'warmup' || e.cat === 'cooldown' || e.cat === 'couple' ? e.sub
       : e.cat === 'flex' ? 'flex'
       : e.cat === 'full' ? 'full'
