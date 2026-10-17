@@ -2,7 +2,7 @@
 
 The index: where we are, what comes next, and the two phases being built now. Every other phase's decisions live at the
 top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase comes up. Decision numbers are global
-(the next one is **410**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
+(the next one is **419**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
 ## Resume here (17 Oct 2026)
 - **Phase 35: 2a–2g and 2t3–2t6 done** (16–17 Oct; #479–#481, #486–#491): the Group sex tab (2t1), a random name per exercise
@@ -13,7 +13,7 @@ top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase c
   **2t3–2t6 done** (17 Oct, #494–#497): the guest man teal; LF endings (the laptop reads CI's cache: 1395 read, 11 s);
   unit tests in two jobs (floor alone, 2t5); the UI suite in two shards per theme, and main's run skips the finder smoke and the cold build
   check unless their code changed (2t6, 409).
-  **2h–2j done** (17 Oct, #498–#500; 2h added Strip and tease and Massage to Group sex). **Next: 2k (intercourse +36), 2l, 2m; three per go, on his go.** Foursomes are in the plan (367–379, 392, 395; 8a–8n after 6x);
+  **2h–2m and 3a done** (17 Oct, #498–#505; 2h added Strip and tease and Massage to Group sex, 3a a row's own sub). **Next: 3g1 (guest names; Noam crosses out Claude's list, round 1 sent 17 Oct), 3g2, 3b; three per go, on his go.** The guests (410–418): names, a hidden page, descriptions. Foursomes are in the plan (367–379, 392, 395; 8a–8n after 6x);
   35 is catalogue 16, foursomes 17, Phase 38 18, Phase 27 19 (408).
 - **How a threesome act ticket runs** (2d–2g): Grok writes `grok/p35/t2X-text.md` from the previous ticket's prompt
   (copy `t2g-prompt.md`, swap the act's rules and bases); Claude reviews it, `node grok/p35/place2X.js` (a copy of
@@ -55,6 +55,8 @@ right after Phase 22 (216). **223 ·** 8 Oct: quick fixes after 22; Export, day 
   move while earlier phases land, and a ticket whose facts changed is fixed in its plan before hand-off.
 
 ## Backlog
+- **`back.spec.js` "a program ← day 37 … through #today" fails now and then in CI**, always 70.98 px off (#500, #504, 17 Oct;
+  a rerun passes): a real race in restoring the scroll, not noise.
 - **Test a restore from the nightly backup** on the phone ([#16](https://github.com/noamros9/kettle-bar/issues/16)).
 - **Cut the test and CI times** ([#265](https://github.com/noamros9/kettle-bar/issues/265)). Already done: only the
   affected UI specs run locally; the sync tests run ~35% faster; CI runs in Playwright's image and cancels older runs;
