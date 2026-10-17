@@ -52,7 +52,7 @@ const MAP = [
   [/^app\/export\.js$/, ['exercise', 'workout', 'flow', 'bouts', 'print', 'export']], // Phase 32: the words the cards, the exercise page and the print view use
   [/^app\/pages\/print\.js$/, ['print', 'export']], // Phase 32: the print view
   [/^app\/third-names\.js$/, ['third-names', 'guests']], // Phase 35: the third person's name in a cue
-  [/^app\/(guests|pages\/guests)\.js$/, ['guests']], // Phase 35 (3g2): the guests page and a name's card
+  [/^app\/(guests|guest-find|pages\/guests)\.js$/, ['guests', 'guests-find']], // Phase 35 (3g2, 3g7): the guests page, finding a guest, a name's card
   [/^app\/(compare|pages\/compare)\.js$/, ['compare']], // Phase 33: Compare
   [/^app\/pages\/export-sheet\.js$/, ['export', 'weekdays']], // Phase 32: the Export sheet
   [/^(tests-ui\/(fixtures|devices)\.js|playwright\.config\.js)$/, ['sync', 'build', 'random', 'share']],

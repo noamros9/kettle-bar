@@ -72,7 +72,7 @@ function deal(old = {}) {
     const o = wf[name], body = bodies[i], [lo, hi] = HEIGHT[body];
     const [skin, colour, eyes] = o === 'world' ? WORLD[name] : [next(o, 'skin'), next(o, 'hair'), next(o, 'eyes')];
     const a1 = least(counts.acts, ACTS), a2 = least(counts.acts, ACTS.filter((a) => a !== a1));
-    guests[name] = { kind: 'woman', age: ages[i], height: Math.round(lo + rnd() * (hi - lo)), body, breasts: least(counts.breasts, BREASTS[body]),
+    guests[name] = { kind: 'woman', from: o, age: ages[i], height: Math.round(lo + rnd() * (hi - lo)), body, breasts: least(counts.breasts, BREASTS[body]),
       ass: least(counts.ass, ASS[body]), pussy: pussies[i], skin, hair: `${lengths[i]} ${colour}`, eyes,
       ink: inked.has(name) ? ink.pop() : null, job: jobs[i], vibe: vibes[i], acts: [a1, a2],
       hook: (old[name] && old[name].hook) || '', text: (old[name] && old[name].text) || '' };
@@ -80,7 +80,7 @@ function deal(old = {}) {
   const mf = from('man'), mt = {}, [mb, ma, mh, mc] = [deck(MEN_BODY, MEN.length), deck(Array.from({ length: 24 }, (_, i) => 22 + i), MEN.length), deck(MEN_HAIR, MEN.length), deck(COCK, MEN.length)];
   MEN.forEach((name, i) => {
     const o = mf[name]; mt[o] = (mt[o] || 0);
-    guests[name] = { kind: 'man', age: ma[i], body: mb[i], skin: MEN_SKIN[o][mt[o]++ % MEN_SKIN[o].length], hair: mh[i], cock: mc[i],
+    guests[name] = { kind: 'man', from: o, age: ma[i], body: mb[i], skin: MEN_SKIN[o][mt[o]++ % MEN_SKIN[o].length], hair: mh[i], cock: mc[i],
       text: (old[name] && old[name].text) || '' };
   });
   return guests;
