@@ -2,19 +2,16 @@
 
 The index: where we are, what comes next, and the two phases being built now. Every other phase's decisions live at the
 top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase comes up. Decision numbers are global
-(the next one is **451**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
+(the next one is **456**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
 ## Resume here (17 Oct 2026)
-- **The guests, now to 161 women and 41 men (446-450, 17 Oct evening). Finish every 3g ticket before 3b.** Merged:
-  3g1-3g4, 3g7, 3g9 (#509-#516): 56 of 83 women written, the searchable page with group pills and a sheet. Left, in order:
-  1. **3g5** (women 57-83): 3g5a-c written in `grok/p35/` (laptop only), 3g5d (6) rerunning. `sh grok/p35/chain.sh`
-     (`RUNS="..."`) judges a run by its text file against its size in `mkguests.js`, and keeps a short one. Emit:
-     `node scripts/deal-guests.js grok/p35/t3g3a-text.md ... (every text file)`, `node --test tests/guests.test.js`,
-     `node grok/p35/variety.js`, fix repeats by hand, PR.
-  2. **3g8** (to 161 and 41, names in the plan), branch `content/p35-guests-100` (the 17 to 100 dealt): rebase on main
-     (take main's plan), add the 61 women and 17 men, deal, test, PR. No text: 3g11-3g12 write it.
-  3. **3g6** (all 41 men's lines), **3g10** (From by region; can run beside 3g6), then **3g11**, **3g12** (women
-     84-161, runs of 7).
+- **The guests, 161 women and 41 men (446-455, 17 Oct night). Finish every 3g ticket before 3b.** Merged: 3g1-3g5,
+  3g7-3g9 (#509-#519): 83 women written, 202 guests dealt, the page with pills and a sheet. Left, in order:
+  1. **3g6** (all 41 men: line and text, 453): Grok runs `3g6a`-`3g6f` from the 3g8 worktree `C:/code/kb-3g8`
+     (`RUNS="..." sh grok/p35/chain.sh`; the brief in `mkguests.js` was tightened 17 Oct). Stopped before any run
+     finished with the line; restart after this plan.
+  2. **3g13** (country, the card, 451-454), then **3g14** (lines for the 83 written), **3g10** (From by region),
+     **3g11**, **3g12** (women 84-161, line, hook and text).
 - **Grok and xAI's filter:** runs of 7, never 14: xAI refused 3g4b's 14 as a whole (403) though no woman alone trips
   it (`grok/p35/bsearch.sh`, `probe.sh` split a refused run). The "already written" list holds three words each.
 - **Phase 35: 2a–2g and 2t3–2t6 done** (16–17 Oct; #479–#481, #486–#491): the Group sex tab (2t1), a random name per exercise
