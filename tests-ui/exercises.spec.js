@@ -53,7 +53,7 @@ test('the Exercises page points to the Muscles page', async ({ app }) => {
 // Phase 18 ticket 2 / Phase 21 ticket 1: Couples is a family; its subjects are the sections
 test('Couples: its own chip and subject sections, every card drawn with two figures', async ({ app }) => {
   await app.open('#exercises');
-  const n = Object.values(EX).filter((e) => e.cat === 'couple').length;
+  const n = Object.values(EX).filter((e) => e.cat === 'couple' && !e.trio).length; // threesomes are Group sex (381)
   await app.page.getByRole('group', { name: 'Filter by family' }).getByRole('button', { name: /^Couples/ }).click();
   await expect(cards(app)).toHaveCount(n);
   // Every kind with exercises, in app/library.js's order: catalogue 13 adds kinds ticket by ticket.
@@ -61,15 +61,27 @@ test('Couples: its own chip and subject sections, every card drawn with two figu
     ['tease', 'Strip and tease'], ['dare', 'Dares'], ['massage', 'Massage'], ['rough', 'Rough'], ['kink', 'Kink-lite'], ['body', 'Body play'],
     ['rim', 'Rimming'], ['edging', 'Edging'], ['shower', 'Shower and bath'], ['pool', 'Pool'], ['hottub', 'Hot tub'], ['balcony', 'Balcony'],
     ['doorframe', 'Doorframe']];
-  const subs = new Set(Object.values(EX).filter((e) => e.cat === 'couple').map((e) => e.sub));
+  const subs = new Set(Object.values(EX).filter((e) => e.cat === 'couple' && !e.trio).map((e) => e.sub));
   await expect(app.page.locator('.libcat h2')).toHaveText(order.filter(([k]) => subs.has(k)).map(([, name]) => name));
   expect(await app.page.locator('#exresults .exlink svg.fig').evaluateAll((l) => l.every((s) => s.querySelector('circle[fill="var(--fig2)"]')))).toBe(true);
   expect(await app.sidewaysScroll()).toBe(0);
 });
 
-test('All shows six family sections; Muscles shows its ten body parts and Full body (Phase 30); Chest leaves one section', async ({ app }) => {
+// Phase 35 ticket 2t1 (380, 381): Group sex right after Couples, its acts as sections, every card with three figures
+test('Group sex: its own chip after Couples, a section per act, every card drawn with three figures', async ({ app }) => {
   await app.open('#exercises');
-  await expect(app.page.locator('.libcat h2')).toHaveText(['Warm-up', 'Stretch & cool-down', 'Muscles', 'Cardio & combat', 'Mind & body', 'Couples']);
+  const fams = app.page.getByRole('group', { name: 'Filter by family' });
+  await expect(fams.getByRole('button')).toHaveText([/^All/, /^Warm-up/, /^Stretch/, /^Muscles/, /^Cardio/, /^Mind/, /^Couples/, /^Group sex/]);
+  await fams.getByRole('button', { name: /^Group sex/ }).click();
+  await expect(cards(app)).toHaveCount(Object.values(EX).filter((e) => e.trio).length);
+  await expect(app.page.locator('.libcat h2')).toHaveText(['Intercourse', 'Oral', 'Hands', 'Anal', 'Toys']);
+  expect(await app.page.locator('#exresults .exlink svg.fig').evaluateAll((l) => l.every((s) => s.querySelector('circle[fill="var(--fig3)"]')))).toBe(true);
+  expect(await app.sidewaysScroll()).toBe(0);
+});
+
+test('All shows seven family sections; Muscles shows its ten body parts and Full body (Phase 30); Chest leaves one section', async ({ app }) => {
+  await app.open('#exercises');
+  await expect(app.page.locator('.libcat h2')).toHaveText(['Warm-up', 'Stretch & cool-down', 'Muscles', 'Cardio & combat', 'Mind & body', 'Couples', 'Group sex']);
   await expect(app.page.getByRole('group', { name: 'Filter by subject' })).toHaveCount(0);
   await app.page.getByRole('group', { name: 'Filter by family' }).getByRole('button', { name: /^Muscles/ }).click();
   await expect(app.page.getByRole('group', { name: 'Filter by subject' }).getByRole('button')).toHaveCount(11); // All + 9 parts + Full body

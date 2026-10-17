@@ -121,7 +121,7 @@ exercises (six at each of five places).
 | 2a | Threesome act: intercourse, 36 (284) | content | 1, 1c | `content/p35-act-intercourse` | done (PR #479) |
 | 2b | Threesome acts: oral 18, hands 18 (284) | content | 1, 1c | `content/p35-act-oral-hands` | done (PR #480) |
 | 2c | Threesome acts: anal 18, toys 18 (284) | content | 1, 1c | `content/p35-act-anal-toys` | done (PR #481) |
-| 2t1 | The Group sex tab on the Exercises page (380, 381) | feature | – | `feature/p35-group-tab` | todo |
+| 2t1 | The Group sex tab on the Exercises page (380, 381) | feature | – | `feature/p35-group-tab` | done (PR #486) |
 | 2t2 | A random name per exercise outside a workout (384) | feature | – | `feature/p35-sample-names` | todo |
 | 2d | Threesome act: rough, 36, half the other pairing (382, 383) | content | 2t2 | `content/p35-act-rough` | todo |
 | 2e | Threesome act: kink, 36, half the other pairing (382, 383) | content | 2t2 | `content/p35-act-kink` | todo |
@@ -252,7 +252,7 @@ exercises (six at each of five places).
   in the recipe cache's key: one cold CI run.
 - **Files:** `app/library.js`, `tests/library*.test.js`, `tests-ui/exercises.spec.js`, `scripts/ui-affected.js`.
 - **Test first:** the family list has Group sex after Couples; every `trio` exercise is in it and none in Couples;
-  the Couples count drops by exactly the threesomes; the tab shows the 144 at 390 px with no sideways scroll.
+  the Couples count drops by exactly the threesomes; the tab shows them all at 390 px with no sideways scroll.
 - **Done when:** CI green; 390 px screenshots, light and dark, show the tab and its chips.
 
 ### 2t2. A random name per exercise outside a workout (Opus; 384)

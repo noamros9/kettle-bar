@@ -11,10 +11,11 @@ top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase c
   Against the guidelines: ice returns (blindfold and ice on her, then ice on him: `session-tags.js` tags `him:ice`
   apart from `ice`, so rule 6 misses it, likely in other couple programs too); the day has no warm-up though the
   about promises a tease and a massage; a pool name on a home day. A fix moves built days and trips pins: his call.
+- **The Pool day-16 review waits for a phase of its own** (Noam, 17 Oct): see Backlog.
 - **Then Phase 35, planned 16 Oct night (380–386):** 2t1 the Group sex tab, 2t2 a random name per exercise, then
   2d–2m: 36 threesomes per act, half the other pairing (you on the other woman, the other man on Mali). Three tickets
   per go, as always.
-- **Phase 35: 2a–2c done** (16 Oct; #479–#481), 144 threesome exercises at catalogue 16, each third figure placed by
+- **Phase 35: 2a–2c done** (16 Oct; #479–#481), 108 threesome exercises at catalogue 16, each third figure placed by
   hand and approved by Noam (`scripts/emit-trio.js`, Grok text only, 368). **Next: 2t1, on his go.**
   Foursomes are in the plan (367–379, tickets 8a–8m after 6x); 35 is catalogue 16, foursomes 17, Phase 27 18.
 - **The laptop never hits the CI build cache:** its checkout has CRLF endings, CI LF, so the code hash differs and
@@ -53,6 +54,9 @@ right after Phase 22 (216). **223 ·** 8 Oct: quick fixes after 22; Export, day 
   Markdown-only commits skip the tests; a first CI job builds the library once and the test and UI jobs read its cache
   (#438, 15 Oct: a builder change had three jobs building cold at once). More workers don't help on 2 cores.
   **322 ·** The build cache is done (13 Oct, archived): builds read unchanged programs from `.build-cache/`.
+- **A couple-program audit, a phase of its own** (Noam, 17 Oct): the Pool program "Set, then wall", day 16 ("Stomach
+  Cold and Pussy Hot") breaks the guidelines (ice twice: `him:ice` escapes rule 6; no warm-up though the about promises
+  one; a pool name on a home day), and more like it will turn up. A fix moves built days and trips pins: Noam's call.
 
 ## Decided against (don't re-suggest)
 - **The cold-build check nightly instead of on every main push**: decision 327 stays per merge (Noam, 16 Oct 2026).
