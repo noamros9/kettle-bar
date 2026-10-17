@@ -232,6 +232,7 @@ test('figures draw when near view: none far down at first, the first screen at o
   await cdp.send('Emulation.setCPUThrottlingRate', { rate: 4 });
   const ms = await app.data(() => { const a = performance.now(); render(); return performance.now() - a; });
   await cdp.send('Emulation.setCPUThrottlingRate', { rate: 1 });
+  console.log(`Exercises render at 4x throttle: ${Math.round(ms)} ms of 1200`); // the headroom, read in CI's log as the library grows
   expect(ms).toBeLessThan(1200); // 3,038 ms before (review V); ~480 ms after, measured on the cloud machine
   expect(await app.data(() => document.getElementById('app').innerHTML.length)).toBeLessThan(1024 * 1024);
 });
