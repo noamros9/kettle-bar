@@ -175,7 +175,7 @@ exercises (six at each of five places).
 | 2i | Threesome acts: strip and tease 18, hands +18, the other pairing (388, 389) | content | 2t3 | `content/p35-act-tease-hands` | done (PR #499) |
 | 2j | Threesome acts: toys +18, the other pairing (388, 389) | content | 2t3 | `content/p35-act-toys` | done (PR #500) |
 | 2k | Threesome acts: intercourse +36, the other pairing (388, 389) | content | 2t3 | `content/p35-more-intercourse` | done (PR #502) |
-| 2l | Threesome acts: oral +36, 9 regular and 27 other (388, 389) | content | 2t3 | `content/p35-more-oral` | todo |
+| 2l | Threesome acts: oral +36, 9 regular and 27 other (388, 389) | content | 2t3 | `content/p35-more-oral` | done (PR #503) |
 | 2m | Threesome acts: anal +36, 9 regular and 27 other (388, 389) | content | 2t3 | `content/p35-more-anal` | todo |
 | 3a | Threesome kind, group-only moves, first 36 of 144 (390) | content | 2t3 | `content/p35-kind-a` | todo |
 | 3b | Threesome kind, group-only moves, second 36 of 144 (390) | content | 2t3 | `content/p35-kind-b` | todo |
