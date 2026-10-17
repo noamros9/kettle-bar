@@ -1,0 +1,3 @@
+# LF everywhere, whatever core.autocrlf says (399): the build cache hashes file text, so a CRLF checkout
+# never matched CI's cache
+* text=auto eol=lf
