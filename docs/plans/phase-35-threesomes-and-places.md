@@ -164,7 +164,7 @@ exercises (six at each of five places).
 | 2e | Threesome act: kink, 36, half the other pairing (382, 383) | content | 2t2 | `content/p35-act-kink` | done (PR #489) |
 | 2f | Threesome act: body play, 36, half the other pairing (382, 383) | content | 2t2 | `content/p35-act-body` | done (PR #490) |
 | 2g | Threesome act: rimming, 36, half the other pairing (382, 383) | content | 2t2 | `content/p35-act-rimming` | done (PR #491) |
-| 2t3 | Colours by sex: the guest man teal, colour = person (398) | feature | – | `feature/p35-sex-colours` | todo |
+| 2t3 | Colours by sex: the guest man teal, colour = person (398) | feature | – | `feature/p35-sex-colours` | done (PR #494) |
 | 2t4 | LF line endings: the laptop reads CI's build cache (399) | feature | 2t3 | `feature/p35-lf` | todo |
 | 2t5 | Unit tests in shards, coverage merged (399) | feature | 2t4 | `feature/p35-unit-shards` | todo |
 | 2t6 | UI suite in 2 shards per theme (399) | feature | 2t5 | `feature/p35-ui-shards` | todo |

@@ -3108,8 +3108,9 @@
     fours: { t: [34, 0], hn: [34, 22], hf: [36, 22], fn: [-20, 22], ff: [-21, 22], kh: [1, 0.6], mat: 1 },
     squat: P(SQUAT, { hn: [16, -4], hf: [14, -6] }), lie: LIE, prone: PRONE,
   };
-  // pair 'other' (383): the drawing's pair is you and {woman} (FMF) or {man} and Mali (MMF), so the colours swap
-  const OTHER_COLS = { FMF: ['fig', 'fig3', 'fig2'], MMF: ['fig3', 'fig2', 'fig'] };
+  // a colour is the person (398): you fig, Mali fig2, a guest woman fig3, a guest man figm (teal). In the other pairing
+  // (383) the drawing's pair is you and {woman} (FMF) or {man} and Mali (MMF), so the colours move with the people.
+  const COLS = { MMF: ['fig', 'fig2', 'figm'], 'FMF other': ['fig', 'fig3', 'fig2'], 'MMF other': ['figm', 'fig2', 'fig'] };
   function withThird(pose, how, cols) {
     const [kind, x, y, flip] = how.split(' ');
     return { ...pose, ...(cols ? { cols } : {}), three: { ...THIRD[kind], ...(pose.mark ? { mark: 1 } : {}), at: [+x, +y], flip: +flip } };
@@ -3379,7 +3380,7 @@
     const b = EX[base];
     if (EX[id]) throw new Error(`exercises: ${id} is taken`);
     EX[id] = { name, cat: 'couple', sub: b.sub, added: 16, trio, ...(pair ? { pair } : {}), u: b.u, r: b.r, mus: b.mus, cue,
-      ...(b.view ? { view: b.view } : {}), poses: b.poses.map((p) => withThird(p, how, pair && OTHER_COLS[trio])) };
+      ...(b.view ? { view: b.view } : {}), poses: b.poses.map((p) => withThird(p, how, COLS[trio + (pair ? ' other' : '')])) };
   }
 
 
