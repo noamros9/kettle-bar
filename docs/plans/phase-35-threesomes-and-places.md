@@ -9,9 +9,9 @@ points were settled 10 Oct (292, 293).
 **The new exercises (about 666, catalogue 16)**
 - **283 · A new phase, catalogue 16 (was 14: 367).** Threesomes and place × act land after Phase 22 ships, as their own catalogue
   with their own pins. *(9 Oct)*
-- **284 · Threesomes in every act kind.** 36 each (was 18) in oral, hands, anal, toys, rough, kink, body play, rimming,
-  edging, massage, strip and tease; 72 (was 36) in intercourse; 468 in all (was 234; 382). *(9, 16 Oct)*
-- **285 · A Threesome kind of its own, 72.** Two tickets of 36; every act (intercourse, oral, anal, body play…). *(9 Oct)*
+- **284 · Threesomes in every act kind, 450 (was 468; 388).** Intercourse 72, oral and anal 54, hands, toys, rough, kink,
+  body play and rimming 36, edging, massage and strip and tease 18. *(9, 16, 17 Oct)*
+- **285 · A Threesome kind of its own, 144 (354, 390).** Group-only moves, four tickets of 36. *(9, 16, 17 Oct)*
 - **286 · Every act at every place, 6 each.** 12 acts (oral, anal, toys, hands, threesome, edging, massage, tease,
   rough, kink, body play, rimming) × 5 places (shower and bath, pool, hot tub, balcony, doorframe) = 360. *(9 Oct)*
 - **287 · Mostly FMF.** About two thirds FMF (you and two women), one third MMF, in every kind. *(9 Oct)*
@@ -19,15 +19,15 @@ points were settled 10 Oct (292, 293).
   as an act, nothing receiving said about you (CLAUDE.md's his-side rules hold). *(9 Oct)*
 
 **Filing**
-- **289 · A threesome keeps its act kind and carries a tag.** An FMF blowjob stays Oral, tagged FMF or MMF; Oral
-  programs deal it, and so do the Threesome kind's. *(9 Oct)*
+- **289 · A threesome keeps its act kind and carries a tag.** An FMF blowjob stays Oral, tagged FMF or MMF; only group
+  programs deal it (387; was: Oral programs too). *(9, 17 Oct)*
 - **290 · Place × act files under the place only.** Oral in the pool is Pool; Oral programs don't deal it. *(9 Oct)*
 
 **Drawings and programs**
 - **291 · A third figure.** An Opus ticket first adds three-figure poses, with the pelvic mark, to `figures.js`; every
   threesome draws all three. *(9 Oct)*
-- **292 · +8 programs in 13 subjects (was: every fitting subject), Threesome 18.** Explicit, Rough, Kink-lite, Body
-  play, Rimming, Edging, Massage, Strip and tease and the five places get 8 each (104); Threesome 18 (119 + 6). *(9, 10 Oct)*
+- **292 · +8 programs in the five places (was 13 subjects; 393).** Shower and bath, Pool, Hot tub, Balcony, Doorframe
+  get 8 each (40); the Threesome subject is 354's. *(9, 10, 17 Oct)*
 - **293 · Who builds.** Grok the exercises and program text, plan first (132); Opus the third figure, the tags and
   the pool wiring. The phase waits for Grok, like Phase 20 (confirmed 10 Oct). *(9, 10 Oct)*
 
@@ -44,8 +44,8 @@ points were settled 10 Oct (292, 293).
 - **353 · Program text says "another woman" / "another man".** The names change by workout; Mali is named. *(16 Oct)*
 
 **More threesomes (16 Oct 2026, Noam)**
-- **354 · Threesome subject 54 (was 18), its kind 144 (was 72).** Six program tickets of 9; four exercise tickets of 36. *(16 Oct)*
-- **355 · Place × threesome 18 per place, 90 (was 30).** Three tickets of 30. *(16 Oct)*
+- **354 · Threesome subject 54 (was 18).** Six program tickets of 9. Its kind 144 (was 72; 390). *(16, 17 Oct)*
+- **355 · Place × threesome 36 per place, 180 (391; was 90, first 30).** One ticket of 36 per place. *(16, 17 Oct)*
 - **356 · 13 new threesome subjects of 4.** One per act subject (Explicit, Rough, Kink-lite, Body play, Rimming, Edging,
   Massage, Strip and tease) and per place (Shower and bath, Pool, Hot tub, Balcony, Doorframe): 52 programs on one
   Threesomes shelf. The per-act threesome exercises stay 18. *(16 Oct)*
@@ -77,7 +77,8 @@ points were settled 10 Oct (292, 293).
 - **369 · Foursomes in Phase 35, after 6x**, at catalogue 17 (367). *(16 Oct)*
 - **370 · Three line-ups:** you, Mali and two women (FFFM) 50%; two couples, you two and another (FMFM) 40%; you, Mali
   and two men (MMMF) 10%. Tagged like `trio` (`quad: 'FFFM' | 'FMFM' | 'MMMF'`). *(16 Oct)*
-- **371 · 210 exercises:** a Foursome kind of 72, 9 in each of the 12 act kinds (108), 6 at each of the 5 places (30). *(16 Oct)*
+- **371 · 270 exercises (was 210):** a Foursome kind of 72, 9 in each of the 12 act kinds (108), 18 at each of the 5 places
+  (90, was 30; 392). *(16, 17 Oct)*
 - **372 · Two couples do it all:** side by side, a full swap, the women on each other, all four at once. Swap cues are
   told from your side and as explicit ("you watch {man} take Mali from behind"). *(16 Oct)*
 - **373 · MMMF keeps 288:** incidental touch only between the men; nothing receiving said about you. *(16 Oct)*
@@ -87,7 +88,8 @@ points were settled 10 Oct (292, 293).
 - **376 · More names, picked one by one.** Women + Liron, Rotem, Meital, Ofir, Daniella, Liel, Karin, Avital, Alma, Mika;
   Taylor, Hailey, Jessica; Emily, Lucy. Men + Gilad, Nir, Shai, Barak; Josh, Chris; Henry, Freddie. *(16 Oct)*
 - **377 · One line-up per day** (352 widened): a day's group exercises are all FMF, MMF, FFFM, FMFM or MMMF. *(16 Oct)*
-- **378 · 34 programs:** a Foursome subject of 18, and 2 foursome programs in each of the 8 act threesome subjects (356). *(16 Oct)*
+- **378 · 44 programs (was 34):** a Foursome subject of 18, 2 foursome programs in each of the 8 act threesome subjects
+  (356), and 2 at each place (395). *(16, 17 Oct)*
 - **379 · The Threesomes shelf becomes Group sex.** Program text says "two other women", "another couple", "two other
   men" (as 353). *(16 Oct)*
 
@@ -101,9 +103,37 @@ points were settled 10 Oct (292, 293).
   their own exercises (`pair: 'other'`). Told from your side; in MMF you're in it or watching, nothing receiving. *(16 Oct)*
 - **384 · Outside a workout, a random name per exercise,** steady all day (from the exercise and the date): the
   Exercises page, an exercise's sheet, review text. A program day keeps one person for the workout (352). *(16 Oct)*
-- **385 · 2d–2j build 36 per act at once**, half the other pairing; 2k–2m top up the five acts already built, all the
-  other pairing. *(16 Oct)*
+- **385 · The rest of the acts by 388's counts** (was: 36 per act, top-ups all the other pairing), the pairing by 389. *(16, 17 Oct)*
 - **386 · Tomorrow's order:** the Pool day-16 review, then 2t1 (the tab), 2t2 (the names), then 2d on. *(16 Oct)*
+
+**Group sex only in group programs (17 Oct 2026, Noam; replanned after 2g)**
+- **387 · Group exercises go only into group programs.** A threesome or foursome, by act, kind or place, is dealt only by
+  threesome or foursome programs; no plain couple program ever draws one (289 changed). *(17 Oct)*
+- **388 · Threesomes per act, heavier on the main acts** (284): intercourse 72, oral 54, anal 54, hands 36, toys 36, rough,
+  kink, body play, rimming 36 (built), edging, massage, strip and tease 18. 450; 198 after the 252 built. *(17 Oct)*
+- **389 · The other pairing is half of each act's total**, so every act ends 50/50 (oral 54 = 27 + 27); the new ones
+  make up the difference. FMF/MMF 2:1 within each half (287). *(17 Oct)*
+- **390 · The Threesome kind: 144 group-only moves** (285, 354): what only three can do (both women on you, double
+  oral, a tag-team, kissing her while the other fucks); half the other pairing. *(17 Oct)*
+- **391 · Place threesomes 36 per place, 180** (355): any act that fits the place, half the other pairing, FMF/MMF 2:1. *(17 Oct)*
+- **392 · Place foursomes 18 per place, 90** (371): any act that fits, the line-ups by 370. *(17 Oct)*
+- **393 · No act +8 programs** (292): with group sex out of them, Explicit, Rough… would get nothing new; 6g–6n dropped.
+  The place +8 stay (the place × act couple exercises). *(17 Oct)*
+- **394 · Who deals the place threesomes:** that place's threesome programs (6w, 6x; 4 per place, kept) and the Threesome
+  subject, each mixed with the act threesomes and the kind, of the day's line-up. *(17 Oct)*
+- **395 · Place foursome programs, 2 per place (10)**, mixed with the Foursome kind and the act foursomes. *(17 Oct)*
+
+**A group session in order (17 Oct 2026, Noam)**
+- **396 · The couple guidelines hold** (`docs/explicit-guidelines.md`), plus: half the group programs open with a
+  couple set (the guest joins from the second), half with the guest from the start; the other pairing may come anywhere;
+  the finish per man, each closing its set. *(17 Oct)*
+- **397 · After anal, a shower, per woman.** Once a woman's ass is used, her pussy and mouth wait for a shower set; the
+  other woman's don't. Group exercises that use an ass say whose (a tag). *(17 Oct)*
+
+**Colours (17 Oct 2026, Noam)**
+- **398 · A figure's colour is the person, by sex.** You black, Mali pink; a guest woman purple, a second one
+  magenta-violet; a guest man teal, a second one sea green. In the other pairing too (`OTHER_COLS` already maps colour to person).
+  Its own ticket now, every built threesome retinted (all 84 MMF); the second guests' shades come with 8b. *(17 Oct)*
 
 ## Tickets
 
@@ -127,23 +157,26 @@ exercises (six at each of five places).
 | 2e | Threesome act: kink, 36, half the other pairing (382, 383) | content | 2t2 | `content/p35-act-kink` | done (PR #489) |
 | 2f | Threesome act: body play, 36, half the other pairing (382, 383) | content | 2t2 | `content/p35-act-body` | done (PR #490) |
 | 2g | Threesome act: rimming, 36, half the other pairing (382, 383) | content | 2t2 | `content/p35-act-rimming` | done (PR #491) |
-| 2h | Threesome act: edging, 36, half the other pairing (382, 383) | content | 2t2 | `content/p35-act-edging` | todo |
-| 2i | Threesome act: massage, 36, half the other pairing (382, 383) | content | 2t2 | `content/p35-act-massage` | todo |
-| 2j | Threesome act: strip and tease, 36, half the other pairing (382, 383) | content | 2t2 | `content/p35-act-strip` | todo |
-| 2k | Top-up: intercourse +36, all the other pairing (382, 385) | content | 2t2 | `content/p35-more-intercourse` | todo |
-| 2l | Top-up: oral +18, hands +18, the other pairing (382, 385) | content | 2t2 | `content/p35-more-oral-hands` | todo |
-| 2m | Top-up: anal +18, toys +18, the other pairing (382, 385) | content | 2t2 | `content/p35-more-anal-toys` | todo |
-| 3a | Threesome kind, first 36 of 144 (285, 354) | content | 1, 1c | `content/p35-kind-a` | todo |
-| 3b | Threesome kind, second 36 of 144 (285, 354) | content | 1, 1c | `content/p35-kind-b` | todo |
-| 3c | Threesome kind, third 36 of 144 (285, 354) | content | 1, 1c | `content/p35-kind-c` | todo |
-| 3d | Threesome kind, fourth 36 of 144 (285, 354) | content | 1, 1c | `content/p35-kind-d` | todo |
+| 2t3 | Colours by sex: the guest man teal, colour = person (398) | feature | – | `feature/p35-sex-colours` | todo |
+| 2h | Threesome acts: edging 18, massage 18, half the other pairing (388, 389) | content | 2t3 | `content/p35-act-edging-massage` | todo |
+| 2i | Threesome acts: strip and tease 18, hands +18, the other pairing (388, 389) | content | 2t3 | `content/p35-act-tease-hands` | todo |
+| 2j | Threesome acts: toys +18, the other pairing (388, 389) | content | 2t3 | `content/p35-act-toys` | todo |
+| 2k | Threesome acts: intercourse +36, the other pairing (388, 389) | content | 2t3 | `content/p35-more-intercourse` | todo |
+| 2l | Threesome acts: oral +36, 9 regular and 27 other (388, 389) | content | 2t3 | `content/p35-more-oral` | todo |
+| 2m | Threesome acts: anal +36, 9 regular and 27 other (388, 389) | content | 2t3 | `content/p35-more-anal` | todo |
+| 3a | Threesome kind, group-only moves, first 36 of 144 (390) | content | 2t3 | `content/p35-kind-a` | todo |
+| 3b | Threesome kind, group-only moves, second 36 of 144 (390) | content | 2t3 | `content/p35-kind-b` | todo |
+| 3c | Threesome kind, group-only moves, third 36 of 144 (390) | content | 2t3 | `content/p35-kind-c` | todo |
+| 3d | Threesome kind, group-only moves, fourth 36 of 144 (390) | content | 2t3 | `content/p35-kind-d` | todo |
 | 4a | Place × act: oral, 6 at each of 5 places, 30 (286) | content | 1 | `content/p35-place-oral` | todo |
 | 4b | Place × act: anal, 6 at each of 5 places, 30 (286) | content | 1 | `content/p35-place-anal` | todo |
 | 4c | Place × act: toys, 6 at each of 5 places, 30 (286) | content | 1 | `content/p35-place-toys` | todo |
 | 4d | Place × act: hands, 6 at each of 5 places, 30 (286) | content | 1 | `content/p35-place-hands` | todo |
-| 4e1 | Place × act: threesome, 6 at each of 5 places, 30 (286, 355) | content | 1, 1c | `content/p35-place-threesome-1` | todo |
-| 4e2 | Place × act: threesome, another 6 at each of 5 places, 30 (286, 355) | content | 1, 1c | `content/p35-place-threesome-2` | todo |
-| 4e3 | Place × act: threesome, another 6 at each of 5 places, 30 (286, 355) | content | 1, 1c | `content/p35-place-threesome-3` | todo |
+| 4e1 | Place threesomes: shower and bath, 36 (391) | content | 2t3 | `content/p35-place-3some-shower` | todo |
+| 4e2 | Place threesomes: pool, 36 (391) | content | 2t3 | `content/p35-place-3some-pool` | todo |
+| 4e3 | Place threesomes: hot tub, 36 (391) | content | 2t3 | `content/p35-place-3some-hottub` | todo |
+| 4e4 | Place threesomes: balcony, 36 (391) | content | 2t3 | `content/p35-place-3some-balcony` | todo |
+| 4e5 | Place threesomes: doorframe, 36 (391) | content | 2t3 | `content/p35-place-3some-doorframe` | todo |
 | 4f | Place × act: edging, 6 at each of 5 places, 30 (286) | content | 1 | `content/p35-place-edging` | todo |
 | 4g | Place × act: massage, 6 at each of 5 places, 30 (286) | content | 1 | `content/p35-place-massage` | todo |
 | 4h | Place × act: tease, 6 at each of 5 places, 30 (286) | content | 1 | `content/p35-place-tease` | todo |
@@ -151,31 +184,24 @@ exercises (six at each of five places).
 | 4j | Place × act: kink, 6 at each of 5 places, 30 (286) | content | 1 | `content/p35-place-kink` | todo |
 | 4k | Place × act: body play, 6 at each of 5 places, 30 (286) | content | 1 | `content/p35-place-body-play` | todo |
 | 4l | Place × act: rimming, 6 at each of 5 places, 30 (286) | content | 1 | `content/p35-place-rimming` | todo |
-| 5 | Pools and pins for catalogue 16, the FMF/MMF split in every kind (287) | feature | 2a–4l | `feature/p35-pools` | todo |
-| 6a | Threesome subject, programs 1–9 of 54 (292, 354) | content | 5 | `content/p35-threesome-1` | todo |
-| 6b | Threesome subject, programs 10–18 of 54 (292, 354) | content | 5 | `content/p35-threesome-2` | todo |
-| 6c | Threesome subject, programs 19–27 of 54 (292, 354) | content | 5 | `content/p35-threesome-3` | todo |
-| 6d | Threesome subject, programs 28–36 of 54 (292, 354) | content | 5 | `content/p35-threesome-4` | todo |
-| 6e | Threesome subject, programs 37–45 of 54 (292, 354) | content | 5 | `content/p35-threesome-5` | todo |
-| 6f | Threesome subject, programs 46–54 of 54 (292, 354) | content | 5 | `content/p35-threesome-6` | todo |
-| 6g | Explicit +8 (292) | content | 5 | `content/p35-explicit` | todo |
-| 6h | Rough +8 (292) | content | 5 | `content/p35-rough` | todo |
-| 6i | Kink-lite +8 (292) | content | 5 | `content/p35-kink-lite` | todo |
-| 6j | Body play +8 (292) | content | 5 | `content/p35-body-play` | todo |
-| 6k | Rimming +8 (292) | content | 5 | `content/p35-rimming` | todo |
-| 6l | Edging +8 (292) | content | 5 | `content/p35-edging` | todo |
-| 6m | Massage +8 (292) | content | 5 | `content/p35-massage` | todo |
-| 6n | Strip and tease +8 (292) | content | 5 | `content/p35-strip-tease` | todo |
+| 5 | Pools and pins for catalogue 16; group exercises only in group programs (287, 387) | feature | 2a–4l | `feature/p35-pools` | todo |
+| 5b | A group session in order: the guest's entry, whose ass, the finish per man (396, 397) | feature | 5 | `feature/p35-group-order` | todo |
+| 6a | Threesome subject, programs 1–9 of 54 (292, 354) | content | 5b | `content/p35-threesome-1` | todo |
+| 6b | Threesome subject, programs 10–18 of 54 (292, 354) | content | 5b | `content/p35-threesome-2` | todo |
+| 6c | Threesome subject, programs 19–27 of 54 (292, 354) | content | 5b | `content/p35-threesome-3` | todo |
+| 6d | Threesome subject, programs 28–36 of 54 (292, 354) | content | 5b | `content/p35-threesome-4` | todo |
+| 6e | Threesome subject, programs 37–45 of 54 (292, 354) | content | 5b | `content/p35-threesome-5` | todo |
+| 6f | Threesome subject, programs 46–54 of 54 (292, 354) | content | 5b | `content/p35-threesome-6` | todo |
 | 6o | Shower and bath +8 (292) | content | 5 | `content/p35-shower-bath` | todo |
 | 6p | Pool +8 (292) | content | 5 | `content/p35-pool` | todo |
 | 6q | Hot tub +8 (292) | content | 5 | `content/p35-hot-tub` | todo |
 | 6r | Balcony +8 (292) | content | 5 | `content/p35-balcony` | todo |
 | 6s | Doorframe +8 (292) | content | 5 | `content/p35-doorframe` | todo |
-| 6t | Threesome explicit, rough, kink-lite, 4 each (356) | content | 5 | `content/p35-3some-acts-a` | todo |
-| 6u | Threesome body play, rimming, edging, 4 each (356) | content | 5 | `content/p35-3some-acts-b` | todo |
-| 6v | Threesome massage, strip and tease, 4 each (356) | content | 5 | `content/p35-3some-acts-c` | todo |
-| 6w | Threesome in the shower and bath, pool, hot tub, 4 each (356) | content | 5 | `content/p35-3some-places-a` | todo |
-| 6x | Threesome on the balcony, in the doorframe, 4 each (356) | content | 5 | `content/p35-3some-places-b` | todo |
+| 6t | Threesome explicit, rough, kink-lite, 4 each (356) | content | 5b | `content/p35-3some-acts-a` | todo |
+| 6u | Threesome body play, rimming, edging, 4 each (356) | content | 5b | `content/p35-3some-acts-b` | todo |
+| 6v | Threesome massage, strip and tease, 4 each (356) | content | 5b | `content/p35-3some-acts-c` | todo |
+| 6w | Threesome in the shower and bath, pool, hot tub, 4 each (356) | content | 5b | `content/p35-3some-places-a` | todo |
+| 6x | Threesome on the balcony, in the doorframe, 4 each (356) | content | 5b | `content/p35-3some-places-b` | todo |
 | 8a | More names in the lists (376) | feature | – | `feature/p35-more-names` | todo |
 | 8b | Fourth figure, the `quad` tag, two guests per workout, one line-up per day (374, 375, 377) | feature | 6x | `feature/p35-quad` | todo |
 | 8c | Foursome kind, first 36 of 72 (371) | content | 8b | `content/p35-quad-kind-a` | todo |
@@ -183,13 +209,16 @@ exercises (six at each of five places).
 | 8e | Foursome acts: intercourse, oral, hands, anal, 9 each (371) | content | 8b | `content/p35-quad-acts-a` | todo |
 | 8f | Foursome acts: toys, rough, kink, body play, 9 each (371) | content | 8b | `content/p35-quad-acts-b` | todo |
 | 8g | Foursome acts: rimming, edging, massage, strip and tease, 9 each (371) | content | 8b | `content/p35-quad-acts-c` | todo |
-| 8h | Place × foursome, 6 at each of 5 places, 30 (371) | content | 8b | `content/p35-quad-places` | todo |
-| 8i | Pools and pins for catalogue 17; the Group sex shelf (377, 379) | feature | 8c–8h | `feature/p35-quad-pools` | todo |
+| 8h1 | Place foursomes: shower and bath, pool, 18 each, 36 (392) | content | 8b | `content/p35-quad-places-a` | todo |
+| 8h2 | Place foursomes: hot tub, balcony, 18 each, 36 (392) | content | 8b | `content/p35-quad-places-b` | todo |
+| 8h3 | Place foursomes: doorframe, 18 (392) | content | 8b | `content/p35-quad-places-c` | todo |
+| 8i | Pools and pins for catalogue 17; the Group sex shelf (377, 379) | feature | 8c–8h3 | `feature/p35-quad-pools` | todo |
 | 8j | Foursome subject, programs 1–9 of 18 (378) | content | 8i | `content/p35-foursome-1` | todo |
 | 8k | Foursome subject, programs 10–18 of 18 (378) | content | 8i | `content/p35-foursome-2` | todo |
 | 8l | Foursomes in Explicit, Rough, Kink-lite, Body play threesomes, 2 each (378) | content | 8i | `content/p35-quad-acts-prog-a` | todo |
 | 8m | Foursomes in Rimming, Edging, Massage, Strip and tease threesomes, 2 each (378) | content | 8i | `content/p35-quad-acts-prog-b` | todo |
-| 7 | Close the phase: measure, pins, archive | plan | 6a–8m | `plan/p35-close` | todo |
+| 8n | Place foursome programs, 2 per place, 10 (395) | content | 8i | `content/p35-quad-places-prog` | todo |
+| 7 | Close the phase: measure, pins, archive | plan | 6a–8n | `plan/p35-close` | todo |
 
 ### 1a. Mali in the exercises (Opus; 349)
 - **Build:** a committed script names Mali at the first she/her of each couple cue and in exercise names (her → Mali,
@@ -263,14 +292,35 @@ exercises (six at each of five places).
   exercise and date always the same; a program day still names one person for every exercise.
 - **Done when:** CI green; the Exercises grid shows different names on neighbouring cards.
 
-### 2d–2m. More threesome acts (as 2a–4l; 382, 383, 385)
-- **Build:** as 2a–2c: Grok writes names and cues only (368), Claude places each third by hand and checks the
-  contact sheet. Half of each of 2d–2j, and all of 2k–2m, are the other pairing (`pair: 'other'`, a seventh row
-  field in `TRIOS`, `scripts/emit-trio.js`): you on {woman} while Mali joins, or {man} on Mali while you're at her mouth,
-  kiss her or watch. FMF/MMF about 2/3 to 1/3 in each half (287).
-- **Test first:** `tests/catalogue16.test.js` counts per act and per pairing.
-- **Done when:** the counts match; Claude checked the contact sheet (Noam, 17 Oct: no approval from him); CI green.
+### 2t3. Colours by sex (Opus; 398)
+- **Build:** a guest man's colour, `--figm` / `--figm-far` (teal: light #0F8A8A, dark #4FD1C5), in both themes
+  wherever `--fig3` is defined. Every MMF pose draws the guest man in it: `cols` `['fig', 'fig2', 'figm']`, and in the
+  other pairing `['figm', 'fig2', 'fig']` (`OTHER_COLS`, `exercises.js`). FMF is unchanged. The 84 built MMF retint;
+  days hold ids, so no pin moves. The contact sheets are redrawn and Claude checks them.
+- **Files:** `exercises.js`, `app/styles.css`, `index.html` if it carries the tokens, `tests/threesome-figure.test.js`.
+- **Test first:** every MMF pose's third man (or the first figure, in the other pairing) uses `figm`; no MMF pose uses
+  `fig3`; every FMF pose is as before.
+- **Done when:** CI green; 390 px screenshots of an MMF and an FMF exercise, light and dark, show teal and purple.
 
+### 2h–2m. The rest of the threesome acts (as 2a–4l; 388, 389)
+- **Build:** as 2d–2g: Grok writes names and cues only (368), Claude places each third by hand and checks the contact
+  sheet. Counts by 388, and the pairing so each act ends half the other pairing (389): edging, massage, strip and tease
+  9 + 9; hands, toys, intercourse all the other pairing; oral and anal 9 regular + 27 other. FMF/MMF 2:1 in each half.
+  Anal and rimming rows say whose ass (397): the tag lands in 5b, so the emit script records it from 2h on.
+- **Test first:** `tests/catalogue16.test.js` counts per act and per pairing.
+- **Done when:** the counts match; Claude checked the contact sheet; CI green.
+
+### 3a–3d. The Threesome kind (as 2a–4l; 390)
+- **Build:** 144 group-only moves, 36 a ticket, `sub: 'threesome'`: what needs all three (both women on you, double oral, a tag-team,
+  her kissing you while the other rides you); half the other pairing, FMF/MMF 2:1.
+- **Test first:** 36 more per ticket (144 at 3d) with `sub: 'threesome'`; half `pair: 'other'`.
+- **Done when:** as 2h.
+
+### 4e1–4e5. Place threesomes (as 2a–4l; 391)
+- **Build:** 36 at the ticket's place, `sub` the place and `act` the act (as 290), any act that fits it (oral in the hot
+  tub, against the balcony rail); half the other pairing, FMF/MMF 2:1.
+- **Test first:** 36 at the place, with `trio` and `act`; half the other pairing.
+- **Done when:** as 2h.
 ### 2a–4l. The exercises (Grok, plan first; Opus reviews)
 - **Build:** the counts in the table, catalogue 16, each exercise with its figure, cue, tags and muscles, in the
   existing exercise shape. Mostly FMF, about two thirds (287), one third MMF in every kind. MMF is incidental only
@@ -283,31 +333,42 @@ exercises (six at each of five places).
 - **Done when:** the counts match; `tests/catalogue16.test.js` passes; the PR's CI is green.
 
 ### 5. Pools and pins (Opus)
-- **Build:** one kind per day (352): a day that draws a threesome keeps to FMF or MMF. The 13 new threesome subjects
-  (356) in `FAMILIES` and a Threesomes shelf (`app/library.js` is in the recipe cache's key: one cold run). The
+- **Build:** group exercises only in group programs (387): `filedUnder` files a `trio` exercise only under the
+  group kinds (its act's threesome pool, the Threesome kind, its place's threesome pool), never a plain couple pool.
+  One kind per day (352): a day that draws a threesome keeps to FMF or MMF. The 13 new threesome subjects (356) in `FAMILIES` and a Threesomes shelf (`app/library.js` is in the recipe cache's key: one cold run). The
   catalogue-16 pools for each act and place, `POOL_ADDS` entries for the new exercises (so no existing
   pool moves), the Threesome kind's pool, and pins for the new catalogue only.
 - **Files:** `program-builder.js`, `tests/catalogue16.test.js`, `tests/fixtures/program-days.json` (new pins only, via `npm run pin`).
 - **Test first:** the catalogue-13 pool hash is unchanged; every catalogue-16 exercise is in its pool and in no older one.
 - **Done when:** `npm run pin` adds pins only; the build gate (#357) passes in CI.
 
+### 5b. A group session in order (Opus; 396, 397)
+- **Build:** `sessionOrder` (program-builder.js) for group days, behind `sessionRules: 1` as Phase 36: the couple rules,
+  plus a `guest` setting per program (`'late'`: the first sex set is you and Mali alone; `'start'`: from the first), half
+  the group programs each; the finish closes its set per man. A whose-ass tag (`ass: 'mali' | 'guest'`) on every group
+  exercise that uses an ass (the built anal, rimming and others, by a script and Claude's read); after one, that woman's
+  pussy and mouth wait for a shower set. The guidelines get a group section.
+- **Files:** `program-builder.js`, `exercises.js` (the tag), `docs/explicit-guidelines.md`, `tests/session-order.test.js`.
+- **Test first:** on stub group days: `'late'` has no group exercise in the first sex set; after Mali's ass, no Mali
+  pussy or mouth before a shower set, while the guest's are free; every group exercise that uses an ass has its tag.
+- **Done when:** the tests pass; CI green.
+
 ### 6a–6f. The Threesome subject (Grok, plan first)
-- **Build:** 9 programs each, 54 in all (292, 354), using the Threesome kind and the threesome acts. Program text follows
+- **Build:** 9 programs each, 54 in all (292, 354), using the Threesome kind, the threesome acts and the place threesomes
+  (394), a place per set; `sessionRules: 1` and a `guest` setting, half each (396). Program text follows
   the his-side rules and `docs/explicit-guidelines.md`.
 - **Test first:** `tests/his-pov.test.js`, `tests/couple-odds.test.js` and the guidelines checks pass; 54 programs in one subject.
 - **Done when:** the Opus review reads each blurb and about; the PR's CI is green.
 
-### 6g–6s. One subject each, 8 programs (Grok, plan first)
-- **Build:** 8 programs in the ticket's subject (292), each using catalogue 16's threesome or place exercises that fit
-  it: the act subjects draw that act's threesome versions (FMF or MMF, 287–288), the five places their place × act
-  sets. Program text by the his-side rules and `docs/explicit-guidelines.md`.
-- **Test first:** as 6a, plus 8 new programs in the subject, each using at least one catalogue-16 exercise of its kind
-  or place.
+### 6o–6s. The five places, 8 programs each (Grok, plan first; 292, 393)
+- **Build:** 8 programs in the ticket's place, using its place × act couple exercises; no group exercise (387). Program
+  text by the his-side rules and `docs/explicit-guidelines.md`.
+- **Test first:** as 6a, plus 8 new programs in the subject, each using at least one catalogue-16 place × act exercise.
 - **Done when:** as 6a.
 
 ### 6t–6x. The 13 threesome subjects, 4 programs each (Grok, plan first; 356)
 - **Build:** 4 threesome-only programs in each new subject: the act ones draw that act's threesome exercises and the
-  Threesome kind, the place ones that place's threesome exercises (18 per place, 355). Text says "another woman / man"
+  Threesome kind, the place ones that place's threesomes (36, 391) with the act threesomes and the kind (394); a `guest` setting, half each (396). Text says "another woman / man"
   and names Mali (353).
 - **Test first:** as 6a; each new subject holds 4; every day has at least one threesome, all FMF or all MMF (352).
 - **Done when:** as 6a.
@@ -324,8 +385,8 @@ exercises (six at each of five places).
 - **Test first:** a stub quad draws four in every pose; `{woman2}` never equals `{woman}`; a day never mixes line-ups.
 - **Done when:** the tests pass; a 390 px screenshot of a stub shows four figures, light and dark.
 
-### 8c–8h. The foursome exercises (as 2a–4l, 368)
-- **Build:** the counts in the table at catalogue 17 (`added: 17`), line-ups by 370 (half FFFM, 40% FMFM, 10% MMMF in
+### 8c–8h3. The foursome exercises (as 2a–4l, 368)
+- **Build:** the counts in the table at catalogue 17 (`added: 17`), the places any act that fits (392), line-ups by 370 (half FFFM, 40% FMFM, 10% MMMF in
   every kind), 372–373 for what may happen, `{woman}`/`{woman2}`/`{man}`/`{man2}` only, Mali once, first.
 - **Test first:** each ticket's counts; every one has `quad` and four figures; the 370 mix within one exercise per kind.
 - **Done when:** the counts match; `tests/catalogue17.test.js` passes; CI green.
@@ -336,14 +397,16 @@ exercises (six at each of five places).
 - **Test first:** the catalogue-16 pool hash is unchanged; every catalogue-17 exercise is in its pool and no older one.
 - **Done when:** `npm run pin` adds pins only; CI green.
 
-### 8j–8m. Foursome programs (as 6a, 368's text route)
-- **Build:** 9, 9, 8, 8 programs (378); every day keeps one line-up (377). Text by the his-side rules, 379's wording.
+### 8j–8n. Foursome programs (as 6a, 368's text route)
+- **Build:** 9, 9, 8, 8, 10 programs (378, 395); every day keeps one line-up (377); the place ones a place per set.
+  8b also adds the second guests' shades (398: magenta-violet, sea green). Text by the his-side rules, 379's wording.
 - **Test first:** as 6a; each program has a foursome on every day.
 - **Done when:** as 6a.
 
 ### 7. Close the phase (Opus)
-- **Build:** the counts (1,242 exercises: 900 + 72 more of the kind + 60 more place threesomes + 210 foursomes; 244 programs: 54 + 13 × 8 + 13 × 4 + 34), `docs/roadmap-archive.md`, the ROADMAP row removed.
-- **Done when:** the row is archived; decisions 283–293, 349–362 and 367–386 moved to the archive with a link.
+- **Build:** the counts (1,374 exercises: 450 act threesomes + 144 kind + 330 place × act + 180 place threesomes + 270
+  foursomes; 190 programs: 54 + 5 × 8 + 13 × 4 + 44), `docs/roadmap-archive.md`, the ROADMAP row removed.
+- **Done when:** the row is archived; decisions 283–293, 349–362 and 367–398 moved to the archive with a link.
 
 ## Challenge round
 - **Weakest assumption:** that every one of the 13 subjects has enough of its own new exercises for 8 programs that
@@ -368,3 +431,9 @@ exercises (six at each of five places).
   page, so it holds unless a test counts Couples on the page (2t1 checks). What I hadn't read: how the Threesome kind
   and places files show as chips (2t1 reads them). Lazier version not taken: a Group sex chip under Couples, because
   Noam wants its own tab.
+- **Replan after 2g (17 Oct, 387–398).** Weakest assumption: that keeping group sex out of plain programs costs nothing
+  built. Verified: no program deals a catalogue-16 exercise yet; the filing is one line, `filedUnder`
+  (program-builder.js:848), and ticket 5 hadn't built pools. What I hadn't read: how a place program uses its pool
+  (some draw only their 36 over 60 days, about 11 a day), which showed 18 place foursomes alone too thin (392, 395 mix
+  them); and `OTHER_COLS`, already colour = person, so 2t3 only adds teal. Lazier version not taken: one shower rule
+  for the whole session, because Noam picked per woman (397), which needs the whose-ass tag (5b).
