@@ -163,6 +163,22 @@ points were settled 10 Oct (292, 293).
 - **418 · The Exercises render limit stays 1,200 ms** at 4× throttle; CI prints the time, so the headroom shows as the
   library grows. A busy laptop's 2 s is not a regression. *(17 Oct)*
 
+**The guests' fields (17 Oct 2026, Noam)**
+- **410 · the names** (round 2, 17 Oct): 50 women kept; 12 Israeli, 11 American, 7 British, 20 from Latin, French,
+  Italian, Russian and elsewhere. Some he had crossed out on 16 Oct he took back. *(17 Oct)*
+- **419 · Fields, then prose:** each guest stores fields with the hook and text, and the prose matches them (a test
+  checks). The card's facts row shows age, height, body, breasts, ass, pussy; the rest live in the prose. *(17 Oct)*
+- **420 · Skin follows the name, spread inside** (fair, olive, tan, brown, dark; Aiko and Mei East Asian). *(17 Oct)*
+- **421 · Hair colour by name with a spread** (a few dyed); length even: pixie, shoulder, long, very long. *(17 Oct)*
+- **422 · Breasts and ass are fields**, dealt evenly and fitting the body (small / medium / big / very big; small /
+  round / big); the prose is hot and explicit about them. *(17 Oct)*
+- **423 · Her pussy: shaved, landing strip or trimmed**, even; never natural. *(17 Oct)*
+- **424 · Height, eyes, ink, a job:** height short / average / tall by body, shown in cm; eyes by name with a spread;
+  ink or piercings on a quarter; one line on what she does or where you met her. *(17 Oct)*
+- **425 · The men's facts row:** age, body, skin, hair, cock; then 414's one or two lines. *(17 Oct)*
+- **426 · Claude deals every field in 3g1** with a committed script, a test checks the quotas; Noam skims the table
+  before Grok writes from it. *(17 Oct)*
+
 ## Tickets
 
 Caps: no exercise ticket over 36, no program ticket over 15 (Noam, 10 Oct 2026). Place × act is one ticket per act, 30
@@ -199,7 +215,7 @@ exercises (six at each of five places).
 | 3b | Threesome kind, group-only moves, second 36 of 144 (390) | content | 2t3 | `content/p35-kind-b` | todo |
 | 3c | Threesome kind, group-only moves, third 36 of 144 (390) | content | 2t3 | `content/p35-kind-c` | todo |
 | 3d | Threesome kind, group-only moves, fourth 36 of 144 (390) | content | 2t3 | `content/p35-kind-d` | todo |
-| 3g1 | Guests: about 50 more women's names (410, 411) | content | – | `content/p35-guest-names` | todo |
+| 3g1 | Guests: 50 more women's names, and every guest's fields (410, 411, 419–426) | content | – | `content/p35-guest-names` | done (PR #509) |
 | 3g2 | Guests: the hidden page, its two gestures, a name's card in a cue (415, 416) | feature | 3g1 | `feature/p35-guests-page` | todo |
 | 3g3 | Guests: the women's descriptions, first third (412, 413, 417) | content | 3g2 | `content/p35-guests-a` | todo |
 | 3g4 | Guests: the women's descriptions, second third | content | 3g2 | `content/p35-guests-b` | todo |
@@ -382,18 +398,21 @@ exercises (six at each of five places).
 - **Done when:** as 2h.
 
 ### 3g1–3g6. The guests (410–418)
-- **3g1 Build:** the women Noam kept from Claude's lists (410) go into `WOMEN` in `app/third-names.js`, woven as now.
-  A new name only changes which name a day shows, never a stored day (351). **Test first:** `tests/third-names.test.js`:
-  the list holds them, no repeats, every name capitalised; the old names are all still there.
-- **3g2 Build:** `app/guests.js` holds `GUESTS` { name: { hook, text } } (empty at first) and the page `#guests`: one card
-  per name, women then men, with the description or "not written yet". Not in any menu. A long-press (600 ms) on the
+- **3g1 Build:** the 50 women Noam kept (410) go into `WOMEN` in `app/third-names.js`, the origins spread evenly
+  through the list. A new name only changes which name a day shows, never a stored day (351). `scripts/deal-guests.js`
+  deals every guest's fields (419–425) into `app/guests.js` (`GUESTS`, hook and text empty); the table goes to Noam to
+  skim (426). **Test first:** `tests/third-names.test.js`: the list holds them, no repeats, the old names all still
+  there, no two of one origin in a row; `tests/guests.test.js`: every name has fields, the quotas hold (body, hair
+  length, breasts, ass, pussy even within one; ink on a quarter; ages 21–45), no woman is natural.
+- **3g2 Build:** the page `#guests` from `GUESTS` (3g1): one card
+  per name, women then men: the facts row (419, 425), then the description or "not written yet". Not in any menu. A long-press (600 ms) on the
   Group sex chip opens it; a tap still filters. In a group cue, `cueOf` wraps the guest's name in a button: a tap shows
   her card (hook and text) in a sheet, a long-press opens the page at her. **Files:** `app/guests.js`, `app/ui.js`,
   `app/library.js` (the chip), `app/router.js`, `index.html`, `tests/guests.test.js`, `tests-ui/guests.spec.js`,
   `scripts/ui-affected.js`. **Test first:** the page lists every name; no link to `#guests` anywhere; the chip's
   long-press opens it, its tap filters; a cue's name opens her card. **Done when:** CI green; 390 px light and dark.
-- **3g3–3g5 Build:** Grok writes ~29 women a ticket into one text file (name | hook | text), from a brief with the
-  quotas (413) as a table Claude deals first, so the three tickets together hit them; Claude reviews for POV and heat,
+- **3g3–3g5 Build:** Grok writes ~28 women a ticket into one text file (name | hook | text), from a brief with each
+  woman's fields, vibe and two acts from `GUESTS` (dealt in 3g1, 413); Claude reviews for POV and heat,
   emits into `GUESTS`. **Test first:** each written woman has a hook (≤ 90 chars) and text (400–900 chars) naming Mali
   once; the quotas' table covers every name once. **Done when:** CI green; the page shows them.
 - **3g6:** the same for the men, one or two lines each (414).
