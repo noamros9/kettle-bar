@@ -195,7 +195,7 @@ exercises (six at each of five places).
 | 2k | Threesome acts: intercourse +36, the other pairing (388, 389) | content | 2t3 | `content/p35-more-intercourse` | done (PR #502) |
 | 2l | Threesome acts: oral +36, 9 regular and 27 other (388, 389) | content | 2t3 | `content/p35-more-oral` | done (PR #503) |
 | 2m | Threesome acts: anal +36, 9 regular and 27 other (388, 389) | content | 2t3 | `content/p35-more-anal` | done (PR #504) |
-| 3a | Threesome kind, group-only moves, first 36 of 144 (390) | content | 2t3 | `content/p35-kind-a` | todo |
+| 3a | Threesome kind, group-only moves, first 36 of 144 (390) | content | 2t3 | `content/p35-kind-a` | done (PR #505) |
 | 3b | Threesome kind, group-only moves, second 36 of 144 (390) | content | 2t3 | `content/p35-kind-b` | todo |
 | 3c | Threesome kind, group-only moves, third 36 of 144 (390) | content | 2t3 | `content/p35-kind-c` | todo |
 | 3d | Threesome kind, group-only moves, fourth 36 of 144 (390) | content | 2t3 | `content/p35-kind-d` | todo |

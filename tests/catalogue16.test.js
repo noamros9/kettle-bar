@@ -6,9 +6,9 @@ const { rows } = require('../scripts/emit-trio.js');
 
 const NEW = Object.values(EX).filter((e) => e.added === 16);
 // each ticket adds its act kinds here (284)
-const COUNTS = { fuck: 72, oral: 54, hands: 36, anal: 54, toys: 36, rough: 36, kink: 36, body: 36, rim: 36, edging: 18, massage: 18, tease: 18 };
+const COUNTS = { fuck: 72, oral: 54, hands: 36, anal: 54, toys: 36, rough: 36, kink: 36, body: 36, rim: 36, edging: 18, massage: 18, tease: 18, threesome: 36 };
 // the other pairing (383, 385): half of each act from 2d on, about two thirds FMF
-const OTHER = { fuck: 36, oral: 27, anal: 27, rough: 18, kink: 18, body: 18, rim: 18, edging: 9, massage: 9, tease: 9, hands: 18, toys: 18 };
+const OTHER = { fuck: 36, oral: 27, anal: 27, rough: 18, kink: 18, body: 18, rim: 18, edging: 9, massage: 9, tease: 9, hands: 18, toys: 18, threesome: 18 };
 
 test('catalogue 16 holds each act kind\'s count of threesomes, about two thirds FMF', () => {
   const by = {};
@@ -71,4 +71,8 @@ test('the emit script turns a text line into a row and stops on a line it can\'t
   assert.match(rows(paired('other'), at), /'kneel 40 -6 1', '[^']+', 'other'\],$/);
   assert.equal(rows(paired('us'), at), rows(good, at));
   assert.throws(() => rows(paired('them'), at), /pair/);
+  // the Threesome kind (390) keeps its base's drawing under its own sub: an eighth field, after the pair (null for us)
+  assert.match(rows(paired('us'), at, 'threesome'), /'kneel 40 -6 1', '[^']+', null, 'threesome'],$/);
+  assert.match(rows(paired('other'), at, 'threesome'), /'other', 'threesome'],$/);
+  assert.ok(NEW.filter((e) => e.sub === 'threesome').every((e) => EX[e.id] && e.poses.every((p) => p.three)));
 });

@@ -7,7 +7,7 @@ const { EX, MUSCLE_NAMES } = require('../exercises.js');
 const SUBS = {
   warmup: ['dynamic', 'joints', 'activation'],
   cooldown: ['static', 'breath'],
-  couple: ['fuck', 'oral', 'hands', 'anal', 'toys', 'partner', 'tease', 'dare', 'massage', 'rough', 'kink', 'body', 'rim', 'edging', 'shower', 'pool', 'hottub', 'balcony', 'doorframe'],
+  couple: ['fuck', 'oral', 'hands', 'anal', 'toys', 'partner', 'tease', 'dare', 'massage', 'rough', 'kink', 'body', 'rim', 'edging', 'threesome', 'shower', 'pool', 'hottub', 'balcony', 'doorframe'],
 };
 const famName = Object.fromEntries(EX_FAMILIES.map(([k, n]) => [k, n]));
 const subName = Object.fromEntries(EX_FAMILIES.flatMap(([k, , list]) => list.map(([sk, sn]) => [`${k}:${sk}`, sn])));
@@ -30,7 +30,7 @@ test('every exercise has exactly one family and one subject from the table', () 
   // Phase 22 tickets 9–12i fill them
   const NOT_YET = ['rough', 'kink', 'body', 'rim', 'edging', 'shower', 'pool', 'hottub', 'balcony', 'doorframe'].map((k) => `couples:${k}`)
     // Phase 35 tickets 2d on fill Group sex's acts, the kind and the places
-    .concat(['rough', 'kink', 'body', 'rim', 'edging', 'threesome', 'shower', 'pool', 'hottub', 'balcony', 'doorframe'].map((k) => `group:${k}`));
+    .concat(['rough', 'kink', 'body', 'rim', 'edging', 'shower', 'pool', 'hottub', 'balcony', 'doorframe'].map((k) => `group:${k}`));
   EX_FAMILIES.forEach(([fam, , list]) => list.filter(([sk]) => !NOT_YET.includes(`${fam}:${sk}`)).forEach(([sk, sn]) => {
     assert.ok(used.has(`${fam}:${sk}`), `${sn} of ${famName[fam]} has no exercises`);
   }));
