@@ -4,6 +4,7 @@
 // hand-placed third figure, 'pose x y flip'. Prints the rows; stops on any line it can't use.
 const fs = require('fs');
 const { EX } = require('../exercises.js');
+const { nameMali } = require('./name-mali.js'); // a name's first her is Mali (349): Grok writes "Spank her in doggy"
 const PLACED = /^(stand|kneel|lean|straddle|sit|fours|squat|lie|prone) -?\d+ -?\d+ [01]$/;
 const q = (s) => "'" + String(s).replace(/\\/g, '\\\\').replace(/'/g, "\\'") + "'";
 
@@ -19,7 +20,7 @@ function rows(text, places) {
       [!cue || cue.includes(other) || !cue.includes(trio === 'FMF' ? '{woman}' : '{man}'), 'placeholder']]
       .forEach(([fail, what]) => fail && bad.push(`${id}: ${what}`));
     seen.add(id);
-    return `    [${[id, name, trio, base, how, cue, ...(pair === 'other' ? [pair] : [])].map(q).join(', ')}],`;
+    return `    [${[id, nameMali(name), trio, base, how, cue, ...(pair === 'other' ? [pair] : [])].map(q).join(', ')}],`;
   });
   if (bad.length) throw new Error(bad.join('\n'));
   return out.join('\n');

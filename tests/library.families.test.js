@@ -88,13 +88,14 @@ test('Group sex comes right after Couples and holds every threesome; Couples kee
   assert.equal(keys.indexOf('group'), keys.indexOf('couples') + 1);
   assert.equal(famName.group, 'Group sex');
   const all = Object.values(EX), trios = all.filter((e) => e.trio);
-  assert.equal(trios.length, 108); // 2a–2c
+  assert.ok(trios.length >= 108); // 2a–2c, then more each ticket
   trios.forEach((e) => assert.deepEqual(familyOf(e), { family: 'group', subject: e.sub }, e.id));
   const r = find();
   assert.equal(r.families.find((c) => c.key === 'group').count, trios.length);
   assert.equal(r.families.find((c) => c.key === 'couples').count, all.filter((e) => e.cat === 'couple').length - trios.length);
   const g = find({ family: 'group' });
   assert.ok(g.list.every((e) => e.trio));
-  assert.deepEqual(g.subjects.map((c) => c.key), ['all', 'fuck', 'oral', 'hands', 'anal', 'toys']);
+  const order = EX_FAMILIES.find(([k]) => k === 'group')[2].map(([k]) => k), acts = new Set(trios.map((e) => e.sub));
+  assert.deepEqual(g.subjects.map((c) => c.key), ['all', ...order.filter((k) => acts.has(k))]); // the table's order
   assert.ok(find({ family: 'couples' }).list.every((e) => !e.trio));
 });

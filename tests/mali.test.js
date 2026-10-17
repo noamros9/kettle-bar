@@ -15,7 +15,10 @@ test('every couple cue and name that mentions her names Mali exactly once, befor
     const malis = (t.match(/\bMali\b/g) || []).length;
     if (!malis && !SHE.test(t)) return;
     const first = t.search(/\bMali\b/);
-    if (malis !== 1 || SHE.test(t.slice(0, first))) bad.push(`${e.id}.${f}`);
+    // the other pairing (383) starts with the third: a she/her before Mali is the other woman, named first
+    const before = t.slice(0, first), third = before.search(/\{woman\}/);
+    const theirs = e.pair === 'other' && third >= 0 && third < before.search(SHE);
+    if (malis !== 1 || (SHE.test(before) && !theirs)) bad.push(`${e.id}.${f}`);
   }));
   assert.deepEqual(bad, []);
 });
