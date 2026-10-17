@@ -2,7 +2,7 @@
 
 The index: where we are, what comes next, and the two phases being built now. Every other phase's decisions live at the
 top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase comes up. Decision numbers are global
-(the next one is **409**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
+(the next one is **410**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
 ## Resume here (17 Oct 2026)
 - **Phase 35: 2a–2g and 2t3–2t6 done** (16–17 Oct; #479–#481, #486–#491): the Group sex tab (2t1), a random name per exercise
@@ -11,7 +11,8 @@ top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase c
   **Replanned 17 Oct (387–398):** group sex only in group programs; per-act counts, the Threesome kind 144, place threesomes
   36 and place foursomes 18 per place, act +8 programs dropped, group session order (5b), colours by sex (2t3).
   **2t3–2t6 done** (17 Oct, #494–#497): the guest man teal; LF endings (the laptop reads CI's cache: 1395 read, 11 s);
-  unit tests in two jobs (floor alone, 2t5); the UI suite in two shards per theme (2t6).
+  unit tests in two jobs (floor alone, 2t5); the UI suite in two shards per theme, and main's run skips the finder smoke and the cold build
+  check unless their code changed (2t6, 409).
   **Next: 2h (edging and massage), 2i, 2j; three per go, on his go.** Foursomes are in the plan (367–379, 392, 395; 8a–8n after 6x);
   35 is catalogue 16, foursomes 17, Phase 38 18, Phase 27 19 (408).
 - **How a threesome act ticket runs** (2d–2g): Grok writes `grok/p35/t2X-text.md` from the previous ticket's prompt

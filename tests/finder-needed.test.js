@@ -1,4 +1,4 @@
-// scripts/finder-needed.js (Phase 24 ticket 10, review V A6): the finder smoke step (98 s) runs on main always, and on a
+// scripts/finder-needed.js (Phase 24 ticket 10, review V A6; 409): the finder smoke step (98 s) runs on main and on a
 // PR only when the change can touch the finder.
 const test = require('node:test');
 const assert = require('node:assert/strict');
@@ -11,8 +11,11 @@ test('files that can touch the finder need the smoke; others do not', () => {
   assert.equal(needed([]), false);
 });
 
-test('main always runs it; a PR whose files can\'t be read runs it too', async () => {
-  assert.equal(await decide({ event: 'push', files: async () => [] }), true);
+test('main runs it by the PR rule, on the merged commit\'s files (409); files that can\'t be read, or another event, run it', async () => {
+  assert.equal(await decide({ event: 'push', files: async () => ['exercises.js'] }), false);
+  assert.equal(await decide({ event: 'push', files: async () => ['app/finder.js'] }), true);
+  assert.equal(await decide({ event: 'push', files: async () => { throw new Error('no HEAD^'); } }), true);
+  assert.equal(await decide({ event: 'workflow_dispatch', files: async () => [] }), true);
   assert.equal(await decide({ event: 'pull_request', files: async () => ['app/day.js'] }), false);
   assert.equal(await decide({ event: 'pull_request', files: async () => ['app/finder.js'] }), true);
   assert.equal(await decide({ event: 'pull_request', files: async () => { throw new Error('HTTP 403'); } }), true);

@@ -141,6 +141,9 @@ points were settled 10 Oct (292, 293).
   main stays build-and-deploy (128). Not taken: content PRs skipping the full UI, because main's longer run would gate
   the next merge and a break would land on the next ticket. *(17 Oct)*
 - **400 · The speed tickets run right after 2t3**, so every later content ticket gets them. *(17 Oct)*
+- **409 · main's run checks only what changed** (in 2t6): the finder smoke by the PR rule, and the cold build check
+  (327) only when the build cache's code hash or build.js changed: the keys hash the data, so only code makes a stale cache.
+  Saves ~7 min of main's ~7.5 on a content merge, which gates the next one. *(17 Oct)*
 
 ## Tickets
 
@@ -167,7 +170,7 @@ exercises (six at each of five places).
 | 2t3 | Colours by sex: the guest man teal, colour = person (398) | feature | – | `feature/p35-sex-colours` | done (PR #494) |
 | 2t4 | LF line endings: the laptop reads CI's build cache (399) | feature | 2t3 | `feature/p35-lf` | done (PR #495) |
 | 2t5 | Unit tests in two jobs: floor alone, the rest under the gate (399) | feature | 2t4 | `feature/p35-unit-shards` | done (PR #496) |
-| 2t6 | UI suite in 2 shards per theme (399) | feature | 2t5 | `feature/p35-ui-shards` | done (PR #497) |
+| 2t6 | UI suite in 2 shards per theme; main checks only what changed (399, 409) | feature | 2t5 | `feature/p35-ui-shards` | done (PR #497) |
 | 2h | Threesome acts: edging 18, massage 18, half the other pairing (388, 389) | content | 2t3 | `content/p35-act-edging-massage` | todo |
 | 2i | Threesome acts: strip and tease 18, hands +18, the other pairing (388, 389) | content | 2t3 | `content/p35-act-tease-hands` | todo |
 | 2j | Threesome acts: toys +18, the other pairing (388, 389) | content | 2t3 | `content/p35-act-toys` | todo |
@@ -331,11 +334,13 @@ exercises (six at each of five places).
 - **Test first:** every test file runs in exactly one job; the files that run alone exist; CI wires both.
 - **Done when:** a PR run's unit part finishes in about half of today's 4.5 min (floor alone bounds it near 2 min).
 
-### 2t6. UI suite in shards (Opus; 399)
+### 2t6. UI suite in shards; main checks only what changed (Opus; 399, 409)
 - **Build:** the `ui` matrix gains `shard: [1, 2]` (`npx playwright test --shard=N/2`), each reading the library cache
   the build job made; `mark` waits on all four.
 - **Files:** `.github/workflows/deploy.yml`.
 - **Test first:** the four jobs' test counts add up to the one-job count per theme.
+- **Also (409):** `scripts/cold-needed.js` gates main's cold build check; `scripts/finder-needed.js` applies the PR rule on main
+  (the merged commit's files, `fetch-depth: 2`); anything unclear runs both.
 - **Done when:** a UI PR's run finishes in about 5 min; a content PR's in about 4–5.
 
 ### 2h–2m. The rest of the threesome acts (as 2a–4l; 388, 389)
@@ -442,7 +447,7 @@ exercises (six at each of five places).
 ### 7. Close the phase (Opus)
 - **Build:** the counts (1,374 exercises: 450 act threesomes + 144 kind + 330 place × act + 180 place threesomes + 270
   foursomes; 190 programs: 54 + 5 × 8 + 13 × 4 + 44), `docs/roadmap-archive.md`, the ROADMAP row removed.
-- **Done when:** the row is archived; decisions 283–293, 349–362 and 367–400 moved to the archive with a link.
+- **Done when:** the row is archived; decisions 283–293, 349–362, 367–400 and 409 moved to the archive with a link.
 
 ## Challenge round
 - **Weakest assumption:** that every one of the 13 subjects has enough of its own new exercises for 8 programs that
