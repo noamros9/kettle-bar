@@ -176,6 +176,8 @@ points were settled 10 Oct (292, 293).
 - **424 · Height, eyes, ink, a job:** height short / average / tall by body, shown in cm; eyes by name with a spread;
   ink or piercings on a quarter; one line on what she does or where you met her. *(17 Oct)*
 - **425 · The men's facts row:** age, body, skin, hair, cock; then 414's one or two lines. *(17 Oct)*
+- **427 · The Exercises page's HTML cap is 2.5 MB** (was 1 MB): every guest name in a cue is a button (416), and the
+  library keeps growing; render time stays the real limit (418). *(17 Oct)*
 - **426 · Claude deals every field in 3g1** with a committed script, a test checks the quotas; Noam skims the table
   before Grok writes from it. *(17 Oct)*
 

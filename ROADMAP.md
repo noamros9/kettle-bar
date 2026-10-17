@@ -2,7 +2,7 @@
 
 The index: where we are, what comes next, and the two phases being built now. Every other phase's decisions live at the
 top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase comes up. Decision numbers are global
-(the next one is **427**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
+(the next one is **428**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
 ## Resume here (17 Oct 2026)
 - **Phase 35: 2a–2g and 2t3–2t6 done** (16–17 Oct; #479–#481, #486–#491): the Group sex tab (2t1), a random name per exercise
