@@ -119,6 +119,8 @@
   function frameSVG(fr) {
     const { s, ps, front } = fr;
     const out = [];
+    // each figure's colour: you, Mali, the third; a threesome in the other pairing swaps them so the colours stay the people (Phase 35, 383)
+    const [c1, c2, c3] = (ps.cols || ['fig', 'fig2', 'fig3']).map((c) => [`var(--${c})`, `var(--${c}-far)`]);
     const line = (pts, w, col) => `<polyline points="${pts.map((p) => pt(p, fr).join(',')).join(' ')}" fill="none" stroke="${col}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/>`;
     // environment
     if (ps.bar) {
@@ -145,23 +147,23 @@
     // a pelvic mark sits on the hip, on top of that figure's own lines (Phase 20). Small enough to stay inside the hip's existing bounds.
     const pelvic = (b) => { const c = pt(b.hip, fr); out.push(`<circle cx="${c[0]}" cy="${c[1]}" r="4" fill="var(--mark)"/>`); };
     if (fr.s3) { // the third figure furthest back (Phase 35)
-      body(fr.s3, 'var(--fig3)', front ? 'var(--fig3)' : 'var(--fig3-far)');
+      body(fr.s3, c3[0], front ? c3[0] : c3[1]);
       if (ps.three.mark) pelvic(fr.s3);
     }
     if (fr.s2) {
-      body(fr.s2, 'var(--fig2)', front ? 'var(--fig2)' : 'var(--fig2-far)');
+      body(fr.s2, c2[0], front ? c2[0] : c2[1]);
       if (ps.two.mark) pelvic(fr.s2);
     }
-    const farCol = front ? 'var(--fig)' : 'var(--fig-far)';
+    const farCol = front ? c1[0] : c1[1];
     out.push(line([s.hF, s.knF, s.ftF], 6.2, farCol));
     out.push(line([s.sF, s.elF, s.haF], 6.2, farCol));
     fr.props.far.forEach((sh) => out.push(shapeSVG(sh, fr)));
-    if (front) out.push(line([s.sN, s.sF], 7, 'var(--fig)'), line([s.hN, s.hF], 7, 'var(--fig)'));
-    out.push(line([s.hip, s.neck], 10, 'var(--fig)'));
+    if (front) out.push(line([s.sN, s.sF], 7, c1[0]), line([s.hN, s.hF], 7, c1[0]));
+    out.push(line([s.hip, s.neck], 10, c1[0]));
     const hd = pt(s.head, fr);
-    out.push(`<circle cx="${hd[0]}" cy="${hd[1]}" r="7" fill="var(--fig)"/>`);
-    out.push(line([s.hN, s.knN, s.ftN], 6.2, 'var(--fig)'));
-    out.push(line([s.sN, s.elN, s.haN], 6.2, 'var(--fig)'));
+    out.push(`<circle cx="${hd[0]}" cy="${hd[1]}" r="7" fill="${c1[0]}"/>`);
+    out.push(line([s.hN, s.knN, s.ftN], 6.2, c1[0]));
+    out.push(line([s.sN, s.elN, s.haN], 6.2, c1[0]));
     fr.props.near.forEach((sh) => out.push(shapeSVG(sh, fr)));
     fr.props.both.forEach((sh) => out.push(shapeSVG(sh, fr)));
     if (ps.mark) pelvic(s);

@@ -123,7 +123,7 @@ exercises (six at each of five places).
 | 2c | Threesome acts: anal 18, toys 18 (284) | content | 1, 1c | `content/p35-act-anal-toys` | done (PR #481) |
 | 2t1 | The Group sex tab on the Exercises page (380, 381) | feature | – | `feature/p35-group-tab` | done (PR #486) |
 | 2t2 | A random name per exercise outside a workout (384) | feature | – | `feature/p35-sample-names` | done (PR #487) |
-| 2d | Threesome act: rough, 36, half the other pairing (382, 383) | content | 2t2 | `content/p35-act-rough` | todo |
+| 2d | Threesome act: rough, 36, half the other pairing (382, 383) | content | 2t2 | `content/p35-act-rough` | done (PR #488) |
 | 2e | Threesome act: kink, 36, half the other pairing (382, 383) | content | 2t2 | `content/p35-act-kink` | todo |
 | 2f | Threesome act: body play, 36, half the other pairing (382, 383) | content | 2t2 | `content/p35-act-body` | todo |
 | 2g | Threesome act: rimming, 36, half the other pairing (382, 383) | content | 2t2 | `content/p35-act-rimming` | todo |
@@ -264,12 +264,12 @@ exercises (six at each of five places).
 - **Done when:** CI green; the Exercises grid shows different names on neighbouring cards.
 
 ### 2d–2m. More threesome acts (as 2a–4l; 382, 383, 385)
-- **Build:** as 2a–2c: Grok writes names and cues only (368), Claude places each third by hand and Noam approves the
+- **Build:** as 2a–2c: Grok writes names and cues only (368), Claude places each third by hand and checks the
   contact sheet. Half of each of 2d–2j, and all of 2k–2m, are the other pairing (`pair: 'other'`, a seventh row
   field in `TRIOS`, `scripts/emit-trio.js`): you on {woman} while Mali joins, or {man} on Mali while you're at her mouth,
   kiss her or watch. FMF/MMF about 2/3 to 1/3 in each half (287).
 - **Test first:** `tests/catalogue16.test.js` counts per act and per pairing.
-- **Done when:** the counts match; Noam approved the sheet; CI green.
+- **Done when:** the counts match; Claude checked the contact sheet (Noam, 17 Oct: no approval from him); CI green.
 
 ### 2a–4l. The exercises (Grok, plan first; Opus reviews)
 - **Build:** the counts in the table, catalogue 16, each exercise with its figure, cue, tags and muscles, in the

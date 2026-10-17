@@ -133,7 +133,7 @@ read only when needed. Decisions with a long "why": [docs/adr/](docs/adr/).
   third person is a name, never `{woman}` / `{man}`; `tests/third-names.test.js` checks all of `app/`. Text sent to
   Noam for review has sample names filled in.
 - **Threesome drawings are placed by hand (Noam, 16 Oct 2026):** each row's third figure gets its own pose and spot
-  (`'pose x y flip'`), and Noam approves a contact sheet before the ticket merges.
+  (`'pose x y flip'`); Claude checks the contact sheet before the ticket merges (Noam no longer approves it, 17 Oct 2026).
 - **A straight man training his own body:** the workout trains *his* body, and the text says what that does for him:
   what he does to her, how long he lasts, how she sees and enjoys him. His ass is for drive, and for her to grab or
   admire; never fucked, never "ass up" or bent over. His flexibility lets *him* get deeper, kneel, fold over her; it
