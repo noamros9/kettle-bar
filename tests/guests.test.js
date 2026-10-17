@@ -82,6 +82,14 @@ test("a woman's text file: line | hook | text, or her line alone; the old hook |
   assert.deepEqual([old.Maya.line, old.Maya.hook, old.Maya.text], [GUESTS.Maya.line, 'Old hook', 'Old text']);
 });
 
+// Phase 35 ticket 3g10 (450): every world guest in one of five regions, from her country
+test('every world guest has a region, all five used; a home guest has none', () => {
+  const REGIONS = ['latam', 'europe', 'asia', 'mideast', 'africa'];
+  Object.entries(GUESTS).forEach(([n, g]) => (g.from === 'world' ? assert.ok(REGIONS.includes(g.region), `${n}: ${g.region}`) : assert.equal(g.region, undefined, n)));
+  assert.deepEqual([...new Set(Object.values(GUESTS).map((g) => g.region).filter(Boolean))].sort(), [...REGIONS].sort());
+  assert.deepEqual([GUESTS.Sakura.region, GUESTS.Nala.region, GUESTS.Shirin.region, GUESTS.Bruna.region, GUESTS.Ingrid.region], ['asia', 'africa', 'mideast', 'latam', 'europe']);
+});
+
 // Phase 35 tickets 3g3-3g6 (412, 414): the words, where written
 test('a written woman: a hook of at most 90 characters, then 300-900 of prose naming Mali once, quoting her, told from your side', () => {
   women.filter((g) => g.text).forEach((g) => {

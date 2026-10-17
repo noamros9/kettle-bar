@@ -110,3 +110,19 @@ test('#guests/<name> opens at her, unfolded, even with a search that hid her', a
   await expect(app.page.locator('#g-Noa .gtext')).toBeVisible();
   expect(await app.sidewaysScroll()).toBeLessThanOrEqual(0);
 });
+
+// 3g10 (450): From splits the world by region; each value with its count
+test('From on the Look sheet: Israeli, American, British and the five regions, each with a count; Asia and the Pacific finds Sakura', async ({ app }) => {
+  await app.open('#guests');
+  await gf(app, 'sheet:look').click();
+  const from = app.page.getByRole('group', { name: 'From' }).locator('.fchip');
+  await expect(from).toHaveCount(8);
+  const labels = (await from.allTextContents()).map((t) => t.replace(/\s*\d+$/, ''));
+  expect(labels).toEqual(['Israeli', 'American', 'British', 'Latin America', 'Europe', 'Asia and the Pacific', 'Middle East', 'Africa']);
+  const asia = Object.keys(GUESTS).filter((n) => GUESTS[n].region === 'asia');
+  await expect(gf(app, 'pick:from:asia').locator('.fcount')).toHaveText(String(asia.length));
+  await gf(app, 'pick:from:asia').click();
+  await app.page.locator('.gsbtns [data-gf="sheet:close"]').click(); // Show N
+  await expect(cards(app)).toHaveCount(asia.length);
+  await expect(app.page.locator('#g-Sakura')).toBeVisible();
+});

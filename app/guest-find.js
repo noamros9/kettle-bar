@@ -8,20 +8,21 @@
 (function (root) {
   const hairColour = (h) => h.replace(/^(very long|long|shoulder|pixie|short|curly) /, '').replace(/ \(dyed\)$|, (swept|tied) back$/, '');
   const band = (age) => { const lo = 21 + 5 * Math.floor((age - 21) / 5); return `${lo}-${lo + 4}`; };
-  const FROM = { il: 'Israeli', us: 'American', uk: 'British', world: 'The world' };
+  // 3g10 (450): the world splits by region
+  const FROM = { il: 'Israeli', us: 'American', uk: 'British', latam: 'Latin America', europe: 'Europe', asia: 'Asia and the Pacific', mideast: 'Middle East', africa: 'Africa' };
   // [key, label, who ('woman' | 'man' | both), her values]
   const FILTERS = [
     ['body', 'Body', null, (g) => g.body], ['breasts', 'Tits', 'woman', (g) => g.breasts], ['ass', 'Ass', 'woman', (g) => g.ass],
     ['hair', 'Hair', null, (g) => hairColour(g.hair)], ['skin', 'Skin', null, (g) => g.skin], ['eyes', 'Eyes', 'woman', (g) => g.eyes],
     ['pussy', 'Pussy', 'woman', (g) => g.pussy], ['ink', 'Ink', 'woman', (g) => (g.ink ? 'inked' : 'none')],
     ['vibe', 'Vibe', 'woman', (g) => g.vibe], ['acts', 'Into', 'woman', (g) => g.acts], ['age', 'Age', null, (g) => band(g.age)],
-    ['from', 'From', null, (g) => g.from], ['cock', 'Cock', 'man', (g) => g.cock],
+    ['from', 'From', null, (g) => (g.from === 'world' ? g.region : g.from)], ['cock', 'Cock', 'man', (g) => g.cock],
   ];
   const GROUPS = [['body', 'Body', ['body', 'breasts', 'ass', 'pussy', 'ink']], ['look', 'Look', ['hair', 'skin', 'eyes', 'age', 'from']], ['her', 'Her', ['vibe', 'acts', 'cock']]];
   const SORTS = [['az', 'A-Z'], ['young', 'Youngest'], ['old', 'Oldest'], ['tall', 'Tallest'], ['short', 'Shortest']];
   // where a natural order exists, values follow it; the rest go A-Z
   const ORDER = { body: ['petite', 'slim', 'lean', 'athletic', 'muscular', 'curvy', 'thick', 'big', 'stocky'],
-    breasts: ['small', 'medium', 'big', 'very big'], ass: ['small', 'round', 'big'], from: ['il', 'us', 'uk', 'world'] };
+    breasts: ['small', 'medium', 'big', 'very big'], ass: ['small', 'round', 'big'], from: Object.keys(FROM) };
   const rank = (key, v) => { const o = ORDER[key] || []; return o.includes(v) ? o.indexOf(v) : o.length; };
   const valuesOf = (g, key) => { if (g.kind !== 'woman' && FILTERS.find((x) => x[0] === key)[2] === 'woman') return []; return [].concat(FILTERS.find((x) => x[0] === key)[3](g) || []); };
   const text = (n, g) => [n, ...Object.values(g).flat()].filter((v) => typeof v === 'string' || typeof v === 'number').join(' ').toLowerCase();

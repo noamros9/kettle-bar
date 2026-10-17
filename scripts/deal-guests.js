@@ -65,13 +65,18 @@ const COUNTRY = {
   Mateo: ['AR', 'Argentina'], Rafael: ['ES', 'Spain'], Diego: ['MX', 'Mexico'], Lars: ['DK', 'Denmark'], Kenji: ['JP', 'Japan'],
   Thiago: ['BR', 'Brazil'], Julien: ['FR', 'France'], Hugo: ['BE', 'Belgium'], Marco: ['IT', 'Italy'],
 };
+// 3g10 (450): a world guest's region, from her country
+const REGION = { latam: 'AR BR CL CO CR DO EC MX PE UY VE', europe: 'AT BE BY CH CY DK ES FR GE GR HR HU IT NL NO PT RO RS RU SE UA',
+  asia: 'JP KR PF PH TW', mideast: 'IR JO LB TR', africa: 'KE NG SN' };
+const regionOf = (cc) => Object.keys(REGION).find((r) => REGION[r].split(' ').includes(cc));
 const flagOf = (cc) => String.fromCodePoint(...[...cc].map((c) => 0x1f1e6 + c.charCodeAt(0) - 65));
 // country and flag right after the origin, so the file reads kind, from, country, flag, …
 function placed(name, g) {
   const [cc, country] = g.from === 'world' ? COUNTRY[name] : HOME[g.from];
   if (!cc) throw new Error(`deal-guests: no country for ${name}`);
-  const { kind, from: o, ...rest } = g;
-  return { kind, from: o, country, flag: flagOf(cc), ...rest };
+  const { kind, from: o, region, ...rest } = g;
+  if (o === 'world' && !regionOf(cc)) throw new Error(`deal-guests: no region for ${cc}`);
+  return { kind, from: o, ...(o === 'world' ? { region: regionOf(cc) } : {}), country, flag: flagOf(cc), ...rest };
 }
 const BODY = ['petite', 'slim', 'athletic', 'curvy', 'thick'];
 const HEIGHT = { petite: [150, 158], slim: [160, 176], athletic: [162, 178], curvy: [157, 172], thick: [156, 172] };

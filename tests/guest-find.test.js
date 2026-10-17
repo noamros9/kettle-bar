@@ -6,7 +6,7 @@ const { find, menus, FILTERS, SORTS, GROUPS } = require('../app/guest-find.js');
 const G = {
   Noa: { kind: 'woman', from: 'il', age: 35, height: 153, body: 'petite', breasts: 'small', ass: 'small', pussy: 'landing strip', skin: 'olive', hair: 'shoulder black', eyes: 'brown', ink: 'pierced nipples', job: 'a sound engineer', vibe: 'shy then wild', acts: ['fuck', 'tease'], hook: 'What does the quiet sound girl say?', text: 'You meet her at a bar.' },
   Ashley: { kind: 'woman', from: 'us', age: 23, height: 175, body: 'slim', breasts: 'medium', ass: 'small', pussy: 'shaved', skin: 'fair', hair: 'very long blonde', eyes: 'blue', ink: null, job: 'a lawyer', vibe: 'teasing', acts: ['anal', 'edging'], hook: '', text: '' },
-  Mei: { kind: 'woman', from: 'world', age: 44, height: 160, body: 'curvy', breasts: 'very big', ass: 'big', pussy: 'trimmed', skin: 'East Asian, light', hair: 'long black', eyes: 'brown', ink: null, job: 'a chef', vibe: 'teasing', acts: ['oral', 'fuck'], hook: '', text: '' },
+  Mei: { kind: 'woman', from: 'world', region: 'asia', age: 44, height: 160, body: 'curvy', breasts: 'very big', ass: 'big', pussy: 'trimmed', skin: 'East Asian, light', hair: 'long black', eyes: 'brown', ink: null, job: 'a chef', vibe: 'teasing', acts: ['oral', 'fuck'], hook: '', text: '' },
   Itay: { kind: 'man', from: 'il', age: 30, body: 'big', skin: 'olive', hair: 'short black', cock: 'thick', text: '' },
 };
 const f = (o = {}) => find(G, { q: '', kind: 'all', pick: {}, sort: 'az', ...o });
@@ -64,7 +64,8 @@ test('menus: the filters for the tab, each with its values in order and what is 
   assert.deepEqual(menus(big, 'all', {}).find((m) => m.key === 'breasts').values.map((v) => v.key), ['small', 'medium', 'big', 'very big']);
   assert.deepEqual(menus(G, 'all', {}).find((m) => m.key === 'body').values.map((v) => v.key), ['petite', 'slim', 'curvy', 'big']);
   assert.deepEqual(menus(G, 'all', {}).find((m) => m.key === 'age').values.map((v) => v.key), ['21-25', '26-30', '31-35', '41-45']);
-  assert.deepEqual(menus(G, 'all', {}).find((m) => m.key === 'from').values.map((v) => v.label), ['Israeli', 'American', 'The world']);
+  assert.deepEqual(menus(G, 'all', {}).find((m) => m.key === 'from').values.map((v) => v.label), ['Israeli', 'American', 'Asia and the Pacific']); // 3g10 (450): the world by region
+  assert.deepEqual(find(G, { pick: { from: ['asia'] } }).list, ['Mei']);
   assert.deepEqual(menus(G, 'all', {}).find((m) => m.key === 'hair').values.map((v) => v.key), ['black', 'blonde']);
   assert.deepEqual(menus(G, 'all', {}).find((m) => m.key === 'acts').values.map((v) => v.key), ['anal', 'edging', 'fuck', 'oral', 'tease']);
 });
