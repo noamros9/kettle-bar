@@ -81,6 +81,8 @@ function parseHash() {
   const row = h.match(/^row\/(favourites|progress|paused)$/); // Phase 33: a row of the Programs page, stacked
   if (row) return { view: 'row', row: row[1] };
   if (h === 'muscles') return { view: 'muscles' };
+  const gu = h.match(/^guests(?:\/([A-Za-z]+))?$/); // Phase 35 (415): the hidden guests page, at a guest
+  if (gu) return { view: 'guests', at: gu[1] && KBGuests.GUESTS[gu[1]] ? gu[1] : null };
   if (h.startsWith('add=')) return { view: 'add', code: h.slice(4) };
   if (h.startsWith('print/')) { const target = printTarget(h.slice(6)); return { view: 'print', target, pid: target && target.pid, ex: target && target.ex }; } // Phase 32
   const x = h.match(/^ex-([a-z0-9_]+)$/);
@@ -168,7 +170,7 @@ function render(scrollTop) {
   drewLoading = loading.length > 0;
   cueAt = null; // the day page sets it
   if (drewLoading) app.innerHTML = loadingView(loading[0]);
-  else app.innerHTML = v === 'programs' ? viewPrograms() : v === 'build' ? viewBuild() : v === 'random' ? viewRandom() : v === 'now' ? viewNow() : v === 'add' ? viewAdd() : v === 'library' ? viewLibrary() : v === 'settings' ? viewSettings() : v === 'stats' ? viewStats() : v === 'muscles' ? viewMuscles() : v === 'exercise' ? viewExercise() : v === 'day' ? viewDay() : v === 'print' ? viewPrint() : v === 'row' ? viewRow() : v === 'compare' ? viewCompare() : viewProgram();
+  else app.innerHTML = v === 'programs' ? viewPrograms() : v === 'build' ? viewBuild() : v === 'random' ? viewRandom() : v === 'now' ? viewNow() : v === 'add' ? viewAdd() : v === 'library' ? viewLibrary() : v === 'settings' ? viewSettings() : v === 'stats' ? viewStats() : v === 'muscles' ? viewMuscles() : v === 'guests' ? viewGuests() : v === 'exercise' ? viewExercise() : v === 'day' ? viewDay() : v === 'print' ? viewPrint() : v === 'row' ? viewRow() : v === 'compare' ? viewCompare() : viewProgram();
   if (!drewLoading && ['exercise', 'day', 'program', 'random'].includes(v)) app.insertAdjacentHTML('beforeend', exportSheet()); // Phase 32
   const section = v === 'library' || v === 'exercise' ? 'library' : v === 'settings' || v === 'stats' || v === 'muscles' ? v : 'programs';
   document.querySelectorAll('.top [data-go]').forEach((b) => b.setAttribute('aria-current', b.dataset.go === section ? 'page' : 'false'));
@@ -189,4 +191,5 @@ function render(scrollTop) {
   const showTimer = v === 'day' || (v === 'random' && !!random.current()) || (v === 'now' && !!nowState);
   $('#timer').hidden = !showTimer; document.body.classList.toggle('has-timer', showTimer);
   if (scrollTop) window.scrollTo(0, 0);
+  if (v === 'guests' && route.at && scrollTop) document.getElementById('g-' + route.at).scrollIntoView();
 }

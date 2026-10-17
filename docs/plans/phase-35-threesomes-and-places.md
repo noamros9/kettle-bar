@@ -216,7 +216,7 @@ exercises (six at each of five places).
 | 3c | Threesome kind, group-only moves, third 36 of 144 (390) | content | 2t3 | `content/p35-kind-c` | todo |
 | 3d | Threesome kind, group-only moves, fourth 36 of 144 (390) | content | 2t3 | `content/p35-kind-d` | todo |
 | 3g1 | Guests: 50 more women's names, and every guest's fields (410, 411, 419–426) | content | – | `content/p35-guest-names` | done (PR #509) |
-| 3g2 | Guests: the hidden page, its two gestures, a name's card in a cue (415, 416) | feature | 3g1 | `feature/p35-guests-page` | todo |
+| 3g2 | Guests: the hidden page, its two gestures, a name's card in a cue (415, 416) | feature | 3g1 | `feature/p35-guests-page` | done (PR #510) |
 | 3g3 | Guests: the women's descriptions, first third (412, 413, 417) | content | 3g2 | `content/p35-guests-a` | todo |
 | 3g4 | Guests: the women's descriptions, second third | content | 3g2 | `content/p35-guests-b` | todo |
 | 3g5 | Guests: the women's descriptions, last third | content | 3g2 | `content/p35-guests-c` | todo |

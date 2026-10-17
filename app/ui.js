@@ -59,7 +59,7 @@ const prog = () => programs.get(route.pid) || programs.get(firstPid());
 const typesOf = (p) => p.dayTypes || TYPES;
 // a cue as shown: a threesome's third person named for the workout on screen (cueAt, 351), else per exercise for today (384)
 let cueAt = null;
-const cueOf = (e) => esc(KBThird.fill(e.cue, cueAt || { date: new Date(), ex: e.id }));
+const cueOf = (e) => KBThird.fill(esc(e.cue), cueAt || { date: new Date(), ex: e.id }, guestName); // the name a button to her card (416)
 // one person for a whole workout: a program day by its day, your own programs by the date (351, 352)
 const workoutCueAt = (p, w) => (p.id.startsWith('own-') ? { date: new Date() } : { pid: p.id, day: w.day });
 const itemSets = (b, it) => it.sets || b.sets;
