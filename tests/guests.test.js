@@ -91,12 +91,12 @@ test('every world guest has a region, all five used; a home guest has none', () 
 });
 
 // Phase 35 tickets 3g3-3g6 (412, 414): the words, where written
-test('a written woman: a hook of at most 90 characters, then 300-900 of prose naming Mali once, quoting her, told from your side', () => {
+test('a written woman: a hook of at most 90 characters, then 300-1,100 of prose naming Mali once, quoting her, told from your side', () => {
   women.filter((g) => g.text).forEach((g) => {
     const name = WOMEN.find((n) => GUESTS[n] === g);
     assert.ok(g.hook && g.hook.length <= 90, `${name}'s hook: ${g.hook.length}`);
     assert.ok(!/Mali/.test(g.hook), `${name}'s hook names Mali`);
-    assert.ok(g.text.length >= 300 && g.text.length <= 900, `${name}'s text: ${g.text.length}`); // short or long by shape (432)
+    assert.ok(g.text.length >= 300 && g.text.length <= 1100, `${name}'s text: ${g.text.length}`); // short or long by shape (432; a bit longer from 3g11, Noam 17 Oct)
     assert.match(g.text, /"[^"]{4,}"/, `${name}: a line of hers in every one (429)`);
     assert.equal(g.text.match(/\bMali\b/g).length, 1, `${name} names Mali once`);
     assert.ok(!/\b(he|him|his)\b/i.test(g.hook + ' ' + g.text), `${name}: "you" for him, never he/him/his`);
@@ -144,6 +144,7 @@ test('variety: no two hooks or texts open alike, and no five-word phrase in more
     const w = g.text.toLowerCase().replace(/[^a-z' ]/g, ' ').split(/\s+/).filter(Boolean);
     new Set(w.slice(4).map((_, i) => w.slice(i, i + 5).join(' '))).forEach((p) => { (uses[p] = uses[p] || []).push(n); });
   });
-  const stock = Object.entries(uses).filter(([p, l]) => l.length > 3 && !p.includes(' mali ')).map(([p, l]) => `"${p}": ${l.join(', ')}`);
+  // her dealt hair and eyes repeat by design as the list grows (3g11): only stock wording counts
+  const stock = Object.entries(uses).filter(([p, l]) => l.length > 3 && !p.includes(' mali ') && !/\b(hair|eyes)\b/.test(p)).map(([p, l]) => `"${p}": ${l.join(', ')}`);
   assert.deepEqual(stock, []);
 });
