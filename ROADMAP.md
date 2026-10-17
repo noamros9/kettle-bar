@@ -4,20 +4,20 @@ The index: where we are, what comes next, and the two phases being built now. Ev
 top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase comes up. Decision numbers are global
 (the next one is **387**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
-## Resume here (16 Oct 2026)
-- **Phase 36 is done** (16 Oct; #474–#477, archived): every couple session is dealt in order, one place per set,
-  checked over every couple program (`tests/session-order.test.js`). The order wins over equal odds (366).
-- **First thing (Noam, 17 Oct morning): the Pool program "Set, then wall", day 16 ("Stomach Cold and Pussy Hot").**
-  Against the guidelines: ice returns (blindfold and ice on her, then ice on him: `session-tags.js` tags `him:ice`
-  apart from `ice`, so rule 6 misses it, likely in other couple programs too); the day has no warm-up though the
-  about promises a tease and a massage; a pool name on a home day. A fix moves built days and trips pins: his call.
+## Resume here (17 Oct 2026)
+- **Phase 35: 2a–2g done** (16–17 Oct; #479–#481, #486–#491): the Group sex tab (2t1), a random name per exercise
+  outside a workout (2t2), and 252 threesome exercises at catalogue 16; 2d–2g are 36 each, half the other pairing
+  (`pair: 'other'`: you on the other woman, or the other man on Mali), their drawings' colours swapped to match.
+  **Next: 2h (edging), then 2i, 2j; three per go, on his go.** Foursomes are in the plan (367–379, 8a–8m after 6x);
+  35 is catalogue 16, foursomes 17, Phase 27 18.
+- **How a threesome act ticket runs** (2d–2g): Grok writes `grok/p35/t2X-text.md` from the previous ticket's prompt
+  (copy `t2g-prompt.md`, swap the act's rules and bases); Claude reviews it, `node grok/p35/place2X.js` (a copy of
+  `place2d.js`) places the thirds, `node grok/p35/redo.js 2X <prefix>3_ "<label>"` emits the rows, `sheet.js <sub>`
+  draws the sheet (all in `grok/p35/`, gitignored: on the laptop only); fix overlaps in `places-2X.json` by hand. Names go through `nameMali` in the emit script; rim cues
+  say "her tongue". Claude checks the sheet; Noam no longer approves it (17 Oct).
 - **The Pool day-16 review waits for a phase of its own** (Noam, 17 Oct): see Backlog.
-- **Then Phase 35, planned 16 Oct night (380–386):** 2t1 the Group sex tab, 2t2 a random name per exercise, then
-  2d–2m: 36 threesomes per act, half the other pairing (you on the other woman, the other man on Mali). Three tickets
-  per go, as always.
-- **Phase 35: 2a–2c done** (16 Oct; #479–#481), 108 threesome exercises at catalogue 16, each third figure placed by
-  hand and approved by Noam (`scripts/emit-trio.js`, Grok text only, 368). **Next: 2t1, on his go.**
-  Foursomes are in the plan (367–379, tickets 8a–8m after 6x); 35 is catalogue 16, foursomes 17, Phase 27 18.
+- **CI time:** `app/families.js` holds `FAMILIES`, the only part of `app/library.js` the recipe book reads, so an
+  Exercises-page change no longer builds the book cold (2t2).
 - **The laptop never hits the CI build cache:** its checkout has CRLF endings, CI LF, so the code hash differs and
   `cache:pull` reads nothing; a local cold build (~10 min) warms it for that tree.
 - **Phase 20 is done** (16 Oct, archived): 1,395 programs, Explicit 98.
