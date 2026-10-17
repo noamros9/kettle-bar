@@ -1,6 +1,7 @@
 // Phase 35 ticket 3g1 (decisions 413, 419–426): deals every guest's fields to the quotas and writes app/guests.js.
 // Seeded, so a rerun writes the same file; hook and text already written there are kept. Run: node scripts/deal-guests.js
-// [text files…]: each line `N. Name | hook | text` (a woman) or `N. Name | line | text` (a man, 453) sets that guest's words (3g3-3g6).
+// [text files…]: each line `N. Name | line | hook | text`, `N. Name | line` or `N. Name | hook | text` (a woman) or
+// `N. Name | line | text` (a man, 453) sets that guest's words (3g3-3g6, 3g13).
 const fs = require('fs');
 const path = require('path');
 const { WOMEN, MEN, ORIGINS } = require('../app/third-names.js');
@@ -47,6 +48,31 @@ const WORLD_MEN = { // skin, hair (3g8, 449)
   Kenji: ['East Asian, light', 'short black'], Thiago: ['brown', 'buzzed'], Julien: ['fair', 'brown, swept back'],
   Hugo: ['olive', 'shaved head'], Marco: ['olive', 'curly dark'],
 };
+// 3g13 (454): each guest's country, by origin or a world guest by her name; the flag from its ISO code
+const HOME = { il: ['IL', 'Israel'], us: ['US', 'USA'], uk: ['GB', 'UK'] };
+const COUNTRY = {
+  Valentina: ['CO', 'Colombia'], Chloe: ['FR', 'France'], Bianca: ['IT', 'Italy'], Natasha: ['RU', 'Russia'], Isabela: ['BR', 'Brazil'],
+  Juliette: ['FR', 'France'], Chiara: ['IT', 'Italy'], Ingrid: ['SE', 'Sweden'], Carmen: ['ES', 'Spain'], Amelie: ['AT', 'Austria'],
+  Francesca: ['IT', 'Italy'], Katya: ['UA', 'Ukraine'], Luna: ['CR', 'Costa Rica'], Yasmin: ['JO', 'Jordan'], Elena: ['HR', 'Croatia'],
+  Mila: ['RS', 'Serbia'], Adriana: ['VE', 'Venezuela'], Aiko: ['JP', 'Japan'], Mariana: ['MX', 'Mexico'], Mei: ['TW', 'Taiwan'],
+  Bruna: ['BR', 'Brazil'], Noemi: ['HU', 'Hungary'], Selin: ['TR', 'Turkey'], Paola: ['PE', 'Peru'], Nala: ['KE', 'Kenya'],
+  Camila: ['CL', 'Chile'], Gabriela: ['DO', 'Dominican Republic'], Catalina: ['UY', 'Uruguay'], Lola: ['ES', 'Spain'],
+  Athena: ['GR', 'Greece'], Celine: ['BE', 'Belgium'], Astrid: ['NO', 'Norway'], Vera: ['NL', 'Netherlands'], Polina: ['BY', 'Belarus'],
+  Sakura: ['JP', 'Japan'], Rin: ['JP', 'Japan'], Leilani: ['PF', 'French Polynesia'], Shirin: ['IR', 'Iran'], Nour: ['LB', 'Lebanon'],
+  Amara: ['NG', 'Nigeria'], Luciana: ['AR', 'Argentina'], Rafaela: ['BR', 'Brazil'], Tatiana: ['RO', 'Romania'], Manuela: ['EC', 'Ecuador'],
+  Gia: ['GE', 'Georgia'], Monique: ['SN', 'Senegal'], Antonella: ['AR', 'Argentina'], Carla: ['PT', 'Portugal'], Kaori: ['JP', 'Japan'],
+  Suki: ['KR', 'South Korea'], Ariadne: ['CY', 'Cyprus'], Chantal: ['CH', 'Switzerland'], Liv: ['DK', 'Denmark'], Maribel: ['PH', 'Philippines'],
+  Mateo: ['AR', 'Argentina'], Rafael: ['ES', 'Spain'], Diego: ['MX', 'Mexico'], Lars: ['DK', 'Denmark'], Kenji: ['JP', 'Japan'],
+  Thiago: ['BR', 'Brazil'], Julien: ['FR', 'France'], Hugo: ['BE', 'Belgium'], Marco: ['IT', 'Italy'],
+};
+const flagOf = (cc) => String.fromCodePoint(...[...cc].map((c) => 0x1f1e6 + c.charCodeAt(0) - 65));
+// country and flag right after the origin, so the file reads kind, from, country, flag, …
+function placed(name, g) {
+  const [cc, country] = g.from === 'world' ? COUNTRY[name] : HOME[g.from];
+  if (!cc) throw new Error(`deal-guests: no country for ${name}`);
+  const { kind, from: o, ...rest } = g;
+  return { kind, from: o, country, flag: flagOf(cc), ...rest };
+}
 const BODY = ['petite', 'slim', 'athletic', 'curvy', 'thick'];
 const HEIGHT = { petite: [150, 158], slim: [160, 176], athletic: [162, 178], curvy: [157, 172], thick: [156, 172] };
 const BREASTS = { petite: ['small', 'medium', 'big'], slim: ['small', 'medium', 'big'], athletic: ['small', 'medium', 'big', 'very big'], curvy: ['medium', 'big', 'very big'], thick: ['medium', 'big', 'very big'] };
@@ -136,7 +162,7 @@ function deal(old = {}) {
     guests[name] = { kind: 'man', from: o, age: least(m('age'), Array.from({ length: 24 }, (_, i) => 22 + i)), body: least(m('body'), MEN_BODY),
       skin, hair, cock: least(m('cock'), COCK), text: (old[name] && old[name].text) || '' };
   });
-  return guests;
+  return Object.fromEntries(Object.entries(guests).map(([n, g]) => [n, placed(n, g)]));
 }
 
 // a text file's lines set only the words; every other field stays as dealt
@@ -146,7 +172,10 @@ function apply(old, text, f) {
     if (!mt) continue;
     const parts = mt[2].split('|').map((x) => x.trim()), name = mt[1];
     if (!WOMEN.includes(name) && !MEN.includes(name)) throw new Error(`deal-guests: ${name} (${f}) is no guest`);
-    old[name] = { ...old[name], ...(WOMEN.includes(name) ? { hook: parts[0], text: parts[1] } : { line: parts[0], text: parts[1] }) }; // a man: line | text (453)
+    // a woman: line | hook | text (452), her line alone (3g14) or the old hook | text; a man: line | text (453)
+    const words = !WOMEN.includes(name) ? { line: parts[0], text: parts[1] } : parts.length === 3 ? { line: parts[0], hook: parts[1], text: parts[2] }
+      : parts.length === 1 ? { line: parts[0] } : { hook: parts[0], text: parts[1] };
+    old[name] = { ...old[name], ...words };
   }
   return old;
 }

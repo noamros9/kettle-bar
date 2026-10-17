@@ -63,6 +63,25 @@ test('dealing again changes no guest, and a text file sets only the words', () =
   assert.throws(() => apply(old, '1. Zed | a | b', 'x.md'), /Zed \(x\.md\) is no guest/);
 });
 
+// Phase 35 ticket 3g13 (451, 454): every guest a country and its flag; a woman's file may carry her line (452)
+test('every guest has a country and its flag, the home ones by origin', () => {
+  const HOME = { il: 'Israel', us: 'USA', uk: 'UK' };
+  Object.entries(GUESTS).forEach(([n, g]) => {
+    assert.ok(g.country && /^\p{Regional_Indicator}{2}$/u.test(g.flag), `${n}: ${g.country} ${g.flag}`);
+    if (HOME[g.from]) assert.equal(g.country, HOME[g.from], n);
+    else assert.ok(!Object.values(HOME).includes(g.country), n);
+  });
+  assert.equal(GUESTS.Sakura.country, 'Japan');
+});
+
+test("a woman's text file: line | hook | text, or her line alone; the old hook | text still reads", () => {
+  const old = structuredClone(GUESTS);
+  apply(old, '1. Noa | Her line | A hook | A text\n2. Yael | Only a line\n3. Maya | Old hook | Old text', 'x.md');
+  assert.deepEqual([old.Noa.line, old.Noa.hook, old.Noa.text], ['Her line', 'A hook', 'A text']);
+  assert.deepEqual([old.Yael.line, old.Yael.hook, old.Yael.text], ['Only a line', GUESTS.Yael.hook, GUESTS.Yael.text]);
+  assert.deepEqual([old.Maya.line, old.Maya.hook, old.Maya.text], [GUESTS.Maya.line, 'Old hook', 'Old text']);
+});
+
 // Phase 35 tickets 3g3-3g6 (412, 414): the words, where written
 test('a written woman: a hook of at most 90 characters, then 300-900 of prose naming Mali once, quoting her, told from your side', () => {
   women.filter((g) => g.text).forEach((g) => {

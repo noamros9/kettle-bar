@@ -18,7 +18,12 @@ test('the page lists every guest A-Z, each with her facts row, her hook or "not 
   const noa = GUESTS.Noa;
   await expect(app.page.locator('#g-Noa .gfacts')).toContainText(`${noa.age} · ${noa.height} cm · ${noa.body}`);
   await expect(app.page.locator('#g-Noa')).toContainText(`${noa.breasts} tits`);
-  await expect(app.page.locator('#g-Itay .gfacts')).toContainText(`cock: ${GUESTS.Itay.cock}`);
+  await expect(app.page.locator('#g-Noa .gfacts')).toContainText(`${noa.flag} Israel · ${noa.age}`);
+  // 3g13 (451-453): a guest with a line shows it above the hook, and the row keeps only flag, country and age
+  const itay = GUESTS.Itay;
+  await expect(app.page.locator('#g-Itay .gfacts')).toHaveText(`${itay.flag} Israel · ${itay.age}`);
+  await expect(app.page.locator('#g-Itay .gline')).toHaveText(itay.line);
+  expect(await app.data(() => [...document.querySelector('#g-Itay .gsum').children].map((e) => e.className))).toEqual(['gname', 'gfacts', 'gline']);
   const blank = [...WOMEN, ...MEN].find((n) => !GUESTS[n].text), written = WOMEN.find((n) => GUESTS[n].text);
   if (blank) await expect(app.page.locator(`#g-${blank}`)).toContainText('Not written yet');
   if (written) await expect(app.page.locator(`#g-${written} .ghook`)).toHaveText(GUESTS[written].hook);
