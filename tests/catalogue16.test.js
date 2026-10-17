@@ -32,7 +32,7 @@ test('every threesome is a couple exercise with its tag, its placeholder and thr
   }
 });
 
-test('the other pairing: half of each act from 2d, two thirds FMF, its colours swapped so they stay the people', () => {
+test('the other pairing: half of each act from 2d, two thirds FMF; a colour is the person, the guest man teal (398)', () => {
   for (const sub in OTHER) {
     const other = NEW.filter((e) => e.sub === sub && e.pair === 'other');
     assert.equal(other.length, OTHER[sub], sub);
@@ -40,10 +40,12 @@ test('the other pairing: half of each act from 2d, two thirds FMF, its colours s
   }
   assert.ok(NEW.every((e) => e.pair === undefined || e.pair === 'other'));
   const cols = (e) => e.poses.map((p) => (p.cols || []).join(' '));
-  NEW.forEach((e) => assert.deepEqual(new Set(cols(e)), new Set([!e.pair ? '' : e.trio === 'FMF' ? 'fig fig3 fig2' : 'fig3 fig2 fig']), e.id));
+  const want = { FMF: '', 'FMF other': 'fig fig3 fig2', MMF: 'fig fig2 figm', 'MMF other': 'figm fig2 fig' };
+  NEW.forEach((e) => assert.deepEqual(new Set(cols(e)), new Set([want[e.trio + (e.pair ? ' other' : '')]]), e.id));
   const { figureSVG } = require('../figures.js');
+  NEW.filter((e) => e.trio === 'MMF').forEach((e) => assert.ok(!figureSVG(e).includes('--fig3'), `${e.id}: no purple in MMF`));
   const mmf = NEW.find((e) => e.pair === 'other' && e.trio === 'MMF');
-  assert.match(figureSVG(mmf), /<circle[^>]+r="7" fill="var\(--fig3\)"\/>(?![\s\S]*fill="var\(--fig3\)")/); // his figure drawn last, in the third's colour
+  assert.match(figureSVG(mmf), /<circle[^>]+r="7" fill="var\(--fig\)"\/>(?![\s\S]*fill="var\(--fig\)")/); // you, drawn last as the third, in your own colour
 });
 
 test('in an MMF threesome the men never act on each other (288)', () => {
