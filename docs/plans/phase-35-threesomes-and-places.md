@@ -247,6 +247,7 @@ exercises (six at each of five places).
 | 3g5 | Guests: the women's descriptions, last third | content | 3g2 | `content/p35-guests-c` | in-progress |
 | 3g6 | Guests: the men's lines (414) | content | 3g2 | `content/p35-guests-men` | todo |
 | 3g7 | Guests page: summary cards that unfold, search, filters, sort (434-440) | feature | 3g2 | `feature/p35-guests-find` | done (PR #512) |
+| 3g9 | Guests page: the filters redesigned, group pills and a sheet (442-445) | feature | 3g7 | `feature/p35-guests-filters` | done (PR #516) |
 | 4a | Place × act: oral, 6 at each of 5 places, 30 (286) | content | 1 | `content/p35-place-oral` | todo |
 | 4b | Place × act: anal, 6 at each of 5 places, 30 (286) | content | 1 | `content/p35-place-anal` | todo |
 | 4c | Place × act: toys, 6 at each of 5 places, 30 (286) | content | 1 | `content/p35-place-toys` | todo |

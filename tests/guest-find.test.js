@@ -1,7 +1,7 @@
 // Phase 35 ticket 3g7 (decisions 435-439): finding a guest: search, filters, tabs and sort
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { find, menus, FILTERS, SORTS } = require('../app/guest-find.js');
+const { find, menus, FILTERS, SORTS, GROUPS } = require('../app/guest-find.js');
 
 const G = {
   Noa: { kind: 'woman', from: 'il', age: 35, height: 153, body: 'petite', breasts: 'small', ass: 'small', pussy: 'landing strip', skin: 'olive', hair: 'shoulder black', eyes: 'brown', ink: 'pierced nipples', job: 'a sound engineer', vibe: 'shy then wild', acts: ['fuck', 'tease'], hook: 'What does the quiet sound girl say?', text: 'You meet her at a bar.' },
@@ -67,4 +67,16 @@ test('menus: the filters for the tab, each with its values in order and what is 
   assert.deepEqual(menus(G, 'all', {}).find((m) => m.key === 'from').values.map((v) => v.label), ['Israeli', 'American', 'The world']);
   assert.deepEqual(menus(G, 'all', {}).find((m) => m.key === 'hair').values.map((v) => v.key), ['black', 'blonde']);
   assert.deepEqual(menus(G, 'all', {}).find((m) => m.key === 'acts').values.map((v) => v.key), ['anal', 'edging', 'fuck', 'oral', 'tease']);
+});
+
+// 3g9 (442, 444): the groups the sheet shows, and each value's live count (how many it would give with the rest kept)
+test('groups cover every filter once; a value counts what it would give, with the search, the tab and the other picks', () => {
+  assert.deepEqual(GROUPS.map(([k]) => k), ['body', 'look', 'her']);
+  assert.deepEqual(GROUPS.flatMap(([, , keys]) => keys).sort(), FILTERS.map(([k]) => k).sort());
+  const count = (kind, pick, q, key, v) => menus(G, kind, pick, q).find((m) => m.key === key).values.find((x) => x.key === v).count;
+  assert.equal(count('all', {}, '', 'hair', 'black'), 3);
+  assert.equal(count('woman', {}, '', 'hair', 'black'), 2);
+  assert.equal(count('all', { age: ['41-45'] }, '', 'hair', 'black'), 1, 'other picks kept');
+  assert.equal(count('all', { hair: ['blonde'] }, '', 'hair', 'black'), 3, 'its own pick swapped for the value');
+  assert.equal(count('all', {}, 'olive', 'hair', 'blonde'), 0, 'the search kept');
 });
