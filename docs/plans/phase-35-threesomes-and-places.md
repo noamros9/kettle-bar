@@ -173,7 +173,7 @@ exercises (six at each of five places).
 | 2t6 | UI suite in 2 shards per theme; main checks only what changed (399, 409) | feature | 2t5 | `feature/p35-ui-shards` | done (PR #497) |
 | 2h | Threesome acts: edging 18, massage 18, half the other pairing (388, 389) | content | 2t3 | `content/p35-act-edging-massage` | done (PR #498) |
 | 2i | Threesome acts: strip and tease 18, hands +18, the other pairing (388, 389) | content | 2t3 | `content/p35-act-tease-hands` | done (PR #499) |
-| 2j | Threesome acts: toys +18, the other pairing (388, 389) | content | 2t3 | `content/p35-act-toys` | todo |
+| 2j | Threesome acts: toys +18, the other pairing (388, 389) | content | 2t3 | `content/p35-act-toys` | done (PR #500) |
 | 2k | Threesome acts: intercourse +36, the other pairing (388, 389) | content | 2t3 | `content/p35-more-intercourse` | todo |
 | 2l | Threesome acts: oral +36, 9 regular and 27 other (388, 389) | content | 2t3 | `content/p35-more-oral` | todo |
 | 2m | Threesome acts: anal +36, 9 regular and 27 other (388, 389) | content | 2t3 | `content/p35-more-anal` | todo |
