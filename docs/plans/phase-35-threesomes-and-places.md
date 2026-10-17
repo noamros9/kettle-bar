@@ -273,7 +273,7 @@ exercises (six at each of five places).
 | 3g3 | Guests: the women's descriptions, first third (412, 413, 417) | content | 3g2 | `content/p35-guests-a` | done (PR #511) |
 | 3g4 | Guests: the women's descriptions, second third | content | 3g2 | `content/p35-guests-b` | done (PR #514) |
 | 3g5 | Guests: the women's descriptions, last third | content | 3g2 | `content/p35-guests-c` | done (PR #518) |
-| 3g6 | Guests: the men's text and short line (414, 453), all 41 | content | 3g8 | `content/p35-guests-men` | todo |
+| 3g6 | Guests: the men's text and short line (414, 453), all 41 | content | 3g8 | `content/p35-guests-men` | done (PR #521) |
 | 3g7 | Guests page: summary cards that unfold, search, filters, sort (434-440) | feature | 3g2 | `feature/p35-guests-find` | done (PR #512) |
 | 3g8 | Guests: to 161 women and 41 men, their names and fields (441, 446-449) | content | 3g5 | `content/p35-guests-100` | done (PR #519) |
 | 3g9 | Guests page: the filters redesigned, group pills and a sheet (442-445) | feature | 3g7 | `feature/p35-guests-filters` | done (PR #516) |
