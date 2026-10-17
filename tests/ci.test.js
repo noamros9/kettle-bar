@@ -61,7 +61,7 @@ test('the phone UI tests run as a light and a dark job beside the unit tests; de
   assert.match(ui, /npx playwright test --project=phone-\$\{\{ matrix\.theme \}\}/);
   assert.match(ui, /name: phone-screenshots-\$\{\{ matrix\.theme \}\}/);
   assert.doesNotMatch(yml.slice(0, yml.indexOf('\n  ui:\n')), /test:ui|playwright test/, 'the unit job runs no UI tests');
-  assert.match(yml, /needs: \[test, ui\]/);
+  assert.match(yml, /needs: \[test, alone, ui\]/); // and the unit tests that run alone (2t5)
   // decision 307: the site is built in a step of its own, and the test server only serves it
   assert.match(ui, /run: npm run build\n[\s\S]*UI_PREBUILT: '1'/);
 });

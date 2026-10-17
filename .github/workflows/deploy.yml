@@ -115,7 +115,8 @@ jobs:
           restore-keys: build-cache-
       - name: Unit tests, 100% coverage on the core modules
         if: steps.tested.outputs.tested != 'true' && steps.passed.outputs.cache-hit != 'true'
-        run: npm run test:coverage 2>&1 | tee unit.log; exit ${PIPESTATUS[0]}
+        # 2t5 (399): the files that run alone are the alone job's; the gate holds without them
+        run: KB_TESTS="$(node scripts/test-shards.js covered)" npm run test:coverage 2>&1 | tee unit.log; exit ${PIPESTATUS[0]}
         shell: bash
       # each failing test (and a coverage shortfall) as an annotation on the PR, readable without the raw log
       - name: Name the failures
@@ -177,6 +178,49 @@ jobs:
           path: _site
 
   # Decision 131: the phone tests, light and dark, each in its own job beside the unit tests
+  # Phase 35 ticket 2t5 (399): the whole-library checks that take as long as the rest put together, beside the unit job
+  alone:
+    needs: build
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - name: The tree this run tests
+        id: tree
+        run: echo "tree=$(git rev-parse HEAD^{tree})" >> "$GITHUB_OUTPUT"
+      - name: Did this exact tree already pass?
+        id: passed
+        if: github.event_name == 'pull_request'
+        uses: actions/cache/restore@v4
+        with:
+          path: .tested-tree
+          key: tested-${{ steps.tree.outputs.tree }}
+          lookup-only: true
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - run: npm ci
+        if: steps.passed.outputs.cache-hit != 'true'
+      - name: Was this tree tested on its PR?
+        id: tested
+        if: github.event_name == 'push'
+        run: node scripts/tested-tree.js
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - name: Restore the build cache
+        if: steps.tested.outputs.tested != 'true' && steps.passed.outputs.cache-hit != 'true'
+        uses: actions/cache/restore@v4
+        with:
+          path: .build-cache
+          key: build-cache-pre-${{ github.run_id }}
+          restore-keys: build-cache-
+      - name: The unit tests that run alone
+        if: steps.tested.outputs.tested != 'true' && steps.passed.outputs.cache-hit != 'true'
+        run: node scripts/warm-test-cache.js && node --test $(node scripts/test-shards.js alone) 2>&1 | tee unit.log; exit ${PIPESTATUS[0]}
+        shell: bash
+      - name: Name the failures
+        if: failure()
+        run: node scripts/unit-failures.js unit.log
+
   ui:
     needs: build
     runs-on: ubuntu-24.04
@@ -241,7 +285,7 @@ jobs:
           retention-days: 14
 
   deploy:
-    needs: [test, ui]
+    needs: [test, alone, ui]
     concurrency:
       group: pages
       cancel-in-progress: false
@@ -256,7 +300,7 @@ jobs:
 
   # a PR run whose unit and UI jobs passed records its tree, so a later run on the same tree skips its tests
   mark:
-    needs: [test, ui]
+    needs: [test, alone, ui]
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-24.04
     steps:

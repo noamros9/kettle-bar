@@ -136,8 +136,8 @@ points were settled 10 Oct (292, 293).
   Its own ticket now, every built threesome retinted (all 84 MMF); the second guests' shades come with 8b. *(17 Oct)*
 
 **CI and build times (17 Oct 2026, Noam; the library grows by about 400 programs in 35, 38 and 27)**
-- **399 · Everything checked on the PR, in parallel** (option D): the unit tests in 3–4 shards with their coverage
-  merged for the one gate, the UI suite in 2 shards per theme, and LF line endings so the laptop reads CI's build cache.
+- **399 · Everything checked on the PR, in parallel** (option D): the unit tests in two jobs, the whole-library floor check beside the gated rest (was: 3–4 shards with their coverage
+  merged; 2t5), the UI suite in 2 shards per theme, and LF line endings so the laptop reads CI's build cache.
   main stays build-and-deploy (128). Not taken: content PRs skipping the full UI, because main's longer run would gate
   the next merge and a break would land on the next ticket. *(17 Oct)*
 - **400 · The speed tickets run right after 2t3**, so every later content ticket gets them. *(17 Oct)*
@@ -166,7 +166,7 @@ exercises (six at each of five places).
 | 2g | Threesome act: rimming, 36, half the other pairing (382, 383) | content | 2t2 | `content/p35-act-rimming` | done (PR #491) |
 | 2t3 | Colours by sex: the guest man teal, colour = person (398) | feature | – | `feature/p35-sex-colours` | done (PR #494) |
 | 2t4 | LF line endings: the laptop reads CI's build cache (399) | feature | 2t3 | `feature/p35-lf` | done (PR #495) |
-| 2t5 | Unit tests in shards, coverage merged (399) | feature | 2t4 | `feature/p35-unit-shards` | todo |
+| 2t5 | Unit tests in two jobs: floor alone, the rest under the gate (399) | feature | 2t4 | `feature/p35-unit-shards` | done (PR #496) |
 | 2t6 | UI suite in 2 shards per theme (399) | feature | 2t5 | `feature/p35-ui-shards` | todo |
 | 2h | Threesome acts: edging 18, massage 18, half the other pairing (388, 389) | content | 2t3 | `content/p35-act-edging-massage` | todo |
 | 2i | Threesome acts: strip and tease 18, hands +18, the other pairing (388, 389) | content | 2t3 | `content/p35-act-tease-hands` | todo |
@@ -321,16 +321,15 @@ exercises (six at each of five places).
   laptop; `git diff --ignore-all-space` against main is empty but for `.gitattributes`.
 - **Done when:** on the laptop, `npm run cache:pull` then `node build.js` reads every program from the cache.
 
-### 2t5. Unit tests in shards (Opus; 399)
-- **Build:** first time each test file in CI (from a run's log), then split `tests/*.test.js` into 3–4 jobs of about
-  equal time by a committed list (`scripts/test-shards.js`). Each shard writes its V8 coverage (`NODE_V8_COVERAGE`);
-  a last job merges them and applies the same gate (100% lines and functions, branches 95%, the same files), or the
-  shard plan keeps every core module's tests in one shard if a merge can't match the built-in report. `npm run
-  test:coverage` locally is unchanged.
-- **Files:** `.github/workflows/deploy.yml`, `scripts/test-shards.js`, its test.
-- **Test first:** every test file is in exactly one shard; a deliberately uncovered line fails the merged gate (on a
-  throwaway branch); the shards' total equals the one-job count of tests.
-- **Done when:** a PR run's unit part finishes in about a third of today's 4.5 min; the gate still fails on a gap.
+### 2t5. Unit tests in two jobs (Opus; 399)
+- **Built (plan changed, 17 Oct):** timed per file (488 s serially), three dominate: floor 108 s, recipes 82 s, mix 41 s.
+  No shard beats its slowest file, and the gate holds with only floor left out (100% lines and functions, branches
+  99.38%; without mix or recipes it doesn't), so no coverage merge: `scripts/test-shards.js` names the files that run
+  alone (floor), a new `alone` job runs them beside `test`, and `test:coverage` reads its files from `KB_TESTS`
+  (every file by default, so the local command is unchanged). deploy and mark wait for `alone` too.
+- **Files:** `.github/workflows/deploy.yml`, `scripts/test-shards.js`, `package.json`, `tests/test-shards.test.js`, `tests/ci.test.js`.
+- **Test first:** every test file runs in exactly one job; the files that run alone exist; CI wires both.
+- **Done when:** a PR run's unit part finishes in about half of today's 4.5 min (floor alone bounds it near 2 min).
 
 ### 2t6. UI suite in shards (Opus; 399)
 - **Build:** the `ui` matrix gains `shard: [1, 2]` (`npx playwright test --shard=N/2`), each reading the library cache
