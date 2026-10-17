@@ -135,6 +135,13 @@ points were settled 10 Oct (292, 293).
   magenta-violet; a guest man teal, a second one sea green. In the other pairing too (`OTHER_COLS` already maps colour to person).
   Its own ticket now, every built threesome retinted (all 84 MMF); the second guests' shades come with 8b. *(17 Oct)*
 
+**CI and build times (17 Oct 2026, Noam; the library grows by about 400 programs in 35, 38 and 27)**
+- **399 · Everything checked on the PR, in parallel** (option D): the unit tests in 3–4 shards with their coverage
+  merged for the one gate, the UI suite in 2 shards per theme, and LF line endings so the laptop reads CI's build cache.
+  main stays build-and-deploy (128). Not taken: content PRs skipping the full UI, because main's longer run would gate
+  the next merge and a break would land on the next ticket. *(17 Oct)*
+- **400 · The speed tickets run right after 2t3**, so every later content ticket gets them. *(17 Oct)*
+
 ## Tickets
 
 Caps: no exercise ticket over 36, no program ticket over 15 (Noam, 10 Oct 2026). Place × act is one ticket per act, 30
@@ -158,6 +165,9 @@ exercises (six at each of five places).
 | 2f | Threesome act: body play, 36, half the other pairing (382, 383) | content | 2t2 | `content/p35-act-body` | done (PR #490) |
 | 2g | Threesome act: rimming, 36, half the other pairing (382, 383) | content | 2t2 | `content/p35-act-rimming` | done (PR #491) |
 | 2t3 | Colours by sex: the guest man teal, colour = person (398) | feature | – | `feature/p35-sex-colours` | todo |
+| 2t4 | LF line endings: the laptop reads CI's build cache (399) | feature | 2t3 | `feature/p35-lf` | todo |
+| 2t5 | Unit tests in shards, coverage merged (399) | feature | 2t4 | `feature/p35-unit-shards` | todo |
+| 2t6 | UI suite in 2 shards per theme (399) | feature | 2t5 | `feature/p35-ui-shards` | todo |
 | 2h | Threesome acts: edging 18, massage 18, half the other pairing (388, 389) | content | 2t3 | `content/p35-act-edging-massage` | todo |
 | 2i | Threesome acts: strip and tease 18, hands +18, the other pairing (388, 389) | content | 2t3 | `content/p35-act-tease-hands` | todo |
 | 2j | Threesome acts: toys +18, the other pairing (388, 389) | content | 2t3 | `content/p35-act-toys` | todo |
@@ -302,6 +312,33 @@ exercises (six at each of five places).
   `fig3`; every FMF pose is as before.
 - **Done when:** CI green; 390 px screenshots of an MMF and an FMF exercise, light and dark, show teal and purple.
 
+### 2t4. LF line endings (Opus; 399)
+- **Build:** a `.gitattributes` with `* text=auto eol=lf` (binary images marked binary), and one renormalize commit.
+  The build cache's code hash then matches CI's on the laptop, so `npm run cache:pull` fills it and a whole-library
+  build there is seconds, not ~10 min cold. Drop the CRLF note from ROADMAP's Resume here.
+- **Files:** `.gitattributes`, the renormalized files (endings only), ROADMAP.md.
+- **Test first:** `git ls-files --eol` shows no CRLF in the index or the working tree after a fresh checkout on the
+  laptop; `git diff --ignore-all-space` against main is empty but for `.gitattributes`.
+- **Done when:** on the laptop, `npm run cache:pull` then `node build.js` reads every program from the cache.
+
+### 2t5. Unit tests in shards (Opus; 399)
+- **Build:** first time each test file in CI (from a run's log), then split `tests/*.test.js` into 3–4 jobs of about
+  equal time by a committed list (`scripts/test-shards.js`). Each shard writes its V8 coverage (`NODE_V8_COVERAGE`);
+  a last job merges them and applies the same gate (100% lines and functions, branches 95%, the same files), or the
+  shard plan keeps every core module's tests in one shard if a merge can't match the built-in report. `npm run
+  test:coverage` locally is unchanged.
+- **Files:** `.github/workflows/deploy.yml`, `scripts/test-shards.js`, its test.
+- **Test first:** every test file is in exactly one shard; a deliberately uncovered line fails the merged gate (on a
+  throwaway branch); the shards' total equals the one-job count of tests.
+- **Done when:** a PR run's unit part finishes in about a third of today's 4.5 min; the gate still fails on a gap.
+
+### 2t6. UI suite in shards (Opus; 399)
+- **Build:** the `ui` matrix gains `shard: [1, 2]` (`npx playwright test --shard=N/2`), each reading the library cache
+  the build job made; `mark` waits on all four.
+- **Files:** `.github/workflows/deploy.yml`.
+- **Test first:** the four jobs' test counts add up to the one-job count per theme.
+- **Done when:** a UI PR's run finishes in about 5 min; a content PR's in about 4–5.
+
 ### 2h–2m. The rest of the threesome acts (as 2a–4l; 388, 389)
 - **Build:** as 2d–2g: Grok writes names and cues only (368), Claude places each third by hand and checks the contact
   sheet. Counts by 388, and the pairing so each act ends half the other pairing (389): edging, massage, strip and tease
@@ -406,7 +443,7 @@ exercises (six at each of five places).
 ### 7. Close the phase (Opus)
 - **Build:** the counts (1,374 exercises: 450 act threesomes + 144 kind + 330 place × act + 180 place threesomes + 270
   foursomes; 190 programs: 54 + 5 × 8 + 13 × 4 + 44), `docs/roadmap-archive.md`, the ROADMAP row removed.
-- **Done when:** the row is archived; decisions 283–293, 349–362 and 367–398 moved to the archive with a link.
+- **Done when:** the row is archived; decisions 283–293, 349–362 and 367–400 moved to the archive with a link.
 
 ## Challenge round
 - **Weakest assumption:** that every one of the 13 subjects has enough of its own new exercises for 8 programs that

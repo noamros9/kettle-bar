@@ -2,7 +2,7 @@
 
 The index: where we are, what comes next, and the two phases being built now. Every other phase's decisions live at the
 top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase comes up. Decision numbers are global
-(the next one is **399**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
+(the next one is **409**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
 ## Resume here (17 Oct 2026)
 - **Phase 35: 2a–2g done** (16–17 Oct; #479–#481, #486–#491): the Group sex tab (2t1), a random name per exercise
@@ -10,8 +10,9 @@ top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase c
   (`pair: 'other'`: you on the other woman, or the other man on Mali), their drawings' colours swapped to match.
   **Replanned 17 Oct (387–398):** group sex only in group programs; per-act counts, the Threesome kind 144, place threesomes
   36 and place foursomes 18 per place, act +8 programs dropped, group session order (5b), colours by sex (2t3).
-  **Next: 2t3 (colours), then 2h, 2i; three per go, on his go.** Foursomes are in the plan (367–379, 392, 395; 8a–8n after 6x);
-  35 is catalogue 16, foursomes 17, Phase 27 18.
+  **CI and build times (399, 400):** 2t4–2t6 after 2t3 (LF endings, unit and UI shards).
+  **Next: 2t3 (colours), 2t4, 2t5; three per go, on his go.** Foursomes are in the plan (367–379, 392, 395; 8a–8n after 6x);
+  35 is catalogue 16, foursomes 17, Phase 38 18, Phase 27 19 (408).
 - **How a threesome act ticket runs** (2d–2g): Grok writes `grok/p35/t2X-text.md` from the previous ticket's prompt
   (copy `t2g-prompt.md`, swap the act's rules and bases); Claude reviews it, `node grok/p35/place2X.js` (a copy of
   `place2d.js`) places the thirds, `node grok/p35/redo.js 2X <prefix>3_ "<label>"` emits the rows, `sheet.js <sub>`
@@ -35,11 +36,12 @@ right after Phase 22 (216). **223 ·** 8 Oct: quick fixes after 22; Export, day 
 
 | # | Phase | Issue | Plan | Status |
 |---|---|---|---|---|
-| 1 | 27 · Calisthenics: twelve skills, 25 programs | [#199](https://github.com/noamros9/kettle-bar/issues/199) | [plan](docs/plans/phase-27-calisthenics.md) | planned |
-| 2 | 19 · Super programs: 120 days from several programs | [#186](https://github.com/noamros9/kettle-bar/issues/186) | [plan](docs/plans/phase-19-super-programs.md) | planned |
-| 3 | 35 · Catalogue 16: threesomes (their own kind and in every act), every act at every place; 17: foursomes | – | [plan](docs/plans/phase-35-threesomes-and-places.md) | paused after 2c |
-| 4 | 28 · Explicit drawings and loops | [#249](https://github.com/noamros9/kettle-bar/issues/249) | [plan](docs/plans/phase-28-explicit-drawings.md) | planned |
-| 5 | 29 · Stories from the couple workouts, in Drive | [#225](https://github.com/noamros9/kettle-bar/issues/225) | [plan](docs/plans/phase-29-stories.md) | planned, last |
+| 1 | 35 · Catalogue 16: threesomes (their own kind and in every act), every act at every place; 17: foursomes | – | [plan](docs/plans/phase-35-threesomes-and-places.md) | building |
+| 2 | 38 · Catalogue 18: the workout side catches up (bands, jump rope, 432 exercises, 224 programs) | – | [plan](docs/plans/phase-38-workout-rebalance.md) | planned |
+| 3 | 27 · Calisthenics: twelve skills, 25 programs (catalogue 19, 408) | [#199](https://github.com/noamros9/kettle-bar/issues/199) | [plan](docs/plans/phase-27-calisthenics.md) | planned |
+| 4 | 19 · Super programs: 120 days from several programs | [#186](https://github.com/noamros9/kettle-bar/issues/186) | [plan](docs/plans/phase-19-super-programs.md) | planned |
+| 5 | 28 · Explicit drawings and loops | [#249](https://github.com/noamros9/kettle-bar/issues/249) | [plan](docs/plans/phase-28-explicit-drawings.md) | planned |
+| 6 | 29 · Stories from the couple workouts, in Drive | [#225](https://github.com/noamros9/kettle-bar/issues/225) | [plan](docs/plans/phase-29-stories.md) | planned, last |
 
 - **295 · Grok away the week of 9 Oct**: Opus builds 31 → 30 → 23 … alone, in order; Phase 20 (Grok writes its
   text) moves to just before 35, after Phase 36. *(9 Oct)*
