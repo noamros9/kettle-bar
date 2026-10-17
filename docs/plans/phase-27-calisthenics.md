@@ -6,7 +6,7 @@ Issue [#199](https://github.com/noamros9/kettle-bar/issues/199). Grilled 7 Oct 2
 ## Decisions
 Grilled 7 Oct 2026 with Noam (global decision numbers).
 - **158 · Calisthenics is a subject of its own, 25 programs.** Calisthenics Base and Skills stay in Bodyweight.
-- **159 · Twelve skills × six steps = 72 new exercises** (`added: 18`, was 16: 367, was 14: 237): muscle-up, handstand, front lever, pistol,
+- **159 · Twelve skills × six steps = 72 new exercises** (`added: 19`, was 18: 408, was 16: 367, was 14: 237): muscle-up, handstand, front lever, pistol,
   handstand push-up, back lever, planche, L-sit to V-sit, one-arm push-up, dragon flag, archer / typewriter pull-up,
   one-arm pull-up. (Asked "about 60", then took all twelve.)
 - **165 · No human flag** (needs a vertical pole); the archer / typewriter pull-up replaces it.
@@ -19,17 +19,17 @@ Grilled 7 Oct 2026 with Noam (global decision numbers).
 ## What lands
 - **A new subject, Calisthenics** (158), in the Strength family and the Strength shelf group, next to Bodyweight.
   Calisthenics Base and Calisthenics Skills stay in Bodyweight.
-- **72 skill exercises, `added: 18`** (159): twelve skills, six steps each, from the first progression to the skill
+- **72 skill exercises, `added: 19`** (159): twelve skills, six steps each, from the first progression to the skill
   (or its last step this home can hold), with poses and cues: muscle-up, handstand, handstand push-up, front lever,
   back lever, planche, L-sit to V-sit, pistol, one-arm push-up, dragon flag, archer / typewriter pull-up, one-arm pull-up (Noam, 7 Oct; the archer
   pull-up replaces the human flag, which needs a vertical pole, 165).
   Equipment: pull-up bar, floor, a wall; no rings or parallettes.
   A step that already exists (pike push-up, pseudo-planche push-up, pistol to a box, archer push-up) is reused, not
   copied: the skill gets a new step in its place.
-- **25 programs, `catalogue: 18`**, built to the spread from the start (53, 159): about 12 at 35–38, 6–7 at 31–35, the
+- **25 programs, `catalogue: 19`**, built to the spread from the start (53, 159): about 12 at 35–38, 6–7 at 31–35, the
   rest shorter. Each program trains 2–4 skills by their steps, plus the strength that carries them (pulls, dips, core,
   hollow and arch work); levels climb by `variation` (the next step) more than by reps.
-- **Catalogue 18 is held until the last exercise ticket** (the decision-121 pattern): own programs and random workouts
+- **Catalogue 19 (was 18: 408) is held until the last exercise ticket** (the decision-121 pattern): own programs and random workouts
   stay at 17 while the skill exercises land, then move to 18 at once (was 13 → 14 before 237).
 
 ## How the later decisions land in the tickets
@@ -50,7 +50,7 @@ Grilled 7 Oct 2026 with Noam (global decision numbers).
 | 1 | Plumbing: the subject, skill pools, newest held at 15 | feature | – | `feature/calisthenics-plumbing` | todo |
 | 2 | Muscle-up, handstand, handstand push-up, front lever (24) | content | 1 | `content/skills-a` | todo |
 | 3 | Back lever, planche, L-sit to V-sit, pistol (24) | content | 2 | `content/skills-b` | todo |
-| 4 | One-arm push-up, dragon flag, archer / typewriter pull-up, one-arm pull-up (24); catalogue 18 opens | content | 3 | `content/skills-c` | todo |
+| 4 | One-arm push-up, dragon flag, archer / typewriter pull-up, one-arm pull-up (24); catalogue 19 opens | content | 3 | `content/skills-c` | todo |
 | 5 | Programs 1–13 | content | 4 | `content/calisthenics-programs-a` | todo |
 | 6 | Programs 14–25 | content | 5 | `content/calisthenics-programs-b` | todo |
 | 7 | Close the phase: CONTEXT.md, archive | plan | 6 | `plan/p27-close` | todo |
@@ -64,12 +64,12 @@ Tickets 2–4 all edit `exercises.js`, 5–6 `configs/strength.js`: one at a tim
   exercise, ordered by its `step` (1–6), so a level's `variation` lever takes the next step.
 - **Files:** `app/library.js`, `recipe-book.js`, `program-builder.js`, `tests/catalogue18.test.js`,
   `tests/library.test.js`, `tests/builder.test.js`.
-- **Test first:** the skill pools are empty below catalogue 18 and every catalogue-15 pool is unchanged; a made-up
+- **Test first:** the skill pools are empty below catalogue 19 and every catalogue-15 pool is unchanged; a made-up
   `skill` exercise lands in its pool in step order; `generate` still stores 15.
 - **Done when:** no pin changes.
 
 ### 2–4. The skill exercises
-- **Build:** six steps per skill: id, name, `cat` (the muscle group it trains most), `skill`, `step`, `added: 18`,
+- **Build:** six steps per skill: id, name, `cat` (the muscle group it trains most), `skill`, `step`, `added: 19`,
   reps or seconds per level, muscles, a cue, equipment (`bar` where it hangs), poses (two-figure drawings aren't needed;
   a wall is drawn as a line where a handstand uses one). Each skill's step 1 is doable by an intermediate (Level I
   starts at intermediate); step 6 is the skill or the hardest version safe at home. A Grok ticket plans first (132):
@@ -81,13 +81,13 @@ Tickets 2–4 all edit `exercises.js`, 5–6 `configs/strength.js`: one at a tim
 - **Done when:** 390 px screenshots of each new exercise page (light and dark) reviewed for the pose; the PR's CI green.
 
 ### 5–6. The programs
-- **Build:** 25 configs, subject Calisthenics, `added: 27`, `catalogue: 18`: splits such as push skills / pull skills,
+- **Build:** 25 configs, subject Calisthenics, `added: 27`, `catalogue: 19`: splits such as push skills / pull skills,
   bar day / floor day, one skill per day, skill + strength, a short daily skill practice (EMOM holds), full-body
   skill circuits; formats mostly straight sets with long rests (`rests` like plyometrics: 60 s between sets, 90 s
   between exercises), EMOM for holds, ladders for muscle-up and handstand push-up practice. Minutes to the spread.
   Names, blurbs and about in today's style.
 - **Files:** `configs/strength.js` (and its `order` list), `tests/fixtures/program-days.json`, `tests/programs.test.js`.
-- **Test first:** 25 Calisthenics programs at catalogue 18; the spread holds; every program draws from at least two
+- **Test first:** 25 Calisthenics programs at catalogue 19; the spread holds; every program draws from at least two
   skill pools; Level III's days use a later step than Level I's for each skill it trains.
 - **Done when:** `npm run times` shows every day in range; pins added, none changed.
 
