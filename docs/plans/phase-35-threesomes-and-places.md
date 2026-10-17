@@ -280,7 +280,7 @@ exercises (six at each of five places).
 | 3g10 | Guests page: From by region (450) | feature | 3g13 | `feature/p35-guests-regions` | todo |
 | 3g11 | Guests: women 84-122's hooks and descriptions | content | 3g8 | `content/p35-guests-d` | todo |
 | 3g12 | Guests: women 123-161's hooks and descriptions | content | 3g11 | `content/p35-guests-e` | todo |
-| 3g13 | Guest card: country, the short line, facts row reworked (451-454) | feature | 3g6 | `feature/p35-guest-card` | todo |
+| 3g13 | Guest card: country, the short line, facts row reworked (451-454) | feature | 3g6 | `feature/p35-guest-card` | done (PR #523) |
 | 3g14 | Guests: the short line for the 83 women already written (452, 455) | content | 3g13 | `content/p35-guest-lines` | todo |
 | 4a | Place × act: oral, 6 at each of 5 places, 30 (286) | content | 1 | `content/p35-place-oral` | todo |
 | 4b | Place × act: anal, 6 at each of 5 places, 30 (286) | content | 1 | `content/p35-place-anal` | todo |

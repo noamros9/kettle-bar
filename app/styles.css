@@ -732,6 +732,8 @@ html.printing,body.printing{background:#fff}
 .gname{font:800 22px/1 var(--display);text-transform:uppercase;letter-spacing:.02em}
 .gsum .gfacts{display:block}
 .gsum .ghook{display:block}
+.gline{margin:4px 0 0}
+.gsum .gline{display:block}
 .gtext{margin:10px 0 0}
 /* 3g9: the guests' filters as a row of pills and a sheet */
 .gpills{display:flex;gap:8px;align-items:center;overflow-x:auto;scrollbar-width:none;margin:14px 0 6px;padding-bottom:2px}

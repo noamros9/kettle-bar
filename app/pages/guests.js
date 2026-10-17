@@ -2,12 +2,13 @@
    #guests: every named guest's card, from KBGuests (app/guests.js). No menu or link leads here: a
    long-press (600 ms) on the Group sex chip opens it, and on a guest's name in a cue it opens at her (#guests/<name>).
    A tap on the name shows her card in a sheet; a tap on the chip still filters. */
-const guestFacts = (g) => (g.kind === 'woman'
-  ? `${g.age} · ${g.height} cm · ${g.body} · ${g.breasts} tits · ${g.ass} ass · ${g.pussy}`
-  : `${g.age} · ${g.body} · ${g.skin} skin · ${g.hair} hair · cock: ${g.cock}`);
+// 3g13 (451-453): flag, country, age and height (a man: no height); the body facts only until her line is written
+const guestFacts = (g) => [`${g.flag} ${g.country}`, g.age, g.height && `${g.height} cm`, ...(g.line ? [] : g.kind === 'woman'
+  ? [g.body, `${g.breasts} tits`, `${g.ass} ass`, g.pussy] : [g.body, `${g.skin} skin`, `${g.hair} hair`, `cock: ${g.cock}`])].filter(Boolean).join(' · ');
+const guestLine = (g, tag) => (g.line ? `<${tag} class="gline">${esc(g.line)}</${tag}>` : '');
 function guestBody(name, hid) {
   const g = KBGuests.GUESTS[name];
-  return `<h2 id="${hid}">${esc(name)}</h2><p class="gfacts">${esc(guestFacts(g))}</p>${g.hook ? `<p class="ghook">${esc(g.hook)}</p>` : ''}
+  return `<h2 id="${hid}">${esc(name)}</h2><p class="gfacts">${esc(guestFacts(g))}</p>${guestLine(g, 'p')}${g.hook ? `<p class="ghook">${esc(g.hook)}</p>` : ''}
     ${g.text ? `<p>${esc(g.text)}</p>` : '<p class="muted">Not written yet.</p>'}`;
 }
 // a guest's name in a cue, through cueOf: plain on paper
@@ -24,7 +25,7 @@ const pickedLabel = (key, v) => (key === 'ink' ? (v.key === 'inked' ? 'inked' : 
 function guestCard(n) {
   const g = KBGuests.GUESTS[n], on = guestFind.open.has(n);
   return `<article class="card guest" id="g-${n}"><button class="gsum" data-guest-fold="${n}" aria-expanded="${on}" aria-controls="gt-${n}">
-    <span class="gname">${esc(n)}</span><span class="gfacts">${esc(guestFacts(g))}</span>${g.hook ? `<span class="ghook">${esc(g.hook)}</span>` : ''}</button>
+    <span class="gname">${esc(n)}</span><span class="gfacts">${esc(guestFacts(g))}</span>${guestLine(g, 'span')}${g.hook ? `<span class="ghook">${esc(g.hook)}</span>` : ''}</button>
     <p class="gtext" id="gt-${n}"${on ? '' : ' hidden'}>${g.text ? esc(g.text) : '<span class="muted">Not written yet.</span>'}</p></article>`;
 }
 function guestSheet(menus, shown) {
