@@ -80,6 +80,8 @@ jobs:
       options: --user 1001
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 2 # 409: main compares the merged commit with the one before
       # Noam, 10 Oct 2026: a PR run on a tree that already passed on this PR (a rebase that changed no file) tests nothing
       - name: The tree this run tests
         id: tree
@@ -127,8 +129,13 @@ jobs:
         run: npm run build | tee build.log && grep '^build cache' build.log | sed 's/^/::notice title=Build cache::/'
         shell: bash
       # decision 327: main's run also builds cold, from no cache, and the two builds must match byte for byte
-      - name: A cold build matches the cached one
+      # 409: only when the build cache's code hash changed (the keys hash the data, so only code can make it stale)
+      - name: Did the build code change?
+        id: cold
         if: github.event_name == 'push' && steps.passed.outputs.cache-hit != 'true'
+        run: node scripts/cold-needed.js
+      - name: A cold build matches the cached one
+        if: github.event_name == 'push' && steps.passed.outputs.cache-hit != 'true' && steps.cold.outputs.needed == 'true'
         shell: bash
         run: |
           mkdir -p "$RUNNER_TEMP/warm" && cp -r index.html version.json data "$RUNNER_TEMP/warm/"
@@ -162,7 +169,7 @@ jobs:
       - name: Serve the Program finder's model with the app (pinned, every file's hash checked)
         if: steps.passed.outputs.cache-hit != 'true'
         run: node scripts/vendor-finder.js _site
-      # Phase 24 ticket 10: the smoke (98 s) on main always, on a PR only when a changed file can touch the finder
+      # Phase 24 ticket 10: the smoke (98 s) only when a changed file can touch the finder (on main too since 409)
       - name: Does this change touch the finder?
         id: finder
         if: steps.passed.outputs.cache-hit != 'true'
@@ -235,6 +242,7 @@ jobs:
       fail-fast: false
       matrix:
         theme: [light, dark]
+        shard: [1, 2] # 2t6 (399): each theme in two halves, side by side
     steps:
       - uses: actions/checkout@v7
       # Noam, 10 Oct 2026: a PR run on a tree that already passed on this PR (a rebase that changed no file) tests nothing
@@ -275,14 +283,14 @@ jobs:
         run: npm run build
       - name: Phone UI tests
         if: steps.tested.outputs.tested != 'true' && steps.passed.outputs.cache-hit != 'true'
-        run: npx playwright test --project=phone-${{ matrix.theme }}
+        run: npx playwright test --project=phone-${{ matrix.theme }} --shard=${{ matrix.shard }}/2
         env:
           UI_PREBUILT: '1'
       - name: Keep the screenshots
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: phone-screenshots-${{ matrix.theme }}
+          name: phone-screenshots-${{ matrix.theme }}-${{ matrix.shard }}
           path: |
             test-results/
             playwright-report/
