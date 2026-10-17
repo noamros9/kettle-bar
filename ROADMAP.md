@@ -5,6 +5,15 @@ top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase c
 (the next one is **441**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
 ## Resume here (17 Oct 2026)
+- **The guests, 17 Oct evening (#508–#512):** the Exercises render fix (cards off screen skip layout: CI 210 ms of
+  1,200); 3g1 (50 more women, every guest's fields), 3g2 (the hidden #guests page, a name in a cue opens her card), 3g3
+  (the first 28 women's hooks and descriptions), 3g7 (cards fold, search, filter menus, sort) are merged.
+  **Next: 3g4, 3g5, 3g6** (the rest of the women, then the men), Grok text only: `node grok/p35/mkguests.js <run>` writes
+  each run's prompt from the dealt brief (428–433; runs 3g4a… in the script, laptop only), `node scripts/deal-guests.js
+  <text files>` emits, `node grok/p35/variety.js` lists repeats; fix small misses by hand. **Runs of 7, not 14:** xAI's
+  filter scores the whole prompt and refused 3g4b's 14 (403) though no single woman trips it; `grok/p35/bisect.js` and
+  `probe.sh` split a refused run. 3g4a (women 29–42) is written in `grok/p35/t3g4a-text.md`; 3g4b's two halves
+  (`t3g4bx`, `t3g4by`) were being written at the stop. Then 3b, three per go.
 - **Phase 35: 2a–2g and 2t3–2t6 done** (16–17 Oct; #479–#481, #486–#491): the Group sex tab (2t1), a random name per exercise
   outside a workout (2t2), and 252 threesome exercises at catalogue 16; 2d–2g are 36 each, half the other pairing
   (`pair: 'other'`: you on the other woman, or the other man on Mali), their drawings' colours swapped to match.
@@ -13,7 +22,7 @@ top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase c
   **2t3–2t6 done** (17 Oct, #494–#497): the guest man teal; LF endings (the laptop reads CI's cache: 1395 read, 11 s);
   unit tests in two jobs (floor alone, 2t5); the UI suite in two shards per theme, and main's run skips the finder smoke and the cold build
   check unless their code changed (2t6, 409).
-  **2h–2m and 3a done** (17 Oct, #498–#505; 2h added Strip and tease and Massage to Group sex, 3a a row's own sub). **Next: 3g1 (guest names; Noam crosses out Claude's list, round 1 sent 17 Oct), 3g2, 3b; three per go, on his go.** The guests (410–418): names, a hidden page, descriptions. Foursomes are in the plan (367–379, 392, 395; 8a–8n after 6x);
+  **2h–2m and 3a done** (17 Oct, #498–#505; 2h added Strip and tease and Massage to Group sex, 3a a row's own sub). Foursomes are in the plan (367–379, 392, 395; 8a–8n after 6x);
   35 is catalogue 16, foursomes 17, Phase 38 18, Phase 27 19 (408).
 - **How a threesome act ticket runs** (2d–2g): Grok writes `grok/p35/t2X-text.md` from the previous ticket's prompt
   (copy `t2g-prompt.md`, swap the act's rules and bases); Claude reviews it, `node grok/p35/place2X.js` (a copy of
