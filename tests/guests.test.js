@@ -113,6 +113,16 @@ test('a written man: a line of at most 130 characters with his build or cock, ne
   });
 });
 
+// Phase 35 ticket 3g14 (452, 455): every written woman has her line, a physical fact in it, from your side
+test('a written woman: a line of at most 130 characters with something of her body, never naming Mali, never riding you', () => {
+  WOMEN.map((n) => [n, GUESTS[n]]).filter(([, g]) => g.text).forEach(([n, g]) => {
+    assert.ok(g.line && g.line.length <= 130, `${n}'s line: ${g.line}`);
+    assert.ok(!/Mali/.test(g.line), `${n}'s line names Mali`);
+    assert.match(g.line, /tits|ass|hair|eyes|skin|blonde|red|pixie|tall|tiny|tan|olive|fair|dark|brown|petite|thick|curvy|slim|athletic|ink|tattoo|pierced|ring|thigh|body/i, `${n}'s line: ${g.line}`);
+    assert.ok(!/\b(rides?|riding|sits on your cock)\b/i.test(g.line), `${n}'s line has her riding you: ${g.line}`);
+  });
+});
+
 // Noam, 17 Oct 2026: every guest reads as her own person, not one template with the fields swapped
 test('variety: no two hooks or texts open alike, and no five-word phrase in more than three texts', () => {
   const written = Object.entries(GUESTS).filter(([, g]) => g.text);
