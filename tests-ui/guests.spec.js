@@ -19,7 +19,9 @@ test('the page lists every guest, women then men, each with her facts row and "n
   await expect(app.page.locator('#g-Noa .gfacts')).toContainText(`${noa.age} · ${noa.height} cm · ${noa.body}`);
   await expect(app.page.locator('#g-Noa')).toContainText(`${noa.breasts} tits`);
   await expect(app.page.locator('#g-Itay .gfacts')).toContainText(`cock: ${GUESTS.Itay.cock}`);
-  await expect(app.page.locator('#g-Noa')).toContainText('Not written yet');
+  const blank = [...WOMEN, ...MEN].find((n) => !GUESTS[n].text), written = WOMEN.find((n) => GUESTS[n].text);
+  if (blank) await expect(app.page.locator(`#g-${blank}`)).toContainText('Not written yet');
+  if (written) await expect(app.page.locator(`#g-${written} .ghook`)).toHaveText(GUESTS[written].hook);
   expect(await app.sidewaysScroll()).toBeLessThanOrEqual(0);
 });
 
