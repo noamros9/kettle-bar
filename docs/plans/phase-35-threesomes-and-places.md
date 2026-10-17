@@ -229,6 +229,8 @@ points were settled 10 Oct (292, 293).
 - **453 · The men get the line too:** his build and cock move into it. *(17 Oct)*
 - **454 · Each guest has a country** (Israel, USA, UK, or her own for a world guest); 450's regions come from it. *(17 Oct)*
 - **455 · Grok writes the line** in every run from 3g6 on, and one pass writes it for the 107 already written. *(17 Oct)*
+- **467 · Her hook is her quote, above the line:** name, facts row, the hook in italic with an accent bar, then the
+  line, so the two read apart (Noam). *(17 Oct)*
 
 **Grok runs, faster (17 Oct night, from 3g11b run four ways)**
 - **465 · Text runs: sentence counts and `--effort low`**, checked after by `grok/p35/lint-guests.js`; a new brief
@@ -287,6 +289,7 @@ exercises (six at each of five places).
 | 3g12 | Guests: women 123-161's hooks and descriptions | content | 3g11 | `content/p35-guests-e` | todo |
 | 3g13 | Guest card: country, the short line, facts row reworked (451-454) | feature | 3g6 | `feature/p35-guest-card` | done (PR #523) |
 | 3g14 | Guests: the short line for the 83 women already written (452, 455) | content | 3g13 | `content/p35-guest-lines` | done (PR #524) |
+| 3g15 | Guest card: her hook as a quote above the line (467) | feature | 3g13 | `feature/p35-guest-quote` | done (PR #527) |
 | 4a | Place × act: oral, 6 at each of 5 places, 30 (286) | content | 1 | `content/p35-place-oral` | todo |
 | 4b | Place × act: anal, 6 at each of 5 places, 30 (286) | content | 1 | `content/p35-place-anal` | todo |
 | 4c | Place × act: toys, 6 at each of 5 places, 30 (286) | content | 1 | `content/p35-place-toys` | todo |
@@ -519,6 +522,9 @@ exercises (six at each of five places).
 - **3g14 (455):** the lines for the 83 women already written: Grok in runs of 14 (lines only, so lighter than 3g5's
   runs of 7), from her fields and her hook so the two don't repeat. **Done when:** every woman has a line; Claude reads
   them for sameness across the batch.
+- **3g15 (467):** `app/pages/guests.js` puts the hook before the line in the card and the sheet; `.ghook` italic with a
+  3px accent bar. **Test first:** `tests-ui/guests.spec.js`: Noa's summary reads name, facts, hook, line; the hook is
+  italic with a left border. **Done when:** CI green; 390 px light and dark.
 - **3g7 Build (434-440):** `app/pages/guests.js`: cards fold to name, facts and hook (`aria-expanded`); a search field
   and one-line menus over `GUESTS` through a pure `KBGuests.find(GUESTS, q, filters, sort)` in `app/guests.js`'s
   module (unit-tested); the sheet and #guests/<name> show her unfolded. **Files:** `app/guests.js` (or a small

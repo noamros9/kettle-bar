@@ -25,6 +25,9 @@ test('the page lists every guest A-Z, each with her facts row, her hook or "not 
   await expect(app.page.locator('#g-Itay .gfacts')).toHaveText(`${itay.flag} Israel · ${itay.age}`);
   await expect(app.page.locator('#g-Itay .gline')).toHaveText(itay.line);
   expect(await app.data(() => [...document.querySelector('#g-Itay .gsum').children].map((e) => e.className))).toEqual(['gname', 'gfacts', 'gline']);
+  // 3g15 (467): her hook is her quote, above the line: italic, a bar on its left
+  expect(await app.data(() => [...document.querySelector('#g-Noa .gsum').children].map((e) => e.className))).toEqual(['gname', 'gfacts', 'ghook', 'gline']);
+  expect(await app.data(() => { const s = getComputedStyle(document.querySelector('#g-Noa .ghook')); return [s.fontStyle, parseFloat(s.borderLeftWidth) > 0]; })).toEqual(['italic', true]);
   const blank = [...WOMEN, ...MEN].find((n) => !GUESTS[n].text), written = WOMEN.find((n) => GUESTS[n].text);
   if (blank) await expect(app.page.locator(`#g-${blank}`)).toContainText('Not written yet');
   if (written) await expect(app.page.locator(`#g-${written} .ghook`)).toHaveText(GUESTS[written].hook);

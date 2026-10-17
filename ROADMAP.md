@@ -2,7 +2,7 @@
 
 The index: where we are, what comes next, and the two phases being built now. Every other phase's decisions live at the
 top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase comes up. Decision numbers are global
-(the next one is **467**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
+(the next one is **468**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
 ## Resume here (17 Oct 2026)
 - **The guests, 161 women and 41 men (446-455, 17 Oct night). Finish every 3g ticket before 3b; Noam's go covers

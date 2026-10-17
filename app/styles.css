@@ -726,7 +726,8 @@ html.printing,body.printing{background:#fff}
 .guests{display:grid;gap:12px}
 .guest h2,.guestwrap h2{margin:0}
 .gfacts{color:var(--muted);font-size:14px;margin:4px 0 0}
-.ghook{font-weight:600}
+/* 3g15 (467): her hook is her quote, set apart from the line under it */
+.ghook{font-weight:600;font-style:italic;border-left:3px solid var(--accent);padding-left:10px}
 /* 3g7: a guest's card folds to its summary */
 .gsum{all:unset;cursor:pointer;display:grid;gap:4px;width:100%}
 .gname{font:800 22px/1 var(--display);text-transform:uppercase;letter-spacing:.02em}
