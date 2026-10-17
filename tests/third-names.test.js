@@ -62,7 +62,8 @@ test('the women: the 33 first picks still there, the 50 new ones, every origin i
   assert.equal(first.length, 33);
   first.forEach((n) => assert.ok(WOMEN.includes(n), n));
   ['Shira', 'Coral', 'Dafna', 'Brittany', 'Sierra', 'Isla', 'Hannah', 'Valentina', 'Aiko', 'Mei'].forEach((n) => assert.ok(WOMEN.includes(n), n));
-  assert.equal(WOMEN.length, 83);
+  ['Noga', 'Lior', 'Avery', 'Kimberly', 'Abigail', 'Florence', 'Bruna', 'Nala'].forEach((n) => assert.ok(WOMEN.includes(n), n)); // 3g8 (441)
+  assert.equal(WOMEN.length, 100);
   const from = Object.fromEntries(Object.entries(ORIGINS.woman).flatMap(([k, l]) => l.map((n) => [n, k])));
   assert.deepEqual(Object.values(ORIGINS.woman).flat().sort(), [...WOMEN].sort());
   WOMEN.forEach((n, i) => assert.ok(i === 0 || from[n] !== from[WOMEN[i - 1]], `${WOMEN[i - 1]}, ${n}`));

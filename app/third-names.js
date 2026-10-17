@@ -1,7 +1,7 @@
 /* The third person's name (Phase 35, decisions 351–353). Pure: runs in Node and in the page (KBThird).
    A threesome cue holds a placeholder, never a name: {woman} (FMF) or {man} (MMF). The page fills it when it shows
    the cue, so the name is computed, never stored, and no built day or pin holds it.
-     WOMEN, MEN               the names, picked by Noam (358, 410): Israeli, American, British and (women) the world,
+     WOMEN, MEN               the names, picked by Noam (358, 410, 441): Israeli, American, British and (women) the world,
                               each origin spread evenly through the list; ORIGINS the lists by origin
      thirdName(at, kind)      kind 'woman' | 'man'. at { pid, day }: a program day, from the program's own start in
                               the list, one name a day; at { date }: a build-your-own workout, one a day by the date
@@ -29,12 +29,13 @@
     woman: {
       il: ['Noa', 'Yael', 'Maya', 'Adi', 'Roni', 'Gal', 'Michal', 'Hila', 'Dana', 'Noy', 'Shani', 'Inbar', 'Keren', 'Lihi', 'Neta', 'Agam',
         'Ella', 'Moran', 'Yarden', 'Romi', 'Bar', 'Lian', 'Linoy', 'Anat', 'Hodaya',
-        'Shira', 'Tamar', 'Hadar', 'Rotem', 'Shaked', 'Coral', 'Sivan', 'Nofar', 'Naama', 'Hadas', 'Lital', 'Dafna'],
+        'Shira', 'Tamar', 'Hadar', 'Rotem', 'Shaked', 'Coral', 'Sivan', 'Nofar', 'Naama', 'Hadas', 'Lital', 'Dafna',
+        'Noga', 'Maayan', 'Hagar', 'Dorin', 'Lior'],
       us: ['Ashley', 'Madison', 'Kayla', 'Megan', 'Brittany', 'Paige', 'Riley', 'Amber', 'Heather', 'Alexis', 'Morgan', 'Vanessa',
-        'Tiffany', 'Melissa', 'Sierra'],
-      uk: ['Charlotte', 'Sophie', 'Amelia', 'Holly', 'Isla', 'Scarlett', 'Jade', 'Ruby', 'Ellie', 'Grace', 'Hannah'],
+        'Tiffany', 'Melissa', 'Sierra', 'Avery', 'Chelsea', 'Lindsey', 'Kimberly'],
+      uk: ['Charlotte', 'Sophie', 'Amelia', 'Holly', 'Isla', 'Scarlett', 'Jade', 'Ruby', 'Ellie', 'Grace', 'Hannah', 'Abigail', 'Harriet', 'Florence'],
       world: ['Valentina', 'Chloe', 'Bianca', 'Natasha', 'Isabela', 'Juliette', 'Chiara', 'Ingrid', 'Carmen', 'Amelie', 'Francesca',
-        'Katya', 'Luna', 'Yasmin', 'Elena', 'Mila', 'Adriana', 'Aiko', 'Mariana', 'Mei'],
+        'Katya', 'Luna', 'Yasmin', 'Elena', 'Mila', 'Adriana', 'Aiko', 'Mariana', 'Mei', 'Bruna', 'Noemi', 'Selin', 'Paola', 'Nala'],
     },
     man: {
       il: ['Itay', 'Omer', 'Ido', 'Nadav', 'Tomer', 'Guy', 'Ori', 'Asaf', 'Erez', 'Ran', 'Ariel', 'Daniel', 'Shahar', 'Alon', 'Yuval', 'Dor'],

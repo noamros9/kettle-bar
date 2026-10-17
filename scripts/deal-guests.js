@@ -28,6 +28,8 @@ const WORLD = { // skin, hair, eyes
   Elena: ['olive', 'auburn', 'green'], Natasha: ['fair', 'blonde', 'blue'], Katya: ['fair', 'light brown', 'grey'],
   Mila: ['fair', 'platinum blonde', 'blue'], Ingrid: ['fair', 'blonde', 'blue'], Yasmin: ['brown', 'black', 'dark brown'],
   Aiko: ['East Asian, light', 'black', 'dark brown'], Mei: ['East Asian, light', 'black', 'brown'],
+  Bruna: ['tan', 'dark brown', 'brown'], Noemi: ['olive', 'dark brown', 'hazel'], Selin: ['olive', 'black', 'green'],
+  Paola: ['tan', 'black', 'brown'], Nala: ['dark', 'black', 'dark brown'],
 };
 const BODY = ['petite', 'slim', 'athletic', 'curvy', 'thick'];
 const HEIGHT = { petite: [150, 158], slim: [160, 176], athletic: [162, 178], curvy: [157, 172], thick: [156, 172] };
@@ -37,7 +39,9 @@ const LENGTH = ['pixie', 'shoulder', 'long', 'very long'];
 const PUSSY = ['shaved', 'landing strip', 'trimmed']; // never natural (423)
 const VIBES = ['bold and dominant', 'teasing', 'shy then wild', 'sensual and slow'];
 const ACTS = ['fuck', 'oral', 'hands', 'anal', 'toys', 'rough', 'kink', 'body', 'rim', 'edging', 'massage', 'tease'];
-const INK = ['a small tattoo low on her hip', 'a script tattoo under her breasts', 'pierced nipples', 'a belly-button ring',
+const INK = ['a swallow on each hip', 'a word inked inside her thigh', 'a pierced clit hood and a navel stud', 'a sleeve of flowers',
+  'a heart on her ass cheek', 'a bar through her tongue and one nipple',
+  'a small tattoo low on her hip', 'a script tattoo under her breasts', 'pierced nipples', 'a belly-button ring',
   'a vine tattoo down her thigh', 'a tongue piercing', 'a half-sleeve on one arm', 'a tiny tattoo just above her pussy',
   'a clit-hood piercing', 'a butterfly on her lower back', 'pierced nipples and a thigh tattoo', 'a snake around her ankle',
   'a moon behind her ear', 'a rose on her ribs', 'a septum ring', 'a line of stars down her spine', 'a garter tattoo on her thigh',
@@ -54,35 +58,42 @@ const JOBS = ['a bartender at your local', "Mali's yoga teacher", 'a nurse on ni
   'a ski instructor', 'a police officer', 'a dive instructor', 'a marketing manager', 'a club promoter', 'a bookshop owner', 'a cellist',
   'a skincare therapist', 'a festival volunteer you met at Meteor', 'a horse rider', 'an MMA fighter', 'a psychologist', 'a sex-shop clerk',
   'a pharmacist', 'a cabin crew trainee', 'a burlesque performer', 'a kindergarten teacher', 'a boxing coach', 'a perfumer', 'a fitness model',
-  'a hostel owner in Tel Aviv', 'a student from Mali\'s pottery class', 'a baker', 'an interior designer', 'a concierge', 'a camgirl'];
+  'a hostel owner in Tel Aviv', 'a student from Mali\'s pottery class', 'a baker', 'an interior designer', 'a concierge', 'a camgirl',
+  'a yacht stewardess', 'a nightclub bartender', 'a wedding planner', 'a crossfit coach', 'a wine importer', 'a podcast host',
+  'a stunt double', 'a boutique owner', 'a TV producer', 'a spa manager', 'a tango teacher', 'an airline pilot', 'a fashion photographer',
+  'a bodyguard', 'a vineyard owner', 'a strip-club dancer', 'a personal shopper'];
 const MEN_BODY = ['lean', 'athletic', 'muscular', 'big', 'stocky'];
 const MEN_HAIR = ['short black', 'buzzed', 'curly dark', 'shaved head', 'brown, swept back', 'dirty blond', 'long, tied back'];
 const MEN_SKIN = { il: ['olive', 'tan', 'fair', 'brown', 'olive', 'dark'], us: ['fair', 'brown', 'dark', 'tan'], uk: ['fair', 'fair', 'brown', 'olive'] };
 const COCK = ['average and hard as rock', 'thick', 'long', 'big and thick', 'long and curved'];
 
+// a guest already dealt keeps every field (411: a name is one person); only new names are dealt, each to the value
+// used least so far, so the quotas stay even as the list grows (3g8: 83 -> 100 women)
 function deal(old = {}) {
-  const n = WOMEN.length, wf = from('woman'), turn = {};
-  const next = (o, field) => { turn[o + field] = (turn[o + field] || 0); return LOOK[o][field][turn[o + field]++ % LOOK[o][field].length]; };
-  const [bodies, ages, lengths, pussies, vibes] = [deck(BODY, n), deck(Array.from({ length: 25 }, (_, i) => 21 + i), n), deck(LENGTH, n), deck(PUSSY, n), deck(VIBES, n)];
-  const inked = new Set(shuffle(WOMEN).slice(0, Math.round(n / 4))), ink = shuffle(INK), jobs = shuffle(JOBS);
-  if (jobs.length < n) throw new Error(`deal-guests: ${jobs.length} jobs for ${n} women`);
-  const counts = { breasts: {}, ass: {}, acts: {} };
-  const guests = {};
-  WOMEN.forEach((name, i) => {
-    const o = wf[name], body = bodies[i], [lo, hi] = HEIGHT[body];
-    const [skin, colour, eyes] = o === 'world' ? WORLD[name] : [next(o, 'skin'), next(o, 'hair'), next(o, 'eyes')];
-    const a1 = least(counts.acts, ACTS), a2 = least(counts.acts, ACTS.filter((a) => a !== a1));
-    guests[name] = { kind: 'woman', from: o, age: ages[i], height: Math.round(lo + rnd() * (hi - lo)), body, breasts: least(counts.breasts, BREASTS[body]),
-      ass: least(counts.ass, ASS[body]), pussy: pussies[i], skin, hair: `${lengths[i]} ${colour}`, eyes,
-      ink: inked.has(name) ? ink.pop() : null, job: jobs[i], vibe: vibes[i], acts: [a1, a2],
-      hook: (old[name] && old[name].hook) || '', text: (old[name] && old[name].text) || '' };
+  const wf = from('woman'), turn = {}, counts = {}, guests = {};
+  const kept = (n) => old[n] && old[n].age;
+  const tally = (f, v) => { counts[f] = counts[f] || {}; [].concat(v).forEach((x) => { counts[f][x] = (counts[f][x] || 0) + 1; }); };
+  const lengthOf = (h) => ['very long', 'long', 'shoulder', 'pixie'].find((l) => h.startsWith(l));
+  WOMEN.filter(kept).forEach((n) => {
+    const g = old[n]; guests[n] = g;
+    tally('body', g.body); tally('age', g.age); tally('length', lengthOf(g.hair)); tally('pussy', g.pussy); tally('vibe', g.vibe);
+    tally('breasts', g.breasts); tally('ass', g.ass); tally('acts', g.acts); tally('job', g.job); tally('ink', g.ink || 'none');
+    if (g.from !== 'world') turn[g.from] = (turn[g.from] || 0) + 1;
   });
-  const mf = from('man'), mt = {}, [mb, ma, mh, mc] = [deck(MEN_BODY, MEN.length), deck(Array.from({ length: 24 }, (_, i) => 22 + i), MEN.length), deck(MEN_HAIR, MEN.length), deck(COCK, MEN.length)];
-  MEN.forEach((name, i) => {
-    const o = mf[name]; mt[o] = (mt[o] || 0);
-    guests[name] = { kind: 'man', from: o, age: ma[i], body: mb[i], skin: MEN_SKIN[o][mt[o]++ % MEN_SKIN[o].length], hair: mh[i], cock: mc[i],
-      text: (old[name] && old[name].text) || '' };
+  const fresh = WOMEN.filter((n) => !kept(n)), c = (f) => (counts[f] = counts[f] || {});
+  const jobs = shuffle(JOBS).filter((j) => !c('job')[j]), inks = shuffle(INK).filter((i) => !c('ink')[i]);
+  if (jobs.length < fresh.length) throw new Error(`deal-guests: ${jobs.length} jobs left for ${fresh.length} new women`);
+  fresh.forEach((name) => {
+    const o = wf[name], body = least(c('body'), BODY), [lo, hi] = HEIGHT[body], t = turn[o] = (turn[o] || 0) + 1;
+    const [skin, colour, eyes] = o === 'world' ? WORLD[name] : ['skin', 'hair', 'eyes'].map((k) => LOOK[o][k][(t - 1) % LOOK[o][k].length]);
+    const a1 = least(c('acts'), ACTS), a2 = least(c('acts'), ACTS.filter((x) => x !== a1));
+    const inked = Object.entries(c('ink')).filter(([k]) => k !== 'none').reduce((x, [, v]) => x + v, 0) < Math.round(WOMEN.length / 4);
+    const ink = inked ? inks.pop() : null; tally('ink', ink || 'none');
+    guests[name] = { kind: 'woman', from: o, age: least(c('age'), Array.from({ length: 25 }, (_, i) => 21 + i)), height: Math.round(lo + rnd() * (hi - lo)), body,
+      breasts: least(c('breasts'), BREASTS[body]), ass: least(c('ass'), ASS[body]), pussy: least(c('pussy'), PUSSY), skin,
+      hair: `${least(c('length'), LENGTH)} ${colour}`, eyes, ink, job: jobs.pop(), vibe: least(c('vibe'), VIBES), acts: [a1, a2], hook: '', text: '' };
   });
+  MEN.forEach((name) => { guests[name] = old[name]; });
   return guests;
 }
 
