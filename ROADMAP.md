@@ -24,7 +24,7 @@ top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase c
 - **Phases 26 and 34 are done** (#436–#445; #451, #453, #457, #459; archived).
 - **A Grok content ticket** (text only, 339) runs as Phase 20's did: see its steps in the archive.
 - **Grok usage:** measured for 9–12 in [docs/grok-usage.md](docs/grok-usage.md); measuring stopped (Noam, 15 Oct).
-- **Working rules** are in [CLAUDE.md](CLAUDE.md). Don't put shared page logic in `app/library.js` or other files in
+- **Working rules** are in [CLAUDE.md](CLAUDE.md). Don't put shared page logic in `app/families.js` or other files in
   the build cache's key (`build-cache.js` CODE / RECIPE_CODE): a change there makes every build cold.
 
 ## The order
