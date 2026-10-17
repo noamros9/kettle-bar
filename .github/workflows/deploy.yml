@@ -182,6 +182,10 @@ jobs:
   alone:
     needs: build
     runs-on: ubuntu-24.04
+    # the same image as the build job, or its saved build cache doesn't restore here (another compression, another key)
+    container:
+      image: mcr.microsoft.com/playwright:v1.56.0-noble
+      options: --user 1001
     steps:
       - uses: actions/checkout@v7
       - name: The tree this run tests

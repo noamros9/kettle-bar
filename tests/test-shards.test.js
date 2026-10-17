@@ -21,5 +21,8 @@ test('CI runs both: the coverage job reads its files from KB_TESTS, the alone jo
   const yml = fs.readFileSync('.github/workflows/deploy.yml', 'utf8');
   assert.match(yml, /KB_TESTS="\$\(node scripts\/test-shards\.js covered\)" npm run test:coverage/);
   assert.match(yml, /\n  alone:\n[\s\S]*?node --test \$\(node scripts\/test-shards\.js alone\)/);
+  // in the build job's image, or the build cache it saved doesn't restore (17 Oct: it built cold and took longest)
+  const image = (job) => /image: (\S+)/.exec(yml.slice(yml.indexOf(`\n  ${job}:\n`)))[1];
+  assert.equal(image('alone'), image('build'));
   assert.equal((yml.match(/needs: \[test, alone, ui\]/g) || []).length, 2);
 });
