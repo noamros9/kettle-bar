@@ -6,7 +6,9 @@ const { rows } = require('../scripts/emit-trio.js');
 
 const NEW = Object.values(EX).filter((e) => e.added === 16);
 // each ticket adds its act kinds here (284)
-const COUNTS = { fuck: 36, oral: 18, hands: 18, anal: 18, toys: 18 };
+const COUNTS = { fuck: 36, oral: 18, hands: 18, anal: 18, toys: 18, rough: 36 };
+// the other pairing (383, 385): half of each act from 2d on, about two thirds FMF
+const OTHER = { rough: 18 };
 
 test('catalogue 16 holds each act kind\'s count of threesomes, about two thirds FMF', () => {
   const by = {};
@@ -30,6 +32,20 @@ test('every threesome is a couple exercise with its tag, its placeholder and thr
   }
 });
 
+test('the other pairing: half of each act from 2d, two thirds FMF, its colours swapped so they stay the people', () => {
+  for (const sub in OTHER) {
+    const other = NEW.filter((e) => e.sub === sub && e.pair === 'other');
+    assert.equal(other.length, OTHER[sub], sub);
+    assert.equal(other.filter((e) => e.trio === 'FMF').length, Math.round(OTHER[sub] * 2 / 3), `${sub}: FMF`);
+  }
+  assert.ok(NEW.every((e) => e.pair === undefined || e.pair === 'other'));
+  const cols = (e) => e.poses.map((p) => (p.cols || []).join(' '));
+  NEW.forEach((e) => assert.deepEqual(new Set(cols(e)), new Set([!e.pair ? '' : e.trio === 'FMF' ? 'fig fig3 fig2' : 'fig3 fig2 fig']), e.id));
+  const { figureSVG } = require('../figures.js');
+  const mmf = NEW.find((e) => e.pair === 'other' && e.trio === 'MMF');
+  assert.match(figureSVG(mmf), /<circle[^>]+r="7" fill="var\(--fig3\)"\/>(?![\s\S]*fill="var\(--fig3\)")/); // his figure drawn last, in the third's colour
+});
+
 test('in an MMF threesome the men never act on each other (288)', () => {
   const VERB = '(kiss|lick|suck|stroke|touch|grab|rub|hold|jerk|finger|fuck)\\w*';
   const between = new RegExp(`\\{man\\}('s)? (\\w+ ){0,2}${VERB} (you|your)\\b|\\byou(r \\w+)? (\\w+ ){0,2}${VERB} \\{man\\}`, 'i');
@@ -48,4 +64,9 @@ test('the emit script turns a text line into a row and stops on a line it can\'t
   assert.throws(() => rows(good, {}), /third/);
   assert.throws(() => rows(good.replace('| FMF |', '| FFM |'), at), /trio/);
   assert.throws(() => rows(good.replace('fuck_ankles_locked |', 'nope |'), at), /base/);
+  // from 2d on a pair column comes after FMF|MMF (383): 'other' becomes the row's seventh field, 'us' adds nothing
+  const paired = (pair) => good.replace('| FMF |', `| FMF | ${pair} |`);
+  assert.match(rows(paired('other'), at), /'kneel 40 -6 1', '[^']+', 'other'\],$/);
+  assert.equal(rows(paired('us'), at), rows(good, at));
+  assert.throws(() => rows(paired('them'), at), /pair/);
 });
