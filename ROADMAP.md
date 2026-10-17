@@ -13,13 +13,14 @@ top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase c
   **2t3–2t6 done** (17 Oct, #494–#497): the guest man teal; LF endings (the laptop reads CI's cache: 1395 read, 11 s);
   unit tests in two jobs (floor alone, 2t5); the UI suite in two shards per theme, and main's run skips the finder smoke and the cold build
   check unless their code changed (2t6, 409).
-  **Next: 2h (edging and massage), 2i, 2j; three per go, on his go.** Foursomes are in the plan (367–379, 392, 395; 8a–8n after 6x);
+  **2h–2j done** (17 Oct, #498–#500; 2h added Strip and tease and Massage to Group sex). **Next: 2k (intercourse +36), 2l, 2m; three per go, on his go.** Foursomes are in the plan (367–379, 392, 395; 8a–8n after 6x);
   35 is catalogue 16, foursomes 17, Phase 38 18, Phase 27 19 (408).
 - **How a threesome act ticket runs** (2d–2g): Grok writes `grok/p35/t2X-text.md` from the previous ticket's prompt
   (copy `t2g-prompt.md`, swap the act's rules and bases); Claude reviews it, `node grok/p35/place2X.js` (a copy of
   `place2d.js`) places the thirds, `node grok/p35/redo.js 2X <prefix>3_ "<label>"` emits the rows, `sheet.js <sub>`
   draws the sheet (all in `grok/p35/`, gitignored: on the laptop only); fix overlaps in `places-2X.json` by hand. Names go through `nameMali` in the emit script; rim cues
-  say "her tongue". Claude checks the sheet; Noam no longer approves it (17 Oct).
+  say "her tongue". Claude checks the sheet; Noam no longer approves it (17 Oct). An act that already has rows (2k–2m: fuck3_, oral3_, anal3_)
+  never goes through `redo.js` (it drops every row with the prefix): run `scripts/emit-trio.js` and `insert.js` directly.
 - **The Pool day-16 review waits for a phase of its own** (Noam, 17 Oct): see Backlog.
 - **CI time:** `app/families.js` holds `FAMILIES`, the only part of `app/library.js` the recipe book reads, so an
   Exercises-page change no longer builds the book cold (2t2).
