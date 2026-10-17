@@ -21,8 +21,8 @@ top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase c
 - **The Pool day-16 review waits for a phase of its own** (Noam, 17 Oct): see Backlog.
 - **CI time:** `app/families.js` holds `FAMILIES`, the only part of `app/library.js` the recipe book reads, so an
   Exercises-page change no longer builds the book cold (2t2).
-- **The laptop never hits the CI build cache:** its checkout has CRLF endings, CI LF, so the code hash differs and
-  `cache:pull` reads nothing; a local cold build (~10 min) warms it for that tree.
+- **The laptop reads the CI build cache** since 2t4 (`.gitattributes`: LF everywhere): run `npm run cache:pull` after a
+  fresh checkout. An old CRLF checkout needs `git rm -r -q --cached . && git reset -q --hard` once.
 - **Phase 20 is done** (16 Oct, archived): 1,395 programs, Explicit 98.
 - **Phases 26 and 34 are done** (#436–#445; #451, #453, #457, #459; archived).
 - **A Grok content ticket** (text only, 339) runs as Phase 20's did: see its steps in the archive.
