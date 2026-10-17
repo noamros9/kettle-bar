@@ -2,7 +2,8 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const { GUESTS } = require('../app/guests.js');
-const { WOMEN, MEN } = require('../app/third-names.js');
+const { WOMEN, MEN, ORIGINS } = require('../app/third-names.js');
+const { deal, apply } = require('../scripts/deal-guests.js');
 
 const women = WOMEN.map((n) => GUESTS[n]);
 const spreadOf = (list, f) => { const m = {}; list.forEach((g) => [].concat(g[f]).forEach((v) => { m[v] = (m[v] || 0) + 1; })); return m; };
@@ -40,6 +41,26 @@ test('the quotas: body, breasts, ass, pussy, hair length, vibe and acts even', (
 
 test('the men: age, body, skin, hair and cock', () => {
   MEN.forEach((n) => ['age', 'body', 'skin', 'hair', 'cock'].forEach((f) => assert.ok(GUESTS[n][f], `${f} of ${n}`)));
+});
+
+// Phase 35 ticket 3g8 (441, 446-449): 161 women and 41 men; a guest already dealt keeps every field (411)
+test('the men: body and cock even, ages 22-45, each with his origin, the world men looking like their names', () => {
+  const men = MEN.map((n) => GUESTS[n]);
+  ['body', 'cock'].forEach((f) => even(spreadOf(men, f), 1, f));
+  men.forEach((g) => assert.ok(g.age >= 22 && g.age <= 45, String(g.age)));
+  MEN.forEach((n) => assert.ok(ORIGINS.man[GUESTS[n].from].includes(n), n));
+  assert.equal(GUESTS.Kenji.skin, 'East Asian, light');
+  assert.equal(GUESTS.Lars.hair, 'dirty blond');
+});
+
+test('dealing again changes no guest, and a text file sets only the words', () => {
+  const again = deal(structuredClone(GUESTS));
+  Object.keys(GUESTS).forEach((n) => assert.deepEqual(again[n], GUESTS[n], n));
+  const old = structuredClone(GUESTS);
+  apply(old, '1. Noa | A hook | A text\n2. Itay | His text\nnot a line', 'x.md');
+  assert.deepEqual({ ...old.Noa, hook: GUESTS.Noa.hook, text: GUESTS.Noa.text }, GUESTS.Noa);
+  assert.deepEqual([old.Noa.hook, old.Noa.text, old.Itay.text, old.Itay.cock], ['A hook', 'A text', 'His text', GUESTS.Itay.cock]);
+  assert.throws(() => apply(old, '1. Zed | a | b', 'x.md'), /Zed \(x\.md\) is no guest/);
 });
 
 // Phase 35 tickets 3g3-3g6 (412, 414): the words, where written

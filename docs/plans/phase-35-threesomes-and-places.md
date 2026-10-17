@@ -266,7 +266,7 @@ exercises (six at each of five places).
 | 3g5 | Guests: the women's descriptions, last third | content | 3g2 | `content/p35-guests-c` | done (PR #518) |
 | 3g6 | Guests: the men's lines (414), all 41 | content | 3g8 | `content/p35-guests-men` | todo |
 | 3g7 | Guests page: summary cards that unfold, search, filters, sort (434-440) | feature | 3g2 | `feature/p35-guests-find` | done (PR #512) |
-| 3g8 | Guests: to 161 women and 41 men, their names and fields (441, 446-449) | content | 3g5 | `content/p35-guests-100` | todo |
+| 3g8 | Guests: to 161 women and 41 men, their names and fields (441, 446-449) | content | 3g5 | `content/p35-guests-100` | done (PR #519) |
 | 3g9 | Guests page: the filters redesigned, group pills and a sheet (442-445) | feature | 3g7 | `feature/p35-guests-filters` | done (PR #516) |
 | 3g10 | Guests page: From by region (450) | feature | 3g8 | `feature/p35-guests-regions` | todo |
 | 3g11 | Guests: women 84-122's hooks and descriptions | content | 3g8 | `content/p35-guests-d` | todo |
@@ -479,7 +479,8 @@ exercises (six at each of five places).
   - *Men:* US Cole, Mason, Austin, Blake; UK George, Finn, Callum, Jamie; world Mateo, Rafael, Diego, Lars, Kenji,
     Thiago, Julien, Hugo, Marco.
   **Test first:** 161 women and 41 men, every new name there with its origin; no existing guest changed; the quotas
-  even; a quarter inked; no name a prefix-and-one-letter twin of another except Inbal/Inbar. **Done when:** CI green;
+  even; a quarter inked; dealing again changes no guest, and a text sets only the words (it used to re-deal her). Not a
+  near-twin check: Noam kept Lia/Lian, Tal/Gal, Inbal/Inbar on purpose. **Done when:** CI green;
   Noam skims the dealt table of the new ones.
 - **3g10 (450):** a `region` on every world guest (skin, hair and eyes already follow the name, 420), set in
   `ORIGINS` by region lists; the From filter in `app/guest-find.js` shows the five regions beside Israeli, American,
