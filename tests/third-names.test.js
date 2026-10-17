@@ -1,7 +1,7 @@
 // Phase 35 ticket 1c (decisions 351, 353, 358): the third person's name, computed per workout, never stored.
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { WOMEN, MEN, thirdName, fill } = require('../app/third-names.js');
+const { WOMEN, MEN, ORIGINS, thirdName, fill } = require('../app/third-names.js');
 
 const US = new Set(['Ashley', 'Madison', 'Kayla', 'Megan', 'Jake', 'Tyler', 'Brandon', 'Ryan']);
 const UK = new Set(['Charlotte', 'Sophie', 'Amelia', 'Holly', 'Oliver', 'Harry', 'Jack', 'Theo']);
@@ -39,19 +39,33 @@ test('outside a workout the name steps by the exercise too: neighbours differ, e
   assert.equal(new Set(ids.map(() => thirdName({ pid: 'threesome-test', day: 4 }, 'woman'))).size, 1);
 });
 
-test('FMF gets a woman, MMF a man; mostly Israeli, the American and British in equal numbers', () => {
+test('FMF gets a woman, MMF a man; the men mostly Israeli, the American and British in equal numbers', () => {
   const run = (kind) => Array.from({ length: 600 }, (_, i) => thirdName({ pid: 'long-run', day: i + 1 }, kind));
   assert.ok(run('woman').every((n) => WOMEN.includes(n)));
   assert.ok(run('man').every((n) => MEN.includes(n)));
   [WOMEN, MEN].forEach((list) => {
-    const us = list.filter((n) => US.has(n)).length, uk = list.filter((n) => UK.has(n)).length;
-    assert.equal(us, uk);
-    assert.ok((list.length - us - uk) / list.length >= 2 / 3, `${list.length - us - uk} of ${list.length} Israeli`);
     assert.equal(new Set(list).size, list.length);
     assert.ok(!list.includes('Mali'));
+    list.forEach((n) => assert.match(n, /^[A-Z][a-z]+$/));
   });
-  // spread, not bunched: never two American or British names in a row
-  [WOMEN, MEN].forEach((list) => list.forEach((n, i) => assert.ok(!(US.has(n) || UK.has(n)) || !(US.has(list[i + 1]) || UK.has(list[i + 1])), n)));
+  const us = MEN.filter((n) => US.has(n)).length, uk = MEN.filter((n) => UK.has(n)).length;
+  assert.equal(us, uk);
+  assert.ok((MEN.length - us - uk) / MEN.length >= 2 / 3, `${MEN.length - us - uk} of ${MEN.length} Israeli`);
+  // spread, not bunched: never two American or British men in a row
+  MEN.forEach((n, i) => assert.ok(!(US.has(n) || UK.has(n)) || !(US.has(MEN[i + 1]) || UK.has(MEN[i + 1])), n));
+});
+
+// Phase 35 ticket 3g1 (410): 50 more women, from Israel, America, Britain and the world, each origin spread evenly
+test('the women: the 33 first picks still there, the 50 new ones, every origin in the list, never two of one origin in a row', () => {
+  const first = ['Noa', 'Yael', 'Maya', 'Adi', 'Roni', 'Gal', 'Michal', 'Hila', 'Dana', 'Noy', 'Shani', 'Inbar', 'Keren', 'Lihi', 'Neta',
+    'Agam', 'Ella', 'Moran', 'Yarden', 'Romi', 'Bar', 'Lian', 'Linoy', 'Anat', 'Hodaya', ...US, ...UK].filter((n) => !MEN.includes(n));
+  assert.equal(first.length, 33);
+  first.forEach((n) => assert.ok(WOMEN.includes(n), n));
+  ['Shira', 'Coral', 'Dafna', 'Brittany', 'Sierra', 'Isla', 'Hannah', 'Valentina', 'Aiko', 'Mei'].forEach((n) => assert.ok(WOMEN.includes(n), n));
+  assert.equal(WOMEN.length, 83);
+  const from = Object.fromEntries(Object.entries(ORIGINS.woman).flatMap(([k, l]) => l.map((n) => [n, k])));
+  assert.deepEqual(Object.values(ORIGINS.woman).flat().sort(), [...WOMEN].sort());
+  WOMEN.forEach((n, i) => assert.ok(i === 0 || from[n] !== from[WOMEN[i - 1]], `${WOMEN[i - 1]}, ${n}`));
 });
 
 test('fill names every placeholder for the day and leaves other text alone', () => {
