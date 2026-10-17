@@ -235,6 +235,7 @@ jobs:
       fail-fast: false
       matrix:
         theme: [light, dark]
+        shard: [1, 2] # 2t6 (399): each theme in two halves, side by side
     steps:
       - uses: actions/checkout@v7
       # Noam, 10 Oct 2026: a PR run on a tree that already passed on this PR (a rebase that changed no file) tests nothing
@@ -275,14 +276,14 @@ jobs:
         run: npm run build
       - name: Phone UI tests
         if: steps.tested.outputs.tested != 'true' && steps.passed.outputs.cache-hit != 'true'
-        run: npx playwright test --project=phone-${{ matrix.theme }}
+        run: npx playwright test --project=phone-${{ matrix.theme }} --shard=${{ matrix.shard }}/2
         env:
           UI_PREBUILT: '1'
       - name: Keep the screenshots
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: phone-screenshots-${{ matrix.theme }}
+          name: phone-screenshots-${{ matrix.theme }}-${{ matrix.shard }}
           path: |
             test-results/
             playwright-report/

@@ -5,13 +5,14 @@ top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase c
 (the next one is **409**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
 ## Resume here (17 Oct 2026)
-- **Phase 35: 2a–2g done** (16–17 Oct; #479–#481, #486–#491): the Group sex tab (2t1), a random name per exercise
+- **Phase 35: 2a–2g and 2t3–2t6 done** (16–17 Oct; #479–#481, #486–#491): the Group sex tab (2t1), a random name per exercise
   outside a workout (2t2), and 252 threesome exercises at catalogue 16; 2d–2g are 36 each, half the other pairing
   (`pair: 'other'`: you on the other woman, or the other man on Mali), their drawings' colours swapped to match.
   **Replanned 17 Oct (387–398):** group sex only in group programs; per-act counts, the Threesome kind 144, place threesomes
   36 and place foursomes 18 per place, act +8 programs dropped, group session order (5b), colours by sex (2t3).
-  **CI and build times (399, 400):** 2t4–2t6 after 2t3 (LF endings, unit and UI shards).
-  **Next: 2t3 (colours), 2t4, 2t5; three per go, on his go.** Foursomes are in the plan (367–379, 392, 395; 8a–8n after 6x);
+  **2t3–2t6 done** (17 Oct, #494–#497): the guest man teal; LF endings (the laptop reads CI's cache: 1395 read, 11 s);
+  unit tests in two jobs (floor alone, 2t5); the UI suite in two shards per theme (2t6).
+  **Next: 2h (edging and massage), 2i, 2j; three per go, on his go.** Foursomes are in the plan (367–379, 392, 395; 8a–8n after 6x);
   35 is catalogue 16, foursomes 17, Phase 38 18, Phase 27 19 (408).
 - **How a threesome act ticket runs** (2d–2g): Grok writes `grok/p35/t2X-text.md` from the previous ticket's prompt
   (copy `t2g-prompt.md`, swap the act's rules and bases); Claude reviews it, `node grok/p35/place2X.js` (a copy of

@@ -53,13 +53,14 @@ test('Test and deploy skips Markdown-only changes, on PRs and on main', () => {
 });
 
 // Decision 131 (Phase 22 ticket 1e): light and dark phone tests run as two parallel jobs; deploy waits for all
-test('the phone UI tests run as a light and a dark job beside the unit tests; deploy needs both', () => {
+test('the phone UI tests run as light and dark jobs, two shards each (2t6, 399), beside the unit tests; deploy needs them all', () => {
   const yml = fs.readFileSync(path.join(__dirname, '..', '.github', 'workflows', 'deploy.yml'), 'utf8').replace(/\r/g, '');
   const job = (name) => yml.slice(yml.indexOf(`\n  ${name}:\n`)).split(/\n  [a-z]+:\n/)[1] || '';
   const ui = yml.slice(yml.indexOf('\n  ui:\n'), yml.indexOf('\n  deploy:\n'));
   assert.match(ui, /theme: \[light, dark\]/);
-  assert.match(ui, /npx playwright test --project=phone-\$\{\{ matrix\.theme \}\}/);
-  assert.match(ui, /name: phone-screenshots-\$\{\{ matrix\.theme \}\}/);
+  assert.match(ui, /shard: \[1, 2\]/);
+  assert.match(ui, /npx playwright test --project=phone-\$\{\{ matrix\.theme \}\} --shard=\$\{\{ matrix\.shard \}\}\/2/);
+  assert.match(ui, /name: phone-screenshots-\$\{\{ matrix\.theme \}\}-\$\{\{ matrix\.shard \}\}/);
   assert.doesNotMatch(yml.slice(0, yml.indexOf('\n  ui:\n')), /test:ui|playwright test/, 'the unit job runs no UI tests');
   assert.match(yml, /needs: \[test, alone, ui\]/); // and the unit tests that run alone (2t5)
   // decision 307: the site is built in a step of its own, and the test server only serves it
