@@ -201,6 +201,25 @@ points were settled 10 Oct (292, 293).
 - **438 · On Men** the women-only filters hide and a cock filter shows; on All, a women-only filter shows only women. *(17 Oct)*
 - **439 · Sort:** A-Z (default), youngest, oldest, tallest, shortest, as a one-line menu. *(17 Oct)*
 - **440 · Kept while the app is open**, like the Exercises search; a reload starts fresh. *(17 Oct)*
+- **441 · 100 women** (17 more, Noam's picks): a guest already dealt keeps every field; only new names are dealt, to the
+  value used least so far, so the quotas stay even. The same brief writes them. *(17 Oct)*
+- **442 · The filters, redesigned:** one sideways row [Filters ·n] [Body] [Look] [Her] and Sort beside it; a group pill
+  opens a bottom sheet at that group (Body: body, tits, ass, pussy, ink; Look: hair, skin, eyes, age, from; Her: vibe,
+  into, and Cock on Men), Filters opens it with all of them. *(17 Oct)*
+- **443 · Picked values show as removable chips** under the row, with Clear all. *(17 Oct)*
+- **444 · The sheet's chips show live counts**; a value that would give none is dimmed. *(17 Oct)*
+- **445 · Sort sits beside Filters** as a one-line menu. *(17 Oct)*
+
+**The guests to 161 (17 Oct evening)**
+- **446 · 161 women and 41 men** (441 was 100 women): 61 more women, 17 more men; everyone already dealt keeps every
+  field, only new names are dealt, to the least-used value (441). *(17 Oct)*
+- **447 · Origins of the 161:** Israeli 68, US 24, UK 15, world 54 (UK stops at one new name, Noam); men Israeli 16,
+  US 8, UK 8, world 9. *(17 Oct)*
+- **448 · Noam picked every new name** from candidate groups of four (the list is in 3g8); Galia is Claude's pick where
+  he had no preference. Inbal and Inbar both stay, though near-identical. *(17 Oct)*
+- **449 · The world names spread wide:** Latin America, Europe, Asia and the Pacific, Middle East, Africa. *(17 Oct)*
+- **450 · From splits the world by region:** each world guest gets a region; the From filter shows Israeli, American,
+  British, Latin America, Europe, Asia and the Pacific, Middle East, Africa. *(17 Oct)*
 - **426 · Claude deals every field in 3g1** with a committed script, a test checks the quotas; Noam skims the table
   before Grok writes from it. *(17 Oct)*
 
@@ -245,9 +264,13 @@ exercises (six at each of five places).
 | 3g3 | Guests: the women's descriptions, first third (412, 413, 417) | content | 3g2 | `content/p35-guests-a` | done (PR #511) |
 | 3g4 | Guests: the women's descriptions, second third | content | 3g2 | `content/p35-guests-b` | done (PR #514) |
 | 3g5 | Guests: the women's descriptions, last third | content | 3g2 | `content/p35-guests-c` | in-progress |
-| 3g6 | Guests: the men's lines (414) | content | 3g2 | `content/p35-guests-men` | todo |
+| 3g6 | Guests: the men's lines (414), all 41 | content | 3g8 | `content/p35-guests-men` | todo |
 | 3g7 | Guests page: summary cards that unfold, search, filters, sort (434-440) | feature | 3g2 | `feature/p35-guests-find` | done (PR #512) |
+| 3g8 | Guests: to 161 women and 41 men, their names and fields (441, 446-449) | content | 3g5 | `content/p35-guests-100` | todo |
 | 3g9 | Guests page: the filters redesigned, group pills and a sheet (442-445) | feature | 3g7 | `feature/p35-guests-filters` | done (PR #516) |
+| 3g10 | Guests page: From by region (450) | feature | 3g8 | `feature/p35-guests-regions` | todo |
+| 3g11 | Guests: women 84-122's hooks and descriptions | content | 3g8 | `content/p35-guests-d` | todo |
+| 3g12 | Guests: women 123-161's hooks and descriptions | content | 3g11 | `content/p35-guests-e` | todo |
 | 4a | Place × act: oral, 6 at each of 5 places, 30 (286) | content | 1 | `content/p35-place-oral` | todo |
 | 4b | Place × act: anal, 6 at each of 5 places, 30 (286) | content | 1 | `content/p35-place-anal` | todo |
 | 4c | Place × act: toys, 6 at each of 5 places, 30 (286) | content | 1 | `content/p35-place-toys` | todo |
@@ -442,7 +465,29 @@ exercises (six at each of five places).
   woman's fields, vibe and two acts from `GUESTS` (dealt in 3g1, 413); Claude reviews for POV and heat,
   emits into `GUESTS`. **Test first:** each written woman has a hook (≤ 90 chars) and text (400–900 chars) naming Mali
   once; the quotas' table covers every name once. **Done when:** CI green; the page shows them.
-- **3g6:** the same for the men, one or two lines each (414).
+- **3g6:** the same for the men, one or two lines each (414), all 41 once 3g8 has dealt the new 17: Grok in runs of
+  7 (`3g6a`-`3g6f` in `grok/p35/mkguests.js`).
+- **3g8 (441, 446-449):** on the branch that already holds the 17 to 100. The new names go into `ORIGINS` in
+  `app/third-names.js`; `scripts/deal-guests.js` keeps every guest already dealt and deals only the new ones, each to
+  the least-used value. **The names (448):**
+  - *Israeli (26):* Eden, Natali, Efrat, Karin, Yuli, Mika, Nicole, Elinor, Lia, Yaara, Shai, Ofri, Tal, Lotem, Shiraz,
+    Alma, Kim, Amalia, Ziv, Eliana, Dina, Galia, Danielle, Avia, Inbal, Keshet.
+  - *US (5):* Brooke, Jenna, Kendall, Skylar, Haley. *UK (1):* Lily.
+  - *World (29):* Camila, Gabriela, Catalina, Lola, Athena, Celine, Astrid, Vera, Polina, Sakura, Rin, Leilani, Shirin,
+    Nour, Amara, Luciana, Rafaela, Tatiana, Manuela, Gia, Monique, Antonella, Carla, Kaori, Suki, Ariadne, Chantal,
+    Liv, Maribel.
+  - *Men:* US Cole, Mason, Austin, Blake; UK George, Finn, Callum, Jamie; world Mateo, Rafael, Diego, Lars, Kenji,
+    Thiago, Julien, Hugo, Marco.
+  **Test first:** 161 women and 41 men, every new name there with its origin; no existing guest changed; the quotas
+  even; a quarter inked; no name a prefix-and-one-letter twin of another except Inbal/Inbar. **Done when:** CI green;
+  Noam skims the dealt table of the new ones.
+- **3g10 (450):** a `region` on every world guest (skin, hair and eyes already follow the name, 420), set in
+  `ORIGINS` by region lists; the From filter in `app/guest-find.js` shows the five regions beside Israeli, American,
+  British. **Test first:** From on the sheet lists the eight values with counts; Asia and the Pacific finds Sakura;
+  no world guest lacks a region. **Done when:** CI green; 390 px light and dark.
+- **3g11, 3g12:** as 3g5, women 84-122 and 123-161, Grok in runs of 7 (`3g11a`-`3g11f`, `3g12a`-`3g12f`), the
+  variety brief (433) against every woman already written. **Done when:** `tests/guests.test.js` and
+  `grok/p35/variety.js` pass; Claude reads every one for POV and heat.
 - **3g7 Build (434-440):** `app/pages/guests.js`: cards fold to name, facts and hook (`aria-expanded`); a search field
   and one-line menus over `GUESTS` through a pure `KBGuests.find(GUESTS, q, filters, sort)` in `app/guests.js`'s
   module (unit-tested); the sheet and #guests/<name> show her unfolded. **Files:** `app/guests.js` (or a small
@@ -573,6 +618,11 @@ exercises (six at each of five places).
   (some draw only their 36 over 60 days, about 11 a day), which showed 18 place foursomes alone too thin (392, 395 mix
   them); and `OTHER_COLS`, already colour = person, so 2t3 only adds teal. Lazier version not taken: one shower rule
   for the whole session, because Noam picked per woman (397), which needs the whose-ass tag (5b).
+- **The guests to 161 (17 Oct evening, 446-450).** Weakest assumption: that more names move nothing pinned. Verified:
+  `thirdName` (app/third-names.js) fills a cue when it's shown and no built day holds a name, so pins hold; a longer
+  list does change which guest a program day meets, as 441 already accepted. What I hadn't read: the 3g8 branch keeps
+  decisions 441-445 off main, so this plan brings them here and that branch takes main's copy on its rebase. Lazier
+  version not taken: one "The world" chip, because 54 women would sit under it (450, Noam).
 
 **Guests (17 Oct, 410–418).** Weakest assumption: that ~600-character descriptions for ~110 people fit the 1 MB gzip
 gate; checked: about 70 KB raw, a few KB gzipped. What I hadn't read: `cueOf` already fills the name in one place
