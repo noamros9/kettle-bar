@@ -2,16 +2,17 @@
 
 The index: where we are, what comes next, and the two phases being built now. Every other phase's decisions live at the
 top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase comes up. Decision numbers are global
-(the next one is **456**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
+(the next one is **465**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
 ## Resume here (17 Oct 2026)
-- **The guests, 161 women and 41 men (446-455, 17 Oct night). Finish every 3g ticket before 3b.** Merged: 3g1-3g5,
-  3g7-3g9 (#509-#519): 83 women written, 202 guests dealt, the page with pills and a sheet. Left, in order:
-  1. **3g6** (all 41 men: line and text, 453): Grok runs `3g6a`-`3g6f` from the 3g8 worktree `C:/code/kb-3g8`
-     (`RUNS="..." sh grok/p35/chain.sh`; the brief in `mkguests.js` was tightened 17 Oct). Stopped before any run
-     finished with the line; restart after this plan.
-  2. **3g13** (country, the card, 451-454), then **3g14** (lines for the 83 written), **3g10** (From by region),
-     **3g11**, **3g12** (women 84-161, line, hook and text).
+- **The guests, 161 women and 41 men (446-455, 17 Oct night). Finish every 3g ticket before 3b.** Merged: 3g1-3g9
+  (#509-#521): 83 women and all 41 men written (the men with their short line), 202 guests dealt, the page with pills
+  and a sheet. Waiting for Noam's go (3 tickets a go). Next, in order: **3g13** (country and the card, 451-454),
+  **3g14** (short lines for the 83 women written), **3g10** (From by region), **3g11**, **3g12** (women 84-161: line,
+  hook and text; their runs must pick the unwritten women, since 3g8 reordered `WOMEN`). Grok runs: `grok/p35/` in the
+  main checkout or the `C:/code/kb-3g8` worktree (`RUNS="..." sh grok/p35/chain2.sh`, two chains at once is fine; it
+  skips a run already written).
+- **Phase 39, guest images: on demand only** (456-464). Never started at a checkpoint; Noam names a ticket.
 - **Grok and xAI's filter:** runs of 7, never 14: xAI refused 3g4b's 14 as a whole (403) though no woman alone trips
   it (`grok/p35/bsearch.sh`, `probe.sh` split a refused run). The "already written" list holds three words each.
 - **Phase 35: 2a–2g and 2t3–2t6 done** (16–17 Oct; #479–#481, #486–#491): the Group sex tab (2t1), a random name per exercise
@@ -54,6 +55,7 @@ right after Phase 22 (216). **223 ·** 8 Oct: quick fixes after 22; Export, day 
 | 4 | 19 · Super programs: 120 days from several programs | [#186](https://github.com/noamros9/kettle-bar/issues/186) | [plan](docs/plans/phase-19-super-programs.md) | planned |
 | 5 | 28 · Explicit drawings and loops | [#249](https://github.com/noamros9/kettle-bar/issues/249) | [plan](docs/plans/phase-28-explicit-drawings.md) | planned |
 | 6 | 29 · Stories from the couple workouts, in Drive | [#225](https://github.com/noamros9/kettle-bar/issues/225) | [plan](docs/plans/phase-29-stories.md) | planned, last |
+| – | 39 · Guest images: photorealistic, never nude, on her own page (456-464) | – | [plan](docs/plans/phase-39-guest-images.md) | on demand only |
 
 - **295 · Grok away the week of 9 Oct**: Opus builds 31 → 30 → 23 … alone, in order; Phase 20 (Grok writes its
   text) moves to just before 35, after Phase 36. *(9 Oct)*
