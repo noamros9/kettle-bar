@@ -125,7 +125,7 @@ exercises (six at each of five places).
 | 2t2 | A random name per exercise outside a workout (384) | feature | – | `feature/p35-sample-names` | done (PR #487) |
 | 2d | Threesome act: rough, 36, half the other pairing (382, 383) | content | 2t2 | `content/p35-act-rough` | done (PR #488) |
 | 2e | Threesome act: kink, 36, half the other pairing (382, 383) | content | 2t2 | `content/p35-act-kink` | done (PR #489) |
-| 2f | Threesome act: body play, 36, half the other pairing (382, 383) | content | 2t2 | `content/p35-act-body` | todo |
+| 2f | Threesome act: body play, 36, half the other pairing (382, 383) | content | 2t2 | `content/p35-act-body` | done (PR #490) |
 | 2g | Threesome act: rimming, 36, half the other pairing (382, 383) | content | 2t2 | `content/p35-act-rimming` | todo |
 | 2h | Threesome act: edging, 36, half the other pairing (382, 383) | content | 2t2 | `content/p35-act-edging` | todo |
 | 2i | Threesome act: massage, 36, half the other pairing (382, 383) | content | 2t2 | `content/p35-act-massage` | todo |
