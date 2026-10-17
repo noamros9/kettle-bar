@@ -59,13 +59,23 @@ read only when needed. Decisions with a long "why": [docs/adr/](docs/adr/).
 - **Three tickets, then wait (Noam, 12 Oct 2026; was Phase 23's decision 316):** in every phase, Claude builds and
   merges three tickets, then stops and waits for Noam's explicit go before the next three, unless he explicitly says
   otherwise for that stretch ("you can do 13 too"). A go counts for the next three only.
-- **NEVER MORE THAN 2 TICKETS BUILDING AT ONCE (Noam, 6 Oct 2026). A hard cap, not a target.** Building = a Grok
-  run or Claude's own build; a PR only waiting on CI doesn't count. Before starting any ticket, count what is
+- **Fast Grok text runs (Noam, 17 Oct 2026, decision 465):** a text prompt (names, blurbs, abouts, guests, cues)
+  gives sentence counts, never character or word counts (Grok spent ~40% of its thinking counting letters), and runs
+  with `--effort low` (3× faster than the default and a third of the cost on the same 7 guests, every rule met).
+  Claude checks the lengths and rules afterwards with a lint, and flagged items get one short fix run. **A new or
+  changed brief runs once, on one batch, and Claude judges it before any other run uses it.** Code tickets keep the
+  default effort until a side-by-side plan run shows low is as good.
+- **Grok runs: as many as fit (Noam, 17 Oct 2026, decision 466):** start every Grok run that can run now (text
+  runs, plan runs, code tickets that meet the rules below), each only with 4 GB+ free (a text run uses ~65 MB).
+  Heavy local runs (UI runs, cold builds) still go one at a time per machine.
+- **NEVER MORE THAN 2 OF CLAUDE'S OWN BUILDS AT ONCE (Noam, 6 Oct 2026; Grok runs left the cap 17 Oct, 466). A
+  hard cap, not a target.** Building = Claude's own build [was: a Grok run or Claude's own build]; a PR only waiting
+  on CI doesn't count. Before starting any ticket, count what is
   building; at 2, the next one waits. Why: a cloud session has 2 cores and the laptop runs short of memory (a third
   checkout slows every test run), and
   every Grok ticket ends in Claude's review, so a third builder only queues finished work.
 - **Look for the next ticket at every checkpoint (Noam, 6 Oct 2026):** after each hand-off, each PR opened and each
-  merge, read the plan's ticket table and start the next `todo` ticket that can run now, up to the cap of 2.
+  merge, read the plan's ticket table and start the next `todo` ticket that can run now, up to the cap of 2 (Grok runs as many as fit, 466).
   Running one at a time when a second could start is the exception; say why. A ticket can run alongside another
   only when all of these hold:
   - both tickets are in the same phase: never two phases at once (a new phase starts only when the last one's
@@ -86,7 +96,7 @@ read only when needed. Decisions with a long "why": [docs/adr/](docs/adr/).
   same files as the one building, start its Grok *plan* run in the free checkout anyway (it writes only
   `grok/tN-plan.md`, no shared files). The prompt names the ticket still building, so ids and names don't clash, and
   counts what it adds. The build then continues from the approved plan once the blocker's PR is open, built locally
-  on it and pushed after it merges (see Mechanics). A plan run counts toward the cap of 2.
+  on it and pushed after it merges (see Mechanics). A plan run counts toward the cap of 2 [until 466: Grok plan runs now run as many as fit].
 - **Time targets may run 10% over (Noam, 9 Oct 2026):** a warm-up, cool-down, trimmed day or minutes band up to 10%
   past its target is fine (the cool-down up to 150 s): widen the check rather than reworking shared builder code.
   Never change how existing programs build to hit a band.

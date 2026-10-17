@@ -2,19 +2,19 @@
 
 The index: where we are, what comes next, and the two phases being built now. Every other phase's decisions live at the
 top of its plan in [docs/plans/](docs/plans/); open a plan only when its phase comes up. Decision numbers are global
-(the next one is **465**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
+(the next one is **467**). Finished phases: [docs/roadmap-archive.md](docs/roadmap-archive.md).
 
 ## Resume here (17 Oct 2026)
-- **The guests, 161 women and 41 men (446-455, 17 Oct night). Finish every 3g ticket before 3b.** Merged: 3g1-3g9
-  (#509-#521): 83 women and all 41 men written (the men with their short line), 202 guests dealt, the page with pills
-  and a sheet. Waiting for Noam's go (3 tickets a go). Next, in order: **3g13** (country and the card, 451-454),
-  **3g14** (short lines for the 83 women written), **3g10** (From by region), **3g11**, **3g12** (women 84-161: line,
-  hook and text; their runs must pick the unwritten women, since 3g8 reordered `WOMEN`). Grok runs: `grok/p35/` in the
-  main checkout or the `C:/code/kb-3g8` worktree (`RUNS="..." sh grok/p35/chain2.sh`, two chains at once is fine; it
-  skips a run already written).
+- **The guests, 161 women and 41 men (446-455, 17 Oct night). Finish every 3g ticket before 3b; Noam's go covers
+  all of them.** Merged: 3g1-3g9, 3g13, 3g14 (#509-#524): 83 women with line, hook and text, all 41 men, the card with
+  country and flag. Next: **3g10** (From by region, Claude builds it while Grok writes), **3g11**, **3g12** (women 84-161;
+  runs pick the unwritten women by name from `grok/p35/later-women.json`, since 3g8 reordered `WOMEN`). 3g11a, b
+  (variant A of the comparison) and d are written, e on the old brief in `C:/code/kb-3g8/grok/p35/`; c, f and 3g12a-f wait for the new brief (465)
+  to pass on run E. Runs: `RUNS="3g12a" sh grok/p35/chain3.sh &`, one per run; lint with `grok/p35/lint-guests.js`.
 - **Phase 39, guest images: on demand only** (456-464). Never started at a checkpoint; Noam names a ticket.
 - **Grok and xAI's filter:** runs of 7, never 14: xAI refused 3g4b's 14 as a whole (403) though no woman alone trips
   it (`grok/p35/bsearch.sh`, `probe.sh` split a refused run). The "already written" list holds three words each.
+  Text runs: sentence counts and `--effort low`, every batch at once once a brief is proven on one (465, 466).
 - **Phase 35: 2a–2g and 2t3–2t6 done** (16–17 Oct; #479–#481, #486–#491): the Group sex tab (2t1), a random name per exercise
   outside a workout (2t2), and 252 threesome exercises at catalogue 16; 2d–2g are 36 each, half the other pairing
   (`pair: 'other'`: you on the other woman, or the other man on Mali), their drawings' colours swapped to match.

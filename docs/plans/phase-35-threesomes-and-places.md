@@ -229,6 +229,11 @@ points were settled 10 Oct (292, 293).
 - **453 · The men get the line too:** his build and cock move into it. *(17 Oct)*
 - **454 · Each guest has a country** (Israel, USA, UK, or her own for a world guest); 450's regions come from it. *(17 Oct)*
 - **455 · Grok writes the line** in every run from 3g6 on, and one pass writes it for the 107 already written. *(17 Oct)*
+
+**Grok runs, faster (17 Oct night, from 3g11b run four ways)**
+- **465 · Text runs: sentence counts and `--effort low`**, checked after by `grok/p35/lint-guests.js`; a new brief
+  runs on one batch and is judged before the rest. 3× faster, a third of the cost. *(17 Oct)*
+- **466 · Grok runs as many as fit** (4 GB+ free per start), out of the cap of 2, which now counts Claude's builds. *(17 Oct)*
 - **426 · Claude deals every field in 3g1** with a committed script, a test checks the quotas; Noam skims the table
   before Grok writes from it. *(17 Oct)*
 
