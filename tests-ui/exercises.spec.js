@@ -75,7 +75,7 @@ test('Group sex: its own chip after Couples, a section per act, every card drawn
   await fams.getByRole('button', { name: /^Group sex/ }).click();
   await expect(cards(app)).toHaveCount(Object.values(EX).filter((e) => e.trio).length);
   const acts = new Set(Object.values(EX).filter((e) => e.trio).map((e) => e.sub)); // every act built so far, in the table's order
-  const order = [['fuck', 'Intercourse'], ['oral', 'Oral'], ['hands', 'Hands'], ['anal', 'Anal'], ['toys', 'Toys'], ['rough', 'Rough'], ['kink', 'Kink-lite'], ['body', 'Body play'], ['rim', 'Rimming'], ['edging', 'Edging']];
+  const order = [['fuck', 'Intercourse'], ['oral', 'Oral'], ['hands', 'Hands'], ['anal', 'Anal'], ['toys', 'Toys'], ['tease', 'Strip and tease'], ['massage', 'Massage'], ['rough', 'Rough'], ['kink', 'Kink-lite'], ['body', 'Body play'], ['rim', 'Rimming'], ['edging', 'Edging']];
   await expect(app.page.locator('.libcat h2')).toHaveText(order.filter(([k]) => acts.has(k)).map(([, n]) => n));
   expect(await app.page.locator('#exresults .exlink svg.fig').evaluateAll((l) => l.every((s) => s.querySelector('circle[fill="var(--fig3)"], circle[fill="var(--figm)"]')))).toBe(true); // a guest woman or man (398)
   expect(await app.sidewaysScroll()).toBe(0);

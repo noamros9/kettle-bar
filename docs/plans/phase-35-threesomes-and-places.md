@@ -171,7 +171,7 @@ exercises (six at each of five places).
 | 2t4 | LF line endings: the laptop reads CI's build cache (399) | feature | 2t3 | `feature/p35-lf` | done (PR #495) |
 | 2t5 | Unit tests in two jobs: floor alone, the rest under the gate (399) | feature | 2t4 | `feature/p35-unit-shards` | done (PR #496) |
 | 2t6 | UI suite in 2 shards per theme; main checks only what changed (399, 409) | feature | 2t5 | `feature/p35-ui-shards` | done (PR #497) |
-| 2h | Threesome acts: edging 18, massage 18, half the other pairing (388, 389) | content | 2t3 | `content/p35-act-edging-massage` | todo |
+| 2h | Threesome acts: edging 18, massage 18, half the other pairing (388, 389) | content | 2t3 | `content/p35-act-edging-massage` | done (PR #498) |
 | 2i | Threesome acts: strip and tease 18, hands +18, the other pairing (388, 389) | content | 2t3 | `content/p35-act-tease-hands` | todo |
 | 2j | Threesome acts: toys +18, the other pairing (388, 389) | content | 2t3 | `content/p35-act-toys` | todo |
 | 2k | Threesome acts: intercourse +36, the other pairing (388, 389) | content | 2t3 | `content/p35-more-intercourse` | todo |
