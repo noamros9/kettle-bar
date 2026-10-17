@@ -57,9 +57,11 @@ function rerender() {
 /* ---------------- helpers ---------------- */
 const prog = () => programs.get(route.pid) || programs.get(firstPid());
 const typesOf = (p) => p.dayTypes || TYPES;
-// a cue as shown: a threesome's third person named for the day on screen (cueAt { pid, day }), else for today (351)
+// a cue as shown: a threesome's third person named for the workout on screen (cueAt, 351), else per exercise for today (384)
 let cueAt = null;
-const cueOf = (e) => esc(KBThird.fill(e.cue, cueAt || { date: new Date() }));
+const cueOf = (e) => esc(KBThird.fill(e.cue, cueAt || { date: new Date(), ex: e.id }));
+// one person for a whole workout: a program day by its day, your own programs by the date (351, 352)
+const workoutCueAt = (p, w) => (p.id.startsWith('own-') ? { date: new Date() } : { pid: p.id, day: w.day });
 const itemSets = (b, it) => it.sets || b.sets;
 // the next day not done (after `after`, else from the start); works from the program list, no days needed
 const nextDay = (pid, after) => KBProgress.nextDay(store.progress(pid), Array.from({ length: programs.summary(pid).dayCount }, (_, i) => i + 1), after);

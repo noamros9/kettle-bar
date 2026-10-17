@@ -241,7 +241,7 @@ function viewDay() {
   const w = D.day;
   if (!w) return viewProgram();
   rememberPid(p.id);
-  cueAt = p.id.startsWith('own-') ? null : { pid: p.id, day: w.day }; // your own programs step by date (351)
+  cueAt = workoutCueAt(p, w);
   const ses = D.session();
   if (ses.started() !== null) S.resume(ses.started());
   const TY = typesOf(p), t = TY[w.type] || { label: w.title, c: 'var(--muted)' }, isD = store.isDone(p.id, w.day);

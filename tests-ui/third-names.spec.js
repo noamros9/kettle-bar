@@ -24,7 +24,7 @@ test('the exercise page names today\'s third person, never the placeholder', asy
   await app.open('#programs');
   await stub(app);
   await app.go('#ex-slow_dance');
-  const today = await app.data(() => KBThird.thirdName({ date: new Date() }, 'woman'));
+  const today = await app.data(() => KBThird.thirdName({ date: new Date(), ex: 'slow_dance' }, 'woman'));
   await expect(app.page.locator('.facts dd').first()).toHaveText(`You kneel behind Mali while ${today} kisses her.`);
   await expect(app.page.locator('#app')).not.toContainText('{woman}');
 });
@@ -33,8 +33,19 @@ test('the Exercises page\'s cards name today\'s third person too (Phase 35 ticke
   await app.open('#exercises');
   const field = app.page.getByRole('searchbox', { name: 'Search exercises' });
   await field.fill('Spitroast on the bed');
-  const today = await app.data(() => KBThird.thirdName({ date: new Date() }, 'woman'));
+  const today = await app.data(() => KBThird.thirdName({ date: new Date(), ex: 'fuck3_spitroast_bed' }, 'woman'));
   const cue = app.page.locator('#exresults [data-ex="fuck3_spitroast_bed"]').locator('xpath=..').locator('.cue');
   await expect(cue).toContainText(`${today} kneels beyond her`);
   await expect(app.page.locator('#exresults')).not.toContainText('{woman}');
+});
+
+// Phase 35 ticket 2t2 (384): neighbouring cards name different people, each its own for the day
+test('the Exercises page\'s threesome cards name different people, each the name for its exercise', async ({ app }) => {
+  await app.open('#exercises');
+  await app.page.getByRole('searchbox', { name: 'Search exercises' }).fill('another woman');
+  const shown = await app.page.locator('#exresults .ex').evaluateAll((l) => l.map((a) => ({ id: a.querySelector('[data-ex]').dataset.ex, cue: a.querySelector('.cue').textContent })));
+  const fmf = await app.data((list) => list.filter((x) => EX[x.id].trio === 'FMF').map((x) => ({ ...x, name: KBThird.thirdName({ date: new Date(), ex: x.id }, 'woman') })), shown);
+  expect(fmf.length).toBeGreaterThan(5);
+  fmf.forEach((x) => expect(x.cue, x.id).toContain(x.name));
+  expect(new Set(fmf.map((x) => x.name)).size).toBeGreaterThan(1);
 });
