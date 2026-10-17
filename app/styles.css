@@ -156,6 +156,9 @@ main{padding-block:24px 64px}
 .pip.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 .exgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:10px}
 .ex{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 12px 14px;display:flex;flex-direction:column;gap:6px}
+/* a card off screen skips layout, guessed at the median card's height: 1,938 of them took ~1 s at 4x throttle (418) */
+.libcat .ex{content-visibility:auto;contain-intrinsic-size:auto 360px}
+.whole .libcat .ex{content-visibility:visible}
 .ex .figbox{height:130px;display:flex;align-items:center;justify-content:center}
 .fig{max-width:100%;max-height:130px;height:auto;width:auto}
 .ex .cnt{display:flex;align-items:baseline;gap:6px;margin-top:4px}

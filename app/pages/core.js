@@ -110,7 +110,15 @@ function saveY() {
 window.addEventListener('scroll', () => { clearTimeout(saveTimer); const h = location.hash; saveTimer = setTimeout(() => { if (location.hash === h) saveY(); }, 200); }, { passive: true });
 function restoreY() {
   if (pendingY === null || drewLoading) return;
-  window.scrollTo(0, pendingY); pendingY = null;
+  scrollToY(pendingY); pendingY = null;
+}
+// off-screen cards skip layout (.ex, 418) and guess their height, so a jump to a saved place lays them all out
+// first; two frames later they skip again, keeping the heights they had
+function scrollToY(y) {
+  if (y <= 0) return window.scrollTo(0, y);
+  document.body.classList.add('whole');
+  window.scrollTo(0, y);
+  requestAnimationFrame(() => requestAnimationFrame(() => document.body.classList.remove('whole')));
 }
 window.addEventListener('hashchange', () => {
   if (!booted) return;
