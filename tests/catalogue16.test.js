@@ -6,9 +6,9 @@ const { rows } = require('../scripts/emit-trio.js');
 
 const NEW = Object.values(EX).filter((e) => e.added === 16);
 // each ticket adds its act kinds here (284)
-const COUNTS = { fuck: 36, oral: 18, hands: 18, anal: 18, toys: 18, rough: 36, kink: 36, body: 36, rim: 36, edging: 18, massage: 18 };
+const COUNTS = { fuck: 36, oral: 18, hands: 36, anal: 18, toys: 18, rough: 36, kink: 36, body: 36, rim: 36, edging: 18, massage: 18, tease: 18 };
 // the other pairing (383, 385): half of each act from 2d on, about two thirds FMF
-const OTHER = { rough: 18, kink: 18, body: 18, rim: 18, edging: 9, massage: 9 };
+const OTHER = { rough: 18, kink: 18, body: 18, rim: 18, edging: 9, massage: 9, tease: 9, hands: 18 };
 
 test('catalogue 16 holds each act kind\'s count of threesomes, about two thirds FMF', () => {
   const by = {};
