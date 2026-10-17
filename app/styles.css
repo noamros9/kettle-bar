@@ -733,3 +733,14 @@ html.printing,body.printing{background:#fff}
 .gsum .gfacts{display:block}
 .gsum .ghook{display:block}
 .gtext{margin:10px 0 0}
+/* 3g9: the guests' filters as a row of pills and a sheet */
+.gpills{display:flex;gap:8px;align-items:center;overflow-x:auto;scrollbar-width:none;margin:14px 0 6px;padding-bottom:2px}
+.gpill{flex:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:8px 14px;font:600 15px/1 inherit;cursor:pointer}
+.gpills .lenline{flex:none;margin-left:auto}
+.gpicked{margin:4px 0 10px}
+.gfsheet .sheet{max-height:80vh}
+.gsgroup{font-size:18px;margin:6px 0 0}
+.gsfilter{display:grid;gap:6px}
+.gslabel{color:var(--muted);font-size:13px;text-transform:uppercase;letter-spacing:.06em}
+.fchip.dim{opacity:.4}
+.gsbtns{display:flex;gap:10px;justify-content:space-between;position:sticky;bottom:0;background:var(--surface);padding-top:8px}

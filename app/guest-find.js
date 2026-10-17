@@ -2,8 +2,9 @@
      find(guests, { q, kind, pick, sort })  q: words that must all be on her card (name, fields, hook, text); kind:
                                            'all' | 'woman' | 'man'; pick: { filter: [values] }, OR within a filter and
                                            AND across; sort: a SORTS key. Returns { list: names, counts: per tab }
-     menus(guests, kind, pick)             the filters for that tab, each { key, label, values: [{ key, label, on }] }
-     FILTERS, SORTS                        [key, label, who] and [key, label] */
+     menus(guests, kind, pick, q)          the filters for that tab, each { key, label, values: [{ key, label, on, count }] }:
+                                           count is how many that value alone would give, the search and other picks kept
+     FILTERS, SORTS, GROUPS                [key, label, who], [key, label] and the sheet's groups [key, label, filters] */
 (function (root) {
   const hairColour = (h) => h.replace(/^(very long|long|shoulder|pixie|short|curly) /, '').replace(/ \(dyed\)$|, (swept|tied) back$/, '');
   const band = (age) => { const lo = 21 + 5 * Math.floor((age - 21) / 5); return `${lo}-${lo + 4}`; };
@@ -16,6 +17,7 @@
     ['vibe', 'Vibe', 'woman', (g) => g.vibe], ['acts', 'Into', 'woman', (g) => g.acts], ['age', 'Age', null, (g) => band(g.age)],
     ['from', 'From', null, (g) => g.from], ['cock', 'Cock', 'man', (g) => g.cock],
   ];
+  const GROUPS = [['body', 'Body', ['body', 'breasts', 'ass', 'pussy', 'ink']], ['look', 'Look', ['hair', 'skin', 'eyes', 'age', 'from']], ['her', 'Her', ['vibe', 'acts', 'cock']]];
   const SORTS = [['az', 'A-Z'], ['young', 'Youngest'], ['old', 'Oldest'], ['tall', 'Tallest'], ['short', 'Shortest']];
   // where a natural order exists, values follow it; the rest go A-Z
   const ORDER = { body: ['petite', 'slim', 'lean', 'athletic', 'muscular', 'curvy', 'thick', 'big', 'stocky'],
@@ -37,15 +39,16 @@
     return { list, counts };
   }
 
-  function menus(guests, kind, pick) {
+  function menus(guests, kind, pick, q = '') {
     const of = Object.values(guests).filter((g) => kind === 'all' || g.kind === kind);
     return FILTERS.filter(([, , who]) => kind === 'all' || !who || who === kind).map(([key, label]) => {
       const vals = [...new Set(of.flatMap((g) => valuesOf(g, key)))].sort((a, b) => rank(key, a) - rank(key, b) || String(a).localeCompare(String(b)));
-      return { key, label, values: vals.map((v) => ({ key: v, label: key === 'from' ? FROM[v] : v, on: (pick[key] || []).includes(v) })) };
+      return { key, label, values: vals.map((v) => ({ key: v, label: key === 'from' ? FROM[v] : v, on: (pick[key] || []).includes(v),
+        count: find(guests, { q, kind, pick: { ...pick, [key]: [v] } }).list.length })) };
     });
   }
 
-  const api = { find, menus, FILTERS, SORTS };
+  const api = { find, menus, FILTERS, SORTS, GROUPS };
   /* node:coverage ignore next 2 */ // the browser branch; the page's UI tests cover it
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.KBGuestFind = api;
 })(typeof window !== 'undefined' ? window : globalThis);
