@@ -145,6 +145,24 @@ points were settled 10 Oct (292, 293).
   (327) only when the build cache's code hash or build.js changed: the keys hash the data, so only code makes a stale cache.
   Saves ~7 min of main's ~7.5 on a content merge, which gates the next one. *(17 Oct)*
 
+**The guests: names and who they are (17 Oct 2026, Noam)**
+- **410 · About 50 more women's names** (358): sensual, passionate; Israeli, American and British, plus a world spread
+  (Latin, French, Italian, Russian…). Claude lists, Noam crosses out, in rounds. The men's list stays. *(17 Oct)*
+- **411 · A name is one person**, always: the same woman (or man) in every program and on every card. *(17 Oct)*
+- **412 · Each woman: a one-line hook, then prose** that covers looks, body, personality, what she's into, how she is
+  with you and with Mali: a checklist the text covers, never a list. Sexy, teasing, daring. *(17 Oct)*
+- **413 · Variety by quotas:** ages 21–45; bodies even (petite, slim, athletic, curvy, thick); the four vibes even
+  (bold and dominant, teasing, shy then wild, sensual and slow); her look follows her name; each leans to two of the
+  app's acts, every act about even. *(17 Oct)*
+- **414 · Each man: one or two lines**, his looks and what he does with Mali, from your side. *(17 Oct)*
+- **415 · A hidden page, the guests**: no link; a long-press on the Group sex chip or on a guest's name in a cue opens
+  it (at that guest). *(17 Oct)*
+- **416 · A guest's card where she appears:** tapping her name in any group cue (threesome or foursome) shows her card;
+  a group program day shows that day's guest with her card at the top (with 5b's group days). *(17 Oct)*
+- **417 · Grok writes the descriptions, Claude reviews** (339, text only). *(17 Oct)*
+- **418 · The Exercises render limit stays 1,200 ms** at 4× throttle; CI prints the time, so the headroom shows as the
+  library grows. A busy laptop's 2 s is not a regression. *(17 Oct)*
+
 ## Tickets
 
 Caps: no exercise ticket over 36, no program ticket over 15 (Noam, 10 Oct 2026). Place × act is one ticket per act, 30
@@ -181,6 +199,12 @@ exercises (six at each of five places).
 | 3b | Threesome kind, group-only moves, second 36 of 144 (390) | content | 2t3 | `content/p35-kind-b` | todo |
 | 3c | Threesome kind, group-only moves, third 36 of 144 (390) | content | 2t3 | `content/p35-kind-c` | todo |
 | 3d | Threesome kind, group-only moves, fourth 36 of 144 (390) | content | 2t3 | `content/p35-kind-d` | todo |
+| 3g1 | Guests: about 50 more women's names (410, 411) | content | – | `content/p35-guest-names` | todo |
+| 3g2 | Guests: the hidden page, its two gestures, a name's card in a cue (415, 416) | feature | 3g1 | `feature/p35-guests-page` | todo |
+| 3g3 | Guests: the women's descriptions, first third (412, 413, 417) | content | 3g2 | `content/p35-guests-a` | todo |
+| 3g4 | Guests: the women's descriptions, second third | content | 3g2 | `content/p35-guests-b` | todo |
+| 3g5 | Guests: the women's descriptions, last third | content | 3g2 | `content/p35-guests-c` | todo |
+| 3g6 | Guests: the men's lines (414) | content | 3g2 | `content/p35-guests-men` | todo |
 | 4a | Place × act: oral, 6 at each of 5 places, 30 (286) | content | 1 | `content/p35-place-oral` | todo |
 | 4b | Place × act: anal, 6 at each of 5 places, 30 (286) | content | 1 | `content/p35-place-anal` | todo |
 | 4c | Place × act: toys, 6 at each of 5 places, 30 (286) | content | 1 | `content/p35-place-toys` | todo |
@@ -357,6 +381,24 @@ exercises (six at each of five places).
 - **Test first:** 36 more per ticket (144 at 3d) with `sub: 'threesome'`; half `pair: 'other'`.
 - **Done when:** as 2h.
 
+### 3g1–3g6. The guests (410–418)
+- **3g1 Build:** the women Noam kept from Claude's lists (410) go into `WOMEN` in `app/third-names.js`, woven as now.
+  A new name only changes which name a day shows, never a stored day (351). **Test first:** `tests/third-names.test.js`:
+  the list holds them, no repeats, every name capitalised; the old names are all still there.
+- **3g2 Build:** `app/guests.js` holds `GUESTS` { name: { hook, text } } (empty at first) and the page `#guests`: one card
+  per name, women then men, with the description or "not written yet". Not in any menu. A long-press (600 ms) on the
+  Group sex chip opens it; a tap still filters. In a group cue, `cueOf` wraps the guest's name in a button: a tap shows
+  her card (hook and text) in a sheet, a long-press opens the page at her. **Files:** `app/guests.js`, `app/ui.js`,
+  `app/library.js` (the chip), `app/router.js`, `index.html`, `tests/guests.test.js`, `tests-ui/guests.spec.js`,
+  `scripts/ui-affected.js`. **Test first:** the page lists every name; no link to `#guests` anywhere; the chip's
+  long-press opens it, its tap filters; a cue's name opens her card. **Done when:** CI green; 390 px light and dark.
+- **3g3–3g5 Build:** Grok writes ~29 women a ticket into one text file (name | hook | text), from a brief with the
+  quotas (413) as a table Claude deals first, so the three tickets together hit them; Claude reviews for POV and heat,
+  emits into `GUESTS`. **Test first:** each written woman has a hook (≤ 90 chars) and text (400–900 chars) naming Mali
+  once; the quotas' table covers every name once. **Done when:** CI green; the page shows them.
+- **3g6:** the same for the men, one or two lines each (414).
+- The day card (416) lands with 5b's group days.
+
 ### 4e1–4e5. Place threesomes (as 2a–4l; 391)
 - **Build:** 36 at the ticket's place, `sub` the place and `act` the act (as 290), any act that fits it (oral in the hot
   tub, against the balcony rail); half the other pairing, FMF/MMF 2:1.
@@ -478,3 +520,8 @@ exercises (six at each of five places).
   (some draw only their 36 over 60 days, about 11 a day), which showed 18 place foursomes alone too thin (392, 395 mix
   them); and `OTHER_COLS`, already colour = person, so 2t3 only adds teal. Lazier version not taken: one shower rule
   for the whole session, because Noam picked per woman (397), which needs the whose-ass tag (5b).
+
+**Guests (17 Oct, 410–418).** Weakest assumption: that ~600-character descriptions for ~110 people fit the 1 MB gzip
+gate; checked: about 70 KB raw, a few KB gzipped. What I hadn't read: `cueOf` already fills the name in one place
+(`app/ui.js`), so the cue tap is one wrapper there, not a change per page. Lazier version not taken: a static list on
+the page with no cue tap, because Noam wants the card where the guest appears (416).
