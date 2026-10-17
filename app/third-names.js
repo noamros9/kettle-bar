@@ -3,8 +3,9 @@
    the cue, so the name is computed, never stored, and no built day or pin holds it.
      WOMEN, MEN               the names, picked by Noam (358): mostly Israeli, the American and British spread between
      thirdName(at, kind)      kind 'woman' | 'man'. at { pid, day }: a program day, from the program's own start in
-                              the list, one name a day; at { date }: a random or build-your-own workout, one a day by
-                              the date (local calendar day)
+                              the list, one name a day; at { date }: a build-your-own workout, one a day by the date
+                              (local calendar day); at { date, ex }: outside a workout (384), one per exercise id
+                              and day, so neighbouring cards differ and each keeps its name all day
      fill(text, at)           the text with each placeholder replaced by that day's name */
 (function (root) {
   // Israeli names with the American and British ones (alternating) spread evenly between them
@@ -27,7 +28,7 @@
   function thirdName(at, kind) {
     const list = LISTS[kind];
     if (!list) throw new Error(`thirdName: no names for "${kind}"`);
-    const step = at.pid ? hash(at.pid) + at.day - 1 : dayNumber(at.date || new Date());
+    const step = at.pid ? hash(at.pid) + at.day - 1 : dayNumber(at.date || new Date()) + (at.ex ? hash(at.ex) : 0);
     return list[step % list.length];
   }
   const fill = (text, at) => String(text).replace(/\{(woman|man)\}/g, (_, kind) => thirdName(at, kind));

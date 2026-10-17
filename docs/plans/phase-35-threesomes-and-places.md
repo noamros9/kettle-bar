@@ -122,7 +122,7 @@ exercises (six at each of five places).
 | 2b | Threesome acts: oral 18, hands 18 (284) | content | 1, 1c | `content/p35-act-oral-hands` | done (PR #480) |
 | 2c | Threesome acts: anal 18, toys 18 (284) | content | 1, 1c | `content/p35-act-anal-toys` | done (PR #481) |
 | 2t1 | The Group sex tab on the Exercises page (380, 381) | feature | – | `feature/p35-group-tab` | done (PR #486) |
-| 2t2 | A random name per exercise outside a workout (384) | feature | – | `feature/p35-sample-names` | todo |
+| 2t2 | A random name per exercise outside a workout (384) | feature | – | `feature/p35-sample-names` | done (PR #487) |
 | 2d | Threesome act: rough, 36, half the other pairing (382, 383) | content | 2t2 | `content/p35-act-rough` | todo |
 | 2e | Threesome act: kink, 36, half the other pairing (382, 383) | content | 2t2 | `content/p35-act-kink` | todo |
 | 2f | Threesome act: body play, 36, half the other pairing (382, 383) | content | 2t2 | `content/p35-act-body` | todo |

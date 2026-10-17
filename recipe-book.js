@@ -31,7 +31,7 @@ const Recipes = require('./recipes.js');
 const Builder = require('./program-builder.js');
 const L = require('./app/length.js');
 const cat = require('./exercises.js');
-const { FAMILIES } = require('./app/library.js');
+const { FAMILIES } = require('./app/families.js');
 
 const EQUIPS = ['bw', 'kb', 'all'];
 // A day is inside its window when its estimate, rounded to whole minutes as the app shows it, is: the trial asks for that
@@ -186,7 +186,7 @@ function generate({ configs = [...require('./programs.config.js'), ...require('.
 // what the book comes from: the configs, the builder and what it reads, the families, and this file
 const INPUTS = () => [
   ...fs.readdirSync(path.join(__dirname, 'configs')).filter((f) => f.endsWith('.js')).sort().map((f) => `configs/${f}`),
-  'programs.config.js', 'exercises.js', 'formats.js', 'program-builder.js', 'app/length.js', 'app/library.js', 'recipes.js', 'recipe-book.js',
+  'programs.config.js', 'exercises.js', 'formats.js', 'program-builder.js', 'app/length.js', 'app/families.js', 'recipes.js', 'recipe-book.js',
 ];
 const hash = () => {
   const h = crypto.createHash('sha256');

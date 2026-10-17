@@ -50,6 +50,7 @@ function printExercise(e) {
       <div><dt>Equipment</dt><dd>${esc(KBExport.equipment(e))}</dd></div></dl></div>`;
 }
 function printDay(w, p, eyebrow, heading) {
+  cueAt = workoutCueAt(p, w); // a printed day names the same person as its page
   return `<div class="eyebrow">${esc(eyebrow)}</div><h1>${esc(heading)}</h1><p class="pmeta">${dayMeta(w, p)}</p>${printBlocks(w, p, { figs: true })}`;
 }
 // every exercise a program uses, once, in the order it first appears

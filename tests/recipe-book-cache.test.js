@@ -74,7 +74,9 @@ test('another code hash or catalogue slice misses; the same inputs hit; a corrup
 });
 
 test('the book cache keys on the recipe code: its own files beyond the builder', () => {
-  assert.ok(C.RECIPE_CODE.includes('recipes.js') && C.RECIPE_CODE.includes('recipe-book.js') && C.RECIPE_CODE.includes('app/library.js'));
+  assert.ok(C.RECIPE_CODE.includes('recipes.js') && C.RECIPE_CODE.includes('recipe-book.js') && C.RECIPE_CODE.includes('app/families.js'));
+  // the Exercises page's code is not the book's: a tab or chip change never makes the book cold (Phase 35 ticket 2t3)
+  assert.ok(!C.RECIPE_CODE.includes('app/library.js'));
   assert.notEqual(C.codeHash(C.RECIPE_CODE), C.codeHash());
   const m = C.recipeMemo({ dir: dir('book-defaults') });
   assert.deepEqual(m(['part', 'y', 0], () => 7), 7);

@@ -27,6 +27,18 @@ test('without a program day the name steps by the calendar date', () => {
   assert.ok(WOMEN.includes(thirdName({}, 'woman')), 'today when no date is given');
 });
 
+// Phase 35 ticket 2t2 (384): outside a workout each exercise gets its own name, steady all day
+test('outside a workout the name steps by the exercise too: neighbours differ, each keeps its name all day', () => {
+  const at = (ex, t = '10:00') => ({ date: new Date(`2026-10-17T${t}:00`), ex });
+  const ids = Array.from({ length: 40 }, (_, i) => `fuck3_sample_${i}`);
+  const names = ids.map((ex) => thirdName(at(ex), 'woman'));
+  assert.ok(new Set(names).size > 10, `only ${new Set(names).size} names over 40 exercises`);
+  ids.forEach((ex) => assert.equal(thirdName(at(ex), 'woman'), thirdName(at(ex, '23:30'), 'woman'), ex));
+  assert.ok(ids.some((ex) => thirdName(at(ex), 'man') !== thirdName({ date: new Date('2026-10-18T10:00:00'), ex }, 'man')));
+  // a program day still names one person for every exercise
+  assert.equal(new Set(ids.map(() => thirdName({ pid: 'threesome-test', day: 4 }, 'woman'))).size, 1);
+});
+
 test('FMF gets a woman, MMF a man; mostly Israeli, the American and British in equal numbers', () => {
   const run = (kind) => Array.from({ length: 600 }, (_, i) => thirdName({ pid: 'long-run', day: i + 1 }, kind));
   assert.ok(run('woman').every((n) => WOMEN.includes(n)));

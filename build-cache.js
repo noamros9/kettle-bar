@@ -20,7 +20,7 @@ const crypto = require('crypto');
 
 const ROOT = __dirname;
 const CODE = ['program-builder.js', 'formats.js', 'app/length.js', 'session-tags.js', 'build-cache.js'];
-const RECIPE_CODE = [...CODE, 'recipes.js', 'recipe-book.js', 'app/library.js'];
+const RECIPE_CODE = [...CODE, 'recipes.js', 'recipe-book.js', 'app/families.js']; // not app/library.js: the book reads only FAMILIES (2t3)
 
 const sha = (...parts) => {
   const h = crypto.createHash('sha256');
