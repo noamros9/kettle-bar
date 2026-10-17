@@ -282,7 +282,7 @@ exercises (six at each of five places).
 | 3g7 | Guests page: summary cards that unfold, search, filters, sort (434-440) | feature | 3g2 | `feature/p35-guests-find` | done (PR #512) |
 | 3g8 | Guests: to 161 women and 41 men, their names and fields (441, 446-449) | content | 3g5 | `content/p35-guests-100` | done (PR #519) |
 | 3g9 | Guests page: the filters redesigned, group pills and a sheet (442-445) | feature | 3g7 | `feature/p35-guests-filters` | done (PR #516) |
-| 3g10 | Guests page: From by region (450) | feature | 3g13 | `feature/p35-guests-regions` | todo |
+| 3g10 | Guests page: From by region (450) | feature | 3g13 | `feature/p35-guests-regions` | done (PR #526) |
 | 3g11 | Guests: women 84-122's hooks and descriptions | content | 3g8 | `content/p35-guests-d` | todo |
 | 3g12 | Guests: women 123-161's hooks and descriptions | content | 3g11 | `content/p35-guests-e` | todo |
 | 3g13 | Guest card: country, the short line, facts row reworked (451-454) | feature | 3g6 | `feature/p35-guest-card` | done (PR #523) |
